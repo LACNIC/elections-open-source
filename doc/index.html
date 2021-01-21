@@ -133,15 +133,14 @@ link_repo: https://github.com/LACNIC/elections-open-source
 			</div>
 			<div class="ibox-content">
 				<p class="paragraph">
-					Se configuraron en el repositorio Git un flujos de integración continua hacia el ambiente de test y prod. Los mismos se encuentran definidos en el directorio <code>.github/workflows</code>
+					Se configuraron en el repositorio Git un flujo de integración continua hacia el ambiente de test/demo. El mismo se encuentra definido en el directorio <code>.github/workflows</code>
 					. Las acciones que gatillan los flujos son la realización de "push"
 					en las siguientes ramas:
 				</p>
-				<ul class="paragraph">
-					<li>develop (test)</li>
-					<li>master (prod)</li>
+				<ul class="paragraph">					
+					<li>main: realiza el deploy en test/demo</li>
 				</ul>
-				<p class="paragraph">En ambos casos el flujo consiste en dos acciones:</p>
+				<p class="paragraph">El flujo consiste en dos acciones:</p>
 				<ul class="paragraph">
 					<li>Build: baja el código y ejecuta un <code>mvn clean install</code></li>
 					<li>Deploy: obtiene los artefactos generados y realiza un deploy en el servidor indicado medianet un <code>mvn wildfly:deploy-only</code></li>
