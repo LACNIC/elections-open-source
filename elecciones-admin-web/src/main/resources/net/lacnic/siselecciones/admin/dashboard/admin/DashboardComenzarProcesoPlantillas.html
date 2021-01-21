@@ -1,0 +1,60 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="ibox">
+				<div class="ibox-content">
+					<p>
+					<h3 class="m-t-none m-b">
+						<span wicket:id="tituloEleccion" />
+					</h3>
+					</p>
+					<p><wicket:message key="confElecTemplTitle" /></p>
+				</div>
+			</div>
+			<div class="ibox">
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-10">
+							<p>
+								<b><wicket:message key="confElecTemplLinkVote" /></b><wicket:message key="confElecTemplTextVote" />
+							</p>
+						</div>
+						<div class="col-md-2">
+							<div wicket:id='linkVotacion'/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ibox">
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-10">
+							<p>
+								<b><wicket:message key="confElecTemplLinkRes" /></b><wicket:message key="confElecTemplTextRes" />
+							</p>
+						</div>
+
+						<div class="col-md-2">
+							<div wicket:id='linkResultados'/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ibox">
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-10">
+							<p>
+								<b><wicket:message key="confElecTemplLinkAud" /></b><wicket:message key="confElecTemplTextAud" />
+							</p>
+						</div>
+
+						<div class="col-md-2">
+							<div wicket:id='linkAuditoria'/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

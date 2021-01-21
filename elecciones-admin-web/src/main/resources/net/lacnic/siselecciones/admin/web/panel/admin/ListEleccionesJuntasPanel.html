@@ -1,0 +1,33 @@
+<wicket:panel>
+	
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h5><wicket:message key="unitedElecListTitle" /></h5>
+		</div>
+		<div class="ibox-content">
+			<div class="table-responsive m-t">
+				<table id="listaAdminsTable" class="table dataTables">
+					<thead class="jumbotron">
+						<tr>
+							<th></th>
+							<th><wicket:message key="unitedElecListElec1" /></th>
+							<th><wicket:message key="unitedElecListElec2" /></th>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="listaElecciones" name="listaElecciones">
+							<td><div wicket:id="eliminar" name="eliminar"></div></td>
+							<td><span wicket:id="eleccion1" ></span></td>
+							<td><span wicket:id="eleccion2"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="hr-line-dashed"></div>
+			<div class="text-center"></div>
+		</div>
+	</div>
+</wicket:panel>

@@ -1,0 +1,22 @@
+---
+
+- name: 'Agregar la key del repo de PostgreSQL'
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: 'Agregar el repo de PostgreSQL'
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main
+    state: present
+
+- name: 'Instalar postgres y postgres client'
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    force: yes
+  with_items:
+    - libpq-dev
+    - python-psycopg2
+    - postgresql-12
+    - postgresql-client-12

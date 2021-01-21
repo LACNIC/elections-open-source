@@ -1,0 +1,66 @@
+<wicket:panel>
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h3 wicket:id="tituloHeader" class="text-center"></h3>
+		</div>
+		<div class="ibox-content ibox-heading bg-warning" wicket:id="novoto">
+			<div class="row">
+				<div class="col-md-2">
+					<i class="fa fa-exclamation fa-3x"></i>
+				</div>
+				<div class="col-md-10">
+					<h3><wicket:message key="userVoteDetNoVotTitle" /></h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="ibox-content ibox-heading bg-primary" wicket:id="yavoto">
+			<div class="row">
+				<div class="col-md-2">
+					<i class="fa fa-check fa-3x"></i>
+				</div>
+				<div class="col-md-10">
+					<h3><wicket:message key="userVoteDetVotTitle" /></h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="ibox-content">
+			<div class="row">
+				<div class="col-lg-12 m-b-sm">
+					<b wicket:id="titulo" id="tituloEleccion"></b>
+				</div>
+
+				<div class="col-lg-12">
+					<p id="descripcionEleccion" wicket:id="descripcion"></p>
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row">
+
+				<div class="col-lg-12" wicket:id="yavotoCodigo">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th><wicket:message key="codigo_ccp" /></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="codigos">
+								<td wicket:id="numero"></td>
+								<td wicket:id="codigo"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-lg-12 text-center">
+					<button type="button" class="btn btn-warning animated tada"
+						wicket:id="votar"><wicket:message key="userVoteDetVote" /></button>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</wicket:panel>

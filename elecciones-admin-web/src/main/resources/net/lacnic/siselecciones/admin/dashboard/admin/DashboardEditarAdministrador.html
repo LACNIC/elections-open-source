@@ -1,0 +1,45 @@
+<wicket:extend>
+
+	<div class="row">
+		<div wicket:id="feedback">[Feedback Panel]</div>
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5 id="tituloEditarAdmin"><wicket:message key="adminUserEditUsrTitle" /></h5>
+				</div>
+				<div class="ibox-content">
+					<form role="form" class="form-horizontal" wicket:id="formAdmin">
+
+						<div class="form-group">
+
+							<label class="col-sm-1 control-label"><wicket:message key="adminUserListUser" /></label>
+							<div class="col-sm-4">
+								<input type="text" id="nombre" class="form-control" wicket:id="username" />
+							</div>
+
+							<label class="col-sm-2 control-label"><wicket:message key="adminUserListMail" /></label>
+							<div class="col-md-4">
+								<input type="email" id="mail" class="form-control" wicket:id="email" />
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label"><wicket:message key="adminUserListElectAuth" /></label>
+							<div class="col-md-4">
+								<select class="form-control m-b" id="eleccionAutorizada" wicket:id="eleccionAutorizada" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12 text-center">
+								<button class="btn btn-grey" id="cancelarEditar" wicket:id="cancelarEditar"><wicket:message key="adminUserEditBtnCanc" /></button>
+								<button class="btn btn-primary" id="guardar" type="submit" wicket:id="editar"><wicket:message key="adminUserEditBtnSave" /></button>
+
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

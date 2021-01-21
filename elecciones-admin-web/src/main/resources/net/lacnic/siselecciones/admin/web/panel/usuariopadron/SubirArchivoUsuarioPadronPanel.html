@@ -1,0 +1,38 @@
+<wicket:panel>
+	<br>
+	<div class="col-md-10 col-md-offset-1">
+		<div class="form-group">
+			<h4><wicket:message key="censusManagementFileUploadTitle" /></h4>
+			<ul>
+				<li><wicket:message key="censusManagementFileUpload1" /></li>
+				<li><wicket:message key="censusManagementFileUpload2" /></li>
+				<li><wicket:message key="censusManagementFileUpload3" /></li>
+				<li><wicket:message key="censusManagementFileUpload4" /></li>
+				<li></li>
+			</ul>
+
+		</div>
+	</div>
+
+	<div class="form-group col-md-12  m-t-md">
+		<label class="col-sm-2 control-label"><wicket:message key="censusManagementFileLabel" /></label>
+		<div class="col-sm-8">
+			<div class="input-group">
+				<input wicket:id="filePadron" type="file" class="form-control"></input>
+				<span class="input-group-btn">
+					<button wicket:id="agregarUsuarioPadron" type="submit"
+						class="btn btn-success" title="Subir archivo">
+						<i class="fa fa-upload"></i>
+					</button>
+				</span>
+			</div>
+			<div class="input-group m-t-xs">
+				<span> <i><wicket:message key="censusManagementFileNote" /></i></span>
+			</div>
+		</div>
+		<div class="col-sm-2 p-xs">
+			<a wicket:id="exportarEjemplo"><wicket:message key="censusManagementFileDownload" /></a>
+		</div>
+	</div>
+</wicket:panel>
+

@@ -1,0 +1,59 @@
+---
+
+- include_vars: pass-vault.yaml
+
+- name: 'Create directory /opt/dumps/'
+  file:
+    path: /opt/dumps/
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
+- name: 'Unzip database dump'
+  unarchive:
+    src: files/db/{{ db_name }}.zip
+    dest: /opt/dumps/
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: false
+
+- name: 'Parando servicio jboss'
+  systemd:
+    name: jboss
+    state: stopped
+    enabled: yes
+
+- name: 'Drop current database'
+  postgresql_db:
+    name: "{{ db_name }}"
+    state: absent
+  become_user: postgres
+
+- name: 'Create new database'
+  postgresql_db:
+    name: "{{ db_name }}"
+  become_user: postgres
+
+- name: 'Setup user permissions for database'
+  postgresql_user:
+    db: "{{ db_name }}"
+    name: "{{ db_user }}"
+    password: "{{ db_pass }}"
+    encrypted: yes
+    priv: ALL
+  become_user: postgres
+
+- name: 'Restore database dump'
+  postgresql_db:
+    name: "{{ db_name }}"
+    state: restore
+    target: /opt/dumps/{{ db_name }}.sql
+  become_user: postgres
+
+- name: 'Iniciando servicio jboss'
+  systemd:
+    name: jboss
+    state: started
+    enabled: yes

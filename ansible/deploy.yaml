@@ -1,0 +1,9 @@
+---
+
+- name: 'Elecciones'
+  hosts: all
+  become: true
+  tasks:
+  - include_role:
+     name: 'elecciones'
+     tasks_from: 07-deploy-apps

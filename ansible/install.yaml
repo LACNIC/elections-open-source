@@ -1,0 +1,9 @@
+---
+
+- name: 'Elecciones'
+  hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+  - include_role:
+    name: 'elecciones'

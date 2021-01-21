@@ -1,0 +1,43 @@
+<wicket:extend>
+	<div wicket:id="feedback" />
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5><wicket:message key="auditorEditTitle" /></h5>
+				</div>
+				<div class="ibox-content">
+					<form role="form" class="form" wicket:id="formAuditor">
+
+						<div class="form-group col-lg-3">
+							<label><wicket:message key="auditorManagementName" /></label><input type="text" id="nombre"
+								class="form-control" wicket:id="nombre" />
+						</div>
+						<div class="form-group col-lg-3">
+							<label><wicket:message key="auditorManagementMail" /></label><input type="email" id="email"
+								class="form-control" wicket:id="email" />
+						</div>
+
+						<div class="form-group col-lg-2">
+							<br> <label class="control-label"><wicket:message key="auditorEditAprobe" /></label>
+						</div>
+						<div class="form-group col-lg-1">
+
+							<br> <label class="checkbox-inline "> <input
+								wicket:id="checkComisionado" name="checkComisionado"
+								type="checkbox">&nbsp;
+							</label>
+						</div>
+
+						<div class="form-group text-right">
+							<br> <a class="btn btn-grey" wicket:id="cancelarEditar"><wicket:message key="auditorEditBtnCanc" /></a>
+							<button class="btn btn-primary" type="submit" wicket:id="editar"><wicket:message key="auditorEditBtnSave" /></button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

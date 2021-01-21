@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="elecciones-pu-test"
+		transaction-type="RESOURCE_LOCAL">		
+
+		<class>net.lacnic.siselecciones.dominio.AccesosIps</class>
+		<class>net.lacnic.siselecciones.dominio.Actividad</class>
+		<class>net.lacnic.siselecciones.dominio.Auditor</class>
+		<class>net.lacnic.siselecciones.dominio.Candidato</class>
+		<class>net.lacnic.siselecciones.dominio.Comisionado</class>
+		<class>net.lacnic.siselecciones.dominio.Eleccion</class>
+		<class>net.lacnic.siselecciones.dominio.EleccionLight</class>
+		<class>net.lacnic.siselecciones.dominio.Email</class>
+		<class>net.lacnic.siselecciones.dominio.EmailHistorico</class>
+		<class>net.lacnic.siselecciones.dominio.Parametro</class>
+		<class>net.lacnic.siselecciones.dominio.TemplateEleccion</class>
+		<class>net.lacnic.siselecciones.dominio.UsuarioAdmin</class>
+		<class>net.lacnic.siselecciones.dominio.UsuarioPadron</class>
+		<class>net.lacnic.siselecciones.dominio.Voto</class>
+		<class>net.lacnic.siselecciones.dominio.SupraEleccion</class>
+		<class>net.lacnic.siselecciones.dominio.Personalizacion</class>
+
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/elecciones" /> <!-- BD Mane -->
+            <property name="javax.persistence.jdbc.user" value="postgres" /> <!-- DB User -->
+            <property name="javax.persistence.jdbc.password" value="prueba" /> <!-- DB Password -->
+            
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.archive.autodetection" value="hbm" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
+		</properties>
+	</persistence-unit>
+
+</persistence>

@@ -1,0 +1,33 @@
+<wicket:panel>
+
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h5><wicket:message key="commissionerListTitle" /></h5>
+		</div>
+		<div class="ibox-content">
+			<div class="table-responsive m-t">
+				<table id= "comisionadosTable" class="table dataTables">
+					<thead class="jumbotron">
+						<tr>
+							<th></th>
+							<th><wicket:message key="commissionerListName" /></th>
+							<th><wicket:message key="commissionerListMail" /></th>
+							<th><wicket:message key="commissionerListEdit" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="listaComisionados" name="listaComisionados">
+							<td><div wicket:id="eliminar" name="eliminar"></div></td>
+							<td><span wicket:id="nombre"></span></td>
+							<td><span wicket:id="email"></span></td>
+							<td><a title="Editar" class="text-primary fa fa-pencil fa-lg m-r-sm" wicket:id="editarComisionado"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="hr-line-dashed"></div>
+			<div class="text-center"></div>
+		</div>
+	</div>
+</wicket:panel>

@@ -1,0 +1,16 @@
+.project
+.settings
+target
+elecciones-admin-web/.settings
+elecciones-admin-web/.classpath
+elecciones-admin-web/.project
+elecciones-admin-web/target
+elecciones-ejb/.settings
+elecciones-ejb/.classpath
+elecciones-ejb/.project
+elecciones-ejb/target
+elecciones-services/.settings
+elecciones-services/.classpath
+elecciones-services/.project
+elecciones-services/target
+ansible/pass-vault.yaml

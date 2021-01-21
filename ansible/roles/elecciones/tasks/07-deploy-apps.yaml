@@ -1,0 +1,9 @@
+---
+
+- name: 'Copiar deployments'
+  copy:
+    src: files/deployments/
+    dest: /opt/wildfly/standalone/deployments/
+    owner: jboss
+    group: jboss
+    mode: 0755

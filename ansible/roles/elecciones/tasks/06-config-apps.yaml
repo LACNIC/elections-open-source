@@ -1,0 +1,37 @@
+---
+
+- name: 'Parando servicio jboss'
+  systemd:
+    name: jboss
+    state: stopped
+    enabled: yes
+
+- name: 'Copiar driver PostgreSQL'
+  copy:
+    src: files/postgresql-42.2.16.jar
+    dest: /opt/wildfly/standalone/deployments/
+    owner: jboss
+    group: jboss
+    mode: 0755
+
+- name: 'Copiar modulos necesarios para la aplicacion'
+  copy:
+    src: files/modules/
+    dest: /opt/wildfly/modules/system/layers/base/
+    owner: jboss
+    group: jboss
+    mode: 0755
+
+- name: 'Deploy de standalone XML (agrega datasource)'
+  template:
+    src:  templates/standalone.xml.j2
+    dest: "/opt/wildfly/standalone/configuration/standalone.xml"
+    owner: jboss
+    group: jboss
+    mode: 0755
+
+- name: 'Iniciando servicio jboss'
+  systemd:
+    name: jboss
+    state: started
+    enabled: yes

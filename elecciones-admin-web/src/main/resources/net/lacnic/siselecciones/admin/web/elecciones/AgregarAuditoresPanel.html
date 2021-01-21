@@ -1,0 +1,52 @@
+<wicket:panel>
+	<form id="form" wicket:id="eleccionAuditoresForm" action="#"
+		class="wizard-big wizard clearfix form-horizontal" role="application">
+		<div class="content clearfix" style="min-height: 220px;">
+
+			<br>
+
+			<div class="form-group col-md-12">
+				<label class="col-sm-2 control-label "><wicket:message key="auditorManagementName" /></label>
+				<div class="col-sm-10">
+					<input wicket:id="nombre" id ="nombre" type="text" class="form-control"></input>
+				</div>
+			</div>
+
+			<div class="form-group col-md-12">
+				<label class="col-sm-2 control-label "><wicket:message key="auditorManagementMail" /></label>
+				<div class="col-sm-10">
+					<input wicket:id="email" id="email" type="text" class="form-control">
+					</input>
+				</div>
+			</div>
+			<div class="form-group col-md-12">
+				<label  class="col-sm-8 control-label"><wicket:message key="auditorManagementAprove" /></label>
+				<div class="col-sm-4">
+
+					<label class="checkbox-inline"> <input
+						wicket:id="checkComisionado" id ="chkComisionados" name="checkComisionado"
+						type="checkbox">&nbsp;
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group col-md-12 text-center">
+				<a class="btn btn-success" wicket:id="agregarAuditor" id="agregarAuditor"
+					name="agregarAuditor"><wicket:message key="auditorManagementBtnAdd" /></a>
+			</div>
+
+		</div>
+		<div class="actions clearfix">
+			<ul role="menu" aria-label="Pagination">
+				<li><button wicket:id="atras" type="button" id="atras"
+						class="btn btn-w-m btn-grey"><wicket:message key="auditorManagementBack" /></button></li>
+				<li><button wicket:id="saltar " type="button" id= "saltar"
+						class="btn btn-w-m btn-grey"><wicket:message key="auditorManagementIgnore" /></button></li>
+				<li><button wicket:id="terminar" type="button" id="terminar"
+						class="btn btn-w-m btn-primary"><wicket:message key="auditorManagementFinish" /></button></li>
+
+			</ul>
+		</div>
+	</form>
+
+</wicket:panel>

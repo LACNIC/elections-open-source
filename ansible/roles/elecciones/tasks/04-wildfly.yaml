@@ -1,0 +1,39 @@
+---
+
+- name: 'Descargar y descomprimir Wildfly 20'
+  unarchive:
+    src: https://download.jboss.org/wildfly/20.0.1.Final/wildfly-20.0.1.Final.zip
+    dest: /opt
+    owner: jboss
+    group: jboss
+    mode: 0755
+    remote_src: True
+
+- name: 'Crear link en /opt/wildfly'
+  file:
+    src: "/opt/wildfly-20.0.1.Final"
+    dest: "/opt/wildfly"
+    owner: jboss
+    group: jboss
+    state: link
+
+- name: 'Respaldar configuracion inicial de Wildfly'
+  command: cp /opt/wildfly/standalone/configuration/standalone.xml /opt/wildfly/standalone/configuration/standalone.xml.original
+  become: yes
+  become_user: jboss
+
+- name: 'Copiar archivo systemd para servicio jboss'
+  template:
+    src: templates/systemd_jboss.j2
+    dest: /etc/systemd/system/jboss.service
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+
+- name: 'Levantar y activar servicio jboss'
+  service:
+    daemon_reload: yes
+    name: jboss
+    state: started
+    enabled: yes

@@ -1,0 +1,26 @@
+<wicket:panel>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><wicket:message key="candidato_rep" /></th>
+				<th><wicket:message key="votos_rep" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="dataViewCandidatos">
+				<td wicket:id="nombre">[resumen]</td>
+				<td wicket:id="votos">[resumen]</td>
+			</tr>
+		</tbody>
+		<thead>
+
+			<tr>
+				<th><strong><wicket:message key="participantes_rep" /></strong><span
+					wicket:id="totalVotantes" id="cantidadVotantesEleccion"/></th>
+				<th><strong><wicket:message key="total_rep" /></strong> <span
+					wicket:id="totalVotos" id="cantidadVotosEleccion" /></th>
+			</tr>
+		</thead>
+
+	</table>
+</wicket:panel>

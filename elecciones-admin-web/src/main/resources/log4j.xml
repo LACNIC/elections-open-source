@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<log4j:configuration debug="true" xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<!-- Console log -->
+	<appender name="webAdminConsoleAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="append" value="true" />
+		<param name="file" value="${jboss.server.log.dir}/elecciones-admin-web-console.log" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd/MM/yy HH:mm:ss.SSS}] %-5p %m%n" />
+		</layout>
+	</appender>
+
+	<!-- App log -->
+	<appender name="webAdminAppAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="append" value="true" />
+		<param name="file" value="${jboss.server.log.dir}/elecciones-admin-web-app.log" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd/MM/yy HH:mm:ss.SSS}] %-5p %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="webAdminAppLogger" additivity="false">
+		<level value="INFO" />
+        <appender-ref ref="webAdminAppAppender" />
+    </logger>
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="webAdminConsoleAppender" />
+	</root>
+
+</log4j:configuration>

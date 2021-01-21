@@ -1,0 +1,26 @@
+---
+
+- name: 'Actualizar todos los repositorios'
+  apt:
+    update_cache: yes
+
+- name: 'Actualizar todos los paquetes a la ultima version'
+  apt:
+    name: "*"
+    state: latest
+    force_apt_get: true
+
+- name: 'Instalar dependencias basicas para que el sistema funcione'
+  apt:
+    name: "{{ item }}"
+    force: yes
+    state: present
+  with_items:
+    - openjdk-8-jdk
+    - unzip
+    - maven
+    - git
+    - curl
+    - python-simplejson
+    - python-pip
+    - python-dev

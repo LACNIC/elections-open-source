@@ -1,0 +1,26 @@
+<wicket:panel>
+	<form wicket:id="form">
+		<div wicket:id="contenedorAuditores">
+			<div class="table-responsive m-t">
+				<table class="table dataTables">
+					<thead class="jumbotron">
+						<tr>
+							<th><wicket:message key="auditorsListName" /></th>
+							<th><wicket:message key="auditorsListMail" /></th>
+							<th><wicket:message key="auditorsListConf" /></th>
+							<th><wicket:message key="auditorsListLink" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="dataViewAuditores" id="solicitudesa">
+							<td wicket:id="nombre">[resumen]</td>
+							<td wicket:id="email">[resumen]</td>
+							<td wicket:id="conforme">[resumen]</td>
+							<td><span wicket:id="urlLinkVotacionUsuario"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</form>
+</wicket:panel>
