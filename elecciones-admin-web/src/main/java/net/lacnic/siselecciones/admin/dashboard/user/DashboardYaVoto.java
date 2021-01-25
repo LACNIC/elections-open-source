@@ -16,7 +16,7 @@ import net.lacnic.siselecciones.dominio.UsuarioPadron;
 public class DashboardYaVoto extends DashboardPublicBasePage {
 
 	private static final long serialVersionUID = -7536199173314577391L;
-	private int numero = 1;
+	
 	private UsuarioPadron upd;
 
 	public DashboardYaVoto(PageParameters params) {
@@ -36,16 +36,16 @@ public class DashboardYaVoto extends DashboardPublicBasePage {
 
 		List<Object[]> elegidos = Contexto.getInstance().getVotanteBeanRemote().obtenerCandidatosVotacion(upd.getIdUsuarioPadron(), upd.getEleccion().getIdEleccion());
 		final ListView<Object[]> seleccionados = new ListView<Object[]>("codigos", elegidos) {
-			private static final long serialVersionUID = 1786359392545666490L;
-
+			private static final long serialVersionUID = 1786359392545666490L;			
 			@Override
 			protected void populateItem(final ListItem<Object[]> item) {
-				final Object[] actual = item.getModelObject();
-				item.add(new Label("numero", String.valueOf(numero)));
+				final Object[] actual = item.getModelObject();				
+				int nroFila = item.getIndex() + 1;				
+				item.add(new Label("numero", String.valueOf(nroFila)));
 				Label codigo = new Label("codigo", (String) actual[1]);
 				codigo.setMarkupId("codigo" + item.getIndex());
 				item.add(codigo);
-				numero = numero + 1;
+				
 			}
 		};
 		add(seleccionados);
