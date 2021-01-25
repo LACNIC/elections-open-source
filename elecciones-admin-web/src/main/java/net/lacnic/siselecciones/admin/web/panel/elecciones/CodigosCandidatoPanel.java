@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import net.lacnic.siselecciones.admin.app.Contexto;
 
 public class CodigosCandidatoPanel extends Panel {
-	private int numero = 1;
+	
 
 	public CodigosCandidatoPanel(long idEleccion) {
 		this("codigosCandidatoPanel", idEleccion);
@@ -22,13 +22,15 @@ public class CodigosCandidatoPanel extends Panel {
 			@Override
 			protected void populateItem(final ListItem<Object[]> item) {
 				final Object[] actual = item.getModelObject();
-
-				item.add(new Label("numero", String.valueOf(numero)));
+				
+				int nroFila = item.getIndex() + 1;
+				
+				item.add(new Label("numero", String.valueOf(nroFila)));
 				item.add(new Label("candidato", (String) actual[0]));
 				Label codigoC = new Label("codigo", (String) actual[1]);
 				codigoC.setMarkupId("codigoCandidato"+item.getIndex());
 				item.add(codigoC);
-				numero = numero + 1;
+				
 
 			}
 		};
