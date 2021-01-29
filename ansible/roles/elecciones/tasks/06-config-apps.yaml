@@ -1,5 +1,7 @@
 ---
 
+- include_vars: pass-vault.yaml
+
 - name: 'Parando servicio jboss'
   systemd:
     name: jboss

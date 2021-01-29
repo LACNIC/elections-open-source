@@ -36,21 +36,32 @@
     name: "{{ db_name }}"
   become_user: postgres
 
-- name: 'Setup user permissions for database'
-  postgresql_user:
-    db: "{{ db_name }}"
-    name: "{{ db_user }}"
-    password: "{{ db_pass }}"
-    encrypted: yes
-    priv: ALL
-  become_user: postgres
-
 - name: 'Restore database dump'
   postgresql_db:
     name: "{{ db_name }}"
     state: restore
     target: /opt/dumps/{{ db_name }}.sql
   become_user: postgres
+
+- name: 'Setup tables access permissions for database user'
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    db: "{{ db_name }}"
+    role: "{{ db_user }}"
+    privs: SELECT,INSERT,UPDATE,DELETE
+    objs: ALL_IN_SCHEMA
+    type: table
+
+- name: 'Setup sequences access permissions for database user'
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    db: "{{ db_name }}"
+    role: "{{ db_user }}"
+    privs: SELECT,USAGE
+    objs: ALL_IN_SCHEMA
+    type: sequence
 
 - name: 'Iniciando servicio jboss'
   systemd:

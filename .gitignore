@@ -14,3 +14,4 @@ elecciones-services/.classpath
 elecciones-services/.project
 elecciones-services/target
 ansible/pass-vault.yaml
+ansible/*.retry

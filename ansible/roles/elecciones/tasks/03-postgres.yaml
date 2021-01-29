@@ -1,5 +1,7 @@
 ---
 
+- include_vars: pass-vault.yaml
+
 - name: 'Agregar la key del repo de PostgreSQL'
   apt_key:
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
@@ -20,3 +22,10 @@
     - python-psycopg2
     - postgresql-12
     - postgresql-client-12
+
+- name: 'Configurar pwd para usuario de BD de la aplicación'
+  postgresql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_pass }}"
+    encrypted: yes
+  become_user: postgres

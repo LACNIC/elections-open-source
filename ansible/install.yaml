@@ -6,4 +6,4 @@
   gather_facts: no
   tasks:
   - include_role:
-    name: 'elecciones'
+     name: 'elecciones'
