@@ -1,0 +1,46 @@
+--- 
+layout: default
+title: Sistema Elecciones
+link_logo: http://elecciones-demo.lacnic.net.uy/elecciones
+link_title: http://elecciones-demo.lacnic.net.uy/elecciones
+link_repo: https://github.com/LACNIC/elections-open-source
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Armado manual del ambiente" }}</h1>
+      </div>
+      <div class="ibox-content">
+        <p class="paragraph">Se deben instalar los productos requeridos para la ejecución del sistema, <a href="#requerimientos">detallados anteriormente</a>. El procedimiento dependerá del sistema operativo usado. Una vez instalados, se deben ejecutar los siguientes pasos de configuración.</p>
+
+				<h3 class="titulo-h3" id="manual">Inicialización de base de datos</h3>
+				<p class="paragraph" >Se provee un dump de base de datos con los datos mínimos para la ejecución del sistema <a href="{{ page.link_repo }}/tree/master/config/dbdriver">aquí</a>.</p>
+
+				<h3 class="titulo-h3" id="manual">Configuración de Wildfly</h3>
+
+				<h4 class="titulo-h4">Librerías</h4>
+				<p class="paragraph">Es necesario instalar en Wildfly las siguientes librerías:</p>
+				<ul class="paragraph">
+					<li><code>ipresource</code></li>
+					<li><code>jxl</code></li>
+					<li><code>commons-validator</code></li>
+				</ul>
+				<p class="paragraph">Se proveen en el repositorio del proyecto <a href="{{ page.link_repo }}/tree/master/config/modules">aquí</a>.</p>
+				<p class="paragraph">Para instalarlas, copiarlas al directorio <code>$WILDFLY_HOME/modules</code> de su instalación.</p>
+
+				<h4 class="titulo-h4">Driver PostgreSQL</h4>
+				<p class="paragraph">Es necesario publicar en Wildfly el driver JDBC de PostgreSQL, provisto en el repositorio del proyecto <a href="{{ page.link_repo }}/tree/master/config/dbdriver">aquí</a>.</p>
+				<p class="paragraph">Para publicarlo, copiar el archivo al directorio <code>$WILDFLY_HOME/standalone/deployments</code> de su instalación.</p>
+
+				<h4 class="titulo-h4">Datasource</h4>
+				<p class="paragraph">Se debe configurar el datasource para el acceso a la base de datos. Se provee un datasource ejemplo en el repositorio del proyecto <a href="{{ page.link_repo }}/tree/master/config/datasource">aquí</a>.</p>
+				<p class="paragraph">Para configurarlo, agregarlo en la sección <code>&lt;datasources&gt;</code> del archivo de configuración <code>$WILDFLY_HOME/standalone/configuration/standalone.xml</code> de su instalación.</p>
+				
+				<h4 class="titulo-h4">Usuario administrativo</h4>
+				<p class="paragraph">En caso de querer usar la funcionalidad de deploy de Maven, es necesario crear un usuario administrativo en Wildfly.</p>
+				<p class="paragraph">Para esto, ejecutar el script <code>add-user.bat</code>/<code>add-user.sh</code> en el directorio <code>$WILDFLY_HOME/bin</code> de su instalación.</p>
+			</div>
+		</div>
+	</div>
+</div>

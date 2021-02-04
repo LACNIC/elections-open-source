@@ -12,19 +12,16 @@ link_repo: https://github.com/LACNIC/elections-open-source
 				<h1>{{ "Requisitos y Configuración" }}</h1>
 			</div>
 			<div class="ibox-content">
-				<p class="paragraph">A continuación se detallan los pasos y requisitos para instalar y configurar el Sistema de Elecciones.</p>
-				<ol class="paragraph vertical-space">
-					<li><a href="#requerimientos">Requerimientos</a></li>
-					<li><a href="#automatico">Armado automático del ambiente</a></li>
-					<li><a href="#manual">Armado manual del ambiente</a></li>
-					<li><a href="#maven">Configuración y empaquetado con Maven</a></li>
-					<li><a href="#cicd">Flujo Integración Continua</a></li>
-					<li><a href="#confini">Configuración Inicial</a></li>
-				</ol>
+				<p class="paragraph">El Sistema de Elecciones es una iniciativa open source, desarrollado con el framework Wicket de Apache. Utiliza Wildfly como servidor de aplicación y PostgreSQL como motor de base de datos.</p>
+				<p class="paragraph">A continuación se presentan dos alternativas para la instalación y despliegue del aplicativo.</p>
+				<p class="paragraph">La primera es utilizando Ansible para ejecutar playbooks que realicen todo el trabajo. En el siguiente <a href="{{site.baseurl}}/ansible.html">enlace</a> encontrarán detallado todo el proceso para diferentes sistemas operativos.</p>
+				<p class="paragraph">En caso no este familiarizado con Ansible o desee revisar el paso a paso manual por favor continúe con el siguiente <a href="{{site.baseurl}}/manual.html">enlace</a> para los pasos detallados y requisitos para la instalación manual.</p>
+				
 			</div>
 		</div>
 	</div>
 </div>
+<!--
 <div class="row">
 	<div class="col-lg-12">
 		<div class="ibox">
@@ -163,3 +160,4 @@ link_repo: https://github.com/LACNIC/elections-open-source
 		</div>
 	</div>
 </div>
+-->
