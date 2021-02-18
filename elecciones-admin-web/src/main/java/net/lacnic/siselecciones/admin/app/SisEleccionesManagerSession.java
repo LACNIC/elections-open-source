@@ -26,11 +26,30 @@ public class SisEleccionesManagerSession extends AuthenticatedWebSession {
 	@Override
 	public boolean authenticate(String adminId, String password) {
 		UsuarioAdmin a = Contexto.getInstance().getManagerBeanRemote().loginAdmin(adminId, password, getIPClient());
+		
+		String lang;
+		
 		if (a != null) {
 			setAdminId(adminId);
 			setSignoPass(password);
 			setIdEleccionAutorizado(a.getIdEleccionAutorizado());
-			setLocale(new Locale("ES"));
+			
+			lang = getLocale().getLanguage();			
+			switch(lang) {
+			case "pt":
+				setLocale(new Locale("PT"));
+				break;
+			case "en":
+				setLocale(new Locale("EN"));
+				break;
+			case "es":
+				setLocale(new Locale("ES"));
+				break;				
+			default:
+				setLocale(new Locale("ES"));
+			}			
+			//setLocale(new Locale("ES"));
+			
 			return true;
 		}
 		return false;
