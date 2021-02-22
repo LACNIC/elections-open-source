@@ -1,4 +1,4 @@
---- 
+---
 layout: default
 title: Sistema Elecciones
 link_logo: http://elecciones-demo.lacnic.net.uy/elecciones
@@ -6,358 +6,362 @@ link_title: http://elecciones-demo.lacnic.net.uy/elecciones
 link_repo: https://github.com/LACNIC/elections-open-source
 ---
 <div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h1>{{ "Armado manual del ambiente" }}</h1>
-      </div>
-      <div class="ibox-content">
-        <p class="paragraph">En esta sección se detallan los pasos para la instalación de los requisitos y despligue del aplicativo de elecciones manualmente. Se detallan instrucciones para los siguientes sistemas operativos:</p>
-        <ul class="paragraph">
-					<li><code>Ubuntu 18.4.05</code></li>
-					<li><code>Debian 10</code></li>
-					<li><code>CentOS 7.9</code></li>
-        </ul>
-        <p class="paragraph">En los tres casos se asumen que partiremos de una instalación limpia del sistema operativo contando con un usuario con permisos ssh y habilitado para sudo.</p>
-        <p class="paragraph">A continuación se presentan los pasos para a realizar para la instalación manual y despliegue:</p>
-        <ol class="paragraph vertical-space">
-          <li><a href="#java">Instalación de Java 8</a></li>
-          <li><a href="#auxiliares">Instalación de complementos y pre-requisitos</a></li>
-          <li><a href="#wildfly">Instalación de Wildfly 20</a></li>
-          <li><a href="#postgres">Instalación de PostgreSQL</a></li>
-          <li><a href="#setupBDWildfly">Creación de la base de datos y configuración del servidor web.</a></li>   
-          <li><a href="#deploy">Compilación y Despliegue</a></li>        
-          <li><a href="#proxy">Reverse Proxy</a></li>        
-          <li><a href="#configuracion">Configuración Inicial</a></li>        
-        </ol>
-      </div>
-		</div>
-	</div>
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h1>{{ "Armado manual del ambiente" }}</h1>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph vertical-space">En esta sección se detallan los pasos para la instalación manual del sistema de elecciones. Se detallan instrucciones para los sistemas operativos <b>Ubuntu Server 18</b>, <b>Debian 10</b> y <b>CentOS/RedHat 7</b>. En los tres casos se asume que partimos de una instalación limpia del sistema operativo. Para ejecutar los pasos se necesario un usuario del sistema con permiso sudo.</p>
+                <p class="paragraph">Los pasos a ejecutar son los siguientes:</p>
+                <ol class="paragraph">
+                    <li><a href="#cloneRepo">Clonar repositorio</a></li>
+                    <li><a href="#auxiliares">Instalación de prerrequisitos</a></li>
+                    <li><a href="#java">Instalación de Java 8</a></li>
+                    <li><a href="#wildfly">Instalación de WildFly 20</a></li>
+                    <li><a href="#postgres">Instalación de PostgreSQL 12</a></li>
+                    <li><a href="#setupDB">Creación de la base de datos</a></li>
+                    <li><a href="#setupDBWildfly">Configuración de acceso a base de datos en Wildfly</a></li>
+                    <li><a href="#deploy">Empaquetado y publicación</a></li>
+                    <li><a href="#configuracion">Configuración inicial</a></li>
+                    <li><a href="#proxy">Reverse Proxy</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="java">{{ "Instalación de Java 8" }}</h2>
-      </div>
-      <div class="ibox-content">  
-        <p class="paragraph">Es importante recalcar que la versión de java debe ser 8, ya que en versiones posteriores se requiere revisar las dependencias y versiones del compilador de Maven.</p>
-        <h4 class="titulo-h4">Ubuntu</h4>
-        <ul class="paragraph">
-					<li>Actualizar el índice de paquetes: <code>sudo apt update</code></li>
-					<li>Instalar Java 8: <code>sudo apt install openjdk-8-jdk</code></li>					
-        </ul>
-        <h4 class="titulo-h4">Debian</h4>
-        <ul class="paragraph">
-          <li>Actualizar el índice de paquetes: <code>sudo apt update</code></li>
-          <li>Instalar GNU Privacy Guard: <code>sudo apt-get install gnupg</code></li>
-          <li>Instalar Software Properties Common: <code>sudo apt-get install software-properties-common</code></li>
-          <li>Actualizar el índice de paquetes: <code>sudo apt update</code></li>
-          <li>Importar llave de repositorio: <code>wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -</code></li>
-          <li>Instalar el repositorio: <code>sudo add-apt-repository "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb buster main"</code></li>
-          <li>Actualizar el índice de paquetes: <code>sudo apt update</code></li>
-          <li>Instalar Java 8: <code>sudo apt install adoptopenjdk-8-hotspot</code></li>					
-        </ul>
-        <h4 class="titulo-h4">CentOS / Redhat</h4>
-        <ul class="paragraph">
-					<li>Actualizar el índice de paquetes: <code>sudo yum -y update</code></li>
-					<li>Instalar Java 8: <code>sudo yum install openjdk-8-jdk</code></li>					
-        </ul>
-      </div>
-		</div>
-	</div>
-</div>   
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="auxiliares">{{ "Instalación complementos y auxiliares" }}</h2>
-      </div>
-      <div class="ibox-content">  
-        <p class="paragraph">A continuación se deben instalar los siguientes aplicativos que utilizaremos</p>
-        <ul class="paragraph">
-					<li>unzip</li>
-          <li>maven</li>					
-          <li>git</li>					
-          <li>curl</li>					
-          <li>python-simplejson</li>					
-          <li>python-pip</li>					
-          <li>python-dev</li>	        			
-        </ul>      
-        <h4 class="titulo-h4">Ubuntu / Debian</h4>
-        <ul class="paragraph">
-					<li>Actualizar el índice de paquetes: <code>sudo apt update</code></li>
-          <li>Instalar unzip: <code>sudo apt-get install unzip</code></li>					
-          <li>Instalar maven: <code>sudo apt install maven</code></li>					
-          <li>Instalar git: <code>sudo apt install git</code></li>					
-          <li>Instalar curl: <code>sudo apt install curl</code></li>					
-          <li>Instalar python-simplejson: <code>sudo apt-get install python-simplejson</code></li>					
-          <li>Instalar python-pip: <code>sudo apt install python-pip</code></li>					
-          <li>Instalar python-dev: <code>sudo apt-get install python-dev</code></li>					
-        </ul>
-        <h4 class="titulo-h4">CentOS / Redhat</h4>
-        <ul class="paragraph">
-					<li>Actualizar el índice de paquetes: <code>sudo yum -y update</code></li>
-          <li>Instalar unzip: <code>sudo yum install unzip</code></li>          					
-          <li>Instalar git: <code>sudo yum install git</code></li>					
-          <li>Instalar curl: <code>sudo yum install curl</code></li>		
-          <li>Instalar wget: <code>sudo yum install wget</code></li>
-          <li>Instalar nano: <code>sudo yum install nano</code></li>	
-          <li>Instalar maven, en este caso vamos a realizar la instalación manual de la versión 3.6.3 debido a que la instalación con yum instala la versión 3.0.X y no es posible compilar el proyecto.
-            <ul>
-              <li>Descargar los binarios: <code>sudo wget https://espejito.fder.edu.uy/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp</code></li>
-              <li>Descromprimirlos: <code>sudo tar xf /tmp/apache-maven-3.6.3-bin.tar.gz -C /opt</code></li>
-              <li>Crear el link: <code>sudo ln -s /opt/apache-maven-3.6.3 /opt/maven</code></li>
-              <li>Crear el archivo maven.sh: <code>sudo nano /etc/profile.d/maven.sh</code> agregar las líneas:
-                <ul>
-                 <li><code>export JAVA_HOME=/usr/lib/jvm/jre-openjdk</code></li> 
-                 <li><code>export M2_HOME=/opt/maven</code></li> 
-                 <li><code>export MAVEN_HOME=/opt/maven</code></li> 
-                 <li><code>export PATH=${M2_HOME}/bin:${PATH}</code></li> 
-                </ul>
-              </li>
-              <li>Dar permisos: <code>sudo chmod +x /etc/profile.d/maven.sh</code></li> 
-              <li>Ejecutar: <code>source /etc/profile.d/maven.sh</code></li>
-            </ul>
-          </li>	
-				</ul>
-      </div>
-		</div>
-	</div></code>
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="wildfly">{{ "Instalación de Wildfly" }}</h2>
-      </div>
-      <div class="ibox-content">  
-        <p class="paragraph">Como servidor web se utilizara Wildfly 20. A Continuación las actividades para instalarlo y configurarlo.</p>
-        <h4 class="titulo-h4">Ubuntu / Debian</h4>
-        <ul class="paragraph">
-					<li>Creación de grupo y usuario:
-            <ul>
-              <li><code>sudo addgroup jboss</code></li>
-              <li><code>sudo useradd -g jboss jboss</code></li>
-            </ul>
-          </li>
-          <li>Descargar Wildfly 20: <code>wget https://download.jboss.org/wildfly/20.0.1.Final/wildfly-20.0.1.Final.zip -P /tmp</code></li>					
-          <li>Descromprimirlo en /opt: <code>sudo unzip  /tmp/wildfly-20.0.1.Final.zip -d /opt/</code></li>
-          <li>Crear link <code>sudo ln -s /opt/wildfly-20.0.1.Final /opt/wildfly</code></li>
-          <li>Asignar permisos a usuario: <code>sudo chown -RH jboss: /opt/wildfly</code></li>
-          <li>Respaldar la configuración inicial (standalone.xml): <code>sudo cp /opt/wildfly/standalone/configuration/standalone.xml /opt/wildfly/standalone/configuration/standalone.xml.original</code></li>
-          <li>Creación de servicio
-            <ul>
-              <li>Creación de archivo de servicio:  <code>sudo nano /etc/systemd/system/jboss.service</code></li>
-              <li>Contenido del archivo:
-                <ul>              
-                  <li><b>Ubuntu</b> - Contenido de ejemplo <a href="https://github.com/LACNIC/elections-open-source/blob/ansibleMultiOS/ansible/roles/elecciones/templates/systemd_jboss_ubuntu.j2">aquí</a></li>
-                  <li><b>Debian</b> - Contenido de ejemplo <a href="https://github.com/LACNIC/elections-open-source/blob/ansibleMultiOS/ansible/roles/elecciones/templates/systemd_jboss_debian.j2">aquí</a></li>
-                </ul>
-              </li>
-              <li>Inicio del servicio: <code>sudo systemctl start jboss.service</code></li>
-              <li>Seteo del servicio: <code>sudo systemctl enable jboss.service</code></li>
-            </ul>
-          </li>
-          <li>Creación de usuario administrador de Wildfly: <code>sudo /opt/wildfly/bin/add-user.sh</code></li>
-        </ul>
-        <h4 class="titulo-h4">CentOS / Redhat</h4>
-        <ul class="paragraph">
-					<li>Creación de grupo y usuario:
-            <ul>
-              <li><code>sudo groupadd -r jboss</code></li>
-              <li><code>sudo useradd -r -g jboss -d /opt/wildfly -s /sbin/nologin jboss</code></li>
-            </ul>
-          </li>
-          <li>Descargar Wildfly 20: <code>wget https://download.jboss.org/wildfly/20.0.1.Final/wildfly-20.0.1.Final.zip -P /tmp</code></li>					
-          <li>Descromprimirlo en /opt: <code>sudo unzip  /tmp/wildfly-20.0.1.Final.zip -d /opt/</code></li>
-          <li>Crear link <code>sudo ln -s /opt/wildfly-20.0.1.Final /opt/wildfly</code></li>
-          <li>Asignar permisos a usuario: <code>sudo chown -RH jboss: /opt/wildfly</code></li>
-          <li>Respaldar la configuración inicial (standalone.xml): <code>sudo cp /opt/wildfly/standalone/configuration/standalone.xml /opt/wildfly/standalone/configuration/standalone.xml.original</code></li>
-          <li>Creación de servicio
-            <ul>
-              <li>Creación de archivo de servicio:  <code>sudo nano /etc/systemd/system/jboss.service</code></li>
-              <li>Contenido de ejemplo <a href="https://github.com/LACNIC/elections-open-source/blob/ansibleMultiOS/ansible/roles/elecciones/templates/systemd_jboss_rh-centos.j2">aquí</a></li>
-              <li>Inicio del servicio: <code>sudo systemctl start jboss.service</code></li>
-              <li>Seteo del servicio: <code>sudo systemctl enable jboss.service</code></li>
-            </ul>
-          </li>
-          <li>Creación de usuario administrador de Wildfly: <code>sudo /opt/wildfly/bin/add-user.sh</code></li>
-				</ul>
-      </div>
-		</div>
-	</div>
-</div>  
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="postgres">{{ "Instalación de PostgreSQL" }}</h2>
-      </div>
-      <div class="ibox-content">  
-        <p class="paragraph">Como servidor de base de datos utilizaremos PostgreSQL 12. A continuación se detallan las actividades para la instalación y configuración.</p>
-        <h4 class="titulo-h4">Ubuntu</h4>
-        <ul class="paragraph">
-					<li>Creación de grupo y usuario:
-            <ul>
-              <li><code>sudo addgroup postgres</code></li>
-              <li><code>sudo useradd -g postgres postgres</code></li>
-            </ul>
-          </li>
-          <li>Importación de la llave: <code> wget -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -</code></li>
-          <li>Instalación del repositorio: <code>sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main"</code></li>
-          <li>Actualizar el índice de paquetes: <code>sudo apt update</code></li>
-          <li>Instalación de Auxiliares: <code>sudo apt install libpq-dev python-psycopg2</code></li>
-          <li>Instalación de PostgreSQL 12: <code>sudo apt install postgresql-12 postgresql-client-12</code></li>
-          <li>Creación de usuario de la BD:
-            <ul>
-              <li>Cambiar a postgre:<code>sudo su - postgres</code></li>
-              <li>Crear el usuario: <code> createuser usuario_bd --password</code></li>
-              <li>Modificar password: <code> psql -c "alter user usuario_bd with password 'usuario_bd_pwd'"</code></li>
-            </ul>
-          </li>
-        </ul>
-        <h4 class="titulo-h4">Debian</h4>
-        <ul class="paragraph">
-					<li>Creación de grupo y usuario:
-            <ul>
-              <li><code>sudo addgroup postgres</code></li>
-              <li><code>sudo useradd -g postgres postgres</code></li>
-            </ul>
-          </li>
-          <li>Importación de la llave: <code> wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -</code></li>
-          <li>Instalación del repositorio: <code>sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main"</code></li>
-          <li>Actualizar el índice de paquetes: <code>sudo apt update</code></li>
-          <li>Instalación de Auxiliares: <code>sudo apt install libpq-dev python-psycopg2</code></li>
-          <li>Instalación de PostgreSQL 12: <code>sudo apt install postgresql-12 postgresql-client-12</code></li>
-          <li>Creación de usuario de la BD:
-            <ul>
-              <li>Cambiar a postgre:<code>sudo su - postgres</code></li>
-              <li>Crear el usuario: <code> createuser usuario_bd --password</code></li>
-              <li>Modificar password: <code> psql -c "alter user usuario_bd with password 'usuario_bd_pwd'"</code></li>
-            </ul>
-          </li>
-        </ul>
-        <h4 class="titulo-h4">CentOS / Redhat</h4>
-        <ul class="paragraph">
-					<li>Creación de grupo y usuario:
-            <ul>
-              <li><code>sudo groupadd -r postgres</code></li>
-              <li><code>sudo useradd -m -r -g postgres postgres</code></li>
-            </ul>
-          </li>          
-          <li>Instalación del repositorio: <code>sudo yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm</code></li>
-          <li>Instalación de Auxiliares: <code>sudo yum install python-psycopg2</code></li>
-          <li>Instalación de PostgreSQL 12: <code>sudo yum install postgresql-12 postgresql12-server postgresql12-libs</code></li>
-          <li>Inicialización de la BD: <code>sudo /usr/pgsql-12/bin/postgresql-12-setup initdb</code></li>
-          <li>Respaldar la configuración inicial: <code>sudo cp /var/lib/pgsql/12/data/pg_hba.conf /var/lib/pgsql/12/data/pg_hba.conf.original</code></li>
-          <li>Configuración de acceso a PostgreSQL con usr/pwd para conexiones locales, tomar el archivo pg_hba.conf de <a href="https://github.com/LACNIC/elections-open-source/blob/main/ansible/roles/elecciones/files/db/pg_hba.conf">aquí</a> y copiarlo en <code>/var/lib/pgsql/12/data/pg_hba.conf</code></li>
-          <li>Inicio del servicio: <code>sudo systemctl start postgresql-12.service</code></li>
-              <li>Seteo del servicio: <code>sudo systemctl enable postgresql-12.service</code></li>
-          <li>Creación de usuario de la BD:
-            <ul>
-              <li>Cambiar a postgre:<code>sudo su - postgres</code></li>
-              <li>Crear el usuario: <code> createuser usuario_bd --password</code></li>
-              <li>Modificar password: <code> psql -c "alter user usuario_bd with password 'usuario_bd_pwd'"</code></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-		</div>
-	</div>
-</div>  
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="setupBDWildfly">{{ "Creación de la base de datos y configuración del servidor web" }}</h2>
-      </div>
-      <div class="ibox-content">  
-        <p class="paragraph">A continuación se detallan las tareas para crear y restaurar la base de datos inicial del sistema de elecciones.</p>
-        <h4 class="titulo-h4">Ubuntu / Debian / CentOS / Redhat</h4>
-        <ul class="paragraph">
-          <li>Obtener el dump de la base de datos de <a href="https://github.com/LACNIC/elections-open-source/blob/main/ansible/roles/elecciones/files/db/elecciones.zip">aquí</a> y copiarlo en <code>/opt/dumps/</code></li>
-          <li>Descromprimirlo: <code>sudo unzip elecciones.zip</code></li>
-          <li>Impersonar el usuario postgres: <code>sudo su - postgres</code></li>					
-          <li>Crear la base de datos "elecciones" para el usuario de bd creado: <code>createdb elecciones -O usuario_db</code> </li>
-          <li>Restaurar la Base de datos: <code> psql -U postgres -d elecciones < /opt/dumps/elecciones.sql</code></li>
-          <li>Brindar acceso al usuario de la base de datos, conectarse con el usuario postgre a la BD:<code> psql -d elecciones </code>
-            <ul>
-              <li><code>GRANT USAGE on SCHEMA public to usuario_db;</code></li>
-              <li><code>GRANT ALL PRIVILEGES ON DATABASE elecciones TO usuario_db;</code></li>
-              <li><code>GRANT SELECT, USAGE ON ALL SEQUENCES IN SCHEMA public TO usuario_db;</code></li>
-              <li><code>GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public TO usuario_db;</code></li>
-            </ul>
-          </li>          
-        </ul>
-        <p class="paragraph">A continuación se detallan las tareas para configurar el servidor de web para que funcione con PostgreSQL y acceda a la base de datos.</p>
-        <h4 class="titulo-h4">Ubuntu / Debian / CentOS / Redhat</h4>
-        <ul class="paragraph">
-          <li>Detener el servicio del Wildfy: <code>sudo service jboss stop</code></li>
-          <li>Descargar el driver de postgre de <a href="https://github.com/LACNIC/elections-open-source/blob/main/ansible/roles/elecciones/files/postgresql-42.2.16.jar">aquí</a> y copiarlo en <code>/opt/wildfly/standalone/deployments/</code></li>
-          <li>Descargar los módulos <code>jxl</code>, <code>ipresource</code> y <code>commons-validator</code> de <a href="https://github.com/LACNIC/elections-open-source/tree/main/ansible/roles/elecciones/files/modules">aquí</a> y copiarlos en <code>/opt/wildfly/modules/system/layers/base/</code></li>
-          <li>Agregar el origen de datos en el archivo standalone.xml en <code>/opt/wildfly/standalone/configuration/standalone.xml</code>, basarse en el archivo <a href= "https://github.com/LACNIC/elections-open-source/blob/main/ansible/roles/elecciones/templates/standalone.xml.j2">este</a></li>
-          <li>Levantar el servicio del Wildfy: <code>sudo service jboss start</code></li>
-        </ul>
-      </div>
-		</div>
-	</div>
-</div>  
 
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="despliegue">{{ "Compilación y Despliegue" }}</h2>
-      </div>
-      <div class="ibox-content">  
-        <p class="paragraph">Existen dos formas para realizar el compilado y despligue, la más simple es tomando los compilados ya generados (.war y .jar) y la otra utilizar Maven para compilar el código y luego mediante un usuario administrador del servidor Wildfly realizar el despliegue. En este caso vamos a mostrar ambas formas.</p>
-        <p class="paragraph">A continuación se detallan las instrucciones para realizar el despliegue del aplicativo asumiendo que se tiene los compilados</p>
-        <h4 class="titulo-h4">Ubuntu / Debian / CentOS / Redhat</h4>
-        <ul class="paragraph">
-          <li>Para esto se asume que ya el usuario ha generado los siguiente compilados:
-            <ul>
-              <li><code>elecciones-ejb.jar</code></li>
-              <li><code>elecciones-ws.war</code></li>
-              <li><code>elecciones.war</code></li>
-            </ul>
-          </li>
-          <li>Para hacer el despliegue se deben copiar estos archivos en: <code>/opt/wildfly/standalone/deployments/</code> y el servidor web realizará el despliegue.</li>                    
-        </ul>
-        <p class="paragraph">A continuación se detallan las actividades para compilar el código y desplegarlo tomando las fuentes directamente del repositorio.</p>
-        <ul class="paragraph">
-          <li>Clonar el repositorio Git: <code>git clone https://github.com/LACNIC/elections-open-source</code></li>
-          <li>Compilar utilizando Maven en la carpeta del proyecto: <code>sudo mvn clean install</code></li>
-          <li>Actualizar la información del servidor Wildfly en el de configuración de Maven: <code>sudo nano /etc/maven/settings.xml</code> agregando la información del servidor, un id, el usuario administrador y el password.</li>
-          <li>Realizar el despliegue <code>sudo mvn wildfly:deploy-only -Dwildfly.id=wildfly-elecciones -Dwildfly.hostname=localhost -Dwildfly.port=9990</code> el campo <code>wildfly.id</code> hace referencia a la información del servidor ingresada en el paso anterior.</li>
-        </ul>
-      </div>
-		</div>
-	</div>
-</div> 
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="proxy">{{ "Reverse Proxy" }}</h2>
-      </div>
-      <div class="ibox-content">  
-        <p class="paragraph">Luego de completar las actividades anteriores notaran que el aplicativo esta levantado, pero se esta accediendo directamente al puerto 8080 del servidor web. Esto es algo aceptable para un ambiente de pruebas o local, pero NO es lo recomandado para un ambiente de producción, por lo que se se recomienda fuertemente instalar un proxy delante del servidor web.</p>        
-        <p class="paragraph">En este manual no se detallaran las instrucciones para la instalación de este tipo de servidor ya que esta orientado a la generación del sitio demo y guiar una primera instalación. Si recomendamos la utilización del mismo.</p>        
-      </div>
-		</div>
-	</div>
-</div> 
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="configuracion">{{ "Configuración Inicial" }}</h2>
-      </div>
-      <div class="ibox-content">  
-        <p class="paragraph">Finalmente, lo que queda por realizar es la configuracion inicial del sitio. Esto se realiza dentro del mismo aplicativo.</p>        
-        <p class="paragraph">Para realizarlo, por favor referirse al siguiente <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documento</a>.</p>        
-      </div>
-		</div>
-	</div>
-</div> 
+<div id="cloneRepo" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "1. Clonar repositorio" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Antes de comenzar, si ya no lo hizo, clone el repositorio git del Sistema de Elecciones:</p>
+                <ul class="paragraph vertical-space">
+                    <li>Ubuntu / Debian: <code>sudo apt-get install git</code></li>
+                    <li>CentOS / RedHat: <code>sudo yum install git</code></li>
+                </ul>
+                <p class="paragraph">Luego cree un directorio y desde ahí clone el repositorio:</p>
+                <ul class="paragraph vertical-space">
+                    <li><code>git clone https://github.com/LACNIC/elections-open-source</code></li>
+                </ul>
+                <p class="paragraph">A lo largo de esta guía se hará referencia a muchos recursos (librerías, archivos de configuración, etc) disponibles en el repositorio.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-  
+<div id="auxiliares" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "2. Instalación de prerrequisitos" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph vertical-space">Para el empaquetado y ejecución del sistema es necesario instalar algunos paquetes de software requeridos.</p>
+                <h3>Ubuntu / Debian:</h3>
+                <ol class="paragraph vertical-space">
+                    <li>Actualizar paquetes a la última versión: <code>sudo apt-get update && sudo apt-get upgrade</code></li>
+                    <li>Instalar paquetes: <code>sudo apt-get install unzip maven curl</code></li>
+                </ol>
+
+                <h3>CentOS / RedHat:</h3>
+                <ol class="paragraph">
+                    <li>Actualizar paquetes a la última versión: <code>sudo yum update</code></li>
+                    <li>Instalar paquetes: <code>sudo yum install unzip curl wget nano</code></li>
+                    <li>En este caso, para Maven realizamos la instalación manual de la versión 3.6.3 debido a que la instalación con <code>yum</code> instala la versión 3.0 y no es posible compilar el proyecto.
+                        <ol class="paragraph" type="i">
+                            <li>Descargar los binarios: <code>sudo wget https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp</code></li>
+                            <li>Descomprimirlos: <code>sudo tar xf /tmp/apache-maven-3.6.3-bin.tar.gz -C /opt</code></li>
+                            <li>Crear symlink en <code>/opt/maven</code>: <code>sudo ln -s /opt/apache-maven-3.6.3 /opt/maven</code></li>
+                            <li>Crear el archivo <code>maven.sh</code> (<code>sudo nano /etc/profile.d/maven.sh</code>) y agregar las líneas:<br>
+                                <code>export JAVA_HOME=/usr/lib/jvm/jre-openjdk</code><br>
+                                <code>export M2_HOME=/opt/maven</code><br>
+                                <code>export MAVEN_HOME=/opt/maven</code><br>
+                                <code>export PATH=${M2_HOME}/bin:${PATH}</code>
+                            </li>
+                            <li>Dar permisos de ejecución: <code>sudo chmod +x /etc/profile.d/maven.sh</code></li>
+                            <li>Ejecutar: <code>source /etc/profile.d/maven.sh</code></li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="java" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "3. Instalación de Java 8" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph vertical-space">Es importante recalcar que la versión de Java debe ser 8, en versiones posteriores se requiere revisar las dependencias y versiones del compilador de Maven.</p>
+                <h3>Ubuntu:</h3>
+                <ol class="paragraph vertical-space">
+                    <li>Instalar Java 8: <code>sudo apt-get install openjdk-8-jdk</code></li>
+                </ol>
+                <h3>Debian:</h3>
+                <ol class="paragraph vertical-space">
+                    <li>Instalar GNU Privacy Guard y Software Properties Common: <code>sudo apt-get install gnupg software-properties-common</code></li>
+                    <li>Importar llave del repositorio AdoptOpenJDK: <code>wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -</code></li>
+                    <li>Instalar el repositorio: <code>sudo add-apt-repository "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb buster main"</code></li>
+                    <li>Actualizar el índice de paquetes: <code>sudo apt-get update</code></li>
+                    <li>Instalar Java 8: <code>sudo apt-get install adoptopenjdk-8-hotspot</code></li>
+                </ol>
+                <h3>CentOS / RedHat:</h3>
+                <ol class="paragraph">
+                    <li>Instalar Java 8: <code>sudo yum install openjdk-8-jdk</code></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wildfly" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "4. Instalación de WildFly 20" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph vertical-space">Como servidor de aplicación se utilizará WildFly 20.0.1. El proceso de instalación es el mismo en todos los casos:</p>
+                <ol class="paragraph vertical-space">
+                    <li>Crear grupo y usuario:
+                        <ul>
+                            <li><code>sudo groupadd jboss</code></li>
+                            <li><code>sudo useradd -g jboss jboss</code></li>
+                        </ul>
+                    </li>
+                    <li>Descargar WildFly 20: <code>wget https://download.jboss.org/wildfly/20.0.1.Final/wildfly-20.0.1.Final.zip -P /tmp</code></li>
+                    <li>Descromprimirlo en <code>/opt</code>: <code>sudo unzip  /tmp/wildfly-20.0.1.Final.zip -d /opt/</code></li>
+                    <li>Crear symlink en <code>/opt/wildfly</code>: <code>sudo ln -s /opt/wildfly-20.0.1.Final /opt/wildfly</code></li>
+                    <li>Hacer a <code>jboss</code> dueño de la instalación de WildFly: <code>sudo chown -R jboss:jboss /opt/wildfly</code></li>
+                    <li>Respaldar la configuración inicial: <code>sudo cp /opt/wildfly/standalone/configuration/standalone.xml /opt/wildfly/standalone/configuration/standalone.xml.original</code></li>
+                    <li>Crear servicio
+                        <ol class="paragraph" type="i">
+                            <li>Crear archivo de servicio: <code>sudo nano /etc/systemd/system/jboss.service</code></li>
+                            En el directorio <code>ansible/roles/elecciones/templates</code> del repositorio se encuentran los templates <code>systemd_jboss_debian.j2</code>, <code>systemd_jboss_ubuntu.j2</code> y <code>systemd_jboss_rh-centos.j2</code>, a los que sólo hay que modificar los valores de mínimo y máximo para el tamaño del heap. Use el que corresponda según su sistema operativo.
+                            </li>
+                            <li>Iniciar el servicio: <code>sudo systemctl start jboss</code></li>
+                            <li>Activar el inicio automático del servicio: <code>sudo systemctl enable jboss</code></li>
+                        </ol>
+                    </li>
+                    <li id="wildflyadminuser">
+                        Si planea utilizar Maven para la publicación de los artefactos (ver sección <a href="#publish">Publicación</a>), deberá crear un usuario de administración WildFly. Para esto, ejecutar el siguiente comando y seguir los pasos: <code>sudo /opt/wildfly/bin/add-user.sh</code>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="postgres" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "5. Instalación de PostgreSQL 12" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph vertical-space">Como servidor de base de datos utilizaremos PostgreSQL 12. A continuación se detallan las actividades para la instalación y configuración.</p>
+                <h3>Ubuntu:</h3>
+                <ol class="paragraph vertical-space">
+                    <li>Crear grupo y usuario:
+                        <ol class="paragraph" type="i">
+                            <li><code>sudo groupadd postgres</code></li>
+                            <li><code>sudo useradd -g postgres postgres</code></li>
+                        </ol>
+                    </li>
+                    <li>Importar llave del repositorio: <code>wget -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -</code></li>
+                    <li>Instalar repositorio: <code>sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main"</code></li>
+                    <li>Actualizar el índice de paquetes: <code>sudo apt-get update</code></li>
+                    <li>Instalar PostgreSQL 12 y requisitos: <code>sudo apt-get install postgresql-12 postgresql-client-12 libpq-dev python-psycopg2</code></li>
+                    <li>Crear un usuario de base de datos para la aplicación:
+                        <ol class="paragraph" type="i">
+                            <li>Cambiar a usuario postgres:<code>sudo su - postgres</code></li>
+                            <li>Crear el usuario: <code>createuser &lt;usuario&gt; --password</code></li>
+                            <li>Setear contraseña para el usuario: <code>psql -c "alter user &lt;usuario&gt; with password '&lt;contraseña&gt;'"</code></li>
+                        </ol>
+                    </li>
+                </ol>
+
+                <h3>Debian:</h3>
+                <ol class="paragraph vertical-space">
+                    <li>Crear grupo y usuario:
+                        <ol class="paragraph" type="i">
+                            <li><code>sudo groupadd postgres</code></li>
+                            <li><code>sudo useradd -g postgres postgres</code></li>
+                        </ol>
+                    </li>
+                    <li>Importar llave del repositorio: <code>wget -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -</code></li>
+                    <li>Instalar repositorio: <code>sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main"</code></li>
+                    <li>Actualizar el índice de paquetes: <code>sudo apt-get update</code></li>
+                    <li>Instalar PostgreSQL 12 y requisitos: <code>sudo apt-get install postgresql-12 postgresql-client-12 libpq-dev python-psycopg2</code></li>
+                    <li>Crear un usuario de base de datos para la aplicación:
+                        <ol class="paragraph" type="i">
+                            <li>Cambiar a usuario postgres:<code>sudo su - postgres</code></li>
+                            <li>Crear el usuario: <code>createuser &lt;usuario&gt; --password</code></li>
+                            <li>Setear contraseña para el usuario: <code>psql -c "alter user &lt;usuario&gt; with password '&lt;contraseña&gt;'"</code></li>
+                        </ol>
+                    </li>
+                </ol>
+
+                <h3>CentOS / RedHat:</h3>
+                <ol class="paragraph vertical-space">
+                    <li>Crear grupo y usuario:
+                        <ol class="paragraph" type="i">
+                            <li><code>sudo groupadd postgres</code></li>
+                            <li><code>sudo useradd -g postgres postgres</code></li>
+                        </ol>
+                    </li>
+                    <li>Instalar repositorio: <code>sudo yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm</code></li>
+                    <li>Instalar PostgreSQL 12 y requisitos: <code>sudo yum install postgresql-12 postgresql12-server postgresql12-libs python-psycopg2</code></li>
+                    <li>Configuración inicial del servidor: <code>sudo /usr/pgsql-12/bin/postgresql-12-setup initdb</code></li>
+                    <li>Configurar PostgreSQL para acceso con usuario y contraseña para conexiones locales:
+                        <ol class="paragraph" type="i">
+                            <li>Respaldar la configuración inicial de acceso: <code>sudo cp /var/lib/pgsql/12/data/pg_hba.conf /var/lib/pgsql/12/data/pg_hba.conf.original</code></li>
+                            <li>Tomar el archivo <code>ansible/roles/elecciones/files/db/pg_hba.conf</code> del repositorio y copiarlo en <code>/var/lib/pgsql/12/data/pg_hba.conf</code></li>
+                        </ol>
+                    </li>
+                    <li>Iniciar el servicio: <code>sudo systemctl start postgresql-12</code></li>
+                    <li>Activar el inicio automático del servicio: <code>sudo systemctl enable postgresql-12</code></li>
+                    <li>Crear un usuario de base de datos para la aplicación:
+                        <ol class="paragraph" type="i">
+                            <li>Cambiar a usuario postgres:<code>sudo su - postgres</code></li>
+                            <li>Crear el usuario: <code>createuser &lt;usuario&gt; --password</code></li>
+                            <li>Setear contraseña para el usuario: <code>psql -c "alter user &lt;usuario&gt; with password '&lt;contraseña&gt;'"</code></li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="setupDB" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "6. Creación de la base de datos" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">A continuación se detallan las tareas para levantar un dump inicial de la base de datos del sistema. El proceso es el mismo en todos los casos:</p>
+                <ol class="paragraph vertical-space">
+                    <li>Copiar el dump del repositorio (<code>ansible/roles/elecciones/files/db/elecciones.zip</code>) a <code>/opt/dumps/</code></li>
+                    <li>Descromprimirlo: <code>sudo unzip elecciones.zip</code></li>
+                    <li>Cambiar a usuario postgres: <code>sudo su - postgres</code></li>
+                    <li>Crear la base de datos <code>elecciones</code> con el usuario <code>&lt;usuario&gt;</code> como dueño: <code>createdb elecciones -O &lt;usuario&gt;</code></li>
+                    <li>Restaurar el dump inicial: <code>psql -U postgres -d elecciones /opt/dumps/elecciones.sql</code></li>
+                    <li>Configurar permisos sobre la base de datos:
+                        <ol class="paragraph" type="i">
+                            <li>Conectarse a la base con el usuario <code>postgres</code>: <code>psql -d elecciones</code>. Ejecutar las siguientes sentencias:</li>
+                            <li><code>GRANT USAGE ON SCHEMA public TO &lt;usuario&gt;;</code></li>
+                            <li><code>GRANT ALL PRIVILEGES ON DATABASE elecciones TO &lt;usuario&gt;;</code></li>
+                            <li><code>GRANT SELECT, USAGE ON ALL SEQUENCES IN SCHEMA public TO &lt;usuario&gt;;</code></li>
+                            <li><code>GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO &lt;usuario&gt;;</code></li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="setupDBWildfly" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "7. Configuración de acceso a base de datos en Wildfly" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Para que la aplicación se pueda conectar a la base de datos, es necesario instalar el driver de PostgreSQL y crear el datasource en WildFly. El procedimiento es el mismo en todos los casos:</p>
+                <ol class="paragraph">
+                    <li>Detener el servicio del WildFly: <code>sudo service jboss stop</code>.</li>
+                    <li>Copiar el driver de PostgreSQL del repositorio (<code>ansible/roles/elecciones/files/postgresql-42.2.16.jar</code>) a <code>/opt/wildfly/standalone/deployments/</code>.</li>
+                    <li>Copiar los módulos <code>jxl</code>, <code>ipresource</code> y <code>commons-validator</code> del repositorio (<code>ansible/roles/elecciones/files/modules/</code>) a <code>/opt/wildfly/modules/system/layers/base/</code> (copiar la estructura de directorios tal cual está en el repositorio).</li>
+                    <li>Agregar el datasource en <code>/opt/wildfly/standalone/configuration/standalone.xml</code>, puede basarse en el archivo <code>ansible/roles/elecciones/templates/standalone.xml.j2</code> del repositorio.</li>
+                    <li>Levantar el servicio del WildFly: <code>sudo service jboss start</code></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="deploy" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "8. Empaquetado y publicación" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">El Sistema de Elecciones consiste de 3 artefactos a publicar en el servidor WildFly:</p>
+                <ul class="paragraph">
+                    <li><code>elecciones-ejb.jar</code></li>
+                    <li><code>elecciones-ws.war</code></li>
+                    <li><code>elecciones.war</code></li>
+                </ul>
+                <p class="paragraph vertical-space">Los procedimientos para empaquetado y publicación son los mismos en todos los casos.</p>
+
+                <h3>Empaquetado:</h3>
+                <p class="paragraph">En el directorio <code>ansible/roles/elecciones/files/deployments</code> del repositorio se encuentran los artefactos ya generados.</p>
+                <p class="paragraph">También puede generarlos a partir del código fuente. Para esto, desde el directorio raíz del repositorio ejecute el siguiente comando Maven: <code>sudo mvn clean package</code></p>
+                <p class="paragraph vertical-space">Esto generará los 3 artefactos en los directorios <code>&lt;artefacto&gt;/target</code>.</p>
+
+                <h3 id="publish">Publicación:</h3>
+                <p class="paragraph">Para publicarlos, alcanza con copiarlos al directorio <code>/opt/wildfly/standalone/deployments/</code> y WildFly hace el despliegue automáticamente.</p>
+                <p class="paragraph">También puede usar Maven para la publicación. Para eso el procedimiento es el siguiente:</p>
+                <ol class="paragraph vertical-space">
+                    <li>
+                        Editar el archivo <code>sudo nano /etc/maven/settings.xml</code> y agregar el servidor WildFly. Para esto, dentro del tag <code>&lt;servers&gt;</code> agregar:<br>
+                        <code>
+                        &lt;server&gt;<br>
+                        &nbsp;&nbsp;&lt;id&gt;wildfly-elecciones&lt;/id&gt;<br>
+                        &nbsp;&nbsp;&lt;username&gt;usuario&lt;/username&gt;<br>
+                        &nbsp;&nbsp;&lt;password&gt;contraseña&lt;/password&gt;<br>
+                        &lt;/server&gt;
+                        </code>
+                        <br>
+                        Los valores de usuario y contraseña corresponden al usuario de administración de WildFly <a href="#wildflyadminuser">creado anteriormente</a>.
+                    </li>
+                    <li>
+                        Ejecutar el siguiente comando Maven para publicar los artefactos:<br>
+                        <code>sudo mvn wildfly:deploy-only -Dwildfly.id=wildfly-elecciones -Dwildfly.hostname=localhost -Dwildfly.port=9990</code><br>
+                        El parámetro <code>wildfly.id</code> se corresponde con el <code>&lt;id&gt;</code> del paso anterior.
+                    </li>
+                </ol>
+                <p class="paragraph">Luego de publicados los artefactos, el sistema ya está operativo y accesible en <code>http://&lt;ip-servidor&gt;:8080/elecciones</code>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="configuracion" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "9. Configuración inicial" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Antes de comenzar a usar el sistema, son necesarias algunas tareas iniciales de configuación.</p>
+                <p class="paragraph">Estas tareas se detallan en el siguiente <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documento</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="proxy" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "10. Reverse proxy" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Luego de completar la instalación, el sistema es accesible directamente contra el servidor de aplicaciones. Para un ambiente de desarrollo o testeo esto no es un problema, pero para ambientes de producción se recomienda la instalación y configuración de un servidor web (por ej. Apache o Nginx) que actúe como <i>reverse proxy</i>.</p>
+                <p class="paragraph">Las ventajas de usar <i>reverse proxy</i> son muchas: evitar el acceso directo contra el sevidor de backend, cache y compresión de contenidos, logging HTTP, etc.</p>
+            </div>
+        </div>
+    </div>
+</div>

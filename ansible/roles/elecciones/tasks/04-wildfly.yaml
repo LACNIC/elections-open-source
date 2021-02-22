@@ -1,6 +1,6 @@
 ---
 
-- name: 'Descargar y descomprimir Wildfly 20'
+- name: 'Descarga y extracción de Wildfly 20.0.1'
   unarchive:
     src: https://download.jboss.org/wildfly/20.0.1.Final/wildfly-20.0.1.Final.zip
     dest: /opt
@@ -9,7 +9,7 @@
     mode: 0755
     remote_src: True
 
-- name: 'Crear link en /opt/wildfly'
+- name: 'Creación de symlink en /opt/wildfly'
   file:
     src: "/opt/wildfly-20.0.1.Final"
     dest: "/opt/wildfly"
@@ -17,21 +17,42 @@
     group: jboss
     state: link
 
-- name: 'Respaldar configuracion inicial de Wildfly'
+- name: 'Respaldo de configuración inicial de Wildfly (standalone.xml)'
   command: cp /opt/wildfly/standalone/configuration/standalone.xml /opt/wildfly/standalone/configuration/standalone.xml.original
   become: yes
   become_user: jboss
 
-- name: 'Copiar archivo systemd para servicio jboss'
+- name: 'Configuración de Wildfly como servicio (Ubuntu)'
   template:
-    src: templates/systemd_jboss.j2
+    src: templates/systemd_jboss_ubuntu.j2
     dest: /etc/systemd/system/jboss.service
     owner: root
     group: root
     mode: 0755
     force: yes
+  when: ansible_distribution == 'Ubuntu'
 
-- name: 'Levantar y activar servicio jboss'
+- name: 'Configuración de Wildfly como servicio (Debian)'
+  template:
+    src: templates/systemd_jboss_debian.j2
+    dest: /etc/systemd/system/jboss.service
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+  when: ansible_distribution == 'Debian'
+
+- name: 'Configuración de Wildfly como servicio (RedHat / CentOS)'
+  template:
+    src: templates/systemd_jboss_rh-centos.j2
+    dest: /etc/systemd/system/jboss.service
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Inicio y activación del servicio de Wildfly'
   service:
     daemon_reload: yes
     name: jboss

@@ -1,6 +1,6 @@
 ---
 
-- name: 'Copiar deployments'
+- name: 'Instalación de aplicaciones'
   copy:
     src: files/deployments/
     dest: /opt/wildfly/standalone/deployments/

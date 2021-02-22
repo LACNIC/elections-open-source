@@ -2,7 +2,7 @@
 
 - include_vars: pass-vault.yaml
 
-- name: 'Create directory /opt/dumps/'
+- name: 'Creación de directorio /opt/dumps/'
   file:
     path: /opt/dumps/
     owner: root
@@ -10,7 +10,7 @@
     state: directory
     mode: 0755
 
-- name: 'Unzip database dump'
+- name: 'Extracción de dump'
   unarchive:
     src: files/db/{{ db_name }}.zip
     dest: /opt/dumps/
@@ -19,31 +19,31 @@
     mode: 0755
     remote_src: false
 
-- name: 'Parando servicio jboss'
+- name: 'Detención del servicio Wildfly'
   systemd:
     name: jboss
     state: stopped
     enabled: yes
 
-- name: 'Drop current database'
+- name: 'Drop de base de datos actual'
   postgresql_db:
     name: "{{ db_name }}"
     state: absent
   become_user: postgres
 
-- name: 'Create new database'
+- name: 'Creación de nueva base de datos'
   postgresql_db:
     name: "{{ db_name }}"
   become_user: postgres
 
-- name: 'Restore database dump'
+- name: 'Restore de dump inicial de base de datos'
   postgresql_db:
     name: "{{ db_name }}"
     state: restore
     target: /opt/dumps/{{ db_name }}.sql
   become_user: postgres
 
-- name: 'Setup tables access permissions for database user'
+- name: 'Configuración de permisos sobre tablas para el usuario de la aplicación'
   become: yes
   become_user: postgres
   postgresql_privs:
@@ -53,7 +53,7 @@
     objs: ALL_IN_SCHEMA
     type: table
 
-- name: 'Setup sequences access permissions for database user'
+- name: 'Configuración de permisos sobre secuencias para el usuario de la aplicación'
   become: yes
   become_user: postgres
   postgresql_privs:
@@ -63,7 +63,7 @@
     objs: ALL_IN_SCHEMA
     type: sequence
 
-- name: 'Iniciando servicio jboss'
+- name: 'Inicio del servicio Wildfly'
   systemd:
     name: jboss
     state: started

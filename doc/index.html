@@ -9,155 +9,16 @@ link_repo: https://github.com/LACNIC/elections-open-source
 	<div class="col-lg-12">
 		<div class="ibox">
 			<div class="ibox-title">
-				<h1>{{ "Requisitos y Configuración" }}</h1>
+				<h1>{{ "Instalación y configuración del Sistema de Elecciones" }}</h1>
 			</div>
 			<div class="ibox-content">
-				<p class="paragraph">El Sistema de Elecciones es una iniciativa open source, desarrollado con el framework Wicket de Apache. Utiliza Wildfly como servidor de aplicación y PostgreSQL como motor de base de datos.</p>
-				<p class="paragraph">A continuación se presentan dos alternativas para la instalación y despliegue del aplicativo.</p>
-				<p class="paragraph">La primera es utilizando Ansible para ejecutar playbooks que realicen todo el trabajo. En el siguiente <a href="{{site.baseurl}}/ansible.html">enlace</a> encontrarán detallado todo el proceso para diferentes sistemas operativos.</p>
-				<p class="paragraph">En caso no este familiarizado con Ansible o desee revisar el paso a paso manual por favor continúe con el siguiente <a href="{{site.baseurl}}/manual.html">enlace</a> para los pasos detallados y requisitos para la instalación manual.</p>
-				
-			</div>
-		</div>
-	</div>
-</div>
-<!--
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="requerimientos">Requerimientos</h2>
-			</div>
-			<div class="ibox-content">
-				<p class="paragraph">El Sistema de Elecciones está desarrollado en Java con el framework web Wicket de Apache.</p>
-				<p class="paragraph">Es necesario un ambiente de ejecución con los siguientes productos:</p>
-				<ul class="paragraph vertical-space">
-					<li>Java 8</li>
-					<li>Wildfly 20.0.1</li>
-					<li>PostgreSQL 12</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="automatico">Armado automático del ambiente</h2>
-			</div>
-			<div class="ibox-content">
-				<p class="paragraph">Se provee el role <code>elecciones</code> de Ansible para el armado automático del ambiente sobre Ubuntu Server, que puede encontrarse en el repositorio del proyecto <a href="{{ page.link_repo }}/tree/master/ansible">aquí</a>.</p>
-				<p class="paragraph">Hay 3 playbooks disponibles para ejecutar:</p>
+				<p class="paragraph">El Sistema de Elecciones es una iniciativa open source de LACNIC. Está desarrollado en Java usando el framework Wicket de Apache, corre sobre WildFly como servidor de aplicaciones y usa PostgreSQL como motor de base de datos.</p>
+				<p class="paragraph">Para la instalación y configuración inicial del sistema se tienen dos opciones: automática y manual. En ambos casos se ofrecen instructivos paso a paso para los sistemas operativos Ubuntu Server 18, Debian 10 y CentOS/RedHat 7:</p>
 				<ul class="paragraph">
-					<li>Provisionamiento del ambiente completo: <code>install.yaml</code></li>
-					<li>Deploy de los artefactos del Sistema: <code>deploy.yaml</code></li>
-					<li>Restore de dump de base de datos: <code>restore-dump.yaml</code></li>
-				</ul>
-				<p class="paragraph">Ejecución de playbooks</p>
-				<ul class="paragraph vertical-space">
-					<li>Provisionamiento del ambiente completo: <code>ansible-playbook install.yaml -i hosts -l &lt;servidor&gt; -u &lt;usuario&gt;</code></li>
-					<li>Deploy de los artefactos del Sistema: <code>ansible-playbook deploy.yaml -i hosts -l &lt;servidor&gt; -u &lt;usuario&gt;</code></li>
-					<li>Restore de dump de base de datos: <code>ansible-playbook restore-dump.yaml -i hosts -l &lt;servidor&gt; -u &lt;usuario&gt;</code></li>
-				</ul>
-				<p class="paragraph">Por dudas sobre la implementación y/o ejecución de estas tareas, puede consultar la <a href="https://docs.ansible.com/ansible/2.5">documentación de Ansible</a>.</p>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="manual">Armado manual del ambiente</h2>
-			</div>
-			<div class="ibox-content">
-				<p class="paragraph">Se deben instalar los productos requeridos para la ejecución del sistema, <a href="#requerimientos">detallados anteriormente</a>. El procedimiento dependerá del sistema operativo usado. Una vez instalados, se deben ejecutar los siguientes pasos de configuración.</p>
-
-				<h3 class="titulo-h3" id="manual">Inicialización de base de datos</h3>
-				<p class="paragraph" >Se provee un dump de base de datos con los datos mínimos para la ejecución del sistema <a href="{{ page.link_repo }}/tree/master/config/dbdriver">aquí</a>.</p>
-
-				<h3 class="titulo-h3" id="manual">Configuración de Wildfly</h3>
-
-				<h4 class="titulo-h4">Librerías</h4>
-				<p class="paragraph">Es necesario instalar en Wildfly las siguientes librerías:</p>
-				<ul class="paragraph">
-					<li><code>ipresource</code></li>
-					<li><code>jxl</code></li>
-					<li><code>commons-validator</code></li>
-				</ul>
-				<p class="paragraph">Se proveen en el repositorio del proyecto <a href="{{ page.link_repo }}/tree/master/config/modules">aquí</a>.</p>
-				<p class="paragraph">Para instalarlas, copiarlas al directorio <code>$WILDFLY_HOME/modules</code> de su instalación.</p>
-
-				<h4 class="titulo-h4">Driver PostgreSQL</h4>
-				<p class="paragraph">Es necesario publicar en Wildfly el driver JDBC de PostgreSQL, provisto en el repositorio del proyecto <a href="{{ page.link_repo }}/tree/master/config/dbdriver">aquí</a>.</p>
-				<p class="paragraph">Para publicarlo, copiar el archivo al directorio <code>$WILDFLY_HOME/standalone/deployments</code> de su instalación.</p>
-
-				<h4 class="titulo-h4">Datasource</h4>
-				<p class="paragraph">Se debe configurar el datasource para el acceso a la base de datos. Se provee un datasource ejemplo en el repositorio del proyecto <a href="{{ page.link_repo }}/tree/master/config/datasource">aquí</a>.</p>
-				<p class="paragraph">Para configurarlo, agregarlo en la sección <code>&lt;datasources&gt;</code> del archivo de configuración <code>$WILDFLY_HOME/standalone/configuration/standalone.xml</code> de su instalación.</p>
-				
-				<h4 class="titulo-h4">Usuario administrativo</h4>
-				<p class="paragraph">En caso de querer usar la funcionalidad de deploy de Maven, es necesario crear un usuario administrativo en Wildfly.</p>
-				<p class="paragraph">Para esto, ejecutar el script <code>add-user.bat</code>/<code>add-user.sh</code> en el directorio <code>$WILDFLY_HOME/bin</code> de su instalación.</p>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="maven">Configuración y empaquetado con Maven</h2>
-			</div>
-			<div class="ibox-content">
-				<p class="paragraph">Se usa Maven 3.6 para la configuración, empaquetado y publicación de los proyectos del Sistema:</p>
-				<ul class="paragraph">
-					<li>Empaquetado: <code>mvn clean install</code></li>
-					<li>Publicación: <code>mvn wildfly:deploy-only -Dwildfly.id=&lt;id-servidor&gt; -Dwildfly.hostname=&lt;hostname-o-ip-servidor&gt; -Dwildfly.port=&lt;puerto-admin-wildfly&gt;</code></li>
-				</ul>
-				<p class="paragraph">El parámetro <code>&lt;id-servidor&gt;</code> refiere al servidor configurado en el archivo <code>settings.xml</code> de su instalación de Maven.</p>
-				<p class="paragraph">Por dudas sobre la configuración de los proyectos y/o la ejecución de las tareas Maven, puede consultar la <a href="https://maven.apache.org/docs/3.6.3/release-notes.html">documentación de Maven y sus plugins</a>.</p>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="cicd">Flujo Integración Continua</h2>
-			</div>
-			<div class="ibox-content">
-				<p class="paragraph">
-					Se configuraron en el repositorio Git un flujo de integración continua hacia el ambiente de test/demo. El mismo se encuentra definido en el directorio <code>.github/workflows</code>
-					. Las acciones que gatillan los flujos son la realización de "push"
-					en las siguientes ramas:
-				</p>
-				<ul class="paragraph">					
-					<li>main: realiza el deploy en test/demo</li>
-				</ul>
-				<p class="paragraph">El flujo consiste en dos acciones:</p>
-				<ul class="paragraph">
-					<li>Build: baja el código y ejecuta un <code>mvn clean install</code></li>
-					<li>Deploy: obtiene los artefactos generados y realiza un deploy en el servidor indicado medianet un <code>mvn wildfly:deploy-only</code></li>
+					<li><b>Instalación automática:</b> se definieron tareas Ansible para el aprovisionamiento completo del ambiente, puede seguir <a href="{{site.baseurl}}/ansible.html">aquí</a> las instrucciones paso a paso.</li>
+					<li><b>Instalación manual:</b> si prefiere ejecutar manualmente la instalación, puede seguir <a href="{{site.baseurl}}/manual.html">aquí</a> las instrucciones paso a paso.</li>
 				</ul>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h2 id="confini">Configuración Inicial</h2>
-			</div>
-			<div class="ibox-content">
-				<p class="paragraph">
-					Para realizar la configuración inicial del aplicativo una vez instalado, referirse al siguiente <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documento</a>.
-				</p>
-			</div>
-		</div>
-	</div>
-</div>
--->

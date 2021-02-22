@@ -9,24 +9,218 @@ link_repo: https://github.com/LACNIC/elections-open-source
 	<div class="col-lg-12">
 		<div class="ibox">
 			<div class="ibox-title">
-				<h1>{{ "Armado automatico del ambiente" }}</h1>
-      </div>
-      <div class="ibox-content">
-        <p class="paragraph">Se provee el role <code>elecciones</code> de Ansible para el armado automático del ambiente sobre Ubuntu Server, que puede encontrarse en el repositorio del proyecto <a href="{{ page.link_repo }}/tree/master/ansible">aquí</a>.</p>
-				<p class="paragraph">Hay 3 playbooks disponibles para ejecutar:</p>
-				<ul class="paragraph">
-					<li>Provisionamiento del ambiente completo: <code>install.yaml</code></li>
-					<li>Deploy de los artefactos del Sistema: <code>deploy.yaml</code></li>
-					<li>Restore de dump de base de datos: <code>restore-dump.yaml</code></li>
-				</ul>
-				<p class="paragraph">Ejecución de playbooks</p>
-				<ul class="paragraph vertical-space">
-					<li>Provisionamiento del ambiente completo: <code>ansible-playbook install.yaml -i hosts -l &lt;servidor&gt; -u &lt;usuario&gt;</code></li>
-					<li>Deploy de los artefactos del Sistema: <code>ansible-playbook deploy.yaml -i hosts -l &lt;servidor&gt; -u &lt;usuario&gt;</code></li>
-					<li>Restore de dump de base de datos: <code>ansible-playbook restore-dump.yaml -i hosts -l &lt;servidor&gt; -u &lt;usuario&gt;</code></li>
-				</ul>
-				<p class="paragraph">Por dudas sobre la implementación y/o ejecución de estas tareas, puede consultar la <a href="https://docs.ansible.com/ansible/2.5">documentación de Ansible</a>.</p>
+				<h1>{{ "Armado automático del ambiente" }}</h1>
+      		</div>
+      		<div class="ibox-content">
+				<p class="paragraph">Para el armado automático del ambiente se proveen playbooks de Ansible, un software open-source para la automatizacón del aprovisionamiento y configuración de infraestructura y aplicaciones. Ansible se puede ejecutar desde Linux o Mac. En Windows se puede usar Linux Subsystem, aunque no está oficialmente soportado. Puede consultar más información en la <a href="https://docs.ansible.com/ansible/latest">documentación de Ansible</a>.</p>
+				<p class="paragraph">Las tareas fueron programadas y probadas en <b>Ansible 2.9</b> para los sistemas operativos <b>Ubuntu Server 18</b>, <b>Debian 10</b> y <b>CentOS/RedHat 7</b>. En los tres casos se asume que partimos de una instalación limpia del sistema operativo. Para otros sistemas o versiones pueden ser necesarios ajustes en las tareas.</p>
+				<p class="paragraph">Los playbooks están disponibles en el directorio <code>ansible</code> del <a href="{{ page.link_repo }}/tree/master/ansible">repositorio del proyecto</a>. Todos los comandos especificados en esta guía se corren desde este directorio.</p>
+                <p class="paragraph">Los pasos a ejecutar son los siguientes:</p>
+                <ol class="paragraph vertical-space">
+					<li><a href="#cloneRepo">Clonar repositorio</a></li>
+                    <li><a href="#prerreq">Prerrequisitos</a></li>
+                    <li><a href="#aprovisionamiento">Aprovisionamiento del ambiente</a></li>
+                    <li><a href="#adicionales">Playbooks adicionales</a></li>
+                    <li><a href="#knownissues">Problemas y ajustes conocidos</a></li>
+					<li><a href="#configuracion">Configuración inicial</a></li>
+					<li><a href="#proxy">Reverse Proxy</a></li>
+                </ol>
 			</div>
+		</div>
     </div>
+</div>
+
+<div id="cloneRepo" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "1. Clonar repositorio" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Antes de comenzar, si ya no lo hizo, clone el repositorio git del Sistema de Elecciones siguiendo los siguientes pasos:</p>
+                <ol class="paragraph vertical-space">
+                    <li>
+						Instalar git:<br>
+						Ubuntu / Debian: <code>sudo apt-get install git</code><br>
+                    	CentOS / RedHat: <code>sudo yum install git</code></li><br>
+					<li>
+						Cree un directorio y desde ahí clone el repositorio:<br>
+						<code>git clone https://github.com/LACNIC/elections-open-source</code><br>
+					</li>
+				</ol>
+				<p class="paragraph">Todos los comandos Ansible en esta guía (creación de vault, ejecución de playbooks, etc) se ejecutan desde el directorio <code>ansible</code> del repositorio clonado.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="prerreq" class="row">
+    <div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h2>{{ "2. Prerrequisitos" }}</h2>
+      		</div>
+      		<div class="ibox-content">
+				<p class="paragraph">Antes de ejecutar los playbooks Ansible se requieren algunos pasos de configuración.</p>
+				<br>
+
+				<ol class="paragraph">
+					<li>
+						<h3>Instalación de Ansible</h3>
+						<p class="paragraph">En el <i>Control node</i> (máquina desde la que se ejecutan las tareas Ansible) es necesario instalar Ansible. El procedimiento de instalación dependerá del sistema operativo, por lo general se instala directamente con el gestor de paquetes del sistema (<code>yum install ansible</code> en CentOS/RedHat, <code>apt install ansible</code> en Ubuntu/Debian).</p>
+						<p class="paragraph">El <i>Managed node</i> (servidor al que se le aplican las configuraciones definidas en las tareas Ansible) debe tener Python instalado. También se instala directamente con el gestor de paquetes del sistema (<code>yum install python</code> en CentOS/RedHat, <code>apt install python</code> en Ubuntu/Debian).</p>
+						<p class="paragraph">Puede encontrar información detallada en la <a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html">documentación de instalación de Ansible</a>.</p>
+						<br>
+					</li>
+
+					<li>
+						<h3>Inventario de hosts</h3>
+						<p class="paragraph">En el archivo <code>hosts</code> se define el inventario de servidores de Ansible. Agregue aquí su servidor o edite alguna de las entradas ya existentes. El formato es el siguiente:</p>
+						<p class="paragraph"><code>[alias]</code><br><code>&lt;hostname o IP&gt;</code></p>
+						<p class="paragraph">Al momento de ejecutar tareas Ansible, se usa el alias para especificar en qué servidor aplicar las configuraciones.</p>
+						<br>
+					</li>
+					
+					<li>
+						<h3>Acceso SSH al servidor y permisos</h3>
+						<p class="paragraph">Ansible usa SSH para acceder al servidor y ejecutar las tareas. Para esto es necesario tener un usuario con permisos sudo en el <i>Managed node</i>. Se puede usar autenticación con usuario/contraseña o con par de claves pública/privada. La opción elegida se especifica al momento de correr las tareas, como se verá más adelante.</p>
+						<br>
+					</li>
+
+					<li>
+						<h3>Crear vault Ansible</h3>
+						<p class="paragraph">Como parte de la instalación, se crea un usuario de base de datos para la aplicación. La contraseña para este usuario se define y encripta en un vault de Ansible. Para crear el vault, ejecute el siguiente comando:</p>
+						<p class="paragraph"><code>ansible-vault create pass-vault.yaml</code></p>
+						<p class="paragraph">Se pide una contraseña para el vault y luego se puede editar el contenido, agregar la siguiente línea:</p>
+						<p class="paragraph"><code>postgres_password: &lt;contraseña&gt;</code></p>
+						<p class="paragraph">En cualquier otro momento puede ver o editar el contenido del vault con los comandos <code>ansible-vault view pass-vault.yaml</code> y <code>ansible-vault edit pass-vault.yaml</code>, respectivamente.</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+    </div>
+</div>
+
+<div id="aprovisionamiento" class="row">
+    <div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h2>{{ "3. Playbook de aprovisionamiento" }}</h2>
+      		</div>
+      		<div class="ibox-content">
+
+				<ol class="paragraph">
+					<li>
+						<h3>Descripción</h3>
+						<p class="paragraph">Una vez completados los prerrequisitos, ya se pueden ejecutar tareas. En Ansible, las tareas se agrupan en <i>playbooks</i>. El playbook <code>install.yaml</code> instala y configura todo lo necesario para levantar el sistema:</p>
+						<ul class="paragraph">
+							<li>Crea usuarios en el sistema para WildFly y PostgreSQL.</li>
+							<li>Instala Java 8, PostgreSQL 12 y WildFly 20. Configura PostgreSQL y WildFly como servicios en el sistema.</li>
+							<li>Crea la base de datos, importa un dump incial y configura permisos.</li>
+							<li>Configura módulos requeridos, driver de BD y datasource en WildFly.</li>
+							<li>Publica los artefactos del sistema.</li>
+						</ul>
+						<br>
+					</li>
+
+					<li>
+						<h3>Ejecución</h3>
+						<p class="paragraph">Para ejecutar un playbook se usa el comando <code>ansible-playbook &lt;playbook&gt;</code> con los siguientes parámetros:</p>
+						<ul class="paragraph">
+							<li><code>-i &lt;inventario&gt;</code>: archivo inventario de servidores.</li>
+							<li><code>-l &lt;servidor&gt;</code>: alias del servidor en el que ejecutar las tareas.</li>
+							<li><code>-u &lt;usuario&gt;</code>: usuario para acceder al servidor por SSH.</li>
+							<li><code>--ask-become-pass</code>: indica que el password para sudo se ingresará por consola.</li>
+							<li>Según si la autenticación es con usuario/contraseña o par de claves, incluir, respectivamente:
+								<ul class="paragraph">
+									<li><code>--ask-pass</code>: indica que se ingresará la contraseña para el usuario por consola.</li>
+									<li><code>--private-key /ruta/a/clave/privada</code>: indica que se usará la clave privada para la autenticación.</li>
+								</ul>
+							</li>
+						</ul>
+					
+						<p class="paragraph">Así, por ejemplo, este es el comando para ejecutar la instalación completa del ambiente en el servidor definido en el inventario <code>hosts</code> con alias <code>test</code>, usando el usuario <code>user</code> con clave privada para la autenticación SSH:</p>
+						<p class="paragraph"><code>ansible-playbook install.yaml -i hosts -l test -u user --ask-become-pass --private-key /home/user/userprivkey</code></p>
+					</li>
+				</ol>
+				<br>
+				
+				<p class="paragraph">Finalizada la ejecución del playbook, el sistema ya está operativo y accesible en <code>http://&lt;ip-servidor&gt;:8080/elecciones</code>.</p>
+				
+			</div>
+    	</div>
+    </div>
+</div>
+
+<div id="adicionales" class="row">
+    <div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h2>{{ "4. Playbooks adicionales" }}</h2>
+      		</div>
+      		<div class="ibox-content">
+				<p class="paragraph">Hay 2 playbooks adicionales disponibles:</p>
+				<ul class="paragraph">
+					<li>Deploy de los artefactos del Sistema: <code>deploy.yaml</code>:
+						<p class="paragraph">Publica los artefactos del sistema que se encuentran en <code>ansible/roles/elecciones/files/deployments</code>.</p>
+					</li>
+					<li>Restore de dump de base de datos: <code>restore-dump.yaml</code>:
+						<p class="paragraph">Borra la base de datos actual y levanta el dump que se encuentra en <code>ansible/roles/elecciones/files/db/elecciones.zip</code>.</p>
+					</li>
+				</ul>
+				<p class="paragraph">Para ejecutar estos playbooks se usa el comando <code>ansible-playbook</code> como se detalla en la sección anterior, cambiando el nombre del playbook a ejecutar.</p>
+			</div>
+		</div>
+    </div>
+</div>
+
+<div id="knownissues" class="row">
+    <div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h2>{{ "5. Posibles ajustes necesarios" }}</h2>
+      		</div>
+      		<div class="ibox-content">
+				<p class="paragraph">Para sistemas operativos o versiones de los sistemas operativos diferentes a las especificadas en esta guía, es posible usar estos mismos playbooks con algunos ajustes. Esta sección se actualiza periódicamente con casos encontrados:</p>
+				<ul class="paragraph">
+					<li>
+						Repositorio PosgreSQL (en archivo de tareas <code>03-postgres.yaml</code>):<br>
+						Para instalar el repositorio de PostgreSQL, se debe especificar la versión del sistema. Para Ubuntu/Debian, se usa el <i>codename</i> de la versión (ej. <i>bionic</i> para Ubuntu 18, <i>buster</i> para Debian 10). Para CentOS/RedHat, el número de versión.
+					</li>
+					<li>
+						Repositorio AdoptOpenJDK (en archivo de tareas <code>02-global.yaml</code>):<br>
+						Este caso aplica sólo para Debian. De la misma forma que con PosgreSQL, se usa el <i>codename</i> de la versión para instalar el repo AdoptOpenJDK.
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
+</div>
+
+<div id="configuracion" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "6. Configuración inicial" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Antes de comenzar a usar el sistema, son necesarias algunas tareas iniciales de configuación.</p>
+                <p class="paragraph">Estas tareas se detallan en el siguiente <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documento</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="proxy" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "10. Reverse proxy" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Luego de completar la instalación, el sistema es accesible directamente contra el servidor de aplicaciones. Para un ambiente de desarrollo o testeo esto no es un problema, pero para ambientes de producción se recomienda la instalación y configuración de un servidor web (por ej. Apache o Nginx) que actúe como <i>reverse proxy</i>.</p>
+                <p class="paragraph">Las ventajas de usar <i>reverse proxy</i> son muchas: evitar el acceso directo contra el sevidor de backend, cache y compresión de contenidos, logging HTTP, etc.</p>
+            </div>
+        </div>
+    </div>
 </div>

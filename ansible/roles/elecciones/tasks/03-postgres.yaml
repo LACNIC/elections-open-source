@@ -2,28 +2,72 @@
 
 - include_vars: pass-vault.yaml
 
-- name: 'Agregar la key del repo de PostgreSQL'
+- name: 'Importación de key del repo de PostgreSQL (Debian / Ubuntu)'
   apt_key:
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
     state: present
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: 'Agregar el repo de PostgreSQL'
+- name: 'Instalación del repo de PostgreSQL (Ubuntu)'
   apt_repository:
     repo: deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main
     state: present
+  when: ansible_distribution == 'Ubuntu'
 
-- name: 'Instalar postgres y postgres client'
+- name: 'Instalación del repo de PostgreSQL (Debian)'
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main
+    state: present
+  when: ansible_distribution == 'Debian'
+
+- name: 'Instalación del repo de PostgreSQL (RedHat / CentOS)'
+  yum:
+    name: ['https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm']
+    state: present
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Instalación de PostgreSQL 12 (Debian / Ubuntu)'
   apt:
-    name: "{{ item }}"
+    name: ['libpq-dev', 'python-psycopg2', 'postgresql-12', 'postgresql-client-12']
     update_cache: yes
     force: yes
-  with_items:
-    - libpq-dev
-    - python-psycopg2
-    - postgresql-12
-    - postgresql-client-12
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: 'Configurar pwd para usuario de BD de la aplicación'
+- name: 'Instalación de PostgreSQL 12 (RedHat / CentOS)'
+  yum:
+    name: ['python-psycopg2', 'postgresql12', 'postgresql12-server', 'postgresql12-libs']
+    update_cache: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Inicialización de PostgreSQL 12 (RedHat / CentOS)'
+  command: /usr/pgsql-12/bin/postgresql-12-setup initdb
+  become: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Respaldo de configuración inicial de acceso de PostgreSQL (RedHat / CentOS)'
+  command: cp /var/lib/pgsql/12/data/pg_hba.conf /var/lib/pgsql/12/data/pg_hba.conf.original
+  become: yes
+  become_user: postgres
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Configuración de acceso a PostgreSQL con usr/pwd para conexiones locales (RedHat / CentOS)'
+  copy:
+    src: files/db/pg_hba.conf
+    dest: /var/lib/pgsql/12/data/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: 0600
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Inicio y activación del servicio de PostgreSQL 12 (RedHat / CentOS)'
+  service:
+    daemon_reload: yes
+    name: postgresql-12
+    state: started
+    enabled: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Configuración de pwd para usuario de BD de la aplicación'
   postgresql_user:
     name: "{{ db_user }}"
     password: "{{ db_pass }}"
