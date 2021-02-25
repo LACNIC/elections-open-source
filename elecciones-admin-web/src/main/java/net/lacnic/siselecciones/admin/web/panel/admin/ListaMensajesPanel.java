@@ -46,7 +46,7 @@ public class ListaMensajesPanel extends Panel {
 						item.add(new Label("instante", actual.getTipoMail()));
 						item.add(new Label("tipo", actual.getTipoMail()));
 						item.add(new Label("destinatario", actual.getDestinatarios()));
-						item.add(new MultiLineLabel("cuerpo", actual.getCuerpo()));
+						item.add(new MultiLineLabel("cuerpo", "No Disponible"));
 						item.add(new Label("asunto", actual.getAsunto()));
 
 					} catch (Exception e) {
