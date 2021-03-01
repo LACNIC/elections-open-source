@@ -54,7 +54,11 @@
 	<entry key="results">Resultados</entry>
 	<entry key="settings">Configuração</entry>
 	
-	<entry key="eliminoEleccion">A eleição foi removida corretamente</entry><!-- Elections Detail --><entry key="electionsDetailTitle">DETALHE ELEIÇÃO</entry>
+	<entry key="eliminoEleccion">A eleição foi removida corretamente</entry>
+	<entry key="errorEliminoEleccionSupra">Não é possível remover a eleição porque está vinculada a outra, por favor remova a vinculação primeiro</entry>
+	
+	<!-- Elections Detail -->
+	<entry key="electionsDetailTitle">DETALHE ELEIÇÃO</entry>
 	<entry key="electionsDetailResultados">Resultados públicos</entry>
 	<entry key="electionsDetailEditLink">Editar eleição</entry>
 	<entry key="electionsDetailCandidatesTitle">CANDIDATOS</entry>
