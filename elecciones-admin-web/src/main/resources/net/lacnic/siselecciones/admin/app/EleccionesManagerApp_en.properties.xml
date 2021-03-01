@@ -54,7 +54,11 @@
 	<entry key="results">Results</entry>
 	<entry key="settings">Settings</entry>
 	
-	<entry key="eliminoEleccion">The election was successfully deleted</entry><!-- Elections Detail --><entry key="electionsDetailTitle">ELECTION DETAILS</entry>
+	<entry key="eliminoEleccion">The election was successfully deleted</entry>
+	<entry key="errorEliminoEleccionSupra">It is not possible to delete the election since it is combined with another election. Please delete the combination first.</entry>
+	
+	<!-- Elections Detail -->
+	<entry key="electionsDetailTitle">ELECTION DETAILS</entry>
 	<entry key="electionsDetailResultados">Public Results</entry>
 	<entry key="electionsDetailEditLink">Edit Election</entry>
 	<entry key="electionsDetailCandidatesTitle">CANDIDATES</entry>
