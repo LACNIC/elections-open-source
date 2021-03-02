@@ -111,7 +111,7 @@
 	<entry key="settings">Configuración</entry>
 	
 	<entry key="eliminoEleccion">Se eliminó la elección correctamente</entry>
-	<entry key="errorEliminoEleccionSupra">No es posible eliminar la elección ya que esta asociada a una elección conjunta, si desea aeliminarla debe primero eliminar la eleción conjunta</entry>
+	<entry key="errorEliminoEleccionSupra">No es posible eliminar la elección ya que esta asociada a una elección conjunta, si desea eliminarla debe primero eliminar la eleción conjunta</entry>
 	
 	<!-- Elections Detail -->
 	<entry key="electionsDetailTitle">DETALLE ELECCIÓN</entry>
