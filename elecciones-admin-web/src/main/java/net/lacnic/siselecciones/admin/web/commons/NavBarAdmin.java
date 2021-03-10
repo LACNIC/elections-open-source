@@ -22,6 +22,7 @@ import net.lacnic.siselecciones.admin.dashboard.admin.DashboardHomePage;
 import net.lacnic.siselecciones.admin.dashboard.admin.DashboardIp;
 import net.lacnic.siselecciones.admin.dashboard.admin.DashboardMensajes;
 import net.lacnic.siselecciones.admin.dashboard.admin.DashboardParametros;
+import net.lacnic.siselecciones.admin.dashboard.admin.DashboardPersonalizacion;
 import net.lacnic.siselecciones.admin.dashboard.admin.DashboardPlantillasVer;
 import net.lacnic.siselecciones.admin.wicket.util.UtilsParameters;
 
@@ -104,6 +105,7 @@ public class NavBarAdmin extends Panel {
 		avanzadas.add(new BookmarkablePageLink<>("emailsTodos", DashboardMensajes.class, UtilsParameters.getFilterAll()).setVisibilityAllowed(isVer()));
 		avanzadas.add(new BookmarkablePageLink<>("gestionEmails", DashboardPlantillasVer.class, UtilsParameters.getId(0L)));
 		avanzadas.add(new BookmarkablePageLink<>("eleccionesJuntas", DashboardEleccionesJuntas.class, UtilsParameters.getId(0L)));
+		avanzadas.add(new BookmarkablePageLink<>("personalizacion", DashboardPersonalizacion.class, UtilsParameters.getId(0L)));
 	}
 
 	public boolean isVer() {
