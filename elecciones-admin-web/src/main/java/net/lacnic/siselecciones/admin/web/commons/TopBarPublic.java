@@ -2,11 +2,13 @@ package net.lacnic.siselecciones.admin.web.commons;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.wicket.Application;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.PropertyModel;
 
 import net.lacnic.siselecciones.admin.app.Contexto;
 import net.lacnic.siselecciones.admin.app.SecurityUtils;
@@ -21,13 +23,23 @@ public class TopBarPublic extends Panel {
 
 	private Personalizacion personalizacion;
 
+	private String tituloSitio;
+	
 	Link<Void> spanishLink;
 	Link<Void> portugueseLink;
 	Link<Void> englishLink;
 	
 	public TopBarPublic(String id) {
 		super(id);
+		
+		personalizacion = Contexto.getInstance().getManagerBeanRemote().getPersonalizacion();
+		tituloSitio = personalizacion.getTituloSitio();
+		
+		Label tituloSitioLabel = new Label("tituloSitio", new PropertyModel<>(TopBarPublic.this, "tituloSitio"));
 		BookmarkablePageLink<Void> pagelink = new BookmarkablePageLink<>("home", Application.get().getHomePage());
+		
+		pagelink.add(tituloSitioLabel);
+		
 		add(pagelink);
 		
 		BookmarkablePageLink<Void> loginLink = new BookmarkablePageLink<>("linkLogin", DashboardLoginPage.class);
@@ -37,10 +49,13 @@ public class TopBarPublic extends Panel {
 		String ext = "";
 		byte[] archivoPicSmallLogo;
 		String nombreArchivoSmallLogo;
-
-		personalizacion = Contexto.getInstance().getManagerBeanRemote().getPersonalizacion();
+		
 		nombreArchivoSmallLogo = personalizacion.getPicSmallLogo();
 		archivoPicSmallLogo = personalizacion.getContPicSmallLogo();
+		
+		
+		
+		
 		if (archivoPicSmallLogo == null) {
 			pagelink.add(new ContextImage("fotoSmallLogo","image/" + nombreArchivoSmallLogo));
 		} else {
