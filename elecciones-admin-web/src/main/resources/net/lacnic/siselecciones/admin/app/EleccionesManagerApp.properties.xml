@@ -387,7 +387,7 @@
 	<entry key="advEditPersonalizTituloLogin">Título del Login de Administrador</entry>
 	<entry key="advEditPersonalizTitLoginDef">Elecciones LACNIC</entry>	
 	<entry key="advEditPersonalizShowHome">Mostrar Home Personalizado</entry>	
-	<entry key="advEditPersonalizHomeHtml">Html Home</entry>
+	<entry key="advEditPersonalizHomeHtml">HTML Home</entry>
 	
 	
 	<!-- United Election List  -->
@@ -679,7 +679,7 @@
 	<entry key="commontBtnAprobAuditConf">Confirmar</entry>
 	<entry key="commontBtnAprobAuditCanc">Cancelar</entry>
 	
-	<entry key="linkEspañol">Link en español:</entry>
+	<entry key="linkEspanol">Link en español:</entry>
 	<entry key="linkIngles">Link en inglés:</entry>
 	<entry key="linkPortugues">Link en portugués:</entry>
 	<entry key="tituloEspanol">Titulo en español:</entry>
