@@ -60,7 +60,7 @@
 	<entry key="homeReleaseNotesContent2">Release Notes</entry>
 	<entry key="homeContactoTitle">Contacto</entry>
 	<entry key="homeContactoContent">¿Desea contactarse con nosotros? </entry>
-	<entry key="homeContactoContent2">mail@lacnic.com</entry>
+	<entry key="homeContactoContent2">desarrollo@lacnic.net</entry>
 	
 	
 	<!-- Login -->
@@ -92,6 +92,7 @@
 	<entry key="baseMail">Correos Bases</entry>
 	<entry key="updateTemplates">Actualizar Plantillas</entry>
 	<entry key="mergedElections">Elecciones Juntas</entry>
+	<entry key="personalization">Personalización</entry>
 	
 	<!-- Elections List -->
 	<entry key="title">Título</entry>
@@ -380,7 +381,14 @@
 	<entry key="advEditPersonalizPicSymbol">Simbolo (.jpg .gif o .png) (80px - 150px)</entry>
 	<entry key="advEditPersonalizErrorProc">Error procesando datos, intente nuevamente</entry>
 	<entry key="advEditPersonalizErrExt">La extensión de la(s) foto(s) debe ser .jpg, .gif ó .png</entry>	
-	<entry key="advEditPersonalizExito">Exito!</entry>	
+	<entry key="advEditPersonalizExito">Exito!</entry>
+	<entry key="advEditPersonalizTituloSitio">Título del sitio</entry>
+	<entry key="advEditPersonalizTitSitioDef">Sistema de Elecciones - Lacnic</entry>
+	<entry key="advEditPersonalizTituloLogin">Título del Login de Administrador</entry>
+	<entry key="advEditPersonalizTitLoginDef">Elecciones LACNIC</entry>	
+	<entry key="advEditPersonalizShowHome">Mostrar Home Personalizado</entry>	
+	<entry key="advEditPersonalizHomeHtml">HTML Home</entry>
+	
 	
 	<!-- United Election List  -->
 	<entry key="unitedElecListTitle">Lista de Elecciones Unidas</entry>
@@ -671,7 +679,7 @@
 	<entry key="commontBtnAprobAuditConf">Confirmar</entry>
 	<entry key="commontBtnAprobAuditCanc">Cancelar</entry>
 	
-	<entry key="linkEspañol">Link en español:</entry>
+	<entry key="linkEspanol">Link en español:</entry>
 	<entry key="linkIngles">Link en inglés:</entry>
 	<entry key="linkPortugues">Link en portugués:</entry>
 	<entry key="tituloEspanol">Titulo en español:</entry>

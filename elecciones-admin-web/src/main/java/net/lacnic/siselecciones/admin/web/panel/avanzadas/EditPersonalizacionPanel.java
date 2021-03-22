@@ -5,13 +5,20 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.validation.validator.StringValidator;
 
 import net.lacnic.siselecciones.admin.app.Contexto;
+import net.lacnic.siselecciones.admin.app.SecurityUtils;
+import net.lacnic.siselecciones.admin.web.commons.LinkValidator;
+import net.lacnic.siselecciones.admin.web.commons.OnOffSwitch;
 import net.lacnic.siselecciones.admin.wicket.util.ImageResource;
 import net.lacnic.siselecciones.dominio.Personalizacion;
 
@@ -29,6 +36,10 @@ public class EditPersonalizacionPanel extends Panel {
 	private String nombreArchivoBigLogo;
 	private byte[] archivoPicSymbol;
 	private String nombreArchivoSymbol;
+	private String tituloSitio;
+	private String tituloLogin;
+	private String homeHtml;
+	
 
 	public EditPersonalizacionPanel(String id) {
 		super(id);
@@ -43,7 +54,10 @@ public class EditPersonalizacionPanel extends Panel {
 		archivoPicSmallLogo = personalizacion.getContPicSmallLogo();
 		archivoPicBigLogo = personalizacion.getContPicBigLogo();
 		archivoPicSymbol = personalizacion.getContPicSimbolo();
-
+		tituloSitio = personalizacion.getTituloSitio();
+		tituloLogin = personalizacion.getTituloLogin();
+		homeHtml = personalizacion.getHomeHtml();
+		
 		Form<Void> form = new Form<>("formPersonalizacion");
 
 		add(form);
@@ -78,6 +92,29 @@ public class EditPersonalizacionPanel extends Panel {
 
 			final FileUploadField fileFotoSymbol = new FileUploadField("symbolPic");
 			form.add(fileFotoSymbol);
+			
+			final TextField<String> tituloSitioTextField = new TextField<>("tituloSitio", new PropertyModel<>(EditPersonalizacionPanel.this, "tituloSitio"));
+			tituloSitioTextField.setRequired(true);
+			form.add(tituloSitioTextField);
+			
+			final TextField<String> tituloLoginTextField = new TextField<>("tituloLogin", new PropertyModel<>(EditPersonalizacionPanel.this, "tituloLogin"));
+			tituloLoginTextField.setRequired(true);
+			form.add(tituloLoginTextField);
+			
+			OnOffSwitch showHomeCtrl = new OnOffSwitch("showHome", new PropertyModel<>(personalizacion, "showHome")) {
+
+				private static final long serialVersionUID = -3214185498258791153L;
+
+				@Override
+				protected void accion() {
+					personalizacion.setShowHome(!personalizacion.isShowHome());
+				}
+
+			};
+			form.add(showHomeCtrl);
+			
+			TextArea<String> homehtmlTxtAr = new TextArea<>("homeHtml", new PropertyModel<>(personalizacion, "homeHtml"));		
+			form.add(homehtmlTxtAr);
 
 			form.add(new Button("editarPersonalizacion") {
 
@@ -132,8 +169,19 @@ public class EditPersonalizacionPanel extends Panel {
 								hayArchivo = true;
 							}
 						}
+						
+						if ((getTituloLogin() == null) || (getTituloLogin().compareTo("") == 0)) {
+							setTituloLogin(getString("advEditPersonalizTitSitioDef"));
+						}
+						if ((getTituloSitio() == null) || (getTituloSitio().compareTo("") == 0)) {
+							setTituloSitio(getString("advEditPersonalizTitSitioDef"));
+						}
+						
+						personalizacion.setTituloLogin(getTituloLogin());
+						personalizacion.setTituloSitio(getTituloSitio());
 
-						if ((!error) && (hayArchivo)) {
+						/*if ((!error) && (hayArchivo)) {*/
+						if ((!error) ) {
 							Contexto.getInstance().getManagerBeanRemote().actualizarPersonalizacion(personalizacion);
 							getSession().info(getString("advEditPersonalizExito"));
 						}
@@ -197,4 +245,21 @@ public class EditPersonalizacionPanel extends Panel {
 		this.nombreArchivoSymbol = nombreArchivoSymbol;
 	}
 
+	public String getTituloSitio() {
+		return tituloSitio;
+	}
+
+	public void setTituloSitio(String tituloSitio) {
+		this.tituloSitio = tituloSitio;
+	}
+
+	public String getTituloLogin() {
+		return tituloLogin;
+	}
+
+	public void setTituloLogin(String tituloLogin) {
+		this.tituloLogin = tituloLogin;
+	}
+	
+	
 }

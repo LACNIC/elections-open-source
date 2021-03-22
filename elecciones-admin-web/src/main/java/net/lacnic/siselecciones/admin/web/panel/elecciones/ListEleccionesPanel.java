@@ -107,7 +107,7 @@ public class ListEleccionesPanel extends Panel {
 								try {
 									boolean esNueva = true;
 									boolean esSupra = false;
-									// Valido si la elección esta junta a otra, entonces NO puedo modificar la fecha de inicio
+									// Valido si la eleccion esta junta a otra, entonces NO puedo modificar la fecha de inicio
 									if (actual.getIdEleccion() == 0) {
 										esNueva = true;
 									} else {

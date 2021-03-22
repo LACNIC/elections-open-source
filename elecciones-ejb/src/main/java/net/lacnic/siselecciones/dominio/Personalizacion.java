@@ -37,6 +37,18 @@ public class Personalizacion implements Serializable {
 
 	@Column(name = "cont_pic_simbolo", nullable = false)
 	private byte[] contPicSimbolo;
+	
+	@Column(name = "titulo_sitio", nullable = false, length = 255)
+	private String tituloSitio;
+	
+	@Column(name = "titulo_login", nullable = false, length = 255)
+	private String tituloLogin;
+	
+	@Column(name = "show_home", nullable = true)
+	private boolean showHome;
+		
+	@Column(name = "home_html", nullable = true, columnDefinition = "TEXT")
+	private String homeHtml;
 
 
 	public Personalizacion() { }
@@ -97,8 +109,43 @@ public class Personalizacion implements Serializable {
 	public void setContPicSimbolo(byte[] contPicSimbolo) {
 		this.contPicSimbolo = contPicSimbolo;
 	}
+	
+	public String getTituloSitio() {
+		return tituloSitio;
+	}
+
+	public void setTituloSitio(String tituloSitio) {
+		this.tituloSitio = tituloSitio;
+	}
+	
+	public String getTituloLogin() {
+		return tituloLogin;
+	}
+
+	public void setTituloLogin(String tituloLogin) {
+		this.tituloLogin = tituloLogin;
+	}
 
 
+	public boolean isShowHome() {
+		return showHome;
+	}
+
+
+	public void setShowHome(boolean showHome) {
+		this.showHome = showHome;
+	}
+
+
+	public String getHomeHtml() {
+		return homeHtml;
+	}
+
+
+	public void setHomeHtml(String homeHtml) {
+		this.homeHtml = homeHtml;
+	}
+	
 
 
 }

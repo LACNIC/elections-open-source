@@ -9,10 +9,57 @@
 	<entry key="privacyPolicyLink">https://www.lacnic.net/politica-privacidad</entry>
 	<entry key="inicio">Início</entry>
 	<entry key="volver">Voltar</entry>
-	<entry key="titulo_h">Sistema de eleições</entry><!-- Landing home page --><entry key="spanish">Espanhol</entry>
+	<entry key="titulo_h">Sistema de eleições</entry>
+	
+	<!-- Landing home page -->
+	<entry key="spanish">Espanhol</entry>
 	<entry key="english">Inglês</entry>
 	<entry key="portuguese">Português</entry>
 	<entry key="homeTitle">Informações gerais do sistema de eleições do LACNIC</entry>
+	<entry key="homeSubtitlePar1">El Sistema de Elecciones es un aplicativo desarrollado por LACNIC
+			que permite implementar y gestionar elecciones en modo completamente remoto. Cada votante 
+			recibe un correo electrónico con un identificador único y un enlace al sistema de 
+			votación que le permitirá acceder a la elección correspondiente, a la información de 
+			los candidatos y ejercer el voto de una forma segura y simple. Una vez finalizada la 
+			elección, el sistema calcula los resultados automáticamente y los presenta.</entry>
+	<entry key="homeSubtitlePar2">El sistema es ampliamente parametrizable, permitiendo ordenar los candidatos, 
+			juntar dos elecciones que se den en la misma fecha y con el mismo padrón, elegir uno o más candidatos 
+			para diferentes puestos y también votantes con distinta cantidad de votos.</entry>
+	<entry key="homeSubtitlePar3">Las elecciones pueden ser auditadas por comisionados electorales y auditores, pudiendo 
+			estos aprobar la elección, asegurando la transparencia y fiabilidad.</entry>
+	<entry key="homeSubtitlePar4">Cuenta con notificaciones parametrizables que permiten a los administradores notificar oportunamente 
+			a los electores, candidatos y auditores sobre diferentes eventos como inicio de elecciones, confirmación 
+			del voto o inicio de auditoría. Permite además definir sus propias notificaciones.</entry>
+
+	<entry key="homeConfigurationTitle">Configuración e Instalación</entry>
+	<entry key="homeConfiguration">El Sistema de Elecciones es una iniciativa open source, desarrollado 
+			con el framework Wicket de Apache. Utiliza Wildfly como servidor de aplicación y PostgreSQL 
+			como motor de base de datos.</entry> 
+	<entry key="homeConfigurationLink">Guía de Instalación y Configuración</entry>
+	
+	<entry key="homeDocumentationTitle">Documentación</entry>
+	<entry key="homeDocumentation">Puede acceder a información sobre las funcionalidades de la aplicación y 
+			ver ejemplos de cómo crear una elección, definir los candidatos, cargar el padrón 
+			electoral, los auditores y más.</entry>
+	<entry key="homeDocumentationLink">Documentación del sistema</entry>
+	
+	<entry key="homeSourceCodeTitle">Código fuente</entry>
+	<entry key="homeSourceCode">El Sistema de Elecciones fue desarrollado por el área técnica 
+			de LACNIC con el espíritu de compartir y disponibilizar el código fuente para 
+			que pueda ser utilizado por quien lo desee.</entry>
+	<entry key="homeSourceCodeLink">Código fuente en GitHub</entry>
+	
+	<entry key="homeReleaseNotesTitle">Release notes</entry>
+	<entry key="homeLicenseTitle">Licencia</entry>
+	<entry key="homeReleaseNotesContent">El último release estable es el 1.XX </entry>
+	<entry key="homeLicenseContent">El sistema de elecciones es un creación de LACNIC © 2014-2020. El sistema esta licenciado bajo </entry>
+	<entry key="homeLicenseContent2">Licencia MIT</entry>
+	<entry key="homeReleaseNotesContent2">Release Notes</entry>
+	<entry key="homeContactoTitle">Contacto</entry>
+	<entry key="homeContactoContent">¿Desea contactarse con nosotros? </entry>
+	<entry key="homeContactoContent2">desarrollo@lacnic.net</entry>
+	
+	
 	<entry key="homeIntroduction">Este sistema foi desenvolvido pela área técnica do LACNIC a fim de facilitar os processos anteriores, concomitantes e posteriores às diferentes eleições administradas pelo LACNIC.</entry>
 	<entry key="voteProcessExample">Exemplo: processo de votação.</entry><!-- Login --><entry key="loginTitle">Eleições LACNIC</entry>
 	<entry key="adminPanel">Painel administrativo</entry>
@@ -38,7 +85,11 @@
 	<entry key="allMail">Correios todos</entry>
 	<entry key="baseMail">Correios bases</entry>
 	<entry key="updateTemplates">Atualizar modelos</entry>
-	<entry key="mergedElections">Eleições juntas</entry><!-- Elections List --><entry key="title">Título</entry>
+	<entry key="mergedElections">Eleições juntas</entry>
+	<entry key="personalization">Costumização</entry>
+	
+	<!-- Elections List -->
+	<entry key="title">Título</entry>
 	<entry key="edit">Editar</entry>
 	<entry key="createDate">Criação</entry>
 	<entry key="startDate">Início</entry>
@@ -277,7 +328,16 @@
 	<entry key="advEditPersonalizPicSymbol">Símbolo (.jpg .gif ou .png) (80px - 150px)</entry>
 	<entry key="advEditPersonalizErrorProc">Erro ao processar dados, tente novamente</entry>
 	<entry key="advEditPersonalizErrExt">A extensão da(s) foto(s) deve ser .jpg, .gif ou .png</entry>	
-	<entry key="advEditPersonalizExito">Sucesso!</entry><!-- United Election List  --><entry key="unitedElecListTitle">Lista de eleições unidas</entry>
+	<entry key="advEditPersonalizExito">Sucesso!</entry>
+	<entry key="advEditPersonalizTituloSitio">Titulo do site</entry>
+	<entry key="advEditPersonalizTitSitioDef">Sistema de Eleições - Lacnic</entry>
+	<entry key="advEditPersonalizTituloLogin">Titulo de Login do Administrador</entry>
+	<entry key="advEditPersonalizTitLoginDef">Eleições LACNIC</entry>
+	<entry key="advEditPersonalizShowHome">Mostrar Home Personalizado</entry>	
+	<entry key="advEditPersonalizHomeHtml">HTML Home</entry>
+	
+	<!-- United Election List  -->
+	<entry key="unitedElecListTitle">Lista de eleições unidas</entry>
 	<entry key="unitedElecListElec1">Eleição 1</entry>
 	<entry key="unitedElecListElec2">Eleição 2</entry>
 	<entry key="unitedElecListExitoDel">União removida.</entry><!-- Commissioners List  --><entry key="commissionerListTitle">Lista de comissionados</entry>
@@ -459,7 +519,7 @@
 	<entry key="commontBtnAprobAuditConf">Confirmar</entry>
 	<entry key="commontBtnAprobAuditCanc">Cancelar</entry>
 	
-	<entry key="linkEspañol">Link em espanhol:</entry>
+	<entry key="linkEspanol">Link em espanhol:</entry>
 	<entry key="linkIngles">Link em inglês:</entry>
 	<entry key="linkPortugues">Link em português:</entry>
 	<entry key="tituloEspanol">Título em espanhol:</entry>
