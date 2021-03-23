@@ -20,3 +20,7 @@ Puede consultar la guía de Instalación y Configuración [aquí](https://lacnic
 ## Licencia
 
 El sistema está licenciado bajo [Licencia MIT](LICENSE).
+
+## Release notes
+
+Consulte las Release notes [aquí](doc/ReleaseNotes.md)

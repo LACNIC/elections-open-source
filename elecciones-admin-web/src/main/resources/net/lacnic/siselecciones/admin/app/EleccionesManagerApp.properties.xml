@@ -54,10 +54,10 @@
 	
 	<entry key="homeReleaseNotesTitle">Release notes</entry>
 	<entry key="homeLicenseTitle">Licencia</entry>
-	<entry key="homeReleaseNotesContent">El último release estable es el 1.XX </entry>
+	<entry key="homeReleaseNotesContent">El último release estable es el 1.1. Consulte las </entry>
+	<entry key="homeReleaseNotesContent2">Release Notes</entry>
 	<entry key="homeLicenseContent">El sistema de elecciones es un creación de LACNIC © 2014-2020. El sistema esta licenciado bajo </entry>
 	<entry key="homeLicenseContent2">Licencia MIT</entry>
-	<entry key="homeReleaseNotesContent2">Release Notes</entry>
 	<entry key="homeContactoTitle">Contacto</entry>
 	<entry key="homeContactoContent">¿Desea contactarse con nosotros? </entry>
 	<entry key="homeContactoContent2">desarrollo@lacnic.net</entry>
