@@ -1,6 +1,6 @@
-## Release Notes
-
-### v1.1 (22/03/2021)
+# Release Notes
+  
+## v1.1 (22/03/2021)
 
 #### Destacados
 
@@ -21,9 +21,10 @@ alter table public.personalizacion add titulo_login character varying(255) COLLA
 alter table public.personalizacion add show_home boolean;
 alter table public.personalizacion add home_html text COLLATE pg_catalog."default";
 update public.personalizacion set titulo_sitio = 'Sistema de Elecciones - Lacnic', titulo_login = 'Elecciones LACNIC', show_home = false where id_personalizacion = 1;
-```
+```  
+  
 
-### v1.0 (21/01/2021)
+## v1.0 (21/01/2021)
 
 #### Destacados
 
