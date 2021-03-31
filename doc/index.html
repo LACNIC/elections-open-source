@@ -9,15 +9,23 @@ link_repo: https://github.com/LACNIC/elections-open-source
 	<div class="col-lg-12">
 		<div class="ibox">
 			<div class="ibox-title">
-				<h1>{{ "Instalación y configuración del Sistema de Elecciones" }}</h1>
+				<h1>{{ "Instalación, configuración y actualización del Sistema de Elecciones" }}</h1>
 			</div>
 			<div class="ibox-content">
 				<p class="paragraph">El Sistema de Elecciones es una iniciativa open source de LACNIC. Está desarrollado en Java usando el framework Wicket de Apache, corre sobre WildFly como servidor de aplicaciones y usa PostgreSQL como motor de base de datos.</p>
+				<br>
+
+				<h2>{{ "Instalación y configuración" }}</h2>
 				<p class="paragraph">Para la instalación y configuración inicial del sistema se tienen dos opciones: automática y manual. En ambos casos se ofrecen instructivos paso a paso para los sistemas operativos Ubuntu Server 18, Debian 10 y CentOS/RedHat 7:</p>
+				
 				<ul class="paragraph">
 					<li><b>Instalación automática:</b> se definieron tareas Ansible para el aprovisionamiento completo del ambiente, puede seguir <a href="{{site.baseurl}}/ansible.html">aquí</a> las instrucciones paso a paso.</li>
 					<li><b>Instalación manual:</b> si prefiere ejecutar manualmente la instalación, puede seguir <a href="{{site.baseurl}}/manual.html">aquí</a> las instrucciones paso a paso.</li>
 				</ul>
+				<br>
+
+				<h2>{{ "Actualización" }}</h2>
+				<p class="paragraph">Cuando se libera una nueva versión del Sistema de Elecciones (ver <a href="{{page.link_repo}}/blob/main/doc/ReleaseNotes.md" target="_blank">Release notes</a>), puede actualizarlo siguiendo <a href="{{site.baseurl}}/update.html">esta guía</a>.</p>
 			</div>
 		</div>
 	</div>

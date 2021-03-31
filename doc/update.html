@@ -1,0 +1,36 @@
+--- 
+layout: default
+title: Sistema Elecciones
+link_logo: http://elecciones-demo.lacnic.net.uy/elecciones
+link_title: http://elecciones-demo.lacnic.net.uy/elecciones
+link_repo: https://github.com/LACNIC/elections-open-source
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Actualización del Sistema de Elecciones" }}</h1>
+			</div>
+			<div class="ibox-content">
+                <p class="paragraph">El proceso de actualización del sistema consiste de 3 pasos: obtener la última versión, ejecutar scripts de base de datos (si es necesario) y publicar la nueva versión. A continuación un detalle de estos pasos.</p>
+                <br>
+
+                <h2>Descarga de última versión:</h2>
+                <p class="paragraph">En el directorio donde haya clonado el repositorio, ejecute <code>git pull</code> para descargar la última versión.</p>
+                <br>
+
+                <h2>Ejecución de scripts de base de datos:</h2>
+                <p class="paragraph">Algunas versiones incluyen cambios a nivel de base de datos. En estos casos, se proveen los scripts en los <a href="{{page.link_repo}}/blob/main/doc/ReleaseNotes.md" target="_blank">Release notes</a>.</p>
+                <p class="paragraph"> <b>Importante:</b> debe ejecutar, en orden, todos los scripts desde su versión actual hasta la versión que está instalando.</p>
+                <br>
+
+                <h2>Empaquetado y publicación:</h2>
+                <p class="paragraph">Los procedimientos para empaquetado y publicación son los mismos que cuando se instala por primera vez. Se tienen dos opciones:</p>
+                <ul class="paragraph">
+                    <li>Copiar los artefactos provistos en el repositorio, o los generados con Maven, al directorio <code>deployments</code> de su instalación de Wildfly. Puede encontrar más detalles sobre esta opción <a href="{{site.baseurl}}/manual.html#deploy">aquí</a>.</li>
+                    <li>Usar el playbook Ansible provisto para publicación de los artefactos. Puede encontrar más detalles sobre esta opción <a href="{{site.baseurl}}//ansible.html#adicionales">aquí</a>.</li>
+                </ul>
+            </div>
+        </div>
+	</div>
+</div>
