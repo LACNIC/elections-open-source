@@ -9,15 +9,15 @@ link_repo: https://github.com/LACNIC/elections-open-source
 	<div class="col-lg-12">
 		<div class="ibox">
 			<div class="ibox-title">
-				<h1>{{ "Servicios Disponibles en el sistema de Elecciones" }}</h1>
+				<h1>{{ "Servicios Disponibles en el Sistema de Elecciones" }}</h1>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El sistema de elecciones cuenta con un set de servicios a los cuales brinda acceso. Los mismo se pueden ubicar en el repositorio, en el siguiente <a href="https://github.com/LACNIC/elections-open-source/tree/main/elecciones-services">proyecto</a>.</p>
-        <p class="paragraph">Previo a la  utilización de servicios se deben configurar la seguridad para que el servicio autentique correctamente. Esto se logra mediante un token y una lista blanca de IPs.</p>
+        <p class="paragraph">El Sistema de Elecciones cuenta con un set de servicios REST, desarrollados en el módulo <code>elecciones-services</code> disponible en el <a href="{{ page.link_repo }}/tree/main/elecciones-services" target="_blank">repositorio</a>. Estos servicios quedan accesibles en la URL base <code>http://&lt;IP&gt;:&lt;puerto&gt;/elecciones-ws</code>.</p>
+        <p class="paragraph">Para usar los servicios son necesarias configuraciones de seguridad, consistentes en token de autenticación y filtrado IP:</p>
         <ul class="paragraph vertical-space">
 					<li><a href="#seguridad">Configuración de Seguridad</a></li>
         </ul>
-        <p class="paragraph">A continuación se detallan lo servicios disponibles:</p>
+        <p class="paragraph">A continuación un detalle de lo servicios disponibles:</p>
         <ol class="paragraph vertical-space">
 					<li><a href="#getHC">Health Check</a></li>
           <li><a href="#getParticipaciones">Participaciones</a></li>
@@ -35,10 +35,12 @@ link_repo: https://github.com/LACNIC/elections-open-source
         <h2>{{ "Configuración de Seguridad" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">Como autenticación, los servicios utilizan tanto un token como una lista blanca de IPs.</p>
-        <p class="paragraph">El token se debe incluir en el header del request, en el item <code>AuthToken</code>. El valor del token debe coincidir con lo parametrizado en el parametro del sistema <code>WS_AUTH_TOKEN</code>.</p>
-        <p class="paragraph">Para la lista blanca de IPs el servicio obtiene la IP del request y valida que este incluida en la lista de IPs parametrizada en el parámetro del sistema <code>WS_IPS_HABILITADAS</code>.</p>
-        <p class="paragraph">Para obtener un detalle de estos parámetros y donde se ingresan los mismos en el aplicativo referirse al siguiente <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documento</a>.</p>
+        <p class="paragraph">Los servicios cuentan con dos niveles de seguridad: autenticación y filtrado por lista blanca de IPs.</p>
+        <h3>Autenticación:</h3>
+        <p class="paragraph">Se debe incluir un token como header del request, con nombre <code>AuthToken</code>. El valor del token debe coincidir con el del parámetro <code>WS_AUTH_TOKEN</code> del sistema.</p>
+        <h3>Filtrado por IP:</h3>
+        <p class="paragraph">Para el filtrado por IP, el sistema chequea la IP de origen del request contra una lista blanca de IPs configurada en el parámetro <code>WS_IPS_HABILITADAS</code> del sistema. Este parámetro puede contener tanto IPs individuales como rangos.</p>
+        <p class="paragraph">Puede consultar la <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documentación de configuración inicial del sistema</a> para ver en detalle cómo configurar estos parámetros.</p>
       </div>
     </div>
   </div>
@@ -51,8 +53,8 @@ link_repo: https://github.com/LACNIC/elections-open-source
         <h2>{{ "1. Health Check" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El servicio HealthCheck se encarga de obtener diversos indicadores del funcionamiento del aplicativo.</p>
-        <p class="paragraph">La información que incluye es:</p>
+        <p class="paragraph">El servicio HealthCheck se encarga de obtener diversos indicadores del funcionamiento del sistema. Se invoca con <code>GET</code> al endpoint <code>URL_BASE/hc</code>.</p>
+        <p class="paragraph">Incluye la siguiente información:</p>
         <ul class="paragraph vertical-space">
 					<li>Intentos de envío de correo electrónico.</li>
           <li>Cantidad diferente de IPs que tuvieron un intento fallido de ingreso.</li>
@@ -73,7 +75,7 @@ link_repo: https://github.com/LACNIC/elections-open-source
         <h2>{{ "2. Participaciones" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El servicio de Participaciones lo que hace es obtener el detalle de una organización en el contexto de las elecciones del sistema. Se recibe como parámetro el id de la organización a buscar.</p>
+        <p class="paragraph">El servicio de Participaciones obtiene el detalle de integrantes de una organizaciónen el contexto de las elecciones del sistema (este dato se especifica, opcionalmente, para cada votante en el padrón de una elección). Recibe como parámetro el id de la organización a buscar. Se invoca con <code>GET</code> al endpoint <code>URL_BASE/participaciones/{ org }</code>.</p>
         <p class="paragraph">La información que obtiene, para cada elección del sistema es:</p>
         <ul class="paragraph vertical-space">
 					<li>Si la organización buscada pertenece al padrón de la elección, se obtiene el nombre, mail, país, link de votación y si ya votó.</li>
@@ -95,7 +97,7 @@ link_repo: https://github.com/LACNIC/elections-open-source
         <h2>{{ "3. Elecciones" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El servicio de elecciones, no recibe parámetros y lo hace es obtener un listado de todas las elecciones del sistema.</p>
+        <p class="paragraph">El servicio de elecciones devuelve información sobre todas las elecciones del sistema. Se invoca con <code>GET</code> al endpoint <code>URL_BASE/elecciones</code>.</p>
         <p class="paragraph">La información que obtiene, para cada elección del sistema es:</p>
         <ul class="paragraph vertical-space">
 					<li>Identificador de la elección.</li>
