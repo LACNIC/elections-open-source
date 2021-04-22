@@ -1,4 +1,16 @@
 # Release Notes
+
+## v1.2 (22/04/2021)
+
+#### Destacados
+
+* Nueva versión disponible!
+
+#### Nuevas funcionalidades y correcciones:
+
+* Corrección de dependencia en módulo de servicios.
+* Actualización de documentación.
+
   
 ## v1.1 (22/03/2021)
 
