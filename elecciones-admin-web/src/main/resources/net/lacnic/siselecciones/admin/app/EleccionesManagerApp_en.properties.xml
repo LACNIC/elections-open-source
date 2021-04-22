@@ -42,6 +42,7 @@
 			ver ejemplos de cómo crear una elección, definir los candidatos, cargar el padrón 
 			electoral, los auditores y más.</entry>
 	<entry key="homeDocumentationLink">Documentación del sistema</entry>
+	<entry key="homeDocumentationServicesLink">Documentación de servicios</entry>
 	
 	<entry key="homeSourceCodeTitle">Código fuente</entry>
 	<entry key="homeSourceCode">El Sistema de Elecciones fue desarrollado por el área técnica 

@@ -3,10 +3,12 @@ package net.lacnic.ws.elecciones.app;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import net.lacnic.ws.elecciones.EleccionesService;
 
+@ApplicationPath("/")
 public class EleccionesServicesApplication extends Application {
 
 	@Override
