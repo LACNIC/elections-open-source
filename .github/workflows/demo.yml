@@ -49,13 +49,16 @@ jobs:
         with:
           name: lacnic-elecciones-build
 
-      - name: Build maven settings file
-        uses: s4u/maven-settings-action@v2.1.1
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
         with:
-          servers: '[{ "id": "wildfly-elecciones-demo", "username": "${{ secrets.WILDFLY_ADMIN_USER }}", "password": "${{ secrets.WILDFLY_ADMIN_PWD }}" }]'
+          key: ${{ secrets.ID_ED25519 }}
 
-      - name: Deploy artifacts
-        run: mvn wildfly:deploy-only -Dwildfly.id=wildfly-elecciones-demo -Dwildfly.hostname=elecciones-demo.lacnic.net.uy -Dwildfly.port=9898
+      - name: Add server to known hosts
+        run: ssh-keyscan -H ${{ secrets.DEMO_HOSTNAME }} >> ~/.ssh/known_hosts
 
-      #- name: Display structure of downloaded files
-      #  run: ls -R
+      - name: Copy artifacts to server with rsync
+        run: rsync -avz . ${{ secrets.SSH_USER }}@${{ secrets.DEMO_HOSTNAME }}:${{ secrets.DEPLOY_WORK_DIR }}/artifacts/
+
+      - name: Copy artifacts to server with rsync
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEMO_HOSTNAME }} "bash && {{ secrets.DEPLOY_WORK_DIR }}/deploy.sh >> {{ secrets.DEPLOY_WORK_DIR }}/deploy.log"
