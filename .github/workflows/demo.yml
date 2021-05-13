@@ -62,4 +62,4 @@ jobs:
         run: rsync -avz . ${{ secrets.SSH_USER }}@${{ secrets.DEMO_HOSTNAME }}:${{ secrets.DEPLOY_WORK_DIR }}/artifacts/
 
       - name: Copy artifacts to server with rsync
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEMO_HOSTNAME }} "bash && {{ secrets.DEPLOY_WORK_DIR }}/deploy.sh >> {{ secrets.DEPLOY_WORK_DIR }}/deploy.log"
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEMO_HOSTNAME }} "{{ secrets.DEPLOY_WORK_DIR }}/deploy.sh >> {{ secrets.DEPLOY_WORK_DIR }}/deploy.log"
