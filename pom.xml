@@ -5,15 +5,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.lacnic</groupId>
-	<artifactId>elecciones-parent</artifactId>
+	<artifactId>elections-parent</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0</version>
 	<name>elections-open-source</name>
 
 	<modules>
-		<module>elecciones-ejb</module>
-		<module>elecciones-admin-web</module>
-		<module>elecciones-services</module>
+		<module>elections-ejb</module>
+		<module>elections-admin-web</module>
+		<module>elections-services</module>
 	</modules>
 
 	<properties>

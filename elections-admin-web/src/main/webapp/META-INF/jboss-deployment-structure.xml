@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jboss-deployment-structure>
+	<!-- Make sub deployments isolated by default, so they cannot see each others classes without a Class-Path entry -->
+	<ear-subdeployments-isolated>false</ear-subdeployments-isolated>
+	<!-- This corresponds to the top level deployment. For a war this is the war's module, for an ear -->
+	<!-- This is the top level ear module, which contains all the classes in the EAR's lib folder     -->
+	<deployment>
+		<dependencies>
+			<module name="org.jboss.ejb-client" />
+			<module name="deployment.elections-ejb.jar" />
+		</dependencies>
+	</deployment>
+</jboss-deployment-structure>
