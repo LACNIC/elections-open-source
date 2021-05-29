@@ -17,7 +17,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarPlantilla;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEnviarEmailPaso1;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.TemplateEleccion;
+import net.lacnic.elections.domain.TemplateElection;
 import net.lacnic.elections.utils.Constants;
 
 public class ListaPlantillasPanel extends Panel {
@@ -28,33 +28,33 @@ public class ListaPlantillasPanel extends Panel {
 
 	public ListaPlantillasPanel(String id, long idEleccion) {
 		super(id);
-		List<TemplateEleccion> listPlantillasBase = AppContext.getInstance().getManagerBeanRemote().obtenerTemplatesEleccion(idEleccion);
-		Collections.sort(listPlantillasBase, new Comparator<TemplateEleccion>() {
+		List<TemplateElection> listPlantillasBase = AppContext.getInstance().getManagerBeanRemote().obtenerTemplatesEleccion(idEleccion);
+		Collections.sort(listPlantillasBase, new Comparator<TemplateElection>() {
 
 			@Override
-			public int compare(TemplateEleccion o1, TemplateEleccion o2) {
-				return o1.getTipoTemplate().equals(Constants.TemplateTypeNEW) ? -1 : o2.getTipoTemplate().equals(Constants.TemplateTypeNEW) ? 1 : o1.getTipoTemplate().compareTo(o2.getTipoTemplate());
+			public int compare(TemplateElection o1, TemplateElection o2) {
+				return o1.getTemplateType().equals(Constants.TemplateTypeNEW) ? -1 : o2.getTemplateType().equals(Constants.TemplateTypeNEW) ? 1 : o1.getTemplateType().compareTo(o2.getTemplateType());
 			}
 		});
 		init(listPlantillasBase, idEleccion);
 	}
 
-	private void init(List<TemplateEleccion> plantillasBase, long idEleccion) {
+	private void init(List<TemplateElection> plantillasBase, long idEleccion) {
 		try {
-			final ListView<TemplateEleccion> dataViewTemplates = new ListView<TemplateEleccion>("listaPlantillas", plantillasBase) {
+			final ListView<TemplateElection> dataViewTemplates = new ListView<TemplateElection>("listaPlantillas", plantillasBase) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<TemplateEleccion> item) {
-					final TemplateEleccion actual = item.getModelObject();
+				protected void populateItem(ListItem<TemplateElection> item) {
+					final TemplateElection actual = item.getModelObject();
 					try {
-						item.add(new Label("asuntoEN", actual.getAsuntoEN()));
-						item.add(new MultiLineLabel("cuerpoEN", actual.getCuerpoEN()));
-						item.add(new Label("asuntoES", actual.getAsuntoES()));
-						item.add(new MultiLineLabel("cuerpoES", actual.getCuerpoES()));
-						item.add(new Label("asuntoPT", actual.getAsuntoPT()));
-						item.add(new MultiLineLabel("cuerpoPT", actual.getCuerpoPT()));
-						item.add(new Label("tipo", actual.getTipoTemplate()));
+						item.add(new Label("asuntoEN", actual.getSubjectEN()));
+						item.add(new MultiLineLabel("cuerpoEN", actual.getBodyEN()));
+						item.add(new Label("asuntoES", actual.getSubjectSP()));
+						item.add(new MultiLineLabel("cuerpoES", actual.getBodySP()));
+						item.add(new Label("asuntoPT", actual.getSubjectPT()));
+						item.add(new MultiLineLabel("cuerpoPT", actual.getBodyPT()));
+						item.add(new Label("tipo", actual.getTemplateType()));
 
 						Link<Void> enviarEmail = new Link<Void>("enviarEmail") {
 
@@ -63,7 +63,7 @@ public class ListaPlantillasPanel extends Panel {
 							@Override
 							public void onClick() {
 								try {
-									setResponsePage(new DashboardEnviarEmailPaso1(actual.getTipoTemplate(), UtilsParameters.getId(idEleccion)));
+									setResponsePage(new DashboardEnviarEmailPaso1(actual.getTemplateType(), UtilsParameters.getId(idEleccion)));
 								} catch (Exception e) {
 									appLogger.error(e);
 								}
@@ -79,7 +79,7 @@ public class ListaPlantillasPanel extends Panel {
 							@Override
 							public void onClick() {
 								try {
-									setResponsePage(new DashboardEditarPlantilla(actual.getTipoTemplate(), UtilsParameters.getId(idEleccion)));
+									setResponsePage(new DashboardEditarPlantilla(actual.getTemplateType(), UtilsParameters.getId(idEleccion)));
 								} catch (Exception e) {
 									appLogger.error(e);
 								}
@@ -92,8 +92,8 @@ public class ListaPlantillasPanel extends Panel {
 					}
 				}
 
-				private boolean botonEnviarVisible(TemplateEleccion actual) {
-					return (!(actual.getTipoTemplate().equals(Constants.TemplateTypeAUDITOR_AGREEMENT) || actual.getTipoTemplate().equals(Constants.TemplateTypeVOTE_CODES) || actual.getTipoTemplate().equals(Constants.TemplateTypeAUDITOR_REVISION)));
+				private boolean botonEnviarVisible(TemplateElection actual) {
+					return (!(actual.getTemplateType().equals(Constants.TemplateTypeAUDITOR_AGREEMENT) || actual.getTemplateType().equals(Constants.TemplateTypeVOTE_CODES) || actual.getTemplateType().equals(Constants.TemplateTypeAUDITOR_REVISION)));
 				}
 			};
 			add(dataViewTemplates);

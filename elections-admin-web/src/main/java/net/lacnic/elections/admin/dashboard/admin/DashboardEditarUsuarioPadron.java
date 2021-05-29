@@ -12,14 +12,14 @@ import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.panel.usuariopadron.CamposUsuarioPadronPanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.exception.CensusValidationException;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardEditarUsuarioPadron extends DashboardAdminBasePage {
 
 	private static final long serialVersionUID = -4584362258132685785L;
-	private UsuarioPadron up;
+	private UserVoter up;
 	private String nombre;
 	private String email;
 	private Integer cantVotos;
@@ -31,12 +31,12 @@ public class DashboardEditarUsuarioPadron extends DashboardAdminBasePage {
 		super(params);
 		long idUsuarioPadron = UtilsParameters.getUserAsLong(params);
 		up = AppContext.getInstance().getManagerBeanRemote().obtenerUsuarioPadron(idUsuarioPadron);
-		nombre = up.getNombre();
+		nombre = up.getName();
 		email = up.getMail();
-		cantVotos = up.getCantVotos();
+		cantVotos = up.getVoteAmount();
 		orgID = up.getOrgID();
-		pais = up.getPais();
-		idioma = up.getIdioma();
+		pais = up.getCountry();
+		idioma = up.getLanguage();
 
 		add(new FeedbackPanel("feedback"));
 		Form<Void> formUsuario = new Form<>("formUsuario");
@@ -51,14 +51,14 @@ public class DashboardEditarUsuarioPadron extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				// TODO revisar comparación de pais y orgID redundante
-				if (!(email.equalsIgnoreCase(up.getMail())) || !(nombre.equalsIgnoreCase(up.getNombre())) || !(cantVotos.equals(up.getCantVotos())) 
+				if (!(email.equalsIgnoreCase(up.getMail())) || !(nombre.equalsIgnoreCase(up.getName())) || !(cantVotos.equals(up.getVoteAmount())) 
 						|| (orgID != null && !(orgID.equalsIgnoreCase(up.getOrgID()))) || (up.getOrgID() != null && !(up.getOrgID().equalsIgnoreCase(orgID))) 
-						|| (pais != null && !(pais.equalsIgnoreCase(up.getPais()))) || (up.getPais() != null && !(up.getPais().equalsIgnoreCase(pais))) 
-						|| !(idioma.equalsIgnoreCase(up.getIdioma()))) {
+						|| (pais != null && !(pais.equalsIgnoreCase(up.getCountry()))) || (up.getCountry() != null && !(up.getCountry().equalsIgnoreCase(pais))) 
+						|| !(idioma.equalsIgnoreCase(up.getLanguage()))) {
 					try {
 						AppContext.getInstance().getManagerBeanRemote().editarUsuarioPadron(getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("censusManagementUserEditExito"));
-						setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getEleccion().getIdEleccion()));
+						setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getElection().getIdElection()));
 					} catch (CensusValidationException e) {
 						error(getString(e.getMessage()));
 					}
@@ -74,17 +74,17 @@ public class DashboardEditarUsuarioPadron extends DashboardAdminBasePage {
 			@Override
 			public void onClick() {
 
-				setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getEleccion().getIdEleccion()));
+				setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getElection().getIdElection()));
 			}
 
 		});
 	}
 
-	public UsuarioPadron getUp() {
+	public UserVoter getUp() {
 		return up;
 	}
 
-	public void setUp(UsuarioPadron up) {
+	public void setUp(UserVoter up) {
 		this.up = up;
 	}
 

@@ -16,7 +16,7 @@ import net.lacnic.elections.admin.dashboard.error.Error401;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.commons.UtilsString;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.UsuarioAdmin;
+import net.lacnic.elections.domain.UserAdmin;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage {
@@ -30,7 +30,7 @@ public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage
 		super(params);
 		if (SecurityUtils.getIdEleccionAutorizado() !=0 && !UtilsParameters.getAdminId(params).equalsIgnoreCase(SecurityUtils.getAdminId()))
 			setResponsePage(Error401.class);
-		UsuarioAdmin admin = AppContext.getInstance().getManagerBeanRemote().obtenerUsuarioAdmin(UtilsParameters.getAdminId(params));
+		UserAdmin admin = AppContext.getInstance().getManagerBeanRemote().obtenerUsuarioAdmin(UtilsParameters.getAdminId(params));
 		pass = admin.getPassword();
 		add(new FeedbackPanel("feedback"));
 		Form<Void> formAdmin = new Form<>("formAdmin");
@@ -61,7 +61,7 @@ public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage
 						AppContext.getInstance().getManagerBeanRemote().editarPassAdmin(admin.getUserAdminId(), UtilsString.wantHashMd5(getPassword()), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("adminUserEditExito"));
 					}
-					if(admin.getIdEleccionAutorizado()==0)
+					if(admin.getIdElectionAuthorized()==0)
 						setResponsePage(DashboardAdministradores.class);
 					else
 						setResponsePage(DashboardHomePage.class);
@@ -79,7 +79,7 @@ public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage
 
 			@Override
 			public void onClick() {
-				if(admin.getIdEleccionAutorizado()==0)
+				if(admin.getIdElectionAuthorized()==0)
 					setResponsePage(DashboardAdministradores.class);
 				else
 					setResponsePage(DashboardHomePage.class);

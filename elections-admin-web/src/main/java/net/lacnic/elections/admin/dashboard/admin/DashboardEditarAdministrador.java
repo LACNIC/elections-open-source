@@ -17,8 +17,8 @@ import net.lacnic.elections.admin.dashboard.error.Error401;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.commons.DropDownEleccion;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.UsuarioAdmin;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.UserAdmin;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardEditarAdministrador extends DashboardAdminBasePage {
@@ -26,18 +26,18 @@ public class DashboardEditarAdministrador extends DashboardAdminBasePage {
 	private static final long serialVersionUID = -4584362258132685785L;
 
 	private String email;
-	private Eleccion eleccionAutorizado;
+	private Election eleccionAutorizado;
 
 	public DashboardEditarAdministrador(PageParameters params) {
 		super(params);
 		if (SecurityUtils.getIdEleccionAutorizado() != 0 && !UtilsParameters.getAdminId(params).equalsIgnoreCase(SecurityUtils.getAdminId()))
 			setResponsePage(Error401.class);
-		UsuarioAdmin admin = AppContext.getInstance().getManagerBeanRemote().obtenerUsuarioAdmin(UtilsParameters.getAdminId(params));
+		UserAdmin admin = AppContext.getInstance().getManagerBeanRemote().obtenerUsuarioAdmin(UtilsParameters.getAdminId(params));
 
 		email = admin.getEmail();
-		eleccionAutorizado = new Eleccion(admin.getIdEleccionAutorizado());
-		if (admin.getIdEleccionAutorizado() != 0)
-			eleccionAutorizado.setTituloEspanol(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(admin.getIdEleccionAutorizado()).getTituloEspanol());
+		eleccionAutorizado = new Election(admin.getIdElectionAuthorized());
+		if (admin.getIdElectionAuthorized() != 0)
+			eleccionAutorizado.setTitleSpanish(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(admin.getIdElectionAuthorized()).getTitleSpanish());
 
 		Form<Void> formAdmin = new Form<>("formAdmin");
 		add(formAdmin);
@@ -58,8 +58,8 @@ public class DashboardEditarAdministrador extends DashboardAdminBasePage {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				if (!(email.equalsIgnoreCase(admin.getEmail()) && getEleccionAutorizado().getIdEleccion() == admin.getIdEleccionAutorizado().longValue())) {
-					AppContext.getInstance().getManagerBeanRemote().editarUsuarioAdmin(admin, email, getEleccionAutorizado().getIdEleccion(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+				if (!(email.equalsIgnoreCase(admin.getEmail()) && getEleccionAutorizado().getIdElection() == admin.getIdElectionAuthorized().longValue())) {
+					AppContext.getInstance().getManagerBeanRemote().editarUsuarioAdmin(admin, email, getEleccionAutorizado().getIdElection(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("adminUserEditUsrExito"));
 				}
 				setResponsePage(DashboardAdministradores.class);
@@ -79,11 +79,11 @@ public class DashboardEditarAdministrador extends DashboardAdminBasePage {
 		});
 	}
 
-	public Eleccion getEleccionAutorizado() {
+	public Election getEleccionAutorizado() {
 		return eleccionAutorizado;
 	}
 
-	public void setEleccionAutorizado(Eleccion eleccionAutorizado) {
+	public void setEleccionAutorizado(Election eleccionAutorizado) {
 		this.eleccionAutorizado = eleccionAutorizado;
 	}
 

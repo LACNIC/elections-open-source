@@ -42,12 +42,12 @@ public class ListaMensajesPanel extends Panel {
 				protected void populateItem(ListItem<Email> item) {
 					final Email actual = item.getModelObject();
 					try {
-						item.add(new Label("enviado", Boolean.TRUE.equals(actual.getEnviado()) ? "Enviado" : "Por enviar"));
-						item.add(new Label("instante", actual.getTipoMail()));
-						item.add(new Label("tipo", actual.getTipoMail()));
-						item.add(new Label("destinatario", actual.getDestinatarios()));
+						item.add(new Label("enviado", Boolean.TRUE.equals(actual.getSent()) ? "Enviado" : "Por enviar"));
+						item.add(new Label("instante", actual.getTemplateType()));
+						item.add(new Label("tipo", actual.getTemplateType()));
+						item.add(new Label("destinatario", actual.getRecipients()));
 						item.add(new MultiLineLabel("cuerpo", "No Disponible"));
-						item.add(new Label("asunto", actual.getAsunto()));
+						item.add(new Label("asunto", actual.getSubject()));
 
 					} catch (Exception e) {
 						error(e.getMessage());

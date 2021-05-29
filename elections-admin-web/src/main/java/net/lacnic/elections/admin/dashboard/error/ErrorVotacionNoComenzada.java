@@ -13,7 +13,7 @@ import org.apache.wicket.util.time.Duration;
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.dashboard.user.DashboardVotar;
 import net.lacnic.elections.admin.web.bases.DashboardPublicBasePage;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.UserVoter;
 
 public class ErrorVotacionNoComenzada extends DashboardPublicBasePage {
 
@@ -52,15 +52,15 @@ public class ErrorVotacionNoComenzada extends DashboardPublicBasePage {
 
 	@Override
 	public Class validarToken(PageParameters params) {
-		UsuarioPadron upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(getToken());
+		UserVoter upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(getToken());
 		if (upd == null) {
 			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
 			return Error404.class;
 		} else {
-			setEleccion(upd.getEleccion());
-			if (getEleccion().isComenzo()) {
+			setEleccion(upd.getElection());
+			if (getEleccion().isStarted()) {
 				setResponsePage(DashboardVotar.class, getPageParameters());
-			} else if (getEleccion().isTermino() || !getEleccion().isHabilitadoLinkVotacion()) {
+			} else if (getEleccion().isFinished() || !getEleccion().isVotingLinkAvailable()) {
 				setResponsePage(ErrorVotacionNoPublica.class, getPageParameters());
 			}
 		}
@@ -68,7 +68,7 @@ public class ErrorVotacionNoComenzada extends DashboardPublicBasePage {
 	}
 
 	private void calcularCounter() {
-		distance = getEleccion().getFechaInicio().getTime() - new Date().getTime();
+		distance = getEleccion().getStartDate().getTime() - new Date().getTime();
 		long days = distance / (1000 * 60 * 60 * 24);
 		long hours = (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
 		long minutes = (distance % (1000 * 60 * 60)) / (1000 * 60);

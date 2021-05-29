@@ -16,9 +16,9 @@ import net.lacnic.elections.dao.ReportDao;
 import net.lacnic.elections.data.EleccionReporte;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participacion;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.EleccionLight;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ElectionLight;
+import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.ejb.MonitorEleccionesEJB;
 import net.lacnic.elections.ejb.commons.impl.ProcesosAutomaticos;
 import net.lacnic.elections.utils.Constants;
@@ -85,18 +85,18 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 	@Override
 	public List<Participacion> obtenerParticipacionesOrgId(String org) {
 		List<Participacion> participaciones = new ArrayList<>();
-		List<Eleccion> elecciones = DaoFactoryElecciones.createEleccionDao(em).obtenerEleccionesDesc();
-		for (Eleccion eleccion : elecciones) {
-			UsuarioPadron up = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuariosPadronOrgId(org, eleccion.getIdEleccion());
+		List<Election> elecciones = DaoFactoryElecciones.createEleccionDao(em).obtenerEleccionesDesc();
+		for (Election eleccion : elecciones) {
+			UserVoter up = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuariosPadronOrgId(org, eleccion.getIdElection());
 			Participacion p = new Participacion();
-			p.setCategoria(eleccion.getCategoria().toString());
+			p.setCategoria(eleccion.getCategory().toString());
 			if (up != null) {
 				p.setEmail(up.getMail());
-				p.setNombre(up.getNombre());
-				p.setPais(up.getPais());
-				p.setYaVoto(up.isYaVoto());
-				if (eleccion.isHabilitadaParaVotar()) {
-					p.setLinkVotar(up.getLinkVotar());
+				p.setNombre(up.getName());
+				p.setPais(up.getCountry());
+				p.setYaVoto(up.isVoted());
+				if (eleccion.isEnabledToVote()) {
+					p.setLinkVotar(up.getVoteLink());
 				} else {
 					p.setLinkVotar("");
 				}
@@ -107,15 +107,15 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 				p.setYaVoto(false);
 				p.setLinkVotar("");
 			};			
-			p.setFechaFinEleccion(eleccion.getFechaFin());
-			p.setFechaInicioEleccion(eleccion.getFechaInicio());
+			p.setFechaFinEleccion(eleccion.getEndDate());
+			p.setFechaInicioEleccion(eleccion.getStartDate());
 			p.setOrgId(org);			
-			p.setTituloEleccionEN(eleccion.getTituloIngles());
-			p.setTituloEleccionSP(eleccion.getTituloEspanol());
-			p.setTituloEleccionPT(eleccion.getTituloPortugues());			
-			p.setLinkEleccionSP(eleccion.getLinkEspanol());
-			p.setLinkEleccionEN(eleccion.getLinkIngles());
-			p.setLinkEleccionPT(eleccion.getLinkPortugues());
+			p.setTituloEleccionEN(eleccion.getTitleEnglish());
+			p.setTituloEleccionSP(eleccion.getTitleSpanish());
+			p.setTituloEleccionPT(eleccion.getTitlePortuguese());			
+			p.setLinkEleccionSP(eleccion.getLinkSpanish());
+			p.setLinkEleccionEN(eleccion.getLinkEnglish());
+			p.setLinkEleccionPT(eleccion.getLinkPortuguese());
 			
 			participaciones.add(p);
 		}
@@ -124,14 +124,14 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 
 
 	@Override
-	public List<EleccionLight> obtenerEleccionesLightDesc() {
+	public List<ElectionLight> obtenerEleccionesLightDesc() {
 		return DaoFactoryElecciones.createEleccionDao(em).obtenerEleccionesLightDesc();
 	}
 	
 	@Override
 	public String getWsAuthToken() {
 		try {
-			return DaoFactoryElecciones.createParametroDao(em).getParametro(Constants.WS_AUTH_TOKEN).getValor();
+			return DaoFactoryElecciones.createParametroDao(em).getParametro(Constants.WS_AUTH_TOKEN).getValue();
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -141,7 +141,7 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 	@Override
 	public IpResourceSet getWsIPsHabilitadas() {
 		try {
-			return IpResourceSet.parse(DaoFactoryElecciones.createParametroDao(em).getParametro(Constants.WS_AUTHORIZED_IPS).getValor());
+			return IpResourceSet.parse(DaoFactoryElecciones.createParametroDao(em).getParametro(Constants.WS_AUTHORIZED_IPS).getValue());
 		} catch (Exception e) {
 			appLogger.error(e);
 		}

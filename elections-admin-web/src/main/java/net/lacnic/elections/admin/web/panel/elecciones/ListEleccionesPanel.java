@@ -28,7 +28,7 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardPlantillasVer;
 import net.lacnic.elections.admin.dashboard.admin.DashboardReview;
 import net.lacnic.elections.admin.web.commons.BotonConConfirmacionEliminar;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 
 public class ListEleccionesPanel extends Panel {
 
@@ -40,7 +40,7 @@ public class ListEleccionesPanel extends Panel {
 
 	public ListEleccionesPanel(String id, PageParameters pars) {
 		super(id);
-		List<Eleccion> listaElecciones = new ArrayList<>();
+		List<Election> listaElecciones = new ArrayList<>();
 		Long idEleccionAutorizado = SecurityUtils.getIdEleccionAutorizado();
 		if (idEleccionAutorizado != 0) {
 			listaElecciones = new ArrayList<>();
@@ -55,51 +55,51 @@ public class ListEleccionesPanel extends Panel {
 		init(listaElecciones);
 	}
 
-	private void init(List<Eleccion> listaElecciones) {
+	private void init(List<Election> listaElecciones) {
 		try {
 
 			setOutputMarkupPlaceholderTag(true);
 
-			final ListView<Eleccion> dataViewElecciones = new ListView<Eleccion>("listaElecciones", listaElecciones) {
+			final ListView<Election> dataViewElecciones = new ListView<Election>("listaElecciones", listaElecciones) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<Eleccion> item) {
-					final Eleccion actual = item.getModelObject();
+				protected void populateItem(ListItem<Election> item) {
+					final Election actual = item.getModelObject();
 					try {
-						Label titulos = new Label("titulos", actual.getTituloEspanol());
+						Label titulos = new Label("titulos", actual.getTitleSpanish());
 						titulos.setEscapeModelStrings(false);
 
-						item.add(new Label("fechaCreacion", new SimpleDateFormat("dd/MM/yyyy").format(actual.getFechaCreacion())));
-						item.add(new Label("fechaInicio", actual.getFechaInicioString()));
-						item.add(new Label("fechaFin", actual.getFechaFinString()));
+						item.add(new Label("fechaCreacion", new SimpleDateFormat("dd/MM/yyyy").format(actual.getCreationDate())));
+						item.add(new Label("fechaInicio", actual.getStartDateString()));
+						item.add(new Label("fechaFin", actual.getEndDateString()));
 
-						item.add(new BookmarkablePageLink<Void>("detalleEleccion", DashboardDetalleEleccion.class, UtilsParameters.getId(actual.getIdEleccion())).add(titulos));
+						item.add(new BookmarkablePageLink<Void>("detalleEleccion", DashboardDetalleEleccion.class, UtilsParameters.getId(actual.getIdElection())).add(titulos));
 
-						BookmarkablePageLink<Void> editarEleccion = new BookmarkablePageLink<>("editarEleccion", DashboardGestionEleccion.class, UtilsParameters.getId(actual.getIdEleccion()));
-						editarEleccion.setMarkupId("editarEleccion" + actual.getIdEleccion());
+						BookmarkablePageLink<Void> editarEleccion = new BookmarkablePageLink<>("editarEleccion", DashboardGestionEleccion.class, UtilsParameters.getId(actual.getIdElection()));
+						editarEleccion.setMarkupId("editarEleccion" + actual.getIdElection());
 						item.add(editarEleccion);
 
-						BookmarkablePageLink<Void> padron = new BookmarkablePageLink<>("gestionPadron", DashboardGestionPadron.class, UtilsParameters.getId(actual.getIdEleccion()));
-						padron.setMarkupId("padronEleccion" + actual.getIdEleccion());
+						BookmarkablePageLink<Void> padron = new BookmarkablePageLink<>("gestionPadron", DashboardGestionPadron.class, UtilsParameters.getId(actual.getIdElection()));
+						padron.setMarkupId("padronEleccion" + actual.getIdElection());
 						item.add(padron);
 
-						BookmarkablePageLink<Void> candidatos = new BookmarkablePageLink<>("candidatos", DashboardGestionCandidatos.class, UtilsParameters.getId(actual.getIdEleccion()));
-						candidatos.setMarkupId("candidatosEleccion" + actual.getIdEleccion());
+						BookmarkablePageLink<Void> candidatos = new BookmarkablePageLink<>("candidatos", DashboardGestionCandidatos.class, UtilsParameters.getId(actual.getIdElection()));
+						candidatos.setMarkupId("candidatosEleccion" + actual.getIdElection());
 						item.add(candidatos);
 
-						BookmarkablePageLink<Void> auditores = new BookmarkablePageLink<>("auditores", DashboardGestionAuditores.class, UtilsParameters.getId(actual.getIdEleccion()));
-						auditores.setMarkupId("auditoresEleccion" + actual.getIdEleccion());
+						BookmarkablePageLink<Void> auditores = new BookmarkablePageLink<>("auditores", DashboardGestionAuditores.class, UtilsParameters.getId(actual.getIdElection()));
+						auditores.setMarkupId("auditoresEleccion" + actual.getIdElection());
 						item.add(auditores);
 
-						if (actual.isCandidatosSeteado())
+						if (actual.isCandidatesSet())
 							candidatos.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
-						if (actual.isPadronSeteado())
+						if (actual.isElectorsSet())
 							padron.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
-						if (actual.isAuditoresSeteado())
+						if (actual.isAuditorsSet())
 							auditores.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
 
-						BotonConConfirmacionEliminar botonConConfirmacionEliminar = new BotonConConfirmacionEliminar("eliminarEleccion", actual.getIdEleccion()) {
+						BotonConConfirmacionEliminar botonConConfirmacionEliminar = new BotonConConfirmacionEliminar("eliminarEleccion", actual.getIdElection()) {
 							private static final long serialVersionUID = -2068256428165604654L;
 
 							@Override
@@ -108,11 +108,11 @@ public class ListEleccionesPanel extends Panel {
 									boolean esNueva = true;
 									boolean esSupra = false;
 									// Valido si la eleccion esta junta a otra, entonces NO puedo modificar la fecha de inicio
-									if (actual.getIdEleccion() == 0) {
+									if (actual.getIdElection() == 0) {
 										esNueva = true;
 									} else {
 										esNueva = false;
-										esSupra = AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(actual.getIdEleccion());
+										esSupra = AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(actual.getIdElection());
 									};
 									
 									if ((!esNueva) && (esSupra)) {
@@ -120,7 +120,7 @@ public class ListEleccionesPanel extends Panel {
 										SecurityUtils.error(getString("errorEliminoEleccionSupra"));
 										setResponsePage(DashboardHomePage.class);
 									} else {									
-										AppContext.getInstance().getManagerBeanRemote().darDeBajaEleccion(actual.getIdEleccion(), actual.getTituloEspanol(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+										AppContext.getInstance().getManagerBeanRemote().darDeBajaEleccion(actual.getIdElection(), actual.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 										SecurityUtils.info(getString("eliminoEleccion"));
 										setResponsePage(DashboardHomePage.class);
 									}
@@ -132,21 +132,21 @@ public class ListEleccionesPanel extends Panel {
 						item.add(botonConConfirmacionEliminar);
 						botonConConfirmacionEliminar.setVisible(SecurityUtils.getIdEleccionAutorizado() == 0);
 
-						BookmarkablePageLink<Void> verEstadisticasEleccion = new BookmarkablePageLink<>("verStatsEleccion", DashboardEstadisticas.class, UtilsParameters.getId(actual.getIdEleccion()));
-						verEstadisticasEleccion.setMarkupId("verEstadisticasEleccion" + actual.getIdEleccion());
+						BookmarkablePageLink<Void> verEstadisticasEleccion = new BookmarkablePageLink<>("verStatsEleccion", DashboardEstadisticas.class, UtilsParameters.getId(actual.getIdElection()));
+						verEstadisticasEleccion.setMarkupId("verEstadisticasEleccion" + actual.getIdElection());
 						item.add(verEstadisticasEleccion);
 
-						BookmarkablePageLink<Void> revisionEleccion = new BookmarkablePageLink<>("revision", DashboardReview.class, UtilsParameters.getId(actual.getIdEleccion()));
-						revisionEleccion.setMarkupId("revisionEleccion" + actual.getIdEleccion());
-						revisionEleccion.setVisible(actual.isSolicitarRevision());
+						BookmarkablePageLink<Void> revisionEleccion = new BookmarkablePageLink<>("revision", DashboardReview.class, UtilsParameters.getId(actual.getIdElection()));
+						revisionEleccion.setMarkupId("revisionEleccion" + actual.getIdElection());
+						revisionEleccion.setVisible(actual.isRevisionRequest());
 						item.add(revisionEleccion);
 
-						BookmarkablePageLink<Void> gestionDeMailLink = new BookmarkablePageLink<>("gestionEmails", DashboardPlantillasVer.class, UtilsParameters.getId(actual.getIdEleccion()));
-						gestionDeMailLink.setMarkupId("gestionDeMailLink" + actual.getIdEleccion());
+						BookmarkablePageLink<Void> gestionDeMailLink = new BookmarkablePageLink<>("gestionEmails", DashboardPlantillasVer.class, UtilsParameters.getId(actual.getIdElection()));
+						gestionDeMailLink.setMarkupId("gestionDeMailLink" + actual.getIdElection());
 						item.add(gestionDeMailLink); 
 
-						BookmarkablePageLink<Void> configuracion = new BookmarkablePageLink<>("configuracion", DashboardConfiguracion.class, UtilsParameters.getId(actual.getIdEleccion()));
-						configuracion.setMarkupId("configuracionEleccion" + actual.getIdEleccion());
+						BookmarkablePageLink<Void> configuracion = new BookmarkablePageLink<>("configuracion", DashboardConfiguracion.class, UtilsParameters.getId(actual.getIdElection()));
+						configuracion.setMarkupId("configuracionEleccion" + actual.getIdElection());
 						item.add(configuracion);
 					} catch (Exception e) {
 						error(e.getMessage());

@@ -15,7 +15,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.exception.CensusValidationException;
 
 public class SubirArchivoUsuarioPadronPanel extends Panel {
@@ -27,7 +27,7 @@ public class SubirArchivoUsuarioPadronPanel extends Panel {
 	private byte[] archivoPadron;
 	private String nombreArchivo;
 
-	public SubirArchivoUsuarioPadronPanel(String id, Eleccion eleccion, Class classs) {
+	public SubirArchivoUsuarioPadronPanel(String id, Election eleccion, Class classs) {
 		super(id);
 		try {
 
@@ -48,19 +48,19 @@ public class SubirArchivoUsuarioPadronPanel extends Panel {
 						setArchivoPadron(fufPadron.getFileUpload().getBytes());
 						setNombreArchivo(fufPadron.getFileUpload().getClientFileName());
 						try {
-							AppContext.getInstance().getManagerBeanRemote().actualizarUsuariosPadron(eleccion.getIdEleccion(), getArchivoPadron(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().actualizarUsuariosPadron(eleccion.getIdElection(), getArchivoPadron(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("censusManagementExitoUpFile"));
 							if (classs != null)
-								setResponsePage(classs, UtilsParameters.getId(eleccion.getIdEleccion()));
+								setResponsePage(classs, UtilsParameters.getId(eleccion.getIdElection()));
 						} catch (CensusValidationException e) {
 							getSession().error(e.getMessage());
 							appLogger.error(e);
-							setResponsePage(classs, UtilsParameters.getId(eleccion.getIdEleccion()));
+							setResponsePage(classs, UtilsParameters.getId(eleccion.getIdElection()));
 						} catch (Exception e) {
 							if (e.getMessage().equals("BiffException"))
 								getSession().error(getString("censusManagementErrBif"));
 							appLogger.error(e);
-							setResponsePage(classs, UtilsParameters.getId(eleccion.getIdEleccion()));
+							setResponsePage(classs, UtilsParameters.getId(eleccion.getIdElection()));
 						}
 					}
 				}

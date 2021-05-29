@@ -7,14 +7,14 @@ import net.lacnic.elections.admin.dashboard.error.Error404;
 import net.lacnic.elections.admin.dashboard.error.ErrorVotacionNoComenzada;
 import net.lacnic.elections.admin.dashboard.error.ErrorVotacionNoPublica;
 import net.lacnic.elections.admin.web.bases.DashboardPublicBasePage;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.UserVoter;
 
 public class DashboardVotar extends DashboardPublicBasePage {
 
 	private static final long serialVersionUID = -867241975964848115L;
 
 	public Class validarToken(PageParameters params) {
-		UsuarioPadron upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(getToken());
+		UserVoter upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(getToken());
 
 		// sacar false
 		if (upd == null) {
@@ -22,15 +22,15 @@ public class DashboardVotar extends DashboardPublicBasePage {
 			return Error404.class;
 		} else {
 
-			setEleccion(upd.getEleccion());
+			setEleccion(upd.getElection());
 
-			if (!getEleccion().isComenzo()) {
+			if (!getEleccion().isStarted()) {
 				setResponsePage(ErrorVotacionNoComenzada.class, getPageParameters());
-			} else if (!getEleccion().isHabilitadaParaVotar()) {
+			} else if (!getEleccion().isEnabledToVote()) {
 				return ErrorVotacionNoPublica.class;
 			}
 
-			if (AppContext.getInstance().getVoterBeanRemote().isEleccionSimple(getEleccion().getIdEleccion()))
+			if (AppContext.getInstance().getVoterBeanRemote().isEleccionSimple(getEleccion().getIdElection()))
 				setResponsePage(DashboardVotarEleccionSimple.class, params);
 			else
 				setResponsePage(DashboardVotarEleccionesJuntas.class, params);

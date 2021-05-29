@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
-import net.lacnic.elections.domain.Parametro;
+import net.lacnic.elections.domain.Parameter;
 
 @Remote
 public interface ParametrosEleccionesEJB {
 
-	List<Parametro> obtenerListadoParametro();
+	List<Parameter> obtenerListadoParametro();
 	
 	String obtenerParametro(String clave);
 
@@ -17,7 +17,7 @@ public interface ParametrosEleccionesEJB {
 
 	boolean agregarParametro(String c, String v);
 
-	void editarParametro(Parametro p);
+	void editarParametro(Parameter p);
 
 	void borrarParametro(String c);
 

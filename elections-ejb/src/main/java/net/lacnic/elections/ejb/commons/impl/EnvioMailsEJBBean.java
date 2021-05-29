@@ -25,12 +25,12 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.dao.DaoFactoryElecciones;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.Email;
-import net.lacnic.elections.domain.EmailHistorico;
-import net.lacnic.elections.domain.TemplateEleccion;
-import net.lacnic.elections.domain.UsuarioPadron;
-import net.lacnic.elections.domain.Voto;
+import net.lacnic.elections.domain.EmailHistory;
+import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.UserVoter;
+import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.ejb.commons.EnvioMailsEJB;
 import net.lacnic.elections.utils.Constants;
 import net.lacnic.elections.utils.EJBFactory;
@@ -50,75 +50,75 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 	private EntityManager em;
 
 	@Override
-	public void encolarEnvioMasivo(List usuarios, TemplateEleccion templateEleccion) {
+	public void encolarEnvioMasivo(List usuarios, TemplateElection templateEleccion) {
 		try {
-			Eleccion e = templateEleccion.getEleccion();
-			List<UsuarioPadron> usuariosPadron = new ArrayList<>();
+			Election e = templateEleccion.getElection();
+			List<UserVoter> usuariosPadron = new ArrayList<>();
 			List<Auditor> usuariosAuditor = new ArrayList<>();
 
 			if (usuarios != null && !usuarios.isEmpty()) {
-				if (usuarios.get(0) instanceof UsuarioPadron) {
+				if (usuarios.get(0) instanceof UserVoter) {
 					usuariosPadron = usuarios;
 				} else if (usuarios.get(0) instanceof Auditor) {
 					usuariosAuditor = usuarios;
 				}
 			}
 			for (int i = 0; i < usuariosPadron.size(); i++) {
-				UsuarioPadron usp = usuariosPadron.get(i);
+				UserVoter usp = usuariosPadron.get(i);
 				Email email = new Email();
 				String templateAsunto;
 				String templateCuerpo;
 
-				if (usp.getIdioma().equals("SP")) {
-					templateAsunto = templateEleccion.getAsuntoES();  
-				} else if (usp.getIdioma().equals("EN")) {
-					templateAsunto = templateEleccion.getAsuntoEN(); 
+				if (usp.getLanguage().equals("SP")) {
+					templateAsunto = templateEleccion.getSubjectSP();  
+				} else if (usp.getLanguage().equals("EN")) {
+					templateAsunto = templateEleccion.getSubjectEN(); 
 				} else {
-					templateAsunto = templateEleccion.getAsuntoPT();
+					templateAsunto = templateEleccion.getSubjectPT();
 				};
 
-				if (usp.getIdioma().equals("SP")) {
-					templateCuerpo = templateEleccion.getCuerpoES(); 
-				} else if (usp.getIdioma().equals("EN")) {
-					templateCuerpo = templateEleccion.getCuerpoEN();
+				if (usp.getLanguage().equals("SP")) {
+					templateCuerpo = templateEleccion.getBodySP(); 
+				} else if (usp.getLanguage().equals("EN")) {
+					templateCuerpo = templateEleccion.getBodyEN();
 				} else {
-					templateCuerpo = templateEleccion.getCuerpoPT();
+					templateCuerpo = templateEleccion.getBodyPT();
 				};
 
 				if (templateAsunto.contains(RESUMEN_CODIGO) || templateCuerpo.contains(RESUMEN_CODIGO))
-					usp.setResumenCodigos(agregarVotos(DaoFactoryElecciones.createVotoDao(em).obtenerVotos(usp.getIdUsuarioPadron(), e.getIdEleccion())));
+					usp.setCodeSummary(agregarVotos(DaoFactoryElecciones.createVotoDao(em).obtenerVotos(usp.getIdUserVoter(), e.getIdElection())));
 
 				Map<String, Object> mapa = new HashMap<>();
 				mapa.put("usuario", usp);
 				mapa.put("eleccion", e);
 				String asuntoProcesado = processTemplate(templateAsunto, mapa);
 				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
-				email.setAsunto(asuntoProcesado);
-				email.setCuerpo(cuerpoProcesado);
-				email.setDesde(e.getRemitentePorDefecto());
-				email.setDestinatarios(usp.getMail());
-				email.setEleccion(e);
-				email.setEnviado(false);
-				email.setTipoTemplate(templateEleccion.getTipoTemplate());
+				email.setSubject(asuntoProcesado);
+				email.setBody(cuerpoProcesado);
+				email.setEmailFrom(e.getDefaultSender());
+				email.setRecipients(usp.getMail());
+				email.setElection(e);
+				email.setSent(false);
+				email.setTemplateType(templateEleccion.getTemplateType());
 				em.persist(email);
 			}
 			for (int i = 0; i < usuariosAuditor.size(); i++) {
 				Auditor a = usuariosAuditor.get(i);
 				Email email = new Email();
-				String templateAsunto = templateEleccion.getAsuntoES();
-				String templateCuerpo = templateEleccion.getCuerpoES();
+				String templateAsunto = templateEleccion.getSubjectSP();
+				String templateCuerpo = templateEleccion.getBodySP();
 				Map<String, Object> mapa = new HashMap<>();
 				mapa.put("auditor", a);
 				mapa.put("eleccion", e);
 				String asuntoProcesado = processTemplate(templateAsunto, mapa);
 				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
-				email.setAsunto(asuntoProcesado);
-				email.setCuerpo(cuerpoProcesado);
-				email.setDesde(e.getRemitentePorDefecto());
-				email.setDestinatarios(a.getMail());
-				email.setEleccion(e);
-				email.setEnviado(false);
-				email.setTipoTemplate(templateEleccion.getTipoTemplate());
+				email.setSubject(asuntoProcesado);
+				email.setBody(cuerpoProcesado);
+				email.setEmailFrom(e.getDefaultSender());
+				email.setRecipients(a.getMail());
+				email.setElection(e);
+				email.setSent(false);
+				email.setTemplateType(templateEleccion.getTemplateType());
 				em.persist(email);
 			}
 		} catch (Exception e) {
@@ -127,47 +127,47 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 	}
 
 	@Override
-	public void encolarEnvioIndividual(TemplateEleccion templateEleccion, UsuarioPadron us, Auditor au, Eleccion e, List<Voto> votos) {
+	public void encolarEnvioIndividual(TemplateElection templateEleccion, UserVoter us, Auditor au, Election e, List<Vote> votos) {
 		try {
-			if (templateEleccion.getCuerpoES().contains(RESUMEN_CODIGO) || templateEleccion.getCuerpoEN().contains(RESUMEN_CODIGO) || templateEleccion.getCuerpoPT().contains(RESUMEN_CODIGO))
-				us.setResumenCodigos(agregarVotos(votos));
+			if (templateEleccion.getBodySP().contains(RESUMEN_CODIGO) || templateEleccion.getBodyEN().contains(RESUMEN_CODIGO) || templateEleccion.getBodyPT().contains(RESUMEN_CODIGO))
+				us.setCodeSummary(agregarVotos(votos));
 
-			if (templateEleccion.getTipoTemplate().contains(Constants.TipoTemplateAUDITOR)) {
+			if (templateEleccion.getTemplateType().contains(Constants.TipoTemplateAUDITOR)) {
 				Email email = new Email();
-				String templateAsunto = templateEleccion.getAsuntoES();
-				String templateCuerpo = templateEleccion.getCuerpoES();
+				String templateAsunto = templateEleccion.getSubjectSP();
+				String templateCuerpo = templateEleccion.getBodySP();
 				Map<String, Object> mapa = new HashMap<>();
 				mapa.put("auditor", au);
 				mapa.put("eleccion", e);
 				String asuntoProcesado = processTemplate(templateAsunto, mapa);
 				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
-				email.setAsunto(asuntoProcesado);
-				email.setCuerpo(cuerpoProcesado);
-				email.setDesde(e.getRemitentePorDefecto());
-				email.setDestinatarios(EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constants.DEFAULT_SENDER));
-				email.setEleccion(e);
-				email.setEnviado(false);
-				email.setTipoTemplate(templateEleccion.getTipoTemplate());
+				email.setSubject(asuntoProcesado);
+				email.setBody(cuerpoProcesado);
+				email.setEmailFrom(e.getDefaultSender());
+				email.setRecipients(EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constants.DEFAULT_SENDER));
+				email.setElection(e);
+				email.setSent(false);
+				email.setTemplateType(templateEleccion.getTemplateType());
 				em.persist(email);
 			} else {
 				Email email = new Email();
 				String templateAsunto; 
 				String templateCuerpo; 
 
-				if (us.getIdioma().equals("SP")) {
-					templateAsunto = templateEleccion.getAsuntoES();
-				} else if (us.getIdioma().equals("EN")) {
-					templateAsunto = templateEleccion.getAsuntoEN(); 
+				if (us.getLanguage().equals("SP")) {
+					templateAsunto = templateEleccion.getSubjectSP();
+				} else if (us.getLanguage().equals("EN")) {
+					templateAsunto = templateEleccion.getSubjectEN(); 
 				} else {
-					templateAsunto = templateEleccion.getAsuntoPT();
+					templateAsunto = templateEleccion.getSubjectPT();
 				};
 
-				if (us.getIdioma().equals("SP") ) {
-					templateCuerpo = templateEleccion.getCuerpoES();
-				} else if (us.getIdioma().equals("EN")) {
-					templateCuerpo = templateEleccion.getCuerpoEN();
+				if (us.getLanguage().equals("SP") ) {
+					templateCuerpo = templateEleccion.getBodySP();
+				} else if (us.getLanguage().equals("EN")) {
+					templateCuerpo = templateEleccion.getBodyEN();
 				} else {
-					templateCuerpo = templateEleccion.getCuerpoPT();
+					templateCuerpo = templateEleccion.getBodyPT();
 				};
 
 				Map<String, Object> mapa = new HashMap<>();
@@ -175,13 +175,13 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 				mapa.put("eleccion", e);
 				String asuntoProcesado = processTemplate(templateAsunto, mapa);
 				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
-				email.setAsunto(asuntoProcesado);
-				email.setCuerpo(cuerpoProcesado);
-				email.setDesde(e.getRemitentePorDefecto());
-				email.setDestinatarios(us.getMail());
-				email.setEleccion(e);
-				email.setEnviado(false);
-				email.setTipoTemplate(templateEleccion.getTipoTemplate());
+				email.setSubject(asuntoProcesado);
+				email.setBody(cuerpoProcesado);
+				email.setEmailFrom(e.getDefaultSender());
+				email.setRecipients(us.getMail());
+				email.setElection(e);
+				email.setSent(false);
+				email.setTemplateType(templateEleccion.getTemplateType());
 				em.persist(email);
 			}
 		} catch (Exception ex) {
@@ -189,10 +189,10 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 		}
 	}
 
-	private String agregarVotos(List<Voto> votos) {
+	private String agregarVotos(List<Vote> votos) {
 		String aux = "";
-		for (Voto v : votos) {
-			aux = aux.concat(v.getCodigo() + " / " + v.getCandidato().getNombre() + "\n");
+		for (Vote v : votos) {
+			aux = aux.concat(v.getCode() + " / " + v.getCandidate().getName() + "\n");
 		}
 		return aux;
 	}
@@ -225,7 +225,7 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 	public void reagendar(List<Email> emailsProblematicos) {
 		for (Email email : emailsProblematicos) {
 			try {
-				email.setEnviado(false);
+				email.setSent(false);
 				em.merge(email);
 			} catch (Exception e) {
 				appLogger.error(e);
@@ -237,7 +237,7 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 	public void moverEmailsaHistoricos() {
 		List<Email> emails = DaoFactoryElecciones.createEmailDao(em).obtenerEmailsViejo();
 		for (Email email : emails) {
-			em.persist(new EmailHistorico(email));
+			em.persist(new EmailHistory(email));
 			em.remove(email);
 		}
 	}

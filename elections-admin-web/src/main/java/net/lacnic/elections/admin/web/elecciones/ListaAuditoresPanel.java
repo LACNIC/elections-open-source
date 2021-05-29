@@ -37,11 +37,11 @@ public class ListaAuditoresPanel extends Panel {
 				@Override
 				protected void populateItem(final ListItem<Auditor> item) {
 					final Auditor actual = item.getModelObject();
-					item.add(new Label("nombreA", actual.getNombre()));
+					item.add(new Label("nombreA", actual.getName()));
 					item.add(new Label("mailA", actual.getMail()));
-					item.add(new Label("isComisionadoA", (actual.isComisionado() ? "SI" : "NO")));
-					item.add(new Label("expresoConformidad", (actual.isComisionado() ? (actual.isExpresoConformidad() ? "SI" : "NO") : "-")));
-					String calcularLinkVotar = UtilsLinks.calcularLinkResultadoAuditor(actual.getTokenResultado());
+					item.add(new Label("isComisionadoA", (actual.isCommissioner() ? "SI" : "NO")));
+					item.add(new Label("expresoConformidad", (actual.isCommissioner() ? (actual.isAgreement() ? "SI" : "NO") : "-")));
+					String calcularLinkVotar = UtilsLinks.calcularLinkResultadoAuditor(actual.getResulttoke());
 					Label textoLinkVotar = new Label("textoLink", calcularLinkVotar);
 					ExternalLink linkvotar = new ExternalLink("link", calcularLinkVotar);
 					linkvotar.add(textoLinkVotar);

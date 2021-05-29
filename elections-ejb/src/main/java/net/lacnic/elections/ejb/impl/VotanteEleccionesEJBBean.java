@@ -23,16 +23,16 @@ import net.lacnic.elections.dao.DaoFactoryElecciones;
 import net.lacnic.elections.dao.UsuarioPadronDao;
 import net.lacnic.elections.data.DetalleResultadoData;
 import net.lacnic.elections.data.ResultadoEleccionesData;
-import net.lacnic.elections.domain.AccesosIps;
-import net.lacnic.elections.domain.Actividad;
+import net.lacnic.elections.domain.IpAccess;
+import net.lacnic.elections.domain.Activity;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.domain.Candidato;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.SupraEleccion;
-import net.lacnic.elections.domain.TemplateEleccion;
-import net.lacnic.elections.domain.TipoActividad;
-import net.lacnic.elections.domain.UsuarioPadron;
-import net.lacnic.elections.domain.Voto;
+import net.lacnic.elections.domain.Candidate;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.JointElection;
+import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ActivityType;
+import net.lacnic.elections.domain.UserVoter;
+import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.ejb.VotanteEleccionesEJB;
 import net.lacnic.elections.exception.OperationNotPermittedException;
 import net.lacnic.elections.utils.Constants;
@@ -65,39 +65,39 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 	}
 
 	@Override
-	public void votar(List<Candidato> candidatos, UsuarioPadron up, String ip) throws OperationNotPermittedException {
-		UsuarioPadron usP = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuarioPadron(up.getIdUsuarioPadron());
-		if (usP.isYaVoto()) {
+	public void votar(List<Candidate> candidatos, UserVoter up, String ip) throws OperationNotPermittedException {
+		UserVoter usP = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuarioPadron(up.getIdUserVoter());
+		if (usP.isVoted()) {
 			throw new OperationNotPermittedException("Operación no permitida");
 		}
-		if (candidatos.size() > usP.getEleccion().getMaxCandidatos() || usP.isYaVoto() || !usP.getEleccion().isHabilitadaParaVotar()) {
+		if (candidatos.size() > usP.getElection().getMaxCandidate() || usP.isVoted() || !usP.getElection().isEnabledToVote()) {
 			throw new OperationNotPermittedException("Operación no permitida");
 		}
 
-		ArrayList<Voto> votos = new ArrayList<>();
+		ArrayList<Vote> votos = new ArrayList<>();
 		Date fechaVoto = new Date();
-		for (Candidato c : candidatos) {
-			for (int i = 0; i < usP.getCantVotos(); i++) {
-				Voto v = new Voto();
-				v.setCodigo(StringUtils.createSmallToken());
+		for (Candidate c : candidatos) {
+			for (int i = 0; i < usP.getVoteAmount(); i++) {
+				Vote v = new Vote();
+				v.setCode(StringUtils.createSmallToken());
 				v.setIp(ip);
-				v.setCandidato(c);
-				v.setFechaVoto(fechaVoto);
-				v.setUsuarioPadron(usP);
-				v.setEleccion(usP.getEleccion());
+				v.setCandidate(c);
+				v.setVoteDate(fechaVoto);
+				v.setUserVote(usP);
+				v.setElection(usP.getElection());
 				em.persist(v);
 				votos.add(v);
 			}
 		}
-		usP.setYaVoto(true);
-		usP.setFechaVoto(fechaVoto);
-		TemplateEleccion t = EJBFactory.getInstance().getManagerEleccionesEJB().obtenerTemplate(Constants.TemplateTypeVOTE_CODES, usP.getEleccion().getIdEleccion());
-		EJBFactory.getInstance().getEnvioMailsEJB().encolarEnvioIndividual(t, usP, null, usP.getEleccion(), votos);
+		usP.setVoted(true);
+		usP.setVoteDate(fechaVoto);
+		TemplateElection t = EJBFactory.getInstance().getManagerEleccionesEJB().obtenerTemplate(Constants.TemplateTypeVOTE_CODES, usP.getElection().getIdElection());
+		EJBFactory.getInstance().getEnvioMailsEJB().encolarEnvioIndividual(t, usP, null, usP.getElection(), votos);
 		em.persist(usP);
 	}
 
 	@Override
-	public UsuarioPadron verificarAccesoUP(String token) {
+	public UserVoter verificarAccesoUP(String token) {
 		try {
 			return DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuarioPadronToken(token);
 		} catch (Exception e) {
@@ -106,33 +106,33 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 	}
 
 	@Override
-	public UsuarioPadron[] verificarAccesoUPEleccionJunta(String token) {
+	public UserVoter[] verificarAccesoUPEleccionJunta(String token) {
 		try {
-			UsuarioPadron up1 = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuarioPadronToken(token);
-			UsuarioPadron up2 = null;
-			SupraEleccion supraEleccion = DaoFactoryElecciones.createEleccionDao(em).obtenerSupraEleccion(up1.getEleccion().getIdEleccion());
+			UserVoter up1 = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuarioPadronToken(token);
+			UserVoter up2 = null;
+			JointElection supraEleccion = DaoFactoryElecciones.createEleccionDao(em).obtenerSupraEleccion(up1.getElection().getIdElection());
 			long eleccionOtra = 0;
 
-			if (up1.getEleccion().getIdEleccion() == supraEleccion.getIdEleccionB())
-				eleccionOtra = supraEleccion.getIdEleccionA();
+			if (up1.getElection().getIdElection() == supraEleccion.getIdElectionB())
+				eleccionOtra = supraEleccion.getIdElectionA();
 			else
-				eleccionOtra = supraEleccion.getIdEleccionB();
+				eleccionOtra = supraEleccion.getIdElectionB();
 
-			for (UsuarioPadron usu : DaoFactoryElecciones.createEleccionDao(em).obtenerEleccion(eleccionOtra).getUsuariosPadron()) {
+			for (UserVoter usu : DaoFactoryElecciones.createEleccionDao(em).obtenerEleccion(eleccionOtra).getUserVoters()) {
 				if (usu.getMail().toUpperCase().equalsIgnoreCase(up1.getMail())) {
 					up2 = usu;
 					break;
 				}
 			}
 
-			return new UsuarioPadron[] { up1, up2 };
+			return new UserVoter[] { up1, up2 };
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
 	@Override
-	public Eleccion verificarAccesoResultado(String token) {
+	public Election verificarAccesoResultado(String token) {
 		try {
 			return DaoFactoryElecciones.createEleccionDao(em).obtenerEleccionConTokenResultado(token);
 		} catch (Exception e) {
@@ -151,29 +151,29 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 
 	@Override
 	public void intentoFallidoIp(String remoteAddress) {
-		AccesosIps ip = DaoFactoryElecciones.createAccesoIpsDao(em).obteneriP(remoteAddress);
+		IpAccess ip = DaoFactoryElecciones.createAccesoIpsDao(em).obteneriP(remoteAddress);
 		if (ip == null) {
-			ip = new AccesosIps();
-			ip.setFechaUltimoIntento(new Date());
-			ip.setFechaPrimerIntento(new Date());
+			ip = new IpAccess();
+			ip.setLastAttemptDate(new Date());
+			ip.setFirstAttemptDate(new Date());
 			ip.setIp(remoteAddress);
-			ip.setIntentos(1);
+			ip.setAttemptCount(1);
 			em.persist(ip);
 		} else {
-			ip.setFechaUltimoIntento(new Date());
-			ip.setIntentos(ip.getIntentos() + 1);
+			ip.setLastAttemptDate(new Date());
+			ip.setAttemptCount(ip.getAttemptCount() + 1);
 			em.merge(ip);
 		}
 
 	}
 
 	@Override
-	public List<Candidato> obtenerCandidatosEleccionOrdenados(long idEleccion) throws Exception {
+	public List<Candidate> obtenerCandidatosEleccionOrdenados(long idEleccion) throws Exception {
 		return EJBFactory.getInstance().getManagerEleccionesEJB().obtenerCandidatosEleccionOrdenados(idEleccion);
 	}
 
 	@Override
-	public List<Candidato> obtenerCandidatosEleccionConVotos(long idEleccion) throws Exception {
+	public List<Candidate> obtenerCandidatosEleccionConVotos(long idEleccion) throws Exception {
 		return DaoFactoryElecciones.createCandidatoDao(em).obtenerCandidatosEleccion(idEleccion);
 	}
 
@@ -192,10 +192,10 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 	public void confirmarEleccionAuditor(long idAuditor) {
 		try {
 			Auditor a = em.find(Auditor.class, idAuditor);
-			a.setExpresoConformidad(true);
+			a.setAgreement(true);
 			em.persist(a);
-			TemplateEleccion t = EJBFactory.getInstance().getManagerEleccionesEJB().obtenerTemplate(Constants.TemplateTypeAUDITOR_AGREEMENT, a.getEleccion().getIdEleccion());
-			EJBFactory.getInstance().getEnvioMailsEJB().encolarEnvioIndividual(t, null, a, a.getEleccion(), new ArrayList<>());
+			TemplateElection t = EJBFactory.getInstance().getManagerEleccionesEJB().obtenerTemplate(Constants.TemplateTypeAUDITOR_AGREEMENT, a.getElection().getIdElection());
+			EJBFactory.getInstance().getEnvioMailsEJB().encolarEnvioIndividual(t, null, a, a.getElection(), new ArrayList<>());
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -206,13 +206,13 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 	public void habilitarRevisionEleccionAuditor(long idAuditor, String ip) {
 		try {
 			Auditor a = em.find(Auditor.class, idAuditor);
-			a.setHabilitaRevision(true);
+			a.setRevisionAvailable(true);
 			em.persist(a);
-			TemplateEleccion t = EJBFactory.getInstance().getManagerEleccionesEJB().obtenerTemplate(Constants.TemplateTypeAUDITOR_REVISION, a.getEleccion().getIdEleccion());
-			EJBFactory.getInstance().getEnvioMailsEJB().encolarEnvioIndividual(t, null, a, a.getEleccion(), new ArrayList<>());
+			TemplateElection t = EJBFactory.getInstance().getManagerEleccionesEJB().obtenerTemplate(Constants.TemplateTypeAUDITOR_REVISION, a.getElection().getIdElection());
+			EJBFactory.getInstance().getEnvioMailsEJB().encolarEnvioIndividual(t, null, a, a.getElection(), new ArrayList<>());
 
-			String descripcion = a.getIdAuditor() + " - " + a.getNombre() + " autorizó la revisión de la elección: " + a.getEleccion().getTituloEspanol();
-			persistirActividad(a.getNombre(), TipoActividad.REVISION_DE_ELECCION_SI, descripcion, ip, a.getEleccion().getIdEleccion());
+			String descripcion = a.getIdAuditor() + " - " + a.getName() + " autorizó la revisión de la elección: " + a.getElection().getTitleSpanish();
+			persistirActividad(a.getName(), ActivityType.REVISION_DE_ELECCION_SI, descripcion, ip, a.getElection().getIdElection());
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -221,8 +221,8 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 
 	@Override
 	public boolean yaVoto(long idUsuarioPadron) throws Exception {
-		UsuarioPadron u = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuarioPadron(idUsuarioPadron);
-		return u.isYaVoto();
+		UserVoter u = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuarioPadron(idUsuarioPadron);
+		return u.isVoted();
 	}
 
 	@Override
@@ -279,8 +279,8 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 
 	@Override
 	public ResultadoEleccionesData obtenerResultadoEleccionesData(long idEleccion) throws Exception {
-		Eleccion eleccion = em.find(Eleccion.class, idEleccion);
-		int max = eleccion.getMaxCandidatos();
+		Election eleccion = em.find(Election.class, idEleccion);
+		int max = eleccion.getMaxCandidate();
 
 		ResultadoEleccionesData resultadoData = new ResultadoEleccionesData(max);
 		ArrayList<DetalleResultadoData> listaDetalleResultadoData = new ArrayList<>();
@@ -314,7 +314,7 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 
 	@Override
 	public List<Object> obtenerDataEvolucionVotosEleccion(long idEleccion) {
-		List<UsuarioPadron> usuPadVotaronEleccion = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuariosPadronEleccionQueYaVotaron(idEleccion);
+		List<UserVoter> usuPadVotaronEleccion = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuariosPadronEleccionQueYaVotaron(idEleccion);
 
 		List<String> dias = new ArrayList<>();
 		List<Integer> votosPorDia = new ArrayList<>();
@@ -324,14 +324,14 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 
 		try {
 
-			Date dia1 = usuPadVotaronEleccion.get(0).getFechaVoto();
-			Date ultimoDia = usuPadVotaronEleccion.get(usuPadVotaronEleccion.size() - 1).getFechaVoto();
+			Date dia1 = usuPadVotaronEleccion.get(0).getVoteDate();
+			Date ultimoDia = usuPadVotaronEleccion.get(usuPadVotaronEleccion.size() - 1).getVoteDate();
 
 			List<String> allDates = getDatesBetween(dia1, ultimoDia);
 			List<String> votosDates = new ArrayList<>();
 
-			for (UsuarioPadron usuPad : usuPadVotaronEleccion) {
-				votosDates.add(sdf.format(usuPad.getFechaVoto()));
+			for (UserVoter usuPad : usuPadVotaronEleccion) {
+				votosDates.add(sdf.format(usuPad.getVoteDate()));
 			}
 
 			for (String date : allDates) {
@@ -380,19 +380,19 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 		return datesInRange;
 	}
 
-	private void persistirActividad(String nomAdmin, TipoActividad tipoActividad, String descripcion, String ip, Long idEleccion) {
-		Actividad a = new Actividad();
+	private void persistirActividad(String nomAdmin, ActivityType tipoActividad, String descripcion, String ip, Long idEleccion) {
+		Activity a = new Activity();
 		a.setIp(ip);
-		a.setIdEleccion(idEleccion);
-		a.setTiempo(new Date());
-		a.setNomUser(nomAdmin);
-		a.setTipoActividad(tipoActividad);
-		a.setDescripcion(descripcion);
+		a.setElectionId(idEleccion);
+		a.setTimestamp(new Date());
+		a.setUserName(nomAdmin);
+		a.setActivityType(tipoActividad);
+		a.setDescription(descripcion);
 		em.persist(a);
 	}
 
 	@Override
-	public Eleccion obtenerEleccion(long idEleccion) {
+	public Election obtenerEleccion(long idEleccion) {
 		return DaoFactoryElecciones.createEleccionDao(em).obtenerEleccion(idEleccion);
 	}
 
@@ -402,7 +402,7 @@ public class VotanteEleccionesEJBBean implements VotanteEleccionesEJB {
 	}
 
 	@Override
-	public SupraEleccion obtenerSupraEleccion(long idEleccion) {
+	public JointElection obtenerSupraEleccion(long idEleccion) {
 		return DaoFactoryElecciones.createEleccionDao(em).obtenerSupraEleccion(idEleccion);
 	}
 

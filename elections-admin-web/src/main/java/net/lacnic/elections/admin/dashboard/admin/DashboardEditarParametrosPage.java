@@ -12,7 +12,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Parametro;
+import net.lacnic.elections.domain.Parameter;
 
 public class DashboardEditarParametrosPage extends DashboardAdminBasePage {
 
@@ -21,8 +21,8 @@ public class DashboardEditarParametrosPage extends DashboardAdminBasePage {
 
 	public DashboardEditarParametrosPage(PageParameters params) {
 		super(params);
-		Parametro p = AppContext.getInstance().getManagerBeanRemote().getParametro(UtilsParameters.getClaveId(params));
-		valor = p.getValor();
+		Parameter p = AppContext.getInstance().getManagerBeanRemote().getParametro(UtilsParameters.getClaveId(params));
+		valor = p.getValue();
 
 		Form<Void> form = new Form<>("forParametro");
 		add(form);
@@ -51,7 +51,7 @@ public class DashboardEditarParametrosPage extends DashboardAdminBasePage {
 
 			@Override
 			public void onSubmit() {
-				if (!(valor.equalsIgnoreCase(p.getValor()))) {
+				if (!(valor.equalsIgnoreCase(p.getValue()))) {
 					AppContext.getInstance().getManagerBeanRemote().editarParametro(p, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("advEditParamExito"));
 				}

@@ -22,8 +22,8 @@ import net.lacnic.elections.admin.web.commons.BotonActualizarToken;
 import net.lacnic.elections.admin.web.commons.BotonConConfirmacionEliminar;
 import net.lacnic.elections.admin.web.commons.BotonReenviarEmailVotacion;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.utils.UtilsLinks;
 
 public class GestionListaUsuariosPadronPanel extends Panel {
@@ -32,12 +32,12 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private List<UsuarioPadron> usuariosPadron;
+	private List<UserVoter> usuariosPadron;
 	private File archivo;
 
-	public GestionListaUsuariosPadronPanel(String id, Eleccion eleccion) {
+	public GestionListaUsuariosPadronPanel(String id, Election eleccion) {
 		super(id);
-		usuariosPadron = AppContext.getInstance().getManagerBeanRemote().obtenerUsuariosPadronEleccion(eleccion.getIdEleccion());
+		usuariosPadron = AppContext.getInstance().getManagerBeanRemote().obtenerUsuariosPadronEleccion(eleccion.getIdElection());
 
 		add(new Label("cantidad", String.valueOf(usuariosPadron.size())));
 
@@ -47,29 +47,29 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setArchivo(AppContext.getInstance().getManagerBeanRemote().exportarPadronElectoral(eleccion.getIdEleccion()));
+				setArchivo(AppContext.getInstance().getManagerBeanRemote().exportarPadronElectoral(eleccion.getIdElection()));
 				super.onClick();
 			}
 		};
 		add(downloadLink);
-		downloadLink.setVisible(eleccion.isPadronSeteado());
+		downloadLink.setVisible(eleccion.isElectorsSet());
 
-		final ListView<UsuarioPadron> usuariosPadronDataView = new ListView<UsuarioPadron>("usuarioPadronList", usuariosPadron) {
+		final ListView<UserVoter> usuariosPadronDataView = new ListView<UserVoter>("usuarioPadronList", usuariosPadron) {
 			private static final long serialVersionUID = 1786359392545666490L;
 
 			@Override
-			protected void populateItem(final ListItem<UsuarioPadron> item) {
+			protected void populateItem(final ListItem<UserVoter> item) {
 				try {
-					final UsuarioPadron actual = item.getModelObject();
+					final UserVoter actual = item.getModelObject();
 
-					item.add(new Label("idioma", actual.getIdioma()));
-					item.add(new Label("nombre", actual.getNombre()));
+					item.add(new Label("idioma", actual.getLanguage()));
+					item.add(new Label("nombre", actual.getName()));
 					item.add(new Label("mail", actual.getMail()));
-					item.add(new Label("cantidadVotos", String.valueOf(actual.getCantVotos())));
-					item.add(new Label("pais", actual.getPais()));
+					item.add(new Label("cantidadVotos", String.valueOf(actual.getVoteAmount())));
+					item.add(new Label("pais", actual.getCountry()));
 					item.add(new Label("orgId", actual.getOrgID()));
-					item.add(new Label("voto", (actual.isYaVoto() ? "SI" : "NO")));
-					String calcularLinkVotar = UtilsLinks.calcularLinkVotar(actual.getTokenVotacion());
+					item.add(new Label("voto", (actual.isVoted() ? "SI" : "NO")));
+					String calcularLinkVotar = UtilsLinks.calcularLinkVotar(actual.getVoteToken());
 					Label textoLinkVotar = new Label("textoLinkVotar", calcularLinkVotar);
 					ExternalLink linkvotar = new ExternalLink("linkVotar", calcularLinkVotar);
 					linkvotar.add(textoLinkVotar);
@@ -83,9 +83,9 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 						public void onConfirmar() {
 
 							try {
-								AppContext.getInstance().getManagerBeanRemote().actualizarTokenUsuarioPadron(actual.getIdUsuarioPadron(), actual.getNombre(), eleccion.getTituloEspanol(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+								AppContext.getInstance().getManagerBeanRemote().actualizarTokenUsuarioPadron(actual.getIdUserVoter(), actual.getName(), eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								getSession().info(getString("censusManagementUserListExitoToken"));
-								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection()));
 							} catch (Exception e) {
 								appLogger.error(e);
 							}
@@ -104,7 +104,7 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 							try {
 								AppContext.getInstance().getManagerBeanRemote().reenviarEmailPadron(actual, eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								getSession().info(getString("censusManagementUserListExitoLink"));
-								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection()));
 							} catch (Exception e) {
 								appLogger.error(e);
 							}
@@ -121,9 +121,9 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 						public void onConfirmar() {
 
 							try {
-								AppContext.getInstance().getManagerBeanRemote().eliminarUsuarioPadron(actual, eleccion.getTituloEspanol(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+								AppContext.getInstance().getManagerBeanRemote().eliminarUsuarioPadron(actual, eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								getSession().info(getString("censusManagementUserListExitoDelete"));
-								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection()));
 							} catch (Exception e) {
 								appLogger.error(e);
 							}
@@ -137,7 +137,7 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 
 						@Override
 						public void onClick() {
-							setResponsePage(DashboardEditarUsuarioPadron.class, UtilsParameters.getUser(actual.getIdUsuarioPadron()));
+							setResponsePage(DashboardEditarUsuarioPadron.class, UtilsParameters.getUser(actual.getIdUserVoter()));
 						}
 
 					};

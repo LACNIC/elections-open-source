@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.domain.Comisionado;
+import net.lacnic.elections.domain.Comissioner;
 
 public class ComisionadoDao {
 
@@ -21,20 +21,20 @@ public class ComisionadoDao {
 		this.em = em;
 	}
 
-	public Comisionado obtenerComisionado(long id) {
-		TypedQuery<Comisionado> q = em.createQuery("SELECT c FROM Comisionado c WHERE c.idComisionado =:idComisionado", Comisionado.class);
+	public Comissioner obtenerComisionado(long id) {
+		TypedQuery<Comissioner> q = em.createQuery("SELECT c FROM Comisionado c WHERE c.idComisionado =:idComisionado", Comissioner.class);
 		q.setParameter("idComisionado", id);		
 		return q.getSingleResult();
 	}
 
-	public List<Comisionado> obtenerComisionados() {
-		TypedQuery<Comisionado> q = em.createQuery("SELECT c FROM Comisionado c", Comisionado.class);
+	public List<Comissioner> obtenerComisionados() {
+		TypedQuery<Comissioner> q = em.createQuery("SELECT c FROM Comisionado c", Comissioner.class);
 		return q.getResultList();
 	}
 
-	public Comisionado obtenerComisionado(String mail) {
+	public Comissioner obtenerComisionado(String mail) {
 		try {
-			TypedQuery<Comisionado> q = em.createQuery("SELECT c FROM Comisionado c WHERE UPPER(c.mail) =:mail", Comisionado.class);
+			TypedQuery<Comissioner> q = em.createQuery("SELECT c FROM Comisionado c WHERE UPPER(c.mail) =:mail", Comissioner.class);
 			q.setParameter("mail", mail.toUpperCase().trim());
 			return q.getSingleResult();
 		} catch (Exception e) {

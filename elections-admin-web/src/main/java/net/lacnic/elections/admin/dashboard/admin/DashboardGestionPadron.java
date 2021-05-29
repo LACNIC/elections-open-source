@@ -16,16 +16,16 @@ import net.lacnic.elections.admin.web.panel.usuariopadron.CamposUsuarioPadronPan
 import net.lacnic.elections.admin.web.panel.usuariopadron.GestionListaUsuariosPadronPanel;
 import net.lacnic.elections.admin.web.panel.usuariopadron.SubirArchivoUsuarioPadronPanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.exception.CensusValidationException;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardGestionPadron extends DashboardAdminBasePage {
 
 	private static final long serialVersionUID = 1L;
-	private Eleccion eleccion;
-	private UsuarioPadron up = new UsuarioPadron();
+	private Election eleccion;
+	private UserVoter up = new UserVoter();
 
 	public DashboardGestionPadron(PageParameters params) {
 		super(params);
@@ -45,9 +45,9 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				try {
-					AppContext.getInstance().getManagerBeanRemote().agregarUsuarioPadron(getEleccion().getIdEleccion(), getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().agregarUsuarioPadron(getEleccion().getIdElection(), getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("censusManagementExito"));
-					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(getEleccion().getIdEleccion()));
+					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(getEleccion().getIdElection()));
 				} catch (CensusValidationException e) {
 					error(getString(e.getMessage()));
 				}
@@ -69,7 +69,7 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 
 		private static final long serialVersionUID = 2351447413365706203L;
 
-		public PadronEleccionForm(String id, final Eleccion eleccion) {
+		public PadronEleccionForm(String id, final Election eleccion) {
 			super(id);
 
 			SubirArchivoUsuarioPadronPanel camposEleccionPadronPanel = new SubirArchivoUsuarioPadronPanel("subirArchivoUsuarioPadronPanel", eleccion, DashboardGestionPadron.class);
@@ -82,13 +82,13 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 				@Override
 				public void onSubmit() {
 					try {
-						setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+						setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
 				}
 			};
-			siguiente.setEnabled(getEleccion().isPadronSeteado());
+			siguiente.setEnabled(getEleccion().isElectorsSet());
 			add(siguiente);
 
 			Link<Void> saltar = new Link<Void>("saltar") {
@@ -98,7 +98,7 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 				@Override
 				public void onClick() {
 					try {
-						setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+						setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
@@ -113,7 +113,7 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 				@Override
 				public void onClick() {
 					try {
-						setResponsePage(DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+						setResponsePage(DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdElection()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
@@ -124,19 +124,19 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 		}
 	}
 
-	public Eleccion getEleccion() {
+	public Election getEleccion() {
 		return eleccion;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
+	public void setEleccion(Election eleccion) {
 		this.eleccion = eleccion;
 	}
 
-	public UsuarioPadron getUp() {
+	public UserVoter getUp() {
 		return up;
 	}
 
-	public void setUp(UsuarioPadron up) {
+	public void setUp(UserVoter up) {
 		this.up = up;
 	}
 }

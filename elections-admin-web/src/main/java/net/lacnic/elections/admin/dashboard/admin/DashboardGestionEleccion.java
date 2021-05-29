@@ -17,7 +17,7 @@ import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.commons.GestionEleccionStatusPanel;
 import net.lacnic.elections.admin.web.elecciones.CamposEleccionDetallePanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.ejb.ManagerEleccionesEJB;
 
 @AuthorizeInstantiation("siselecciones-only-one")
@@ -27,16 +27,16 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private Eleccion eleccion;
+	private Election eleccion;
 
 	public DashboardGestionEleccion(PageParameters params) {
 		super(params);
-		eleccion = new Eleccion();
-		eleccion.setLinkEspanol((AppContext.getInstance().getManagerBeanRemote().obtenerWebsitePorDefecto()));
-		eleccion.setRemitentePorDefecto(AppContext.getInstance().getManagerBeanRemote().obtenerRemitentePorDefecto());
+		eleccion = new Election();
+		eleccion.setLinkSpanish((AppContext.getInstance().getManagerBeanRemote().obtenerWebsitePorDefecto()));
+		eleccion.setDefaultSender(AppContext.getInstance().getManagerBeanRemote().obtenerRemitentePorDefecto());
 		if (UtilsParameters.isId(params)) {
 			setEleccion(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(UtilsParameters.getIdAsLong(params)));
-			getEleccion().initStringsFechaInicioyFin();
+			getEleccion().initStringsStartEndDates();
 		}
 		add(new FeedbackPanel("feedback"));
 		add(new GestionEleccionStatusPanel("tabDetalle", eleccion));
@@ -66,39 +66,39 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 							boolean esNueva = true;
 							boolean esSupra = false;
 							Date dtIniOrig = null;
-							Eleccion elecOrig;
+							Election elecOrig;
 
 							managerBeanRemote = AppContext.getInstance().getManagerBeanRemote();
 
 							// Valido si la elección esta junta a otra, entonces NO puedo modificar la fecha de inicio
-							if (eleccion.getIdEleccion() == 0) {
+							if (eleccion.getIdElection() == 0) {
 								esNueva = true;
 							} else {
 								esNueva = false;
-								esSupra = managerBeanRemote.isSupraEleccion(eleccion.getIdEleccion());
+								esSupra = managerBeanRemote.isSupraEleccion(eleccion.getIdElection());
 								if (esSupra) {
-									elecOrig = managerBeanRemote.obtenerEleccion(eleccion.getIdEleccion());
-									dtIniOrig = elecOrig.getFechaInicio();
+									elecOrig = managerBeanRemote.obtenerEleccion(eleccion.getIdElection());
+									dtIniOrig = elecOrig.getStartDate();
 
 								}
 							};
 
-							eleccion.initDatesFechaInicioyFin();
-							if (eleccion.getFechaInicio().after(eleccion.getFechaFin())) {
+							eleccion.initDatesStartEndDates();
+							if (eleccion.getStartDate().after(eleccion.getEndDate())) {
 								error(getString("electionManagementErrorFechas"));
-							} else if ((!esNueva) && (esSupra) && (dtIniOrig.compareTo(eleccion.getFechaInicio())!= 0)) {
+							} else if ((!esNueva) && (esSupra) && (dtIniOrig.compareTo(eleccion.getStartDate())!= 0)) {
 								error(getString("electionManagementErrorFecElecSupra"));
 							} else {
 								copiarTextos();
-								Eleccion eleccionNueva;
-								if (eleccion.getIdEleccion() == 0) {
+								Election eleccionNueva;
+								if (eleccion.getIdElection() == 0) {
 									getSession().info(getString("electionManagementExitoCreate"));
 									eleccionNueva = managerBeanRemote.actualizarEleccion(eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								} else {
 									getSession().info(getString("electionManagementExitoUpdate"));
 									eleccionNueva = managerBeanRemote.actualizarEleccion(eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								}
-								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccionNueva.getIdEleccion()));
+								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccionNueva.getIdElection()));
 
 							}
 						} catch (Exception e) {
@@ -127,20 +127,20 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 		}
 
 		public void copiarTextos() throws Exception {
-			if (eleccion.isSolosp()) {
-				eleccion.copiarDescripcionesIdiomaAlResto("SP");
-				eleccion.copiarTitulosIdiomaAlResto("SP");
-				eleccion.copiarUrlsIdiomaAlResto("SP");
+			if (eleccion.isOnlySp()) {
+				eleccion.copyLanguageDescriptions("SP");
+				eleccion.copyLanguageTitles("SP");
+				eleccion.copyLanguageURLs("SP");
 			}
 		}
 
 	}
 
-	public Eleccion getEleccion() {
+	public Election getEleccion() {
 		return eleccion;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
+	public void setEleccion(Election eleccion) {
 		this.eleccion = eleccion;
 	}
 }

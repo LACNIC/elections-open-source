@@ -28,24 +28,24 @@ public class AuditorTest extends TestCase {
     	
    	   // fields
        AssertAnnotations.assertField(Auditor.class, "idAuditor", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
-       AssertAnnotations.assertField(Auditor.class, "idMigracion", Column.class);
-       AssertAnnotations.assertField(Auditor.class, "comisionado", Column.class);
-       AssertAnnotations.assertField(Auditor.class, "expresoConformidad", Column.class);
-       AssertAnnotations.assertField(Auditor.class, "habilitaRevision", Column.class);
-       AssertAnnotations.assertField(Auditor.class, "tokenResultado", Column.class);
-       AssertAnnotations.assertField(Auditor.class, "nombre", Column.class);
-       AssertAnnotations.assertField(Auditor.class, "eleccion", JoinColumn.class, ManyToOne.class);
+       AssertAnnotations.assertField(Auditor.class, "idMigration", Column.class);
+       AssertAnnotations.assertField(Auditor.class, "commissioner", Column.class);
+       AssertAnnotations.assertField(Auditor.class, "agreement", Column.class);
+       AssertAnnotations.assertField(Auditor.class, "revisionAvailable", Column.class);
+       AssertAnnotations.assertField(Auditor.class, "resulttoke", Column.class);
+       AssertAnnotations.assertField(Auditor.class, "name", Column.class);
+       AssertAnnotations.assertField(Auditor.class, "election", JoinColumn.class, ManyToOne.class);
        AssertAnnotations.assertField(Auditor.class, "mail", Column.class);
 
        //metodos       
        AssertAnnotations.assertMethod(Auditor.class, "getIdAuditor");
-       AssertAnnotations.assertMethod(Auditor.class, "getIdMigracion");
-       AssertAnnotations.assertMethod(Auditor.class, "isComisionado");
-       AssertAnnotations.assertMethod(Auditor.class, "isExpresoConformidad");
-       AssertAnnotations.assertMethod(Auditor.class, "getTokenResultado");
-       AssertAnnotations.assertMethod(Auditor.class, "isHabilitaRevision");
-       AssertAnnotations.assertMethod(Auditor.class, "getNombre");
-       AssertAnnotations.assertMethod(Auditor.class, "getEleccion");
+       AssertAnnotations.assertMethod(Auditor.class, "getIdMigration");
+       AssertAnnotations.assertMethod(Auditor.class, "isCommissioner");
+       AssertAnnotations.assertMethod(Auditor.class, "isAgreement");
+       AssertAnnotations.assertMethod(Auditor.class, "getResulttoke");
+       AssertAnnotations.assertMethod(Auditor.class, "isRevisionAvailable");
+       AssertAnnotations.assertMethod(Auditor.class, "getName");
+       AssertAnnotations.assertMethod(Auditor.class, "getElection");
        AssertAnnotations.assertMethod(Auditor.class, "getMail");
        
        //class annotations
@@ -57,20 +57,20 @@ public class AuditorTest extends TestCase {
        JoinColumn jc;
        c = ReflectTool.getFieldAnnotation(Auditor.class, "idAuditor", Column.class);
        assertEquals("id_auditor", c.name());
-       c = ReflectTool.getFieldAnnotation(Auditor.class, "idMigracion", Column.class);
+       c = ReflectTool.getFieldAnnotation(Auditor.class, "idMigration", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Auditor.class, "comisionado", Column.class);
+       c = ReflectTool.getFieldAnnotation(Auditor.class, "commissioner", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Auditor.class, "expresoConformidad", Column.class);
+       c = ReflectTool.getFieldAnnotation(Auditor.class, "agreement", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Auditor.class, "habilitaRevision", Column.class);
+       c = ReflectTool.getFieldAnnotation(Auditor.class, "revisionAvailable", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Auditor.class, "tokenResultado", Column.class);
+       c = ReflectTool.getFieldAnnotation(Auditor.class, "resulttoke", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Auditor.class, "nombre", Column.class);
+       c = ReflectTool.getFieldAnnotation(Auditor.class, "name", Column.class);
        assertEquals("", c.name());
-       jc = ReflectTool.getFieldAnnotation(Auditor.class, "eleccion", JoinColumn.class);
-       assertEquals("id_eleccion", jc.name());
+       jc = ReflectTool.getFieldAnnotation(Auditor.class, "election", JoinColumn.class);
+       assertEquals("id_election", jc.name());
        c = ReflectTool.getFieldAnnotation(Auditor.class, "mail", Column.class);
        assertEquals("", c.name());
        

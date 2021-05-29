@@ -26,7 +26,7 @@ import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.commons.LinkValidator;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Candidato;
+import net.lacnic.elections.domain.Candidate;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardEditarCandidato extends DashboardAdminBasePage {
@@ -35,7 +35,7 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private Candidato candidato;
+	private Candidate candidato;
 	private byte[] archivoFoto;
 	private String nombreArchivo;
 	private String nombre;
@@ -51,15 +51,15 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 		super(params);
 		long idCandidato = UtilsParameters.getCandidateAsLong(params);
 		candidato = AppContext.getInstance().getManagerBeanRemote().obtenerCandidato(idCandidato);
-		nombre = candidato.getNombre();
-		bioSP = candidato.getBioEspanol();
-		bioEN = candidato.getBioIngles();
-		bioPT = candidato.getBioPortugues();
+		nombre = candidato.getName();
+		bioSP = candidato.getBioSpanish();
+		bioEN = candidato.getBioEnglish();
+		bioPT = candidato.getBioPortuguese();
 
-		linkSP = candidato.getLinkEspanol();
-		linkEN = candidato.getLinkIngles();
-		linkPT = candidato.getLinkPortugues();
-		archivoFoto = candidato.getContenidoFoto();
+		linkSP = candidato.getLinkSpanish();
+		linkEN = candidato.getLinkEnglish();
+		linkPT = candidato.getLinkPortuguese();
+		archivoFoto = candidato.getPictureInfo();
 		add(new FeedbackPanel("feedback"));
 		Form<Void> formCandidato = new Form<>("formCandidato");
 		add(formCandidato);
@@ -84,7 +84,7 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 
 			WebMarkupContainer biosCandidato = new WebMarkupContainer("biosCandidato");
 			biosCandidato.setOutputMarkupPlaceholderTag(true);
-			biosCandidato.setVisible(!candidato.isSolosp());
+			biosCandidato.setVisible(!candidato.isOnlySp());
 			formCandidato.add(biosCandidato);
 
 			TextArea<String> bioIngles = new TextArea<>("bioIngles", new PropertyModel<>(candidato, "bioIngles"));
@@ -115,7 +115,7 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 
 				@Override
 				protected void onUpdate(AjaxRequestTarget target) {
-					biosCandidato.setVisible(!candidato.isSolosp());
+					biosCandidato.setVisible(!candidato.isOnlySp());
 					target.add(biosCandidato);
 				}
 			};
@@ -136,9 +136,9 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 							if (!(fileUpload.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
 								getSession().error(getString("candidateManagemenErrorForm"));
 							} else {
-								candidato.setContenidoFoto(fileUpload.getBytes());
-								candidato.setNombreFoto(fileUpload.getClientFileName());
-								candidato.setExtensionFoto(fileUpload.getClientFileName().split("\\.")[1]);
+								candidato.setPictureInfo(fileUpload.getBytes());
+								candidato.setPictureName(fileUpload.getClientFileName());
+								candidato.setPictureExtension(fileUpload.getClientFileName().split("\\.")[1]);
 								cambiarDatos();
 							}
 						} else {
@@ -151,17 +151,17 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 				}
 
 				private void cambiarDatos() {
-					if (!(nombre.equalsIgnoreCase(candidato.getNombre())) || !(Arrays.equals(archivoFoto, candidato.getContenidoFoto()))
-							|| !(bioSP.equalsIgnoreCase(candidato.getBioEspanol())) || !(bioEN.equalsIgnoreCase(candidato.getBioIngles())) || !(bioPT.equalsIgnoreCase(candidato.getBioPortugues())) 
-							|| !(linkSP != null && linkSP.equalsIgnoreCase(candidato.getLinkEspanol())) || !(linkPT != null && linkPT.equalsIgnoreCase(candidato.getLinkPortugues())) || !(linkEN != null && linkEN.equalsIgnoreCase(candidato.getLinkIngles()))) {
-						if (candidato.isSolosp())
-							candidato.copiarBiosIdiomaAlResto();
+					if (!(nombre.equalsIgnoreCase(candidato.getName())) || !(Arrays.equals(archivoFoto, candidato.getPictureInfo()))
+							|| !(bioSP.equalsIgnoreCase(candidato.getBioSpanish())) || !(bioEN.equalsIgnoreCase(candidato.getBioEnglish())) || !(bioPT.equalsIgnoreCase(candidato.getBioPortuguese())) 
+							|| !(linkSP != null && linkSP.equalsIgnoreCase(candidato.getLinkSpanish())) || !(linkPT != null && linkPT.equalsIgnoreCase(candidato.getLinkPortuguese())) || !(linkEN != null && linkEN.equalsIgnoreCase(candidato.getLinkEnglish()))) {
+						if (candidato.isOnlySp())
+							candidato.copiarBiosLanguagesToOthers();
 						AppContext.getInstance().getManagerBeanRemote().editarCandidato(getCandidato(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("candidateEditExito"));
 					} else
 						getSession().error(getString("candidateEditError"));
 
-					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(candidato.getEleccion().getIdEleccion()));
+					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(candidato.getElection().getIdElection()));
 				}
 
 			});
@@ -172,7 +172,7 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(candidato.getEleccion().getIdEleccion()));
+					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(candidato.getElection().getIdElection()));
 				}
 
 			});
@@ -182,11 +182,11 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 		}
 	}
 
-	public Candidato getCandidato() {
+	public Candidate getCandidato() {
 		return candidato;
 	}
 
-	public void setCandidato(Candidato candidato) {
+	public void setCandidato(Candidate candidato) {
 		this.candidato = candidato;
 	}
 

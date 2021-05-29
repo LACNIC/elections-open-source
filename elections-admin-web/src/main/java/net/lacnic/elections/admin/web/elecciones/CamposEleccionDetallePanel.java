@@ -18,8 +18,8 @@ import org.apache.wicket.validation.validator.StringValidator;
 import org.apache.wicket.validation.validator.UrlValidator;
 
 import net.lacnic.elections.admin.wicket.util.Time24HoursValidator;
-import net.lacnic.elections.domain.CategoriaEleccion;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.ElectionCategory;
+import net.lacnic.elections.domain.Election;
 
 public class CamposEleccionDetallePanel extends Panel {
 
@@ -27,18 +27,18 @@ public class CamposEleccionDetallePanel extends Panel {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	public CamposEleccionDetallePanel(String id, Eleccion eleccion) {
+	public CamposEleccionDetallePanel(String id, Election eleccion) {
 		super(id);
 		try {
 			setOutputMarkupId(true);
 
-			DropDownChoice<CategoriaEleccion> selectCategoria = new DropDownChoice<>("selectCategoria", new PropertyModel<>(eleccion, "categoria"), Arrays.asList(CategoriaEleccion.values()));
+			DropDownChoice<ElectionCategory> selectCategoria = new DropDownChoice<>("selectCategoria", new PropertyModel<>(eleccion, "categoria"), Arrays.asList(ElectionCategory.values()));
 			selectCategoria.setRequired(true);
 			add(selectCategoria);
 
 			WebMarkupContainer titulosEleccion = new WebMarkupContainer("titulosEleccion");
 			titulosEleccion.setOutputMarkupPlaceholderTag(true);
-			titulosEleccion.setVisible(!eleccion.isSolosp());
+			titulosEleccion.setVisible(!eleccion.isOnlySp());
 			add(titulosEleccion);
 
 			TextField<String> tituloEspanol = new TextField<>("tituloEspanol", new PropertyModel<>(eleccion, "tituloEspanol"));
@@ -58,7 +58,7 @@ public class CamposEleccionDetallePanel extends Panel {
 
 			WebMarkupContainer descripcionesEleccion = new WebMarkupContainer("descripcionesEleccion");
 			descripcionesEleccion.setOutputMarkupPlaceholderTag(true);
-			descripcionesEleccion.setVisible(!eleccion.isSolosp());
+			descripcionesEleccion.setVisible(!eleccion.isOnlySp());
 			add(descripcionesEleccion);
 
 			TextArea<String> descripcionEspanol = new TextArea<>("descripcionEspanol", new PropertyModel<>(eleccion, "descripcionEspanol"));
@@ -78,7 +78,7 @@ public class CamposEleccionDetallePanel extends Panel {
 
 			WebMarkupContainer urlsEleccion = new WebMarkupContainer("urlsEleccion");
 			urlsEleccion.setOutputMarkupPlaceholderTag(true);
-			urlsEleccion.setVisible(!eleccion.isSolosp());
+			urlsEleccion.setVisible(!eleccion.isOnlySp());
 			add(urlsEleccion);
 
 			TextField<String> linkEspanol = new TextField<>("linkEspanol", new PropertyModel<>(eleccion, "linkEspanol"));
@@ -105,9 +105,9 @@ public class CamposEleccionDetallePanel extends Panel {
 
 				@Override
 				protected void onUpdate(AjaxRequestTarget target) {
-					descripcionesEleccion.setVisible(!eleccion.isSolosp());
-					titulosEleccion.setVisible(!eleccion.isSolosp());
-					urlsEleccion.setVisible(!eleccion.isSolosp());
+					descripcionesEleccion.setVisible(!eleccion.isOnlySp());
+					titulosEleccion.setVisible(!eleccion.isOnlySp());
+					urlsEleccion.setVisible(!eleccion.isOnlySp());
 					target.add(descripcionesEleccion);
 					target.add(titulosEleccion);
 					target.add(urlsEleccion);

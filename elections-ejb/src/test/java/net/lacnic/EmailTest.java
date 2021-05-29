@@ -22,35 +22,35 @@ public class EmailTest extends TestCase {
         return new TestSuite( EmailTest.class );
     }
     
-    public void testAuditor()
+    public void testEmail()
     {
     	AssertAnnotations.assertType(Email.class, Entity.class);
     	
    	   // fields
        AssertAnnotations.assertField(Email.class, "id", Id.class, GeneratedValue.class, SequenceGenerator.class);
-       AssertAnnotations.assertField(Email.class, "destinatarios", Column.class);
-       AssertAnnotations.assertField(Email.class, "desde", Column.class);
+       AssertAnnotations.assertField(Email.class, "recipients", Column.class);
+       AssertAnnotations.assertField(Email.class, "emailFrom", Column.class);
        AssertAnnotations.assertField(Email.class, "cc", Column.class);
        AssertAnnotations.assertField(Email.class, "bcc", Column.class);
-       AssertAnnotations.assertField(Email.class, "asunto", Column.class);
-       AssertAnnotations.assertField(Email.class, "cuerpo", Column.class);
-       AssertAnnotations.assertField(Email.class, "enviado", Column.class);
-       AssertAnnotations.assertField(Email.class, "fechaCreado", Column.class);
-       AssertAnnotations.assertField(Email.class, "tipoTemplate", Column.class);
-       AssertAnnotations.assertField(Email.class, "eleccion", JoinColumn.class, ManyToOne.class);
+       AssertAnnotations.assertField(Email.class, "subject", Column.class);
+       AssertAnnotations.assertField(Email.class, "body", Column.class);
+       AssertAnnotations.assertField(Email.class, "sent", Column.class);
+       AssertAnnotations.assertField(Email.class, "createdDate", Column.class);
+       AssertAnnotations.assertField(Email.class, "templateType", Column.class);
+       AssertAnnotations.assertField(Email.class, "election", JoinColumn.class, ManyToOne.class);
 
        //metodos       
        AssertAnnotations.assertMethod(Email.class, "getId");
-       AssertAnnotations.assertMethod(Email.class, "getDestinatarios");
+       AssertAnnotations.assertMethod(Email.class, "getRecipients");
        AssertAnnotations.assertMethod(Email.class, "getCc");
        AssertAnnotations.assertMethod(Email.class, "getBcc");
-       AssertAnnotations.assertMethod(Email.class, "getAsunto");
-       AssertAnnotations.assertMethod(Email.class, "getCuerpo");
-       AssertAnnotations.assertMethod(Email.class, "getEnviado");
-       AssertAnnotations.assertMethod(Email.class, "getDesde");
-       AssertAnnotations.assertMethod(Email.class, "getEleccion");
-       AssertAnnotations.assertMethod(Email.class, "getTipoMail");
-       AssertAnnotations.assertMethod(Email.class, "getFechaCreado");
+       AssertAnnotations.assertMethod(Email.class, "getSubject");
+       AssertAnnotations.assertMethod(Email.class, "getBody");
+       AssertAnnotations.assertMethod(Email.class, "getSent");
+       AssertAnnotations.assertMethod(Email.class, "getEmailFrom");
+       AssertAnnotations.assertMethod(Email.class, "getElection");
+       AssertAnnotations.assertMethod(Email.class, "getTemplateType");
+       AssertAnnotations.assertMethod(Email.class, "getCreatedDate");
  
        //class annotations
        Entity a = ReflectTool.getClassAnnotation(Email.class, Entity.class);
@@ -62,26 +62,26 @@ public class EmailTest extends TestCase {
        JoinColumn jc;
        sg = ReflectTool.getFieldAnnotation(Email.class, "id", SequenceGenerator.class);
        assertEquals("emaile_seq", sg.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "destinatarios", Column.class);
+       c = ReflectTool.getFieldAnnotation(Email.class, "recipients", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "desde", Column.class);
-       assertEquals("", c.name());
+       c = ReflectTool.getFieldAnnotation(Email.class, "emailFrom", Column.class);
+       assertEquals("email_from", c.name());
        c = ReflectTool.getFieldAnnotation(Email.class, "cc", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Email.class, "bcc", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "asunto", Column.class);
+       c = ReflectTool.getFieldAnnotation(Email.class, "subject", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "cuerpo", Column.class);
+       c = ReflectTool.getFieldAnnotation(Email.class, "body", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "enviado", Column.class);
+       c = ReflectTool.getFieldAnnotation(Email.class, "sent", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "fechaCreado", Column.class);
+       c = ReflectTool.getFieldAnnotation(Email.class, "createdDate", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "tipoTemplate", Column.class);
+       c = ReflectTool.getFieldAnnotation(Email.class, "templateType", Column.class);
        assertEquals("", c.name());
-       jc = ReflectTool.getFieldAnnotation(Email.class, "eleccion", JoinColumn.class);
-       assertEquals("id_eleccion", jc.name());
+       jc = ReflectTool.getFieldAnnotation(Email.class, "election", JoinColumn.class);
+       assertEquals("id_election", jc.name());
        
     }
     

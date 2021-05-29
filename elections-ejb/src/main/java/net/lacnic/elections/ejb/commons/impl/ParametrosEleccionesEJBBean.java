@@ -10,7 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import net.lacnic.elections.dao.DaoFactoryElecciones;
-import net.lacnic.elections.domain.Parametro;
+import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.ejb.commons.ParametrosEleccionesEJB;
 import net.lacnic.elections.utils.Constants;
 
@@ -33,10 +33,10 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 			if (!valor.isEmpty())
 				return valor;
 		}
-		Parametro p = em.find(Parametro.class, key);
+		Parameter p = em.find(Parameter.class, key);
 		if (p != null) {
-			Constants.getParameters().put(key, p.getValor());
-			return p.getValor();
+			Constants.getParameters().put(key, p.getValue());
+			return p.getValue();
 		}
 		return "";
 	}
@@ -51,7 +51,7 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 	}
 
 	@Override
-	public List<Parametro> obtenerListadoParametro() {
+	public List<Parameter> obtenerListadoParametro() {
 		return DaoFactoryElecciones.createParametroDao(em).obtenerParametros();
 	}
 
@@ -59,9 +59,9 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 	public boolean agregarParametro(String c, String v) {
 		try {
 			if (DaoFactoryElecciones.createParametroDao(em).getParametro(c) == null) {
-				Parametro p = new Parametro();
-				p.setClave(c);
-				p.setValor(v);
+				Parameter p = new Parameter();
+				p.setKey(c);
+				p.setValue(v);
 				em.persist(p);
 				Constants.cleanParametersCache();
 				return true;
@@ -75,7 +75,7 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 	}
 
 	@Override
-	public void editarParametro(Parametro p) {
+	public void editarParametro(Parameter p) {
 		try {
 			em.merge(p);
 			Constants.cleanParametersCache();
@@ -87,7 +87,7 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 	@Override
 	public void borrarParametro(String c) {
 		try {
-			Parametro p = DaoFactoryElecciones.createParametroDao(em).getParametro(c);
+			Parameter p = DaoFactoryElecciones.createParametroDao(em).getParametro(c);
 			em.remove(p);
 			Constants.cleanParametersCache();
 		} catch (Exception e) {

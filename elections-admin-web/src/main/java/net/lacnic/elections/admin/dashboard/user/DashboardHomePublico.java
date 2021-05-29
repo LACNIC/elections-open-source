@@ -9,13 +9,13 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.dashboard.admin.DashboardHomePage;
 import net.lacnic.elections.admin.web.bases.DashboardPublicBasePage;
-import net.lacnic.elections.domain.Personalizacion;
+import net.lacnic.elections.domain.Customization;
 
 public class DashboardHomePublico extends DashboardPublicBasePage {
 
 	private static final long serialVersionUID = 1392182581021963077L;
 	
-	private Personalizacion personalizacion;
+	private Customization personalizacion;
 	
 	private String homeHtml;
 

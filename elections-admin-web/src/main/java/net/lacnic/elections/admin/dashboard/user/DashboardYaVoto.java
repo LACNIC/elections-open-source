@@ -11,13 +11,13 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.dashboard.error.Error404;
 import net.lacnic.elections.admin.web.bases.DashboardPublicBasePage;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.UserVoter;
 
 public class DashboardYaVoto extends DashboardPublicBasePage {
 
 	private static final long serialVersionUID = -7536199173314577391L;
 	
-	private UsuarioPadron upd;
+	private UserVoter upd;
 
 	public DashboardYaVoto(PageParameters params) {
 		super(params);
@@ -25,16 +25,16 @@ public class DashboardYaVoto extends DashboardPublicBasePage {
 		add(new FeedbackPanel("feedbackPanel"));
 		getSession().info(getString("titulo_yv"));
 
-		add(new Label("titulo", upd.getEleccion().getTitulo(getIdioma())));
-		add(new Label("votante", upd.getInformacionDelVotante()));
-		add(new Label("maximo", String.valueOf(upd.getEleccion().getMaxCandidatos())));
-		add(new Label("cantidadVotos", upd.getCantVotos()));
+		add(new Label("titulo", upd.getElection().getTitle(getIdioma())));
+		add(new Label("votante", upd.getVoterInformation()));
+		add(new Label("maximo", String.valueOf(upd.getElection().getMaxCandidate())));
+		add(new Label("cantidadVotos", upd.getVoteAmount()));
 
-		Label desc = new Label("descripcion", upd.getEleccion().getDescripcion(getIdioma()));
+		Label desc = new Label("descripcion", upd.getElection().getDescription(getIdioma()));
 		desc.setEscapeModelStrings(false);
 		add(desc);
 
-		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosVotacion(upd.getIdUsuarioPadron(), upd.getEleccion().getIdEleccion());
+		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosVotacion(upd.getIdUserVoter(), upd.getElection().getIdElection());
 		final ListView<Object[]> seleccionados = new ListView<Object[]>("codigos", elegidos) {
 			private static final long serialVersionUID = 1786359392545666490L;			
 			@Override
@@ -58,7 +58,7 @@ public class DashboardYaVoto extends DashboardPublicBasePage {
 			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
 			return Error404.class;
 		} else {
-			setEleccion(upd.getEleccion());
+			setEleccion(upd.getElection());
 		}
 		return null;
 	}

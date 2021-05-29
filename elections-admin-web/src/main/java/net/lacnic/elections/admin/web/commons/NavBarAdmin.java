@@ -26,7 +26,7 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardPersonalizacion;
 import net.lacnic.elections.admin.dashboard.admin.DashboardPlantillasVer;
 import net.lacnic.elections.admin.wicket.util.ImageResource;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Personalizacion;
+import net.lacnic.elections.domain.Customization;
 
 public class NavBarAdmin extends Panel {
 
@@ -34,7 +34,7 @@ public class NavBarAdmin extends Panel {
 
 	private boolean ver = true;
 
-	private Personalizacion personalizacion;
+	private Customization personalizacion;
 
 	public NavBarAdmin(String id) {
 		super(id);
@@ -50,8 +50,8 @@ public class NavBarAdmin extends Panel {
 		String nombreArchivoSymbol;
 
 		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
-		nombreArchivoSymbol = personalizacion.getPicSimbolo();
-		archivoPicSymbol = personalizacion.getContPicSimbolo();
+		nombreArchivoSymbol = personalizacion.getPicSymbol();
+		archivoPicSymbol = personalizacion.getContPicSymbol();
 		if (archivoPicSymbol == null) {
 			add(new ContextImage("fotoSymbol","image/" + nombreArchivoSymbol));
 		} else {

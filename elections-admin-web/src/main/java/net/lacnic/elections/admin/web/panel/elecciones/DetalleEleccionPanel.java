@@ -21,7 +21,7 @@ import net.lacnic.elections.admin.web.panel.admin.ListaMensajesPanel;
 import net.lacnic.elections.admin.web.panel.candidatos.ListCandidatosEleccionPanel;
 import net.lacnic.elections.admin.web.panel.usuariopadron.ListUsuariosPadronEleccionPanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 
 public class DetalleEleccionPanel extends Panel {
 
@@ -34,57 +34,57 @@ public class DetalleEleccionPanel extends Panel {
 		try {
 
 			setOutputMarkupPlaceholderTag(true);
-			Eleccion eleccion = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccion);
-			eleccion.initStringsFechaInicioyFin();
+			Election eleccion = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccion);
+			eleccion.initStringsStartEndDates();
 
-			add(new Label("linkEspanol", eleccion.getLinkEspanol()));
-			add(new Label("linkIngles", eleccion.getLinkIngles()));
-			add(new Label("linkPortugues", eleccion.getLinkPortugues()));
-			add(new Label("tituloEspanol", eleccion.getTituloEspanol()));
-			add(new Label("tituloIngles", eleccion.getTituloIngles()));
-			add(new Label("tituloPortugues", eleccion.getTituloPortugues()));
+			add(new Label("linkEspanol", eleccion.getLinkSpanish()));
+			add(new Label("linkIngles", eleccion.getLinkEnglish()));
+			add(new Label("linkPortugues", eleccion.getLinkPortuguese()));
+			add(new Label("tituloEspanol", eleccion.getTitleSpanish()));
+			add(new Label("tituloIngles", eleccion.getTitleEnglish()));
+			add(new Label("tituloPortugues", eleccion.getTitlePortuguese()));
 
-			Label descripcionEspanol = new Label("descripcionEspanol", eleccion.getDescripcionEspanol());
+			Label descripcionEspanol = new Label("descripcionEspanol", eleccion.getDescriptionSpanish());
 			descripcionEspanol.setEscapeModelStrings(false);
 			add(descripcionEspanol);
-			Label descripcionIngles = new Label("descripcionIngles", eleccion.getDescripcionIngles());
+			Label descripcionIngles = new Label("descripcionIngles", eleccion.getDescriptionEnglish());
 			descripcionIngles.setEscapeModelStrings(false);
 			add(descripcionIngles);
-			Label descripcionPortugues = new Label("descripcionPortugues", eleccion.getDescripcionPortugues());
+			Label descripcionPortugues = new Label("descripcionPortugues", eleccion.getDescriptionPortuguese());
 			descripcionPortugues.setEscapeModelStrings(false);
 			add(descripcionPortugues);
 
-			add(new Label("maximoCandidatos", String.valueOf(eleccion.getMaxCandidatos())));
+			add(new Label("maximoCandidatos", String.valueOf(eleccion.getMaxCandidate())));
 			add(new Label("diffUTC", String.valueOf(eleccion.getDiffUTC())));
-			add(new Label("fechaCreacion", new SimpleDateFormat("dd/MM/yyyy").format(eleccion.getFechaCreacion())));
-			add(new Label("fechaInicio", eleccion.getAuxFechaInicio() + " " + eleccion.getAuxHoraInicio() + " (UTC)"));
-			add(new Label("fechaFin", eleccion.getAuxFechaFin() + " " + eleccion.getAuxHoraFin() + " (UTC)"));
-			add(new Label("habilitadoLinkVotacion", eleccion.isHabilitadoLinkVotacion() ? "SI" : "NO"));
-			add(new Label("habilitadoLinkResultado", eleccion.isHabilitadoLinkResultado() ? "SI" : "NO"));
+			add(new Label("fechaCreacion", new SimpleDateFormat("dd/MM/yyyy").format(eleccion.getCreationDate())));
+			add(new Label("fechaInicio", eleccion.getAuxStartDate() + " " + eleccion.getAuxStartHour() + " (UTC)"));
+			add(new Label("fechaFin", eleccion.getAuxEndDate() + " " + eleccion.getAuxEndHour() + " (UTC)"));
+			add(new Label("habilitadoLinkVotacion", eleccion.isVotingLinkAvailable() ? "SI" : "NO"));
+			add(new Label("habilitadoLinkResultado", eleccion.isResultLinkAvailable() ? "SI" : "NO"));
 			add(new Label("linkResultado", AppContext.getInstance().getManagerBeanRemote().obtenerLinkresultado(eleccion)));
 
-			add(new BookmarkablePageLink<Void>("editarElec", DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdEleccion())));
+			add(new BookmarkablePageLink<Void>("editarElec", DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdElection())));
 
 			add(new AjaxLazyLoadPanel<ListCandidatosEleccionPanel>("listaCandidatosPanel") {
 				private static final long serialVersionUID = 6513156554118602169L;
 
 				@Override
 				public ListCandidatosEleccionPanel getLazyLoadComponent(String markupId) {
-					return new ListCandidatosEleccionPanel(markupId, eleccion.getIdEleccion());
+					return new ListCandidatosEleccionPanel(markupId, eleccion.getIdElection());
 				}
 			});
 
-			add(new BookmarkablePageLink<Void>("editarCandidatos", DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdEleccion())));
+			add(new BookmarkablePageLink<Void>("editarCandidatos", DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection())));
 
 			add(new AjaxLazyLoadPanel<ListaAuditoresPanel>("auditoresListPanel") {
 				private static final long serialVersionUID = -8684993569281131596L;
 
 				@Override
 				public ListaAuditoresPanel getLazyLoadComponent(String markupId) {
-					return new ListaAuditoresPanel(markupId, eleccion.getIdEleccion());
+					return new ListaAuditoresPanel(markupId, eleccion.getIdElection());
 				}
 			});
-			add(new BookmarkablePageLink<Void>("editarAuditores", DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdEleccion())));
+			add(new BookmarkablePageLink<Void>("editarAuditores", DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection())));
 
 			add(new AjaxLazyLoadPanel<ListUsuariosPadronEleccionPanel>("usuariosPadron") {
 				private static final long serialVersionUID = -5066564828514741892L;
@@ -94,14 +94,14 @@ public class DetalleEleccionPanel extends Panel {
 					return new ListUsuariosPadronEleccionPanel(markupId, eleccion);
 				}
 			});
-			add(new BookmarkablePageLink<Void>("editarPadron", DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdEleccion())));
+			add(new BookmarkablePageLink<Void>("editarPadron", DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection())));
 
 			add(new AjaxLazyLoadPanel<ListaActividadesPanel>("listadoActividadesEleccion") {
 				private static final long serialVersionUID = 5350609383247662704L;
 
 				@Override
 				public ListaActividadesPanel getLazyLoadComponent(String markupId) {
-					return new ListaActividadesPanel(markupId, eleccion.getIdEleccion());
+					return new ListaActividadesPanel(markupId, eleccion.getIdElection());
 				}
 			});
 
@@ -110,7 +110,7 @@ public class DetalleEleccionPanel extends Panel {
 
 				@Override
 				public ListaMensajesPanel getLazyLoadComponent(String markupId) {
-					return new ListaMensajesPanel(markupId, eleccion.getIdEleccion(), sent);
+					return new ListaMensajesPanel(markupId, eleccion.getIdElection(), sent);
 				}
 			});
 

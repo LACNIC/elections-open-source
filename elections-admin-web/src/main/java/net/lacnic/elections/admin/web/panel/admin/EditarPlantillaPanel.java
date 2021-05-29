@@ -15,8 +15,8 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarPlantilla;
 import net.lacnic.elections.admin.dashboard.admin.DashboardPlantillasVer;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.TemplateEleccion;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.TemplateElection;
 
 public class EditarPlantillaPanel extends Panel {
 
@@ -24,7 +24,7 @@ public class EditarPlantillaPanel extends Panel {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	public EditarPlantillaPanel(String id, TemplateEleccion template) {
+	public EditarPlantillaPanel(String id, TemplateElection template) {
 		super(id);
 		try {
 			Form<Void> f = new Form<>("form");
@@ -69,13 +69,13 @@ public class EditarPlantillaPanel extends Panel {
 					try {
 						long idEleccion = 0L;
 						AppContext.getInstance().getManagerBeanRemote().modificarTemplateEleccion(template);
-						Eleccion eleccion = template.getEleccion();
-						String tipo = template.getTipoTemplate();
+						Election eleccion = template.getElection();
+						String tipo = template.getTemplateType();
 
 						if (eleccion != null) {
-							String info = getString("mailTemplEditExito1") + tipo + getString("mailTemplEditExito3") + eleccion.getTituloEspanol() + getString("mailTemplEditExito4");
+							String info = getString("mailTemplEditExito1") + tipo + getString("mailTemplEditExito3") + eleccion.getTitleSpanish() + getString("mailTemplEditExito4");
 							getSession().info(info);
-							idEleccion = eleccion.getIdEleccion();
+							idEleccion = eleccion.getIdElection();
 						} else {
 							String info = getString("mailTemplEditExito2") + tipo + getString("mailTemplEditExito4");
 							getSession().info(info);
@@ -93,7 +93,7 @@ public class EditarPlantillaPanel extends Panel {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardPlantillasVer.class, UtilsParameters.getId(template.getEleccion().getIdEleccion()));
+					setResponsePage(DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getIdElection()));
 				}
 			});
 

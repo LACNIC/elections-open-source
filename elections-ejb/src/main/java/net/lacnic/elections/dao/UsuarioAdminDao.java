@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.domain.UsuarioAdmin;
+import net.lacnic.elections.domain.UserAdmin;
 
 public class UsuarioAdminDao {
 
@@ -29,9 +29,9 @@ public class UsuarioAdminDao {
 	 *            indica el identificador de la elección
 	 * @return Retorna la instancia de eleccion con id=idEleccion
 	 */
-	public UsuarioAdmin comprobarUsuarioAdmin(String userId, String password) {
+	public UserAdmin comprobarUsuarioAdmin(String userId, String password) {
 		try {
-			TypedQuery<UsuarioAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a WHERE a.userId =:userId and a.password =:password", UsuarioAdmin.class);
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a WHERE a.userId =:userId and a.password =:password", UserAdmin.class);
 			q.setParameter("userId", userId.toLowerCase());
 			q.setParameter("password", password.toUpperCase());
 			
@@ -42,9 +42,9 @@ public class UsuarioAdminDao {
 		}
 	}
 
-	public List<UsuarioAdmin> obtenerUsuariosAdmin() {
+	public List<UserAdmin> obtenerUsuariosAdmin() {
 		try {
-			TypedQuery<UsuarioAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a", UsuarioAdmin.class);
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a", UserAdmin.class);
 			return q.getResultList();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -52,9 +52,9 @@ public class UsuarioAdminDao {
 		}
 	}
 
-	public UsuarioAdmin obtenerUsuarioAdmin(String userAdminId) {
+	public UserAdmin obtenerUsuarioAdmin(String userAdminId) {
 		try {
-			TypedQuery<UsuarioAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a WHERE UPPER(a.userId) =:userId", UsuarioAdmin.class);
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a WHERE UPPER(a.userId) =:userId", UserAdmin.class);
 			q.setParameter("userId", userAdminId.toUpperCase());
 			return q.getSingleResult();
 		} catch (Exception e) {
@@ -63,9 +63,9 @@ public class UsuarioAdminDao {
 		}
 	}
 
-	public List<UsuarioAdmin> obtenerUsuariosAdmin(long idEleccion) {
+	public List<UserAdmin> obtenerUsuariosAdmin(long idEleccion) {
 		try {
-			TypedQuery<UsuarioAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a Where a.idEleccionAutorizado =:idEleccion", UsuarioAdmin.class);
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a Where a.idEleccionAutorizado =:idEleccion", UserAdmin.class);
 			q.setParameter("idEleccion", idEleccion);
 			return q.getResultList();
 		} catch (Exception e) {

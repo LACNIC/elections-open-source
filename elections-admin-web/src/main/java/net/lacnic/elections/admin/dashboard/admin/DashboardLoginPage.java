@@ -12,20 +12,20 @@ import net.lacnic.elections.admin.app.SisEleccionesManagerSession;
 import net.lacnic.elections.admin.web.bases.DashboardPublicBasePage;
 import net.lacnic.elections.admin.web.commons.FooterLogoPanel;
 import net.lacnic.elections.admin.web.commons.LoginPanel;
-import net.lacnic.elections.domain.Personalizacion;
+import net.lacnic.elections.domain.Customization;
 
 public class DashboardLoginPage extends DashboardPublicBasePage {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Personalizacion personalizacion;
+	private Customization personalizacion;
 	private String tituloLogin;
 
 	public DashboardLoginPage(PageParameters params) {
 		super(params);
 		
 		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
-		tituloLogin = personalizacion.getTituloLogin();
+		tituloLogin = personalizacion.getLoginTitle();
 		
 		((SisEleccionesManagerSession) WebSession.get()).invalidateNow();
 		add(new FeedbackPanel("feedbackPanel"));

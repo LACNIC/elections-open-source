@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participacion;
-import net.lacnic.elections.domain.EleccionLight;
+import net.lacnic.elections.domain.ElectionLight;
 import net.ripe.ipresource.IpResourceSet;
 
 public interface MonitorEleccionesEJB {
@@ -15,7 +15,7 @@ public interface MonitorEleccionesEJB {
 
 	List<Participacion> obtenerParticipacionesOrgId(String org);
 
-	List<EleccionLight> obtenerEleccionesLightDesc();
+	List<ElectionLight> obtenerEleccionesLightDesc();
 
 	public String getWsAuthToken();
 

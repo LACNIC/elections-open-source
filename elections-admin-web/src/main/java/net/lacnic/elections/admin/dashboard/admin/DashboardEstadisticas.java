@@ -14,7 +14,7 @@ import net.lacnic.elections.admin.web.estadisticas.GraficaVotantesPanel;
 import net.lacnic.elections.admin.web.panel.elecciones.CodigosCandidatoPanel;
 import net.lacnic.elections.admin.web.panel.elecciones.ResultadoEleccionPanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardEstadisticas extends DashboardAdminBasePage {
@@ -37,12 +37,12 @@ public class DashboardEstadisticas extends DashboardAdminBasePage {
 	public DashboardEstadisticas(PageParameters params) {
 		super(params);
 		try {
-			Eleccion eleccion = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(UtilsParameters.getIdAsLong(params));
-			add(new ResultadoEleccionPanel("resultadoPanel", eleccion.getIdEleccion()).setVisible(eleccion.isTermino()));
-			add(new CodigosCandidatoPanel("codigosCandidatoPanel", eleccion.getIdEleccion()).setVisible(eleccion.isTermino()));
-			add(new GraficaVotantesPanel("graficaPanel", eleccion.getIdEleccion()));
-			add(new Label("tituloEleccion", eleccion.getTituloEspanol()));
-			add(new Label("mensaje", getString("dshbStatsMessage")).setVisible(!eleccion.isTermino()));
+			Election eleccion = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(UtilsParameters.getIdAsLong(params));
+			add(new ResultadoEleccionPanel("resultadoPanel", eleccion.getIdElection()).setVisible(eleccion.isFinished()));
+			add(new CodigosCandidatoPanel("codigosCandidatoPanel", eleccion.getIdElection()).setVisible(eleccion.isFinished()));
+			add(new GraficaVotantesPanel("graficaPanel", eleccion.getIdElection()));
+			add(new Label("tituloEleccion", eleccion.getTitleSpanish()));
+			add(new Label("mensaje", getString("dshbStatsMessage")).setVisible(!eleccion.isFinished()));
 		} catch (Exception e) {
 			appLogger.error(e);
 		}

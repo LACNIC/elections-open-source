@@ -30,15 +30,15 @@ public class ListaAuditoresRevisionPanel extends Panel {
 				@Override
 				protected void populateItem(final ListItem<Auditor> item) {
 					final Auditor actual = item.getModelObject();
-					item.add(new Label("nombreA", actual.getNombre()));
+					item.add(new Label("nombreA", actual.getName()));
 					item.add(new Label("mailA", actual.getMail()));
-					item.add(new Label("revision", (actual.isHabilitaRevision() ? "SI" : "NO")));
-					String calcularLinkVotar = UtilsLinks.calcularLinkResultadoAuditor(actual.getTokenResultado());
+					item.add(new Label("revision", (actual.isRevisionAvailable() ? "SI" : "NO")));
+					String calcularLinkVotar = UtilsLinks.calcularLinkResultadoAuditor(actual.getResulttoke());
 					Label textoLinkVotar = new Label("textoLink", calcularLinkVotar);
 					ExternalLink linkvotar = new ExternalLink("link", calcularLinkVotar);
 					linkvotar.add(textoLinkVotar);
 					item.add(linkvotar);
-					item.setVisible(actual.isComisionado());
+					item.setVisible(actual.isCommissioner());
 				}
 			};
 			add(auditoresDataView);

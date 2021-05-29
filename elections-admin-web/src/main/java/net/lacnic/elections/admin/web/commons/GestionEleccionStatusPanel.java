@@ -9,13 +9,13 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardGestionCandidatos;
 import net.lacnic.elections.admin.dashboard.admin.DashboardGestionEleccion;
 import net.lacnic.elections.admin.dashboard.admin.DashboardGestionPadron;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 
 public class GestionEleccionStatusPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 
-	public GestionEleccionStatusPanel(String id, Eleccion eleccion) {
+	public GestionEleccionStatusPanel(String id, Election eleccion) {
 		super(id);
 
 		Link<Void> detalle = new Link<Void>("detalle") {
@@ -23,10 +23,10 @@ public class GestionEleccionStatusPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+				setResponsePage(DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdElection()));
 			}
 		};
-		detalle.setEnabled(eleccion.getIdEleccion() != 0);
+		detalle.setEnabled(eleccion.getIdElection() != 0);
 		add(detalle);
 
 		Link<Void> padron = new Link<Void>("padron") {
@@ -34,10 +34,10 @@ public class GestionEleccionStatusPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+				setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection()));
 			}
 		};
-		padron.setEnabled(eleccion.getIdEleccion() != 0);
+		padron.setEnabled(eleccion.getIdElection() != 0);
 		add(padron);
 
 		Link<Void> candidatos = new Link<Void>("candidatos") {
@@ -45,10 +45,10 @@ public class GestionEleccionStatusPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+				setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
 			}
 		};
-		candidatos.setEnabled(eleccion.getIdEleccion() != 0);
+		candidatos.setEnabled(eleccion.getIdElection() != 0);
 		add(candidatos);
 
 		Link<Void> auditores = new Link<Void>("auditores") {
@@ -56,10 +56,10 @@ public class GestionEleccionStatusPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection()));
 			}
 		};
-		auditores.setEnabled(eleccion.getIdEleccion() != 0);
+		auditores.setEnabled(eleccion.getIdElection() != 0);
 		add(auditores);
 
 		if (id.equalsIgnoreCase("tabDetalle"))
@@ -69,21 +69,21 @@ public class GestionEleccionStatusPanel extends Panel {
 
 		if (id.equalsIgnoreCase("tabPadron"))
 			padron.add(new AttributeAppender("class", " current"));
-		else if (eleccion.isPadronSeteado())
+		else if (eleccion.isElectorsSet())
 			padron.add(new AttributeAppender("class", " done"));
 		else
 			padron.add(new AttributeAppender("class", " disabled"));
 
 		if (id.equalsIgnoreCase("tabCandidatos"))
 			candidatos.add(new AttributeAppender("class", " current"));
-		else if (eleccion.isCandidatosSeteado())
+		else if (eleccion.isCandidatesSet())
 			candidatos.add(new AttributeAppender("class", " done"));
 		else
 			candidatos.add(new AttributeAppender("class", " disabled"));
 
 		if (id.equalsIgnoreCase("tabAuditores"))
 			auditores.add(new AttributeAppender("class", " current"));
-		else if (eleccion.isAuditoresSeteado())
+		else if (eleccion.isAuditorsSet())
 			auditores.add(new AttributeAppender("class", " done"));
 		else
 			auditores.add(new AttributeAppender("class", " disabled"));

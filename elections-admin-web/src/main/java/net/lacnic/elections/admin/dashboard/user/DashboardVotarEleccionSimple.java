@@ -28,8 +28,8 @@ import net.lacnic.elections.admin.panel.user.DetalleVoteEleccionSimplePanel;
 import net.lacnic.elections.admin.web.bases.DashboardPublicBasePage;
 import net.lacnic.elections.admin.wicket.util.ImageResource;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Candidato;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.Candidate;
+import net.lacnic.elections.domain.UserVoter;
 
 public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 
@@ -37,8 +37,8 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private UsuarioPadron upd;
-	private List<Candidato> elegidos;
+	private UserVoter upd;
+	private List<Candidate> elegidos;
 	private WebMarkupContainer containerPregunta;
 	private WebMarkupContainer containerConfirmar;
 	private WebMarkupContainer containerCandidatos;
@@ -47,7 +47,7 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 
 	public DashboardVotarEleccionSimple(PageParameters params) {
 		super(params);
-		if (upd.isYaVoto()) {
+		if (upd.isVoted()) {
 			setResponsePage(DashboardYaVoto.class, params);
 		} else {
 			setLocale();
@@ -58,19 +58,19 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 			feedbackPanel.setOutputMarkupPlaceholderTag(true);
 			add(feedbackPanel);
 
-			add(new Label("candidatosAleatorios", getString("candidatos_aleatorios")).setVisible(getEleccion().isCandidatosAleatorios()));
-			add(new Label("maximo", String.valueOf(getEleccion().getMaxCandidatos())));
+			add(new Label("candidatosAleatorios", getString("candidatos_aleatorios")).setVisible(getEleccion().isRandomOrderCandidates()));
+			add(new Label("maximo", String.valueOf(getEleccion().getMaxCandidate())));
 
 			containerCandidatos = new WebMarkupContainer("containerCandidatos");
 			containerCandidatos.setOutputMarkupPlaceholderTag(true);
 			add(containerCandidatos);
 
-			ListView<Candidato> candidatosDataView = new ListView<Candidato>("candidatosList", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(getEleccion().getIdEleccion())) {
+			ListView<Candidate> candidatosDataView = new ListView<Candidate>("candidatosList", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(getEleccion().getIdElection())) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(final ListItem<Candidato> item) {
-					final Candidato candidato = item.getModelObject();
+				protected void populateItem(final ListItem<Candidate> item) {
+					final Candidate candidato = item.getModelObject();
 					WebMarkupContainer wmc = new WebMarkupContainer("wmc");
 					if (!elegidos.contains(candidato)) {
 						wmc.add(new AttributeModifier("class", "candidate-box-white"));
@@ -99,11 +99,11 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 					};
 					wmc.add(candidatoLink);
 
-					candidatoLink.add(new Label("nombre", candidato.getNombre()));
+					candidatoLink.add(new Label("nombre", candidato.getName()));
 					Label bio = new Label("bio", candidato.getBio(getIdioma()));
 					bio.setEscapeModelStrings(false);
 					candidatoLink.add(bio);
-					candidatoLink.add(new NonCachingImage("foto", new ImageResource(candidato.getContenidoFoto(), candidato.getExtensionFoto())));
+					candidatoLink.add(new NonCachingImage("foto", new ImageResource(candidato.getPictureInfo(), candidato.getPictureExtension())));
 					item.setOutputMarkupId(true);
 
 					String linkTexto = candidato.getLink(getIdioma());
@@ -137,11 +137,11 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 			return Error404.class;
 		} else {
 
-			setEleccion(upd.getEleccion());
+			setEleccion(upd.getElection());
 
-			if (!getEleccion().isComenzo()) {
+			if (!getEleccion().isStarted()) {
 				setResponsePage(ErrorVotacionNoComenzada.class, getPageParameters());
-			} else if (!getEleccion().isHabilitadaParaVotar()) {
+			} else if (!getEleccion().isEnabledToVote()) {
 				return ErrorVotacionNoPublica.class;
 			}
 		}
@@ -185,7 +185,7 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 				if (isOkForVote()) {
 					try {
 						AppContext.getInstance().getVoterBeanRemote().votar(getElegidos(), upd, getIP());
-						setResponsePage(DashboardVotar.class, UtilsParameters.getToken(upd.getTokenVotacion()));
+						setResponsePage(DashboardVotar.class, UtilsParameters.getToken(upd.getVoteToken()));
 					} catch (Exception e) {
 						appLogger.error(e);
 						setResponsePage(Error500.class);
@@ -213,16 +213,16 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 
 	private boolean isOkForVote() {
 		try {
-			if (AppContext.getInstance().getVoterBeanRemote().yaVoto(upd.getIdUsuarioPadron())) {
-				setResponsePage(new DashboardYaVoto(UtilsParameters.getToken(upd.getTokenVotacion())));
+			if (AppContext.getInstance().getVoterBeanRemote().yaVoto(upd.getIdUserVoter())) {
+				setResponsePage(new DashboardYaVoto(UtilsParameters.getToken(upd.getVoteToken())));
 				return false;
 			} else {
 				if (elegidos.isEmpty()) {
 					error(getString("ningunCandidato_v"));
 					return false;
 				} else {
-					if (elegidos.size() > getEleccion().getMaxCandidatos()) {
-						error(getString("muchosCandidatos_v") + getEleccion().getMaxCandidatos());
+					if (elegidos.size() > getEleccion().getMaxCandidate()) {
+						error(getString("muchosCandidatos_v") + getEleccion().getMaxCandidate());
 						return false;
 					}
 				}
@@ -248,16 +248,16 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 	@Override
 	public String getIdioma() {
 		if (upd != null)
-			return upd.getIdioma();
+			return upd.getLanguage();
 		else
 			return SecurityUtils.getLocale().getDisplayName();
 	}
 
-	public List<Candidato> getElegidos() {
+	public List<Candidate> getElegidos() {
 		return elegidos;
 	}
 
-	public void setElegidos(List<Candidato> elegidos) {
+	public void setElegidos(List<Candidate> elegidos) {
 		this.elegidos = elegidos;
 	}
 }

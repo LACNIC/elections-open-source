@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import net.lacnic.elections.domain.Actividad;
+import net.lacnic.elections.domain.Activity;
 
 public class ActividadDao {
 
@@ -15,19 +15,19 @@ public class ActividadDao {
 		this.em = em;
 	}
 
-	public List<Actividad> obtenerTodasLasActividades() {
-		TypedQuery<Actividad> q = em.createQuery("SELECT a FROM Actividad a ORDER BY a.idActividad DESC", Actividad.class);
+	public List<Activity> obtenerTodasLasActividades() {
+		TypedQuery<Activity> q = em.createQuery("SELECT a FROM activity a ORDER BY a.id_activity DESC", Activity.class);
 		return q.getResultList();
 	}
 
-	public List<Actividad> obtenerTodasLasActividades(long idEleccion) {
-		TypedQuery<Actividad> q = em.createQuery("SELECT a FROM Actividad a WHERE idEleccion =:idEleccion ORDER BY a.idActividad DESC", Actividad.class);
+	public List<Activity> obtenerTodasLasActividades(long idEleccion) {
+		TypedQuery<Activity> q = em.createQuery("SELECT a FROM activity a WHERE idEleccion =:idEleccion ORDER BY a.id_activity DESC", Activity.class);
 		q.setParameter("idEleccion", idEleccion);
 		return q.getResultList();
 	}
 
-	public List<Actividad> obtenerActividadesDeAdmin(String nomAdmin) {
-		TypedQuery<Actividad> q = em.createQuery("SELECT a FROM Actividad a WHERE a.nomUser =:nomAdmin ORDER BY a.tiempo", Actividad.class);
+	public List<Activity> obtenerActividadesDeAdmin(String nomAdmin) {
+		TypedQuery<Activity> q = em.createQuery("SELECT a FROM activity a WHERE a.username =:nomAdmin ORDER BY a.tiempo", Activity.class);
 		q.setParameter("nomAdmin", nomAdmin);
 		return q.getResultList();
 	}

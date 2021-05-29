@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import net.lacnic.elections.domain.Voto;
+import net.lacnic.elections.domain.Vote;
 
 public class VotoDao {
 	
@@ -18,21 +18,21 @@ public class VotoDao {
 		this.em = em;
 	}
 
-	public List<Voto> obtenerVotosEleccion(long idEleccion) {
-		TypedQuery<Voto> q = em.createQuery("SELECT v FROM Voto v WHERE v.eleccion.idEleccion =:idEleccion ORDER BY v.idVoto desc", Voto.class);
+	public List<Vote> obtenerVotosEleccion(long idEleccion) {
+		TypedQuery<Vote> q = em.createQuery("SELECT v FROM Voto v WHERE v.eleccion.idEleccion =:idEleccion ORDER BY v.idVoto desc", Vote.class);
 		q.setParameter(ID_ELECCION, idEleccion);
 		return q.getResultList();
 	}
 
-	public List<Voto> obtenerVotos(long idUsuarioPadron, long idEleccion) {
-		TypedQuery<Voto> q = em.createQuery("SELECT v FROM Voto v WHERE v.usuarioPadron.idUsuarioPadron =:idUsuarioPadron AND v.eleccion.idEleccion =:idEleccion", Voto.class);
+	public List<Vote> obtenerVotos(long idUsuarioPadron, long idEleccion) {
+		TypedQuery<Vote> q = em.createQuery("SELECT v FROM Voto v WHERE v.usuarioPadron.idUsuarioPadron =:idUsuarioPadron AND v.eleccion.idEleccion =:idEleccion", Vote.class);
 		q.setParameter("idUsuarioPadron", idUsuarioPadron);
 		q.setParameter(ID_ELECCION, idEleccion);
 		return q.getResultList();
 	}
 
-	public List<Voto> obtenerVotosCandidatos(long idCandidato) {
-		TypedQuery<Voto> q = em.createQuery("SELECT v FROM Voto v WHERE v.candidato.idCandidato =:idCandidato ORDER BY v.idVoto desc", Voto.class);
+	public List<Vote> obtenerVotosCandidatos(long idCandidato) {
+		TypedQuery<Vote> q = em.createQuery("SELECT v FROM Voto v WHERE v.candidato.idCandidato =:idCandidato ORDER BY v.idVoto desc", Vote.class);
 		q.setParameter("idCandidato", idCandidato);
 		return q.getResultList();
 	}

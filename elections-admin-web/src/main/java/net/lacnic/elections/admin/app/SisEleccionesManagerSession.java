@@ -9,7 +9,7 @@ import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.apache.wicket.request.Request;
 
-import net.lacnic.elections.domain.UsuarioAdmin;
+import net.lacnic.elections.domain.UserAdmin;
 
 public class SisEleccionesManagerSession extends AuthenticatedWebSession {
 
@@ -25,14 +25,14 @@ public class SisEleccionesManagerSession extends AuthenticatedWebSession {
 
 	@Override
 	public boolean authenticate(String adminId, String password) {
-		UsuarioAdmin a = AppContext.getInstance().getManagerBeanRemote().loginAdmin(adminId, password, getIPClient());
+		UserAdmin a = AppContext.getInstance().getManagerBeanRemote().loginAdmin(adminId, password, getIPClient());
 		
 		String lang;
 		
 		if (a != null) {
 			setAdminId(adminId);
 			setSignoPass(password);
-			setIdEleccionAutorizado(a.getIdEleccionAutorizado());
+			setIdEleccionAutorizado(a.getIdElectionAuthorized());
 			
 			lang = getLocale().getLanguage();			
 			switch(lang) {
