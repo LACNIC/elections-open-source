@@ -11,14 +11,14 @@ import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.commons.DropDownEleccion;
 import net.lacnic.elections.admin.web.panel.admin.ListaMensajesPanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardMensajes extends DashboardAdminBasePage {
 
 	private static final long serialVersionUID = -9012477457154755011L;
 
-	private Eleccion eleccionFiltrar;
+	private Election eleccionFiltrar;
 
 	public DashboardMensajes(PageParameters params) {
 		super(params);
@@ -37,7 +37,7 @@ public class DashboardMensajes extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				params.remove(UtilsParameters.getIdText());
-				params.add(UtilsParameters.getIdText(), getEleccionFiltrar().getIdEleccion());
+				params.add(UtilsParameters.getIdText(), getEleccionFiltrar().getIdElection());
 				setResponsePage(DashboardMensajes.class, params);
 			}
 
@@ -46,11 +46,11 @@ public class DashboardMensajes extends DashboardAdminBasePage {
 		add(new ListaMensajesPanel("listMensajes", UtilsParameters.getIdAsLong(params), UtilsParameters.isAll(params)));
 	}
 
-	public Eleccion getEleccionFiltrar() {
+	public Election getEleccionFiltrar() {
 		return eleccionFiltrar;
 	}
 
-	public void setEleccionFiltrar(Eleccion eleccionFiltrar) {
+	public void setEleccionFiltrar(Election eleccionFiltrar) {
 		this.eleccionFiltrar = eleccionFiltrar;
 	}
 }

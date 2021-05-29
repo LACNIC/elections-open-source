@@ -11,8 +11,8 @@ import org.apache.wicket.model.PropertyModel;
 
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEleccionesJuntas;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.SupraEleccion;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.JointElection;
 
 public class EditEleccionesJuntasPanel extends Panel {
 
@@ -45,11 +45,11 @@ public class EditEleccionesJuntasPanel extends Panel {
 				long idEleccionA = Long.parseLong(selectedA.split("-")[0]);
 				long idEleccionB = Long.parseLong(selectedB.split("-")[0]);
 				
-				Eleccion e1 = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccionA); 
-				Eleccion e2 = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccionB);
+				Election e1 = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccionA); 
+				Election e2 = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccionB);
 				
-				Date dtIniE1 = e1.getFechaInicio();
-				Date dtIniE2 = e2.getFechaInicio();
+				Date dtIniE1 = e1.getStartDate();
+				Date dtIniE2 = e2.getStartDate();
 				
 				
 				if (selectedA.equals(selectedB)) {
@@ -61,9 +61,9 @@ public class EditEleccionesJuntasPanel extends Panel {
 				} else if (dtIniE1.compareTo(dtIniE2) != 0) {
 					error(getString("uniteElecEditError3"));
 				} else {
-					SupraEleccion supra = new SupraEleccion();
-					supra.setIdEleccionA(idEleccionA);
-					supra.setIdEleccionB(idEleccionB);
+					JointElection supra = new JointElection();
+					supra.setIdElectionA(idEleccionA);
+					supra.setIdElectionB(idEleccionB);
 					AppContext.getInstance().getManagerBeanRemote().actualizarSupraEleccion(supra);
 					setResponsePage(new DashboardEleccionesJuntas());
 				}

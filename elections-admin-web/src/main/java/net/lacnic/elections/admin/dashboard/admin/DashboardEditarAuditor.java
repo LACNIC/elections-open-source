@@ -31,7 +31,7 @@ public class DashboardEditarAuditor extends DashboardAdminBasePage {
 		long idAuditor = UtilsParameters.getAuditAsLong(params);
 		auditor = AppContext.getInstance().getManagerBeanRemote().obtenerAuditor(idAuditor);
 		email = auditor.getMail();
-		nombre = auditor.getNombre();
+		nombre = auditor.getName();
 		add(new FeedbackPanel("feedback"));
 		Form<Void> formAuditor = new Form<>("formAuditor");
 		add(formAuditor);
@@ -55,11 +55,11 @@ public class DashboardEditarAuditor extends DashboardAdminBasePage {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				if (!(email.equalsIgnoreCase(auditor.getMail())) || !(nombre.equalsIgnoreCase(auditor.getNombre()))) {
+				if (!(email.equalsIgnoreCase(auditor.getMail())) || !(nombre.equalsIgnoreCase(auditor.getName()))) {
 					AppContext.getInstance().getManagerBeanRemote().editarAuditor(getAuditor(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("auditorEditExito"));
 				}
-				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(auditor.getEleccion().getIdEleccion()));
+				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(auditor.getElection().getIdElection()));
 			}
 
 		});
@@ -70,7 +70,7 @@ public class DashboardEditarAuditor extends DashboardAdminBasePage {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(auditor.getEleccion().getIdEleccion()));
+				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(auditor.getElection().getIdElection()));
 			}
 
 		});

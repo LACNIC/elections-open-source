@@ -5,10 +5,10 @@ import java.io.File;
 
 import net.lacnic.elections.data.ResultadoEleccionesData;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.domain.Candidato;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.SupraEleccion;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.Candidate;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.JointElection;
+import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.exception.OperationNotPermittedException;
 
 
@@ -18,9 +18,9 @@ public interface VotanteEleccionesEJB {
 
 	public void intentoFallidoIp(String remoteAddress);
 
-	public List<Candidato> obtenerCandidatosEleccionOrdenados(long idEleccion) throws Exception;
+	public List<Candidate> obtenerCandidatosEleccionOrdenados(long idEleccion) throws Exception;
 
-	public List<Candidato> obtenerCandidatosEleccionConVotos(long idEleccion) throws Exception;
+	public List<Candidate> obtenerCandidatosEleccionConVotos(long idEleccion) throws Exception;
 
 	public long obtenerVotosCandidato(long idCandidato) throws Exception;
 
@@ -42,13 +42,13 @@ public interface VotanteEleccionesEJB {
 
 	ResultadoEleccionesData obtenerResultadoEleccionesData(long idEleccion) throws Exception;
 
-	UsuarioPadron verificarAccesoUP(String token);
+	UserVoter verificarAccesoUP(String token);
 
 	Auditor verificarAccesoResultadoAuditor(String token);
 
-	Eleccion verificarAccesoResultado(String token);
+	Election verificarAccesoResultado(String token);
 
-	void votar(List<Candidato> candidatos, UsuarioPadron up, String ip) throws OperationNotPermittedException;
+	void votar(List<Candidate> candidatos, UserVoter up, String ip) throws OperationNotPermittedException;
 
 	void confirmarEleccionAuditor(long idAuditor);
 
@@ -58,12 +58,12 @@ public interface VotanteEleccionesEJB {
 
 	void habilitarRevisionEleccionAuditor(long idAuditor, String ip);
 
-	public Eleccion obtenerEleccion(long idAsLong);
+	public Election obtenerEleccion(long idAsLong);
 
 	public boolean isEleccionSimple(long idEleccion);
 
-	UsuarioPadron[] verificarAccesoUPEleccionJunta(String token);
+	UserVoter[] verificarAccesoUPEleccionJunta(String token);
 
-	SupraEleccion obtenerSupraEleccion(long idEleccion);
+	JointElection obtenerSupraEleccion(long idEleccion);
 
 }

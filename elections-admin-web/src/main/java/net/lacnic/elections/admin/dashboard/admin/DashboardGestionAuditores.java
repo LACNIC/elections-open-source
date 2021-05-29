@@ -10,12 +10,12 @@ import net.lacnic.elections.admin.web.commons.GestionEleccionStatusPanel;
 import net.lacnic.elections.admin.web.elecciones.AgregarAuditoresPanel;
 import net.lacnic.elections.admin.web.elecciones.ListaAuditoresPanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardGestionAuditores extends DashboardAdminBasePage {
 	private static final long serialVersionUID = 1L;
-	private Eleccion eleccion;
+	private Election eleccion;
 
 	public DashboardGestionAuditores(PageParameters params) {
 		super(params);
@@ -23,16 +23,16 @@ public class DashboardGestionAuditores extends DashboardAdminBasePage {
 		add(new FeedbackPanel("feedback"));
 
 		add(new GestionEleccionStatusPanel("tabAuditores", eleccion));
-		add(new ListaAuditoresPanel("listaAuditoresPanel", eleccion.getIdEleccion()));
+		add(new ListaAuditoresPanel("listaAuditoresPanel", eleccion.getIdElection()));
 		add(new AgregarAuditoresPanel("agregarAuditoresPanel", eleccion));
 
 	}
 
-	public Eleccion getEleccion() {
+	public Election getEleccion() {
 		return eleccion;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
+	public void setEleccion(Election eleccion) {
 		this.eleccion = eleccion;
 	}
 }

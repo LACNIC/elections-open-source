@@ -18,31 +18,31 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.SupraEleccion;
-import net.lacnic.elections.domain.TemplateEleccion;
-import net.lacnic.elections.domain.TipoDestinatario;
+import net.lacnic.elections.domain.JointElection;
+import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.RecipientType;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardEnviarEmailPaso2 extends DashboardAdminBasePage {
 
 	private static final long serialVersionUID = -5648589978016911231L;
-	private TipoDestinatario tipoDestinatario;
+	private RecipientType tipoDestinatario;
 
-	public DashboardEnviarEmailPaso2(final TemplateEleccion template, PageParameters params) {
+	public DashboardEnviarEmailPaso2(final TemplateElection template, PageParameters params) {
 		super(params);
 		add(new FeedbackPanel("feedback"));
 
-		final List<TipoDestinatario> tiposDestinatarios = Arrays.asList(TipoDestinatario.values());
+		final List<RecipientType> tiposDestinatarios = Arrays.asList(RecipientType.values());
 
-		RadioGroup<TipoDestinatario> destinatarios = new RadioGroup<>("destinatarios", new PropertyModel<>(this, "tipoDestinatario"));
+		RadioGroup<RecipientType> destinatarios = new RadioGroup<>("destinatarios", new PropertyModel<>(this, "tipoDestinatario"));
 
-		destinatarios.add(new ListView<TipoDestinatario>("tiposDestinatarios", tiposDestinatarios) {
+		destinatarios.add(new ListView<RecipientType>("tiposDestinatarios", tiposDestinatarios) {
 
 			private static final long serialVersionUID = -1145609116531304514L;
 
-			protected void populateItem(ListItem<TipoDestinatario> it) {
+			protected void populateItem(ListItem<RecipientType> it) {
 
-				it.add(new Radio<TipoDestinatario>("radio", it.getModel()).add(new Label("label", it.getModelObject().toString())));
+				it.add(new Radio<RecipientType>("radio", it.getModel()).add(new Label("label", it.getModelObject().toString())));
 			}
 		});
 
@@ -56,14 +56,14 @@ public class DashboardEnviarEmailPaso2 extends DashboardAdminBasePage {
 				boolean isSupra = false;
 				boolean mailPadron = false;
 				boolean padronIgual = true;				
-				SupraEleccion supraElec;
+				JointElection supraElec;
 
-				if ((getTipoDestinatario() != null) && (getTipoDestinatario().compareTo(TipoDestinatario.VOTANTES) == 0)) {
+				if ((getTipoDestinatario() != null) && (getTipoDestinatario().compareTo(RecipientType.VOTANTES) == 0)) {
 					mailPadron = true;
-					isSupra = AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(template.getEleccion().getIdEleccion());
+					isSupra = AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(template.getElection().getIdElection());
 					// Si es elección conjunta y se va a enviar mail al padron, debeo validar si son iguales 
 					if (isSupra) {
-						supraElec = AppContext.getInstance().getManagerBeanRemote().obtenerSupraEleccion(template.getEleccion().getIdEleccion());
+						supraElec = AppContext.getInstance().getManagerBeanRemote().obtenerSupraEleccion(template.getElection().getIdElection());
 						padronIgual = AppContext.getInstance().getManagerBeanRemote().isPadronesIguales(supraElec); 
 					};				
 				};
@@ -73,24 +73,24 @@ public class DashboardEnviarEmailPaso2 extends DashboardAdminBasePage {
 				} else if (mailPadron && isSupra && !padronIgual) { 
 					error(getString("sendMailSupraPadronDifError"));
 				} else {
-					template.setTipoDestinatario(tipoDestinatario);
+					template.setRecipientType(tipoDestinatario);
 					setResponsePage(new DashboardPreviewDestinatarios(template, params));
 				}
 
 			}
 		};
-		form.add(new BookmarkablePageLink<>("cancelar", DashboardPlantillasVer.class, UtilsParameters.getId(template.getEleccion().getIdEleccion())));
+		form.add(new BookmarkablePageLink<>("cancelar", DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getIdElection())));
 
 		add(form);
 		form.add(destinatarios);
 
 	}
 
-	public TipoDestinatario getTipoDestinatario() {
+	public RecipientType getTipoDestinatario() {
 		return tipoDestinatario;
 	}
 
-	public void setTipoDestinatario(TipoDestinatario tipoMensaje) {
+	public void setTipoDestinatario(RecipientType tipoMensaje) {
 		this.tipoDestinatario = tipoMensaje;
 	}
 

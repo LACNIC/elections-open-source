@@ -12,7 +12,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.admin.app.AppContext;
-import net.lacnic.elections.domain.Candidato;
+import net.lacnic.elections.domain.Candidate;
 
 public class ResultadoEleccionPanel extends Panel {
 
@@ -23,29 +23,29 @@ public class ResultadoEleccionPanel extends Panel {
 	public ResultadoEleccionPanel(String id, final long idEleccion) {
 		super(id);
 		try {
-			List<Candidato> listaCandidatos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosEleccionConVotos(idEleccion);
-			Collections.sort(listaCandidatos, new Comparator<Candidato>() {
+			List<Candidate> listaCandidatos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosEleccionConVotos(idEleccion);
+			Collections.sort(listaCandidatos, new Comparator<Candidate>() {
 				@Override
-				public int compare(Candidato o1, Candidato o2) {
+				public int compare(Candidate o1, Candidate o2) {
 					try {
-						return AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o1.getIdCandidato()) > AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o2.getIdCandidato()) ? -1 : 1;
+						return AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o1.getIdCandidate()) > AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o2.getIdCandidate()) ? -1 : 1;
 					} catch (Exception e) {
 						return 0;
 					}
 				}
 			});
 
-			final ListView<Candidato> dataViewCandidatos = new ListView<Candidato>("dataViewCandidatos", listaCandidatos) {
+			final ListView<Candidate> dataViewCandidatos = new ListView<Candidate>("dataViewCandidatos", listaCandidatos) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<Candidato> item) {
-					final Candidato c = item.getModelObject();
+				protected void populateItem(ListItem<Candidate> item) {
+					final Candidate c = item.getModelObject();
 					try {
-						Label nombreCandidato = new Label("nombre", c.getNombre());
+						Label nombreCandidato = new Label("nombre", c.getName());
 						nombreCandidato.setMarkupId("nombreCandidato"+item.getIndex());
 						item.add(nombreCandidato);
-						Label votosCandidato = new Label("votos", String.valueOf(AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(c.getIdCandidato())));
+						Label votosCandidato = new Label("votos", String.valueOf(AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(c.getIdCandidate())));
 						votosCandidato.setMarkupId("votosCandidato"+item.getIndex());
 						item.add(votosCandidato);
 					} catch (Exception e) {

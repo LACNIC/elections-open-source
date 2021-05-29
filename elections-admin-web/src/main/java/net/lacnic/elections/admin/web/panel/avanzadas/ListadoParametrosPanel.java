@@ -16,7 +16,7 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardEditarParametrosPage;
 import net.lacnic.elections.admin.dashboard.admin.DashboardParametros;
 import net.lacnic.elections.admin.web.commons.BotonConConfirmacionEliminar;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Parametro;
+import net.lacnic.elections.domain.Parameter;
 
 public class ListadoParametrosPanel extends Panel {
 
@@ -24,26 +24,26 @@ public class ListadoParametrosPanel extends Panel {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private List<Parametro> listadoParametros;
+	private List<Parameter> listadoParametros;
 
 	public ListadoParametrosPanel(String id) {
 		super("listadoParametro");
 
 		listadoParametros = AppContext.getInstance().getManagerBeanRemote().obtenerListadoParamteros();
 
-		final ListView<Parametro> listadoParams = new ListView<Parametro>("listadoParametros", listadoParametros) {
+		final ListView<Parameter> listadoParams = new ListView<Parameter>("listadoParametros", listadoParametros) {
 
 			private static final long serialVersionUID = 2146073776795909288L;
 
 			@Override
-			protected void populateItem(final ListItem<Parametro> item) {
+			protected void populateItem(final ListItem<Parameter> item) {
 				try {
-					final Parametro p = item.getModelObject();
+					final Parameter p = item.getModelObject();
 
-					item.add(new Label("claveParametro", p.getClave()));
-					item.add(new Label("valorParametro", p.getValor()));
+					item.add(new Label("claveParametro", p.getKey()));
+					item.add(new Label("valorParametro", p.getValue()));
 
-					BookmarkablePageLink<Void> editarParametro = new BookmarkablePageLink<>("editarParametro", DashboardEditarParametrosPage.class, UtilsParameters.getClaveId(p.getClave()));
+					BookmarkablePageLink<Void> editarParametro = new BookmarkablePageLink<>("editarParametro", DashboardEditarParametrosPage.class, UtilsParameters.getClaveId(p.getKey()));
 					editarParametro.setMarkupId("editarParametro" + item.getIndex());
 					item.add(editarParametro);
 
@@ -53,7 +53,7 @@ public class ListadoParametrosPanel extends Panel {
 
 						@Override
 						public void onConfirmar() {					
-							AppContext.getInstance().getManagerBeanRemote().borrarParametro(p.getClave(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().borrarParametro(p.getKey(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("advParameterExito"));
 							setResponsePage(DashboardParametros.class); 
 						}

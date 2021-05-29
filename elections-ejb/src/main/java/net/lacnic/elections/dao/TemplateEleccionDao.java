@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.domain.TemplateEleccion;
+import net.lacnic.elections.domain.TemplateElection;
 
 public class TemplateEleccionDao {
 
@@ -53,20 +53,20 @@ public class TemplateEleccionDao {
 		return (String) q.getSingleResult();
 	}
 
-	public List<TemplateEleccion> obtenerTemplatesEleccion(Long idEleccion) {
-		TypedQuery<TemplateEleccion> q = em.createQuery("SELECT t FROM TemplateEleccion t WHERE t.eleccion.idEleccion=:idEleccion", TemplateEleccion.class);
+	public List<TemplateElection> obtenerTemplatesEleccion(Long idEleccion) {
+		TypedQuery<TemplateElection> q = em.createQuery("SELECT t FROM TemplateEleccion t WHERE t.eleccion.idEleccion=:idEleccion", TemplateElection.class);
 		q.setParameter(ID_ELECCION, idEleccion);
 		return q.getResultList();
 	}
 
-	public List<TemplateEleccion> obtenerTemplatesBase() {
-		TypedQuery<TemplateEleccion> q = em.createQuery("SELECT t FROM TemplateEleccion t WHERE t.eleccion=NULL", TemplateEleccion.class);
+	public List<TemplateElection> obtenerTemplatesBase() {
+		TypedQuery<TemplateElection> q = em.createQuery("SELECT t FROM TemplateEleccion t WHERE t.eleccion=NULL", TemplateElection.class);
 		return q.getResultList();
 	}
 
-	public TemplateEleccion obtenerTemplateBase(String tipo) {
+	public TemplateElection obtenerTemplateBase(String tipo) {
 		try {
-			TypedQuery<TemplateEleccion> q = em.createQuery("SELECT t FROM TemplateEleccion t WHERE t.tipoTemplate=:tipo and t.eleccion=NULL", TemplateEleccion.class);
+			TypedQuery<TemplateElection> q = em.createQuery("SELECT t FROM TemplateEleccion t WHERE t.tipoTemplate=:tipo and t.eleccion=NULL", TemplateElection.class);
 			q.setParameter("tipo", tipo.toUpperCase());
 			return q.getSingleResult();
 		} catch (Exception e) {
@@ -75,11 +75,11 @@ public class TemplateEleccionDao {
 		}
 	}
 
-	public TemplateEleccion obtenerTemplate(String tipo, Long idEleccion) {
-		TypedQuery<TemplateEleccion> q = em.createQuery("SELECT t FROM TemplateEleccion t WHERE t.tipoTemplate=:tipo and t.eleccion.idEleccion=:idEleccion", TemplateEleccion.class);
+	public TemplateElection obtenerTemplate(String tipo, Long idEleccion) {
+		TypedQuery<TemplateElection> q = em.createQuery("SELECT t FROM TemplateEleccion t WHERE t.tipoTemplate=:tipo and t.eleccion.idEleccion=:idEleccion", TemplateElection.class);
 		q.setParameter("tipo", tipo.toUpperCase());
 		q.setParameter(ID_ELECCION, idEleccion);
-		List<TemplateEleccion> templates = q.getResultList();
+		List<TemplateElection> templates = q.getResultList();
 		return templates.isEmpty() ? null : templates.get(0);
 	}
 

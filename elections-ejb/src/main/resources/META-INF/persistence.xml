@@ -7,22 +7,22 @@
 		transaction-type="JTA">
 		<jta-data-source>java:/elecciones-ds</jta-data-source>
 
-		<class>net.lacnic.elections.domain.AccesosIps</class>
-		<class>net.lacnic.elections.domain.Actividad</class>
+		<class>net.lacnic.elections.domain.IpAccess</class>
+		<class>net.lacnic.elections.domain.Activity</class>
 		<class>net.lacnic.elections.domain.Auditor</class>
-		<class>net.lacnic.elections.domain.Candidato</class>
-		<class>net.lacnic.elections.domain.Comisionado</class>
-		<class>net.lacnic.elections.domain.Eleccion</class>
-		<class>net.lacnic.elections.domain.EleccionLight</class>
+		<class>net.lacnic.elections.domain.Candidate</class>
+		<class>net.lacnic.elections.domain.Comissioner</class>
+		<class>net.lacnic.elections.domain.Election</class>
+		<class>net.lacnic.elections.domain.ElectionLight</class>
 		<class>net.lacnic.elections.domain.Email</class>
-		<class>net.lacnic.elections.domain.EmailHistorico</class>
-		<class>net.lacnic.elections.domain.Parametro</class>
-		<class>net.lacnic.elections.domain.Personalizacion</class>
-		<class>net.lacnic.elections.domain.SupraEleccion</class>
-		<class>net.lacnic.elections.domain.TemplateEleccion</class>
-		<class>net.lacnic.elections.domain.UsuarioAdmin</class>
-		<class>net.lacnic.elections.domain.UsuarioPadron</class>
-		<class>net.lacnic.elections.domain.Voto</class>
+		<class>net.lacnic.elections.domain.EmailHistory</class>
+		<class>net.lacnic.elections.domain.Parameter</class>
+		<class>net.lacnic.elections.domain.Customization</class>
+		<class>net.lacnic.elections.domain.JointElection</class>
+		<class>net.lacnic.elections.domain.TemplateElection</class>
+		<class>net.lacnic.elections.domain.UserAdmin</class>
+		<class>net.lacnic.elections.domain.UserVoter</class>
+		<class>net.lacnic.elections.domain.Vote</class>
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

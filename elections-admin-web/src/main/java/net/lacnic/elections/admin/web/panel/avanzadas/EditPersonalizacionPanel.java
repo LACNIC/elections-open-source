@@ -20,7 +20,7 @@ import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.web.commons.LinkValidator;
 import net.lacnic.elections.admin.web.commons.OnOffSwitch;
 import net.lacnic.elections.admin.wicket.util.ImageResource;
-import net.lacnic.elections.domain.Personalizacion;
+import net.lacnic.elections.domain.Customization;
 
 public class EditPersonalizacionPanel extends Panel {
 
@@ -28,7 +28,7 @@ public class EditPersonalizacionPanel extends Panel {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private Personalizacion personalizacion;
+	private Customization personalizacion;
 
 	private byte[] archivoPicSmallLogo;
 	private String nombreArchivoSmallLogo;
@@ -50,12 +50,12 @@ public class EditPersonalizacionPanel extends Panel {
 
 		nombreArchivoSmallLogo = personalizacion.getPicSmallLogo();
 		nombreArchivoBigLogo = personalizacion.getPicBigLogo();
-		nombreArchivoSymbol = personalizacion.getPicSimbolo();
+		nombreArchivoSymbol = personalizacion.getPicSymbol();
 		archivoPicSmallLogo = personalizacion.getContPicSmallLogo();
 		archivoPicBigLogo = personalizacion.getContPicBigLogo();
-		archivoPicSymbol = personalizacion.getContPicSimbolo();
-		tituloSitio = personalizacion.getTituloSitio();
-		tituloLogin = personalizacion.getTituloLogin();
+		archivoPicSymbol = personalizacion.getContPicSymbol();
+		tituloSitio = personalizacion.getSiteTitle();
+		tituloLogin = personalizacion.getLoginTitle();
 		homeHtml = personalizacion.getHomeHtml();
 		
 		Form<Void> form = new Form<>("formPersonalizacion");
@@ -164,8 +164,8 @@ public class EditPersonalizacionPanel extends Panel {
 								getSession().error(getString("advEditPersonalizErrExt"));
 							} else {
 								// subo el archivo
-								personalizacion.setPicSimbolo(fileUploadSymbol.getClientFileName());
-								personalizacion.setContPicSimbolo(fileUploadSymbol.getBytes());
+								personalizacion.setPicSymbol(fileUploadSymbol.getClientFileName());
+								personalizacion.setContPicSymbol(fileUploadSymbol.getBytes());
 								hayArchivo = true;
 							}
 						}
@@ -177,8 +177,8 @@ public class EditPersonalizacionPanel extends Panel {
 							setTituloSitio(getString("advEditPersonalizTitSitioDef"));
 						}
 						
-						personalizacion.setTituloLogin(getTituloLogin());
-						personalizacion.setTituloSitio(getTituloSitio());
+						personalizacion.setLoginTitle(getTituloLogin());
+						personalizacion.setSiteTitle(getTituloSitio());
 
 						/*if ((!error) && (hayArchivo)) {*/
 						if ((!error) ) {

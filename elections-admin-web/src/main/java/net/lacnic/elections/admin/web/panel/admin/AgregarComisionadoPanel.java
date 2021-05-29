@@ -12,16 +12,16 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.dashboard.admin.DashboardComisionados;
 import net.lacnic.elections.admin.web.commons.AuditorValidator;
-import net.lacnic.elections.domain.Comisionado;
+import net.lacnic.elections.domain.Comissioner;
 
 public class AgregarComisionadoPanel extends Panel {
 
 	private static final long serialVersionUID = -4400633632996398779L;
-	private Comisionado comisionado;
+	private Comissioner comisionado;
 
 	public AgregarComisionadoPanel(String id) {
 		super(id);
-		comisionado = new Comisionado();
+		comisionado = new Comissioner();
 
 		Form<Void> formComisionado = new Form<>("formComisionado");
 		add(formComisionado);
@@ -46,7 +46,7 @@ public class AgregarComisionadoPanel extends Panel {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				boolean agregarC = AppContext.getInstance().getManagerBeanRemote().agregarComisionado(getComisionado().getNombre(), getComisionado().getMail(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+				boolean agregarC = AppContext.getInstance().getManagerBeanRemote().agregarComisionado(getComisionado().getName(), getComisionado().getMail(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 				if (agregarC) {
 					SecurityUtils.info(getString("commissionerAddExitoAdd"));
 					setResponsePage(DashboardComisionados.class);
@@ -57,11 +57,11 @@ public class AgregarComisionadoPanel extends Panel {
 
 	}
 
-	public Comisionado getComisionado() {
+	public Comissioner getComisionado() {
 		return comisionado;
 	}
 
-	public void setComisionado(Comisionado comisionado) {
+	public void setComisionado(Comissioner comisionado) {
 		this.comisionado = comisionado;
 	}
 

@@ -20,7 +20,7 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.exception.CensusValidationException;
 
 /**
@@ -40,8 +40,8 @@ public class UtilsExcel {
 		throw new IllegalStateException("Utility class");
 	}
 
-	public static List<UsuarioPadron> procesarExcelPadronNuevo(byte[] padron) throws Exception {
-		List<UsuarioPadron> listUsuarioPadron = new ArrayList<>();
+	public static List<UserVoter> procesarExcelPadronNuevo(byte[] padron) throws Exception {
+		List<UserVoter> listUsuarioPadron = new ArrayList<>();
 
 		String rutaArchivo = System.getProperty(TEMP_DIR).concat("/padron");
 		File f = UtilsFiles.convertirArrayBytesAFile(padron, rutaArchivo);
@@ -82,10 +82,10 @@ public class UtilsExcel {
 			Set<String> mails = new HashSet<>();
 			// process each row
 			while (i < hoja.getRows() && !hoja.getCell(0, i).getContents().equals("")) {
-				UsuarioPadron usPadronData = new UsuarioPadron();
+				UserVoter usPadronData = new UserVoter();
 
 				// name
-				usPadronData.setNombre(hoja.getCell(indiceNombre, i).getContents());
+				usPadronData.setName(hoja.getCell(indiceNombre, i).getContents());
 
 				// mail
 				String mail = hoja.getCell(indiceMail, i).getContents();
@@ -99,7 +99,7 @@ public class UtilsExcel {
 				// votes
 				String votos = hoja.getCell(indiceCantVotos, i).getContents();
 				try {
-					usPadronData.setCantVotos(Integer.valueOf(votos));
+					usPadronData.setVoteAmount(Integer.valueOf(votos));
 				} catch (NumberFormatException ne) {
 					throw new CensusValidationException("Fila: " + i + " no contiene una cantidad de votos válida: " + votos);
 				}
@@ -114,7 +114,7 @@ public class UtilsExcel {
 					if (!idioma.matches("SP|EN|PT")) {
 						throw new CensusValidationException("Fila: " + i + " no contiene un idioma reconocido por el sistema: " + idioma + ", debe ser SP, EN ó PT");
 					}
-					usPadronData.setIdioma(idioma);
+					usPadronData.setLanguage(idioma);
 				}
 
 				// country
@@ -123,7 +123,7 @@ public class UtilsExcel {
 					if (!pais.isEmpty() && !u.getIdPaises().contains(pais)) {
 						throw new CensusValidationException("Fila: " + i + " contiene un país no vacío y no válido: " + pais);
 					}
-					usPadronData.setPais(pais);
+					usPadronData.setCountry(pais);
 				}
 				listUsuarioPadron.add(usPadronData);
 				i++;
@@ -138,7 +138,7 @@ public class UtilsExcel {
 		}
 	}
 
-	public static File exportarAExcel(List<UsuarioPadron> usuariosPadron, String nombreArchivo) {
+	public static File exportarAExcel(List<UserVoter> usuariosPadron, String nombreArchivo) {
 		File archivo = new File(System.getProperty(TEMP_DIR).concat(nombreArchivo));
 
 		try {
@@ -153,12 +153,12 @@ public class UtilsExcel {
 			hoja.addCell(new Label(5, 0, "ORGID"));
 
 			int posicionDatosVertical = 1;
-			for (UsuarioPadron up : usuariosPadron) {
-				hoja.addCell(new Label(0, posicionDatosVertical, up.getIdioma()));
-				hoja.addCell(new Label(1, posicionDatosVertical, up.getNombre()));
+			for (UserVoter up : usuariosPadron) {
+				hoja.addCell(new Label(0, posicionDatosVertical, up.getLanguage()));
+				hoja.addCell(new Label(1, posicionDatosVertical, up.getName()));
 				hoja.addCell(new Label(2, posicionDatosVertical, up.getMail()));
-				hoja.addCell(new Label(3, posicionDatosVertical, String.valueOf(up.getCantVotos())));
-				hoja.addCell(new Label(4, posicionDatosVertical, up.getPais()));
+				hoja.addCell(new Label(3, posicionDatosVertical, String.valueOf(up.getVoteAmount())));
+				hoja.addCell(new Label(4, posicionDatosVertical, up.getCountry()));
 				hoja.addCell(new Label(5, posicionDatosVertical, up.getOrgID()));
 				posicionDatosVertical++;
 			}

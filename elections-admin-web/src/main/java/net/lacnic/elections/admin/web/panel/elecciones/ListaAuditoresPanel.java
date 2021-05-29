@@ -45,11 +45,11 @@ public class ListaAuditoresPanel extends Panel {
 				protected void populateItem(ListItem<Auditor> item) {
 					final Auditor actual = item.getModelObject();
 
-					item.add(new Label("nombre", actual.getNombre()));
+					item.add(new Label("nombre", actual.getName()));
 					item.add(new Label("email", actual.getMail()));
-					item.add(new Label("conforme", actual.isExpresoConformidad() ? "Si" : "NO"));
+					item.add(new Label("conforme", actual.isAgreement() ? "Si" : "NO"));
 
-					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", UtilsLinks.calcularLinkResultadoAuditor(actual.getTokenResultado()));
+					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", UtilsLinks.calcularLinkResultadoAuditor(actual.getResulttoke()));
 					urlLinkVotacionUsuario.setOutputMarkupPlaceholderTag(true);	
 					item.add(urlLinkVotacionUsuario);
 				}

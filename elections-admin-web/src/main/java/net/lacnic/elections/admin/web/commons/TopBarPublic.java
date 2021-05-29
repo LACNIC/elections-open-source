@@ -14,14 +14,14 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.dashboard.admin.DashboardLoginPage;
 import net.lacnic.elections.admin.wicket.util.ImageResource;
-import net.lacnic.elections.domain.Personalizacion; 
+import net.lacnic.elections.domain.Customization; 
 
 
 public class TopBarPublic extends Panel {
 
 	private static final long serialVersionUID = -6437181317906564167L;
 
-	private Personalizacion personalizacion;
+	private Customization personalizacion;
 
 	private String tituloSitio;
 	
@@ -33,7 +33,7 @@ public class TopBarPublic extends Panel {
 		super(id);
 		
 		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
-		tituloSitio = personalizacion.getTituloSitio();
+		tituloSitio = personalizacion.getSiteTitle();
 		
 		Label tituloSitioLabel = new Label("tituloSitio", new PropertyModel<>(TopBarPublic.this, "tituloSitio"));
 		BookmarkablePageLink<Void> pagelink = new BookmarkablePageLink<>("home", Application.get().getHomePage());

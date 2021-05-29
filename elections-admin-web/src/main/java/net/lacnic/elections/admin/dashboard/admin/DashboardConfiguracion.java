@@ -19,7 +19,7 @@ import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.commons.OnOffSwitch;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.utils.UtilsFiles;
 
 @AuthorizeInstantiation("siselecciones-only-one")
@@ -37,8 +37,8 @@ public class DashboardConfiguracion extends DashboardAdminBasePage {
 			
 			
 			long idEleccion = UtilsParameters.getIdAsLong(params);
-			Eleccion eleccion = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccion);
-			add(new Label("tituloEleccion", eleccion.getTituloEspanol()));
+			Election eleccion = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccion);
+			add(new Label("tituloEleccion", eleccion.getTitleSpanish()));
 
 			add(new OnOffSwitch("linkVotacion", new PropertyModel<>(eleccion, "habilitadoLinkVotacion")) {
 
@@ -46,7 +46,7 @@ public class DashboardConfiguracion extends DashboardAdminBasePage {
 
 				@Override
 				protected void accion() {
-					AppContext.getInstance().getManagerBeanRemote().habilitarLinkVotacion(idEleccion, eleccion.isHabilitadoLinkVotacion(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().habilitarLinkVotacion(idEleccion, eleccion.isVotingLinkAvailable(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 				}
 
 			});
@@ -57,12 +57,12 @@ public class DashboardConfiguracion extends DashboardAdminBasePage {
 
 				@Override
 				protected void accion() {
-					AppContext.getInstance().getManagerBeanRemote().habilitarLinkResultado(idEleccion, eleccion.isHabilitadoLinkResultado(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().habilitarLinkResultado(idEleccion, eleccion.isResultLinkAvailable(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 
 				}
 
 			};
-			linkResultados.setEnabled(eleccion.isTermino());
+			linkResultados.setEnabled(eleccion.isFinished());
 			add(linkResultados);
 
 			OnOffSwitch habilitadoLinkAuditor = new OnOffSwitch("linkAuditoria", new PropertyModel<>(eleccion, "habilitadoLinkAuditor")) {
@@ -71,12 +71,12 @@ public class DashboardConfiguracion extends DashboardAdminBasePage {
 
 				@Override
 				protected void accion() {
-					AppContext.getInstance().getManagerBeanRemote().habilitarLinkAuditoria(idEleccion, eleccion.isHabilitadoLinkAuditor(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().habilitarLinkAuditoria(idEleccion, eleccion.isAuditorLinkAvailable(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 
 				}
 
 			};
-			habilitadoLinkAuditor.setEnabled(eleccion.isTermino());
+			habilitadoLinkAuditor.setEnabled(eleccion.isFinished());
 			add(habilitadoLinkAuditor);
 
 			OnOffSwitch solicitarRevision = new OnOffSwitch("linkRevision", new PropertyModel<>(eleccion, "solicitarRevision")) {
@@ -85,7 +85,7 @@ public class DashboardConfiguracion extends DashboardAdminBasePage {
 
 				@Override
 				protected void accion() {
-					AppContext.getInstance().getManagerBeanRemote().solicitarRevision(idEleccion, eleccion.isSolicitarRevision(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().solicitarRevision(idEleccion, eleccion.isRevisionRequest(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					setResponsePage(DashboardConfiguracion.class, UtilsParameters.getId(idEleccion));
 				}
 

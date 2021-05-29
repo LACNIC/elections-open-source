@@ -29,11 +29,11 @@ public class DashboardAuditores extends DashboardPublicBasePage {
 	public DashboardAuditores(final PageParameters params) {
 		super(params);
 		try {
-			if (a.isExpresoConformidad() && a.isComisionado())
+			if (a.isAgreement() && a.isCommissioner())
 				getSession().info(getString("auditorconforme"));
 
-			boolean seSolicitoRevision = a.getEleccion().isSolicitarRevision();
-			if (a.isHabilitaRevision() && seSolicitoRevision && a.isComisionado())
+			boolean seSolicitoRevision = a.getElection().isRevisionRequest();
+			if (a.isRevisionAvailable() && seSolicitoRevision && a.isCommissioner())
 				getSession().info(getString("revisionactiva"));
 
 			add(new FeedbackPanel("feedbackPanel"));
@@ -45,14 +45,14 @@ public class DashboardAuditores extends DashboardPublicBasePage {
 
 			WebMarkupContainer sinRevision = new WebMarkupContainer("sinRevision");
 			sinRevision.setVisibilityAllowed(!seSolicitoRevision);
-			sinRevision.add(new Label("titulo", getEleccion().getTitulo(getIdioma())));
-			Label desc = new Label("descripcion", getEleccion().getDescripcion(getIdioma()));
+			sinRevision.add(new Label("titulo", getEleccion().getTitle(getIdioma())));
+			Label desc = new Label("descripcion", getEleccion().getDescription(getIdioma()));
 			desc.setEscapeModelStrings(false);
 			sinRevision.add(desc);
 			sinRevision.add(new AprobacionAuditorPanel("aprobacionAuditorPanel", a));
-			sinRevision.add(new ResultadoEleccionPanel("resultadoPanel", getEleccion().getIdEleccion()));
-			sinRevision.add(new CodigosCandidatoPanel("codigosCandidatoPanel", getEleccion().getIdEleccion()));
-			sinRevision.add(new MoreInformationForAuditPanel("moreInformationForAuditPanel", getEleccion().getIdEleccion()));
+			sinRevision.add(new ResultadoEleccionPanel("resultadoPanel", getEleccion().getIdElection()));
+			sinRevision.add(new CodigosCandidatoPanel("codigosCandidatoPanel", getEleccion().getIdElection()));
+			sinRevision.add(new MoreInformationForAuditPanel("moreInformationForAuditPanel", getEleccion().getIdElection()));
 			add(sinRevision);
 
 		} catch (Exception e) {
@@ -67,8 +67,8 @@ public class DashboardAuditores extends DashboardPublicBasePage {
 			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
 			return Error404.class;
 		} else {
-			setEleccion(a.getEleccion());
-			if (!a.getEleccion().isHabilitadoLinkAuditor()) {
+			setEleccion(a.getElection());
+			if (!a.getElection().isAuditorLinkAvailable()) {
 				return ErrorAuditoriaNoPublica.class;
 			}
 		}

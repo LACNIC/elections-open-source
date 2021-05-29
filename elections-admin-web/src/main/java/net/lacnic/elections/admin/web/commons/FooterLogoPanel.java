@@ -8,13 +8,13 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.wicket.util.ImageResource;
-import net.lacnic.elections.domain.Personalizacion;
+import net.lacnic.elections.domain.Customization;
 
 public class FooterLogoPanel extends Panel {
 
 	private static final long serialVersionUID = -7352907021232873762L;
 
-	private Personalizacion personalizacion;
+	private Customization personalizacion;
 
 	public FooterLogoPanel(String id) {
 		super(id);

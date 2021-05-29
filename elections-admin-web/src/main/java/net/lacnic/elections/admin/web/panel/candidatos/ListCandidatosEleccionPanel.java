@@ -5,7 +5,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.admin.app.AppContext;
-import net.lacnic.elections.domain.Candidato;
+import net.lacnic.elections.domain.Candidate;
 
 public class ListCandidatosEleccionPanel extends Panel {
 
@@ -13,13 +13,13 @@ public class ListCandidatosEleccionPanel extends Panel {
 
 	public ListCandidatosEleccionPanel(String id, long idEleccion) {
 		super(id);
-		ListView<Candidato> candidatosDataView = new ListView<Candidato>("listaCandidatosPanel", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(idEleccion)) {
+		ListView<Candidate> candidatosDataView = new ListView<Candidate>("listaCandidatosPanel", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(idEleccion)) {
 
 			private static final long serialVersionUID = 4017591177604969632L;
 
 			@Override
-			protected void populateItem(final ListItem<Candidato> item) {
-				final Candidato actual = item.getModelObject();
+			protected void populateItem(final ListItem<Candidate> item) {
+				final Candidate actual = item.getModelObject();
 				item.add(new CandidatoDetallePanel("candidato", actual));
 
 			}

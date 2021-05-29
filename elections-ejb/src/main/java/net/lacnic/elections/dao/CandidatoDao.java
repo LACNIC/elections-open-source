@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.domain.Candidato;
+import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.utils.Constants;
 
 public class CandidatoDao {
@@ -24,28 +24,28 @@ public class CandidatoDao {
 		this.em = em;
 	}
 
-	public Candidato obtenerCandidato(long id) {
-		TypedQuery<Candidato> q = em.createQuery("SELECT c FROM Candidato c WHERE c.idCandidato =:idCandidato", Candidato.class);
+	public Candidate obtenerCandidato(long id) {
+		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidato c WHERE c.idCandidato =:idCandidato", Candidate.class);
 		q.setParameter("idCandidato", id);
 		return q.getSingleResult();
 	}
 
-	public Candidato obtenerPrimerCandidato(long idEleccion) {
-		TypedQuery<Candidato> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion ORDER BY c.orden DESC", Candidato.class);
+	public Candidate obtenerPrimerCandidato(long idEleccion) {
+		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion ORDER BY c.orden DESC", Candidate.class);
 		q.setParameter(ID_ELECCION, idEleccion);
 		q.setMaxResults(1);
 		return q.getSingleResult();
 	}
 
-	public Candidato obtenerUltimoCandidato(long idEleccion) {
-		TypedQuery<Candidato> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion ORDER BY c.orden", Candidato.class);
+	public Candidate obtenerUltimoCandidato(long idEleccion) {
+		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion ORDER BY c.orden", Candidate.class);
 		q.setParameter(ID_ELECCION, idEleccion);
 		q.setMaxResults(1);
 		return q.getSingleResult();
 	}
 
-	public List<Candidato> obtenerCandidatosEleccion(long idEleccion) {
-		TypedQuery<Candidato> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion ORDER BY c.orden DESC", Candidato.class);
+	public List<Candidate> obtenerCandidatosEleccion(long idEleccion) {
+		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion ORDER BY c.orden DESC", Candidate.class);
 		q.setParameter(ID_ELECCION, idEleccion);
 		return q.getResultList();
 	}
@@ -70,9 +70,9 @@ public class CandidatoDao {
 		}
 	}
 
-	public Candidato obtenerCandidatoDeArriba(long idEleccion, int orden) {
+	public Candidate obtenerCandidatoDeArriba(long idEleccion, int orden) {
 		try {
-			TypedQuery<Candidato> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion AND c.orden > :orden ORDER BY c.orden", Candidato.class);
+			TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion AND c.orden > :orden ORDER BY c.orden", Candidate.class);
 			q.setParameter(ID_ELECCION, idEleccion);
 			q.setParameter("orden", orden);
 			q.setMaxResults(1);
@@ -83,9 +83,9 @@ public class CandidatoDao {
 		}
 	}
 
-	public Candidato obtenerCandidatoDeAbajo(long idEleccion, int orden) {
+	public Candidate obtenerCandidatoDeAbajo(long idEleccion, int orden) {
 		try {
-			TypedQuery<Candidato> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion AND c.orden < :orden ORDER BY c.orden DESC", Candidato.class);
+			TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidato c WHERE c.eleccion.idEleccion =:idEleccion AND c.orden < :orden ORDER BY c.orden DESC", Candidate.class);
 			q.setParameter(ID_ELECCION, idEleccion);
 			q.setParameter("orden", orden);
 			q.setMaxResults(1);

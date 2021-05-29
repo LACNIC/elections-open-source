@@ -22,8 +22,8 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.domain.TemplateEleccion;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.UserVoter;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
@@ -33,10 +33,10 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
 	private List<Auditor> usuariosAuditor = new ArrayList<>();
-	private List<UsuarioPadron> usuariosPadron = new ArrayList<>();
+	private List<UserVoter> usuariosPadron = new ArrayList<>();
 	int cantidad;
 
-	public DashboardPreviewDestinatarios(final TemplateEleccion template, PageParameters params) {
+	public DashboardPreviewDestinatarios(final TemplateElection template, PageParameters params) {
 		super(params);
 
 		setOutputMarkupPlaceholderTag(true);
@@ -49,7 +49,7 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 			cantidad = 0;
 			if (lista != null && !lista.isEmpty()) {
 				cantidad = lista.size();
-				if (lista.get(0) instanceof UsuarioPadron) {
+				if (lista.get(0) instanceof UserVoter) {
 					usuariosPadron = lista;
 				} else if (lista.get(0) instanceof Auditor) {
 					usuariosAuditor = lista;
@@ -66,7 +66,7 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 				protected void populateItem(ListItem<Auditor> item) {
 					final Auditor a = item.getModelObject();
 					try {
-						item.add(new Label("nombre", a.getNombre()));
+						item.add(new Label("nombre", a.getName()));
 						item.add(new Label("email", a.getMail()));
 
 						item.add(new AjaxLink<Void>("eliminar") {
@@ -97,17 +97,17 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 			WebMarkupContainer container2 = new WebMarkupContainer("containerUsuariosPadron");
 			container2.add(new Label("cantidad", new PropertyModel<>(DashboardPreviewDestinatarios.this, "cantidad")));
 
-			ListView<UsuarioPadron> dataViewUsuarioPadron = new ListView<UsuarioPadron>("lista", usuariosPadron) {
+			ListView<UserVoter> dataViewUsuarioPadron = new ListView<UserVoter>("lista", usuariosPadron) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<UsuarioPadron> item) {
-					final UsuarioPadron a = item.getModelObject();
+				protected void populateItem(ListItem<UserVoter> item) {
+					final UserVoter a = item.getModelObject();
 					try {
-						item.add(new Label("nombre", a.getNombre()));
+						item.add(new Label("nombre", a.getName()));
 						item.add(new Label("email", a.getMail()));
-						item.add(new Label("pais", a.getPais()));
-						item.add(new Label("idioma", a.getIdioma()));
+						item.add(new Label("pais", a.getCountry()));
+						item.add(new Label("idioma", a.getLanguage()));
 
 						item.add(new AjaxLink<Void>("eliminar") {
 
@@ -148,7 +148,7 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 						else
 							AppContext.getInstance().getManagerBeanRemote().encolarEnvioMasivo(usuariosPadron, template);
 						getSession().info(getString("prevDestExito"));
-						setResponsePage(DashboardMensajes.class, UtilsParameters.getId(template.getEleccion().getIdEleccion()));
+						setResponsePage(DashboardMensajes.class, UtilsParameters.getId(template.getElection().getIdElection()));
 					} catch (Exception e) {
 						appLogger.error(e);
 					}
@@ -156,7 +156,7 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 				}
 			});
 
-			add(new BookmarkablePageLink<>("cancelar", DashboardPlantillasVer.class, UtilsParameters.getId(template.getEleccion().getIdEleccion())));
+			add(new BookmarkablePageLink<>("cancelar", DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getIdElection())));
 
 		} catch (Exception e) {
 			appLogger.error(e);

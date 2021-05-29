@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.admin.app.AppContext;
-import net.lacnic.elections.domain.Voto;
+import net.lacnic.elections.domain.Vote;
 
 public class ListaReviewPanel extends Panel {
 
@@ -17,28 +17,28 @@ public class ListaReviewPanel extends Panel {
 	public ListaReviewPanel(String id, Long idEleccion) {
 		super(id);
 		try {
-			List<Voto> votos = AppContext.getInstance().getManagerBeanRemote().obtenerVotos(idEleccion);
-			final ListView<Voto> dataViewMensajes = new ListView<Voto>("listaVotos", votos) {
+			List<Vote> votos = AppContext.getInstance().getManagerBeanRemote().obtenerVotos(idEleccion);
+			final ListView<Vote> dataViewMensajes = new ListView<Vote>("listaVotos", votos) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<Voto> item) {
-					final Voto v = item.getModelObject();
+				protected void populateItem(ListItem<Vote> item) {
+					final Vote v = item.getModelObject();
 					try {
-						item.add(new Label("idV", v.getIdVoto()));
-						item.add(new Label("idUP", v.getUsuarioPadron().getIdUsuarioPadron()));
-						item.add(new Label("idC", v.getCandidato().getIdCandidato()));
-						item.add(new Label("instanteVoto", v.getFechaVoto()));
-						item.add(new Label("instanteUP", v.getUsuarioPadron().getFechaVoto()));
-						item.add(new Label("candidato", v.getCandidato().getNombre()));
-						item.add(new Label("votanteNombre", v.getUsuarioPadron().getNombre()));
-						item.add(new Label("votanteEmail", v.getUsuarioPadron().getMail()));
-						item.add(new Label("votantePais", v.getUsuarioPadron().getPais()));
-						item.add(new Label("votanteOrgId", v.getUsuarioPadron().getOrgID()));
-						item.add(new Label("votanteIdioma", v.getUsuarioPadron().getIdioma()));
-						item.add(new Label("votanteCantidad", v.getUsuarioPadron().getCantVotos()));
-						item.add(new Label("votanteToken", v.getUsuarioPadron().getTokenVotacion()));
-						item.add(new Label("codigo", v.getCodigo()));
+						item.add(new Label("idV", v.getIdVote()));
+						item.add(new Label("idUP", v.getUserVote().getIdUserVoter()));
+						item.add(new Label("idC", v.getCandidate().getIdCandidate()));
+						item.add(new Label("instanteVoto", v.getVoteDate()));
+						item.add(new Label("instanteUP", v.getUserVote().getVoteDate()));
+						item.add(new Label("candidato", v.getCandidate().getName()));
+						item.add(new Label("votanteNombre", v.getUserVote().getName()));
+						item.add(new Label("votanteEmail", v.getUserVote().getMail()));
+						item.add(new Label("votantePais", v.getUserVote().getCountry()));
+						item.add(new Label("votanteOrgId", v.getUserVote().getOrgID()));
+						item.add(new Label("votanteIdioma", v.getUserVote().getLanguage()));
+						item.add(new Label("votanteCantidad", v.getUserVote().getVoteAmount()));
+						item.add(new Label("votanteToken", v.getUserVote().getVoteToken()));
+						item.add(new Label("codigo", v.getCode()));
 						item.add(new Label("ip", v.getIp()));
 
 					} catch (Exception e) {

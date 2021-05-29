@@ -17,7 +17,7 @@ public class RevisionAuditorPanel extends Panel {
 	public RevisionAuditorPanel(String id, Auditor a) {
 		super(id);
 
-		setVisible(a.getEleccion().isSolicitarRevision() && !a.isHabilitaRevision());
+		setVisible(a.getElection().isRevisionRequest() && !a.isRevisionAvailable());
 
 		BotonRevisionAuditor botonHabilitarRevisionAuditor = new BotonRevisionAuditor("botonHabilitarRevisionAuditor") {
 
@@ -26,13 +26,13 @@ public class RevisionAuditorPanel extends Panel {
 			@Override
 			public void onConfirmar() {
 				AppContext.getInstance().getVoterBeanRemote().habilitarRevisionEleccionAuditor(a.getIdAuditor(), SecurityUtils.getIPClient());
-				setResponsePage(DashboardAuditores.class, UtilsParameters.getToken(a.getTokenResultado()));
+				setResponsePage(DashboardAuditores.class, UtilsParameters.getToken(a.getResulttoke()));
 			}
 		};
 		add(botonHabilitarRevisionAuditor);
 
-		add(new Label("eleccion", a.getEleccion().getTituloEspanol()));
-		add(new Label("auditor", a.getNombre()));
+		add(new Label("eleccion", a.getElection().getTitleSpanish()));
+		add(new Label("auditor", a.getName()));
 
 	}
 

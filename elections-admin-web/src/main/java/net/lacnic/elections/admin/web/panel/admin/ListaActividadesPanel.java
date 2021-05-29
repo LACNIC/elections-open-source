@@ -12,14 +12,14 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.admin.app.AppContext;
-import net.lacnic.elections.domain.Actividad;
+import net.lacnic.elections.domain.Activity;
 
 public class ListaActividadesPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 	
-	private List<Actividad> listaActividades; 
+	private List<Activity> listaActividades; 
 
 
 	public ListaActividadesPanel(String id, long idEleccion){
@@ -31,22 +31,22 @@ public class ListaActividadesPanel extends Panel {
 		init(listaActividades);
 	}
 
-	private void init(List<Actividad> actividades) {
+	private void init(List<Activity> actividades) {
 		try {
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			final ListView<Actividad> dataViewActividades = new ListView<Actividad>("listaActividades", actividades) {
+			final ListView<Activity> dataViewActividades = new ListView<Activity>("listaActividades", actividades) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<Actividad> item) {
-					final Actividad actual = item.getModelObject();
+				protected void populateItem(ListItem<Activity> item) {
+					final Activity actual = item.getModelObject();
 					try {
-						item.add(new Label("nombre", actual.getNomUser()));
-						item.add(new Label("tipoActividad", actual.getTipoActividad().toString()));
-						item.add(new Label("idEleccion", actual.getIdEleccion()));
+						item.add(new Label("nombre", actual.getUserName()));
+						item.add(new Label("tipoActividad", actual.getActivityType().toString()));
+						item.add(new Label("idEleccion", actual.getElectionId()));
 						item.add(new Label("ip", actual.getIp()));
-						item.add(new Label("tiempo", sdf.format(actual.getTiempo())));
-						item.add(new MultiLineLabel("descripcion", actual.getDescripcion()));
+						item.add(new Label("tiempo", sdf.format(actual.getTimestamp())));
+						item.add(new MultiLineLabel("descripcion", actual.getDescription()));
 					} catch (Exception e) {
 						appLogger.error(e);
 						error(e.getMessage());

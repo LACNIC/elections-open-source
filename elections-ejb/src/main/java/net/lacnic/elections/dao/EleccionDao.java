@@ -11,9 +11,9 @@ import javax.persistence.TypedQuery;
 import org.joda.time.DateTime;
 
 import net.lacnic.elections.data.Participacion;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.EleccionLight;
-import net.lacnic.elections.domain.SupraEleccion;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ElectionLight;
+import net.lacnic.elections.domain.JointElection;
 
 public class EleccionDao {
 
@@ -23,39 +23,39 @@ public class EleccionDao {
 		this.em = em;
 	}
 
-	public Eleccion obtenerEleccion(long idEleccion) {
+	public Election obtenerEleccion(long idEleccion) {
 		Query q = em.createQuery("SELECT e FROM Eleccion e WHERE e.idEleccion =:idEleccion");
 		q.setParameter("idEleccion", idEleccion);
-		return (Eleccion) q.getSingleResult();
+		return (Election) q.getSingleResult();
 	}
 
-	public Eleccion obtenerEleccionConTokenResultado(String token) {
-		TypedQuery<Eleccion> q = em.createQuery("SELECT e FROM Eleccion e WHERE e.tokenResultado =:tokenResultado", Eleccion.class);
+	public Election obtenerEleccionConTokenResultado(String token) {
+		TypedQuery<Election> q = em.createQuery("SELECT e FROM Eleccion e WHERE e.tokenResultado =:tokenResultado", Election.class);
 		q.setParameter("tokenResultado", token);
 		return q.getSingleResult();
 	}
 
-	public Eleccion obtenerEleccionConTokenAuditor(String token) {		
+	public Election obtenerEleccionConTokenAuditor(String token) {		
 		return obtenerEleccionConTokenResultado(token);
 	}
 
-	public List<Eleccion> obtenerElecciones() {
-		TypedQuery<Eleccion> q = em.createQuery("SELECT e FROM Eleccion e ORDER BY e.fechaCreacion", Eleccion.class);
+	public List<Election> obtenerElecciones() {
+		TypedQuery<Election> q = em.createQuery("SELECT e FROM Eleccion e ORDER BY e.fechaCreacion", Election.class);
 		return q.getResultList();
 	}
 
-	public List<Eleccion> obtenerEleccionesDesc() {
-		TypedQuery<Eleccion> q = em.createQuery("SELECT e FROM Eleccion e ORDER BY e.fechaInicio DESC", Eleccion.class);
+	public List<Election> obtenerEleccionesDesc() {
+		TypedQuery<Election> q = em.createQuery("SELECT e FROM Eleccion e ORDER BY e.fechaInicio DESC", Election.class);
 		return q.getResultList();
 	}
 
-	public List<EleccionLight> obtenerEleccionesLightDesc() {
-		TypedQuery<EleccionLight> q = em.createQuery("SELECT e FROM EleccionLight e ORDER BY e.fechaInicio DESC", EleccionLight.class);
+	public List<ElectionLight> obtenerEleccionesLightDesc() {
+		TypedQuery<ElectionLight> q = em.createQuery("SELECT e FROM EleccionLight e ORDER BY e.fechaInicio DESC", ElectionLight.class);
 		return q.getResultList();
 	}
 
-	public List<Eleccion> obtenerEleccionesLightEsteAnio() {
-		TypedQuery<Eleccion> q = em.createQuery("SELECT e FROM Eleccion e WHERE e.fechaCreacion > :ini ORDER BY e.fechaCreacion desc", Eleccion.class);
+	public List<Election> obtenerEleccionesLightEsteAnio() {
+		TypedQuery<Election> q = em.createQuery("SELECT e FROM Eleccion e WHERE e.fechaCreacion > :ini ORDER BY e.fechaCreacion desc", Election.class);
 		Date ini = new DateTime().minusYears(1).toDate();
 		q.setParameter("ini", ini);
 		return q.getResultList();
@@ -104,14 +104,14 @@ public class EleccionDao {
 		return (q.getResultList() == null || q.getResultList().isEmpty());
 	}
 
-	public SupraEleccion obtenerSupraEleccion(long idEleccion) {
-		TypedQuery<SupraEleccion> q = em.createQuery("SELECT e FROM SupraEleccion e WHERE e.idEleccionA =:eleccion OR e.idEleccionB =:eleccion", SupraEleccion.class);
+	public JointElection obtenerSupraEleccion(long idEleccion) {
+		TypedQuery<JointElection> q = em.createQuery("SELECT e FROM SupraEleccion e WHERE e.idEleccionA =:eleccion OR e.idEleccionB =:eleccion", JointElection.class);
 		q.setParameter("eleccion", idEleccion);
 		return q.getSingleResult();
 	}
 
-	public List<SupraEleccion> obtenerSupraElecciones() {
-		TypedQuery<SupraEleccion> q = em.createQuery("SELECT e FROM SupraEleccion e", SupraEleccion.class);
+	public List<JointElection> obtenerSupraElecciones() {
+		TypedQuery<JointElection> q = em.createQuery("SELECT e FROM SupraEleccion e", JointElection.class);
 		return q.getResultList();
 	}
 

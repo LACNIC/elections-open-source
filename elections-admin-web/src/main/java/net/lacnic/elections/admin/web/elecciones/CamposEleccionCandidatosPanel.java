@@ -23,8 +23,8 @@ import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.dashboard.admin.DashboardGestionCandidatos;
 import net.lacnic.elections.admin.web.commons.LinkValidator;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Candidato;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Candidate;
+import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.utils.UtilsFiles;
 
 public class CamposEleccionCandidatosPanel extends Panel {
@@ -35,13 +35,13 @@ public class CamposEleccionCandidatosPanel extends Panel {
 
 	private byte[] archivoFoto;
 	private String nombreArchivo;
-	private Candidato candidatoNuevo;
+	private Candidate candidatoNuevo;
 
-	public CamposEleccionCandidatosPanel(String id, Eleccion eleccion) {
+	public CamposEleccionCandidatosPanel(String id, Election eleccion) {
 		super(id);
 		try {
-			candidatoNuevo = new Candidato();
-			candidatoNuevo.setSolosp(true);		
+			candidatoNuevo = new Candidate();
+			candidatoNuevo.setOnlySp(true);		
 			
 			TextField<String> nombreCandidato = new TextField<>("nombre", new PropertyModel<>(candidatoNuevo, "nombre"));
 			nombreCandidato.setRequired(true);
@@ -69,14 +69,14 @@ public class CamposEleccionCandidatosPanel extends Panel {
 						if (fileUpload != null && !(fileUpload.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
 							getSession().error(getString("candidateManagemenErrorForm"));
 						} else {
-							candidatoNuevo.setContenidoFoto(fileUpload != null ? fileUpload.getBytes() : (byte[]) defaultPhoto[0]);
-							candidatoNuevo.setNombreFoto(fileUpload != null ? fileUpload.getClientFileName() : (String) defaultPhoto[1]);
-							candidatoNuevo.setExtensionFoto(fileUpload != null ? fileUpload.getClientFileName().split("\\.")[1] : (String) defaultPhoto[2]);
-							if (candidatoNuevo.isSolosp())
-								candidatoNuevo.copiarBiosIdiomaAlResto();
-							AppContext.getInstance().getManagerBeanRemote().agregarCandidato(eleccion.getIdEleccion(), candidatoNuevo, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							candidatoNuevo.setPictureInfo(fileUpload != null ? fileUpload.getBytes() : (byte[]) defaultPhoto[0]);
+							candidatoNuevo.setPictureName(fileUpload != null ? fileUpload.getClientFileName() : (String) defaultPhoto[1]);
+							candidatoNuevo.setPictureExtension(fileUpload != null ? fileUpload.getClientFileName().split("\\.")[1] : (String) defaultPhoto[2]);
+							if (candidatoNuevo.isOnlySp())
+								candidatoNuevo.copiarBiosLanguagesToOthers();
+							AppContext.getInstance().getManagerBeanRemote().agregarCandidato(eleccion.getIdElection(), candidatoNuevo, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("candidateManagemenExitoAdd"));
-							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
 						}
 					} catch (Exception e) {
 						getSession().error(getString("candidateManagemenErrorProc"));
@@ -106,7 +106,7 @@ public class CamposEleccionCandidatosPanel extends Panel {
 
 		WebMarkupContainer biosCandidato = new WebMarkupContainer("biosCandidato");
 		biosCandidato.setOutputMarkupPlaceholderTag(true);
-		biosCandidato.setVisible(!candidatoNuevo.isSolosp());
+		biosCandidato.setVisible(!candidatoNuevo.isOnlySp());
 		add(biosCandidato);
 
 		TextArea<String> bioIngles = new TextArea<>("bioIngles", new PropertyModel<>(candidatoNuevo, "bioIngles"));
@@ -137,7 +137,7 @@ public class CamposEleccionCandidatosPanel extends Panel {
 
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
-				biosCandidato.setVisible(!candidatoNuevo.isSolosp());
+				biosCandidato.setVisible(!candidatoNuevo.isOnlySp());
 				target.add(biosCandidato);
 			}
 		};

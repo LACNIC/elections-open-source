@@ -17,7 +17,7 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardEditarAdministrador;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarPasswordAdministrador;
 import net.lacnic.elections.admin.web.commons.BotonConConfirmacionEliminar;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.UsuarioAdmin;
+import net.lacnic.elections.domain.UserAdmin;
 
 public class ListaAdministradoresPanel extends Panel {
 
@@ -29,22 +29,22 @@ public class ListaAdministradoresPanel extends Panel {
 
 	public ListaAdministradoresPanel(String id) {
 		super(id);
-		List<UsuarioAdmin> listaaAdmins = AppContext.getInstance().getManagerBeanRemote().obtenerUsuariosAdmin();
+		List<UserAdmin> listaaAdmins = AppContext.getInstance().getManagerBeanRemote().obtenerUsuariosAdmin();
 		init(listaaAdmins);
 	}
 
-	private void init(List<UsuarioAdmin> listaAdmins) {
+	private void init(List<UserAdmin> listaAdmins) {
 		try {
-			final ListView<UsuarioAdmin> dataViewAdmins = new ListView<UsuarioAdmin>("listaAdmins", listaAdmins) {
+			final ListView<UserAdmin> dataViewAdmins = new ListView<UserAdmin>("listaAdmins", listaAdmins) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<UsuarioAdmin> item) {
-					final UsuarioAdmin actual = item.getModelObject();
+				protected void populateItem(ListItem<UserAdmin> item) {
+					final UserAdmin actual = item.getModelObject();
 					try {
 						item.add(new Label("username", actual.getUserAdminId()));
 						item.add(new Label("email", actual.getEmail()));
-						item.add(new Label("eleccionesAutorizado", actual.getIdEleccionAutorizado() == 0 ? "TODAS" : AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdEleccionAutorizado()).getTituloEspanol()));
+						item.add(new Label("eleccionesAutorizado", actual.getIdElectionAuthorized() == 0 ? "TODAS" : AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdElectionAuthorized()).getTitleSpanish()));
 
 
 						BookmarkablePageLink<Void> editarUsuarioAdmin = new BookmarkablePageLink<>("editarUsuarioAdmin", DashboardEditarAdministrador.class, UtilsParameters.getAdminId(actual.getUserAdminId()));

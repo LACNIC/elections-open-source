@@ -14,14 +14,14 @@ import net.lacnic.elections.admin.web.commons.GestionEleccionStatusPanel;
 import net.lacnic.elections.admin.web.elecciones.CamposEleccionCandidatosPanel;
 import net.lacnic.elections.admin.web.elecciones.ListaEdicionCandidatosPanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.TipoActividad;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ActivityType;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 
 	private static final long serialVersionUID = 1L;
-	private Eleccion eleccion;
+	private Election eleccion;
 
 	public DashboardGestionCandidatos(PageParameters params) {
 		super(params);
@@ -37,7 +37,7 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 
 		private static final long serialVersionUID = 2351447413365706203L;
 
-		public CandidatosEleccionForm(String id, final Eleccion eleccion) {
+		public CandidatosEleccionForm(String id, final Election eleccion) {
 			super(id);
 			setFileMaxSize(Bytes.kilobytes(2048));
 			CamposEleccionCandidatosPanel camposEleccionCandidatosPanel = new CamposEleccionCandidatosPanel("campos", eleccion);
@@ -50,9 +50,9 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 				@Override
 				public void onClick() {
 					try {
-						String descripcion = SecurityUtils.getAdminId().toUpperCase() + getString("candidateManagemenExitoAddCandidates") + getEleccion().getTituloEspanol();
-						AppContext.getInstance().getManagerBeanRemote().persistirActividad(SecurityUtils.getAdminId(), TipoActividad.AGREGAR_CANDIDATOS, descripcion, SecurityUtils.getIPClient(), getEleccion().getIdEleccion());
-						setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+						String descripcion = SecurityUtils.getAdminId().toUpperCase() + getString("candidateManagemenExitoAddCandidates") + getEleccion().getTitleSpanish();
+						AppContext.getInstance().getManagerBeanRemote().persistirActividad(SecurityUtils.getAdminId(), ActivityType.AGREGAR_CANDIDATOS, descripcion, SecurityUtils.getIPClient(), getEleccion().getIdElection());
+						setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
@@ -60,7 +60,7 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 
 			};
 			add(submitButton);
-			submitButton.setEnabled(eleccion.isCandidatosSeteado());
+			submitButton.setEnabled(eleccion.isCandidatesSet());
 
 			Link<Void> saltarLink = new Link<Void>("saltar") {
 
@@ -68,7 +68,7 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection()));
 				}
 			};
 			add(saltarLink);
@@ -79,7 +79,7 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection()));
 				}
 			};
 			add(atras);
@@ -87,11 +87,11 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 		}
 	}
 
-	public Eleccion getEleccion() {
+	public Election getEleccion() {
 		return eleccion;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
+	public void setEleccion(Election eleccion) {
 		this.eleccion = eleccion;
 	}
 }

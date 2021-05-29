@@ -14,7 +14,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Comisionado;
+import net.lacnic.elections.domain.Comissioner;
 
 public class DashboardEditarComisionado extends DashboardAdminBasePage {
 
@@ -25,9 +25,9 @@ public class DashboardEditarComisionado extends DashboardAdminBasePage {
 	public DashboardEditarComisionado(PageParameters params) {
 		super(params);
 
-		Comisionado comisionado = AppContext.getInstance().getManagerBeanRemote().obtenerComisionado(UtilsParameters.getAuditAsLong(params));
+		Comissioner comisionado = AppContext.getInstance().getManagerBeanRemote().obtenerComisionado(UtilsParameters.getAuditAsLong(params));
 		email = comisionado.getMail();
-		nombre = comisionado.getNombre();
+		nombre = comisionado.getName();
 
 		Form<Void> formComisionado = new Form<>("formComisionado");
 		add(formComisionado);
@@ -53,7 +53,7 @@ public class DashboardEditarComisionado extends DashboardAdminBasePage {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				if (!(email.equalsIgnoreCase(comisionado.getMail())) || !(nombre.equalsIgnoreCase(comisionado.getNombre()))) {
+				if (!(email.equalsIgnoreCase(comisionado.getMail())) || !(nombre.equalsIgnoreCase(comisionado.getName()))) {
 					AppContext.getInstance().getManagerBeanRemote().editarComisionado(comisionado, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					SecurityUtils.info(getString("commissionerEditExito"));
 				}

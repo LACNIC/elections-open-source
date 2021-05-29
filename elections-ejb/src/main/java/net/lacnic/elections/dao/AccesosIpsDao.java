@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.domain.AccesosIps;
+import net.lacnic.elections.domain.IpAccess;
 
 public class AccesosIpsDao {
 
@@ -20,9 +20,9 @@ public class AccesosIpsDao {
 		this.em = em;
 	}
 
-	public AccesosIps obteneriP(String ip) {
+	public IpAccess obteneriP(String ip) {
 		try {
-			TypedQuery<AccesosIps> q = em.createQuery("SELECT i FROM AccesosIps i WHERE i.ip =:ip", AccesosIps.class);
+			TypedQuery<IpAccess> q = em.createQuery("SELECT i FROM ipaccess i WHERE i.ip =:ip", IpAccess.class);
 			q.setParameter("ip", ip);
 			return q.getSingleResult();
 		} catch (Exception e) {
@@ -31,8 +31,8 @@ public class AccesosIpsDao {
 		}
 	}
 
-	public List<AccesosIps> obtenerIpsInhabilitadasTodas() {
-		TypedQuery<AccesosIps> q = em.createQuery("SELECT i FROM AccesosIps i", AccesosIps.class);
+	public List<IpAccess> obtenerIpsInhabilitadasTodas() {
+		TypedQuery<IpAccess> q = em.createQuery("SELECT i FROM ipaccess i", IpAccess.class);
 		return q.getResultList();
 	}
 

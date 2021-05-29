@@ -13,7 +13,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEleccionesJuntas;
 import net.lacnic.elections.admin.web.commons.BotonConConfirmacionEliminar;
-import net.lacnic.elections.domain.SupraEleccion;
+import net.lacnic.elections.domain.JointElection;
 
 public class ListEleccionesJuntasPanel extends Panel {
 
@@ -23,24 +23,24 @@ public class ListEleccionesJuntasPanel extends Panel {
 
 	public ListEleccionesJuntasPanel(String id) {
 		super(id);
-		List<SupraEleccion> listaaElecciones = AppContext.getInstance().getManagerBeanRemote().obtenerSupraElecciones();
+		List<JointElection> listaaElecciones = AppContext.getInstance().getManagerBeanRemote().obtenerSupraElecciones();
 
 		if (listaaElecciones == null)
 			listaaElecciones = new ArrayList<>();
 		init(listaaElecciones);
 	}
 
-	private void init(List<SupraEleccion> listaaElecciones) {
+	private void init(List<JointElection> listaaElecciones) {
 		try {
-			final ListView<SupraEleccion> dataViewAdmins = new ListView<SupraEleccion>("listaElecciones", listaaElecciones) {
+			final ListView<JointElection> dataViewAdmins = new ListView<JointElection>("listaElecciones", listaaElecciones) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<SupraEleccion> item) {
-					final SupraEleccion actual = item.getModelObject();
+				protected void populateItem(ListItem<JointElection> item) {
+					final JointElection actual = item.getModelObject();
 					try {
-						item.add(new Label("eleccion1", AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdEleccionA()).getTituloEspanol()));
-						item.add(new Label("eleccion2", AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdEleccionB()).getTituloEspanol()));
+						item.add(new Label("eleccion1", AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdElectionA()).getTitleSpanish()));
+						item.add(new Label("eleccion2", AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdElectionB()).getTitleSpanish()));
 
 						BotonConConfirmacionEliminar botonConConfirmacionEliminar = new BotonConConfirmacionEliminar("eliminar", item.getIndex()) {
 

@@ -14,16 +14,16 @@ import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.dashboard.admin.DashboardPlantillasVer;
 import net.lacnic.elections.admin.web.commons.TipoTemplateValidator;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.TemplateEleccion;
+import net.lacnic.elections.domain.TemplateElection;
 
 public class AddTemplateBasePanel extends Panel {
 
 	private static final long serialVersionUID = -6525820489640825347L;
-	private TemplateEleccion template;
+	private TemplateElection template;
 
 	public AddTemplateBasePanel(String id) {
 		super(id);
-		template = new TemplateEleccion();
+		template = new TemplateElection();
 
 		Form<Void> form = new Form<>("form");
 		add(form);

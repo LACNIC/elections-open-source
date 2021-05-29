@@ -11,7 +11,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.admin.app.AppContext;
-import net.lacnic.elections.domain.AccesosIps;
+import net.lacnic.elections.domain.IpAccess;
 
 public class ListadoipInhabilitadasPanel extends Panel {
 
@@ -22,22 +22,22 @@ public class ListadoipInhabilitadasPanel extends Panel {
 	public ListadoipInhabilitadasPanel(String id) {
 		super(id);
 
-		List<AccesosIps> listadoipInhabilitadas = AppContext.getInstance().getManagerBeanRemote().obtenerAccesosIps();
+		List<IpAccess> listadoipInhabilitadas = AppContext.getInstance().getManagerBeanRemote().obtenerAccesosIps();
 
-		final ListView<AccesosIps> listadoIps = new ListView<AccesosIps>("listadoAccesosIps", listadoipInhabilitadas) {
+		final ListView<IpAccess> listadoIps = new ListView<IpAccess>("listadoAccesosIps", listadoipInhabilitadas) {
 
 			private static final long serialVersionUID = 2146073776795909288L;
 
 			@Override
-			protected void populateItem(final ListItem<AccesosIps> item) {
+			protected void populateItem(final ListItem<IpAccess> item) {
 
 				try {
-					final AccesosIps ip = item.getModelObject();
+					final IpAccess ip = item.getModelObject();
 
 					item.add(new Label("ip", ip.getIp()));
-					item.add(new Label("intentos", ip.getIntentos()));
-					item.add(new Label("fechaPrimerIntento", ip.getFechaPrimerIntento()));
-					item.add(new Label("fechaUltimoIntento", ip.getFechaUltimoIntento()));
+					item.add(new Label("intentos", ip.getAttemptCount()));
+					item.add(new Label("fechaPrimerIntento", ip.getLastAttemptDate()));
+					item.add(new Label("fechaUltimoIntento", ip.getFirstAttemptDate()));
 				} catch (Exception e) {
 					appLogger.error(e);
 				}

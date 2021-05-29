@@ -14,24 +14,24 @@ import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.dashboard.admin.DashboardAdministradores;
 import net.lacnic.elections.admin.web.commons.DropDownEleccion;
 import net.lacnic.elections.admin.web.commons.UtilsString;
-import net.lacnic.elections.domain.Eleccion;
-import net.lacnic.elections.domain.UsuarioAdmin;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.UserAdmin;
 
 public class AgregarAdminPanel extends Panel {
 
 	private static final long serialVersionUID = -4400633632996398779L;
-	private UsuarioAdmin admin;
+	private UserAdmin admin;
 	private String password = "";
-	private Eleccion eleccionAutorizado;
+	private Election eleccionAutorizado;
 
 	public AgregarAdminPanel(String id) {
 		super(id);
-		admin = new UsuarioAdmin();
+		admin = new UserAdmin();
 
 		Form<Void> formAdmin = new Form<>("formAdmin");
 		add(formAdmin);
 
-		eleccionAutorizado = new Eleccion(0);
+		eleccionAutorizado = new Election(0);
 
 		final TextField<String> usernameTextField = new TextField<>("username", new PropertyModel<>(admin, "userId"));
 		usernameTextField.setRequired(true);
@@ -60,7 +60,7 @@ public class AgregarAdminPanel extends Panel {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				admin.setIdEleccionAutorizado(getEleccionAutorizado().getIdEleccion());
+				admin.setIdElectionAuthorized(getEleccionAutorizado().getIdElection());
 				admin.setPassword(UtilsString.wantHashMd5(getPassword()));
 
 				boolean adminUser = AppContext.getInstance().getManagerBeanRemote().agregarUsuarioAdmin(admin, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
@@ -75,11 +75,11 @@ public class AgregarAdminPanel extends Panel {
 
 	}
 
-	public UsuarioAdmin getAdmin() {
+	public UserAdmin getAdmin() {
 		return admin;
 	}
 
-	public void setAdmin(UsuarioAdmin admin) {
+	public void setAdmin(UserAdmin admin) {
 		this.admin = admin;
 	}
 
@@ -91,11 +91,11 @@ public class AgregarAdminPanel extends Panel {
 		this.password = password;
 	}
 
-	public Eleccion getEleccionAutorizado() {
+	public Election getEleccionAutorizado() {
 		return eleccionAutorizado;
 	}
 
-	public void setEleccionAutorizado(Eleccion eleccionAutorizado) {
+	public void setEleccionAutorizado(Election eleccionAutorizado) {
 		this.eleccionAutorizado = eleccionAutorizado;
 	}
 

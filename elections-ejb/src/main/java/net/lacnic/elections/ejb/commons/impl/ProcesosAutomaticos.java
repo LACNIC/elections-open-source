@@ -47,8 +47,8 @@ public class ProcesosAutomaticos {
 				for (int i = 0; i < emails.size(); i++) {
 					Email email = emails.get(i);
 					try {
-						appLogger.info("ENVIANDO EMAIL " + email.getAsunto() + " a " + email.getDestinatarios());
-						if (!MailHelper.sendMail(session, email.getDesde(), email.getDestinatarios(), email.getCc(), email.getBcc(), email.getAsunto(), email.getCuerpo())) {
+						appLogger.info("ENVIANDO EMAIL " + email.getSubject() + " a " + email.getRecipients());
+						if (!MailHelper.sendMail(session, email.getEmailFrom(), email.getRecipients(), email.getCc(), email.getBcc(), email.getSubject(), email.getBody())) {
 							emailConProblema(emailsProblematicos, email);
 						}
 						if (i % 500 == 0)
@@ -82,7 +82,7 @@ public class ProcesosAutomaticos {
 
 	private void emailConProblema(List<Email> emailsProblematicos, Email email) {
 		emailsProblematicos.add(email);
-		appLogger.info("ERROR enviando email a " + email.getDestinatarios());
+		appLogger.info("ERROR enviando email a " + email.getRecipients());
 	}
 
 	@Schedules({ @Schedule(second = "0", minute = "*/10", hour = "*", persistent = false) })

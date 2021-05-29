@@ -17,7 +17,7 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardHomePage;
 import net.lacnic.elections.admin.web.commons.AuditorValidator;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 
 public class AgregarAuditoresPanel extends Panel {
 
@@ -26,7 +26,7 @@ public class AgregarAuditoresPanel extends Panel {
 	private Auditor auditor;
 	boolean checkBoxValueBios = true;
 
-	public AgregarAuditoresPanel(String id, Eleccion eleccion) {
+	public AgregarAuditoresPanel(String id, Election eleccion) {
 		super(id);
 		try {
 			Form<Void> form = new Form<>("eleccionAuditoresForm");
@@ -42,7 +42,7 @@ public class AgregarAuditoresPanel extends Panel {
 			email.add(EmailAddressValidator.getInstance());
 			form.add(email);
 
-			form.add(new AuditorValidator(eleccion.getIdEleccion(), nombreAuditor, email));
+			form.add(new AuditorValidator(eleccion.getIdElection(), nombreAuditor, email));
 
 			form.add(new CheckBox("checkComisionado", new PropertyModel<>(auditor, "comisionado")));
 
@@ -53,8 +53,8 @@ public class AgregarAuditoresPanel extends Panel {
 				@Override
 				public void onSubmit() {
 					super.onSubmit();
-					AppContext.getInstance().getManagerBeanRemote().agregarAuditor(eleccion.getIdEleccion(), auditor, eleccion.getTituloEspanol(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
-					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+					AppContext.getInstance().getManagerBeanRemote().agregarAuditor(eleccion.getIdElection(), auditor, eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection()));
 					getSession().info(getString("auditorManagementExitoAdd"));
 				}
 
@@ -68,7 +68,7 @@ public class AgregarAuditoresPanel extends Panel {
 				@Override
 				public void onClick() {
 					try {
-						AppContext.getInstance().getManagerBeanRemote().persistirAuditoresSeteados(eleccion.getIdEleccion(), eleccion.getTituloEspanol(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+						AppContext.getInstance().getManagerBeanRemote().persistirAuditoresSeteados(eleccion.getIdElection(), eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						setResponsePage(DashboardHomePage.class);
 					} catch (Exception e) {
 						error(e.getMessage());
@@ -94,7 +94,7 @@ public class AgregarAuditoresPanel extends Panel {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdEleccion()));
+					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
 				}
 			};
 			form.add(atras);

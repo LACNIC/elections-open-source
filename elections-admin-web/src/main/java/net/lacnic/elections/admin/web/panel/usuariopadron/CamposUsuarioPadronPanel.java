@@ -9,13 +9,13 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import net.lacnic.elections.admin.web.commons.DropDownIdioma;
 import net.lacnic.elections.admin.web.commons.DropDownPais;
-import net.lacnic.elections.domain.UsuarioPadron;
+import net.lacnic.elections.domain.UserVoter;
 
 public class CamposUsuarioPadronPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	public CamposUsuarioPadronPanel(String id, UsuarioPadron up) {
+	public CamposUsuarioPadronPanel(String id, UserVoter up) {
 		super(id);
 		TextField<String> nombre = new TextField<>("nombre", new PropertyModel<>(up, "nombre"));
 		nombre.setRequired(true);

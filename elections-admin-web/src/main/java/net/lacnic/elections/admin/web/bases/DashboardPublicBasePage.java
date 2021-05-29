@@ -7,14 +7,14 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.web.commons.TopBarPublic;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Eleccion;
+import net.lacnic.elections.domain.Election;
 
 public abstract class DashboardPublicBasePage extends WebPage {
 
 	private static final long serialVersionUID = 6861984885215804314L;
 
-	private Eleccion eleccion;
-	private Eleccion[] elecciones;
+	private Election eleccion;
+	private Election[] elecciones;
 	private String token;
 
 	public DashboardPublicBasePage(PageParameters params) {
@@ -33,11 +33,11 @@ public abstract class DashboardPublicBasePage extends WebPage {
 
 	protected abstract Class validarToken(PageParameters params);
 
-	public Eleccion getEleccion() {
+	public Election getEleccion() {
 		return eleccion;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
+	public void setEleccion(Election eleccion) {
 		this.eleccion = eleccion;
 	}
 
@@ -53,11 +53,11 @@ public abstract class DashboardPublicBasePage extends WebPage {
 		this.token = token;
 	}
 
-	public Eleccion[] getElecciones() {
+	public Election[] getElecciones() {
 		return elecciones;
 	}
 
-	public void setElecciones(Eleccion[] elecciones) {
+	public void setElecciones(Election[] elecciones) {
 		this.elecciones = elecciones;
 	}
 

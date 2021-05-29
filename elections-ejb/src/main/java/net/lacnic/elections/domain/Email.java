@@ -23,10 +23,10 @@ public class Email implements Serializable {
 	private Long id;
 
 	@Column(columnDefinition = "TEXT")
-	private String destinatarios;
+	private String recipients;
 
-	@Column
-	private String desde;
+	@Column(name = "email_from")
+	private String emailFrom;
 
 	@Column
 	private String cc;
@@ -35,26 +35,26 @@ public class Email implements Serializable {
 	private String bcc;
 
 	@Column(nullable = false, columnDefinition = "TEXT")
-	private String asunto;
+	private String subject;
 
 	@Column(nullable = false, columnDefinition = "TEXT")
-	private String cuerpo;
+	private String body;
 
 	@Column
-	private Boolean enviado = false;
+	private Boolean sent = false;
 
 	@Column
-	private Date fechaCreado;
+	private Date createdDate;
 
 	@Column(nullable = false)
-	private String tipoTemplate;
+	private String templateType;
 
 	@ManyToOne(optional = true)
-	@JoinColumn(name = "id_eleccion")
-	private Eleccion eleccion;
+	@JoinColumn(name = "id_election")
+	private Election election;
 
 	public Email() {
-		this.fechaCreado = new Date();
+		this.createdDate = new Date();
 	}
 
 	public Long getId() {
@@ -65,12 +65,12 @@ public class Email implements Serializable {
 		this.id = id;
 	}
 
-	public String getDestinatarios() {
-		return destinatarios;
+	public String getRecipients() {
+		return recipients;
 	}
 
-	public void setDestinatarios(String destinatarios) {
-		this.destinatarios = destinatarios;
+	public void setRecipients(String recipients) {
+		this.recipients = recipients;
 	}
 
 	public String getCc() {
@@ -89,60 +89,60 @@ public class Email implements Serializable {
 		this.bcc = bcc;
 	}
 
-	public String getAsunto() {
-		return asunto;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setAsunto(String asunto) {
-		this.asunto = asunto;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
-	public String getCuerpo() {
-		return cuerpo;
+	public String getBody() {
+		return body;
 	}
 
-	public void setCuerpo(String cuerpo) {
-		this.cuerpo = cuerpo;
+	public void setBody(String body) {
+		this.body = body;
 	}
 
-	public Boolean getEnviado() {
-		return enviado;
+	public Boolean getSent() {
+		return sent;
 	}
 
-	public void setEnviado(Boolean enviado) {
-		this.enviado = enviado;
+	public void setSent(Boolean sent) {
+		this.sent = sent;
 	}
 
-	public String getDesde() {
-		return desde;
+	public String getEmailFrom() {
+		return emailFrom;
 	}
 
-	public void setDesde(String desde) {
-		this.desde = desde;
+	public void setEmailFrom(String emailFrom) {
+		this.emailFrom = emailFrom;
 	}
 
-	public Eleccion getEleccion() {
-		return eleccion;
+	public Election getElection() {
+		return election;
 	}
 
-	public void setEleccion(Eleccion eleccion) {
-		this.eleccion = eleccion;
+	public void setElection(Election election) {
+		this.election = election;
 	}
 
-	public String getTipoMail() {
-		return tipoTemplate;
+	public String getTemplateType() {
+		return templateType;
 	}
 
-	public void setTipoTemplate(String tipo) {
-		this.tipoTemplate = tipo;
+	public void setTemplateType(String templateType) {
+		this.templateType = templateType;
 	}
 
-	public Date getFechaCreado() {
-		return fechaCreado;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setFechaCreado(Date fechaCreado) {
-		this.fechaCreado = fechaCreado;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 }
