@@ -61,7 +61,7 @@ public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage
 						AppContext.getInstance().getManagerBeanRemote().editarPassAdmin(admin.getUserAdminId(), UtilsString.wantHashMd5(getPassword()), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("adminUserEditExito"));
 					}
-					if(admin.getIdElectionAuthorized()==0)
+					if(admin.getAuthorizedElectionId()==0)
 						setResponsePage(DashboardAdministradores.class);
 					else
 						setResponsePage(DashboardHomePage.class);
@@ -79,7 +79,7 @@ public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage
 
 			@Override
 			public void onClick() {
-				if(admin.getIdElectionAuthorized()==0)
+				if(admin.getAuthorizedElectionId()==0)
 					setResponsePage(DashboardAdministradores.class);
 				else
 					setResponsePage(DashboardHomePage.class);

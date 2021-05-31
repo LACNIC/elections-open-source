@@ -3,7 +3,8 @@ package net.lacnic.elections.data;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Participacion implements Serializable {
+
+public class Participation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +25,7 @@ public class Participacion implements Serializable {
 
 	boolean yaVoto;
 
-	public Participacion() { }
+	public Participation() { }
 
 	public String getOrgId() {
 		return orgId;

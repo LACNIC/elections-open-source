@@ -12,19 +12,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
+
 @Entity
-public class TemplateElection implements Serializable {
+public class ElectionEmailTemplate implements Serializable {
 
 	private static final long serialVersionUID = 574501011615594210L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "templateelection_seq")
-	@SequenceGenerator(name = "templateelection_seq", sequenceName = "templateelection_seq", allocationSize = 1, initialValue = 500)
-	@Column(name = "id_template_election")
-	private long idTemplate;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "electionemailtemplate_seq")
+	@SequenceGenerator(name = "electionemailtemplate_seq", sequenceName = "electionemailtemplate_seq", allocationSize = 1, initialValue = 500)
+	@Column(name = "electionemailtemplate_id")
+	private long electionEmailTemplateId;
 
 	@ManyToOne(optional = true)
-	@JoinColumn(name = "id_election", nullable = true)
+	@JoinColumn(name = "election_id", nullable = true)
 	private Election election;
 
 	@Column(name = "type")
@@ -51,11 +52,10 @@ public class TemplateElection implements Serializable {
 	@Transient
 	private RecipientType recipientType;
 
-	public TemplateElection() {
 
-	}
+	public ElectionEmailTemplate() { }
 
-	public TemplateElection(Election e, TemplateElection t) {
+	public ElectionEmailTemplate(Election e, ElectionEmailTemplate t) {
 		this.subjectEN = t.getSubjectEN();
 		this.subjectSP = t.getSubjectSP();
 		this.subjectPT = t.getSubjectPT();
@@ -66,12 +66,13 @@ public class TemplateElection implements Serializable {
 		this.election = e;
 	}
 
-	public long getIdTemplate() {
-		return idTemplate;
+
+	public long getElectionEmailTemplateId() {
+		return electionEmailTemplateId;
 	}
 
-	public void setIdTemplate(long idTemplate) {
-		this.idTemplate = idTemplate;
+	public void setElectionEmailTemplateId(long electionEmailTemplateId) {
+		this.electionEmailTemplateId = electionEmailTemplateId;
 	}
 
 	public Election getElection() {
@@ -87,7 +88,7 @@ public class TemplateElection implements Serializable {
 	}
 
 	public void setTemplateType(String templateType) {
-		this.templateType = templateType.toUpperCase();
+		this.templateType = templateType;
 	}
 
 	public String getSubjectSP() {

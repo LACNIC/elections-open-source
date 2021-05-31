@@ -73,10 +73,10 @@ public class CamposEleccionCandidatosPanel extends Panel {
 							candidatoNuevo.setPictureName(fileUpload != null ? fileUpload.getClientFileName() : (String) defaultPhoto[1]);
 							candidatoNuevo.setPictureExtension(fileUpload != null ? fileUpload.getClientFileName().split("\\.")[1] : (String) defaultPhoto[2]);
 							if (candidatoNuevo.isOnlySp())
-								candidatoNuevo.copiarBiosLanguagesToOthers();
-							AppContext.getInstance().getManagerBeanRemote().agregarCandidato(eleccion.getIdElection(), candidatoNuevo, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+								candidatoNuevo.copyBioToOtherLanguages();
+							AppContext.getInstance().getManagerBeanRemote().agregarCandidato(eleccion.getElectionId(), candidatoNuevo, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("candidateManagemenExitoAdd"));
-							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
+							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 						}
 					} catch (Exception e) {
 						getSession().error(getString("candidateManagemenErrorProc"));

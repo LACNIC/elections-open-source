@@ -23,12 +23,12 @@ import org.hibernate.internal.SessionImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.dao.DaoFactoryElecciones;
+import net.lacnic.elections.dao.ElectionsDaoFactory;
 import net.lacnic.elections.domain.Auditor;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.Email;
 import net.lacnic.elections.domain.EmailHistory;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.ejb.commons.EnvioMailsEJB;
@@ -46,11 +46,11 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 
 	private final String RESUMEN_CODIGO = "$usuario.resumenCodigos";
 
-	@PersistenceContext(unitName = "elecciones-pu")
+	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
 	@Override
-	public void encolarEnvioMasivo(List usuarios, TemplateElection templateEleccion) {
+	public void encolarEnvioMasivo(List usuarios, ElectionEmailTemplate templateEleccion) {
 		try {
 			Election e = templateEleccion.getElection();
 			List<UserVoter> usuariosPadron = new ArrayList<>();
@@ -86,7 +86,7 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 				};
 
 				if (templateAsunto.contains(RESUMEN_CODIGO) || templateCuerpo.contains(RESUMEN_CODIGO))
-					usp.setCodeSummary(agregarVotos(DaoFactoryElecciones.createVotoDao(em).obtenerVotos(usp.getIdUserVoter(), e.getIdElection())));
+					usp.setCodeSummary(agregarVotos(ElectionsDaoFactory.createVotoDao(em).getElectionUserVoterVotes(usp.getUserVoterId(), e.getElectionId())));
 
 				Map<String, Object> mapa = new HashMap<>();
 				mapa.put("usuario", usp);
@@ -95,7 +95,7 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
 				email.setSubject(asuntoProcesado);
 				email.setBody(cuerpoProcesado);
-				email.setEmailFrom(e.getDefaultSender());
+				email.setFrom(e.getDefaultSender());
 				email.setRecipients(usp.getMail());
 				email.setElection(e);
 				email.setSent(false);
@@ -114,7 +114,7 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
 				email.setSubject(asuntoProcesado);
 				email.setBody(cuerpoProcesado);
-				email.setEmailFrom(e.getDefaultSender());
+				email.setFrom(e.getDefaultSender());
 				email.setRecipients(a.getMail());
 				email.setElection(e);
 				email.setSent(false);
@@ -127,12 +127,12 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 	}
 
 	@Override
-	public void encolarEnvioIndividual(TemplateElection templateEleccion, UserVoter us, Auditor au, Election e, List<Vote> votos) {
+	public void encolarEnvioIndividual(ElectionEmailTemplate templateEleccion, UserVoter us, Auditor au, Election e, List<Vote> votos) {
 		try {
 			if (templateEleccion.getBodySP().contains(RESUMEN_CODIGO) || templateEleccion.getBodyEN().contains(RESUMEN_CODIGO) || templateEleccion.getBodyPT().contains(RESUMEN_CODIGO))
 				us.setCodeSummary(agregarVotos(votos));
 
-			if (templateEleccion.getTemplateType().contains(Constants.TipoTemplateAUDITOR)) {
+			if (templateEleccion.getTemplateType().contains(Constants.TemplateTypeAUDITOR)) {
 				Email email = new Email();
 				String templateAsunto = templateEleccion.getSubjectSP();
 				String templateCuerpo = templateEleccion.getBodySP();
@@ -143,7 +143,7 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
 				email.setSubject(asuntoProcesado);
 				email.setBody(cuerpoProcesado);
-				email.setEmailFrom(e.getDefaultSender());
+				email.setFrom(e.getDefaultSender());
 				email.setRecipients(EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constants.DEFAULT_SENDER));
 				email.setElection(e);
 				email.setSent(false);
@@ -177,7 +177,7 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
 				email.setSubject(asuntoProcesado);
 				email.setBody(cuerpoProcesado);
-				email.setEmailFrom(e.getDefaultSender());
+				email.setFrom(e.getDefaultSender());
 				email.setRecipients(us.getMail());
 				email.setElection(e);
 				email.setSent(false);
@@ -213,12 +213,12 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 
 	@Override
 	public List<Email> obtenerEmailsParaEnviar() {
-		return DaoFactoryElecciones.createEmailDao(em).obtenerEmailsParaEnviarElecciones();
+		return ElectionsDaoFactory.createEmailDao(em).getPendingSendEmails();
 	}
 
 	@Override
 	public void marcarEmailsComoEnviados() {
-		DaoFactoryElecciones.createEmailDao(em).marcarEmailsComoEnviados();
+		ElectionsDaoFactory.createEmailDao(em).markAllEmailsAsSent();
 	}
 
 	@Override
@@ -235,7 +235,7 @@ public class EnvioMailsEJBBean implements EnvioMailsEJB {
 
 	@Override
 	public void moverEmailsaHistoricos() {
-		List<Email> emails = DaoFactoryElecciones.createEmailDao(em).obtenerEmailsViejo();
+		List<Email> emails = ElectionsDaoFactory.createEmailDao(em).getEmailsOlderOneMonth();
 		for (Email email : emails) {
 			em.persist(new EmailHistory(email));
 			em.remove(email);

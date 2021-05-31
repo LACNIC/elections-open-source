@@ -4,7 +4,7 @@
 	<!-- Console log -->
 	<appender name="servicesConsoleAppender" class="org.apache.log4j.RollingFileAppender">
 		<param name="append" value="true" />
-		<param name="file" value="${jboss.server.log.dir}/elecciones-services-console.log" />
+		<param name="file" value="${jboss.server.log.dir}/elections-services-console.log" />
 
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{dd/MM/yy HH:mm:ss.SSS}] %-5p %m%n" />
@@ -14,7 +14,7 @@
 	<!-- App log -->
 	<appender name="servicesAppAppender" class="org.apache.log4j.RollingFileAppender">
 		<param name="append" value="true" />
-		<param name="file" value="${jboss.server.log.dir}/elecciones-services-app.log" />
+		<param name="file" value="${jboss.server.log.dir}/elections-services-app.log" />
 
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{dd/MM/yy HH:mm:ss.SSS}] %-5p %m%n" />

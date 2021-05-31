@@ -29,7 +29,7 @@ public class DashboardAuditores extends DashboardPublicBasePage {
 	public DashboardAuditores(final PageParameters params) {
 		super(params);
 		try {
-			if (a.isAgreement() && a.isCommissioner())
+			if (a.isAgreedConformity() && a.isCommissioner())
 				getSession().info(getString("auditorconforme"));
 
 			boolean seSolicitoRevision = a.getElection().isRevisionRequest();
@@ -50,9 +50,9 @@ public class DashboardAuditores extends DashboardPublicBasePage {
 			desc.setEscapeModelStrings(false);
 			sinRevision.add(desc);
 			sinRevision.add(new AprobacionAuditorPanel("aprobacionAuditorPanel", a));
-			sinRevision.add(new ResultadoEleccionPanel("resultadoPanel", getEleccion().getIdElection()));
-			sinRevision.add(new CodigosCandidatoPanel("codigosCandidatoPanel", getEleccion().getIdElection()));
-			sinRevision.add(new MoreInformationForAuditPanel("moreInformationForAuditPanel", getEleccion().getIdElection()));
+			sinRevision.add(new ResultadoEleccionPanel("resultadoPanel", getEleccion().getElectionId()));
+			sinRevision.add(new CodigosCandidatoPanel("codigosCandidatoPanel", getEleccion().getElectionId()));
+			sinRevision.add(new MoreInformationForAuditPanel("moreInformationForAuditPanel", getEleccion().getElectionId()));
 			add(sinRevision);
 
 		} catch (Exception e) {

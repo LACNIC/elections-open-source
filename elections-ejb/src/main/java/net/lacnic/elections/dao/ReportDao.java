@@ -5,28 +5,26 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+
 public class ReportDao {
 
-	private static final String ID_ELECCION = "idEleccion";
-
 	private EntityManager em;
+
 
 	public ReportDao(EntityManager em) {
 		this.em = em;
 	}
 
-	public ReportDao() {
-
-	}
+	public ReportDao() { }
 
 	/**
 	 * Obtiene una lista de e-mails con estado A Enviar
 	 * 
 	 * @return Retorna una lista de e-mails con estado A Enviar
 	 */
-	public long obtenerCantidadCorreos() {
-		Query q = em.createQuery("SELECT e.id FROM Email e");
-		return q.getResultList().size();
+	public long getEmailsAmount() {
+		Query q = em.createQuery("SELECT COUNT(e.emailId) FROM Email e");
+		return (long) q.getSingleResult();
 	}
 
 	/**
@@ -35,10 +33,9 @@ public class ReportDao {
 	 * @return Retorna un long refiriendose a la cantidad de emails sin enviar
 	 * 
 	 */
-	public long obtenerCorreosPendientes() {
-		Query q = em.createQuery("SELECT COUNT(e.id) FROM Email e WHERE e.enviado =:enviado");
-		q.setParameter("enviado", false);
-		return (Long) q.getSingleResult();
+	public long getPendingSendEmailsAmount() {
+		Query q = em.createQuery("SELECT COUNT(e.emailId) FROM Email e WHERE e.sent = FALSE");
+		return (long) q.getSingleResult();
 	}
 
 	/**
@@ -47,10 +44,9 @@ public class ReportDao {
 	 * @return Retorna un long refiriendose a la cantidad de emails enviados
 	 * 
 	 */
-	public long obtenerCorreosEnviados() {
-		Query q = em.createQuery("SELECT COUNT(e.id) FROM Email e WHERE e.enviado =:enviado");
-		q.setParameter("enviado", true);
-		return (Long) q.getSingleResult();
+	public long getSentEmailsAmount() {
+		Query q = em.createQuery("SELECT COUNT(e.emailId) FROM Email e WHERE e.sent = TRUE");
+		return (long) q.getSingleResult();
 	}
 
 	/**
@@ -60,9 +56,9 @@ public class ReportDao {
 	 * @return Retorna un long con la cantidad de ips que han tenido intento de
 	 *         acceso fallido
 	 */
-	public long obtenerCantIpsAccesosFallidos() {
-		Query q = em.createQuery("SELECT a.id FROM AccesosIps a");
-		return q.getResultList().size();
+	public long getFailedIpAccesesAmount() {
+		Query q = em.createQuery("SELECT COUNT(a.ipAccessId) FROM IpAccess a");
+		return (long) q.getSingleResult();
 	}
 
 	/**
@@ -72,9 +68,9 @@ public class ReportDao {
 	 * @return Retorna un long con la cantidad de ips que han tenido intento de
 	 *         Baneo
 	 */
-	public long sumaIntentosAccesosFallidos() {
-		Query q = em.createQuery("SELECT COALESCE(SUM (a.intentos),0) FROM AccesosIps a");
-		return (Long) q.getSingleResult();
+	public long getFailedIpAccesesSum() {
+		Query q = em.createQuery("SELECT COALESCE(SUM (a.attemptCount), 0) FROM IpAccess a");
+		return (long) q.getSingleResult();
 	}
 
 
@@ -89,10 +85,10 @@ public class ReportDao {
 	 * @return Retorna un long refiriendose a la cantidad de emails sin enviar
 	 * 
 	 */
-	public long obtenerCorreosSinEnviarElec(long idElec) {
-		Query q = em.createQuery("SELECT COUNT(e.id) FROM Email e WHERE e.eleccion.idEleccion =:idEleccion AND e.enviado = false");
-		q.setParameter(ID_ELECCION, idElec);
-		return (Long) q.getSingleResult();
+	public long getElectionPendingSendEmailsAmount(long electionId) {
+		Query q = em.createQuery("SELECT COUNT(e.emailId) FROM Email e WHERE e.election.electionId = :electionId AND e.sent = FALSE");
+		q.setParameter("electionId", electionId);
+		return (long) q.getSingleResult();
 	}
 
 	/**
@@ -102,9 +98,8 @@ public class ReportDao {
 	 *         Eleccion
 	 * 
 	 */
-
-	public List<Object[]> idElecciones() {
-		return em.createQuery("SELECT e.idEleccion, e.tituloEspanol FROM Eleccion e").getResultList();
+	public List<Object[]> getElectionsAllIdName() {
+		return em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e").getResultList();
 	}
 
 	/**
@@ -120,10 +115,10 @@ public class ReportDao {
 	 *         por parametro
 	 * 
 	 */
-	public long obtenerCantidadVotantesVanVotando(long idEleccion) {
-		Query q = em.createQuery("SELECT u.idUsuarioPadron FROM UsuarioPadron u WHERE u.eleccion.idEleccion =:idEleccion AND u.yaVoto=true");
-		q.setParameter(ID_ELECCION, idEleccion);
-		return q.getResultList().size();
+	public long getElectionAlreadyVotedAmount(long electionId) {
+		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId AND u.voted = TRUE");
+		q.setParameter("electionId", electionId);
+		return (long) q.getSingleResult();
 	}
 
 	/**
@@ -138,10 +133,10 @@ public class ReportDao {
 	 *         efectuado su votación para la eleccion proporcionada por parametro
 	 * 
 	 */
-	public long obtenerCantidadVotantesNoHanVotado(long idEleccion) {
-		Query q = em.createQuery("SELECT u.idUsuarioPadron FROM UsuarioPadron u WHERE  u.eleccion.idEleccion =:idEleccion AND u.yaVoto=false");
-		q.setParameter(ID_ELECCION, idEleccion);
-		return q.getResultList().size();
+	public long getElectionNotVotedYetAmount(long electionId) {
+		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId AND u.voted = FALSE");
+		q.setParameter("electionId", electionId);
+		return (long) q.getSingleResult();
 	}
 
 	/**
@@ -151,10 +146,10 @@ public class ReportDao {
 	 * 
 	 * @return Retorna la cantidad de usuarios asociados a la eleccion
 	 */
-	public long obtenerCantUsuariosPadronEleccion(long idEleccion) {
-		Query q = em.createQuery("SELECT u.idUsuarioPadron FROM UsuarioPadron u WHERE  u.eleccion.idEleccion =:idEleccion");
-		q.setParameter(ID_ELECCION, idEleccion);
-		return q.getResultList().size();
+	public long getElectionCensusSize(long electionId) {
+		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId");
+		q.setParameter("electionId", electionId);
+		return (long) q.getSingleResult();
 	}
 
 }

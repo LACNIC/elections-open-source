@@ -25,19 +25,19 @@ public class ListaReviewPanel extends Panel {
 				protected void populateItem(ListItem<Vote> item) {
 					final Vote v = item.getModelObject();
 					try {
-						item.add(new Label("idV", v.getIdVote()));
-						item.add(new Label("idUP", v.getUserVote().getIdUserVoter()));
-						item.add(new Label("idC", v.getCandidate().getIdCandidate()));
+						item.add(new Label("idV", v.getVoteId()));
+						item.add(new Label("idUP", v.getUserVoter().getUserVoterId()));
+						item.add(new Label("idC", v.getCandidate().getCandidateId()));
 						item.add(new Label("instanteVoto", v.getVoteDate()));
-						item.add(new Label("instanteUP", v.getUserVote().getVoteDate()));
+						item.add(new Label("instanteUP", v.getUserVoter().getVoteDate()));
 						item.add(new Label("candidato", v.getCandidate().getName()));
-						item.add(new Label("votanteNombre", v.getUserVote().getName()));
-						item.add(new Label("votanteEmail", v.getUserVote().getMail()));
-						item.add(new Label("votantePais", v.getUserVote().getCountry()));
-						item.add(new Label("votanteOrgId", v.getUserVote().getOrgID()));
-						item.add(new Label("votanteIdioma", v.getUserVote().getLanguage()));
-						item.add(new Label("votanteCantidad", v.getUserVote().getVoteAmount()));
-						item.add(new Label("votanteToken", v.getUserVote().getVoteToken()));
+						item.add(new Label("votanteNombre", v.getUserVoter().getName()));
+						item.add(new Label("votanteEmail", v.getUserVoter().getMail()));
+						item.add(new Label("votantePais", v.getUserVoter().getCountry()));
+						item.add(new Label("votanteOrgId", v.getUserVoter().getOrgID()));
+						item.add(new Label("votanteIdioma", v.getUserVoter().getLanguage()));
+						item.add(new Label("votanteCantidad", v.getUserVoter().getVoteAmount()));
+						item.add(new Label("votanteToken", v.getUserVoter().getVoteToken()));
 						item.add(new Label("codigo", v.getCode()));
 						item.add(new Label("ip", v.getIp()));
 

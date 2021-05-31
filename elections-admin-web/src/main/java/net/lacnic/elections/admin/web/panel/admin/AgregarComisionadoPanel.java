@@ -12,21 +12,21 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.dashboard.admin.DashboardComisionados;
 import net.lacnic.elections.admin.web.commons.AuditorValidator;
-import net.lacnic.elections.domain.Comissioner;
+import net.lacnic.elections.domain.Commissioner;
 
 public class AgregarComisionadoPanel extends Panel {
 
 	private static final long serialVersionUID = -4400633632996398779L;
-	private Comissioner comisionado;
+	private Commissioner comisionado;
 
 	public AgregarComisionadoPanel(String id) {
 		super(id);
-		comisionado = new Comissioner();
+		comisionado = new Commissioner();
 
 		Form<Void> formComisionado = new Form<>("formComisionado");
 		add(formComisionado);
 
-		final TextField<String> comisionadoText = new TextField<>("nombre", new PropertyModel<>(comisionado, "nombre"));
+		final TextField<String> comisionadoText = new TextField<>("nombre", new PropertyModel<>(comisionado, "name"));
 		comisionadoText.setRequired(true);
 		comisionadoText.add(StringValidator.maximumLength(40));
 		comisionadoText.setType(String.class);
@@ -57,11 +57,11 @@ public class AgregarComisionadoPanel extends Panel {
 
 	}
 
-	public Comissioner getComisionado() {
+	public Commissioner getComisionado() {
 		return comisionado;
 	}
 
-	public void setComisionado(Comissioner comisionado) {
+	public void setComisionado(Commissioner comisionado) {
 		this.comisionado = comisionado;
 	}
 

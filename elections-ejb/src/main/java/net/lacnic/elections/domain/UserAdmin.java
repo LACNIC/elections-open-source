@@ -6,14 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+
 @Entity
 public class UserAdmin implements Serializable {
 
 	private static final long serialVersionUID = 7237293453682145209L;
 
 	@Id
-	@Column(name = "user_id")
-	private String userId;
+	@Column(name = "useradmin_id")
+	private String userAdminId;
 
 	@Column(name = "password", columnDefinition = "text")
 	private String password;
@@ -21,19 +22,19 @@ public class UserAdmin implements Serializable {
 	@Column(name = "email", columnDefinition = "text")
 	private String email;
 
-	@Column(name = "id_election_authorized")
-	private Long idElectionAuthorized;
+	@Column(name = "authorizedelection_id")
+	private Long authorizedElectionId;
 
 
 	public UserAdmin() { }
 
 
 	public String getUserAdminId() {
-		return userId.toLowerCase();
+		return userAdminId;
 	}
 
-	public void setUserAdminId(String userId) {
-		this.userId = userId;
+	public void setUserAdminId(String userAdminId) {
+		this.userAdminId = userAdminId.toLowerCase();
 	}
 
 	public String getPassword() {
@@ -52,11 +53,12 @@ public class UserAdmin implements Serializable {
 		this.email = email.toLowerCase();
 	}
 
-	public Long getIdElectionAuthorized() {
-		return idElectionAuthorized;
+	public Long getAuthorizedElectionId() {
+		return authorizedElectionId;
 	}
 
-	public void setIdElectionAuthorized(Long idElectionAuthorized) {
-		this.idElectionAuthorized = idElectionAuthorized;
+	public void setAuthorizedElectionId(Long authorizedElectionId) {
+		this.authorizedElectionId = authorizedElectionId;
 	}
+
 }

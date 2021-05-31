@@ -71,13 +71,13 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 							managerBeanRemote = AppContext.getInstance().getManagerBeanRemote();
 
 							// Valido si la elección esta junta a otra, entonces NO puedo modificar la fecha de inicio
-							if (eleccion.getIdElection() == 0) {
+							if (eleccion.getElectionId() == 0) {
 								esNueva = true;
 							} else {
 								esNueva = false;
-								esSupra = managerBeanRemote.isSupraEleccion(eleccion.getIdElection());
+								esSupra = managerBeanRemote.isSupraEleccion(eleccion.getElectionId());
 								if (esSupra) {
-									elecOrig = managerBeanRemote.obtenerEleccion(eleccion.getIdElection());
+									elecOrig = managerBeanRemote.obtenerEleccion(eleccion.getElectionId());
 									dtIniOrig = elecOrig.getStartDate();
 
 								}
@@ -91,14 +91,14 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 							} else {
 								copiarTextos();
 								Election eleccionNueva;
-								if (eleccion.getIdElection() == 0) {
+								if (eleccion.getElectionId() == 0) {
 									getSession().info(getString("electionManagementExitoCreate"));
 									eleccionNueva = managerBeanRemote.actualizarEleccion(eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								} else {
 									getSession().info(getString("electionManagementExitoUpdate"));
 									eleccionNueva = managerBeanRemote.actualizarEleccion(eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								}
-								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccionNueva.getIdElection()));
+								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccionNueva.getElectionId()));
 
 							}
 						} catch (Exception e) {

@@ -23,7 +23,7 @@ public class DashboardGestionAuditores extends DashboardAdminBasePage {
 		add(new FeedbackPanel("feedback"));
 
 		add(new GestionEleccionStatusPanel("tabAuditores", eleccion));
-		add(new ListaAuditoresPanel("listaAuditoresPanel", eleccion.getIdElection()));
+		add(new ListaAuditoresPanel("listaAuditoresPanel", eleccion.getElectionId()));
 		add(new AgregarAuditoresPanel("agregarAuditoresPanel", eleccion));
 
 	}

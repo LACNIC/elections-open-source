@@ -3,16 +3,16 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	version="4.0">
-	<display-name>EleccionesManagerApp</display-name>
+	<display-name>ElectionsManagerApp</display-name>
 	<session-config>
 		<session-timeout>120</session-timeout>
 	</session-config>
 	<filter>
-		<filter-name>EleccionesManagerApp</filter-name>
+		<filter-name>ElectionsManagerApp</filter-name>
 		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
 		<init-param>
 			<param-name>applicationClassName</param-name>
-			<param-value>net.lacnic.siselecciones.admin.app.EleccionesManagerApp</param-value>
+			<param-value>net.lacnic.elections.admin.app.ElectionsManagerApp</param-value>
 		</init-param>
 		<init-param>
 			<param-name>configuration</param-name>
@@ -20,7 +20,7 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>EleccionesManagerApp</filter-name>
+		<filter-name>ElectionsManagerApp</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>ERROR</dispatcher>

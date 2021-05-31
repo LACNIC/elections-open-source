@@ -20,10 +20,12 @@ import net.lacnic.elections.utils.UtilsLinks;
 public class ElectionLight implements Serializable {
 
 	private static final long serialVersionUID = 574501011615594210L;
+	private static final String SIMPLE_DATE_FORMAT = "dd/MM/yyyy HH:mm";
+
 
 	@Id
-	@Column(name = "id_election")
-	private long idElection;
+	@Column(name = "election_id")
+	private long electionId;
 
 	@Column
 	@Enumerated(EnumType.STRING)
@@ -69,7 +71,7 @@ public class ElectionLight implements Serializable {
 	private String descriptionPortuguese;
 
 	@Column(nullable = false)
-	private int maxCandidate;
+	private int maxCandidates;
 
 	@Column(nullable = false)
 	private boolean votingLinkAvailable;
@@ -110,13 +112,115 @@ public class ElectionLight implements Serializable {
 
 	public ElectionLight() { }
 
-
-	public long getIdElection() {
-		return idElection;
+	public boolean isFinished() {
+		return new Date().after(getEndDate());
 	}
 
-	public void setIdElection(long idElection) {
-		this.idElection = idElection;
+	public boolean isStarted() {
+		return new Date().after(getStartDate());
+	}
+
+	public boolean isEnabledToVote() {
+		return (isStarted() && !isFinished() && isVotingLinkAvailable());
+	}
+
+	public String getDescription(String displayName) {
+		if (displayName.contains("sp"))
+			return getDescriptionSpanish();
+		else if (displayName.contains("en"))
+			return getDescriptionEnglish();
+		else if (displayName.contains("pt"))
+			return getDescriptionPortuguese();
+		return getDescriptionSpanish();
+	}
+
+	public String getTitle(String displayName) {
+		if (displayName.contains("sp"))
+			return getTitleSpanish();
+		else if (displayName.contains("en"))
+			return getTitleEnglish();
+		else if (displayName.contains("pt"))
+			return getTitlePortuguese();
+		return getTitleSpanish();
+
+	}
+
+	public void copyLanguageDescriptions(String language) {
+		if (language.equalsIgnoreCase("EN")) {
+			setDescriptionSpanish(getDescriptionEnglish());
+			setDescriptionPortuguese(getDescriptionEnglish());
+		} else if (language.equalsIgnoreCase("PT")) {
+			setDescriptionEnglish(getDescriptionPortuguese());
+			setDescriptionSpanish(getDescriptionPortuguese());
+		} else {
+			setDescriptionEnglish(getDescriptionSpanish());
+			setDescriptionPortuguese(getDescriptionSpanish());
+		}
+	}
+
+	public void copyLanguageTitles(String language) {
+		if (language.equalsIgnoreCase("EN")) {
+			setTitleSpanish(getTitleEnglish());
+			setTitlePortuguese(getTitleEnglish());
+		} else if (language.equalsIgnoreCase("PT")) {
+			setTitleEnglish(getTitlePortuguese());
+			setTitleSpanish(getTitlePortuguese());
+		} else {
+			setTitleEnglish(getTitleSpanish());
+			setTitlePortuguese(getTitleSpanish());
+		}
+	}
+
+	public void copyLanguageURLs(String language) {
+		if (language.equalsIgnoreCase("EN")) {
+			setLinkSpanish(getLinkEnglish());
+			setLinkPortuguese(getLinkEnglish());
+		} else if (language.equalsIgnoreCase("PT")) {
+			setLinkEnglish(getLinkPortuguese());
+			setLinkSpanish(getLinkPortuguese());
+		} else {
+			setLinkEnglish(getLinkSpanish());
+			setLinkPortuguese(getLinkSpanish());
+		}
+	}
+
+	public String getStartDateString() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
+		return simpleDateFormat.format(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+	}
+
+	public String getEndDateString() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
+		return simpleDateFormat.format(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+	}
+
+	public String getResultLink() {
+		return UtilsLinks.buildResultsLink(resultToken);
+	}
+
+
+	public long getElectionId() {
+		return electionId;
+	}
+
+	public void setElectionId(long electionId) {
+		this.electionId = electionId;
+	}
+
+	public ElectionCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ElectionCategory category) {
+		this.category = category;
+	}
+
+	public boolean isMigrated() {
+		return migrated;
+	}
+
+	public void setMigrated(boolean migrated) {
+		this.migrated = migrated;
 	}
 
 	public Date getStartDate() {
@@ -135,36 +239,12 @@ public class ElectionLight implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public int getMaxCandidate() {
-		return maxCandidate;
-	}
-
-	public void setMaxCandidate(int maxCandidate) {
-		this.maxCandidate = maxCandidate;
-	}
-
-	public boolean isVotingLinkAvailable() {
-		return votingLinkAvailable;
-	}
-
-	public void setVotingLinkAvailable(boolean votingLinkAvailable) {
-		this.votingLinkAvailable = votingLinkAvailable;
-	}
-
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
-	}
-
-	public boolean isResultLinkAvailable() {
-		return resultLinkAvailable;
-	}
-
-	public void setResultLinkAvailable(boolean resultLinkAvailable) {
-		this.resultLinkAvailable = resultLinkAvailable;
 	}
 
 	public String getTitleSpanish() {
@@ -191,38 +271,6 @@ public class ElectionLight implements Serializable {
 		this.titlePortuguese = titlePortuguese;
 	}
 
-	public String getDescriptionSpanish() {
-		return descriptionSpanish;
-	}
-
-	public void setDescriptionSpanish(String descriptionSpanish) {
-		this.descriptionSpanish = descriptionSpanish;
-	}
-
-	public String getDescriptionEnglish() {
-		return descriptionEnglish;
-	}
-
-	public void setDescriptionEnglish(String descriptionEnglish) {
-		this.descriptionEnglish = descriptionEnglish;
-	}
-
-	public String getDescriptionPortuguese() {
-		return descriptionPortuguese;
-	}
-
-	public void setDescriptionPortuguese(String descriptionPortuguese) {
-		this.descriptionPortuguese = descriptionPortuguese;
-	}
-
-	public String getResultToken() {
-		return resultToken;
-	}
-
-	public void setResultToken(String resultToken) {
-		this.resultToken = resultToken;
-	}
-
 	public String getLinkSpanish() {
 		return linkSpanish;
 	}
@@ -247,86 +295,68 @@ public class ElectionLight implements Serializable {
 		this.linkPortuguese = linkPortuguese;
 	}
 
-	public String getDescription(String displayName) {
-		if (displayName.contains("sp"))
-			return getDescriptionSpanish();
-		else if (displayName.contains("en"))
-			return getDescriptionEnglish();
-		else if (displayName.contains("pt"))
-			return getDescriptionPortuguese();
-		return getDescriptionSpanish();
-
+	public String getDescriptionSpanish() {
+		return descriptionSpanish;
 	}
 
-	public String getTitle(String displayName) {
-		if (displayName.contains("sp"))
-			return getTitleSpanish();
-		else if (displayName.contains("en"))
-			return getTitleEnglish();
-		else if (displayName.contains("pt"))
-			return getTitlePortuguese();
-		return getTitleSpanish();
-
+	public void setDescriptionSpanish(String descriptionSpanish) {
+		this.descriptionSpanish = descriptionSpanish;
 	}
 
-	public void copyLanguageDescriptions(String language) {
-
-		if (language.equalsIgnoreCase("EN")) {
-
-			setDescriptionSpanish(getDescriptionEnglish());
-			setDescriptionPortuguese(getDescriptionEnglish());
-
-		} else if (language.equalsIgnoreCase("PT")) {
-
-			setDescriptionEnglish(getDescriptionPortuguese());
-			setDescriptionSpanish(getDescriptionPortuguese());
-
-		} else {
-			setDescriptionEnglish(getDescriptionSpanish());
-			setDescriptionPortuguese(getDescriptionSpanish());
-
-		}
-
+	public String getDescriptionEnglish() {
+		return descriptionEnglish;
 	}
 
-	public void copyLanguageTitles(String language) {
-
-		if (language.equalsIgnoreCase("EN")) {
-
-			setTitleSpanish(getTitleEnglish());
-			setTitlePortuguese(getTitleEnglish());
-
-		} else if (language.equalsIgnoreCase("PT")) {
-
-			setTitleEnglish(getTitlePortuguese());
-			setTitleSpanish(getTitlePortuguese());
-
-		} else {
-			setTitleEnglish(getTitleSpanish());
-			setTitlePortuguese(getTitleSpanish());
-
-		}
-
+	public void setDescriptionEnglish(String descriptionEnglish) {
+		this.descriptionEnglish = descriptionEnglish;
 	}
 
-	public void copyLanguageURLs(String language) {
+	public String getDescriptionPortuguese() {
+		return descriptionPortuguese;
+	}
 
-		if (language.equalsIgnoreCase("EN")) {
+	public void setDescriptionPortuguese(String descriptionPortuguese) {
+		this.descriptionPortuguese = descriptionPortuguese;
+	}
 
-			setLinkSpanish(getLinkEnglish());
-			setLinkPortuguese(getLinkEnglish());
+	public int getMaxCandidates() {
+		return maxCandidates;
+	}
 
-		} else if (language.equalsIgnoreCase("PT")) {
+	public void setMaxCandidates(int maxCandidates) {
+		this.maxCandidates = maxCandidates;
+	}
 
-			setLinkEnglish(getLinkPortuguese());
-			setLinkSpanish(getLinkPortuguese());
+	public boolean isVotingLinkAvailable() {
+		return votingLinkAvailable;
+	}
 
-		} else {
-			setLinkEnglish(getLinkSpanish());
-			setLinkPortuguese(getLinkSpanish());
+	public void setVotingLinkAvailable(boolean votingLinkAvailable) {
+		this.votingLinkAvailable = votingLinkAvailable;
+	}
 
-		}
+	public boolean isResultLinkAvailable() {
+		return resultLinkAvailable;
+	}
 
+	public void setResultLinkAvailable(boolean resultLinkAvailable) {
+		this.resultLinkAvailable = resultLinkAvailable;
+	}
+
+	public boolean isAuditorLinkAvailable() {
+		return auditorLinkAvailable;
+	}
+
+	public void setAuditorLinkAvailable(boolean auditorLinkAvailable) {
+		this.auditorLinkAvailable = auditorLinkAvailable;
+	}
+
+	public boolean isRevisionRequest() {
+		return revisionRequest;
+	}
+
+	public void setRevisionRequest(boolean revisionRequest) {
+		this.revisionRequest = revisionRequest;
 	}
 
 	public boolean isOnlySp() {
@@ -337,12 +367,20 @@ public class ElectionLight implements Serializable {
 		this.onlySp = onlySp;
 	}
 
-	public boolean isAuditorLinkAvailable() {
-		return auditorLinkAvailable;
+	public String getResultToken() {
+		return resultToken;
 	}
 
-	public void setAuditorLinkAvailable(boolean auditorLinkAvailable) {
-		this.auditorLinkAvailable = auditorLinkAvailable;
+	public void setResultToken(String resultToken) {
+		this.resultToken = resultToken;
+	}
+
+	public String getDefaultSender() {
+		return defaultSender;
+	}
+
+	public void setDefaultSender(String defaultSender) {
+		this.defaultSender = defaultSender;
 	}
 
 	public boolean isElectorsSet() {
@@ -369,34 +407,12 @@ public class ElectionLight implements Serializable {
 		this.auditorsSet = auditorsSet;
 	}
 
-	public String getDefaultSender() {
-		return defaultSender;
-	}
-
-	public String getResultLink() {
-		return UtilsLinks.calcularLinkResultado(resultToken);
-	}
-
-	public void setDefaultSender(String defaultSender) {
-		this.defaultSender = defaultSender;
-	}
-
 	public boolean isRandomOrderCandidates() {
 		return randomOrderCandidates;
 	}
 
 	public void setRandomOrderCandidates(boolean randomOrderCandidates) {
 		this.randomOrderCandidates = randomOrderCandidates;
-	}
-
-	public String getStartDateString() {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		return simpleDateFormat.format(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
-	}
-
-	public String getEndDateString() {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		return simpleDateFormat.format(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
 	}
 
 	public int getDiffUTC() {
@@ -407,39 +423,4 @@ public class ElectionLight implements Serializable {
 		this.diffUTC = diffUTC;
 	}
 
-	public boolean isRevisionRequest() {
-		return revisionRequest;
-	}
-
-	public void setRevisionRequest(boolean revisionRequest) {
-		this.revisionRequest = revisionRequest;
-	}
-
-	public boolean isFinished() {
-		return new Date().after(getEndDate());
-	}
-
-	public boolean isStarted() {
-		return new Date().after(getStartDate());
-	}
-
-	public boolean isEnabledToVote() {
-		return (isStarted() && !isFinished() && isVotingLinkAvailable());
-	}
-
-	public boolean isMigrated() {
-		return migrated;
-	}
-
-	public void setMigrated(boolean migrated) {
-		this.migrated = migrated;
-	}
-
-	public ElectionCategory getCategory() {
-		return category;
-	}
-
-	public void setCategory(ElectionCategory category) {
-		this.category = category;
-	}
 }

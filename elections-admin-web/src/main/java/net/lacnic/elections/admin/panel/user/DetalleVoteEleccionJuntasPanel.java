@@ -35,7 +35,7 @@ public class DetalleVoteEleccionJuntasPanel extends Panel {
 		add(new Label("votante", upd.getVoterInformation()));
 		add(new Label("cantidadVotos", upd.getVoteAmount()));
 
-		add(new Label("maximo", String.valueOf(eleccion.getMaxCandidate())));
+		add(new Label("maximo", String.valueOf(eleccion.getMaxCandidates())));
 		Label desc = new Label("descripcion", eleccion.getDescription(getIdioma(upd)));
 		desc.setEscapeModelStrings(false);
 		add(desc);
@@ -59,7 +59,7 @@ public class DetalleVoteEleccionJuntasPanel extends Panel {
 
 		votar.setVisible(!yaVoto.isVisible());
 		add(votar);
-		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosVotacion(upd.getIdUserVoter(), upd.getElection().getIdElection());
+		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosVotacion(upd.getUserVoterId(), upd.getElection().getElectionId());
 
 		WebMarkupContainer yavotoCodigo = new WebMarkupContainer("yavotoCodigo");
 		yavotoCodigo.setVisible(!elegidos.isEmpty() && yaVoto.isVisible());

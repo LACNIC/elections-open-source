@@ -16,7 +16,7 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardEditarPlantilla;
 import net.lacnic.elections.admin.dashboard.admin.DashboardPlantillasVer;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 
 public class EditarPlantillaPanel extends Panel {
 
@@ -24,7 +24,7 @@ public class EditarPlantillaPanel extends Panel {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	public EditarPlantillaPanel(String id, TemplateElection template) {
+	public EditarPlantillaPanel(String id, ElectionEmailTemplate template) {
 		super(id);
 		try {
 			Form<Void> f = new Form<>("form");
@@ -75,7 +75,7 @@ public class EditarPlantillaPanel extends Panel {
 						if (eleccion != null) {
 							String info = getString("mailTemplEditExito1") + tipo + getString("mailTemplEditExito3") + eleccion.getTitleSpanish() + getString("mailTemplEditExito4");
 							getSession().info(info);
-							idEleccion = eleccion.getIdElection();
+							idEleccion = eleccion.getElectionId();
 						} else {
 							String info = getString("mailTemplEditExito2") + tipo + getString("mailTemplEditExito4");
 							getSession().info(info);
@@ -93,7 +93,7 @@ public class EditarPlantillaPanel extends Panel {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getIdElection()));
+					setResponsePage(DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getElectionId()));
 				}
 			});
 

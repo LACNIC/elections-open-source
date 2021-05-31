@@ -21,13 +21,13 @@ public class Activity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_seq")
 	@SequenceGenerator(name = "activity_seq", sequenceName = "activity_seq", allocationSize = 1)
-	@Column(name = "id_activity")
-	private long idActivity;
+	@Column(name = "activity_id")
+	private long activityId;
 
 	@Column(nullable = false)
 	private String userName;
-	
-	@Column(nullable = true)
+
+	@Column(nullable = true, name = "election_id")
 	private Long electionId;
 
 	@Column(nullable = false)
@@ -43,14 +43,16 @@ public class Activity implements Serializable {
 	@Column(columnDefinition="TEXT")
 	private String description;
 
+
 	public Activity() { }
 
-	public long getIdActivity() {
-		return idActivity;
+
+	public long getActivityId() {
+		return activityId;
 	}
 
-	public void setIdActivity(long idActivity) {
-		this.idActivity = idActivity;
+	public void setActivityId(long activityId) {
+		this.activityId = activityId;
 	}
 
 	public String getUserName() {
@@ -59,6 +61,30 @@ public class Activity implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Long getElectionId() {
+		return electionId;
+	}
+
+	public void setElectionId(Long electionId) {
+		this.electionId = electionId;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public ActivityType getActivityType() {
@@ -75,30 +101,6 @@ public class Activity implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Date date) {
-		this.timestamp = date;
-	}
-
-	public Long getElectionId() {
-		return electionId;
-	}
-
-	public void setElectionId(Long electionId) {
-		this.electionId = electionId;
 	}
 
 }

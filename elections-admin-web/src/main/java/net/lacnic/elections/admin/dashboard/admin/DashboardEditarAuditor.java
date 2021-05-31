@@ -59,7 +59,7 @@ public class DashboardEditarAuditor extends DashboardAdminBasePage {
 					AppContext.getInstance().getManagerBeanRemote().editarAuditor(getAuditor(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("auditorEditExito"));
 				}
-				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(auditor.getElection().getIdElection()));
+				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(auditor.getElection().getElectionId()));
 			}
 
 		});
@@ -70,7 +70,7 @@ public class DashboardEditarAuditor extends DashboardAdminBasePage {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(auditor.getElection().getIdElection()));
+				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(auditor.getElection().getElectionId()));
 			}
 
 		});

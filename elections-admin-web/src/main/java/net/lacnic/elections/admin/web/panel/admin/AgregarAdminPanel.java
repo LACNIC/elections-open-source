@@ -33,7 +33,7 @@ public class AgregarAdminPanel extends Panel {
 
 		eleccionAutorizado = new Election(0);
 
-		final TextField<String> usernameTextField = new TextField<>("username", new PropertyModel<>(admin, "userId"));
+		final TextField<String> usernameTextField = new TextField<>("username", new PropertyModel<>(admin, "userAdminId"));
 		usernameTextField.setRequired(true);
 		usernameTextField.add(StringValidator.maximumLength(40));
 		usernameTextField.setType(String.class);
@@ -60,7 +60,7 @@ public class AgregarAdminPanel extends Panel {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				admin.setIdElectionAuthorized(getEleccionAutorizado().getIdElection());
+				admin.setAuthorizedElectionId(getEleccionAutorizado().getElectionId());
 				admin.setPassword(UtilsString.wantHashMd5(getPassword()));
 
 				boolean adminUser = AppContext.getInstance().getManagerBeanRemote().agregarUsuarioAdmin(admin, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());

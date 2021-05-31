@@ -8,9 +8,8 @@ import javax.persistence.TypedQuery;
 
 import net.lacnic.elections.domain.Auditor;
 
-public class AuditorDao {
 
-	private static final String ID_ELECCION = "idEleccion";
+public class AuditorDao {
 
 	private EntityManager em;
 
@@ -25,10 +24,10 @@ public class AuditorDao {
 	 *            el id de un Auditor
 	 * @return Devuelve la entidad Auditor correspondiente al identificador
 	 */
-	public Auditor obtenerAuditor(long id) {
-		Query q = em.createQuery("SELECT c FROM Auditor c WHERE c.idAuditor =:idAuditor");
-		q.setParameter("idAuditor", id);
-		return (Auditor) q.getSingleResult();
+	public Auditor getAuditor(long auditorId) {
+		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.auditorId = :auditorId", Auditor.class);
+		q.setParameter("auditorId", auditorId);
+		return q.getSingleResult();
 	}
 
 	/**
@@ -38,7 +37,7 @@ public class AuditorDao {
 	 * @return Devfuelve todos los auditores del sistema sin importar la
 	 *         eleccion a la que corresponden
 	 */
-	public List<Auditor> obtenerAuditores() {
+	public List<Auditor> getAuditorsAll() {
 		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c", Auditor.class);
 		return q.getResultList();
 	}
@@ -51,24 +50,24 @@ public class AuditorDao {
 	 * @return Devuelve una lista de Auditores que aplican para la eleccion de
 	 *         idEleccion
 	 */
-	public List<Auditor> obtenerAuditoresEleccion(long idEleccion) {
-		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.eleccion.idEleccion =:idEleccion", Auditor.class);
-		q.setParameter(ID_ELECCION, idEleccion);
+	public List<Auditor> getElectionAuditors(long electionId) {
+		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.election.electionId = :electionId", Auditor.class);
+		q.setParameter("electionId", electionId);
 		return q.getResultList();
 	}
 
-	public boolean existeAuditor(long idEleccion, String nombre, String mail) {
-		Query q = em.createQuery("SELECT c.idAuditor FROM Auditor c WHERE c.eleccion.idEleccion =:idEleccion AND c.nombre=:nombre AND c.mail =:mail");
-		q.setParameter(ID_ELECCION, idEleccion);
+	public boolean auditorExists(long electionId, String name, String mail) {
+		Query q = em.createQuery("SELECT c.idAuditor FROM Auditor c WHERE c.election.electionId = :electionId AND c.name = :name AND c.mail = :mail");
+		q.setParameter("electionId", electionId);
 		q.setParameter("mail", mail);
-		q.setParameter("nombre", nombre);
+		q.setParameter("nombre", name);
 		q.setMaxResults(1);
 		return !q.getResultList().isEmpty();
 	}
 
-	public Auditor obtenerAuditorTokenResultado(String token) {
-		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.tokenResultado =:token", Auditor.class);
-		q.setParameter("token", token);
+	public Auditor getAuditorByResultToken(String resultToken) {
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.resultToken = :resultToken", Auditor.class);
+		q.setParameter("resultToken", resultToken);
 		return q.getSingleResult();
 	}
 
@@ -80,20 +79,20 @@ public class AuditorDao {
 	 * @return Devuelve una lista con todos los UUIDS creados hasta el momento
 	 *         para descartar repeticiones
 	 */
-	public List<String> obtenerTodosLosUUIDs() {
-		Query q = em.createQuery("SELECT a.tokenResultado FROM Auditor a");
+	public List<String> getAllAuditorsUUIDs() {
+		TypedQuery<String> q = em.createQuery("SELECT a.resultToken FROM Auditor a", String.class);
 		return q.getResultList();
 	}
 
-	public List<Auditor> obtenerAuditoresEleccionQueNoConformaron(long idEleccion) {
-		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.comisionado=TRUE AND a.expresoConformidad=FALSE and a.eleccion.idEleccion=:idEleccion", Auditor.class);
-		q.setParameter(ID_ELECCION, idEleccion);
+	public List<Auditor> getElectionAuditorsNotAgreedConformity(long electionId) {
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.commissioner = TRUE AND a.agreedConformity = FALSE AND a.election.electionId = :electionId", Auditor.class);
+		q.setParameter("electionId", electionId);
 		return q.getResultList();
 	}
 
-	public List<Auditor> obtenerAuditoresEleccionQueYaConformaron(long idEleccion) {
-		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.comisionado=TRUE AND a.expresoConformidad=TRUE and a.eleccion.idEleccion=:idEleccion", Auditor.class);
-		q.setParameter(ID_ELECCION, idEleccion);
+	public List<Auditor> getElectionAuditorsAgreedConformity(long electionId) {
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.commissioner = TRUE AND a.agreedConformity = TRUE AND a.election.electionId = :electionId", Auditor.class);
+		q.setParameter("electionId", electionId);
 		return q.getResultList();
 	}
 

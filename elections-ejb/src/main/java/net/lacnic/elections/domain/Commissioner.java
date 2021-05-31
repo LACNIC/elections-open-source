@@ -10,15 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public class Comissioner implements Serializable {
+public class Commissioner implements Serializable {
 
 	private static final long serialVersionUID = 574501011615594210L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "candidate_seq")
-	@SequenceGenerator(name = "candidate_seq", sequenceName = "candidate_seq", allocationSize = 1)
-	@Column(name = "id_commissioner")
-	private long idCommissioner;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commissioner_seq")
+	@SequenceGenerator(name = "commissioner_seq", sequenceName = "commissioner_seq", allocationSize = 1)
+	@Column(name = "commissioner_id")
+	private long commissionerId;
 
 	@Column(nullable = false)
 	private String name;
@@ -26,12 +26,16 @@ public class Comissioner implements Serializable {
 	@Column(nullable = false)
 	private String mail;
 
-	public long getIdCommissioner() {
-		return idCommissioner;
+
+	public Commissioner() { }
+
+
+	public long getCommissionerId() {
+		return commissionerId;
 	}
 
-	public void setIdCommissioner(long idCommissioner) {
-		this.idCommissioner = idCommissioner;
+	public void setCommissionerId(long commissionerId) {
+		this.commissionerId = commissionerId;
 	}
 
 	public String getName() {
@@ -49,4 +53,5 @@ public class Comissioner implements Serializable {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
+
 }

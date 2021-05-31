@@ -4,7 +4,7 @@
 	<!-- Console log -->
 	<appender name="webAdminConsoleAppender" class="org.apache.log4j.RollingFileAppender">
 		<param name="append" value="true" />
-		<param name="file" value="${jboss.server.log.dir}/elecciones-admin-web-console.log" />
+		<param name="file" value="${jboss.server.log.dir}/elections-admin-web-console.log" />
 
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{dd/MM/yy HH:mm:ss.SSS}] %-5p %m%n" />
@@ -14,7 +14,7 @@
 	<!-- App log -->
 	<appender name="webAdminAppAppender" class="org.apache.log4j.RollingFileAppender">
 		<param name="append" value="true" />
-		<param name="file" value="${jboss.server.log.dir}/elecciones-admin-web-app.log" />
+		<param name="file" value="${jboss.server.log.dir}/elections-admin-web-app.log" />
 
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{dd/MM/yy HH:mm:ss.SSS}] %-5p %m%n" />

@@ -44,7 +44,7 @@ public class ListaAdministradoresPanel extends Panel {
 					try {
 						item.add(new Label("username", actual.getUserAdminId()));
 						item.add(new Label("email", actual.getEmail()));
-						item.add(new Label("eleccionesAutorizado", actual.getIdElectionAuthorized() == 0 ? "TODAS" : AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdElectionAuthorized()).getTitleSpanish()));
+						item.add(new Label("eleccionesAutorizado", actual.getAuthorizedElectionId() == 0 ? "TODAS" : AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getAuthorizedElectionId()).getTitleSpanish()));
 
 
 						BookmarkablePageLink<Void> editarUsuarioAdmin = new BookmarkablePageLink<>("editarUsuarioAdmin", DashboardEditarAdministrador.class, UtilsParameters.getAdminId(actual.getUserAdminId()));

@@ -40,8 +40,8 @@ public class ListaAuditoresPanel extends Panel {
 					item.add(new Label("nombreA", actual.getName()));
 					item.add(new Label("mailA", actual.getMail()));
 					item.add(new Label("isComisionadoA", (actual.isCommissioner() ? "SI" : "NO")));
-					item.add(new Label("expresoConformidad", (actual.isCommissioner() ? (actual.isAgreement() ? "SI" : "NO") : "-")));
-					String calcularLinkVotar = UtilsLinks.calcularLinkResultadoAuditor(actual.getResulttoke());
+					item.add(new Label("expresoConformidad", (actual.isCommissioner() ? (actual.isAgreedConformity() ? "SI" : "NO") : "-")));
+					String calcularLinkVotar = UtilsLinks.buildAuditorResultsLink(actual.getResultToken());
 					Label textoLinkVotar = new Label("textoLink", calcularLinkVotar);
 					ExternalLink linkvotar = new ExternalLink("link", calcularLinkVotar);
 					linkvotar.add(textoLinkVotar);
@@ -53,7 +53,7 @@ public class ListaAuditoresPanel extends Panel {
 
 						@Override
 						public void onClick() {
-							setResponsePage(DashboardEditarAuditor.class, UtilsParameters.getAudit(actual.getIdAuditor()));
+							setResponsePage(DashboardEditarAuditor.class, UtilsParameters.getAudit(actual.getAuditorId()));
 						}
 
 					};
@@ -67,7 +67,7 @@ public class ListaAuditoresPanel extends Panel {
 						@Override
 						public void onConfirmar() {
 							SecurityUtils.info(getString("auditorManagementExitoDel"));
-							AppContext.getInstance().getManagerBeanRemote().eliminarAuditor(actual.getIdAuditor(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().eliminarAuditor(actual.getAuditorId(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(idEleccion));
 						}
 

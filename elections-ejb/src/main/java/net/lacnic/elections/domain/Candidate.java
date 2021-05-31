@@ -24,17 +24,17 @@ public class Candidate implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "candidate_seq")
 	@SequenceGenerator(name = "candidate_seq", sequenceName = "candidate_seq", allocationSize = 1)
-	@Column(name = "id_candidate")
-	private long idCandidate;
+	@Column(name = "candidate_id")
+	private long candidateId;
 
-	@Column(nullable = true)
-	private Long idMigration;
+	@Column(nullable = true, name = "migration_id")
+	private Long migrationId;
 
 	@Column(nullable = false, length = 1000)
 	private String name;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_election")
+	@JoinColumn(name = "election_id")
 	private Election election;
 
 	@Column(nullable = false)
@@ -55,7 +55,7 @@ public class Candidate implements Serializable {
 	@Column(nullable = false)
 	private String pictureExtension;
 
-	@Column(name = "candidate_order")
+	@Column
 	private int candidateOrder;
 
 	@Column(nullable = true)
@@ -73,14 +73,61 @@ public class Candidate implements Serializable {
 	@OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
 	private List<Vote> votes;
 
+
 	public Candidate() { }
 
-	public long getIdCandidate() {
-		return idCandidate;
+	public String getBio(String displayName) {
+		if (displayName.toLowerCase().contains("en") || displayName.toLowerCase().contains("english"))
+			return getBioEnglish();
+		else if (displayName.toLowerCase().contains("pt") || displayName.toLowerCase().contains("portuguese"))
+			return getBioPortuguese();
+		return getBioSpanish();
 	}
 
-	public void setIdCandidate(long idCandidate) {
-		this.idCandidate = idCandidate;
+	public String getLink(String displayName) {
+		if (displayName.toLowerCase().contains("en") || displayName.toLowerCase().contains("english"))
+			return getLinkEnglish();
+		else if (displayName.toLowerCase().contains("pt") || displayName.toLowerCase().contains("portuguese"))
+			return getLinkPortuguese();
+		return getLinkSpanish();
+	}
+
+	public void copyBioToOtherLanguages() {
+		setBioEnglish(getBioSpanish());
+		setBioPortuguese(getBioSpanish());
+		setLinkEnglish(getLinkSpanish());
+		setLinkPortuguese(getLinkSpanish());
+	}
+
+	public void clean() {
+		this.name = null;
+		this.pictureInfo = null;
+		this.pictureName = null;
+		this.bioSpanish = null;
+		this.bioEnglish = null;
+		this.bioPortuguese = null;
+		this.pictureExtension = null;
+	}
+
+	public boolean isFixed() {
+		return getCandidateOrder() == Constants.MIN_ORDER || getCandidateOrder() == Constants.MAX_ORDER;
+	}
+
+
+	public long getCandidateId() {
+		return candidateId;
+	}
+
+	public void setCandidateId(long candidateId) {
+		this.candidateId = candidateId;
+	}
+
+	public Long getMigrationId() {
+		return migrationId;
+	}
+
+	public void setMigrationId(Long migrationId) {
+		this.migrationId = migrationId;
 	}
 
 	public String getName() {
@@ -115,38 +162,6 @@ public class Candidate implements Serializable {
 		this.pictureName = pictureName;
 	}
 
-	public String getPictureExtension() {
-		return pictureExtension;
-	}
-
-	public void setPictureExtension(String pictureExtension) {
-		this.pictureExtension = pictureExtension;
-	}
-
-	public List<Vote> getVotes() {
-		return votes;
-	}
-
-	public void setVotes(List<Vote> votes) {
-		this.votes = votes;
-	}
-
-	public String getBio(String displayName) {
-		if (displayName.toLowerCase().contains("en") || displayName.toLowerCase().contains("english"))
-			return getBioEnglish();
-		else if (displayName.toLowerCase().contains("pt") || displayName.toLowerCase().contains("portuguese"))
-			return getBioPortuguese();
-		return getBioSpanish();
-	}
-
-	public String getLink(String displayName) {
-		if (displayName.toLowerCase().contains("en") || displayName.toLowerCase().contains("english"))
-			return getLinkEnglish();
-		else if (displayName.toLowerCase().contains("pt") || displayName.toLowerCase().contains("portuguese"))
-			return getLinkPortuguese();
-		return getLinkSpanish();
-	}
-
 	public String getBioSpanish() {
 		return bioSpanish;
 	}
@@ -171,25 +186,12 @@ public class Candidate implements Serializable {
 		this.bioPortuguese = bioPortuguese;
 	}
 
-	public void copiarBiosLanguagesToOthers() {
-
-		setBioEnglish(getBioSpanish());
-		setBioPortuguese(getBioSpanish());
-
-		setLinkEnglish(getLinkSpanish());
-		setLinkPortuguese(getLinkSpanish());
-
+	public String getPictureExtension() {
+		return pictureExtension;
 	}
 
-	public void clean() {
-		this.name = null;
-		this.pictureInfo = null;
-		this.pictureName = null;
-		this.bioSpanish = null;
-		this.bioEnglish = null;
-		this.bioPortuguese = null;
-		this.pictureExtension = null;
-
+	public void setPictureExtension(String pictureExtension) {
+		this.pictureExtension = pictureExtension;
 	}
 
 	public int getCandidateOrder() {
@@ -206,10 +208,6 @@ public class Candidate implements Serializable {
 
 	public void setOnlySp(boolean onlySp) {
 		this.onlySp = onlySp;
-	}
-
-	public boolean isFixed() {
-		return getCandidateOrder() == Constants.MIN_ORDER || getCandidateOrder() == Constants.MAX_ORDER;
 	}
 
 	public String getLinkSpanish() {
@@ -236,11 +234,12 @@ public class Candidate implements Serializable {
 		this.linkPortuguese = linkPortuguese;
 	}
 
-	public long getIdMigration() {
-		return idMigration;
+	public List<Vote> getVotes() {
+		return votes;
 	}
 
-	public void setIdMigracion(long idMigration) {
-		this.idMigration = idMigration;
+	public void setVotes(List<Vote> votes) {
+		this.votes = votes;
 	}
+
 }

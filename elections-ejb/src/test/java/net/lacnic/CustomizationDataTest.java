@@ -8,13 +8,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import net.lacnic.elections.dao.PersonalizacionDao;
+import net.lacnic.elections.dao.CustomizationDao;
 import net.lacnic.elections.domain.Customization;
 
 
 public class CustomizationDataTest extends TestCase {
 	
-	//private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("elecciones-pu-test");
+	//private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("elections-pu-test");
 	
 	//private EntityManager em;
 	

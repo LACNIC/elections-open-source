@@ -38,9 +38,9 @@ public class DashboardEstadisticas extends DashboardAdminBasePage {
 		super(params);
 		try {
 			Election eleccion = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(UtilsParameters.getIdAsLong(params));
-			add(new ResultadoEleccionPanel("resultadoPanel", eleccion.getIdElection()).setVisible(eleccion.isFinished()));
-			add(new CodigosCandidatoPanel("codigosCandidatoPanel", eleccion.getIdElection()).setVisible(eleccion.isFinished()));
-			add(new GraficaVotantesPanel("graficaPanel", eleccion.getIdElection()));
+			add(new ResultadoEleccionPanel("resultadoPanel", eleccion.getElectionId()).setVisible(eleccion.isFinished()));
+			add(new CodigosCandidatoPanel("codigosCandidatoPanel", eleccion.getElectionId()).setVisible(eleccion.isFinished()));
+			add(new GraficaVotantesPanel("graficaPanel", eleccion.getElectionId()));
 			add(new Label("tituloEleccion", eleccion.getTitleSpanish()));
 			add(new Label("mensaje", getString("dshbStatsMessage")).setVisible(!eleccion.isFinished()));
 		} catch (Exception e) {

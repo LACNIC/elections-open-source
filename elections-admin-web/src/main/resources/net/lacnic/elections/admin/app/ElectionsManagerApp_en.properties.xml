@@ -377,7 +377,7 @@
 	<entry key="mailTemplListSendMail">Send email messages</entry><!-- Admin User List  --><entry key="adminUserListTitle">List of System Administrators</entry>
 	<entry key="adminUserListUser">User</entry>
 	<entry key="adminUserListMail">Email address</entry>
-	<entry key="adminUserListElectAuth">Election authorized</entry>
+	<entry key="adminUserListElectAuth">Authorized election</entry>
 	<entry key="adminUserListEdit">Edit</entry>
 	<entry key="adminUserListPwd">Password</entry>
 	<entry key="adminUserListEditPwd">Edit Password</entry>
@@ -438,7 +438,7 @@
 	<entry key="adminUserAddUser">User</entry>
 	<entry key="adminUserAddMail">Email address</entry>
 	<entry key="adminUserAddPwd">Password</entry>
-	<entry key="adminUserAddElecAuth">Election authorized</entry>
+	<entry key="adminUserAddElecAuth">Authorized election</entry>
 	<entry key="adminUserAddBtnAdd">Add</entry>
 	<entry key="adminUserAddExitoAdd">Admin user successfully added.</entry>
 	<entry key="adminUserAddErrorAdd">Admin user already exists.</entry><!-- Base Mail Template Add  --><entry key="baseMailTemplAddTitle">Add base template</entry>

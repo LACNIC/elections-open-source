@@ -8,17 +8,19 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.domain.Customization;
 
-public class PersonalizacionDao {
+
+public class CustomizationDao {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 	private EntityManager em;
 
+
 	/**
 	 * Constructor - asigna el entityManager
 	 *  
 	 */
-	public PersonalizacionDao(EntityManager em) {
+	public CustomizationDao(EntityManager em) {
 		this.em = em;
 	}
 
@@ -28,9 +30,9 @@ public class PersonalizacionDao {
 	 * @return Retorna un objeto con la info de personalización
 	 * 
 	 */
-	public Customization getPersonalizacion() {
+	public Customization getCustomization() {
 		try {
-			TypedQuery<Customization> q = em.createQuery("SELECT p FROM Personalizacion p WHERE p.idPersonalizacion = 1", Customization.class);			
+			TypedQuery<Customization> q = em.createQuery("SELECT c FROM Customization c WHERE c.customizationId = 1", Customization.class);
 			return q.getSingleResult();
 		} catch (Exception e) {
 			appLogger.error(e);

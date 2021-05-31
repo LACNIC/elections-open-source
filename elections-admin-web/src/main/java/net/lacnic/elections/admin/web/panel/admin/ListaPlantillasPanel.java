@@ -17,7 +17,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarPlantilla;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEnviarEmailPaso1;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.utils.Constants;
 
 public class ListaPlantillasPanel extends Panel {
@@ -28,25 +28,25 @@ public class ListaPlantillasPanel extends Panel {
 
 	public ListaPlantillasPanel(String id, long idEleccion) {
 		super(id);
-		List<TemplateElection> listPlantillasBase = AppContext.getInstance().getManagerBeanRemote().obtenerTemplatesEleccion(idEleccion);
-		Collections.sort(listPlantillasBase, new Comparator<TemplateElection>() {
+		List<ElectionEmailTemplate> listPlantillasBase = AppContext.getInstance().getManagerBeanRemote().obtenerTemplatesEleccion(idEleccion);
+		Collections.sort(listPlantillasBase, new Comparator<ElectionEmailTemplate>() {
 
 			@Override
-			public int compare(TemplateElection o1, TemplateElection o2) {
+			public int compare(ElectionEmailTemplate o1, ElectionEmailTemplate o2) {
 				return o1.getTemplateType().equals(Constants.TemplateTypeNEW) ? -1 : o2.getTemplateType().equals(Constants.TemplateTypeNEW) ? 1 : o1.getTemplateType().compareTo(o2.getTemplateType());
 			}
 		});
 		init(listPlantillasBase, idEleccion);
 	}
 
-	private void init(List<TemplateElection> plantillasBase, long idEleccion) {
+	private void init(List<ElectionEmailTemplate> plantillasBase, long idEleccion) {
 		try {
-			final ListView<TemplateElection> dataViewTemplates = new ListView<TemplateElection>("listaPlantillas", plantillasBase) {
+			final ListView<ElectionEmailTemplate> dataViewTemplates = new ListView<ElectionEmailTemplate>("listaPlantillas", plantillasBase) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<TemplateElection> item) {
-					final TemplateElection actual = item.getModelObject();
+				protected void populateItem(ListItem<ElectionEmailTemplate> item) {
+					final ElectionEmailTemplate actual = item.getModelObject();
 					try {
 						item.add(new Label("asuntoEN", actual.getSubjectEN()));
 						item.add(new MultiLineLabel("cuerpoEN", actual.getBodyEN()));
@@ -92,7 +92,7 @@ public class ListaPlantillasPanel extends Panel {
 					}
 				}
 
-				private boolean botonEnviarVisible(TemplateElection actual) {
+				private boolean botonEnviarVisible(ElectionEmailTemplate actual) {
 					return (!(actual.getTemplateType().equals(Constants.TemplateTypeAUDITOR_AGREEMENT) || actual.getTemplateType().equals(Constants.TemplateTypeVOTE_CODES) || actual.getTemplateType().equals(Constants.TemplateTypeAUDITOR_REVISION)));
 				}
 			};

@@ -15,7 +15,7 @@ public class AprobacionAuditorPanel extends Panel {
 
 	public AprobacionAuditorPanel(String id, Auditor a) {
 		super(id);
-		setVisible(!a.isAgreement() && a.isCommissioner());
+		setVisible(!a.isAgreedConformity() && a.isCommissioner());
 
 		BotonAprobacionAuditor botonAprobacionAuditor = new BotonAprobacionAuditor("botonAprobacionAuditor") {
 
@@ -23,8 +23,8 @@ public class AprobacionAuditorPanel extends Panel {
 
 			@Override
 			public void onConfirmar() {
-				AppContext.getInstance().getVoterBeanRemote().confirmarEleccionAuditor(a.getIdAuditor());
-				setResponsePage(DashboardAuditores.class, UtilsParameters.getToken(a.getResulttoke()));
+				AppContext.getInstance().getVoterBeanRemote().confirmarEleccionAuditor(a.getAuditorId());
+				setResponsePage(DashboardAuditores.class, UtilsParameters.getToken(a.getResultToken()));
 			}
 		};
 		add(botonAprobacionAuditor);

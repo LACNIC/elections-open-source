@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+
 @Entity
 public class Vote implements Serializable {
 
@@ -20,7 +21,8 @@ public class Vote implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vote_seq")
 	@SequenceGenerator(name = "vote_seq", sequenceName = "vote_seq", allocationSize = 1)
-	private long idVote;
+	@Column(name = "vote_id")
+	private long voteId;
 
 	@Column(nullable = false)
 	private String code;
@@ -32,43 +34,27 @@ public class Vote implements Serializable {
 	private Date voteDate;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_candidate")
+	@JoinColumn(name = "candidate_id")
 	private Candidate candidate;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_election")
+	@JoinColumn(name = "election_id")
 	private Election election;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_user_vote")
-	private UserVoter userVote;
+	@JoinColumn(name = "uservoter_id")
+	private UserVoter userVoter;
 
 
 	public Vote() { }
 
 
-	public UserVoter getUserVote() {
-		return userVote;
+	public long getVoteId() {
+		return voteId;
 	}
 
-	public void setUserVote(UserVoter userVote) {
-		this.userVote = userVote;
-	}
-
-	public long getIdVote() {
-		return idVote;
-	}
-
-	public void setIdVote(long idVote) {
-		this.idVote = idVote;
-	}
-
-	public Election getElection() {
-		return election;
-	}
-
-	public void setElection(Election election) {
-		this.election = election;
+	public void setVoteId(long voteId) {
+		this.voteId = voteId;
 	}
 
 	public String getCode() {
@@ -77,14 +63,6 @@ public class Vote implements Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	public Candidate getCandidate() {
-		return candidate;
-	}
-
-	public void setCandidate(Candidate candidate) {
-		this.candidate = candidate;
 	}
 
 	public String getIp() {
@@ -101,6 +79,30 @@ public class Vote implements Serializable {
 
 	public void setVoteDate(Date voteDate) {
 		this.voteDate = voteDate;
+	}
+
+	public Candidate getCandidate() {
+		return candidate;
+	}
+
+	public void setCandidate(Candidate candidate) {
+		this.candidate = candidate;
+	}
+
+	public Election getElection() {
+		return election;
+	}
+
+	public void setElection(Election election) {
+		this.election = election;
+	}
+
+	public UserVoter getUserVoter() {
+		return userVoter;
+	}
+
+	public void setUserVoter(UserVoter userVote) {
+		this.userVoter = userVote;
 	}
 
 }

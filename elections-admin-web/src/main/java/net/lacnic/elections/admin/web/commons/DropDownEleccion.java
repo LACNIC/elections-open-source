@@ -25,7 +25,7 @@ public class DropDownEleccion extends DropDownChoice<Election> {
 		Collections.sort(elecciones, new Comparator<Election>() {
 			@Override
 			public int compare(Election o1, Election o2) {
-				return o1.getIdElection() == 0 ? -1 : 1;
+				return o1.getElectionId() == 0 ? -1 : 1;
 			}
 		});
 		setChoices(elecciones);
@@ -41,7 +41,7 @@ public class DropDownEleccion extends DropDownChoice<Election> {
 
 			@Override
 			public String getIdValue(Election e, int index) {
-				return String.valueOf(e.getIdElection());
+				return String.valueOf(e.getElectionId());
 			}
 
 			@Override
@@ -50,7 +50,7 @@ public class DropDownEleccion extends DropDownChoice<Election> {
 				if(listaOpt.isPresent()) {
 					return listaOpt.get()
 							.stream()
-							.filter(actual -> String.valueOf(actual.getIdElection()).equals(id))
+							.filter(actual -> String.valueOf(actual.getElectionId()).equals(id))
 							.findFirst()
 							.orElse(null);
 				} else {

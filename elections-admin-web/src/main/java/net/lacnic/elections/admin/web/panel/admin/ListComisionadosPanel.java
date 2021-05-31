@@ -16,7 +16,7 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardComisionados;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarComisionado;
 import net.lacnic.elections.admin.web.commons.BotonConConfirmacionEliminar;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Comissioner;
+import net.lacnic.elections.domain.Commissioner;
 
 public class ListComisionadosPanel extends Panel {
 
@@ -26,24 +26,24 @@ public class ListComisionadosPanel extends Panel {
 
 	public ListComisionadosPanel(String id) {
 		super(id);
-		List<Comissioner> listaComisionados = AppContext.getInstance().getManagerBeanRemote().obtenerComisionados();
+		List<Commissioner> listaComisionados = AppContext.getInstance().getManagerBeanRemote().obtenerComisionados();
 		init(listaComisionados);
 	}
 
-	private void init(List<Comissioner> listaComisionados) {
+	private void init(List<Commissioner> listaComisionados) {
 		try {
-			final ListView<Comissioner> dataViewComisionados = new ListView<Comissioner>("listaComisionados", listaComisionados) {
+			final ListView<Commissioner> dataViewComisionados = new ListView<Commissioner>("listaComisionados", listaComisionados) {
 				
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
-				protected void populateItem(ListItem<Comissioner> item) {
-					final Comissioner actual = item.getModelObject();
+				protected void populateItem(ListItem<Commissioner> item) {
+					final Commissioner actual = item.getModelObject();
 					try {
 						item.add(new Label("nombre", actual.getName()));
 						item.add(new Label("email", actual.getMail()));
 
-						BookmarkablePageLink<Void> editarComisionado = new BookmarkablePageLink<>("editarComisionado", DashboardEditarComisionado.class, UtilsParameters.getAudit(actual.getIdCommissioner()));
+						BookmarkablePageLink<Void> editarComisionado = new BookmarkablePageLink<>("editarComisionado", DashboardEditarComisionado.class, UtilsParameters.getAudit(actual.getCommissionerId()));
 						editarComisionado.setMarkupId("editarComisionado" + item.getIndex());
 						item.add(editarComisionado);
 
@@ -55,7 +55,7 @@ public class ListComisionadosPanel extends Panel {
 							public void onConfirmar() {
 
 								try {
-									AppContext.getInstance().getManagerBeanRemote().eliminarComisionado(actual.getIdCommissioner(), actual.getName(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+									AppContext.getInstance().getManagerBeanRemote().eliminarComisionado(actual.getCommissionerId(), actual.getName(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 									getSession().info(getString("commissionerListExitoDel"));
 									setResponsePage(DashboardComisionados.class);
 								} catch (Exception e) {

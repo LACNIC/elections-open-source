@@ -4,16 +4,17 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 public class UtilsLinks {
-	
+
 	private static final String TOKEN = "?token="; 
-	
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
-	
+
+
 	private UtilsLinks() {
 		throw new IllegalStateException("Utility class");
 	}
 
-	public static String calcularLinkVotar(String token) {
+
+	public static String buildVoteLink(String token) {
 		try {
 			String url = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constants.URL);
 			return Constants.getVotesURL(url) + TOKEN + token;
@@ -21,10 +22,9 @@ public class UtilsLinks {
 			appLogger.error(e1);
 		}
 		return "";
-
 	}
 
-	public static String calcularLinkResultado(String token) {
+	public static String buildResultsLink(String token) {
 		try {
 			String url = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constants.URL);
 			return Constants.getResultsURL(url) + TOKEN + token;
@@ -32,10 +32,9 @@ public class UtilsLinks {
 			appLogger.error(e1);
 		}
 		return "";
-
 	}
 
-	public static String calcularLinkResultadoAuditor(String token) {
+	public static String buildAuditorResultsLink(String token) {
 		try {
 			String url = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constants.URL);
 			return Constants.getResultsAuditURL(url) + TOKEN + token;

@@ -11,11 +11,11 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.dao.DaoFactoryElecciones;
+import net.lacnic.elections.dao.ElectionsDaoFactory;
 import net.lacnic.elections.dao.ReportDao;
 import net.lacnic.elections.data.EleccionReporte;
 import net.lacnic.elections.data.HealthCheck;
-import net.lacnic.elections.data.Participacion;
+import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.UserVoter;
@@ -33,7 +33,7 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 	
-	@PersistenceContext(unitName = "elecciones-pu")
+	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
 	private static HealthCheck healthCheck;
@@ -48,14 +48,14 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 	@Override
 	public HealthCheck actualizarHCDatosWS() {
 
-		ReportDao reportDao = DaoFactoryElecciones.createReportDao(em);
+		ReportDao reportDao = ElectionsDaoFactory.createReportDao(em);
 
 		int intentosDeEnvio = ProcesosAutomaticos.getIntentos();
-		long ipsAccesosFallidos = reportDao.obtenerCantIpsAccesosFallidos();
-		long sumaAccesosFallidos = reportDao.sumaIntentosAccesosFallidos();
-		long correosTotales = reportDao.obtenerCantidadCorreos();
-		long correosPendientes = reportDao.obtenerCorreosPendientes();
-		long correosEnviados = reportDao.obtenerCorreosEnviados();
+		long ipsAccesosFallidos = reportDao.getFailedIpAccesesAmount();
+		long sumaAccesosFallidos = reportDao.getFailedIpAccesesSum();
+		long correosTotales = reportDao.getEmailsAmount();
+		long correosPendientes = reportDao.getPendingSendEmailsAmount();
+		long correosEnviados = reportDao.getSentEmailsAmount();
 
 		List<EleccionReporte> elecciones = reporteEleccion();
 
@@ -65,16 +65,16 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 
 	public List<EleccionReporte> reporteEleccion() {
 
-		ReportDao reportDao = DaoFactoryElecciones.createReportDao(em);
+		ReportDao reportDao = ElectionsDaoFactory.createReportDao(em);
 		List<EleccionReporte> eleccion = new ArrayList<>();
 
-		for (Object[] iDyNombre : reportDao.idElecciones()) {
+		for (Object[] iDyNombre : reportDao.getElectionsAllIdName()) {
 			Long id = (Long) iDyNombre[0];
 			String nombreEleccion = (String) iDyNombre[1];
-			long usuariosVotaron = reportDao.obtenerCantidadVotantesVanVotando(id);
-			long usuariosNoVotaron = reportDao.obtenerCantidadVotantesNoHanVotado(id);
-			long usuariosTotales = reportDao.obtenerCantUsuariosPadronEleccion(id);
-			long correosPendientes = reportDao.obtenerCorreosSinEnviarElec(id);
+			long usuariosVotaron = reportDao.getElectionAlreadyVotedAmount(id);
+			long usuariosNoVotaron = reportDao.getElectionNotVotedYetAmount(id);
+			long usuariosTotales = reportDao.getElectionCensusSize(id);
+			long correosPendientes = reportDao.getElectionPendingSendEmailsAmount(id);
 			EleccionReporte eleccionReport = new EleccionReporte(nombreEleccion, usuariosVotaron, usuariosNoVotaron, usuariosTotales, correosPendientes);
 			eleccion.add(eleccionReport);
 		}
@@ -83,12 +83,12 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 	}
 
 	@Override
-	public List<Participacion> obtenerParticipacionesOrgId(String org) {
-		List<Participacion> participaciones = new ArrayList<>();
-		List<Election> elecciones = DaoFactoryElecciones.createEleccionDao(em).obtenerEleccionesDesc();
+	public List<Participation> obtenerParticipacionesOrgId(String org) {
+		List<Participation> participaciones = new ArrayList<>();
+		List<Election> elecciones = ElectionsDaoFactory.createEleccionDao(em).getElectionsAllOrderStartDateDesc();
 		for (Election eleccion : elecciones) {
-			UserVoter up = DaoFactoryElecciones.createUsuarioPadronDao(em).obtenerUsuariosPadronOrgId(org, eleccion.getIdElection());
-			Participacion p = new Participacion();
+			UserVoter up = ElectionsDaoFactory.createUsuarioPadronDao(em).getElectionUserVotersByOrganization(org, eleccion.getElectionId());
+			Participation p = new Participation();
 			p.setCategoria(eleccion.getCategory().toString());
 			if (up != null) {
 				p.setEmail(up.getMail());
@@ -125,13 +125,13 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 
 	@Override
 	public List<ElectionLight> obtenerEleccionesLightDesc() {
-		return DaoFactoryElecciones.createEleccionDao(em).obtenerEleccionesLightDesc();
+		return ElectionsDaoFactory.createEleccionDao(em).getElectionsLightAllOrderStartDateDesc();
 	}
 	
 	@Override
 	public String getWsAuthToken() {
 		try {
-			return DaoFactoryElecciones.createParametroDao(em).getParametro(Constants.WS_AUTH_TOKEN).getValue();
+			return ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTH_TOKEN).getValue();
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -141,7 +141,7 @@ public class MonitorEleccionesEJBBean implements MonitorEleccionesEJB {
 	@Override
 	public IpResourceSet getWsIPsHabilitadas() {
 		try {
-			return IpResourceSet.parse(DaoFactoryElecciones.createParametroDao(em).getParametro(Constants.WS_AUTHORIZED_IPS).getValue());
+			return IpResourceSet.parse(ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTHORIZED_IPS).getValue());
 		} catch (Exception e) {
 			appLogger.error(e);
 		}

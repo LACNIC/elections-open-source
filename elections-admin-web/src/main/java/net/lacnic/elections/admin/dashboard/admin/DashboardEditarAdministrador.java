@@ -35,9 +35,9 @@ public class DashboardEditarAdministrador extends DashboardAdminBasePage {
 		UserAdmin admin = AppContext.getInstance().getManagerBeanRemote().obtenerUsuarioAdmin(UtilsParameters.getAdminId(params));
 
 		email = admin.getEmail();
-		eleccionAutorizado = new Election(admin.getIdElectionAuthorized());
-		if (admin.getIdElectionAuthorized() != 0)
-			eleccionAutorizado.setTitleSpanish(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(admin.getIdElectionAuthorized()).getTitleSpanish());
+		eleccionAutorizado = new Election(admin.getAuthorizedElectionId());
+		if (admin.getAuthorizedElectionId() != 0)
+			eleccionAutorizado.setTitleSpanish(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(admin.getAuthorizedElectionId()).getTitleSpanish());
 
 		Form<Void> formAdmin = new Form<>("formAdmin");
 		add(formAdmin);
@@ -58,8 +58,8 @@ public class DashboardEditarAdministrador extends DashboardAdminBasePage {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				if (!(email.equalsIgnoreCase(admin.getEmail()) && getEleccionAutorizado().getIdElection() == admin.getIdElectionAuthorized().longValue())) {
-					AppContext.getInstance().getManagerBeanRemote().editarUsuarioAdmin(admin, email, getEleccionAutorizado().getIdElection(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+				if (!(email.equalsIgnoreCase(admin.getEmail()) && getEleccionAutorizado().getElectionId() == admin.getAuthorizedElectionId().longValue())) {
+					AppContext.getInstance().getManagerBeanRemote().editarUsuarioAdmin(admin, email, getEleccionAutorizado().getElectionId(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("adminUserEditUsrExito"));
 				}
 				setResponsePage(DashboardAdministradores.class);

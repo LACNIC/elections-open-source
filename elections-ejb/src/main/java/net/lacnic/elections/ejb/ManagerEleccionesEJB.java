@@ -7,13 +7,13 @@ import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.Activity;
 import net.lacnic.elections.domain.Auditor;
 import net.lacnic.elections.domain.Candidate;
-import net.lacnic.elections.domain.Comissioner;
+import net.lacnic.elections.domain.Commissioner;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.Email;
 import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.domain.Customization;
 import net.lacnic.elections.domain.JointElection;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.ActivityType;
 import net.lacnic.elections.domain.UserAdmin;
 import net.lacnic.elections.domain.UserVoter;
@@ -52,7 +52,7 @@ public interface ManagerEleccionesEJB {
 
 	public void habilitarLinkAuditoria(Long id, Boolean valor, String admin, String ip);
 
-	public List<Comissioner> obtenerComisionados();
+	public List<Commissioner> obtenerComisionados();
 
 	public void eliminarUsuarioPadron(UserVoter actual, String titulo, String userId, String ip);
 
@@ -76,17 +76,17 @@ public interface ManagerEleccionesEJB {
 
 	public void editarUsuarioPadron(UserVoter usuarioPadron, String userId, String ip) throws CensusValidationException;
 
-	public List<TemplateElection> obtenerTemplatesEleccion(long idEleccion);
+	public List<ElectionEmailTemplate> obtenerTemplatesEleccion(long idEleccion);
 
-	public void modificarTemplateEleccion(TemplateElection t);
+	public void modificarTemplateEleccion(ElectionEmailTemplate t);
 
 	public void persistirActividad(String nomAdmin, ActivityType tipoActividad, String descripcion, String ip, Long idEleccion);
 
 	public void habilitarLinkVotacion(Long id, Boolean valor, String admin, String ip);
 
-	public List<TemplateElection> obtenerTemplatesBase();
+	public List<ElectionEmailTemplate> obtenerTemplatesBase();
 
-	public TemplateElection obtenerTemplate(String tipo, long idEleccion);
+	public ElectionEmailTemplate obtenerTemplate(String tipo, long idEleccion);
 
 	public void editarUsuarioAdmin(UserAdmin usuarioAdmin, String email, Long idEleccionAutorizado, String userId, String ipClient);
 
@@ -116,11 +116,11 @@ public interface ManagerEleccionesEJB {
 
 	public void borrarParametro(String clave, String userId, String ip);
 
-	public List obtenerDestinatariosTipoDestinatario(TemplateElection t) throws Exception;
+	public List obtenerDestinatariosTipoDestinatario(ElectionEmailTemplate t) throws Exception;
 
 	public Integer crearPlantillasEleccionesQueLeFalten();
 
-	public void encolarEnvioMasivo(List usuariosAuditor, TemplateElection templateEleccion);
+	public void encolarEnvioMasivo(List usuariosAuditor, ElectionEmailTemplate templateEleccion);
 
 	public void fijarCandidatoAlPrincipio(long idCandidato);
 
@@ -150,7 +150,7 @@ public interface ManagerEleccionesEJB {
 
 	public void eliminarComisionado(long idComisionado, String nombre, String userId, String ip);
 
-	public void editarComisionado(Comissioner comisionado, String userId, String ip);
+	public void editarComisionado(Commissioner comisionado, String userId, String ip);
 
 	public File exportarEjemploPadronElectoral();
 
@@ -162,7 +162,7 @@ public interface ManagerEleccionesEJB {
 
 	public void editarCandidato(Candidate candidato, String userId, String ip);
 
-	public Comissioner obtenerComisionado(long idComisionado);
+	public Commissioner obtenerComisionado(long idComisionado);
 
 	public void reenviarEmailPadron(UserVoter us, Election e, String adminId, String ipClient);
 
@@ -188,7 +188,7 @@ public interface ManagerEleccionesEJB {
 
 	public String obtenerWebsitePorDefecto();
 
-	boolean agregarPlantillaBase(TemplateElection template, String userId, String ip);
+	boolean agregarPlantillaBase(ElectionEmailTemplate template, String userId, String ip);
 
 	void actualizarSupraEleccion(JointElection supraEleccion);
 

@@ -27,14 +27,14 @@ public class DashboardYaVoto extends DashboardPublicBasePage {
 
 		add(new Label("titulo", upd.getElection().getTitle(getIdioma())));
 		add(new Label("votante", upd.getVoterInformation()));
-		add(new Label("maximo", String.valueOf(upd.getElection().getMaxCandidate())));
+		add(new Label("maximo", String.valueOf(upd.getElection().getMaxCandidates())));
 		add(new Label("cantidadVotos", upd.getVoteAmount()));
 
 		Label desc = new Label("descripcion", upd.getElection().getDescription(getIdioma()));
 		desc.setEscapeModelStrings(false);
 		add(desc);
 
-		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosVotacion(upd.getIdUserVoter(), upd.getElection().getIdElection());
+		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosVotacion(upd.getUserVoterId(), upd.getElection().getElectionId());
 		final ListView<Object[]> seleccionados = new ListView<Object[]>("codigos", elegidos) {
 			private static final long serialVersionUID = 1786359392545666490L;			
 			@Override

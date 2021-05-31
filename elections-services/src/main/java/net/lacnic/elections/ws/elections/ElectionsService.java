@@ -19,7 +19,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import net.lacnic.elections.data.HealthCheck;
-import net.lacnic.elections.data.Participacion;
+import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.web.ext.elections.utils.AppContext;
 import net.ripe.ipresource.IpAddress;
 import net.ripe.ipresource.IpResourceSet;
@@ -57,7 +57,7 @@ public class ElectionsService implements Serializable {
 			Response preResponse = authenticate(request);
 			if (preResponse != null)
 				return preResponse;
-			List<Participacion> participations = AppContext.getInstance().getMonitorBeanRemote().obtenerParticipacionesOrgId(org);
+			List<Participation> participations = AppContext.getInstance().getMonitorBeanRemote().obtenerParticipacionesOrgId(org);
 			return Response.ok(participations).build();
 		} catch (Exception e) {
 			appLogger.error(e);

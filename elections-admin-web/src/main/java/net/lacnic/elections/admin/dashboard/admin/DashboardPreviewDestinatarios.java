@@ -22,7 +22,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.UserVoter;
 
 @AuthorizeInstantiation("siselecciones-only-one")
@@ -36,7 +36,7 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 	private List<UserVoter> usuariosPadron = new ArrayList<>();
 	int cantidad;
 
-	public DashboardPreviewDestinatarios(final TemplateElection template, PageParameters params) {
+	public DashboardPreviewDestinatarios(final ElectionEmailTemplate template, PageParameters params) {
 		super(params);
 
 		setOutputMarkupPlaceholderTag(true);
@@ -148,7 +148,7 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 						else
 							AppContext.getInstance().getManagerBeanRemote().encolarEnvioMasivo(usuariosPadron, template);
 						getSession().info(getString("prevDestExito"));
-						setResponsePage(DashboardMensajes.class, UtilsParameters.getId(template.getElection().getIdElection()));
+						setResponsePage(DashboardMensajes.class, UtilsParameters.getId(template.getElection().getElectionId()));
 					} catch (Exception e) {
 						appLogger.error(e);
 					}
@@ -156,7 +156,7 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 				}
 			});
 
-			add(new BookmarkablePageLink<>("cancelar", DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getIdElection())));
+			add(new BookmarkablePageLink<>("cancelar", DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getElectionId())));
 
 		} catch (Exception e) {
 			appLogger.error(e);

@@ -6,14 +6,14 @@ use_copy: false
 use_synchronize: true
 
 # apt-postgres && deploy-app
-db_name: elecciones
+db_name: elections
 db_user: elecusr
 db_pass: "{{ postgres_password }}"
 db_server: localhost
 db_port: 5432
 db_min_pool_size: 5
 db_max_pool_size: 50
-db_datasources: elecciones-ds
+db_datasources: elections-ds
 
 # apt-wildfly
 memoria_min: 1g

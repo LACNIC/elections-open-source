@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.dao.DaoFactoryElecciones;
+import net.lacnic.elections.dao.ElectionsDaoFactory;
 import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.ejb.commons.ParametrosEleccionesEJB;
 import net.lacnic.elections.utils.Constants;
@@ -23,7 +23,7 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
-	@PersistenceContext(unitName = "elecciones-pu")
+	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
 	@Override
@@ -52,13 +52,13 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 
 	@Override
 	public List<Parameter> obtenerListadoParametro() {
-		return DaoFactoryElecciones.createParametroDao(em).obtenerParametros();
+		return ElectionsDaoFactory.createParameterDao(em).getParametersAll();
 	}
 
 	@Override
 	public boolean agregarParametro(String c, String v) {
 		try {
-			if (DaoFactoryElecciones.createParametroDao(em).getParametro(c) == null) {
+			if (ElectionsDaoFactory.createParameterDao(em).getParameter(c) == null) {
 				Parameter p = new Parameter();
 				p.setKey(c);
 				p.setValue(v);
@@ -87,7 +87,7 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 	@Override
 	public void borrarParametro(String c) {
 		try {
-			Parameter p = DaoFactoryElecciones.createParametroDao(em).getParametro(c);
+			Parameter p = ElectionsDaoFactory.createParameterDao(em).getParameter(c);
 			em.remove(p);
 			Constants.cleanParametersCache();
 		} catch (Exception e) {

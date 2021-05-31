@@ -14,7 +14,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Comissioner;
+import net.lacnic.elections.domain.Commissioner;
 
 public class DashboardEditarComisionado extends DashboardAdminBasePage {
 
@@ -25,7 +25,7 @@ public class DashboardEditarComisionado extends DashboardAdminBasePage {
 	public DashboardEditarComisionado(PageParameters params) {
 		super(params);
 
-		Comissioner comisionado = AppContext.getInstance().getManagerBeanRemote().obtenerComisionado(UtilsParameters.getAuditAsLong(params));
+		Commissioner comisionado = AppContext.getInstance().getManagerBeanRemote().obtenerComisionado(UtilsParameters.getAuditAsLong(params));
 		email = comisionado.getMail();
 		nombre = comisionado.getName();
 

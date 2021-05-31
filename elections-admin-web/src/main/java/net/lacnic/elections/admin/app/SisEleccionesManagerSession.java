@@ -32,7 +32,7 @@ public class SisEleccionesManagerSession extends AuthenticatedWebSession {
 		if (a != null) {
 			setAdminId(adminId);
 			setSignoPass(password);
-			setIdEleccionAutorizado(a.getIdElectionAuthorized());
+			setIdEleccionAutorizado(a.getAuthorizedElectionId());
 			
 			lang = getLocale().getLanguage();			
 			switch(lang) {

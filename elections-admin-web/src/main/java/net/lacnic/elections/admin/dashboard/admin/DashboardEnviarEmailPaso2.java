@@ -19,7 +19,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.JointElection;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.RecipientType;
 
 @AuthorizeInstantiation("siselecciones-only-one")
@@ -28,7 +28,7 @@ public class DashboardEnviarEmailPaso2 extends DashboardAdminBasePage {
 	private static final long serialVersionUID = -5648589978016911231L;
 	private RecipientType tipoDestinatario;
 
-	public DashboardEnviarEmailPaso2(final TemplateElection template, PageParameters params) {
+	public DashboardEnviarEmailPaso2(final ElectionEmailTemplate template, PageParameters params) {
 		super(params);
 		add(new FeedbackPanel("feedback"));
 
@@ -60,10 +60,10 @@ public class DashboardEnviarEmailPaso2 extends DashboardAdminBasePage {
 
 				if ((getTipoDestinatario() != null) && (getTipoDestinatario().compareTo(RecipientType.VOTANTES) == 0)) {
 					mailPadron = true;
-					isSupra = AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(template.getElection().getIdElection());
+					isSupra = AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(template.getElection().getElectionId());
 					// Si es elección conjunta y se va a enviar mail al padron, debeo validar si son iguales 
 					if (isSupra) {
-						supraElec = AppContext.getInstance().getManagerBeanRemote().obtenerSupraEleccion(template.getElection().getIdElection());
+						supraElec = AppContext.getInstance().getManagerBeanRemote().obtenerSupraEleccion(template.getElection().getElectionId());
 						padronIgual = AppContext.getInstance().getManagerBeanRemote().isPadronesIguales(supraElec); 
 					};				
 				};
@@ -79,7 +79,7 @@ public class DashboardEnviarEmailPaso2 extends DashboardAdminBasePage {
 
 			}
 		};
-		form.add(new BookmarkablePageLink<>("cancelar", DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getIdElection())));
+		form.add(new BookmarkablePageLink<>("cancelar", DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getElectionId())));
 
 		add(form);
 		form.add(destinatarios);

@@ -54,7 +54,7 @@ public class DetalleEleccionPanel extends Panel {
 			descripcionPortugues.setEscapeModelStrings(false);
 			add(descripcionPortugues);
 
-			add(new Label("maximoCandidatos", String.valueOf(eleccion.getMaxCandidate())));
+			add(new Label("maximoCandidatos", String.valueOf(eleccion.getMaxCandidates())));
 			add(new Label("diffUTC", String.valueOf(eleccion.getDiffUTC())));
 			add(new Label("fechaCreacion", new SimpleDateFormat("dd/MM/yyyy").format(eleccion.getCreationDate())));
 			add(new Label("fechaInicio", eleccion.getAuxStartDate() + " " + eleccion.getAuxStartHour() + " (UTC)"));
@@ -63,28 +63,28 @@ public class DetalleEleccionPanel extends Panel {
 			add(new Label("habilitadoLinkResultado", eleccion.isResultLinkAvailable() ? "SI" : "NO"));
 			add(new Label("linkResultado", AppContext.getInstance().getManagerBeanRemote().obtenerLinkresultado(eleccion)));
 
-			add(new BookmarkablePageLink<Void>("editarElec", DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdElection())));
+			add(new BookmarkablePageLink<Void>("editarElec", DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getElectionId())));
 
 			add(new AjaxLazyLoadPanel<ListCandidatosEleccionPanel>("listaCandidatosPanel") {
 				private static final long serialVersionUID = 6513156554118602169L;
 
 				@Override
 				public ListCandidatosEleccionPanel getLazyLoadComponent(String markupId) {
-					return new ListCandidatosEleccionPanel(markupId, eleccion.getIdElection());
+					return new ListCandidatosEleccionPanel(markupId, eleccion.getElectionId());
 				}
 			});
 
-			add(new BookmarkablePageLink<Void>("editarCandidatos", DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection())));
+			add(new BookmarkablePageLink<Void>("editarCandidatos", DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId())));
 
 			add(new AjaxLazyLoadPanel<ListaAuditoresPanel>("auditoresListPanel") {
 				private static final long serialVersionUID = -8684993569281131596L;
 
 				@Override
 				public ListaAuditoresPanel getLazyLoadComponent(String markupId) {
-					return new ListaAuditoresPanel(markupId, eleccion.getIdElection());
+					return new ListaAuditoresPanel(markupId, eleccion.getElectionId());
 				}
 			});
-			add(new BookmarkablePageLink<Void>("editarAuditores", DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection())));
+			add(new BookmarkablePageLink<Void>("editarAuditores", DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getElectionId())));
 
 			add(new AjaxLazyLoadPanel<ListUsuariosPadronEleccionPanel>("usuariosPadron") {
 				private static final long serialVersionUID = -5066564828514741892L;
@@ -94,14 +94,14 @@ public class DetalleEleccionPanel extends Panel {
 					return new ListUsuariosPadronEleccionPanel(markupId, eleccion);
 				}
 			});
-			add(new BookmarkablePageLink<Void>("editarPadron", DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection())));
+			add(new BookmarkablePageLink<Void>("editarPadron", DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getElectionId())));
 
 			add(new AjaxLazyLoadPanel<ListaActividadesPanel>("listadoActividadesEleccion") {
 				private static final long serialVersionUID = 5350609383247662704L;
 
 				@Override
 				public ListaActividadesPanel getLazyLoadComponent(String markupId) {
-					return new ListaActividadesPanel(markupId, eleccion.getIdElection());
+					return new ListaActividadesPanel(markupId, eleccion.getElectionId());
 				}
 			});
 
@@ -110,7 +110,7 @@ public class DetalleEleccionPanel extends Panel {
 
 				@Override
 				public ListaMensajesPanel getLazyLoadComponent(String markupId) {
-					return new ListaMensajesPanel(markupId, eleccion.getIdElection(), sent);
+					return new ListaMensajesPanel(markupId, eleccion.getElectionId(), sent);
 				}
 			});
 

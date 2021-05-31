@@ -47,9 +47,9 @@ public class ListaAuditoresPanel extends Panel {
 
 					item.add(new Label("nombre", actual.getName()));
 					item.add(new Label("email", actual.getMail()));
-					item.add(new Label("conforme", actual.isAgreement() ? "Si" : "NO"));
+					item.add(new Label("conforme", actual.isAgreedConformity() ? "Si" : "NO"));
 
-					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", UtilsLinks.calcularLinkResultadoAuditor(actual.getResulttoke()));
+					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", UtilsLinks.buildAuditorResultsLink(actual.getResultToken()));
 					urlLinkVotacionUsuario.setOutputMarkupPlaceholderTag(true);	
 					item.add(urlLinkVotacionUsuario);
 				}

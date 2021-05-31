@@ -10,20 +10,22 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.domain.Parameter;
 
-public class ParametroDao {
+
+public class ParameterDao {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 	private EntityManager em;
 
-	public ParametroDao(EntityManager em) {
+
+	public ParameterDao(EntityManager em) {
 		this.em = em;
 	}
 
-	public Parameter getParametro(String clave) {
+	public Parameter getParameter(String key) {
 		try {
-			TypedQuery<Parameter> q = em.createQuery("SELECT p FROM Parametro p WHERE p.clave = :clave", Parameter.class);
-			q.setParameter("clave", clave);
+			TypedQuery<Parameter> q = em.createQuery("SELECT p FROM Parameter p WHERE p.key = :key", Parameter.class);
+			q.setParameter("key", key);
 			return q.getSingleResult();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -31,8 +33,8 @@ public class ParametroDao {
 		}
 	}
 
-	public List<Parameter> obtenerParametros() {
-		TypedQuery<Parameter> q = em.createQuery("SELECT p FROM Parametro p", Parameter.class);
+	public List<Parameter> getParametersAll() {
+		TypedQuery<Parameter> q = em.createQuery("SELECT p FROM Parameter p", Parameter.class);
 		return q.getResultList();
 	}
 

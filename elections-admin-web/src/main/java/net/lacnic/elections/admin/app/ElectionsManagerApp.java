@@ -56,7 +56,8 @@ import net.lacnic.elections.admin.dashboard.user.DashboardVotarEleccionSimple;
 import net.lacnic.elections.admin.dashboard.user.DashboardVotarEleccionesJuntas;
 import net.lacnic.elections.admin.dashboard.user.DashboardYaVoto;
 
-public class EleccionesManagerApp extends AuthenticatedWebApplication {
+
+public class ElectionsManagerApp extends AuthenticatedWebApplication {
 
 	@Override
 	protected void init() {

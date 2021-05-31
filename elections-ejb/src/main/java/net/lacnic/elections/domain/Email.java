@@ -12,21 +12,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+
 @Entity
 public class Email implements Serializable {
 
 	private static final long serialVersionUID = -6954869970189933966L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emaile_seq")
-	@SequenceGenerator(name = "emaile_seq", sequenceName = "emaile_seq", allocationSize = 1)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_seq")
+	@SequenceGenerator(name = "email_seq", sequenceName = "email_seq", allocationSize = 1)
+	@Column(name = "email_id")
+	private Long emailId;
 
 	@Column(columnDefinition = "TEXT")
 	private String recipients;
 
-	@Column(name = "email_from")
-	private String emailFrom;
+	@Column
+	private String from;
 
 	@Column
 	private String cc;
@@ -50,19 +52,21 @@ public class Email implements Serializable {
 	private String templateType;
 
 	@ManyToOne(optional = true)
-	@JoinColumn(name = "id_election")
+	@JoinColumn(name = "election_id")
 	private Election election;
+
 
 	public Email() {
 		this.createdDate = new Date();
 	}
 
-	public Long getId() {
-		return id;
+
+	public Long getEmailId() {
+		return emailId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEmailId(Long emailId) {
+		this.emailId = emailId;
 	}
 
 	public String getRecipients() {
@@ -71,6 +75,14 @@ public class Email implements Serializable {
 
 	public void setRecipients(String recipients) {
 		this.recipients = recipients;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
 	}
 
 	public String getCc() {
@@ -113,20 +125,12 @@ public class Email implements Serializable {
 		this.sent = sent;
 	}
 
-	public String getEmailFrom() {
-		return emailFrom;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setEmailFrom(String emailFrom) {
-		this.emailFrom = emailFrom;
-	}
-
-	public Election getElection() {
-		return election;
-	}
-
-	public void setElection(Election election) {
-		this.election = election;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public String getTemplateType() {
@@ -137,12 +141,12 @@ public class Email implements Serializable {
 		this.templateType = templateType;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
+	public Election getElection() {
+		return election;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setElection(Election election) {
+		this.election = election;
 	}
 
 }

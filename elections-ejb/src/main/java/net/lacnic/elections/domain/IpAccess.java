@@ -10,15 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+
 @Entity
 public class IpAccess implements Serializable {
 
 	private static final long serialVersionUID = -1584886907691554042L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aip_seq")
-	@SequenceGenerator(name = "aip_seq", sequenceName = "aip_seq", allocationSize = 1)
-	private long id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ipaccess_seq")
+	@SequenceGenerator(name = "ipaccess_seq", sequenceName = "ipaccess_seq", allocationSize = 1)
+	@Column(name = "ipaccess_id")
+	private long ipAccessId;
 
 	@Column(nullable = false)
 	private int attemptCount;
@@ -32,20 +34,24 @@ public class IpAccess implements Serializable {
 	@Column(nullable = false)
 	private Date firstAttemptDate;
 
-	public Date getLastAttemptDate() {
-		return lastAttemptDate;
+
+	public IpAccess() { }
+
+
+	public long getIpAccessId() {
+		return ipAccessId;
 	}
 
-	public void setFirstAttemptDate(Date firstAttemptDate) {
-		this.firstAttemptDate = firstAttemptDate;
+	public void setIpAccessId(long ipAccessId) {
+		this.ipAccessId = ipAccessId;
 	}
 
-	public long getIdDisabledIp() {
-		return id;
+	public int getAttemptCount() {
+		return attemptCount;
 	}
 
-	public void setIdDisabledIp(long id) {
-		this.id = id;
+	public void setAttemptCount(int attemptCount) {
+		this.attemptCount = attemptCount;
 	}
 
 	public String getIp() {
@@ -56,20 +62,20 @@ public class IpAccess implements Serializable {
 		this.ip = ip;
 	}
 
-	public int getAttemptCount() {
-		return attemptCount;
+	public Date getLastAttemptDate() {
+		return lastAttemptDate;
 	}
 
-	public void setAttemptCount(int attempts) {
-		this.attemptCount = attempts;
+	public void setLastAttemptDate(Date lastAttemptDate) {
+		this.lastAttemptDate = lastAttemptDate;
 	}
 
 	public Date getFirstAttemptDate() {
 		return firstAttemptDate;
 	}
 
-	public void setLastAttemptDate(Date lastAttemptDate) {
-		this.lastAttemptDate = lastAttemptDate;
+	public void setFirstAttemptDate(Date firstAttemptDate) {
+		this.firstAttemptDate = firstAttemptDate;
 	}
 
 }

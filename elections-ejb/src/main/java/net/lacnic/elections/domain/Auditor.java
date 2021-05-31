@@ -22,68 +22,111 @@ public class Auditor implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auditor_seq")
 	@SequenceGenerator(name = "auditor_seq", sequenceName = "auditor_seq", allocationSize = 1)
-	@Column(name = "id_auditor")
-	private long idAuditor;
+	@Column(name = "auditor_id")
+	private long auditorId;
 
-	@Column(nullable = true)
-	private Long idMigration;
+	@Column(nullable = true, name = "migration_id")
+	private Long migrationId;
 
 	@Column
 	private boolean commissioner;
 
 	@Column
-	private boolean agreement;
+	private boolean agreedConformity;
 
 	@Column
 	private boolean revisionAvailable;
 
 	@Column(nullable = true, length = 1000)
-	private String resulttoke;
+	private String resultToken;
 
 	@Column(nullable = false)
 	private String name;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_election")
+	@JoinColumn(name = "election_id")
 	private Election election;
 
 	@Column(nullable = false)
 	private String mail;
 
+
 	public Auditor() {
 		this.commissioner = false;
-		this.agreement = false;
+		this.agreedConformity = false;
 		this.revisionAvailable = false;
-		this.resulttoke = StringUtils.createSecureToken();
-		this.idMigration = 0L;
-
+		this.resultToken = StringUtils.createSecureToken();
+		this.migrationId = 0L;
 	}
 
-	public Auditor(Election election, Comissioner commissioner) {
+	public Auditor(Election election, Commissioner commissioner) {
 		this.commissioner = true;
-		this.agreement = false;
-		this.resulttoke = StringUtils.createSecureToken();
+		this.agreedConformity = false;
+		this.resultToken = StringUtils.createSecureToken();
 		this.revisionAvailable = false;
 		this.name = commissioner.getName();
 		this.election = election;
 		this.mail = commissioner.getMail();
-		this.idMigration = 0L;
+		this.migrationId = 0L;
 	}
 
-	public long getIdAuditor() {
-		return idAuditor;
+	public void clean() {
+		this.name = null;
+		this.mail = null;
+		this.commissioner = false;
 	}
 
-	public void setIdAuditor(long idAuditor) {
-		this.idAuditor = idAuditor;
+	public String getResultLink() {
+		return UtilsLinks.buildAuditorResultsLink(resultToken);
 	}
 
-	public String getResulttoke() {
-		return resulttoke;
+
+	public long getAuditorId() {
+		return auditorId;
 	}
 
-	public void setResulttoke(String resultToken) {
-		this.resulttoke = resultToken;
+	public void setAuditorId(long auditorId) {
+		this.auditorId = auditorId;
+	}
+
+	public Long getMigrationId() {
+		return migrationId;
+	}
+
+	public void setMigrationId(Long migrationId) {
+		this.migrationId = migrationId;
+	}
+
+	public boolean isCommissioner() {
+		return commissioner;
+	}
+
+	public void setCommissioner(boolean commissioner) {
+		this.commissioner = commissioner;
+	}
+
+	public boolean isAgreedConformity() {
+		return agreedConformity;
+	}
+
+	public void setAgreedConformity(boolean agreedConformity) {
+		this.agreedConformity = agreedConformity;
+	}
+
+	public boolean isRevisionAvailable() {
+		return revisionAvailable;
+	}
+
+	public void setRevisionAvailable(boolean revisionAvailable) {
+		this.revisionAvailable = revisionAvailable;
+	}
+
+	public String getResultToken() {
+		return resultToken;
+	}
+
+	public void setResultToken(String resultToken) {
+		this.resultToken = resultToken;
 	}
 
 	public String getName() {
@@ -110,46 +153,4 @@ public class Auditor implements Serializable {
 		this.mail = mail;
 	}
 
-	public boolean isCommissioner() {
-		return commissioner;
-	}
-
-	public void setCommissioner(boolean commissioner) {
-		this.commissioner = commissioner;
-	}
-
-	public boolean isAgreement() {
-		return agreement;
-	}
-
-	public void setAgreement(boolean agreement) {
-		this.agreement = agreement;
-	}
-
-	public void clean() {
-		this.name = null;
-		this.mail = null;
-		this.commissioner = false;
-
-	}
-
-	public String getResultLink() {
-		return UtilsLinks.calcularLinkResultadoAuditor(resulttoke);
-	}
-
-	public boolean isRevisionAvailable() {
-		return revisionAvailable;
-	}
-
-	public void setRevisionAvailable(boolean revisionAvailable) {
-		this.revisionAvailable = revisionAvailable;
-	}
-
-	public long getIdMigration() {
-		return idMigration;
-	}
-
-	public void setIdMigracion(long idMigration) {
-		this.idMigration = idMigration;
-	}
 }

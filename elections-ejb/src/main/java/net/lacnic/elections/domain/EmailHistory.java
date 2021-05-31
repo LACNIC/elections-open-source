@@ -7,19 +7,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+
 @Entity
 public class EmailHistory implements Serializable {
 
 	private static final long serialVersionUID = -6954869970189933966L;
 
 	@Id
-	private Long id;
+	@Column(name = "emailhistory_id")
+	private Long emailHistoryId;
 
 	@Column
 	private String recipients;
 
-	@Column(name = "email_from")
-	private String emailFrom;
+	@Column
+	private String from;
 
 	@Column
 	private String cc;
@@ -42,16 +44,16 @@ public class EmailHistory implements Serializable {
 	@Column
 	private String templateType;
 
-	@Column(name = "id_election")
-	private long idElection;
+	@Column(name = "election_id")
+	private long electionId;
 
-	public EmailHistory() {
-	}
+
+	public EmailHistory() { }
 
 	public EmailHistory(Email e) {
-		this.id = e.getId();
+		this.emailHistoryId = e.getEmailId();
 		this.recipients = e.getRecipients();
-		this.emailFrom = e.getEmailFrom();
+		this.from = e.getFrom();
 		this.cc = e.getCc();
 		this.bcc = e.getBcc();
 		this.subject = e.getSubject();
@@ -59,15 +61,16 @@ public class EmailHistory implements Serializable {
 		this.sent = e.getSent();
 		this.createdDate = e.getCreatedDate();
 		this.templateType = e.getTemplateType();
-		this.idElection = e.getElection().getIdElection();
+		this.electionId = e.getElection().getElectionId();
 	}
 
-	public Long getId() {
-		return id;
+
+	public Long getEmailHistoryId() {
+		return emailHistoryId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEmailHistoryId(Long emailHistoryId) {
+		this.emailHistoryId = emailHistoryId;
 	}
 
 	public String getRecipients() {
@@ -76,6 +79,14 @@ public class EmailHistory implements Serializable {
 
 	public void setRecipients(String recipients) {
 		this.recipients = recipients;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
 	}
 
 	public String getCc() {
@@ -118,14 +129,6 @@ public class EmailHistory implements Serializable {
 		this.sent = sent;
 	}
 
-	public String getEmailFrom() {
-		return emailFrom;
-	}
-
-	public void setEmailFrom(String emailFrom) {
-		this.emailFrom = emailFrom;
-	}
-
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -134,20 +137,20 @@ public class EmailHistory implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public long getIdElection() {
-		return idElection;
-	}
-
-	public void setIdElection(long idElection) {
-		this.idElection = idElection;
-	}
-
 	public String getTemplateType() {
 		return templateType;
 	}
 
 	public void setTemplateType(String templateType) {
 		this.templateType = templateType;
+	}
+
+	public long getElectionId() {
+		return electionId;
+	}
+
+	public void setElectionId(long electionId) {
+		this.electionId = electionId;
 	}
 
 }

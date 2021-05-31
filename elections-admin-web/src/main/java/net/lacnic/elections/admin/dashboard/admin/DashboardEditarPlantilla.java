@@ -8,7 +8,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.panel.admin.EditarPlantillaPanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardEditarPlantilla extends DashboardAdminBasePage {
@@ -20,7 +20,7 @@ public class DashboardEditarPlantilla extends DashboardAdminBasePage {
 		FeedbackPanel feedback = new FeedbackPanel("feedback");
 		add(feedback);
 
-		TemplateElection t = AppContext.getInstance().getManagerBeanRemote().obtenerTemplate(tipo, UtilsParameters.getIdAsLong(params));
+		ElectionEmailTemplate t = AppContext.getInstance().getManagerBeanRemote().obtenerTemplate(tipo, UtilsParameters.getIdAsLong(params));
 		add(new EditarPlantillaPanel("editarPlantilla", t));
 	}
 

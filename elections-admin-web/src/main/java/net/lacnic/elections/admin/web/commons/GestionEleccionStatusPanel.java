@@ -23,10 +23,10 @@ public class GestionEleccionStatusPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdElection()));
+				setResponsePage(DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getElectionId()));
 			}
 		};
-		detalle.setEnabled(eleccion.getIdElection() != 0);
+		detalle.setEnabled(eleccion.getElectionId() != 0);
 		add(detalle);
 
 		Link<Void> padron = new Link<Void>("padron") {
@@ -34,10 +34,10 @@ public class GestionEleccionStatusPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection()));
+				setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getElectionId()));
 			}
 		};
-		padron.setEnabled(eleccion.getIdElection() != 0);
+		padron.setEnabled(eleccion.getElectionId() != 0);
 		add(padron);
 
 		Link<Void> candidatos = new Link<Void>("candidatos") {
@@ -45,10 +45,10 @@ public class GestionEleccionStatusPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
+				setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 			}
 		};
-		candidatos.setEnabled(eleccion.getIdElection() != 0);
+		candidatos.setEnabled(eleccion.getElectionId() != 0);
 		add(candidatos);
 
 		Link<Void> auditores = new Link<Void>("auditores") {
@@ -56,10 +56,10 @@ public class GestionEleccionStatusPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection()));
+				setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getElectionId()));
 			}
 		};
-		auditores.setEnabled(eleccion.getIdElection() != 0);
+		auditores.setEnabled(eleccion.getElectionId() != 0);
 		add(auditores);
 
 		if (id.equalsIgnoreCase("tabDetalle"))

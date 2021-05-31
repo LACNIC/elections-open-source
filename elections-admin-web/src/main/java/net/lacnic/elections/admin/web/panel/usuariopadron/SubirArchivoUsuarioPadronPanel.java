@@ -48,19 +48,19 @@ public class SubirArchivoUsuarioPadronPanel extends Panel {
 						setArchivoPadron(fufPadron.getFileUpload().getBytes());
 						setNombreArchivo(fufPadron.getFileUpload().getClientFileName());
 						try {
-							AppContext.getInstance().getManagerBeanRemote().actualizarUsuariosPadron(eleccion.getIdElection(), getArchivoPadron(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().actualizarUsuariosPadron(eleccion.getElectionId(), getArchivoPadron(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("censusManagementExitoUpFile"));
 							if (classs != null)
-								setResponsePage(classs, UtilsParameters.getId(eleccion.getIdElection()));
+								setResponsePage(classs, UtilsParameters.getId(eleccion.getElectionId()));
 						} catch (CensusValidationException e) {
 							getSession().error(e.getMessage());
 							appLogger.error(e);
-							setResponsePage(classs, UtilsParameters.getId(eleccion.getIdElection()));
+							setResponsePage(classs, UtilsParameters.getId(eleccion.getElectionId()));
 						} catch (Exception e) {
 							if (e.getMessage().equals("BiffException"))
 								getSession().error(getString("censusManagementErrBif"));
 							appLogger.error(e);
-							setResponsePage(classs, UtilsParameters.getId(eleccion.getIdElection()));
+							setResponsePage(classs, UtilsParameters.getId(eleccion.getElectionId()));
 						}
 					}
 				}

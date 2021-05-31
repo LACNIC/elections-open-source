@@ -59,13 +59,13 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 			add(feedbackPanel);
 
 			add(new Label("candidatosAleatorios", getString("candidatos_aleatorios")).setVisible(getEleccion().isRandomOrderCandidates()));
-			add(new Label("maximo", String.valueOf(getEleccion().getMaxCandidate())));
+			add(new Label("maximo", String.valueOf(getEleccion().getMaxCandidates())));
 
 			containerCandidatos = new WebMarkupContainer("containerCandidatos");
 			containerCandidatos.setOutputMarkupPlaceholderTag(true);
 			add(containerCandidatos);
 
-			ListView<Candidate> candidatosDataView = new ListView<Candidate>("candidatosList", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(getEleccion().getIdElection())) {
+			ListView<Candidate> candidatosDataView = new ListView<Candidate>("candidatosList", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(getEleccion().getElectionId())) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
@@ -213,7 +213,7 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 
 	private boolean isOkForVote() {
 		try {
-			if (AppContext.getInstance().getVoterBeanRemote().yaVoto(upd.getIdUserVoter())) {
+			if (AppContext.getInstance().getVoterBeanRemote().yaVoto(upd.getUserVoterId())) {
 				setResponsePage(new DashboardYaVoto(UtilsParameters.getToken(upd.getVoteToken())));
 				return false;
 			} else {
@@ -221,8 +221,8 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 					error(getString("ningunCandidato_v"));
 					return false;
 				} else {
-					if (elegidos.size() > getEleccion().getMaxCandidate()) {
-						error(getString("muchosCandidatos_v") + getEleccion().getMaxCandidate());
+					if (elegidos.size() > getEleccion().getMaxCandidates()) {
+						error(getString("muchosCandidatos_v") + getEleccion().getMaxCandidates());
 						return false;
 					}
 				}

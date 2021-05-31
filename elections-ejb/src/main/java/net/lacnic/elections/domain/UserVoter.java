@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 
 import net.lacnic.elections.utils.UtilsLinks;
 
+
 @Entity
 public class UserVoter implements Serializable {
 
@@ -26,14 +27,14 @@ public class UserVoter implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_vote_seq")
 	@SequenceGenerator(name = "user_vote_seq", sequenceName = "user_vote_seq", allocationSize = 1)
-	@Column(name = "id_user_voter")
-	private long idUserVoter;
+	@Column(name = "uservoter_id")
+	private long userVoterId;
 
-	@Column(nullable = true)
-	private Long  idMigration;
+	@Column(nullable = true, name = "migration_id")
+	private Long  migrationId;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_election")
+	@JoinColumn(name = "election_id")
 	private Election election;
 
 	@Column(nullable = false)
@@ -73,12 +74,76 @@ public class UserVoter implements Serializable {
 	public UserVoter() { }
 
 
-	public long getIdUserVoter() {
-		return idUserVoter;
+	public String getVoterInformation() {
+		return getName().concat((getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "");
 	}
 
-	public void setIdUserVoter(long idUserVoter) {
-		this.idUserVoter = idUserVoter;
+	public String getCompleteVoterInformation() {
+		String email= (getMail() != null && !getMail().isEmpty()) ? " (" + getMail() +") ": "";
+		String orgid= (getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "";
+		String country= (getCountry() != null && !getCountry().isEmpty()) ? " - " + getCountry() : "";
+		return getName().concat(email+orgid+country);
+	}
+
+	public String getVoteLink() {
+		return UtilsLinks.buildVoteLink(voteToken);
+	}
+
+	public void setCodesSummary(List<Vote> votes) {
+		String aux = "";
+		for (Vote v : votes) {
+			aux = aux.concat(v.getCode() + " / " + v.getCandidate().getName() + "\n");
+		}
+		this.codeSummary = aux;
+	}
+
+
+	public long getUserVoterId() {
+		return userVoterId;
+	}
+
+	public void setUserVoterId(long userVoterId) {
+		this.userVoterId = userVoterId;
+	}
+
+	public Long getMigrationId() {
+		return migrationId;
+	}
+
+	public void setMigrationId(Long migrationId) {
+		this.migrationId = migrationId;
+	}
+
+	public Election getElection() {
+		return election;
+	}
+
+	public void setElection(Election election) {
+		this.election = election;
+	}
+
+	public boolean isVoted() {
+		return voted;
+	}
+
+	public void setVoted(boolean voted) {
+		this.voted = voted;
+	}
+
+	public String getVoteToken() {
+		return voteToken;
+	}
+
+	public void setVoteToken(String voteToken) {
+		this.voteToken = voteToken;
+	}
+
+	public Integer getVoteAmount() {
+		return voteAmount;
+	}
+
+	public void setVoteAmount(Integer voteAmount) {
+		this.voteAmount = voteAmount;
 	}
 
 	public String getName() {
@@ -123,47 +188,20 @@ public class UserVoter implements Serializable {
 		this.orgID = orgID;
 	}
 
-	public boolean isVoted() {
-		return voted;
+	public Date getVoteDate() {
+		return voteDate;
 	}
 
-	public void setVoted(boolean voted) {
-		this.voted = voted;
+	public void setVoteDate(Date voteDate) {
+		this.voteDate = voteDate;
 	}
 
-	public String getVoteToken() {
-		return voteToken;
+	public List<Vote> getVotes() {
+		return votes;
 	}
 
-	public void setVoteToken(String voteToken) {
-		this.voteToken = voteToken;
-	}
-
-	public Integer getVoteAmount() {
-		return voteAmount;
-	}
-
-	public void setVoteAmount(Integer voteAmount) {
-		this.voteAmount = voteAmount;
-	}
-
-	public Election getElection() {
-		return election;
-	}
-
-	public void setElection(Election election) {
-		this.election = election;
-	}
-
-	public String getVoterInformation() {
-		return getName().concat((getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "");
-	}
-
-	public String getCompleteVoterInformation() {
-		String email= (getMail() != null && !getMail().isEmpty()) ? " (" + getMail() +") ": "";
-		String orgid= (getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "";
-		String country= (getCountry() != null && !getCountry().isEmpty()) ? " - " + getCountry() : "";
-		return getName().concat(email+orgid+country);
+	public void setVotes(List<Vote> votes) {
+		this.votes = votes;
 	}
 
 	public String getCodeSummary() {
@@ -174,31 +212,4 @@ public class UserVoter implements Serializable {
 		this.codeSummary = codeSummary;
 	}
 
-	public void setCodesSummary(List<Vote> votes) {
-		String aux = "";
-		for (Vote v : votes) {
-			aux = aux.concat(v.getCode() + " / " + v.getCandidate().getName() + "\n");
-		}
-		this.codeSummary = aux;
-	}
-
-	public String getVoteLink() {
-		return UtilsLinks.calcularLinkVotar(voteToken);
-	}
-
-	public Date getVoteDate() {
-		return voteDate;
-	}
-
-	public void setVoteDate(Date voteDate) {
-		this.voteDate = voteDate;
-	}
-
-	public long getIdMigration() {
-		return idMigration;
-	}
-
-	public void setIdMigracion(long idMigration) {
-		this.idMigration = idMigration;
-	}
 }

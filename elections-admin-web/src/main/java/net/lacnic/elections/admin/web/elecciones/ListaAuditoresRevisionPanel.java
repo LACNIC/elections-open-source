@@ -33,7 +33,7 @@ public class ListaAuditoresRevisionPanel extends Panel {
 					item.add(new Label("nombreA", actual.getName()));
 					item.add(new Label("mailA", actual.getMail()));
 					item.add(new Label("revision", (actual.isRevisionAvailable() ? "SI" : "NO")));
-					String calcularLinkVotar = UtilsLinks.calcularLinkResultadoAuditor(actual.getResulttoke());
+					String calcularLinkVotar = UtilsLinks.buildAuditorResultsLink(actual.getResultToken());
 					Label textoLinkVotar = new Label("textoLink", calcularLinkVotar);
 					ExternalLink linkvotar = new ExternalLink("link", calcularLinkVotar);
 					linkvotar.add(textoLinkVotar);

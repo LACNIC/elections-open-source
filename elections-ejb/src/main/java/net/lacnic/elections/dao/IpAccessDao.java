@@ -10,19 +10,19 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.domain.IpAccess;
 
-public class AccesosIpsDao {
+public class IpAccessDao {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 	private EntityManager em;
 
-	public AccesosIpsDao(EntityManager em) {
+	public IpAccessDao(EntityManager em) {
 		this.em = em;
 	}
 
-	public IpAccess obteneriP(String ip) {
+	public IpAccess getIP(String ip) {
 		try {
-			TypedQuery<IpAccess> q = em.createQuery("SELECT i FROM ipaccess i WHERE i.ip =:ip", IpAccess.class);
+			TypedQuery<IpAccess> q = em.createQuery("SELECT i FROM IpAccess i WHERE i.ip =:ip", IpAccess.class);
 			q.setParameter("ip", ip);
 			return q.getSingleResult();
 		} catch (Exception e) {
@@ -31,8 +31,8 @@ public class AccesosIpsDao {
 		}
 	}
 
-	public List<IpAccess> obtenerIpsInhabilitadasTodas() {
-		TypedQuery<IpAccess> q = em.createQuery("SELECT i FROM ipaccess i", IpAccess.class);
+	public List<IpAccess> getAllDisabledIPs() {
+		TypedQuery<IpAccess> q = em.createQuery("SELECT i FROM IpAccess i", IpAccess.class);
 		return q.getResultList();
 	}
 

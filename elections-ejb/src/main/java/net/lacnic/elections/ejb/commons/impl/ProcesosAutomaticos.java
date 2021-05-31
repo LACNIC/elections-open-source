@@ -48,7 +48,7 @@ public class ProcesosAutomaticos {
 					Email email = emails.get(i);
 					try {
 						appLogger.info("ENVIANDO EMAIL " + email.getSubject() + " a " + email.getRecipients());
-						if (!MailHelper.sendMail(session, email.getEmailFrom(), email.getRecipients(), email.getCc(), email.getBcc(), email.getSubject(), email.getBody())) {
+						if (!MailHelper.sendMail(session, email.getFrom(), email.getRecipients(), email.getCc(), email.getBcc(), email.getSubject(), email.getBody())) {
 							emailConProblema(emailsProblematicos, email);
 						}
 						if (i % 500 == 0)

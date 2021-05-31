@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+
 @Entity
 public class JointElection implements Serializable {
 
@@ -17,19 +18,25 @@ public class JointElection implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jointelection_seq")
 	@SequenceGenerator(name = "jointelection_seq", sequenceName = "jointelection_seq", allocationSize = 1)
-	@Column(name = "id")
-	private long id;
+	@Column(name = "jointelection_id")
+	private long jointElectionId;
 
+	@Column
 	private long idElectionA;
 
+	@Column
 	private long idElectionB;
 
-	public long getId() {
-		return id;
+
+	public JointElection() { }
+
+
+	public long getJointElectionId() {
+		return jointElectionId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setJointElectionId(long jointElectionId) {
+		this.jointElectionId = jointElectionId;
 	}
 
 	public long getIdElectionA() {
@@ -46,10 +53,6 @@ public class JointElection implements Serializable {
 
 	public void setIdElectionB(long idElectionB) {
 		this.idElectionB = idElectionB;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }

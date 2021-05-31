@@ -18,7 +18,7 @@ public class DetalleVoteEleccionSimplePanel extends Panel {
 		add(new Label("votante", upd.getVoterInformation()));
 		add(new Label("cantidadVotos", upd.getVoteAmount()));
 
-		add(new Label("maximo", String.valueOf(eleccion.getMaxCandidate())));
+		add(new Label("maximo", String.valueOf(eleccion.getMaxCandidates())));
 		Label desc = new Label("descripcion", eleccion.getDescription(getIdioma(upd)));
 		desc.setEscapeModelStrings(false);
 		add(desc);

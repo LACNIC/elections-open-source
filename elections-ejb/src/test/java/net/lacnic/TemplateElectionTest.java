@@ -3,7 +3,7 @@ package net.lacnic;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -25,55 +25,55 @@ public class TemplateElectionTest extends TestCase {
     
     public void testTemplateElection()
     {
-    	AssertAnnotations.assertType(TemplateElection.class, Entity.class);
+    	AssertAnnotations.assertType(ElectionEmailTemplate.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(TemplateElection.class, "idTemplate", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
-       AssertAnnotations.assertField(TemplateElection.class, "election", JoinColumn.class, ManyToOne.class);
-       AssertAnnotations.assertField(TemplateElection.class, "templateType", Column.class);
-       AssertAnnotations.assertField(TemplateElection.class, "subjectSP", Column.class);
-       AssertAnnotations.assertField(TemplateElection.class, "subjectPT", Column.class);
-       AssertAnnotations.assertField(TemplateElection.class, "subjectEN", Column.class);
-       AssertAnnotations.assertField(TemplateElection.class, "bodySP", Column.class);
-       AssertAnnotations.assertField(TemplateElection.class, "bodyEN", Column.class);
-       AssertAnnotations.assertField(TemplateElection.class, "bodyPT", Column.class);
-       AssertAnnotations.assertField(TemplateElection.class, "recipientType", Transient.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "idTemplate", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "election", JoinColumn.class, ManyToOne.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "templateType", Column.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "subjectSP", Column.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "subjectPT", Column.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "subjectEN", Column.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "bodySP", Column.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "bodyEN", Column.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "bodyPT", Column.class);
+       AssertAnnotations.assertField(ElectionEmailTemplate.class, "recipientType", Transient.class);
        
        //metodos       
-       AssertAnnotations.assertMethod(TemplateElection.class, "getIdTemplate");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getElection");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getTemplateType");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getSubjectSP");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getSubjectEN");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getSubjectPT");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getBodySP");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getBodyEN");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getBodyPT");
-       AssertAnnotations.assertMethod(TemplateElection.class, "getRecipientType");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getIdTemplate");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getElection");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getTemplateType");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getSubjectSP");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getSubjectEN");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getSubjectPT");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getBodySP");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getBodyEN");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getBodyPT");
+       AssertAnnotations.assertMethod(ElectionEmailTemplate.class, "getRecipientType");
        
        //class annotations
-       Entity a = ReflectTool.getClassAnnotation(TemplateElection.class, Entity.class);
+       Entity a = ReflectTool.getClassAnnotation(ElectionEmailTemplate.class, Entity.class);
        assertEquals("", a.name());
        
        Column c;
        JoinColumn jc;
-       c = ReflectTool.getFieldAnnotation(TemplateElection.class, "idTemplate", Column.class);
+       c = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "idTemplate", Column.class);
        assertEquals("id_template_election", c.name());
-       jc = ReflectTool.getFieldAnnotation(TemplateElection.class, "election", JoinColumn.class);
+       jc = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "election", JoinColumn.class);
        assertEquals("id_election", jc.name());
-       c = ReflectTool.getFieldAnnotation(TemplateElection.class, "templateType", Column.class);
+       c = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "templateType", Column.class);
        assertEquals("type", c.name());
-       c = ReflectTool.getFieldAnnotation(TemplateElection.class, "subjectSP", Column.class);
+       c = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "subjectSP", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(TemplateElection.class, "subjectEN", Column.class);
+       c = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "subjectEN", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(TemplateElection.class, "subjectPT", Column.class);
+       c = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "subjectPT", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(TemplateElection.class, "bodySP", Column.class);
+       c = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "bodySP", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(TemplateElection.class, "bodyEN", Column.class);
+       c = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "bodyEN", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(TemplateElection.class, "bodyPT", Column.class);
+       c = ReflectTool.getFieldAnnotation(ElectionEmailTemplate.class, "bodyPT", Column.class);
        assertEquals("", c.name());
        
        

@@ -42,7 +42,7 @@ public class AgregarAuditoresPanel extends Panel {
 			email.add(EmailAddressValidator.getInstance());
 			form.add(email);
 
-			form.add(new AuditorValidator(eleccion.getIdElection(), nombreAuditor, email));
+			form.add(new AuditorValidator(eleccion.getElectionId(), nombreAuditor, email));
 
 			form.add(new CheckBox("checkComisionado", new PropertyModel<>(auditor, "comisionado")));
 
@@ -53,8 +53,8 @@ public class AgregarAuditoresPanel extends Panel {
 				@Override
 				public void onSubmit() {
 					super.onSubmit();
-					AppContext.getInstance().getManagerBeanRemote().agregarAuditor(eleccion.getIdElection(), auditor, eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
-					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection()));
+					AppContext.getInstance().getManagerBeanRemote().agregarAuditor(eleccion.getElectionId(), auditor, eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getElectionId()));
 					getSession().info(getString("auditorManagementExitoAdd"));
 				}
 
@@ -68,7 +68,7 @@ public class AgregarAuditoresPanel extends Panel {
 				@Override
 				public void onClick() {
 					try {
-						AppContext.getInstance().getManagerBeanRemote().persistirAuditoresSeteados(eleccion.getIdElection(), eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+						AppContext.getInstance().getManagerBeanRemote().persistirAuditoresSeteados(eleccion.getElectionId(), eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						setResponsePage(DashboardHomePage.class);
 					} catch (Exception e) {
 						error(e.getMessage());
@@ -94,7 +94,7 @@ public class AgregarAuditoresPanel extends Panel {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
+					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 				}
 			};
 			form.add(atras);

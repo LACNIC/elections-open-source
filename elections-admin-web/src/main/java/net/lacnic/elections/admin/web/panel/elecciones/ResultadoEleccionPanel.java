@@ -28,7 +28,7 @@ public class ResultadoEleccionPanel extends Panel {
 				@Override
 				public int compare(Candidate o1, Candidate o2) {
 					try {
-						return AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o1.getIdCandidate()) > AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o2.getIdCandidate()) ? -1 : 1;
+						return AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o1.getCandidateId()) > AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o2.getCandidateId()) ? -1 : 1;
 					} catch (Exception e) {
 						return 0;
 					}
@@ -45,7 +45,7 @@ public class ResultadoEleccionPanel extends Panel {
 						Label nombreCandidato = new Label("nombre", c.getName());
 						nombreCandidato.setMarkupId("nombreCandidato"+item.getIndex());
 						item.add(nombreCandidato);
-						Label votosCandidato = new Label("votos", String.valueOf(AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(c.getIdCandidate())));
+						Label votosCandidato = new Label("votos", String.valueOf(AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(c.getCandidateId())));
 						votosCandidato.setMarkupId("votosCandidato"+item.getIndex());
 						item.add(votosCandidato);
 					} catch (Exception e) {

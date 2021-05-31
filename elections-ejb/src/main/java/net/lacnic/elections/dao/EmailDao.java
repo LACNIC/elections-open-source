@@ -11,59 +11,52 @@ import org.joda.time.DateTimeUtils;
 
 import net.lacnic.elections.domain.Email;
 
+
 public class EmailDao {
 
-	private static final String ID_ELECCION = "idEleccion";
-
 	private EntityManager em;
+
 
 	public EmailDao(EntityManager em) {
 		this.em = em;
 	}
 
-	public List<Email> obtenerEmailsAll() {
+	public List<Email> getEmailsAll() {
 		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e", Email.class);
 		return q.getResultList();
 	}
 
-	public List<Email> obtenerEmailsParaEnviarElecciones() {
-		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.enviado = :estado", Email.class);
-		q.setParameter("estado", false);
-		return q.getResultList();
-	}
-
-	public List<Email> obtenerEmailsViejo() {
-		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.fechaCreado <= :ahoraMenos30Dias", Email.class);
-		q.setParameter("ahoraMenos30Dias", new Timestamp(DateTimeUtils.currentTimeMillis() - 86400000L));
-		return q.getResultList();
-	}
-
-	public void marcarEmailsComoEnviados() {
-		Query q = em.createQuery("UPDATE Email SET enviado = TRUE WHERE enviado=FALSE");
-		q.executeUpdate();
-	}
-
-	public Email obtenerEmail(long idEmail) {
-		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.id = :id", Email.class);
-		q.setParameter("id", idEmail);
+	public Email getEmail(long emailId) {
+		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.emailId = :emailId", Email.class);
+		q.setParameter("emailId", emailId);
 		return q.getSingleResult();
 	}
 
-	public List<Email> obtenerEnviosVotacion(long idEleccion) {
-		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.eleccion.idEleccion = :idEleccion", Email.class);
-		q.setParameter(ID_ELECCION, idEleccion);
+	public List<Email> getPendingSendEmails() {
+		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.sent = FALSE", Email.class);
 		return q.getResultList();
 	}
 
-	public List<Email> obtenerMailsDeEleccion(Long idEleccion) {
-		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.eleccion.idEleccion = :idEleccion", Email.class);
-		q.setParameter(ID_ELECCION, idEleccion);
+	public List<Email> getEmailsOlderOneMonth() {
+		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.createdDate <= :nowMinus30Days", Email.class);
+		q.setParameter("nowMinus30Days", new Timestamp(DateTimeUtils.currentTimeMillis() - 86400000L));
 		return q.getResultList();
 	}
 
-	public List<Email> obtenerMailsPorEnviarDeEleccion(Long idEleccion) {
-		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.eleccion.idEleccion = :idEleccion AND e.enviado=FALSE", Email.class);
-		q.setParameter(ID_ELECCION, idEleccion);
+	public void markAllEmailsAsSent() {
+		Query q = em.createQuery("UPDATE Email SET sent = TRUE WHERE sent = FALSE");
+		q.executeUpdate();
+	}
+
+	public List<Email> getElectionEmails(long electionId) {
+		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.election.electionId = :electionId", Email.class);
+		q.setParameter("electionId", electionId);
+		return q.getResultList();
+	}
+
+	public List<Email> getElectionPendingSendEmails(Long electionId) {
+		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.election.electionId = :electionId AND e.sent = FALSE", Email.class);
+		q.setParameter("electionId", electionId);
 		return q.getResultList();
 	}
 

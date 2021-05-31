@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.lacnic.elections.data.EleccionReporte;
 import net.lacnic.elections.data.HealthCheck;
-import net.lacnic.elections.data.Participacion;
+import net.lacnic.elections.data.Participation;
 
 
 public class AditionalDataTest extends TestCase {
@@ -48,7 +48,7 @@ public class AditionalDataTest extends TestCase {
     	 
     	 
     	
-    	Participacion participacion = new Participacion();
+    	Participation participacion = new Participation();
     	
     	assertTrue(participacion != null); 
     	

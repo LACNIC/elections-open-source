@@ -22,7 +22,7 @@ public class ListUsuariosPadronEleccionPanel extends Panel {
 
 	public ListUsuariosPadronEleccionPanel(String id, Election e) {
 		super(id);
-		List<UserVoter> usuariosPadron = AppContext.getInstance().getManagerBeanRemote().obtenerUsuariosPadron(e.getIdElection());
+		List<UserVoter> usuariosPadron = AppContext.getInstance().getManagerBeanRemote().obtenerUsuariosPadron(e.getElectionId());
 
 		final ListView<UserVoter> usuariosPadronView = new ListView<UserVoter>("usuarioPadronList", usuariosPadron) {
 
@@ -40,7 +40,7 @@ public class ListUsuariosPadronEleccionPanel extends Panel {
 					item.add(new Label("pais", actual.getCountry()));
 					item.add(new Label("orgId", actual.getOrgID()));
 
-					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", UtilsLinks.calcularLinkVotar(actual.getVoteToken()));
+					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", UtilsLinks.buildVoteLink(actual.getVoteToken()));
 					urlLinkVotacionUsuario.setOutputMarkupPlaceholderTag(true);
 					item.add(urlLinkVotacionUsuario);
 

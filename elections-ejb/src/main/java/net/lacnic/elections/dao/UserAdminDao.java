@@ -12,13 +12,14 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.domain.UserAdmin;
 
-public class UsuarioAdminDao {
+public class UserAdminDao {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 	private EntityManager em;
 
-	public UsuarioAdminDao(EntityManager em) {
+
+	public UserAdminDao(EntityManager em) {
 		this.em = em;
 	}
 
@@ -29,12 +30,11 @@ public class UsuarioAdminDao {
 	 *            indica el identificador de la elección
 	 * @return Retorna la instancia de eleccion con id=idEleccion
 	 */
-	public UserAdmin comprobarUsuarioAdmin(String userId, String password) {
+	public UserAdmin verifyUserLogin(String userAdminId, String password) {
 		try {
-			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a WHERE a.userId =:userId and a.password =:password", UserAdmin.class);
-			q.setParameter("userId", userId.toLowerCase());
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE a.userAdminId = :userAdminId and a.password = :password", UserAdmin.class);
+			q.setParameter("userAdminId", userAdminId.toLowerCase());
 			q.setParameter("password", password.toUpperCase());
-			
 			return q.getSingleResult();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -42,9 +42,9 @@ public class UsuarioAdminDao {
 		}
 	}
 
-	public List<UserAdmin> obtenerUsuariosAdmin() {
+	public List<UserAdmin> getUserAdminsAll() {
 		try {
-			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a", UserAdmin.class);
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a", UserAdmin.class);
 			return q.getResultList();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -52,10 +52,10 @@ public class UsuarioAdminDao {
 		}
 	}
 
-	public UserAdmin obtenerUsuarioAdmin(String userAdminId) {
+	public UserAdmin getUserAdmin(String userAdminId) {
 		try {
-			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a WHERE UPPER(a.userId) =:userId", UserAdmin.class);
-			q.setParameter("userId", userAdminId.toUpperCase());
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE UPPER(a.userAdminId) = :userAdminId", UserAdmin.class);
+			q.setParameter("userAdminId", userAdminId.toUpperCase());
 			return q.getSingleResult();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -63,10 +63,10 @@ public class UsuarioAdminDao {
 		}
 	}
 
-	public List<UserAdmin> obtenerUsuariosAdmin(long idEleccion) {
+	public List<UserAdmin> getElectionUserAdmins(long electionId) {
 		try {
-			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UsuarioAdmin a Where a.idEleccionAutorizado =:idEleccion", UserAdmin.class);
-			q.setParameter("idEleccion", idEleccion);
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE a.authorizedElectionId = :electionId", UserAdmin.class);
+			q.setParameter("electionId", electionId);
 			return q.getResultList();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -74,10 +74,10 @@ public class UsuarioAdminDao {
 		}
 	}
 
-	public Long obtenerIdEleccionUsuAdmin(String adminId) {
+	public Long getUserAuthorizedElectionId(String userAdminId) {
 		try {
-			Query q = em.createQuery("SELECT a.idEleccionAutorizado FROM UsuarioAdmin a Where  UPPER(a.userId) =:adminId");
-			q.setParameter("adminId", adminId.toUpperCase());
+			Query q = em.createQuery("SELECT a.authorizedElectionId FROM UserAdmin a WHERE UPPER(a.userAdminId) = :userAdminId");
+			q.setParameter("userAdminId", userAdminId.toUpperCase());
 			return (long) q.getSingleResult();
 		} catch (Exception e) {
 			appLogger.error(e);

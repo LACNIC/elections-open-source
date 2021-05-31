@@ -13,14 +13,14 @@ public class Constants {
 
 	private static HashMap<String, String> parameters = new HashMap<>();
 
-	// Parameter names for 'parametros' database table
+	// Parameter names for 'parameter' database table
 	public static final String APP = "APP";
 	public static final String URL = "URL";
 	public static final String EMAIL_HOST = "EMAIL_HOST";
 	public static final String EMAIL_USER = "EMAIL_USER";
 	public static final String EMAIL_PASSWORD = "EMAIL_PASSWORD";
-	public static final String DEFAULT_SENDER = "REMITENTE_ESTANDAR";
-	public static final String DEFAULT_RECIPIENT = "RECEPTOR_ESTANDAR";
+	public static final String DEFAULT_SENDER = "DEFAULT_SENDER";
+	public static final String DEFAULT_RECIPIENT = "DEFAULT_RECIPIENT";
 	public static final String WS_AUTH_TOKEN = "WS_AUTH_TOKEN";
 	public static final String WS_AUTHORIZED_IPS = "WS_AUTHORIZED_IPS";
 	public static final String WEBSITE_DEFAULT = "WEBSITE_DEFAULT";
@@ -35,16 +35,22 @@ public class Constants {
 
 	public static final String SkGoogleApiReCaptcha = "SkGoogleApiReCaptcha";
 
-	private static final String WAR_NAME = "elecciones";
+	private static final String WAR_NAME = "elections";
 	private static final String VOTE = "/vote";
 	private static final String RESULT = "/result";
 	private static final String AUDIT = "/audit";
 
-	public static final String TemplateTypeNEW = "NEW";
-	public static final String TipoTemplateAUDITOR = "AUDITOR";
+	public static final String TemplateTypeAUDITOR = "AUDITOR";
 	public static final String TemplateTypeAUDITOR_AGREEMENT = "AUDITOR_AGREEMENT";
-	public static final String TemplateTypeVOTE_CODES = "VOTE_CODES";
 	public static final String TemplateTypeAUDITOR_REVISION = "AUDITOR_REVISION";
+	public static final String TemplateTypeELECTION_NOTICE = "ELECTION_NOTICE";
+	public static final String TemplateTypeELECTION_START = "ELECTION_START";
+	public static final String TemplateTypeELECTION_ABOUT_TO_END = "ELECTION_ABOUT_TO_END";
+	public static final String TemplateTypeNEW = "NEW";
+	public static final String TemplateTypeSIGNATURE = "SIGNATURE";
+	public static final String TemplateTypeVOTE_RESULT = "VOTE_RESULT";	
+	public static final String TemplateTypeVOTE_CODES = "VOTE_CODES";
+
 
 	private Constants() {
 		throw new IllegalStateException("Utility class");

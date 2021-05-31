@@ -15,7 +15,7 @@ import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEnviarEmailPaso2;
 import net.lacnic.elections.admin.dashboard.admin.DashboardPlantillasVer;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 
 public class EnviarEmailPaso1Panel extends Panel {
 
@@ -23,7 +23,7 @@ public class EnviarEmailPaso1Panel extends Panel {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	public EnviarEmailPaso1Panel(String id, TemplateElection template) {
+	public EnviarEmailPaso1Panel(String id, ElectionEmailTemplate template) {
 		super(id);
 		try {
 
@@ -72,7 +72,7 @@ public class EnviarEmailPaso1Panel extends Panel {
 				public void onSubmit() {
 					try {
 						AppContext.getInstance().getManagerBeanRemote().modificarTemplateEleccion(template);
-						Long idEleccion = template.getElection().getIdElection();
+						Long idEleccion = template.getElection().getElectionId();
 						AppContext.getInstance().getManagerBeanRemote().modificarTemplateEleccion(template);
 						setResponsePage(new DashboardEnviarEmailPaso2(template, UtilsParameters.getId(idEleccion)));
 					} catch (Exception e) {
@@ -87,7 +87,7 @@ public class EnviarEmailPaso1Panel extends Panel {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getIdElection()));
+					setResponsePage(DashboardPlantillasVer.class, UtilsParameters.getId(template.getElection().getElectionId()));
 				}
 
 			});

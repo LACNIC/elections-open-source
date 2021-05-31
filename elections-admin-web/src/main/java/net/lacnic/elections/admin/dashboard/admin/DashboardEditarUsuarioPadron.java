@@ -58,7 +58,7 @@ public class DashboardEditarUsuarioPadron extends DashboardAdminBasePage {
 					try {
 						AppContext.getInstance().getManagerBeanRemote().editarUsuarioPadron(getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("censusManagementUserEditExito"));
-						setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getElection().getIdElection()));
+						setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getElection().getElectionId()));
 					} catch (CensusValidationException e) {
 						error(getString(e.getMessage()));
 					}
@@ -74,7 +74,7 @@ public class DashboardEditarUsuarioPadron extends DashboardAdminBasePage {
 			@Override
 			public void onClick() {
 
-				setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getElection().getIdElection()));
+				setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getElection().getElectionId()));
 			}
 
 		});

@@ -8,7 +8,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import net.lacnic.elections.admin.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.admin.web.panel.admin.AgregarComisionadoPanel;
 import net.lacnic.elections.admin.web.panel.admin.ListComisionadosPanel;
-import net.lacnic.elections.domain.Comissioner;
+import net.lacnic.elections.domain.Commissioner;
 
 public class DashboardComisionados extends DashboardAdminBasePage {
 
@@ -16,7 +16,7 @@ public class DashboardComisionados extends DashboardAdminBasePage {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private Comissioner comisionado;
+	private Commissioner comisionado;
 
 	public DashboardComisionados(PageParameters params) {
 		super(params);
@@ -31,11 +31,11 @@ public class DashboardComisionados extends DashboardAdminBasePage {
 
 	}
 
-	public Comissioner getComisionado() {
+	public Commissioner getComisionado() {
 		return comisionado;
 	}
 
-	public void setComisionado(Comissioner comisionado) {
+	public void setComisionado(Commissioner comisionado) {
 		this.comisionado = comisionado;
 	}
 

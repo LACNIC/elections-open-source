@@ -45,9 +45,9 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				try {
-					AppContext.getInstance().getManagerBeanRemote().agregarUsuarioPadron(getEleccion().getIdElection(), getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().agregarUsuarioPadron(getEleccion().getElectionId(), getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("censusManagementExito"));
-					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(getEleccion().getIdElection()));
+					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(getEleccion().getElectionId()));
 				} catch (CensusValidationException e) {
 					error(getString(e.getMessage()));
 				}
@@ -82,7 +82,7 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 				@Override
 				public void onSubmit() {
 					try {
-						setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
+						setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
@@ -98,7 +98,7 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 				@Override
 				public void onClick() {
 					try {
-						setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getIdElection()));
+						setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
@@ -113,7 +113,7 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 				@Override
 				public void onClick() {
 					try {
-						setResponsePage(DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getIdElection()));
+						setResponsePage(DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getElectionId()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}

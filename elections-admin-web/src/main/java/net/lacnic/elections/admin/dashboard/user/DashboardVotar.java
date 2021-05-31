@@ -30,7 +30,7 @@ public class DashboardVotar extends DashboardPublicBasePage {
 				return ErrorVotacionNoPublica.class;
 			}
 
-			if (AppContext.getInstance().getVoterBeanRemote().isEleccionSimple(getEleccion().getIdElection()))
+			if (AppContext.getInstance().getVoterBeanRemote().isEleccionSimple(getEleccion().getElectionId()))
 				setResponsePage(DashboardVotarEleccionSimple.class, params);
 			else
 				setResponsePage(DashboardVotarEleccionesJuntas.class, params);

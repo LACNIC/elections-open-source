@@ -155,13 +155,13 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 							|| !(bioSP.equalsIgnoreCase(candidato.getBioSpanish())) || !(bioEN.equalsIgnoreCase(candidato.getBioEnglish())) || !(bioPT.equalsIgnoreCase(candidato.getBioPortuguese())) 
 							|| !(linkSP != null && linkSP.equalsIgnoreCase(candidato.getLinkSpanish())) || !(linkPT != null && linkPT.equalsIgnoreCase(candidato.getLinkPortuguese())) || !(linkEN != null && linkEN.equalsIgnoreCase(candidato.getLinkEnglish()))) {
 						if (candidato.isOnlySp())
-							candidato.copiarBiosLanguagesToOthers();
+							candidato.copyBioToOtherLanguages();
 						AppContext.getInstance().getManagerBeanRemote().editarCandidato(getCandidato(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("candidateEditExito"));
 					} else
 						getSession().error(getString("candidateEditError"));
 
-					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(candidato.getElection().getIdElection()));
+					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(candidato.getElection().getElectionId()));
 				}
 
 			});
@@ -172,7 +172,7 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(candidato.getElection().getIdElection()));
+					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(candidato.getElection().getElectionId()));
 				}
 
 			});

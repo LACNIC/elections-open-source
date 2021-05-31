@@ -51,8 +51,8 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 				public void onClick() {
 					try {
 						String descripcion = SecurityUtils.getAdminId().toUpperCase() + getString("candidateManagemenExitoAddCandidates") + getEleccion().getTitleSpanish();
-						AppContext.getInstance().getManagerBeanRemote().persistirActividad(SecurityUtils.getAdminId(), ActivityType.AGREGAR_CANDIDATOS, descripcion, SecurityUtils.getIPClient(), getEleccion().getIdElection());
-						setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection()));
+						AppContext.getInstance().getManagerBeanRemote().persistirActividad(SecurityUtils.getAdminId(), ActivityType.ADD_CANDIDATES, descripcion, SecurityUtils.getIPClient(), getEleccion().getElectionId());
+						setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getElectionId()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
@@ -68,7 +68,7 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getIdElection()));
+					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getElectionId()));
 				}
 			};
 			add(saltarLink);
@@ -79,7 +79,7 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 
 				@Override
 				public void onClick() {
-					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getIdElection()));
+					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getElectionId()));
 				}
 			};
 			add(atras);

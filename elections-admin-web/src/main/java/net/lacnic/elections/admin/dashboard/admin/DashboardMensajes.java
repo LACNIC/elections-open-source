@@ -37,7 +37,7 @@ public class DashboardMensajes extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				params.remove(UtilsParameters.getIdText());
-				params.add(UtilsParameters.getIdText(), getEleccionFiltrar().getIdElection());
+				params.add(UtilsParameters.getIdText(), getEleccionFiltrar().getElectionId());
 				setResponsePage(DashboardMensajes.class, params);
 			}
 

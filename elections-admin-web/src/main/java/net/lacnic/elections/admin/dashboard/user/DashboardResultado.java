@@ -26,8 +26,8 @@ public class DashboardResultado extends DashboardPublicBasePage {
 			Label desc = new Label("descripcion", getEleccion().getDescription(getIdioma()));
 			desc.setEscapeModelStrings(false);
 			add(desc);
-			add(new ResultadoEleccionPanel("resultadoPanel", getEleccion().getIdElection()));
-			add(new CodigosCandidatoPanel("codigosCandidatoPanel", getEleccion().getIdElection()));
+			add(new ResultadoEleccionPanel("resultadoPanel", getEleccion().getElectionId()));
+			add(new CodigosCandidatoPanel("codigosCandidatoPanel", getEleccion().getElectionId()));
 
 		} catch (Exception e) {
 			appLogger.error(e);

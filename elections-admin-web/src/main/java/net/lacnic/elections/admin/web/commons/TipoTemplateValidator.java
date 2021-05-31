@@ -5,7 +5,7 @@ import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 
 import net.lacnic.elections.admin.app.AppContext;
-import net.lacnic.elections.domain.TemplateElection;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 
 public class TipoTemplateValidator implements IValidator<String> {
 
@@ -16,7 +16,7 @@ public class TipoTemplateValidator implements IValidator<String> {
 	@Override
 	public void validate(IValidatable<String> validatable) {
 		String tipo = validatable.getValue();
-		TemplateElection templateEleccion = AppContext.getInstance().getManagerBeanRemote().obtenerTemplate(tipo, 0L);
+		ElectionEmailTemplate templateEleccion = AppContext.getInstance().getManagerBeanRemote().obtenerTemplate(tipo, 0L);
 		if (templateEleccion != null)
 			validatable.error(new ValidationError("Ya existe este tipo de template base"));
 
