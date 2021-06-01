@@ -26,7 +26,7 @@ public class FooterLogoPanel extends Panel {
 		byte[] archivoPicBigLogo;
 		String nombreArchivoBigLogo;
 
-		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
+		personalizacion = AppContext.getInstance().getManagerBeanRemote().getCustomization();
 		nombreArchivoBigLogo = personalizacion.getPicBigLogo();
 		archivoPicBigLogo = personalizacion.getContPicBigLogo();
 		if (archivoPicBigLogo == null) {

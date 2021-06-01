@@ -52,9 +52,9 @@ public class ErrorVotacionNoComenzada extends DashboardPublicBasePage {
 
 	@Override
 	public Class validarToken(PageParameters params) {
-		UserVoter upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(getToken());
+		UserVoter upd = AppContext.getInstance().getVoterBeanRemote().verifyUserVoterAccess(getToken());
 		if (upd == null) {
-			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
+			AppContext.getInstance().getVoterBeanRemote().saveFailedAccessIp(getIP());
 			return Error404.class;
 		} else {
 			setEleccion(upd.getElection());

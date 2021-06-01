@@ -31,7 +31,7 @@ public class GraficaVotantesPanel extends ChartPanel {
 	public GraficaVotantesPanel(String id, long idEleccion) {
 		super(id);
 
-		List<Object> data = AppContext.getInstance().getVoterBeanRemote().obtenerDataEvolucionVotosEleccion(idEleccion);
+		List<Object> data = AppContext.getInstance().getVoterBeanRemote().getElectionVoteEvolutionData(idEleccion);
 		Label texto = new Label("noData","No hay datos en este momento para mostrar");
 		add(texto);
 		texto.setVisible(false);

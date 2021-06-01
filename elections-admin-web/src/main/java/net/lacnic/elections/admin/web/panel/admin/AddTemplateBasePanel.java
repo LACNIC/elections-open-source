@@ -69,7 +69,7 @@ public class AddTemplateBasePanel extends Panel {
 
 			@Override
 			public void onSubmit() {
-				boolean agregarP = AppContext.getInstance().getManagerBeanRemote().agregarPlantillaBase(template, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+				boolean agregarP = AppContext.getInstance().getManagerBeanRemote().createBaseEmailTemplate(template, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 				if (agregarP) {
 					SecurityUtils.info(getString("baseMailTemplAddExitoAdd"));
 					setResponsePage(DashboardPlantillasVer.class, UtilsParameters.getId(0L));

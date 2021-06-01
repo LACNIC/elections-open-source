@@ -29,11 +29,11 @@ public class AuditorValidator extends AbstractFormValidator {
 	public void validate(Form form) {
 		boolean yaExiste = false;
 		if (idEleccion == 0) {
-			yaExiste = AppContext.getInstance().getManagerBeanRemote().existeComisionado(components[0].getValue(), (components[1].getValue()));
+			yaExiste = AppContext.getInstance().getManagerBeanRemote().commissionerExists(components[0].getValue(), (components[1].getValue()));
 			if (yaExiste)
 				components[0].error("Ya existe este comisionado");
 		} else {
-			yaExiste = AppContext.getInstance().getManagerBeanRemote().existeAuditor(idEleccion, components[0].getValue(), (components[1].getValue()));
+			yaExiste = AppContext.getInstance().getManagerBeanRemote().auditorExists(idEleccion, components[0].getValue(), (components[1].getValue()));
 			if (yaExiste)
 				components[0].error("Ya existe este auditor para esta elección");
 		}

@@ -26,7 +26,7 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 	public DashboardGestionCandidatos(PageParameters params) {
 		super(params);
 
-		setEleccion(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(UtilsParameters.getIdAsLong(params)));
+		setEleccion(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
 		add(new FeedbackPanel("feedback"));
 		add(new CandidatosEleccionForm("eleccionCandidatosForm", eleccion));
 		add(new GestionEleccionStatusPanel("tabCandidatos", eleccion));
@@ -51,7 +51,7 @@ public class DashboardGestionCandidatos extends DashboardAdminBasePage {
 				public void onClick() {
 					try {
 						String descripcion = SecurityUtils.getAdminId().toUpperCase() + getString("candidateManagemenExitoAddCandidates") + getEleccion().getTitleSpanish();
-						AppContext.getInstance().getManagerBeanRemote().persistirActividad(SecurityUtils.getAdminId(), ActivityType.ADD_CANDIDATES, descripcion, SecurityUtils.getIPClient(), getEleccion().getElectionId());
+						AppContext.getInstance().getManagerBeanRemote().persistActivity(SecurityUtils.getAdminId(), ActivityType.ADD_CANDIDATES, descripcion, SecurityUtils.getIPClient(), getEleccion().getElectionId());
 						setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getElectionId()));
 					} catch (Exception e) {
 						error(e.getMessage());

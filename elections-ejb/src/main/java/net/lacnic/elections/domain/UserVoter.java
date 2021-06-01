@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.utils.LinksUtils;
 
 
 @Entity
@@ -86,7 +86,7 @@ public class UserVoter implements Serializable {
 	}
 
 	public String getVoteLink() {
-		return UtilsLinks.buildVoteLink(voteToken);
+		return LinksUtils.buildVoteLink(voteToken);
 	}
 
 	public void setCodesSummary(List<Vote> votes) {

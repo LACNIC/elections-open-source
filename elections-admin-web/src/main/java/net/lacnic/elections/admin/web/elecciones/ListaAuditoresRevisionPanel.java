@@ -12,7 +12,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.utils.LinksUtils;
 
 public class ListaAuditoresRevisionPanel extends Panel {
 
@@ -23,7 +23,7 @@ public class ListaAuditoresRevisionPanel extends Panel {
 	public ListaAuditoresRevisionPanel(String id, long idEleccion) {
 		super(id);
 		try {
-			List<Auditor> auditores = AppContext.getInstance().getManagerBeanRemote().obtenerAuditoresEleccion(idEleccion);
+			List<Auditor> auditores = AppContext.getInstance().getManagerBeanRemote().getElectionAuditors(idEleccion);
 			ListView<Auditor> auditoresDataView = new ListView<Auditor>("auditoresList", auditores) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
@@ -33,7 +33,7 @@ public class ListaAuditoresRevisionPanel extends Panel {
 					item.add(new Label("nombreA", actual.getName()));
 					item.add(new Label("mailA", actual.getMail()));
 					item.add(new Label("revision", (actual.isRevisionAvailable() ? "SI" : "NO")));
-					String calcularLinkVotar = UtilsLinks.buildAuditorResultsLink(actual.getResultToken());
+					String calcularLinkVotar = LinksUtils.buildAuditorResultsLink(actual.getResultToken());
 					Label textoLinkVotar = new Label("textoLink", calcularLinkVotar);
 					ExternalLink linkvotar = new ExternalLink("link", calcularLinkVotar);
 					linkvotar.add(textoLinkVotar);

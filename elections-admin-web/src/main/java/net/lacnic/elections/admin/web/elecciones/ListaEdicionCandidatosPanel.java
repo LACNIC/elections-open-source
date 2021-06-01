@@ -40,12 +40,12 @@ public class ListaEdicionCandidatosPanel extends Panel {
 
 				@Override
 				protected void accion() {
-					AppContext.getInstance().getManagerBeanRemote().ordenarCandidatosAleatoriamente(eleccion.getElectionId(), eleccion.isRandomOrderCandidates());
+					AppContext.getInstance().getManagerBeanRemote().setSortCandidatesRandomly(eleccion.getElectionId(), eleccion.isRandomOrderCandidates());
 					setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 				}
 
 			});
-			ListView<Candidate> candidatosDataView = new ListView<Candidate>("candidatosList", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(eleccion.getElectionId())) {
+			ListView<Candidate> candidatosDataView = new ListView<Candidate>("candidatosList", AppContext.getInstance().getManagerBeanRemote().getElectionCandidatesOrdered(eleccion.getElectionId())) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
@@ -58,7 +58,7 @@ public class ListaEdicionCandidatosPanel extends Panel {
 						@Override
 						public void onConfirmar() {
 
-							AppContext.getInstance().getManagerBeanRemote().eliminarCandidato(actual.getCandidateId(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().removeCandidate(actual.getCandidateId(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("candidateManagemenListExitoDel"));
 							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 						}
@@ -84,7 +84,7 @@ public class ListaEdicionCandidatosPanel extends Panel {
 
 						@Override
 						public void onClick() {
-							AppContext.getInstance().getManagerBeanRemote().nofijarCandidatoAlPrincipio(actual.getCandidateId());
+							AppContext.getInstance().getManagerBeanRemote().fixCandidateToFirstNonFixed(actual.getCandidateId());
 							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 						}
 
@@ -130,13 +130,13 @@ public class ListaEdicionCandidatosPanel extends Panel {
 						@Override
 						public void onClick() {
 
-							AppContext.getInstance().getManagerBeanRemote().fijarCandidatoAlPrincipio(actual.getCandidateId());
+							AppContext.getInstance().getManagerBeanRemote().fixCandidateToTop(actual.getCandidateId());
 							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 						}
 					});
 
-					Candidate candidatoDeArriba = AppContext.getInstance().getManagerBeanRemote().obtenerCandidatoDEArriba(actual);
-					Candidate candidatoDeAbajo = AppContext.getInstance().getManagerBeanRemote().obtenerCandidatoDEAbajo(actual);
+					Candidate candidatoDeArriba = AppContext.getInstance().getManagerBeanRemote().getNextAboveCandidate(actual);
+					Candidate candidatoDeAbajo = AppContext.getInstance().getManagerBeanRemote().getNextBelowCandidate(actual);
 
 					Link<Void> subir = new Link<Void>("subir") {
 
@@ -172,7 +172,7 @@ public class ListaEdicionCandidatosPanel extends Panel {
 
 						@Override
 						public void onClick() {
-							AppContext.getInstance().getManagerBeanRemote().fijarCandidatoAlFinal(actual.getCandidateId());
+							AppContext.getInstance().getManagerBeanRemote().fixCandidateToBottom(actual.getCandidateId());
 							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 						}
 					});

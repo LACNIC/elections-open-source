@@ -9,27 +9,29 @@ import javax.naming.NamingException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.ejb.ManagerEleccionesEJB;
-import net.lacnic.elections.ejb.MonitorEleccionesEJB;
-import net.lacnic.elections.ejb.VotanteEleccionesEJB;
-import net.lacnic.elections.ejb.commons.EnvioMailsEJB;
-import net.lacnic.elections.ejb.commons.ParametrosEleccionesEJB;
+import net.lacnic.elections.ejb.ElectionsManagerEJB;
+import net.lacnic.elections.ejb.ElectionsMonitorEJB;
+import net.lacnic.elections.ejb.ElectionsVoterEJB;
+import net.lacnic.elections.ejb.commons.ElectionsParametersEJB;
+import net.lacnic.elections.ejb.commons.MailsSendingEJB;
+
 
 public class EJBFactory {
 
 	private static final String EBJ = "ejb:/";
-	
+
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
-	
+
 	private static String JBOSSTEMPURI = System.getProperty("jboss.server.temp.dir");
 
-	private ManagerEleccionesEJB managerEleccionesEJB;
-	private MonitorEleccionesEJB monitorEleccionesEJB;
-	private VotanteEleccionesEJB votanteEleccionesEJB;
-	private ParametrosEleccionesEJB parametrosEleccionesEJB;
-	private EnvioMailsEJB envioMailsEJB;
+	private ElectionsManagerEJB electionsManagerEJB;
+	private ElectionsMonitorEJB electionsMonitorEJB;
+	private ElectionsVoterEJB electionsVoterEJB;
+	private ElectionsParametersEJB electionsParametersEJB;
+	private MailsSendingEJB mailsSendingEJB;
 
 	private static EJBFactory instance;
+
 
 	private EJBFactory() {
 
@@ -41,18 +43,18 @@ public class EJBFactory {
 
 			final String moduleName = Constants.JAR_NAME;
 
-			String managerEjb = EBJ + moduleName + "/ManagerEleccionesEJBBean!net.lacnic.elections.ejb.ManagerEleccionesEJB";
-			String monitorEjb = EBJ + moduleName + "/MonitorEleccionesEJBBean!net.lacnic.elections.ejb.MonitorEleccionesEJB";
-			String votanteEjb = EBJ + moduleName + "/VotanteEleccionesEJBBean!net.lacnic.elections.ejb.VotanteEleccionesEJB";
+			String managerEjb = EBJ + moduleName + "/ElectionsManagerEJBBean!net.lacnic.elections.ejb.ElectionsManagerEJB";
+			String monitorEjb = EBJ + moduleName + "/ElectionsMonitorEJBBean!net.lacnic.elections.ejb.ElectionsMonitorEJB";
+			String voterEjb = EBJ + moduleName + "/ElectionsVoterEJBBean!net.lacnic.elections.ejb.ElectionsVoterEJB";
 
-			String parametrosEjb = EBJ + moduleName + "/ParametrosEleccionesEJBBean!net.lacnic.elections.ejb.commons.ParametrosEleccionesEJB";
-			String envioMailsEjb = EBJ + moduleName + "/EnvioMailsEJBBean!net.lacnic.elections.ejb.commons.EnvioMailsEJB";
+			String parametersEjb = EBJ + moduleName + "/ElectionsParametersEJBBean!net.lacnic.elections.ejb.commons.ElectionsParametersEJB";
+			String mailsSendingEjb = EBJ + moduleName + "/MailsSendingEJBBean!net.lacnic.elections.ejb.commons.MailsSendingEJB";
 
-			setManagerEleccionesEJB((ManagerEleccionesEJB) context.lookup(managerEjb));
-			setMonitorEleccionesEJB((MonitorEleccionesEJB) context.lookup(monitorEjb));
-			setVotanteEleccionesEJB((VotanteEleccionesEJB) context.lookup(votanteEjb));
-			setParametrosEleccionesEJB((ParametrosEleccionesEJB) context.lookup(parametrosEjb));
-			setEnvioMailsEJB((EnvioMailsEJB) context.lookup(envioMailsEjb));
+			setElectionsManagerEJB((ElectionsManagerEJB) context.lookup(managerEjb));
+			setElectionsMonitorEJB((ElectionsMonitorEJB) context.lookup(monitorEjb));
+			setElectionsVoterEJB((ElectionsVoterEJB) context.lookup(voterEjb));
+			setElectionsParametersEJB((ElectionsParametersEJB) context.lookup(parametersEjb));
+			setMailsSendingEJB((MailsSendingEJB) context.lookup(mailsSendingEjb));
 
 		} catch (NamingException e) {
 			appLogger.error(e);
@@ -66,48 +68,48 @@ public class EJBFactory {
 		return instance;
 	}
 
-	public ManagerEleccionesEJB getManagerEleccionesEJB() {
-		return managerEleccionesEJB;
-	}
-
-	public void setManagerEleccionesEJB(ManagerEleccionesEJB managerEleccionesEJB) {
-		this.managerEleccionesEJB = managerEleccionesEJB;
-	}
-
-	public MonitorEleccionesEJB getMonitorEleccionesEJB() {
-		return monitorEleccionesEJB;
-	}
-
-	public void setMonitorEleccionesEJB(MonitorEleccionesEJB monitorEleccionesEJB) {
-		this.monitorEleccionesEJB = monitorEleccionesEJB;
-	}
-
-	public VotanteEleccionesEJB getVotanteEleccionesEJB() {
-		return votanteEleccionesEJB;
-	}
-
-	public void setVotanteEleccionesEJB(VotanteEleccionesEJB votanteEleccionesEJB) {
-		this.votanteEleccionesEJB = votanteEleccionesEJB;
-	}
-
-	public ParametrosEleccionesEJB getParametrosEleccionesEJB() {
-		return parametrosEleccionesEJB;
-	}
-
-	public void setParametrosEleccionesEJB(ParametrosEleccionesEJB parametrosEleccionesEJB) {
-		this.parametrosEleccionesEJB = parametrosEleccionesEJB;
-	}
-
 	public static String getJbossTempUri() {
 		return JBOSSTEMPURI.concat("/");
 	}
 
-	public EnvioMailsEJB getEnvioMailsEJB() {
-		return this.envioMailsEJB;
+	public ElectionsManagerEJB getElectionsManagerEJB() {
+		return electionsManagerEJB;
 	}
 
-	public void setEnvioMailsEJB(EnvioMailsEJB envioMailsEJB) {
-		this.envioMailsEJB = envioMailsEJB;
+	public void setElectionsManagerEJB(ElectionsManagerEJB electionsManagerEJB) {
+		this.electionsManagerEJB = electionsManagerEJB;
+	}
+
+	public ElectionsMonitorEJB getElectionsMonitorEJB() {
+		return electionsMonitorEJB;
+	}
+
+	public void setElectionsMonitorEJB(ElectionsMonitorEJB electionsMonitorEJB) {
+		this.electionsMonitorEJB = electionsMonitorEJB;
+	}
+
+	public ElectionsVoterEJB getElectionsVoterEJB() {
+		return electionsVoterEJB;
+	}
+
+	public void setElectionsVoterEJB(ElectionsVoterEJB electionsVoterEJB) {
+		this.electionsVoterEJB = electionsVoterEJB;
+	}
+
+	public ElectionsParametersEJB getElectionsParametersEJB() {
+		return electionsParametersEJB;
+	}
+
+	public void setElectionsParametersEJB(ElectionsParametersEJB electionsParametersEJB) {
+		this.electionsParametersEJB = electionsParametersEJB;
+	}
+
+	public MailsSendingEJB getMailsSendingEJB() {
+		return this.mailsSendingEJB;
+	}
+
+	public void setMailsSendingEJB(MailsSendingEJB mailsSendingEJB) {
+		this.mailsSendingEJB = mailsSendingEJB;
 	}
 
 }

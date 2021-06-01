@@ -65,7 +65,7 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 			containerCandidatos.setOutputMarkupPlaceholderTag(true);
 			add(containerCandidatos);
 
-			ListView<Candidate> candidatosDataView = new ListView<Candidate>("candidatosList", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(getEleccion().getElectionId())) {
+			ListView<Candidate> candidatosDataView = new ListView<Candidate>("candidatosList", AppContext.getInstance().getManagerBeanRemote().getElectionCandidatesOrdered(getEleccion().getElectionId())) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
@@ -124,16 +124,16 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 		String token2 = params.get("token2").toString();
 
 		if ((token1 == null || token1.equals("")) && (token2 == null || token2.equals(""))) {
-			upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(getToken());
+			upd = AppContext.getInstance().getVoterBeanRemote().verifyUserVoterAccess(getToken());
 		} else {
 			if (token1 == null || token1.equals(""))
-				upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(token2);
+				upd = AppContext.getInstance().getVoterBeanRemote().verifyUserVoterAccess(token2);
 			else
-				upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(token1);
+				upd = AppContext.getInstance().getVoterBeanRemote().verifyUserVoterAccess(token1);
 		}
 
 		if (upd == null) {
-			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
+			AppContext.getInstance().getVoterBeanRemote().saveFailedAccessIp(getIP());
 			return Error404.class;
 		} else {
 
@@ -184,7 +184,7 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 			public void onClick() {
 				if (isOkForVote()) {
 					try {
-						AppContext.getInstance().getVoterBeanRemote().votar(getElegidos(), upd, getIP());
+						AppContext.getInstance().getVoterBeanRemote().vote(getElegidos(), upd, getIP());
 						setResponsePage(DashboardVotar.class, UtilsParameters.getToken(upd.getVoteToken()));
 					} catch (Exception e) {
 						appLogger.error(e);
@@ -213,7 +213,7 @@ public class DashboardVotarEleccionSimple extends DashboardPublicBasePage {
 
 	private boolean isOkForVote() {
 		try {
-			if (AppContext.getInstance().getVoterBeanRemote().yaVoto(upd.getUserVoterId())) {
+			if (AppContext.getInstance().getVoterBeanRemote().userAlreadyVoted(upd.getUserVoterId())) {
 				setResponsePage(new DashboardYaVoto(UtilsParameters.getToken(upd.getVoteToken())));
 				return false;
 			} else {

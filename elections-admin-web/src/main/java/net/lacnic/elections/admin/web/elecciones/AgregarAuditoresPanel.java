@@ -53,7 +53,7 @@ public class AgregarAuditoresPanel extends Panel {
 				@Override
 				public void onSubmit() {
 					super.onSubmit();
-					AppContext.getInstance().getManagerBeanRemote().agregarAuditor(eleccion.getElectionId(), auditor, eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().addAuditor(eleccion.getElectionId(), auditor, eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(eleccion.getElectionId()));
 					getSession().info(getString("auditorManagementExitoAdd"));
 				}
@@ -68,7 +68,7 @@ public class AgregarAuditoresPanel extends Panel {
 				@Override
 				public void onClick() {
 					try {
-						AppContext.getInstance().getManagerBeanRemote().persistirAuditoresSeteados(eleccion.getElectionId(), eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+						AppContext.getInstance().getManagerBeanRemote().persistElectionAuditorsSet(eleccion.getElectionId(), eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						setResponsePage(DashboardHomePage.class);
 					} catch (Exception e) {
 						error(e.getMessage());

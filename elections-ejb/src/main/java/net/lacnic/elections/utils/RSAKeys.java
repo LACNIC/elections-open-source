@@ -7,8 +7,6 @@ import java.security.interfaces.RSAPublicKey;
 /**
  * Helper class to encrypt/decrypt using RSA
  * 
- * @author LACNIC
- *
  */
 public final class RSAKeys {
 

@@ -48,7 +48,7 @@ public class SubirArchivoUsuarioPadronPanel extends Panel {
 						setArchivoPadron(fufPadron.getFileUpload().getBytes());
 						setNombreArchivo(fufPadron.getFileUpload().getClientFileName());
 						try {
-							AppContext.getInstance().getManagerBeanRemote().actualizarUsuariosPadron(eleccion.getElectionId(), getArchivoPadron(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().updateElectionCensus(eleccion.getElectionId(), getArchivoPadron(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("censusManagementExitoUpFile"));
 							if (classs != null)
 								setResponsePage(classs, UtilsParameters.getId(eleccion.getElectionId()));
@@ -69,7 +69,7 @@ public class SubirArchivoUsuarioPadronPanel extends Panel {
 			
 			ServletContext context = ((WebApplication) WebApplication.get()).getServletContext();
 			String filePath = context.getRealPath("/");
-			File archivoEjemplo = AppContext.getInstance().getManagerBeanRemote().exportarEjemploPadronElectoral(filePath);
+			File archivoEjemplo = AppContext.getInstance().getManagerBeanRemote().exportCensusExample(filePath);
 			add(new DownloadLink("exportarEjemplo", archivoEjemplo));
 
 		} catch (Exception e) {

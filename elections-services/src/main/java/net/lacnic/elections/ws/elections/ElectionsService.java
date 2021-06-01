@@ -40,7 +40,7 @@ public class ElectionsService implements Serializable {
 			Response preResponse = authenticate(request);
 			if (preResponse != null)
 				return preResponse;
-			HealthCheck healthCheck = AppContext.getInstance().getMonitorBeanRemote().obtenerDatosWS();
+			HealthCheck healthCheck = AppContext.getInstance().getMonitorBeanRemote().getHealthCheckData();
 			Response response = Response.ok(healthCheck).build();
 			return response;
 		} catch (Exception e) {
@@ -57,7 +57,7 @@ public class ElectionsService implements Serializable {
 			Response preResponse = authenticate(request);
 			if (preResponse != null)
 				return preResponse;
-			List<Participation> participations = AppContext.getInstance().getMonitorBeanRemote().obtenerParticipacionesOrgId(org);
+			List<Participation> participations = AppContext.getInstance().getMonitorBeanRemote().getOrganizationParticipations(org);
 			return Response.ok(participations).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -73,7 +73,7 @@ public class ElectionsService implements Serializable {
 			Response preResponse = authenticate(request);
 			if (preResponse != null)
 				return preResponse;
-			return Response.ok(AppContext.getInstance().getMonitorBeanRemote().obtenerEleccionesLightDesc()).build();
+			return Response.ok(AppContext.getInstance().getMonitorBeanRemote().getElectionsLightAllOrderStartDateDesc()).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.ok(e.getLocalizedMessage()).build();
@@ -92,7 +92,7 @@ public class ElectionsService implements Serializable {
 		try {
 			String authKeyReceived = request.getHeader("AuthToken");
 			String authToken = AppContext.getInstance().getMonitorBeanRemote().getWsAuthToken();
-			IpResourceSet authorizedIPsList = AppContext.getInstance().getMonitorBeanRemote().getWsIPsHabilitadas();
+			IpResourceSet authorizedIPsList = AppContext.getInstance().getMonitorBeanRemote().getWsAuthorizedIps();
 			if (authKeyReceived == null || !authKeyReceived.equals(authToken))
 				return Response.status(Response.Status.UNAUTHORIZED).entity("Unathorized access, Apikey problem").build();
 

@@ -21,7 +21,7 @@ public class DashboardEditarParametrosPage extends DashboardAdminBasePage {
 
 	public DashboardEditarParametrosPage(PageParameters params) {
 		super(params);
-		Parameter p = AppContext.getInstance().getManagerBeanRemote().getParametro(UtilsParameters.getClaveId(params));
+		Parameter p = AppContext.getInstance().getManagerBeanRemote().getParameter(UtilsParameters.getClaveId(params));
 		valor = p.getValue();
 
 		Form<Void> form = new Form<>("forParametro");
@@ -52,7 +52,7 @@ public class DashboardEditarParametrosPage extends DashboardAdminBasePage {
 			@Override
 			public void onSubmit() {
 				if (!(valor.equalsIgnoreCase(p.getValue()))) {
-					AppContext.getInstance().getManagerBeanRemote().editarParametro(p, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().editParameter(p, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("advEditParamExito"));
 				}
 				setResponsePage(DashboardParametros.class);

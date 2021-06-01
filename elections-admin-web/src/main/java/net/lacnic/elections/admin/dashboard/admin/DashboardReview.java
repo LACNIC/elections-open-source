@@ -21,7 +21,7 @@ public class DashboardReview extends DashboardAdminBasePage {
 		add(new FeedbackPanel("feedback"));
 
 		Long idEleccion = UtilsParameters.getIdAsLong(params);
-		boolean revisionActiva = AppContext.getInstance().getManagerBeanRemote().isRevisionActiva(idEleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+		boolean revisionActiva = AppContext.getInstance().getManagerBeanRemote().isRevisionActive(idEleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 
 		if (!revisionActiva)
 			SecurityUtils.info("Faltan auditores por permitir acceso a esta sección");

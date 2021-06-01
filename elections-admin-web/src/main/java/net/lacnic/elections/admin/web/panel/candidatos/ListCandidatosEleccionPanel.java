@@ -13,7 +13,7 @@ public class ListCandidatosEleccionPanel extends Panel {
 
 	public ListCandidatosEleccionPanel(String id, long idEleccion) {
 		super(id);
-		ListView<Candidate> candidatosDataView = new ListView<Candidate>("listaCandidatosPanel", AppContext.getInstance().getManagerBeanRemote().obtenerCandidatosEleccionOrdenados(idEleccion)) {
+		ListView<Candidate> candidatosDataView = new ListView<Candidate>("listaCandidatosPanel", AppContext.getInstance().getManagerBeanRemote().getElectionCandidatesOrdered(idEleccion)) {
 
 			private static final long serialVersionUID = 4017591177604969632L;
 

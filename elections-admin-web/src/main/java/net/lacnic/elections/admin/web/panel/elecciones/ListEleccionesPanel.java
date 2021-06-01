@@ -44,12 +44,12 @@ public class ListEleccionesPanel extends Panel {
 		Long idEleccionAutorizado = SecurityUtils.getIdEleccionAutorizado();
 		if (idEleccionAutorizado != 0) {
 			listaElecciones = new ArrayList<>();
-			listaElecciones.add(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccionAutorizado));
+			listaElecciones.add(AppContext.getInstance().getManagerBeanRemote().getElection(idEleccionAutorizado));
 		} else {
 			if (UtilsParameters.isAll(pars)) {
-				listaElecciones = AppContext.getInstance().getManagerBeanRemote().obtenerEleccionesLight();
+				listaElecciones = AppContext.getInstance().getManagerBeanRemote().getElectionsAllOrderCreationDate();
 			} else {
-				listaElecciones = AppContext.getInstance().getManagerBeanRemote().obtenerEleccionesLightEsteAnio();
+				listaElecciones = AppContext.getInstance().getManagerBeanRemote().getElectionsLightThisYear();
 			}
 		}
 		init(listaElecciones);
@@ -112,7 +112,7 @@ public class ListEleccionesPanel extends Panel {
 										esNueva = true;
 									} else {
 										esNueva = false;
-										esSupra = AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(actual.getElectionId());
+										esSupra = AppContext.getInstance().getManagerBeanRemote().isJointElection(actual.getElectionId());
 									};
 									
 									if ((!esNueva) && (esSupra)) {
@@ -120,7 +120,7 @@ public class ListEleccionesPanel extends Panel {
 										SecurityUtils.error(getString("errorEliminoEleccionSupra"));
 										setResponsePage(DashboardHomePage.class);
 									} else {									
-										AppContext.getInstance().getManagerBeanRemote().darDeBajaEleccion(actual.getElectionId(), actual.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+										AppContext.getInstance().getManagerBeanRemote().removeElection(actual.getElectionId(), actual.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 										SecurityUtils.info(getString("eliminoEleccion"));
 										setResponsePage(DashboardHomePage.class);
 									}

@@ -4,7 +4,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.FormComponentUpdatingBehavior;
 import org.apache.wicket.model.IModel;
 
-import net.lacnic.elections.utils.UtilsIdiomas;
+import net.lacnic.elections.utils.LanguageUtils;
 
 public class DropDownIdioma extends DropDownChoice<String> {
 
@@ -12,7 +12,7 @@ public class DropDownIdioma extends DropDownChoice<String> {
 
 	public DropDownIdioma(IModel<String> model) {
 		super("idioma");
-		setChoices(new UtilsIdiomas().getIdlistaIdiomas());
+		setChoices(new LanguageUtils().getIdsList());
 		setModel(model);
 		setRequired(true);
 		

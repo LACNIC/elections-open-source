@@ -58,13 +58,13 @@ public class DashboardEnviarEmailPaso2 extends DashboardAdminBasePage {
 				boolean padronIgual = true;				
 				JointElection supraElec;
 
-				if ((getTipoDestinatario() != null) && (getTipoDestinatario().compareTo(RecipientType.VOTANTES) == 0)) {
+				if ((getTipoDestinatario() != null) && (getTipoDestinatario().compareTo(RecipientType.VOTERS) == 0)) {
 					mailPadron = true;
-					isSupra = AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(template.getElection().getElectionId());
+					isSupra = AppContext.getInstance().getManagerBeanRemote().isJointElection(template.getElection().getElectionId());
 					// Si es elección conjunta y se va a enviar mail al padron, debeo validar si son iguales 
 					if (isSupra) {
-						supraElec = AppContext.getInstance().getManagerBeanRemote().obtenerSupraEleccion(template.getElection().getElectionId());
-						padronIgual = AppContext.getInstance().getManagerBeanRemote().isPadronesIguales(supraElec); 
+						supraElec = AppContext.getInstance().getManagerBeanRemote().getJointElectionForElection(template.getElection().getElectionId());
+						padronIgual = AppContext.getInstance().getManagerBeanRemote().electionsCensusEqual(supraElec); 
 					};				
 				};
 

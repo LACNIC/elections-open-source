@@ -21,10 +21,10 @@ public class DashboardVotarEleccionesJuntas extends DashboardPublicBasePage {
 
 	@Override
 	public Class validarToken(PageParameters params) {
-		upds = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUPEleccionJunta(getToken());
+		upds = AppContext.getInstance().getVoterBeanRemote().verifyUserVoterAccessJointElection(getToken());
 
 		if (upds == null) {
-			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
+			AppContext.getInstance().getVoterBeanRemote().saveFailedAccessIp(getIP());
 			return Error404.class;
 		} else {
 

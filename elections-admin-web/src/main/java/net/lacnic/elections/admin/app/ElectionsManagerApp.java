@@ -15,14 +15,14 @@ import org.apache.wicket.request.mapper.parameter.PageParametersEncoder;
 import org.apache.wicket.settings.ExceptionSettings;
 
 import net.lacnic.elections.admin.dashboard.admin.DashboardActividades;
-import net.lacnic.elections.admin.dashboard.admin.DashboardAdministradores;
-import net.lacnic.elections.admin.dashboard.admin.DashboardComisionados;
+import net.lacnic.elections.admin.dashboard.admin.UserAdminsDashboard;
+import net.lacnic.elections.admin.dashboard.admin.CommissionersDashboard;
 import net.lacnic.elections.admin.dashboard.admin.DashboardConfiguracion;
 import net.lacnic.elections.admin.dashboard.admin.DashboardDetalleEleccion;
-import net.lacnic.elections.admin.dashboard.admin.DashboardEditarAdministrador;
+import net.lacnic.elections.admin.dashboard.admin.EditUserAdminDashboard;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarAuditor;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarCandidato;
-import net.lacnic.elections.admin.dashboard.admin.DashboardEditarComisionado;
+import net.lacnic.elections.admin.dashboard.admin.EditCommissionerDashboard;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarParametrosPage;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarPasswordAdministrador;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarUsuarioPadron;
@@ -99,8 +99,8 @@ public class ElectionsManagerApp extends AuthenticatedWebApplication {
 		montarPagina("/g/union", DashboardEleccionesJuntas.class);
 
 		// Paginas generales con edición
-		montarPagina("/commissioners", DashboardComisionados.class);
-		montarPagina("/commissioners/edit", DashboardEditarComisionado.class);
+		montarPagina("/commissioners", CommissionersDashboard.class);
+		montarPagina("/commissioners/edit", EditCommissionerDashboard.class);
 
 		montarPagina("/templates", DashboardPlantillasVer.class);
 		montarPagina("/templates/edit", DashboardEnviarEmailPaso1.class);
@@ -108,8 +108,8 @@ public class ElectionsManagerApp extends AuthenticatedWebApplication {
 		montarPagina("/parameters", DashboardParametros.class);
 		montarPagina("/parameters/edit", DashboardEditarParametrosPage.class);
 
-		montarPagina("/admin", DashboardAdministradores.class);
-		montarPagina("/admin/edit", DashboardEditarAdministrador.class);
+		montarPagina("/admin", UserAdminsDashboard.class);
+		montarPagina("/admin/edit", EditUserAdminDashboard.class);
 		montarPagina("/admin/edit/pass", DashboardEditarPasswordAdministrador.class);
 
 		// Paginas de errores

@@ -32,7 +32,7 @@ public class TopBarPublic extends Panel {
 	public TopBarPublic(String id) {
 		super(id);
 		
-		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
+		personalizacion = AppContext.getInstance().getManagerBeanRemote().getCustomization();
 		tituloSitio = personalizacion.getSiteTitle();
 		
 		Label tituloSitioLabel = new Label("tituloSitio", new PropertyModel<>(TopBarPublic.this, "tituloSitio"));

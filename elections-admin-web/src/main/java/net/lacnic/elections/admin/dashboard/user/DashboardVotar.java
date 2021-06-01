@@ -14,11 +14,11 @@ public class DashboardVotar extends DashboardPublicBasePage {
 	private static final long serialVersionUID = -867241975964848115L;
 
 	public Class validarToken(PageParameters params) {
-		UserVoter upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(getToken());
+		UserVoter upd = AppContext.getInstance().getVoterBeanRemote().verifyUserVoterAccess(getToken());
 
 		// sacar false
 		if (upd == null) {
-			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
+			AppContext.getInstance().getVoterBeanRemote().saveFailedAccessIp(getIP());
 			return Error404.class;
 		} else {
 
@@ -30,7 +30,7 @@ public class DashboardVotar extends DashboardPublicBasePage {
 				return ErrorVotacionNoPublica.class;
 			}
 
-			if (AppContext.getInstance().getVoterBeanRemote().isEleccionSimple(getEleccion().getElectionId()))
+			if (AppContext.getInstance().getVoterBeanRemote().electionIsSimple(getEleccion().getElectionId()))
 				setResponsePage(DashboardVotarEleccionSimple.class, params);
 			else
 				setResponsePage(DashboardVotarEleccionesJuntas.class, params);

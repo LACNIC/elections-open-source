@@ -30,7 +30,7 @@ public class DashboardEditarUsuarioPadron extends DashboardAdminBasePage {
 	public DashboardEditarUsuarioPadron(PageParameters params) {
 		super(params);
 		long idUsuarioPadron = UtilsParameters.getUserAsLong(params);
-		up = AppContext.getInstance().getManagerBeanRemote().obtenerUsuarioPadron(idUsuarioPadron);
+		up = AppContext.getInstance().getManagerBeanRemote().getUserVoter(idUsuarioPadron);
 		nombre = up.getName();
 		email = up.getMail();
 		cantVotos = up.getVoteAmount();
@@ -56,7 +56,7 @@ public class DashboardEditarUsuarioPadron extends DashboardAdminBasePage {
 						|| (pais != null && !(pais.equalsIgnoreCase(up.getCountry()))) || (up.getCountry() != null && !(up.getCountry().equalsIgnoreCase(pais))) 
 						|| !(idioma.equalsIgnoreCase(up.getLanguage()))) {
 					try {
-						AppContext.getInstance().getManagerBeanRemote().editarUsuarioPadron(getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+						AppContext.getInstance().getManagerBeanRemote().editUserVoter(getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("censusManagementUserEditExito"));
 						setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(up.getElection().getElectionId()));
 					} catch (CensusValidationException e) {

@@ -16,7 +16,7 @@ public class CodigosCandidatoPanel extends Panel {
 
 	public CodigosCandidatoPanel(String id, long idEleccion) {
 		super(id);
-		final ListView<Object[]> comisionadosDataView = new ListView<Object[]>("codigos", AppContext.getInstance().getVoterBeanRemote().obtenerCodigosdeVotacion(idEleccion)) {
+		final ListView<Object[]> comisionadosDataView = new ListView<Object[]>("codigos", AppContext.getInstance().getVoterBeanRemote().getElectionVotesCandidateAndCode(idEleccion)) {
 			private static final long serialVersionUID = 1786359392545666490L;
 
 			@Override

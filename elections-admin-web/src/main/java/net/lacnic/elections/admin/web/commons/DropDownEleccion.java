@@ -19,7 +19,7 @@ public class DropDownEleccion extends DropDownChoice<Election> {
 
 	public DropDownEleccion(String id, IModel<Election> model) {
 		super(id);
-		List<Election> elecciones = AppContext.getInstance().getManagerBeanRemote().obtenerEleccionesLightEsteAnio();
+		List<Election> elecciones = AppContext.getInstance().getManagerBeanRemote().getElectionsLightThisYear();
 		Election e = new Election(0);
 		elecciones.add(e);
 		Collections.sort(elecciones, new Comparator<Election>() {

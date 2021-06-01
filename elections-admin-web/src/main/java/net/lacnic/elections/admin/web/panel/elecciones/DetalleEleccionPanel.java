@@ -34,7 +34,7 @@ public class DetalleEleccionPanel extends Panel {
 		try {
 
 			setOutputMarkupPlaceholderTag(true);
-			Election eleccion = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccion);
+			Election eleccion = AppContext.getInstance().getManagerBeanRemote().getElection(idEleccion);
 			eleccion.initStringsStartEndDates();
 
 			add(new Label("linkEspanol", eleccion.getLinkSpanish()));
@@ -61,7 +61,7 @@ public class DetalleEleccionPanel extends Panel {
 			add(new Label("fechaFin", eleccion.getAuxEndDate() + " " + eleccion.getAuxEndHour() + " (UTC)"));
 			add(new Label("habilitadoLinkVotacion", eleccion.isVotingLinkAvailable() ? "SI" : "NO"));
 			add(new Label("habilitadoLinkResultado", eleccion.isResultLinkAvailable() ? "SI" : "NO"));
-			add(new Label("linkResultado", AppContext.getInstance().getManagerBeanRemote().obtenerLinkresultado(eleccion)));
+			add(new Label("linkResultado", AppContext.getInstance().getManagerBeanRemote().getResultsLink(eleccion)));
 
 			add(new BookmarkablePageLink<Void>("editarElec", DashboardGestionEleccion.class, UtilsParameters.getId(eleccion.getElectionId())));
 

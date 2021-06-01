@@ -62,9 +62,9 @@ public class DashboardAuditores extends DashboardPublicBasePage {
 
 	@Override
 	public Class validarToken(PageParameters params) {
-		a = AppContext.getInstance().getVoterBeanRemote().verificarAccesoResultadoAuditor(getToken());
+		a = AppContext.getInstance().getVoterBeanRemote().verifyAuditorResultAccess(getToken());
 		if (a == null) {
-			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
+			AppContext.getInstance().getVoterBeanRemote().saveFailedAccessIp(getIP());
 			return Error404.class;
 		} else {
 			setEleccion(a.getElection());

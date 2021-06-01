@@ -24,7 +24,7 @@ public class DashboardHomePublico extends DashboardPublicBasePage {
 		
 		Boolean showHome = true;
 		
-		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
+		personalizacion = AppContext.getInstance().getManagerBeanRemote().getCustomization();
 		showHome = personalizacion.isShowHome();
 		homeHtml = personalizacion.getHomeHtml();
 		

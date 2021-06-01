@@ -71,9 +71,9 @@ public class EnviarEmailPaso1Panel extends Panel {
 				@Override
 				public void onSubmit() {
 					try {
-						AppContext.getInstance().getManagerBeanRemote().modificarTemplateEleccion(template);
+						AppContext.getInstance().getManagerBeanRemote().modifyElectionEmailTemplate(template);
 						Long idEleccion = template.getElection().getElectionId();
-						AppContext.getInstance().getManagerBeanRemote().modificarTemplateEleccion(template);
+						AppContext.getInstance().getManagerBeanRemote().modifyElectionEmailTemplate(template);
 						setResponsePage(new DashboardEnviarEmailPaso2(template, UtilsParameters.getId(idEleccion)));
 					} catch (Exception e) {
 						appLogger.error(e);

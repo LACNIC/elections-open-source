@@ -36,9 +36,9 @@ public class DashboardResultado extends DashboardPublicBasePage {
 
 	@Override
 	public Class validarToken(PageParameters params) {
-		Election eleccion = AppContext.getInstance().getVoterBeanRemote().verificarAccesoResultado(getToken());
+		Election eleccion = AppContext.getInstance().getVoterBeanRemote().verifyResultAccess(getToken());
 		if (eleccion == null) {
-			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
+			AppContext.getInstance().getVoterBeanRemote().saveFailedAccessIp(getIP());
 			return Error404.class;
 		} else {
 			setEleccion(eleccion);

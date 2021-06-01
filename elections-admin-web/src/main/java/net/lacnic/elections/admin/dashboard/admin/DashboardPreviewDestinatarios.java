@@ -44,7 +44,7 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 
 		List lista;
 		try {
-			lista = AppContext.getInstance().getManagerBeanRemote().obtenerDestinatariosTipoDestinatario(template);
+			lista = AppContext.getInstance().getManagerBeanRemote().getRecipientsByRecipientType(template);
 
 			cantidad = 0;
 			if (lista != null && !lista.isEmpty()) {
@@ -144,9 +144,9 @@ public class DashboardPreviewDestinatarios extends DashboardAdminBasePage {
 				public void onClick() {
 					try {
 						if (usuariosPadron.isEmpty())
-							AppContext.getInstance().getManagerBeanRemote().encolarEnvioMasivo(usuariosAuditor, template);
+							AppContext.getInstance().getManagerBeanRemote().queueMassiveSending(usuariosAuditor, template);
 						else
-							AppContext.getInstance().getManagerBeanRemote().encolarEnvioMasivo(usuariosPadron, template);
+							AppContext.getInstance().getManagerBeanRemote().queueMassiveSending(usuariosPadron, template);
 						getSession().info(getString("prevDestExito"));
 						setResponsePage(DashboardMensajes.class, UtilsParameters.getId(template.getElection().getElectionId()));
 					} catch (Exception e) {

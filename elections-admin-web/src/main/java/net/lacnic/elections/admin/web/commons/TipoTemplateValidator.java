@@ -16,7 +16,7 @@ public class TipoTemplateValidator implements IValidator<String> {
 	@Override
 	public void validate(IValidatable<String> validatable) {
 		String tipo = validatable.getValue();
-		ElectionEmailTemplate templateEleccion = AppContext.getInstance().getManagerBeanRemote().obtenerTemplate(tipo, 0L);
+		ElectionEmailTemplate templateEleccion = AppContext.getInstance().getManagerBeanRemote().getEmailTemplate(tipo, 0L);
 		if (templateEleccion != null)
 			validatable.error(new ValidationError("Ya existe este tipo de template base"));
 

@@ -68,7 +68,7 @@ public class EditarPlantillaPanel extends Panel {
 				public void onSubmit() {
 					try {
 						long idEleccion = 0L;
-						AppContext.getInstance().getManagerBeanRemote().modificarTemplateEleccion(template);
+						AppContext.getInstance().getManagerBeanRemote().modifyElectionEmailTemplate(template);
 						Election eleccion = template.getElection();
 						String tipo = template.getTemplateType();
 

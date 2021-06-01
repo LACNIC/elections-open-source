@@ -9,19 +9,20 @@ import java.util.UUID;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+
 /**
  * Clase utilizada para la generación de UUIDs para los códigos de votación
  * 
- * @author Antonymous
- *
  */
 public class StringUtils {
-	
+
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
-	
+
+
 	private StringUtils() {
-	    throw new IllegalStateException("Utility class");
-	  }
+		throw new IllegalStateException("Utility class");
+	}
+
 
 	public static String createSecureToken() {
 		return UUID.randomUUID().toString().concat(UUID.randomUUID().toString());
@@ -31,11 +32,11 @@ public class StringUtils {
 		return UUID.randomUUID().toString();
 	}
 
-	public static String array2commaSeparated(String[] values) {
-		if (values != null) {
+	public static String arrayToCommaSeparated(String[] input) {
+		if (input != null) {
 			StringBuilder buff = new StringBuilder();
 			String sep = "";
-			for (String str : values) {
+			for (String str : input) {
 				buff.append(sep);
 				buff.append(str);
 				sep = ",";
@@ -45,17 +46,17 @@ public class StringUtils {
 		return "";
 	}
 
-	public static String[] strings2Array(String... values) {
+	public static String[] stringsToArray(String... input) {
 		List<String> list = new ArrayList<>();
-		for (String value : values) {
+		for (String value : input) {
 			list.add(value);
 		}
 		return list.toArray(new String[list.size()]);
 	}
 
-	public static String[] commaSeparated2Array(String value) {
-		if (value != null) {
-			return value.split(",");
+	public static String[] commaSeparatedToArray(String input) {
+		if (input != null) {
+			return input.split(",");
 		}
 		return null;
 	}

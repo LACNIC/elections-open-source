@@ -28,7 +28,7 @@ public class CommissionerDao {
 		return q.getSingleResult();
 	}
 
-	public List<Commissioner> getCommissionerAll() {
+	public List<Commissioner> getCommissionersAll() {
 		TypedQuery<Commissioner> q = em.createQuery("SELECT c FROM Commissioner c", Commissioner.class);
 		return q.getResultList();
 	}

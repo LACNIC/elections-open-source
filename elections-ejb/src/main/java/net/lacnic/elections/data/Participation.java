@@ -6,26 +6,27 @@ import java.util.Date;
 
 public class Participation implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -273769493770752777L;
 
 	private String orgId;
 	private String email;
-	private String tituloEleccionSP;
-	private String tituloEleccionEN;
-	private String tituloEleccionPT;
-	private String nombre;
-	private String pais;
-	private Date fechaInicioEleccion;
-	private Date fechaFinEleccion;
-	private String categoria;
-	private String linkEleccionSP;
-	private String linkEleccionEN;
-	private String linkEleccionPT;
-	private String linkVotar;
+	private String electionTitleSP;
+	private String electionTitleEN;
+	private String electionTitlePT;
+	private String name;
+	private String country;
+	private Date electionStartDate;
+	private Date electionEndDate;
+	private String category;
+	private String electionLinkSP;
+	private String electionLinkEN;
+	private String electionLinkPT;
+	private String voteLink;
+	boolean voted;
 
-	boolean yaVoto;
-
+	
 	public Participation() { }
+
 
 	public String getOrgId() {
 		return orgId;
@@ -43,107 +44,108 @@ public class Participation implements Serializable {
 		this.email = email;
 	}
 
-	public String getTituloEleccionSP() {
-		return tituloEleccionSP;
+	public String getElectionTitleSP() {
+		return electionTitleSP;
 	}
 
-	public void setTituloEleccionSP(String tituloEleccionSP) {
-		this.tituloEleccionSP = tituloEleccionSP;
+	public void setElectionTitleSP(String electionTitleSP) {
+		this.electionTitleSP = electionTitleSP;
 	}
 
-	public String getTituloEleccionEN() {
-		return tituloEleccionEN;
+	public String getElectionTitleEN() {
+		return electionTitleEN;
 	}
 
-	public void setTituloEleccionEN(String tituloEleccionEN) {
-		this.tituloEleccionEN = tituloEleccionEN;
+	public void setElectionTitleEN(String electionTitleEN) {
+		this.electionTitleEN = electionTitleEN;
 	}
 
-	public String getTituloEleccionPT() {
-		return tituloEleccionPT;
+	public String getElectionTitlePT() {
+		return electionTitlePT;
 	}
 
-	public void setTituloEleccionPT(String tituloEleccionPT) {
-		this.tituloEleccionPT = tituloEleccionPT;
+	public void setElectionTitlePT(String electionTitlePT) {
+		this.electionTitlePT = electionTitlePT;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Date getFechaInicioEleccion() {
-		return fechaInicioEleccion;
+	public String getCountry() {
+		return country;
 	}
 
-	public void setFechaInicioEleccion(Date fechaInicioEleccion) {
-		this.fechaInicioEleccion = fechaInicioEleccion;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
-	public String getPais() {
-		return pais;
+	public Date getElectionStartDate() {
+		return electionStartDate;
 	}
 
-	public void setPais(String pais) {
-		this.pais = pais;
+	public void setElectionStartDate(Date electionStartDate) {
+		this.electionStartDate = electionStartDate;
 	}
 
-	public boolean isYaVoto() {
-		return yaVoto;
+	public Date getElectionEndDate() {
+		return electionEndDate;
 	}
 
-	public void setYaVoto(boolean yaVoto) {
-		this.yaVoto = yaVoto;
+	public void setElectionEndDate(Date electionEndDate) {
+		this.electionEndDate = electionEndDate;
 	}
 
-	public Date getFechaFinEleccion() {
-		return fechaFinEleccion;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setFechaFinEleccion(Date fechaFinEleccion) {
-		this.fechaFinEleccion = fechaFinEleccion;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public String getElectionLinkSP() {
+		return electionLinkSP;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public void setElectionLinkSP(String electionLinkSP) {
+		this.electionLinkSP = electionLinkSP;
 	}
 
-	public String getLinkEleccionSP() {
-		return linkEleccionSP;
+	public String getElectionLinkEN() {
+		return electionLinkEN;
 	}
 
-	public void setLinkEleccionSP(String linkEleccionSP) {
-		this.linkEleccionSP = linkEleccionSP;
+	public void setElectionLinkEN(String electionLinkEN) {
+		this.electionLinkEN = electionLinkEN;
 	}
 
-	public String getLinkEleccionEN() {
-		return linkEleccionEN;
+	public String getElectionLinkPT() {
+		return electionLinkPT;
 	}
 
-	public void setLinkEleccionEN(String linkEleccionEN) {
-		this.linkEleccionEN = linkEleccionEN;
+	public void setElectionLinkPT(String electionLinkPT) {
+		this.electionLinkPT = electionLinkPT;
 	}
 
-	public String getLinkEleccionPT() {
-		return linkEleccionPT;
+	public String getVoteLink() {
+		return voteLink;
 	}
 
-	public void setLinkEleccionPT(String linkEleccionPT) {
-		this.linkEleccionPT = linkEleccionPT;
+	public void setVoteLink(String voteLink) {
+		this.voteLink = voteLink;
 	}
 
-	public String getLinkVotar() {
-		return linkVotar;
+	public boolean isVoted() {
+		return voted;
 	}
 
-	public void setLinkVotar(String linkVotar) {
-		this.linkVotar = linkVotar;
+	public void setVoted(boolean voted) {
+		this.voted = voted;
 	}
+
 }

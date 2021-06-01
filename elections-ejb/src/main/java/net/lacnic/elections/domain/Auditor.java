@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import net.lacnic.elections.utils.StringUtils;
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.utils.LinksUtils;
 
 @Entity
 public class Auditor implements Serializable {
@@ -77,7 +77,7 @@ public class Auditor implements Serializable {
 	}
 
 	public String getResultLink() {
-		return UtilsLinks.buildAuditorResultsLink(resultToken);
+		return LinksUtils.buildAuditorResultsLink(resultToken);
 	}
 
 

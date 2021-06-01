@@ -24,7 +24,7 @@ public class DashboardLoginPage extends DashboardPublicBasePage {
 	public DashboardLoginPage(PageParameters params) {
 		super(params);
 		
-		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
+		personalizacion = AppContext.getInstance().getManagerBeanRemote().getCustomization();
 		tituloLogin = personalizacion.getLoginTitle();
 		
 		((SisEleccionesManagerSession) WebSession.get()).invalidateNow();

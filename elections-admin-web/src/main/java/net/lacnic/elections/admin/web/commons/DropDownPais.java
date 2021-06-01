@@ -3,7 +3,7 @@ package net.lacnic.elections.admin.web.commons;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.IModel;
 
-import net.lacnic.elections.utils.UtilsPaises;
+import net.lacnic.elections.utils.CountryUtils;
 
 public class DropDownPais extends DropDownChoice<String> {
 
@@ -11,7 +11,7 @@ public class DropDownPais extends DropDownChoice<String> {
 
 	public DropDownPais(IModel<String> model) {
 		super("pais");
-		setChoices(new UtilsPaises().getIdPaises());
+		setChoices(new CountryUtils().getIdsList());
 		setModel(model);
 		setNullValid(true);
 	}

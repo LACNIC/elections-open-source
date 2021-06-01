@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import net.lacnic.elections.utils.StringUtils;
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.utils.LinksUtils;
 
 
 @Entity
@@ -299,7 +299,7 @@ public class Election implements Serializable {
 	}
 
 	public String getResultLink() {
-		return UtilsLinks.buildResultsLink(resultToken);
+		return LinksUtils.buildResultsLink(resultToken);
 	}
 
 	public String getStartDateString() {

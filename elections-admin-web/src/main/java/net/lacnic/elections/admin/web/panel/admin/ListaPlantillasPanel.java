@@ -28,7 +28,7 @@ public class ListaPlantillasPanel extends Panel {
 
 	public ListaPlantillasPanel(String id, long idEleccion) {
 		super(id);
-		List<ElectionEmailTemplate> listPlantillasBase = AppContext.getInstance().getManagerBeanRemote().obtenerTemplatesEleccion(idEleccion);
+		List<ElectionEmailTemplate> listPlantillasBase = AppContext.getInstance().getManagerBeanRemote().getElectionEmailTemplates(idEleccion);
 		Collections.sort(listPlantillasBase, new Comparator<ElectionEmailTemplate>() {
 
 			@Override

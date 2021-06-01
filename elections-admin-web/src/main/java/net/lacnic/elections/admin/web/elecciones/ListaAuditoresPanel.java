@@ -18,7 +18,7 @@ import net.lacnic.elections.admin.dashboard.admin.DashboardGestionAuditores;
 import net.lacnic.elections.admin.web.commons.BotonConConfirmacionEliminar;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.utils.LinksUtils;
 
 public class ListaAuditoresPanel extends Panel {
 
@@ -29,7 +29,7 @@ public class ListaAuditoresPanel extends Panel {
 	public ListaAuditoresPanel(String id, long idEleccion) {
 		super(id);
 		try {
-			List<Auditor> auditores = AppContext.getInstance().getManagerBeanRemote().obtenerAuditoresEleccion(idEleccion);
+			List<Auditor> auditores = AppContext.getInstance().getManagerBeanRemote().getElectionAuditors(idEleccion);
 			ListView<Auditor> auditoresDataView = new ListView<Auditor>("auditoresList", auditores) {
 				
 				private static final long serialVersionUID = 1786359392545666490L;
@@ -41,7 +41,7 @@ public class ListaAuditoresPanel extends Panel {
 					item.add(new Label("mailA", actual.getMail()));
 					item.add(new Label("isComisionadoA", (actual.isCommissioner() ? "SI" : "NO")));
 					item.add(new Label("expresoConformidad", (actual.isCommissioner() ? (actual.isAgreedConformity() ? "SI" : "NO") : "-")));
-					String calcularLinkVotar = UtilsLinks.buildAuditorResultsLink(actual.getResultToken());
+					String calcularLinkVotar = LinksUtils.buildAuditorResultsLink(actual.getResultToken());
 					Label textoLinkVotar = new Label("textoLink", calcularLinkVotar);
 					ExternalLink linkvotar = new ExternalLink("link", calcularLinkVotar);
 					linkvotar.add(textoLinkVotar);
@@ -67,7 +67,7 @@ public class ListaAuditoresPanel extends Panel {
 						@Override
 						public void onConfirmar() {
 							SecurityUtils.info(getString("auditorManagementExitoDel"));
-							AppContext.getInstance().getManagerBeanRemote().eliminarAuditor(actual.getAuditorId(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().removeAuditor(actual.getAuditorId(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							setResponsePage(DashboardGestionAuditores.class, UtilsParameters.getId(idEleccion));
 						}
 

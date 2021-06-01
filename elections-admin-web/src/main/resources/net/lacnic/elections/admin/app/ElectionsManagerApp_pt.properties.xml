@@ -378,7 +378,7 @@
 	<entry key="adminUserListPwd">Senha</entry>
 	<entry key="adminUserListEditPwd">Editar senha</entry>
 	<entry key="adminUserListErrorDel">Não pode remover seu próprio usuário administrador</entry>
-	<entry key="adminUserListExitoDel">O usuário administrador foi removido com sucesso</entry>
+	<entry key="adminUserListSuccessDel">O usuário administrador foi removido com sucesso</entry>
 	
 	<entry key="adminUserEditUsrTitle">Editar um administrador do sistema</entry>
 	<entry key="adminUserEditTitle">Alterar senha de um administrador</entry>
@@ -388,7 +388,7 @@
 	<entry key="adminUserEditBtnSave">Salvar</entry>
 	<entry key="adminUserEditExito">A senha foi atualizada com sucesso</entry>
 	<entry key="adminUserEditError">Senhas não coincidem</entry>
-	<entry key="adminUserEditUsrExito">O usuário administrador foi atualizado com sucesso</entry><!-- Send Mail Step 1  --><entry key="sendMail1Title">Conteúdo e-mail</entry>
+	<entry key="adminUserEditUsrSuccess">O usuário administrador foi atualizado com sucesso</entry><!-- Send Mail Step 1  --><entry key="sendMail1Title">Conteúdo e-mail</entry>
 	<entry key="sendMail1Sender">Remetente</entry>
 	<entry key="sendMail1SubjectEsp">Assunto em espanhol</entry>
 	<entry key="sendMail1SubjectEng">Assunto em inglês</entry>
@@ -422,7 +422,7 @@
 	<entry key="commissionerAddName">Nome</entry>
 	<entry key="commissionerAddMail">E-mail</entry>
 	<entry key="commissionerAddBtnAdd">Adicionar</entry>
-	<entry key="commissionerAddExitoAdd">Comissionado adicionado com sucesso</entry>
+	<entry key="commissionerAddSuccessAdd">Comissionado adicionado com sucesso</entry>
 	<entry key="commissionerAddErrorAdd">Já existe um comissionado com esse e-mail.</entry>
 	
 	<entry key="commissionerEditTitle">Editar um comissionado do sistema</entry>
@@ -430,13 +430,13 @@
 	<entry key="commissionerEditMail">E-mail</entry>
 	<entry key="commissionerEditBtnCanc">Cancelar</entry>
 	<entry key="commissionerEditBtnSave">Salvar</entry>
-	<entry key="commissionerEditExito">Comissionado atualizado com sucesso</entry><!-- Admin User Add  --><entry key="adminUserAddTitle">Adicionar um usuário administrador</entry>
+	<entry key="commissionerEditSuccess">Comissionado atualizado com sucesso</entry><!-- Admin User Add  --><entry key="adminUserAddTitle">Adicionar um usuário administrador</entry>
 	<entry key="adminUserAddUser">Usuário</entry>
 	<entry key="adminUserAddMail">E-mail</entry>
 	<entry key="adminUserAddPwd">Senha</entry>
 	<entry key="adminUserAddElecAuth">Eleição autorizada</entry>
 	<entry key="adminUserAddBtnAdd">Adicionar</entry>
-	<entry key="adminUserAddExitoAdd">O usuário administrador foi adicionado com sucesso.</entry>
+	<entry key="adminUserAddSuccessAdd">O usuário administrador foi adicionado com sucesso.</entry>
 	<entry key="adminUserAddErrorAdd">Usuário administrador já existe.</entry><!-- Base Mail Template Add  --><entry key="baseMailTemplAddTitle">Adicionar template base</entry>
 	<entry key="baseMailTemplAddType">Tipo e-mail</entry>
 	<entry key="baseMailTemplAddSubjectEsp">Assunto em espanhol</entry>

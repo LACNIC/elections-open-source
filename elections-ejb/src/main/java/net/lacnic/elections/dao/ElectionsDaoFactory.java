@@ -8,16 +8,16 @@ public class ElectionsDaoFactory {
 	private ElectionsDaoFactory() { }
 
 
-	public static UserVoterDao createUsuarioPadronDao(EntityManager em) {
+	public static UserVoterDao createUserVoterDao(EntityManager em) {
 		return new UserVoterDao(em);
 	}
 
-	public static VoteDao createVotoDao(EntityManager em) {
+	public static VoteDao createVoteDao(EntityManager em) {
 		return new VoteDao(em);
 	}
 
-	public static EleccionDao createEleccionDao(EntityManager em) {
-		return new EleccionDao(em);
+	public static ElectionDao createElectionDao(EntityManager em) {
+		return new ElectionDao(em);
 	}
 
 	public static IpAccessDao createIpAccessDao(EntityManager em) {
@@ -52,7 +52,7 @@ public class ElectionsDaoFactory {
 		return new ReportDao(em);
 	}
 
-	public static UserAdminDao createUsuarioAdminDao(EntityManager em) {
+	public static UserAdminDao createUserAdminDao(EntityManager em) {
 		return new UserAdminDao(em);
 	}
 

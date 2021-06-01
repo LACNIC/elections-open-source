@@ -9,10 +9,11 @@ import javax.naming.NamingException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.ejb.ManagerEleccionesEJB;
-import net.lacnic.elections.ejb.MonitorEleccionesEJB;
-import net.lacnic.elections.ejb.VotanteEleccionesEJB;
+import net.lacnic.elections.ejb.ElectionsManagerEJB;
+import net.lacnic.elections.ejb.ElectionsMonitorEJB;
+import net.lacnic.elections.ejb.ElectionsVoterEJB;
 import net.lacnic.elections.utils.Constants;
+
 
 public class AppContext {
 
@@ -20,11 +21,10 @@ public class AppContext {
 
 	private static AppContext instance;
 
-	private ManagerEleccionesEJB managerBeanRemote;
+	private ElectionsManagerEJB managerBeanRemote;
+	private ElectionsMonitorEJB monitorBeanRemote;
+	private ElectionsVoterEJB voterBeanRemote;
 
-	private MonitorEleccionesEJB monitorBeanRemote;
-
-	private VotanteEleccionesEJB voterBeanRemote;
 
 	private AppContext() {
 
@@ -34,12 +34,12 @@ public class AppContext {
 			jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 			final Context context = new InitialContext(jndiProperties);
 
-			String managerEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ManagerEleccionesEJBBean!net.lacnic.elections.ejb.ManagerEleccionesEJB";
-			String monitorEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/MonitorEleccionesEJBBean!net.lacnic.elections.ejb.MonitorEleccionesEJB";
-			String voterEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/VotanteEleccionesEJBBean!net.lacnic.elections.ejb.VotanteEleccionesEJB";
-			setVoterBeanRemote((VotanteEleccionesEJB) context.lookup(voterEjb));
-			setMonitorBeanRemote((MonitorEleccionesEJB) context.lookup(monitorEjb));
-			setManagerBeanRemote((ManagerEleccionesEJB) context.lookup(managerEjb));
+			String managerEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ElectionsManagerEJBBean!net.lacnic.elections.ejb.ElectionsManagerEJB";
+			String monitorEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ElectionsMonitorEJBBean!net.lacnic.elections.ejb.ElectionsMonitorEJB";
+			String voterEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ElectionsVoterEJBBean!net.lacnic.elections.ejb.ElectionsVoterEJB";
+			setVoterBeanRemote((ElectionsVoterEJB) context.lookup(voterEjb));
+			setMonitorBeanRemote((ElectionsMonitorEJB) context.lookup(monitorEjb));
+			setManagerBeanRemote((ElectionsManagerEJB) context.lookup(managerEjb));
 
 		} catch (NamingException e) {
 			appLogger.error(e);
@@ -53,27 +53,27 @@ public class AppContext {
 		return instance;
 	}
 
-	public ManagerEleccionesEJB getManagerBeanRemote() {
+	public ElectionsManagerEJB getManagerBeanRemote() {
 		return managerBeanRemote;
 	}
 
-	public void setManagerBeanRemote(ManagerEleccionesEJB managerBeanRemote) {
+	public void setManagerBeanRemote(ElectionsManagerEJB managerBeanRemote) {
 		this.managerBeanRemote = managerBeanRemote;
 	}
 
-	public MonitorEleccionesEJB getMonitorBeanRemote() {
+	public ElectionsMonitorEJB getMonitorBeanRemote() {
 		return monitorBeanRemote;
 	}
 
-	public void setMonitorBeanRemote(MonitorEleccionesEJB monitorBeanRemote) {
+	public void setMonitorBeanRemote(ElectionsMonitorEJB monitorBeanRemote) {
 		this.monitorBeanRemote = monitorBeanRemote;
 	}
 
-	public VotanteEleccionesEJB getVoterBeanRemote() {
+	public ElectionsVoterEJB getVoterBeanRemote() {
 		return voterBeanRemote;
 	}
 
-	public void setVoterBeanRemote(VotanteEleccionesEJB voterBeanRemote) {
+	public void setVoterBeanRemote(ElectionsVoterEJB voterBeanRemote) {
 		this.voterBeanRemote = voterBeanRemote;
 	}
 

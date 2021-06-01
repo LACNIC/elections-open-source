@@ -20,7 +20,7 @@ public class DashboardEditarPlantilla extends DashboardAdminBasePage {
 		FeedbackPanel feedback = new FeedbackPanel("feedback");
 		add(feedback);
 
-		ElectionEmailTemplate t = AppContext.getInstance().getManagerBeanRemote().obtenerTemplate(tipo, UtilsParameters.getIdAsLong(params));
+		ElectionEmailTemplate t = AppContext.getInstance().getManagerBeanRemote().getEmailTemplate(tipo, UtilsParameters.getIdAsLong(params));
 		add(new EditarPlantillaPanel("editarPlantilla", t));
 	}
 

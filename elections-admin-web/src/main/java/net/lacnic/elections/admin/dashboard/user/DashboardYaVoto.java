@@ -34,7 +34,7 @@ public class DashboardYaVoto extends DashboardPublicBasePage {
 		desc.setEscapeModelStrings(false);
 		add(desc);
 
-		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosVotacion(upd.getUserVoterId(), upd.getElection().getElectionId());
+		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().getElectionVotesCandidateForUserVoter(upd.getUserVoterId(), upd.getElection().getElectionId());
 		final ListView<Object[]> seleccionados = new ListView<Object[]>("codigos", elegidos) {
 			private static final long serialVersionUID = 1786359392545666490L;			
 			@Override
@@ -53,9 +53,9 @@ public class DashboardYaVoto extends DashboardPublicBasePage {
 
 	@Override
 	public Class validarToken(PageParameters params) {
-		upd = AppContext.getInstance().getVoterBeanRemote().verificarAccesoUP(getToken());
+		upd = AppContext.getInstance().getVoterBeanRemote().verifyUserVoterAccess(getToken());
 		if (upd == null) {
-			AppContext.getInstance().getVoterBeanRemote().intentoFallidoIp(getIP());
+			AppContext.getInstance().getVoterBeanRemote().saveFailedAccessIp(getIP());
 			return Error404.class;
 		} else {
 			setEleccion(upd.getElection());

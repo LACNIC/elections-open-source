@@ -22,7 +22,7 @@ public class ListadoipInhabilitadasPanel extends Panel {
 	public ListadoipInhabilitadasPanel(String id) {
 		super(id);
 
-		List<IpAccess> listadoipInhabilitadas = AppContext.getInstance().getManagerBeanRemote().obtenerAccesosIps();
+		List<IpAccess> listadoipInhabilitadas = AppContext.getInstance().getManagerBeanRemote().getAllDisabledIPs();
 
 		final ListView<IpAccess> listadoIps = new ListView<IpAccess>("listadoAccesosIps", listadoipInhabilitadas) {
 

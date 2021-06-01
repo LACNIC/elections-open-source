@@ -18,7 +18,7 @@ import net.lacnic.elections.admin.web.commons.GestionEleccionStatusPanel;
 import net.lacnic.elections.admin.web.elecciones.CamposEleccionDetallePanel;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
-import net.lacnic.elections.ejb.ManagerEleccionesEJB;
+import net.lacnic.elections.ejb.ElectionsManagerEJB;
 
 @AuthorizeInstantiation("siselecciones-only-one")
 public class DashboardGestionEleccion extends DashboardAdminBasePage {
@@ -32,10 +32,10 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 	public DashboardGestionEleccion(PageParameters params) {
 		super(params);
 		eleccion = new Election();
-		eleccion.setLinkSpanish((AppContext.getInstance().getManagerBeanRemote().obtenerWebsitePorDefecto()));
-		eleccion.setDefaultSender(AppContext.getInstance().getManagerBeanRemote().obtenerRemitentePorDefecto());
+		eleccion.setLinkSpanish((AppContext.getInstance().getManagerBeanRemote().getDefaultWebsite()));
+		eleccion.setDefaultSender(AppContext.getInstance().getManagerBeanRemote().getDefaultSender());
 		if (UtilsParameters.isId(params)) {
-			setEleccion(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(UtilsParameters.getIdAsLong(params)));
+			setEleccion(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
 			getEleccion().initStringsStartEndDates();
 		}
 		add(new FeedbackPanel("feedback"));
@@ -47,7 +47,7 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 
 		private static final long serialVersionUID = -5221887812611102034L;
 
-		private ManagerEleccionesEJB managerBeanRemote;
+		private ElectionsManagerEJB managerBeanRemote;
 		CamposEleccionDetallePanel camposEleccionDetallePanel;
 
 		public NuevaEleccionForm(String id) {
@@ -75,9 +75,9 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 								esNueva = true;
 							} else {
 								esNueva = false;
-								esSupra = managerBeanRemote.isSupraEleccion(eleccion.getElectionId());
+								esSupra = managerBeanRemote.isJointElection(eleccion.getElectionId());
 								if (esSupra) {
-									elecOrig = managerBeanRemote.obtenerEleccion(eleccion.getElectionId());
+									elecOrig = managerBeanRemote.getElection(eleccion.getElectionId());
 									dtIniOrig = elecOrig.getStartDate();
 
 								}
@@ -93,10 +93,10 @@ public class DashboardGestionEleccion extends DashboardAdminBasePage {
 								Election eleccionNueva;
 								if (eleccion.getElectionId() == 0) {
 									getSession().info(getString("electionManagementExitoCreate"));
-									eleccionNueva = managerBeanRemote.actualizarEleccion(eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+									eleccionNueva = managerBeanRemote.updateElection(eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								} else {
 									getSession().info(getString("electionManagementExitoUpdate"));
-									eleccionNueva = managerBeanRemote.actualizarEleccion(eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+									eleccionNueva = managerBeanRemote.updateElection(eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								}
 								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccionNueva.getElectionId()));
 

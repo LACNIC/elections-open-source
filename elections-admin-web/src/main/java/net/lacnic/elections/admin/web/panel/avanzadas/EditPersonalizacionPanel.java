@@ -46,7 +46,7 @@ public class EditPersonalizacionPanel extends Panel {
 
 		String ext = "";
 
-		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
+		personalizacion = AppContext.getInstance().getManagerBeanRemote().getCustomization();
 
 		nombreArchivoSmallLogo = personalizacion.getPicSmallLogo();
 		nombreArchivoBigLogo = personalizacion.getPicBigLogo();
@@ -182,7 +182,7 @@ public class EditPersonalizacionPanel extends Panel {
 
 						/*if ((!error) && (hayArchivo)) {*/
 						if ((!error) ) {
-							AppContext.getInstance().getManagerBeanRemote().actualizarPersonalizacion(personalizacion);
+							AppContext.getInstance().getManagerBeanRemote().updateCustomization(personalizacion);
 							getSession().info(getString("advEditPersonalizExito"));
 						}
 

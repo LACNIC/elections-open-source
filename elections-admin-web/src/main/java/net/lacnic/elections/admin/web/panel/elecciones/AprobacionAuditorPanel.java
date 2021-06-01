@@ -23,7 +23,7 @@ public class AprobacionAuditorPanel extends Panel {
 
 			@Override
 			public void onConfirmar() {
-				AppContext.getInstance().getVoterBeanRemote().confirmarEleccionAuditor(a.getAuditorId());
+				AppContext.getInstance().getVoterBeanRemote().confirmAuditorAgreedConformity(a.getAuditorId());
 				setResponsePage(DashboardAuditores.class, UtilsParameters.getToken(a.getResultToken()));
 			}
 		};

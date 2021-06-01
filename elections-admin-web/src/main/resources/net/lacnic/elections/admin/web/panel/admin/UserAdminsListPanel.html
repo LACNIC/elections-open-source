@@ -1,0 +1,36 @@
+<wicket:panel>
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h5><wicket:message key="adminUserListTitle" /></h5>
+		</div>
+		<div class="ibox-content">
+			<div class="table-responsive m-t">
+				<table id="userAdminsTable" class="table dataTables">
+					<thead class="jumbotron">
+						<tr>
+							<th></th>
+							<th><wicket:message key="adminUserListUser" /></th>
+							<th><wicket:message key="adminUserListMail" /></th>
+							<th><wicket:message key="adminUserListElectAuth" /></th>
+							<th class="text-center"><wicket:message key="adminUserListEdit" /></th>
+							<th class="text-center"><wicket:message key="adminUserListPwd" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="userAdminsList" name="userAdminsList">
+							<td><div wicket:id="remove" name="remove"></div></td>
+							<td><span wicket:id="userAdminId" ></span></td>
+							<td><span wicket:id="email"></span></td>
+							<td><span wicket:id="authorizedElection"></span></td>
+							<td class="text-center"><a wicket:message="title:edit" class="text-primary fa fa-pencil fa-lg m-r-sm" wicket:id="editUserAdmin"></a></td>
+							<td class="text-center"><a wicket:id="editUserAdminPassword" wicket:message="title:adminUserListEditPwd" class="text-warning fa fa-key fa-lg" name="editUserAdminPassword"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="hr-line-dashed"></div>
+			<div class="text-center"></div>
+		</div>
+	</div>
+</wicket:panel>

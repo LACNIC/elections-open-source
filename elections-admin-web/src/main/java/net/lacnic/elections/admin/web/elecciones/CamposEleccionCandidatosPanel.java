@@ -25,7 +25,7 @@ import net.lacnic.elections.admin.web.commons.LinkValidator;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.domain.Election;
-import net.lacnic.elections.utils.UtilsFiles;
+import net.lacnic.elections.utils.FilesUtils;
 
 public class CamposEleccionCandidatosPanel extends Panel {
 
@@ -64,7 +64,7 @@ public class CamposEleccionCandidatosPanel extends Panel {
 						ServletContext context = ((WebApplication) WebApplication.get()).getServletContext();
 						String filePath = context.getRealPath("/");
 						
-						Object[] defaultPhoto = UtilsFiles.getDefaultPhoto(filePath);
+						Object[] defaultPhoto = FilesUtils.getDefaultPhoto(filePath);
 						FileUpload fileUpload = fileFotoCandidato.getFileUpload();
 						if (fileUpload != null && !(fileUpload.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
 							getSession().error(getString("candidateManagemenErrorForm"));
@@ -74,7 +74,7 @@ public class CamposEleccionCandidatosPanel extends Panel {
 							candidatoNuevo.setPictureExtension(fileUpload != null ? fileUpload.getClientFileName().split("\\.")[1] : (String) defaultPhoto[2]);
 							if (candidatoNuevo.isOnlySp())
 								candidatoNuevo.copyBioToOtherLanguages();
-							AppContext.getInstance().getManagerBeanRemote().agregarCandidato(eleccion.getElectionId(), candidatoNuevo, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().addCandidate(eleccion.getElectionId(), candidatoNuevo, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("candidateManagemenExitoAdd"));
 							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 						}

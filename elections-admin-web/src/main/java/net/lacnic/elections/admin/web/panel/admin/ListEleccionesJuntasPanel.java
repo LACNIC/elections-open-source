@@ -23,7 +23,7 @@ public class ListEleccionesJuntasPanel extends Panel {
 
 	public ListEleccionesJuntasPanel(String id) {
 		super(id);
-		List<JointElection> listaaElecciones = AppContext.getInstance().getManagerBeanRemote().obtenerSupraElecciones();
+		List<JointElection> listaaElecciones = AppContext.getInstance().getManagerBeanRemote().getJointElectionsAll();
 
 		if (listaaElecciones == null)
 			listaaElecciones = new ArrayList<>();
@@ -39,8 +39,8 @@ public class ListEleccionesJuntasPanel extends Panel {
 				protected void populateItem(ListItem<JointElection> item) {
 					final JointElection actual = item.getModelObject();
 					try {
-						item.add(new Label("eleccion1", AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdElectionA()).getTitleSpanish()));
-						item.add(new Label("eleccion2", AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(actual.getIdElectionB()).getTitleSpanish()));
+						item.add(new Label("eleccion1", AppContext.getInstance().getManagerBeanRemote().getElection(actual.getIdElectionA()).getTitleSpanish()));
+						item.add(new Label("eleccion2", AppContext.getInstance().getManagerBeanRemote().getElection(actual.getIdElectionB()).getTitleSpanish()));
 
 						BotonConConfirmacionEliminar botonConConfirmacionEliminar = new BotonConConfirmacionEliminar("eliminar", item.getIndex()) {
 
@@ -49,7 +49,7 @@ public class ListEleccionesJuntasPanel extends Panel {
 							@Override
 							public void onConfirmar() {
 								try {
-									AppContext.getInstance().getManagerBeanRemote().eliminarSupraEleccion(actual);
+									AppContext.getInstance().getManagerBeanRemote().removeJointElection(actual);
 									getSession().info(getString("unitedElecListExitoDel"));
 									setResponsePage(DashboardEleccionesJuntas.class);
 								} catch (Exception e) {

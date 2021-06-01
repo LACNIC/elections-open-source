@@ -17,7 +17,7 @@ public class ListaReviewPanel extends Panel {
 	public ListaReviewPanel(String id, Long idEleccion) {
 		super(id);
 		try {
-			List<Vote> votos = AppContext.getInstance().getManagerBeanRemote().obtenerVotos(idEleccion);
+			List<Vote> votos = AppContext.getInstance().getManagerBeanRemote().getElectionVotes(idEleccion);
 			final ListView<Vote> dataViewMensajes = new ListView<Vote>("listaVotos", votos) {
 				private static final long serialVersionUID = 1786359392545666490L;
 

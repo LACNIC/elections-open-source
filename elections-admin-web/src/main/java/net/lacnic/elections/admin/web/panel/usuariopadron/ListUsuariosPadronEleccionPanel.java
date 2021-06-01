@@ -12,7 +12,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserVoter;
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.utils.LinksUtils;
 
 public class ListUsuariosPadronEleccionPanel extends Panel {
 
@@ -22,7 +22,7 @@ public class ListUsuariosPadronEleccionPanel extends Panel {
 
 	public ListUsuariosPadronEleccionPanel(String id, Election e) {
 		super(id);
-		List<UserVoter> usuariosPadron = AppContext.getInstance().getManagerBeanRemote().obtenerUsuariosPadron(e.getElectionId());
+		List<UserVoter> usuariosPadron = AppContext.getInstance().getManagerBeanRemote().getElectionUserVoters(e.getElectionId());
 
 		final ListView<UserVoter> usuariosPadronView = new ListView<UserVoter>("usuarioPadronList", usuariosPadron) {
 
@@ -40,7 +40,7 @@ public class ListUsuariosPadronEleccionPanel extends Panel {
 					item.add(new Label("pais", actual.getCountry()));
 					item.add(new Label("orgId", actual.getOrgID()));
 
-					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", UtilsLinks.buildVoteLink(actual.getVoteToken()));
+					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", LinksUtils.buildVoteLink(actual.getVoteToken()));
 					urlLinkVotacionUsuario.setOutputMarkupPlaceholderTag(true);
 					item.add(urlLinkVotacionUsuario);
 

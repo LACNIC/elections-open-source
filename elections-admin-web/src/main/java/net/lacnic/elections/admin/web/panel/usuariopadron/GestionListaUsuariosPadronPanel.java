@@ -24,7 +24,7 @@ import net.lacnic.elections.admin.web.commons.BotonReenviarEmailVotacion;
 import net.lacnic.elections.admin.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserVoter;
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.utils.LinksUtils;
 
 public class GestionListaUsuariosPadronPanel extends Panel {
 
@@ -37,7 +37,7 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 
 	public GestionListaUsuariosPadronPanel(String id, Election eleccion) {
 		super(id);
-		usuariosPadron = AppContext.getInstance().getManagerBeanRemote().obtenerUsuariosPadronEleccion(eleccion.getElectionId());
+		usuariosPadron = AppContext.getInstance().getManagerBeanRemote().getElectionUserVoters(eleccion.getElectionId());
 
 		add(new Label("cantidad", String.valueOf(usuariosPadron.size())));
 
@@ -47,7 +47,7 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				setArchivo(AppContext.getInstance().getManagerBeanRemote().exportarPadronElectoral(eleccion.getElectionId()));
+				setArchivo(AppContext.getInstance().getManagerBeanRemote().exportCensus(eleccion.getElectionId()));
 				super.onClick();
 			}
 		};
@@ -69,7 +69,7 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 					item.add(new Label("pais", actual.getCountry()));
 					item.add(new Label("orgId", actual.getOrgID()));
 					item.add(new Label("voto", (actual.isVoted() ? "SI" : "NO")));
-					String calcularLinkVotar = UtilsLinks.buildVoteLink(actual.getVoteToken());
+					String calcularLinkVotar = LinksUtils.buildVoteLink(actual.getVoteToken());
 					Label textoLinkVotar = new Label("textoLinkVotar", calcularLinkVotar);
 					ExternalLink linkvotar = new ExternalLink("linkVotar", calcularLinkVotar);
 					linkvotar.add(textoLinkVotar);
@@ -83,7 +83,7 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 						public void onConfirmar() {
 
 							try {
-								AppContext.getInstance().getManagerBeanRemote().actualizarTokenUsuarioPadron(actual.getUserVoterId(), actual.getName(), eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+								AppContext.getInstance().getManagerBeanRemote().updateUserVoterToken(actual.getUserVoterId(), actual.getName(), eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								getSession().info(getString("censusManagementUserListExitoToken"));
 								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getElectionId()));
 							} catch (Exception e) {
@@ -102,7 +102,7 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 						public void onConfirmar() {
 
 							try {
-								AppContext.getInstance().getManagerBeanRemote().reenviarEmailPadron(actual, eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+								AppContext.getInstance().getManagerBeanRemote().resendUserVoterElectionMail(actual, eleccion, SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								getSession().info(getString("censusManagementUserListExitoLink"));
 								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getElectionId()));
 							} catch (Exception e) {
@@ -121,7 +121,7 @@ public class GestionListaUsuariosPadronPanel extends Panel {
 						public void onConfirmar() {
 
 							try {
-								AppContext.getInstance().getManagerBeanRemote().eliminarUsuarioPadron(actual, eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+								AppContext.getInstance().getManagerBeanRemote().removeUserVoter(actual, eleccion.getTitleSpanish(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 								getSession().info(getString("censusManagementUserListExitoDelete"));
 								setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(eleccion.getElectionId()));
 							} catch (Exception e) {

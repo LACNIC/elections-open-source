@@ -5,20 +5,20 @@
 
 	<persistence-unit name="elections-pu" transaction-type="JTA">
 		<jta-data-source>java:/elections-ds</jta-data-source>
-
-		<class>net.lacnic.elections.domain.IpAccess</class>
+		
 		<class>net.lacnic.elections.domain.Activity</class>
 		<class>net.lacnic.elections.domain.Auditor</class>
 		<class>net.lacnic.elections.domain.Candidate</class>
 		<class>net.lacnic.elections.domain.Commissioner</class>
+		<class>net.lacnic.elections.domain.Customization</class>
 		<class>net.lacnic.elections.domain.Election</class>
+		<class>net.lacnic.elections.domain.ElectionEmailTemplate</class>
 		<class>net.lacnic.elections.domain.ElectionLight</class>
 		<class>net.lacnic.elections.domain.Email</class>
 		<class>net.lacnic.elections.domain.EmailHistory</class>
-		<class>net.lacnic.elections.domain.Parameter</class>
-		<class>net.lacnic.elections.domain.Customization</class>
+		<class>net.lacnic.elections.domain.IpAccess</class>
 		<class>net.lacnic.elections.domain.JointElection</class>
-		<class>net.lacnic.elections.domain.ElectionEmailTemplate</class>
+		<class>net.lacnic.elections.domain.Parameter</class>
 		<class>net.lacnic.elections.domain.UserAdmin</class>
 		<class>net.lacnic.elections.domain.UserVoter</class>
 		<class>net.lacnic.elections.domain.Vote</class>

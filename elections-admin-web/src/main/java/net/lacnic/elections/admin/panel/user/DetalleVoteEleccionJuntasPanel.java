@@ -59,7 +59,7 @@ public class DetalleVoteEleccionJuntasPanel extends Panel {
 
 		votar.setVisible(!yaVoto.isVisible());
 		add(votar);
-		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosVotacion(upd.getUserVoterId(), upd.getElection().getElectionId());
+		List<Object[]> elegidos = AppContext.getInstance().getVoterBeanRemote().getElectionVotesCandidateForUserVoter(upd.getUserVoterId(), upd.getElection().getElectionId());
 
 		WebMarkupContainer yavotoCodigo = new WebMarkupContainer("yavotoCodigo");
 		yavotoCodigo.setVisible(!elegidos.isEmpty() && yaVoto.isVisible());

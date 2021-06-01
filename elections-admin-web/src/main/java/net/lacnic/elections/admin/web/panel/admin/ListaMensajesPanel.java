@@ -20,14 +20,14 @@ public class ListaMensajesPanel extends Panel {
 		super(id);
 		if (idEleccion == 0) {
 			if (all)
-				listaMails = AppContext.getInstance().getManagerBeanRemote().obtenerEmailsAll();
+				listaMails = AppContext.getInstance().getManagerBeanRemote().getEmailsAll();
 			else
-				listaMails = AppContext.getInstance().getManagerBeanRemote().obtenerMailsPorEnviar();
+				listaMails = AppContext.getInstance().getManagerBeanRemote().getPendingSendEmails();
 		} else {
 			if (all)
-				listaMails = AppContext.getInstance().getManagerBeanRemote().obtenerMailsDeEleccion(idEleccion);
+				listaMails = AppContext.getInstance().getManagerBeanRemote().getElectionEmails(idEleccion);
 			else
-				listaMails = AppContext.getInstance().getManagerBeanRemote().obtenerMailsPorEnviarDeEleccion(idEleccion);
+				listaMails = AppContext.getInstance().getManagerBeanRemote().getElectionPendingSendEmails(idEleccion);
 		}
 
 		init(listaMails);

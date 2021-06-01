@@ -13,8 +13,8 @@ import org.apache.wicket.protocol.http.WebApplication;
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.admin.app.SecurityUtils;
 import net.lacnic.elections.admin.dashboard.admin.DashboardActividades;
-import net.lacnic.elections.admin.dashboard.admin.DashboardAdministradores;
-import net.lacnic.elections.admin.dashboard.admin.DashboardComisionados;
+import net.lacnic.elections.admin.dashboard.admin.UserAdminsDashboard;
+import net.lacnic.elections.admin.dashboard.admin.CommissionersDashboard;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEditarPasswordAdministrador;
 import net.lacnic.elections.admin.dashboard.admin.DashboardEleccionesJuntas;
 import net.lacnic.elections.admin.dashboard.admin.DashboardGestionEleccion;
@@ -38,7 +38,7 @@ public class NavBarAdmin extends Panel {
 
 	public NavBarAdmin(String id) {
 		super(id);
-		Long userIdEleccion = AppContext.getInstance().getManagerBeanRemote().obtenerIdEleccionUsuAdmin(SecurityUtils.getAdminId());
+		Long userIdEleccion = AppContext.getInstance().getManagerBeanRemote().getUserAuthorizedElectionId(SecurityUtils.getAdminId());
 		if (userIdEleccion != 0)
 			setVer(false);
 		add(new Label("username", SecurityUtils.getAdminId()));
@@ -49,7 +49,7 @@ public class NavBarAdmin extends Panel {
 		byte[] archivoPicSymbol;
 		String nombreArchivoSymbol;
 
-		personalizacion = AppContext.getInstance().getManagerBeanRemote().getPersonalizacion();
+		personalizacion = AppContext.getInstance().getManagerBeanRemote().getCustomization();
 		nombreArchivoSymbol = personalizacion.getPicSymbol();
 		archivoPicSymbol = personalizacion.getContPicSymbol();
 		if (archivoPicSymbol == null) {
@@ -83,7 +83,7 @@ public class NavBarAdmin extends Panel {
 		add(new BookmarkablePageLink<>("nueva", DashboardGestionEleccion.class).setVisibilityAllowed(isVer()));
 
 		seleccionarEleccion.add(new BookmarkablePageLink<>("todas", DashboardHomePage.class, UtilsParameters.getFilterAll()).setVisibilityAllowed(isVer()));
-		add(new BookmarkablePageLink<>("admins", DashboardAdministradores.class).setVisibilityAllowed(isVer()));
+		add(new BookmarkablePageLink<>("admins", UserAdminsDashboard.class).setVisibilityAllowed(isVer()));
 		avanzadas.add(new BookmarkablePageLink<>("actividades", DashboardActividades.class).setVisibilityAllowed(isVer()));
 		avanzadas.add(new Link<Void>("actualizarPlantillas") {
 
@@ -91,14 +91,14 @@ public class NavBarAdmin extends Panel {
 
 			@Override
 			public void onClick() {
-				Integer cuenta = AppContext.getInstance().getManagerBeanRemote().crearPlantillasEleccionesQueLeFalten();
+				Integer cuenta = AppContext.getInstance().getManagerBeanRemote().createMissingEmailTemplates();
 				getSession().info("Se ha ejecutado el proceso de creación de templates para elecciones, creando " + cuenta + " templates");
 				setResponsePage(DashboardHomePage.class);
 			}
 		}.setVisibilityAllowed(isVer()));
 		avanzadas.add(new BookmarkablePageLink<>("parametros", DashboardParametros.class).setVisibilityAllowed(isVer()));
 		avanzadas.add(new BookmarkablePageLink<>("listadoIpInhabilitadas", DashboardIp.class).setVisibilityAllowed(isVer()));
-		add(new BookmarkablePageLink<>("comisionados", DashboardComisionados.class).setVisibilityAllowed(isVer()));
+		add(new BookmarkablePageLink<>("comisionados", CommissionersDashboard.class).setVisibilityAllowed(isVer()));
 
 		avanzadas.add(new BookmarkablePageLink<>("emailsPendientes", DashboardMensajes.class).setVisibilityAllowed(isVer()));
 		avanzadas.add(new BookmarkablePageLink<>("emailsTodos", DashboardMensajes.class, UtilsParameters.getFilterAll()).setVisibilityAllowed(isVer()));

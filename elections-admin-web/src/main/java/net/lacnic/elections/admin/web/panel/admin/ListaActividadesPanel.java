@@ -25,9 +25,9 @@ public class ListaActividadesPanel extends Panel {
 	public ListaActividadesPanel(String id, long idEleccion){
 		super(id);
 		if(idEleccion == -1)
-			listaActividades = AppContext.getInstance().getManagerBeanRemote().obtenerTodasLasActividades();
+			listaActividades = AppContext.getInstance().getManagerBeanRemote().getActivitiesAll();
 		else
-			listaActividades = AppContext.getInstance().getManagerBeanRemote().obtenerTodasLasActividades(idEleccion);
+			listaActividades = AppContext.getInstance().getManagerBeanRemote().getElectionActivities(idEleccion);
 		init(listaActividades);
 	}
 

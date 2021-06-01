@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.lacnic.elections.data.EleccionReporte;
+import net.lacnic.elections.data.ElectionReport;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
 
@@ -52,37 +52,37 @@ public class AditionalDataTest extends TestCase {
     	
     	assertTrue(participacion != null); 
     	
-    	participacion.setNombre(nombre);
+    	participacion.setName(nombre);
     	participacion.setOrgId(orgId);
-    	participacion.setCategoria(categoria);
+    	participacion.setCategory(categoria);
     	participacion.setEmail(email);
-    	participacion.setLinkEleccionEN(linkEleccionEN);
-    	participacion.setLinkEleccionPT(linkEleccionPT);
-    	participacion.setLinkEleccionSP(linkEleccionSP);
-    	participacion.setLinkVotar(linkVotar);
-    	participacion.setPais(pais);
-    	participacion.setTituloEleccionEN(tituloEleccionEN);
-    	participacion.setTituloEleccionPT(tituloEleccionPT);
-    	participacion.setTituloEleccionSP(tituloEleccionSP);
-    	participacion.setFechaFinEleccion(fechaFinEleccion);
-    	participacion.setFechaInicioEleccion(fechaInicioEleccion);
-    	participacion.setYaVoto(true);
+    	participacion.setElectionLinkEN(linkEleccionEN);
+    	participacion.setElectionLinkPT(linkEleccionPT);
+    	participacion.setElectionLinkSP(linkEleccionSP);
+    	participacion.setVoteLink(linkVotar);
+    	participacion.setCountry(pais);
+    	participacion.setElectionTitleEN(tituloEleccionEN);
+    	participacion.setElectionTitlePT(tituloEleccionPT);
+    	participacion.setElectionTitleSP(tituloEleccionSP);
+    	participacion.setElectionEndDate(fechaFinEleccion);
+    	participacion.setElectionStartDate(fechaInicioEleccion);
+    	participacion.setVoted(true);
     	
-    	assertEquals(participacion.getCategoria(), categoria);
+    	assertEquals(participacion.getCategory(), categoria);
     	assertEquals(participacion.getEmail(), email);
-    	assertEquals(participacion.getLinkEleccionEN(), linkEleccionEN);
-    	assertEquals(participacion.getLinkEleccionPT(), linkEleccionPT);
-    	assertEquals(participacion.getLinkEleccionSP(), linkEleccionSP);
-    	assertEquals(participacion.getLinkVotar(), linkVotar);
-    	assertEquals(participacion.getNombre(), nombre);
+    	assertEquals(participacion.getElectionLinkEN(), linkEleccionEN);
+    	assertEquals(participacion.getElectionLinkPT(), linkEleccionPT);
+    	assertEquals(participacion.getElectionLinkSP(), linkEleccionSP);
+    	assertEquals(participacion.getVoteLink(), linkVotar);
+    	assertEquals(participacion.getName(), nombre);
     	assertEquals(participacion.getOrgId(), orgId);
-    	assertEquals(participacion.getPais(), pais);
-    	assertEquals(participacion.getTituloEleccionEN(), tituloEleccionEN);
-    	assertEquals(participacion.getTituloEleccionPT(), tituloEleccionPT);
-    	assertEquals(participacion.getTituloEleccionSP(),tituloEleccionSP);
-    	assertEquals(participacion.getFechaFinEleccion(), fechaFinEleccion);
-    	assertEquals(participacion.getFechaInicioEleccion(), fechaInicioEleccion);
-    	assertTrue(participacion.isYaVoto());
+    	assertEquals(participacion.getCountry(), pais);
+    	assertEquals(participacion.getElectionTitleEN(), tituloEleccionEN);
+    	assertEquals(participacion.getElectionTitlePT(), tituloEleccionPT);
+    	assertEquals(participacion.getElectionTitleSP(),tituloEleccionSP);
+    	assertEquals(participacion.getElectionEndDate(), fechaFinEleccion);
+    	assertEquals(participacion.getElectionStartDate(), fechaInicioEleccion);
+    	assertTrue(participacion.isVoted());
     	
     	
     	String nombreEleccion;
@@ -93,15 +93,15 @@ public class AditionalDataTest extends TestCase {
     	usuariosTotales = 11;
     	correosPendientes = 5;
     	//eleccion reporte
-    	EleccionReporte eleccion = new EleccionReporte(nombreEleccion, usuariosVotaron, usuariosNoVotaron, usuariosTotales, correosPendientes);
+    	ElectionReport eleccion = new ElectionReport(nombreEleccion, usuariosVotaron, usuariosNoVotaron, usuariosTotales, correosPendientes);
     	
     	assertTrue(eleccion != null);
     	
-    	assertEquals(eleccion.getCorreosPendientes(), correosPendientes);
-    	assertEquals(eleccion.getNombreEleccion(), nombreEleccion);
-    	assertEquals(eleccion.getUsuariosNoVotaron(), usuariosNoVotaron);
-    	assertEquals(eleccion.getUsuariosVotaron(), usuariosVotaron);
-    	assertEquals(eleccion.getUsuariosTotales(), usuariosTotales);
+    	assertEquals(eleccion.getPendingMails(), correosPendientes);
+    	assertEquals(eleccion.getElectionName(), nombreEleccion);
+    	assertEquals(eleccion.getUsersNotVoted(), usuariosNoVotaron);
+    	assertEquals(eleccion.getUsersVoted(), usuariosVotaron);
+    	assertEquals(eleccion.getUsersTotal(), usuariosTotales);
     	
     	//Health check
     	int intentosDeEnvio;
@@ -113,19 +113,19 @@ public class AditionalDataTest extends TestCase {
     	correosPendientes2 = 1;
     	correosTotales = 10;
     	
-    	List<EleccionReporte> elecciones = new ArrayList<>();
+    	List<ElectionReport> elecciones = new ArrayList<>();
     	elecciones.add(eleccion);
     	
     	HealthCheck healthChk = new HealthCheck(intentosDeEnvio, ipsAccesosFallidos, sumaAccesosFallidos, correosTotales, correosPendientes2, correosEnviados, elecciones);
     	
     	assertTrue(healthChk != null);
     	
-    	assertEquals(healthChk.getCorreosEnviados(), correosEnviados);
-    	assertEquals(healthChk.getCorreosPendientes(), correosPendientes2);
-    	assertEquals(healthChk.getCorreosTotales(), correosTotales);
-    	assertEquals(healthChk.getIntentosDeEnvio(), intentosDeEnvio);
-    	assertEquals(healthChk.getIpsAccesosFallidos(), ipsAccesosFallidos);
-    	assertEquals(healthChk.getSumaAccesosFallidos(), sumaAccesosFallidos);
+    	assertEquals(healthChk.getMailsSent(), correosEnviados);
+    	assertEquals(healthChk.getMailsPending(), correosPendientes2);
+    	assertEquals(healthChk.getMailsTotal(), correosTotales);
+    	assertEquals(healthChk.getSendAttempts(), intentosDeEnvio);
+    	assertEquals(healthChk.getFailedAccessIps(), ipsAccesosFallidos);
+    	assertEquals(healthChk.getFailedAccessSum(), sumaAccesosFallidos);
     	
     			
     }

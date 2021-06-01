@@ -35,7 +35,7 @@ public class AddParametrosPanel extends Panel {
 
 			@Override
 			public void onSubmit() {
-				boolean agregarP = AppContext.getInstance().getManagerBeanRemote().agregarParametro(getClave(), getValor(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+				boolean agregarP = AppContext.getInstance().getManagerBeanRemote().addParameter(getClave(), getValor(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 				if (agregarP) {
 					SecurityUtils.info(getString("advAddParamExito"));
 					setResponsePage(DashboardParametros.class);

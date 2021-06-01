@@ -3,8 +3,8 @@ package net.lacnic;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.lacnic.elections.data.DetalleResultadoData;
-import net.lacnic.elections.data.ResultadoEleccionesData;
+import net.lacnic.elections.data.ResultDetailData;
+import net.lacnic.elections.data.ElectionsResultsData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,45 +41,45 @@ public class ElectionResultsDataTest extends TestCase {
     	strTotal ="( " + total + " - " + (total * max) + ") " ;
     	strTotalPos = "( " + total + " - " + (total *max) + ") ";
     	
-    	DetalleResultadoData detalleRes = new DetalleResultadoData(availableVoters,participantVoters,weigth);
+    	ResultDetailData detalleRes = new ResultDetailData(availableVoters,participantVoters,weigth);
     	
     	
     	
     	assertTrue(detalleRes != null);
     	
-    	assertEquals(detalleRes.getPorcentaje() , percentage);
-    	assertEquals(detalleRes.getPorcentajeConSimbolo(), percentage+" %");
-    	assertEquals(detalleRes.getHabilitados() , availableVoters);
-    	assertEquals(detalleRes.getParticipantes() , participantVoters);
-    	assertEquals(detalleRes.getPeso() , Integer.valueOf(weigth));
+    	assertEquals(detalleRes.getPercentage() , percentage);
+    	assertEquals(detalleRes.getPercentageWithSymbol(), percentage+" %");
+    	assertEquals(detalleRes.getEnabled() , availableVoters);
+    	assertEquals(detalleRes.getParticipants() , participantVoters);
+    	assertEquals(detalleRes.getWeight() , Integer.valueOf(weigth));
     	assertEquals(detalleRes.getTotal(),  total);
     	assertEquals(detalleRes.getTotal(max), strTotal);
     	
     	   	
-    	ResultadoEleccionesData resultado = new ResultadoEleccionesData(max);
+    	ElectionsResultsData resultado = new ElectionsResultsData(max);
     	
     	assertTrue(resultado != null);
     	
-    	List<DetalleResultadoData> listDetalle = new ArrayList<>();
+    	List<ResultDetailData> listDetalle = new ArrayList<>();
     	listDetalle.add(detalleRes);
     	
-    	resultado.setDetalleResultadoData(listDetalle);
-    	resultado.setParticipantesTotal(participantVoters);
-    	resultado.setHabilitadosTotal(availableVoters);
+    	resultado.setResultDetailData(listDetalle);
+    	resultado.setTotalParticipants(participantVoters);
+    	resultado.setTotalEnabled(availableVoters);
     	resultado.setTotalTotal(total);
     	
     	
     	assertEquals(resultado.getMax() , max);
-    	assertEquals(resultado.getHabilitadosTotal() , availableVoters);
-    	assertEquals(resultado.getParticipantesTotal() , participantVoters);
+    	assertEquals(resultado.getTotalEnabled() , availableVoters);
+    	assertEquals(resultado.getTotalParticipants() , participantVoters);
     	assertEquals(resultado.getTotalTotal() , total);
-    	assertEquals(resultado.getPorcentajeTotalConSimbolo(), percentage + " %");
-    	assertEquals(resultado.getTotalTotalPosilidades(), strTotalPos);
+    	assertEquals(resultado.getTotalPercentageWithSymbol(), percentage + " %");
+    	assertEquals(resultado.getTotalTotalPossible(), strTotalPos);
     	
-    	resultado.calcularTotales();
+    	resultado.calculateTotals();
     	
-    	assertEquals(resultado.getHabilitadosTotal() , availableVoters);
-    	assertEquals(resultado.getParticipantesTotal() , participantVoters);
+    	assertEquals(resultado.getTotalEnabled() , availableVoters);
+    	assertEquals(resultado.getTotalParticipants() , participantVoters);
     	assertEquals(resultado.getTotalTotal() , total);
     	
     	

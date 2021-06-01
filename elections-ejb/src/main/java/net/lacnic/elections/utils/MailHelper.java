@@ -17,22 +17,20 @@ import javax.mail.internet.MimeMessage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+
 /**
- * Clase utilizada para el manejo de e-mails, envíos, autenticación en el
- * servidor de mails, etc
- * 
- * @author Antonymous
+ * Util class for email handling (sending, authentication, etc)
  *
  */
 public class MailHelper {
 
-	
+
 	private static String smtpHost;
 	private static String user;
 	private static String pass;
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
-	
+
 	private MailHelper() {
 	}
 
@@ -60,7 +58,7 @@ public class MailHelper {
 		MailHelper.pass = pass;
 	}
 
-	
+
 	public static Session initSession() {
 		Properties props = System.getProperties();
 		props.put("mail.smtp.host", getSmtpHost());
@@ -70,7 +68,7 @@ public class MailHelper {
 				return new PasswordAuthentication(getUser(), getPass());
 			}
 		});
-		 
+
 	}
 
 	public static boolean sendMail(String fromString, String to, String cc, String bcc, String subject, String body) throws Exception {
@@ -81,7 +79,7 @@ public class MailHelper {
 		try {
 			if (body.contains("$usuario.") || body.contains("$eleccion.") || body.contains("$auditor."))
 				return false;
-			
+
 			Message msg = new MimeMessage(session);
 			msg.setFrom(getEmailAddress(fromString));
 
@@ -115,8 +113,8 @@ public class MailHelper {
 	}
 
 	private static String getHeaderMailer(String subject) {
-		SimpleDateFormat formatDateFecha = new SimpleDateFormat("dd/MM/yyyy");
-		return StringUtils.md5(subject.concat(formatDateFecha.format(new Date())));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return StringUtils.md5(subject.concat(sdf.format(new Date())));
 	}
 
 	private static Address getEmailAddress(String fromString) throws MessagingException, UnsupportedEncodingException {
@@ -127,4 +125,5 @@ public class MailHelper {
 			return new InternetAddress(from[0]);
 		return null;
 	}
+
 }

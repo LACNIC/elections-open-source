@@ -25,7 +25,7 @@ public class RevisionAuditorPanel extends Panel {
 
 			@Override
 			public void onConfirmar() {
-				AppContext.getInstance().getVoterBeanRemote().habilitarRevisionEleccionAuditor(a.getAuditorId(), SecurityUtils.getIPClient());
+				AppContext.getInstance().getVoterBeanRemote().enableAuditorElectionRevision(a.getAuditorId(), SecurityUtils.getIPClient());
 				setResponsePage(DashboardAuditores.class, UtilsParameters.getToken(a.getResultToken()));
 			}
 		};

@@ -50,7 +50,7 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 	public DashboardEditarCandidato(PageParameters params) {
 		super(params);
 		long idCandidato = UtilsParameters.getCandidateAsLong(params);
-		candidato = AppContext.getInstance().getManagerBeanRemote().obtenerCandidato(idCandidato);
+		candidato = AppContext.getInstance().getManagerBeanRemote().getCandidate(idCandidato);
 		nombre = candidato.getName();
 		bioSP = candidato.getBioSpanish();
 		bioEN = candidato.getBioEnglish();
@@ -156,7 +156,7 @@ public class DashboardEditarCandidato extends DashboardAdminBasePage {
 							|| !(linkSP != null && linkSP.equalsIgnoreCase(candidato.getLinkSpanish())) || !(linkPT != null && linkPT.equalsIgnoreCase(candidato.getLinkPortuguese())) || !(linkEN != null && linkEN.equalsIgnoreCase(candidato.getLinkEnglish()))) {
 						if (candidato.isOnlySp())
 							candidato.copyBioToOtherLanguages();
-						AppContext.getInstance().getManagerBeanRemote().editarCandidato(getCandidato(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+						AppContext.getInstance().getManagerBeanRemote().editCandidate(getCandidato(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("candidateEditExito"));
 					} else
 						getSession().error(getString("candidateEditError"));

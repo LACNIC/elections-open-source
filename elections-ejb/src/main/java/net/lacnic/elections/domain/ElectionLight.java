@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import org.joda.time.DateTime;
 
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.utils.LinksUtils;
 
 @Entity
 @Table(name = "election")
@@ -195,7 +195,7 @@ public class ElectionLight implements Serializable {
 	}
 
 	public String getResultLink() {
-		return UtilsLinks.buildResultsLink(resultToken);
+		return LinksUtils.buildResultsLink(resultToken);
 	}
 
 

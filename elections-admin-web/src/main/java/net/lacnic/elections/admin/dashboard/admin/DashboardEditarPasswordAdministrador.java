@@ -30,7 +30,7 @@ public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage
 		super(params);
 		if (SecurityUtils.getIdEleccionAutorizado() !=0 && !UtilsParameters.getAdminId(params).equalsIgnoreCase(SecurityUtils.getAdminId()))
 			setResponsePage(Error401.class);
-		UserAdmin admin = AppContext.getInstance().getManagerBeanRemote().obtenerUsuarioAdmin(UtilsParameters.getAdminId(params));
+		UserAdmin admin = AppContext.getInstance().getManagerBeanRemote().getUserAdmin(UtilsParameters.getAdminId(params));
 		pass = admin.getPassword();
 		add(new FeedbackPanel("feedback"));
 		Form<Void> formAdmin = new Form<>("formAdmin");
@@ -58,11 +58,11 @@ public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage
 
 				if (getPassword().equals(getPassword2())) {
 					if (!(UtilsString.wantHashMd5(getPassword()).equalsIgnoreCase(pass))) {
-						AppContext.getInstance().getManagerBeanRemote().editarPassAdmin(admin.getUserAdminId(), UtilsString.wantHashMd5(getPassword()), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+						AppContext.getInstance().getManagerBeanRemote().editAdminUserPassword(admin.getUserAdminId(), UtilsString.wantHashMd5(getPassword()), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 						getSession().info(getString("adminUserEditExito"));
 					}
 					if(admin.getAuthorizedElectionId()==0)
-						setResponsePage(DashboardAdministradores.class);
+						setResponsePage(UserAdminsDashboard.class);
 					else
 						setResponsePage(DashboardHomePage.class);
 				} else {
@@ -80,7 +80,7 @@ public class DashboardEditarPasswordAdministrador extends DashboardAdminBasePage
 			@Override
 			public void onClick() {
 				if(admin.getAuthorizedElectionId()==0)
-					setResponsePage(DashboardAdministradores.class);
+					setResponsePage(UserAdminsDashboard.class);
 				else
 					setResponsePage(DashboardHomePage.class);
 			}

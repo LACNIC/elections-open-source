@@ -382,7 +382,7 @@
 	<entry key="adminUserListPwd">Password</entry>
 	<entry key="adminUserListEditPwd">Edit Password</entry>
 	<entry key="adminUserListErrorDel">You cannot delete your own admin user</entry>
-	<entry key="adminUserListExitoDel">Admin user was successfully deleted</entry>
+	<entry key="adminUserListSuccessDel">Admin user was successfully deleted</entry>
 	
 	<entry key="adminUserEditUsrTitle">Edit system administrator</entry>
 	<entry key="adminUserEditTitle">Change administrator password</entry>
@@ -392,7 +392,7 @@
 	<entry key="adminUserEditBtnSave">Save</entry>
 	<entry key="adminUserEditExito">Password successfully updated</entry>
 	<entry key="adminUserEditError">Passwords don’t match</entry>
-	<entry key="adminUserEditUsrExito">Admin user successfully updated</entry><!-- Send Mail Step 1  --><entry key="sendMail1Title">Email content</entry>
+	<entry key="adminUserEditUsrSuccess">Admin user successfully updated</entry><!-- Send Mail Step 1  --><entry key="sendMail1Title">Email content</entry>
 	<entry key="sendMail1Sender">Sender</entry>
 	<entry key="sendMail1SubjectEsp">Subject in Spanish</entry>
 	<entry key="sendMail1SubjectEng">Subject in English</entry>
@@ -426,7 +426,7 @@
 	<entry key="commissionerAddName">Name</entry>
 	<entry key="commissionerAddMail">Email address</entry>
 	<entry key="commissionerAddBtnAdd">Add</entry>
-	<entry key="commissionerAddExitoAdd">Commissioner added successfully</entry>
+	<entry key="commissionerAddSuccessAdd">Commissioner added successfully</entry>
 	<entry key="commissionerAddErrorAdd">A commissioner with this email address already exists</entry>
 	
 	<entry key="commissionerEditTitle">Edit Commissioner</entry>
@@ -434,13 +434,13 @@
 	<entry key="commissionerEditMail">Email address</entry>
 	<entry key="commissionerEditBtnCanc">Cancel</entry>
 	<entry key="commissionerEditBtnSave">Save</entry>
-	<entry key="commissionerEditExito">Commissioner updated successfully</entry><!-- Admin User Add  --><entry key="adminUserAddTitle">Add admin user</entry>
+	<entry key="commissionerEditSuccess">Commissioner updated successfully</entry><!-- Admin User Add  --><entry key="adminUserAddTitle">Add admin user</entry>
 	<entry key="adminUserAddUser">User</entry>
 	<entry key="adminUserAddMail">Email address</entry>
 	<entry key="adminUserAddPwd">Password</entry>
 	<entry key="adminUserAddElecAuth">Authorized election</entry>
 	<entry key="adminUserAddBtnAdd">Add</entry>
-	<entry key="adminUserAddExitoAdd">Admin user successfully added.</entry>
+	<entry key="adminUserAddSuccessAdd">Admin user successfully added.</entry>
 	<entry key="adminUserAddErrorAdd">Admin user already exists.</entry><!-- Base Mail Template Add  --><entry key="baseMailTemplAddTitle">Add base template</entry>
 	<entry key="baseMailTemplAddType">Type of email</entry>
 	<entry key="baseMailTemplAddSubjectEsp">Subject in Spanish</entry>

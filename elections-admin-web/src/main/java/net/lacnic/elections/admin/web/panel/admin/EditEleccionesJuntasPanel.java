@@ -18,7 +18,7 @@ public class EditEleccionesJuntasPanel extends Panel {
 
 	private static final long serialVersionUID = -7732839509000652567L;
 
-	private List<String> elecciones = AppContext.getInstance().getManagerBeanRemote().obtenerEleccionesIdDesc();
+	private List<String> elecciones = AppContext.getInstance().getManagerBeanRemote().getElectionsAllIdAndTitle();
 	private String selectedA;
 	private String selectedB;
 
@@ -45,8 +45,8 @@ public class EditEleccionesJuntasPanel extends Panel {
 				long idEleccionA = Long.parseLong(selectedA.split("-")[0]);
 				long idEleccionB = Long.parseLong(selectedB.split("-")[0]);
 				
-				Election e1 = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccionA); 
-				Election e2 = AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(idEleccionB);
+				Election e1 = AppContext.getInstance().getManagerBeanRemote().getElection(idEleccionA); 
+				Election e2 = AppContext.getInstance().getManagerBeanRemote().getElection(idEleccionB);
 				
 				Date dtIniE1 = e1.getStartDate();
 				Date dtIniE2 = e2.getStartDate();
@@ -54,9 +54,9 @@ public class EditEleccionesJuntasPanel extends Panel {
 				
 				if (selectedA.equals(selectedB)) {
 					error(getString("uniteElecEditError1"));
-				} else if (AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(idEleccionA)) {
+				} else if (AppContext.getInstance().getManagerBeanRemote().isJointElection(idEleccionA)) {
 					error(getString("uniteElecEditError2") + selectedA);
-				} else if (AppContext.getInstance().getManagerBeanRemote().isSupraEleccion(idEleccionB)) {
+				} else if (AppContext.getInstance().getManagerBeanRemote().isJointElection(idEleccionB)) {
 					error(getString("uniteElecEditError2") + selectedB);
 				} else if (dtIniE1.compareTo(dtIniE2) != 0) {
 					error(getString("uniteElecEditError3"));
@@ -64,7 +64,7 @@ public class EditEleccionesJuntasPanel extends Panel {
 					JointElection supra = new JointElection();
 					supra.setIdElectionA(idEleccionA);
 					supra.setIdElectionB(idEleccionB);
-					AppContext.getInstance().getManagerBeanRemote().actualizarSupraEleccion(supra);
+					AppContext.getInstance().getManagerBeanRemote().updateJointElection(supra);
 					setResponsePage(new DashboardEleccionesJuntas());
 				}
 			}

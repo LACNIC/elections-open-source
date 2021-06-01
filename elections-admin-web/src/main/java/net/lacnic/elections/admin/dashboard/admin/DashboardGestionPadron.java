@@ -29,7 +29,7 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 
 	public DashboardGestionPadron(PageParameters params) {
 		super(params);
-		setEleccion(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(UtilsParameters.getIdAsLong(params)));
+		setEleccion(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
 		add(new FeedbackPanel("feedback"));
 		add(new GestionEleccionStatusPanel("tabPadron", eleccion));
 		add(new PadronEleccionForm("eleccionPadronForm", eleccion));
@@ -45,7 +45,7 @@ public class DashboardGestionPadron extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				try {
-					AppContext.getInstance().getManagerBeanRemote().agregarUsuarioPadron(getEleccion().getElectionId(), getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+					AppContext.getInstance().getManagerBeanRemote().addUserVoter(getEleccion().getElectionId(), getUp(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 					getSession().info(getString("censusManagementExito"));
 					setResponsePage(DashboardGestionPadron.class, UtilsParameters.getId(getEleccion().getElectionId()));
 				} catch (CensusValidationException e) {

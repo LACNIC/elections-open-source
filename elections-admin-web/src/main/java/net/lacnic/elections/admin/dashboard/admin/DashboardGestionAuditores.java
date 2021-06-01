@@ -19,7 +19,7 @@ public class DashboardGestionAuditores extends DashboardAdminBasePage {
 
 	public DashboardGestionAuditores(PageParameters params) {
 		super(params);
-		setEleccion(AppContext.getInstance().getManagerBeanRemote().obtenerEleccion(UtilsParameters.getIdAsLong(params)));
+		setEleccion(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
 		add(new FeedbackPanel("feedback"));
 
 		add(new GestionEleccionStatusPanel("tabAuditores", eleccion));

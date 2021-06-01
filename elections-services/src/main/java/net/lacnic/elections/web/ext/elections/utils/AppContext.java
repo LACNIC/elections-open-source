@@ -9,8 +9,9 @@ import javax.naming.NamingException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import net.lacnic.elections.ejb.MonitorEleccionesEJB;
+import net.lacnic.elections.ejb.ElectionsMonitorEJB;
 import net.lacnic.elections.utils.Constants;
+
 
 public class AppContext {
 
@@ -18,7 +19,8 @@ public class AppContext {
 
 	private static AppContext instance;
 
-	private MonitorEleccionesEJB monitorBeanRemote;
+	private ElectionsMonitorEJB monitorBeanRemote;
+
 
 	private AppContext() {
 		try {
@@ -26,9 +28,9 @@ public class AppContext {
 			jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 			final Context context = new InitialContext(jndiProperties);
 
-			String monitorEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/MonitorEleccionesEJBBean!net.lacnic.elections.ejb.MonitorEleccionesEJB";
+			String monitorEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ElectionsMonitorEJBBean!net.lacnic.elections.ejb.ElectionsMonitorEJB";
 
-			setMonitorBeanRemote((MonitorEleccionesEJB) context.lookup(monitorEjb));
+			setMonitorBeanRemote((ElectionsMonitorEJB) context.lookup(monitorEjb));
 		} catch (NamingException e) {
 			appLogger.error(e);
 		}
@@ -41,11 +43,11 @@ public class AppContext {
 		return instance;
 	}
 
-	public MonitorEleccionesEJB getMonitorBeanRemote() {
+	public ElectionsMonitorEJB getMonitorBeanRemote() {
 		return monitorBeanRemote;
 	}
 
-	public void setMonitorBeanRemote(MonitorEleccionesEJB monitorBeanRemote) {
+	public void setMonitorBeanRemote(ElectionsMonitorEJB monitorBeanRemote) {
 		this.monitorBeanRemote = monitorBeanRemote;
 	}
 

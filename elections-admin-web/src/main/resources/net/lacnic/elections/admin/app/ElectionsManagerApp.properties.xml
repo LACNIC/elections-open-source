@@ -448,7 +448,7 @@
 	<entry key="adminUserListPwd">Contraseña</entry>
 	<entry key="adminUserListEditPwd">Editar Password</entry>
 	<entry key="adminUserListErrorDel">No puede eliminar su propio usuario administrador</entry>
-	<entry key="adminUserListExitoDel">Usuario administrador se ha eliminado con éxito</entry>
+	<entry key="adminUserListSuccessDel">Usuario administrador se ha eliminado con éxito</entry>
 	
 	<entry key="adminUserEditUsrTitle">Editar un administrador del sistema</entry>
 	<entry key="adminUserEditTitle">Cambiar contraseña de un administrador</entry>
@@ -458,7 +458,7 @@
 	<entry key="adminUserEditBtnSave">Guardar</entry>
 	<entry key="adminUserEditExito">Contraseña se ha actualizado con éxito</entry>
 	<entry key="adminUserEditError">Contraseñas no coinciden</entry>
-	<entry key="adminUserEditUsrExito">Usuario administrador se ha actualizado con éxito</entry>
+	<entry key="adminUserEditUsrSuccess">Usuario administrador se ha actualizado con éxito</entry>
 	
 				
 	<!-- Send Mail Step 1  -->
@@ -512,7 +512,7 @@
 	<entry key="commissionerAddName">Nombre</entry>
 	<entry key="commissionerAddMail">E-mail</entry>
 	<entry key="commissionerAddBtnAdd">Agregar</entry>
-	<entry key="commissionerAddExitoAdd">Comisionado agregado con éxito</entry>
+	<entry key="commissionerAddSuccessAdd">Comisionado agregado con éxito</entry>
 	<entry key="commissionerAddErrorAdd">Ya existe un comisionado con ese e-mail.</entry>
 	
 	<entry key="commissionerEditTitle">Editar un comisionado del sistema</entry>
@@ -520,7 +520,7 @@
 	<entry key="commissionerEditMail">E-mail</entry>
 	<entry key="commissionerEditBtnCanc">Cancelar</entry>
 	<entry key="commissionerEditBtnSave">Guardar</entry>
-	<entry key="commissionerEditExito">Comisionado actualizado con éxito</entry>
+	<entry key="commissionerEditSuccess">Comisionado actualizado con éxito</entry>
 	
 	
 	<!-- Admin User Add  -->
@@ -530,7 +530,7 @@
 	<entry key="adminUserAddPwd">Contraseña</entry>
 	<entry key="adminUserAddElecAuth">Elección autorizada</entry>
 	<entry key="adminUserAddBtnAdd">Agregar</entry>
-	<entry key="adminUserAddExitoAdd">Usuario administrador se ha agregado con éxito.</entry>
+	<entry key="adminUserAddSuccessAdd">Usuario administrador se ha agregado con éxito.</entry>
 	<entry key="adminUserAddErrorAdd">Usuario administrador ya existe.</entry>
 	
 	

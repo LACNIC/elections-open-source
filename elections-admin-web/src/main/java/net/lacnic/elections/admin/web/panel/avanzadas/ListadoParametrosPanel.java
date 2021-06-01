@@ -29,7 +29,7 @@ public class ListadoParametrosPanel extends Panel {
 	public ListadoParametrosPanel(String id) {
 		super("listadoParametro");
 
-		listadoParametros = AppContext.getInstance().getManagerBeanRemote().obtenerListadoParamteros();
+		listadoParametros = AppContext.getInstance().getManagerBeanRemote().getParametersAll();
 
 		final ListView<Parameter> listadoParams = new ListView<Parameter>("listadoParametros", listadoParametros) {
 
@@ -53,7 +53,7 @@ public class ListadoParametrosPanel extends Panel {
 
 						@Override
 						public void onConfirmar() {					
-							AppContext.getInstance().getManagerBeanRemote().borrarParametro(p.getKey(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
+							AppContext.getInstance().getManagerBeanRemote().removeParameter(p.getKey(), SecurityUtils.getAdminId(), SecurityUtils.getIPClient());
 							getSession().info(getString("advParameterExito"));
 							setResponsePage(DashboardParametros.class); 
 						}

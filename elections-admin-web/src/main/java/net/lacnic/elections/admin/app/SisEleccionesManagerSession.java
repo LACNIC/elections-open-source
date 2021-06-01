@@ -25,7 +25,7 @@ public class SisEleccionesManagerSession extends AuthenticatedWebSession {
 
 	@Override
 	public boolean authenticate(String adminId, String password) {
-		UserAdmin a = AppContext.getInstance().getManagerBeanRemote().loginAdmin(adminId, password, getIPClient());
+		UserAdmin a = AppContext.getInstance().getManagerBeanRemote().userAdminLogin(adminId, password, getIPClient());
 		
 		String lang;
 		

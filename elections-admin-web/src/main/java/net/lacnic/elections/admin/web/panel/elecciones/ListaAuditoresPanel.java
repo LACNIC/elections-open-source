@@ -13,8 +13,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.admin.app.AppContext;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.ejb.ManagerEleccionesEJB;
-import net.lacnic.elections.utils.UtilsLinks;
+import net.lacnic.elections.ejb.ElectionsManagerEJB;
+import net.lacnic.elections.utils.LinksUtils;
 
 public class ListaAuditoresPanel extends Panel {
 
@@ -22,7 +22,7 @@ public class ListaAuditoresPanel extends Panel {
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private ManagerEleccionesEJB managerEjbBean;
+	private ElectionsManagerEJB managerEjbBean;
 
 	public ListaAuditoresPanel(String id, long idEleccion) {
 		super(id);
@@ -32,7 +32,7 @@ public class ListaAuditoresPanel extends Panel {
 
 	private void obtenerAuditores(long idEleccion) {
 		try {
-			List<Auditor> listaAuditores = managerEjbBean.obtenerAuditoresEleccion(idEleccion);
+			List<Auditor> listaAuditores = managerEjbBean.getElectionAuditors(idEleccion);
 
 			ListaAuditoresPanel.this.setOutputMarkupPlaceholderTag(true);
 			final Form<Void> form = new Form<>("form");
@@ -49,7 +49,7 @@ public class ListaAuditoresPanel extends Panel {
 					item.add(new Label("email", actual.getMail()));
 					item.add(new Label("conforme", actual.isAgreedConformity() ? "Si" : "NO"));
 
-					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", UtilsLinks.buildAuditorResultsLink(actual.getResultToken()));
+					final Label urlLinkVotacionUsuario = new Label("urlLinkVotacionUsuario", LinksUtils.buildAuditorResultsLink(actual.getResultToken()));
 					urlLinkVotacionUsuario.setOutputMarkupPlaceholderTag(true);	
 					item.add(urlLinkVotacionUsuario);
 				}

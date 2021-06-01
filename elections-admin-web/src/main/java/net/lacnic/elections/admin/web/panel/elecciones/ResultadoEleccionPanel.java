@@ -23,12 +23,12 @@ public class ResultadoEleccionPanel extends Panel {
 	public ResultadoEleccionPanel(String id, final long idEleccion) {
 		super(id);
 		try {
-			List<Candidate> listaCandidatos = AppContext.getInstance().getVoterBeanRemote().obtenerCandidatosEleccionConVotos(idEleccion);
+			List<Candidate> listaCandidatos = AppContext.getInstance().getVoterBeanRemote().getElectionCandidates(idEleccion);
 			Collections.sort(listaCandidatos, new Comparator<Candidate>() {
 				@Override
 				public int compare(Candidate o1, Candidate o2) {
 					try {
-						return AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o1.getCandidateId()) > AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(o2.getCandidateId()) ? -1 : 1;
+						return AppContext.getInstance().getVoterBeanRemote().getCandidateVotesAmount(o1.getCandidateId()) > AppContext.getInstance().getVoterBeanRemote().getCandidateVotesAmount(o2.getCandidateId()) ? -1 : 1;
 					} catch (Exception e) {
 						return 0;
 					}
@@ -45,7 +45,7 @@ public class ResultadoEleccionPanel extends Panel {
 						Label nombreCandidato = new Label("nombre", c.getName());
 						nombreCandidato.setMarkupId("nombreCandidato"+item.getIndex());
 						item.add(nombreCandidato);
-						Label votosCandidato = new Label("votos", String.valueOf(AppContext.getInstance().getVoterBeanRemote().obtenerVotosCandidato(c.getCandidateId())));
+						Label votosCandidato = new Label("votos", String.valueOf(AppContext.getInstance().getVoterBeanRemote().getCandidateVotesAmount(c.getCandidateId())));
 						votosCandidato.setMarkupId("votosCandidato"+item.getIndex());
 						item.add(votosCandidato);
 					} catch (Exception e) {
@@ -54,8 +54,8 @@ public class ResultadoEleccionPanel extends Panel {
 				}
 			};
 			add(dataViewCandidatos);
-			add(new Label("totalVotos", String.valueOf(AppContext.getInstance().getVoterBeanRemote().obtenerTotalVotosEleccion(idEleccion))));
-			add(new Label("totalVotantes", String.valueOf(AppContext.getInstance().getVoterBeanRemote().obtenerCantidadVotantesQueVotaronEleccion(idEleccion))));
+			add(new Label("totalVotos", String.valueOf(AppContext.getInstance().getVoterBeanRemote().getElectionVotesAmount(idEleccion))));
+			add(new Label("totalVotantes", String.valueOf(AppContext.getInstance().getVoterBeanRemote().getElectionUserVotersVotedAmount(idEleccion))));
 
 		} catch (Exception e) {
 			appLogger.error(e);
