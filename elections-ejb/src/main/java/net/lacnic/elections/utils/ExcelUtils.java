@@ -59,21 +59,21 @@ public class ExcelUtils {
 			int countryIndex = -1;
 			int voteAmountIndex = -1;
 			Sheet sheet = workbook.getSheet(0);
-			CountryUtils u = new CountryUtils();
+			CountryUtils countryUtils = new CountryUtils();
 
 			while (variablesAmount < sheet.getColumns() && !sheet.getCell(variablesAmount, 0).getContents().equals("")) {
-				String valor = sheet.getCell(variablesAmount, 0).getContents();
-				if (valor.equalsIgnoreCase(("idioma"))) {
+				String value = sheet.getCell(variablesAmount, 0).getContents();
+				if (value.equalsIgnoreCase(("idioma"))) {
 					languageIndex = variablesAmount;
-				} else if (valor.equalsIgnoreCase(("nombre"))) {
+				} else if (value.equalsIgnoreCase(("nombre"))) {
 					nameIndex = variablesAmount;
-				} else if (valor.equalsIgnoreCase(("mail"))) {
+				} else if (value.equalsIgnoreCase(("mail"))) {
 					mailIndex = variablesAmount;
-				} else if (valor.equalsIgnoreCase(("orgID"))) {
+				} else if (value.equalsIgnoreCase(("orgID"))) {
 					orgIdIndex = variablesAmount;
-				} else if (valor.equalsIgnoreCase(("pais"))) {
+				} else if (value.equalsIgnoreCase(("pais"))) {
 					countryIndex = variablesAmount;
-				} else if (valor.equalsIgnoreCase(("cantVotos"))) {
+				} else if (value.equalsIgnoreCase(("cantVotos"))) {
 					voteAmountIndex = variablesAmount;
 				}
 				variablesAmount++;
@@ -120,7 +120,7 @@ public class ExcelUtils {
 				// country
 				if (countryIndex != -1) {
 					String country = sheet.getCell(countryIndex, i).getContents();
-					if (!country.isEmpty() && !u.getIdsList().contains(country)) {
+					if (!country.isEmpty() && !countryUtils.getIdsList().contains(country)) {
 						throw new CensusValidationException("Fila: " + i + " contiene un país no vacío y no válido: " + country);
 					}
 					userVoter.setCountry(country);

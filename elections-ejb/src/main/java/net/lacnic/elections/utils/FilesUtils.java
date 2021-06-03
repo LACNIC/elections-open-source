@@ -22,8 +22,8 @@ public class FilesUtils {
 
 	public static Object[] getDefaultPhoto(String filePath) throws IOException {
 		Object[] o = new Object[3];
-		String rutaFoto = filePath.concat("/image/foto_candidato_default.jpg");
-		File file = new File(rutaFoto);
+		String ohotoPath = filePath.concat("/image/foto_candidato_default.jpg");
+		File file = new File(ohotoPath);
 		o[0] = getBytesFromFile(file);
 		o[1] = "foto_candidato_default";
 		o[2] = ".jpg";
@@ -31,13 +31,13 @@ public class FilesUtils {
 	}
 
 	public static File getCensusExample(String filePath) {
-		String rutaPadronElectoralEjemplo = filePath.concat("/static/padron_electoral_ejemplo.xls");
-		return new File(rutaPadronElectoralEjemplo);
+		String censusExamplePath = filePath.concat("/static/padron_electoral_ejemplo.xls");
+		return new File(censusExamplePath);
 	}
 
 	public static File getElectionRolesRevisionDocument(String filePath) {
-		String rutaEleccionesRolesFuncRev = filePath.concat("/static/EleccionesRolesFuncionamientoRevision.pdf");
-		return new File(rutaEleccionesRolesFuncRev);
+		String electionRolesDocumentoPath = filePath.concat("/static/EleccionesRolesFuncionamientoRevision.pdf");
+		return new File(electionRolesDocumentoPath);
 	}
 
 	public static byte[] getBytesFromFile(File file) throws IOException {

@@ -74,25 +74,25 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 			throw new OperationNotPermittedException("Operación no permitida");
 		}
 
-		ArrayList<Vote> votos = new ArrayList<>();
-		Date fechaVoto = new Date();
-		for (Candidate c : candidates) {
+		ArrayList<Vote> votes = new ArrayList<>();
+		Date voteDate = new Date();
+		for (Candidate candidate : candidates) {
 			for (int i = 0; i < userVoterDB.getVoteAmount(); i++) {
-				Vote v = new Vote();
-				v.setCode(StringUtils.createSmallToken());
-				v.setIp(ip);
-				v.setCandidate(c);
-				v.setVoteDate(fechaVoto);
-				v.setUserVoter(userVoterDB);
-				v.setElection(userVoterDB.getElection());
-				em.persist(v);
-				votos.add(v);
+				Vote vote = new Vote();
+				vote.setCode(StringUtils.createSmallToken());
+				vote.setIp(ip);
+				vote.setCandidate(candidate);
+				vote.setVoteDate(voteDate);
+				vote.setUserVoter(userVoterDB);
+				vote.setElection(userVoterDB.getElection());
+				em.persist(vote);
+				votes.add(vote);
 			}
 		}
 		userVoterDB.setVoted(true);
-		userVoterDB.setVoteDate(fechaVoto);
+		userVoterDB.setVoteDate(voteDate);
 		ElectionEmailTemplate t = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TemplateTypeVOTE_CODES, userVoterDB.getElection().getElectionId());
-		EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(t, userVoterDB, null, userVoterDB.getElection(), votos);
+		EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(t, userVoterDB, null, userVoterDB.getElection(), votes);
 		em.persist(userVoterDB);
 	}
 
@@ -213,8 +213,8 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 			ElectionEmailTemplate mailTemplate = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TemplateTypeAUDITOR_REVISION, auditor.getElection().getElectionId());
 			EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(mailTemplate, null, auditor, auditor.getElection(), new ArrayList<>());
 
-			String descripcion = auditor.getAuditorId() + " - " + auditor.getName() + " autorizó la revisión de la elección: " + auditor.getElection().getTitleSpanish();
-			persistActivity(auditor.getName(), ActivityType.ELECTION_REVISION_YES, descripcion, ip, auditor.getElection().getElectionId());
+			String description = auditor.getAuditorId() + " - " + auditor.getName() + " autorizó la revisión de la elección: " + auditor.getElection().getTitleSpanish();
+			persistActivity(auditor.getName(), ActivityType.ELECTION_REVISION_YES, description, ip, auditor.getElection().getElectionId());
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -294,19 +294,19 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 
 		try {
 
-			Date dia1 = votersList.get(0).getVoteDate();
-			Date ultimoDia = votersList.get(votersList.size() - 1).getVoteDate();
+			Date day1 = votersList.get(0).getVoteDate();
+			Date lastDay = votersList.get(votersList.size() - 1).getVoteDate();
 
-			List<String> allDates = getDatesBetween(dia1, ultimoDia);
-			List<String> votosDates = new ArrayList<>();
+			List<String> allDates = getDatesBetween(day1, lastDay);
+			List<String> voteDates = new ArrayList<>();
 
 			for (UserVoter voter : votersList) {
-				votosDates.add(sdf.format(voter.getVoteDate()));
+				voteDates.add(sdf.format(voter.getVoteDate()));
 			}
 
 			for (String date : allDates) {
 				days.add(date);
-				votesByDay.add(Collections.frequency(votosDates, date));
+				votesByDay.add(Collections.frequency(voteDates, date));
 			}
 
 			int sum = 0;
