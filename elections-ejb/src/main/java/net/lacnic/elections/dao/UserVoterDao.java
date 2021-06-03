@@ -32,12 +32,17 @@ public class UserVoterDao {
 		return q.getResultList();
 	}
 
-	public boolean userVoterExistsByMailElection(long electionId, String mail) {
+	public UserVoter getElectionUserVoterByMail(long electionId, String mail) {
 		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u WHERE u.election.electionId = :electionId AND u.mail = :mail", UserVoter.class);
 		q.setParameter("electionId", electionId);
 		q.setParameter("mail", mail);
 		List<UserVoter> users = q.getResultList();
-		return (users != null && !users.isEmpty());
+
+		if(users != null && !users.isEmpty()) {
+			return users.get(0);
+		} else {
+			return null;
+		}
 	}
 
 	public List<UserVoter> getElectionCensusByCountry(long electionId, String country) {

@@ -395,7 +395,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public boolean addUserVoter(long electionId, UserVoter userVoter, String userAdminId, String ip) throws CensusValidationException {
 		try {
-			if(!ElectionsDaoFactory.createUserVoterDao(em).userVoterExistsByMailElection(electionId, userVoter.getMail())) {
+			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByMail(electionId, userVoter.getMail());
+			if(userVoterDB == null) {
 				Election election = em.find(Election.class, electionId);
 				userVoter.setElection(election);
 				userVoter.setVoteToken(StringUtils.createSecureToken());
@@ -419,7 +420,9 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public void editUserVoter(UserVoter userVoter, String userAdminId, String ip) throws CensusValidationException {
 		try {
-			if(!ElectionsDaoFactory.createUserVoterDao(em).userVoterExistsByMailElection(userVoter.getElection().getElectionId(), userVoter.getMail())) {
+			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByMail(userVoter.getElection().getElectionId(), userVoter.getMail());
+			if(userVoterDB == null || userVoterDB.getUserVoterId() == userVoter.getUserVoterId()) {
+				// If found user is the same as the one we're updating, it's ok
 				em.merge(userVoter);
 				String description = userAdminId.toUpperCase() + " actualizó los datos de un usuario padrón para la elección  " + userVoter.getElection().getTitleSpanish();
 				persistActivity(userAdminId, ActivityType.EDIT_VOTE_USER, description, ip, userVoter.getElection().getElectionId());
