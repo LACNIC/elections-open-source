@@ -45,81 +45,81 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
-	private final String RESUMEN_CODIGO = "$usuario.resumenCodigos";
+	private final String CODE_SUMMARY = "$usuario.resumenCodigos";
 
 	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
 	@Override
-	public void queueMassiveSending(List usuarios, ElectionEmailTemplate templateEleccion) {
+	public void queueMassiveSending(List users, ElectionEmailTemplate electionTemplate) {
 		try {
-			Election e = templateEleccion.getElection();
-			List<UserVoter> usuariosPadron = new ArrayList<>();
-			List<Auditor> usuariosAuditor = new ArrayList<>();
+			Election election = electionTemplate.getElection();
+			List<UserVoter> userVoters = new ArrayList<>();
+			List<Auditor> userAuditors = new ArrayList<>();
 
-			if (usuarios != null && !usuarios.isEmpty()) {
-				if (usuarios.get(0) instanceof UserVoter) {
-					usuariosPadron = usuarios;
-				} else if (usuarios.get(0) instanceof Auditor) {
-					usuariosAuditor = usuarios;
+			if (users != null && !users.isEmpty()) {
+				if (users.get(0) instanceof UserVoter) {
+					userVoters = users;
+				} else if (users.get(0) instanceof Auditor) {
+					userAuditors = users;
 				}
 			}
-			for (int i = 0; i < usuariosPadron.size(); i++) {
-				UserVoter usp = usuariosPadron.get(i);
+			for (int i = 0; i < userVoters.size(); i++) {
+				UserVoter userVoter = userVoters.get(i);
 				Email email = new Email();
-				String templateAsunto;
-				String templateCuerpo;
+				String templateSubject;
+				String templateBody;
 
-				if (usp.getLanguage().equals("SP")) {
-					templateAsunto = templateEleccion.getSubjectSP();  
-				} else if (usp.getLanguage().equals("EN")) {
-					templateAsunto = templateEleccion.getSubjectEN(); 
+				if (userVoter.getLanguage().equals("SP")) {
+					templateSubject = electionTemplate.getSubjectSP();  
+				} else if (userVoter.getLanguage().equals("EN")) {
+					templateSubject = electionTemplate.getSubjectEN(); 
 				} else {
-					templateAsunto = templateEleccion.getSubjectPT();
+					templateSubject = electionTemplate.getSubjectPT();
 				};
 
-				if (usp.getLanguage().equals("SP")) {
-					templateCuerpo = templateEleccion.getBodySP(); 
-				} else if (usp.getLanguage().equals("EN")) {
-					templateCuerpo = templateEleccion.getBodyEN();
+				if (userVoter.getLanguage().equals("SP")) {
+					templateBody = electionTemplate.getBodySP(); 
+				} else if (userVoter.getLanguage().equals("EN")) {
+					templateBody = electionTemplate.getBodyEN();
 				} else {
-					templateCuerpo = templateEleccion.getBodyPT();
+					templateBody = electionTemplate.getBodyPT();
 				};
 
-				if (templateAsunto.contains(RESUMEN_CODIGO) || templateCuerpo.contains(RESUMEN_CODIGO))
-					usp.setCodeSummary(agregarVotos(ElectionsDaoFactory.createVoteDao(em).getElectionUserVoterVotes(usp.getUserVoterId(), e.getElectionId())));
+				if (templateSubject.contains(CODE_SUMMARY) || templateBody.contains(CODE_SUMMARY))
+					userVoter.setCodeSummary(addVotes(ElectionsDaoFactory.createVoteDao(em).getElectionUserVoterVotes(userVoter.getUserVoterId(), election.getElectionId())));
 
-				Map<String, Object> mapa = new HashMap<>();
-				mapa.put("usuario", usp);
-				mapa.put("eleccion", e);
-				String asuntoProcesado = processTemplate(templateAsunto, mapa);
-				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
-				email.setSubject(asuntoProcesado);
-				email.setBody(cuerpoProcesado);
-				email.setFrom(e.getDefaultSender());
-				email.setRecipients(usp.getMail());
-				email.setElection(e);
+				Map<String, Object> map = new HashMap<>();
+				map.put("usuario", userVoter);
+				map.put("eleccion", election);
+				String processSubject = processTemplate(templateSubject, map);
+				String processBody = processTemplate(templateBody, map);
+				email.setSubject(processSubject);
+				email.setBody(processBody);
+				email.setFrom(election.getDefaultSender());
+				email.setRecipients(userVoter.getMail());
+				email.setElection(election);
 				email.setSent(false);
-				email.setTemplateType(templateEleccion.getTemplateType());
+				email.setTemplateType(electionTemplate.getTemplateType());
 				em.persist(email);
 			}
-			for (int i = 0; i < usuariosAuditor.size(); i++) {
-				Auditor a = usuariosAuditor.get(i);
+			for (int i = 0; i < userAuditors.size(); i++) {
+				Auditor auditor = userAuditors.get(i);
 				Email email = new Email();
-				String templateAsunto = templateEleccion.getSubjectSP();
-				String templateCuerpo = templateEleccion.getBodySP();
-				Map<String, Object> mapa = new HashMap<>();
-				mapa.put("auditor", a);
-				mapa.put("eleccion", e);
-				String asuntoProcesado = processTemplate(templateAsunto, mapa);
-				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
-				email.setSubject(asuntoProcesado);
-				email.setBody(cuerpoProcesado);
-				email.setFrom(e.getDefaultSender());
-				email.setRecipients(a.getMail());
-				email.setElection(e);
+				String templateSubject = electionTemplate.getSubjectSP();
+				String templateBody = electionTemplate.getBodySP();
+				Map<String, Object> map = new HashMap<>();
+				map.put("auditor", auditor);
+				map.put("eleccion", election);
+				String processSubject = processTemplate(templateSubject, map);
+				String processBody = processTemplate(templateBody, map);
+				email.setSubject(processSubject);
+				email.setBody(processBody);
+				email.setFrom(election.getDefaultSender());
+				email.setRecipients(auditor.getMail());
+				email.setElection(election);
 				email.setSent(false);
-				email.setTemplateType(templateEleccion.getTemplateType());
+				email.setTemplateType(electionTemplate.getTemplateType());
 				em.persist(email);
 			}
 		} catch (Exception e) {
@@ -128,59 +128,59 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 	}
 
 	@Override
-	public void queueSingleSending(ElectionEmailTemplate templateEleccion, UserVoter us, Auditor au, Election e, List<Vote> votos) {
+	public void queueSingleSending(ElectionEmailTemplate templateEleccion, UserVoter userVoter, Auditor auditor, Election election, List<Vote> votes) {
 		try {
-			if (templateEleccion.getBodySP().contains(RESUMEN_CODIGO) || templateEleccion.getBodyEN().contains(RESUMEN_CODIGO) || templateEleccion.getBodyPT().contains(RESUMEN_CODIGO))
-				us.setCodeSummary(agregarVotos(votos));
+			if (templateEleccion.getBodySP().contains(CODE_SUMMARY) || templateEleccion.getBodyEN().contains(CODE_SUMMARY) || templateEleccion.getBodyPT().contains(CODE_SUMMARY))
+				userVoter.setCodeSummary(addVotes(votes));
 
 			if (templateEleccion.getTemplateType().contains(Constants.TemplateTypeAUDITOR)) {
 				Email email = new Email();
-				String templateAsunto = templateEleccion.getSubjectSP();
-				String templateCuerpo = templateEleccion.getBodySP();
-				Map<String, Object> mapa = new HashMap<>();
-				mapa.put("auditor", au);
-				mapa.put("eleccion", e);
-				String asuntoProcesado = processTemplate(templateAsunto, mapa);
-				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
-				email.setSubject(asuntoProcesado);
-				email.setBody(cuerpoProcesado);
-				email.setFrom(e.getDefaultSender());
+				String templateSubject = templateEleccion.getSubjectSP();
+				String templateBody = templateEleccion.getBodySP();
+				Map<String, Object> map = new HashMap<>();
+				map.put("auditor", auditor);
+				map.put("eleccion", election);
+				String processSubject = processTemplate(templateSubject, map);
+				String processBody = processTemplate(templateBody, map);
+				email.setSubject(processSubject);
+				email.setBody(processBody);
+				email.setFrom(election.getDefaultSender());
 				email.setRecipients(EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.DEFAULT_SENDER));
-				email.setElection(e);
+				email.setElection(election);
 				email.setSent(false);
 				email.setTemplateType(templateEleccion.getTemplateType());
 				em.persist(email);
 			} else {
 				Email email = new Email();
-				String templateAsunto; 
-				String templateCuerpo; 
+				String templateSubject; 
+				String templateBody; 
 
-				if (us.getLanguage().equals("SP")) {
-					templateAsunto = templateEleccion.getSubjectSP();
-				} else if (us.getLanguage().equals("EN")) {
-					templateAsunto = templateEleccion.getSubjectEN(); 
+				if (userVoter.getLanguage().equals("SP")) {
+					templateSubject = templateEleccion.getSubjectSP();
+				} else if (userVoter.getLanguage().equals("EN")) {
+					templateSubject = templateEleccion.getSubjectEN(); 
 				} else {
-					templateAsunto = templateEleccion.getSubjectPT();
+					templateSubject = templateEleccion.getSubjectPT();
 				};
 
-				if (us.getLanguage().equals("SP") ) {
-					templateCuerpo = templateEleccion.getBodySP();
-				} else if (us.getLanguage().equals("EN")) {
-					templateCuerpo = templateEleccion.getBodyEN();
+				if (userVoter.getLanguage().equals("SP") ) {
+					templateBody = templateEleccion.getBodySP();
+				} else if (userVoter.getLanguage().equals("EN")) {
+					templateBody = templateEleccion.getBodyEN();
 				} else {
-					templateCuerpo = templateEleccion.getBodyPT();
+					templateBody = templateEleccion.getBodyPT();
 				};
 
-				Map<String, Object> mapa = new HashMap<>();
-				mapa.put("usuario", us);
-				mapa.put("eleccion", e);
-				String asuntoProcesado = processTemplate(templateAsunto, mapa);
-				String cuerpoProcesado = processTemplate(templateCuerpo, mapa);
-				email.setSubject(asuntoProcesado);
-				email.setBody(cuerpoProcesado);
-				email.setFrom(e.getDefaultSender());
-				email.setRecipients(us.getMail());
-				email.setElection(e);
+				Map<String, Object> map = new HashMap<>();
+				map.put("usuario", userVoter);
+				map.put("eleccion", election);
+				String processSubject = processTemplate(templateSubject, map);
+				String processBody = processTemplate(templateBody, map);
+				email.setSubject(processSubject);
+				email.setBody(processBody);
+				email.setFrom(election.getDefaultSender());
+				email.setRecipients(userVoter.getMail());
+				email.setElection(election);
 				email.setSent(false);
 				email.setTemplateType(templateEleccion.getTemplateType());
 				em.persist(email);
@@ -190,26 +190,26 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		}
 	}
 
-	private String agregarVotos(List<Vote> votos) {
+	private String addVotes(List<Vote> votes) {
 		String aux = "";
-		for (Vote v : votos) {
+		for (Vote v : votes) {
 			aux = aux.concat(v.getCode() + " / " + v.getCandidate().getName() + "\n");
 		}
 		return aux;
 	}
 
 	private String processTemplate(String template, Map<String, Object> variables) throws IOException {
-		VelocityEngine ve = new VelocityEngine();
-		ve.init();
+		VelocityEngine velocityEngine = new VelocityEngine();
+		velocityEngine.init();
 		VelocityContext context = new VelocityContext();
 
 		for (Map.Entry<String,Object> entry : variables.entrySet()) {
 			context.put(entry.getKey(), entry.getValue());
 		}
 
-		StringWriter w = new StringWriter();
-		Velocity.evaluate(context, w, "email-template", template);
-		return w.toString();
+		StringWriter stringWriter = new StringWriter();
+		Velocity.evaluate(context, stringWriter, "email-template", template);
+		return stringWriter.toString();
 	}
 
 	@Override
@@ -223,8 +223,8 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 	}
 
 	@Override
-	public void reschedule(List<Email> emailsProblematicos) {
-		for (Email email : emailsProblematicos) {
+	public void reschedule(List<Email> problemEmails) {
+		for (Email email : problemEmails) {
 			try {
 				email.setSent(false);
 				em.merge(email);

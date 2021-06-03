@@ -133,9 +133,9 @@ public interface ElectionsManagerEJB {
 
 	public void fixCandidateToBottom(long candidateId);
 
-	public void subirCandidato(long candidateId);
+	public void moveCandidateUp(long candidateId);
 
-	public void bajarCandidato(long candidateId);
+	public void moveCandidateDown(long candidateId);
 
 	public void setSortCandidatesRandomly(Long electionId, Boolean value);
 

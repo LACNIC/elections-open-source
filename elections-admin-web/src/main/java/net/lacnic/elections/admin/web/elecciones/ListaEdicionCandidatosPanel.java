@@ -145,7 +145,7 @@ public class ListaEdicionCandidatosPanel extends Panel {
 						@Override
 						public void onClick() {
 
-							AppContext.getInstance().getManagerBeanRemote().subirCandidato(actual.getCandidateId());
+							AppContext.getInstance().getManagerBeanRemote().moveCandidateUp(actual.getCandidateId());
 							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 						}
 					};
@@ -159,7 +159,7 @@ public class ListaEdicionCandidatosPanel extends Panel {
 						@Override
 						public void onClick() {
 
-							AppContext.getInstance().getManagerBeanRemote().bajarCandidato(actual.getCandidateId());
+							AppContext.getInstance().getManagerBeanRemote().moveCandidateDown(actual.getCandidateId());
 							setResponsePage(DashboardGestionCandidatos.class, UtilsParameters.getId(eleccion.getElectionId()));
 						}
 					};

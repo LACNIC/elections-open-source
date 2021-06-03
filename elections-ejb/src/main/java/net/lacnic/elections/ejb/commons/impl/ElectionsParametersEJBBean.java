@@ -41,10 +41,10 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 			if (!value.isEmpty())
 				return value;
 		}
-		Parameter p = em.find(Parameter.class, key);
-		if (p != null) {
-			Constants.getParameters().put(key, p.getValue());
-			return p.getValue();
+		Parameter oarameter = em.find(Parameter.class, key);
+		if (oarameter != null) {
+			Constants.getParameters().put(key, oarameter.getValue());
+			return oarameter.getValue();
 		}
 		return "";
 	}
@@ -62,10 +62,10 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	public boolean addParameter(String key, String value) {
 		try {
 			if (ElectionsDaoFactory.createParameterDao(em).getParameter(key) == null) {
-				Parameter p = new Parameter();
-				p.setKey(key);
-				p.setValue(value);
-				em.persist(p);
+				Parameter parameter = new Parameter();
+				parameter.setKey(key);
+				parameter.setValue(value);
+				em.persist(parameter);
 				Constants.cleanParametersCache();
 				return true;
 			} else {
@@ -78,9 +78,9 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	}
 
 	@Override
-	public void editParameter(Parameter p) {
+	public void editParameter(Parameter oarameter) {
 		try {
-			em.merge(p);
+			em.merge(oarameter);
 			Constants.cleanParametersCache();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -90,8 +90,8 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	@Override
 	public void deleteParameter(String key) {
 		try {
-			Parameter p = ElectionsDaoFactory.createParameterDao(em).getParameter(key);
-			em.remove(p);
+			Parameter parameter = ElectionsDaoFactory.createParameterDao(em).getParameter(key);
+			em.remove(parameter);
 			Constants.cleanParametersCache();
 		} catch (Exception e) {
 			appLogger.error(e);

@@ -15,13 +15,13 @@ import net.lacnic.elections.domain.Vote;
 @Remote
 public interface MailsSendingEJB {
 
-	void queueMassiveSending(List usuarios, ElectionEmailTemplate templateEleccion);
+	void queueMassiveSending(List users, ElectionEmailTemplate templateEleccion);
 
 	List<Email> getEmailsToSend();
 
-	void reschedule(List<Email> emailsProblematicos);
+	void reschedule(List<Email> problemEmails);
 
-	void queueSingleSending(ElectionEmailTemplate templateEleccion, UserVoter us, Auditor au, Election e, List<Vote> votos);
+	void queueSingleSending(ElectionEmailTemplate tamplateElection, UserVoter userVoter, Auditor auditor, Election election, List<Vote> votes);
 
 	void markEmailsAsSent();
 
