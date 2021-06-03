@@ -11,26 +11,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-public class ComissionerTest extends TestCase {
+public class CommissionerTest extends TestCase {
 	/**
      * @return the suite of tests being tested
      */
     public static Test suite()
     {
-        return new TestSuite( ComissionerTest.class );
+        return new TestSuite( CommissionerTest.class );
     }
     
-    public void testCommisioner()
+    public void testCommissioner()
     {
     	AssertAnnotations.assertType(Commissioner.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(Commissioner.class, "idCommissioner", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
+       AssertAnnotations.assertField(Commissioner.class, "commissionerId", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
        AssertAnnotations.assertField(Commissioner.class, "name", Column.class);
        AssertAnnotations.assertField(Commissioner.class, "mail", Column.class);
 
        //metodos       
-       AssertAnnotations.assertMethod(Commissioner.class, "getIdCommissioner");
+       AssertAnnotations.assertMethod(Commissioner.class, "getCommissionerId");
        AssertAnnotations.assertMethod(Commissioner.class, "getName");
        AssertAnnotations.assertMethod(Commissioner.class, "getMail");
        
@@ -40,8 +40,8 @@ public class ComissionerTest extends TestCase {
        
        
        Column c;       
-       c = ReflectTool.getFieldAnnotation(Commissioner.class, "idCommissioner", Column.class);
-       assertEquals("id_commissioner", c.name());
+       c = ReflectTool.getFieldAnnotation(Commissioner.class, "commissionerId", Column.class);
+       assertEquals("commissioner_id", c.name());
        c = ReflectTool.getFieldAnnotation(Commissioner.class, "name", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Commissioner.class, "mail", Column.class);

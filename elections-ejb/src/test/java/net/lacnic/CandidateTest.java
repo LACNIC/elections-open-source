@@ -28,8 +28,8 @@ public class CandidateTest extends TestCase {
     	AssertAnnotations.assertType(Candidate.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(Candidate.class, "idCandidate", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
-       AssertAnnotations.assertField(Candidate.class, "idMigration", Column.class);
+       AssertAnnotations.assertField(Candidate.class, "candidateId", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
+       AssertAnnotations.assertField(Candidate.class, "migrationId", Column.class);
        AssertAnnotations.assertField(Candidate.class, "name", Column.class);
        AssertAnnotations.assertField(Candidate.class, "election", JoinColumn.class, ManyToOne.class);
        AssertAnnotations.assertField(Candidate.class, "pictureInfo", Column.class);
@@ -46,7 +46,7 @@ public class CandidateTest extends TestCase {
        AssertAnnotations.assertField(Candidate.class, "votes", OneToMany.class);
        
        //metodos       
-       AssertAnnotations.assertMethod(Candidate.class, "getIdCandidate");
+       AssertAnnotations.assertMethod(Candidate.class, "getCandidateId");
        AssertAnnotations.assertMethod(Candidate.class, "getName");
        AssertAnnotations.assertMethod(Candidate.class, "getElection");
        AssertAnnotations.assertMethod(Candidate.class, "getPictureInfo");
@@ -62,7 +62,7 @@ public class CandidateTest extends TestCase {
        AssertAnnotations.assertMethod(Candidate.class, "getLinkSpanish");
        AssertAnnotations.assertMethod(Candidate.class, "getLinkEnglish");
        AssertAnnotations.assertMethod(Candidate.class, "getLinkPortuguese");
-       AssertAnnotations.assertMethod(Candidate.class, "getIdMigration");
+       AssertAnnotations.assertMethod(Candidate.class, "getMigrationId");
     
        //class annotations
        Entity a = ReflectTool.getClassAnnotation(Candidate.class, Entity.class);
@@ -72,14 +72,14 @@ public class CandidateTest extends TestCase {
        Column c;
        JoinColumn jc;
        OneToMany oa;
-       c = ReflectTool.getFieldAnnotation(Candidate.class, "idCandidate", Column.class);
-       assertEquals("id_candidate", c.name());
-       c = ReflectTool.getFieldAnnotation(Candidate.class, "idMigration", Column.class);
-       assertEquals("", c.name());
+       c = ReflectTool.getFieldAnnotation(Candidate.class, "candidateId", Column.class);
+       assertEquals("candidate_id", c.name());
+       c = ReflectTool.getFieldAnnotation(Candidate.class, "migrationId", Column.class);
+       assertEquals("migration_id", c.name());
        c = ReflectTool.getFieldAnnotation(Candidate.class, "name", Column.class);
        assertEquals("", c.name());
        jc = ReflectTool.getFieldAnnotation(Candidate.class, "election", JoinColumn.class);
-       assertEquals("id_election", jc.name());
+       assertEquals("election_id", jc.name());
        c = ReflectTool.getFieldAnnotation(Candidate.class, "pictureInfo", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Candidate.class, "pictureName", Column.class);
@@ -93,7 +93,7 @@ public class CandidateTest extends TestCase {
        c = ReflectTool.getFieldAnnotation(Candidate.class, "pictureExtension", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Candidate.class, "candidateOrder", Column.class);
-       assertEquals("candidate_order", c.name());
+       assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Candidate.class, "onlySp", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Candidate.class, "linkSpanish", Column.class);
