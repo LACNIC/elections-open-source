@@ -27,7 +27,7 @@ public class ActivityTest extends TestCase  {
     	AssertAnnotations.assertType(Activity.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(Activity.class, "idActivity", Column.class, Id.class, GeneratedValue.class, SequenceGenerator.class);
+       AssertAnnotations.assertField(Activity.class, "activityId", Column.class, Id.class, GeneratedValue.class, SequenceGenerator.class);
        AssertAnnotations.assertField(Activity.class, "userName", Column.class);
        AssertAnnotations.assertField(Activity.class, "electionId", Column.class);
        AssertAnnotations.assertField(Activity.class, "ip", Column.class);
@@ -36,7 +36,7 @@ public class ActivityTest extends TestCase  {
        AssertAnnotations.assertField(Activity.class, "description", Column.class);
        
        //metodos       
-       AssertAnnotations.assertMethod(Activity.class, "getIdActivity");
+       AssertAnnotations.assertMethod(Activity.class, "getActivityId");
        AssertAnnotations.assertMethod(Activity.class, "getUserName");
        AssertAnnotations.assertMethod(Activity.class, "getActivityType");
        AssertAnnotations.assertMethod(Activity.class, "getDescription");
@@ -50,12 +50,12 @@ public class ActivityTest extends TestCase  {
        
        
        Column c;
-       c = ReflectTool.getFieldAnnotation(Activity.class, "idActivity", Column.class);
-       assertEquals("id_activity", c.name());
+       c = ReflectTool.getFieldAnnotation(Activity.class, "activityId", Column.class);
+       assertEquals("activity_id", c.name());
        c = ReflectTool.getFieldAnnotation(Activity.class, "userName", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Activity.class, "electionId", Column.class);
-       assertEquals("", c.name());
+       assertEquals("election_id", c.name());
        c = ReflectTool.getFieldAnnotation(Activity.class, "ip", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Activity.class, "timestamp", Column.class);

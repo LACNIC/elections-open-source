@@ -28,8 +28,8 @@ public class ElectionTest extends TestCase {
     	AssertAnnotations.assertType(Election.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(Election.class, "idElection", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
-       AssertAnnotations.assertField(Election.class, "idMigration", Column.class);
+       AssertAnnotations.assertField(Election.class, "electionId", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
+       AssertAnnotations.assertField(Election.class, "migrationId", Column.class);
        AssertAnnotations.assertField(Election.class, "category", Column.class, Enumerated.class);
        AssertAnnotations.assertField(Election.class, "migrated", Column.class);
        AssertAnnotations.assertField(Election.class, "startDate", Column.class);
@@ -44,7 +44,7 @@ public class ElectionTest extends TestCase {
        AssertAnnotations.assertField(Election.class, "descriptionSpanish", Column.class);
        AssertAnnotations.assertField(Election.class, "descriptionEnglish", Column.class);
        AssertAnnotations.assertField(Election.class, "descriptionPortuguese", Column.class);
-       AssertAnnotations.assertField(Election.class, "maxCandidate", Column.class);
+       AssertAnnotations.assertField(Election.class, "maxCandidates", Column.class);
        AssertAnnotations.assertField(Election.class, "votingLinkAvailable", Column.class);
        AssertAnnotations.assertField(Election.class, "resultLinkAvailable", Column.class);
        AssertAnnotations.assertField(Election.class, "auditorLinkAvailable", Column.class);
@@ -62,17 +62,17 @@ public class ElectionTest extends TestCase {
        AssertAnnotations.assertField(Election.class, "auditors", OneToMany.class);
        AssertAnnotations.assertField(Election.class, "electionTemplates", OneToMany.class);
        AssertAnnotations.assertField(Election.class, "votes", OneToMany.class);
-       AssertAnnotations.assertField(Election.class, "email", Transient.class);
+       AssertAnnotations.assertField(Election.class, "email", OneToMany.class);
        AssertAnnotations.assertField(Election.class, "auxStartDate", Transient.class);
        AssertAnnotations.assertField(Election.class, "auxStartHour", Transient.class);
        AssertAnnotations.assertField(Election.class, "auxEndDate", Transient.class);
        AssertAnnotations.assertField(Election.class, "auxEndHour", Transient.class);
        
        //metodos       
-       AssertAnnotations.assertMethod(Election.class, "getIdElection");
+       AssertAnnotations.assertMethod(Election.class, "getElectionId");
        AssertAnnotations.assertMethod(Election.class, "getStartDate");
        AssertAnnotations.assertMethod(Election.class, "getEndDate");
-       AssertAnnotations.assertMethod(Election.class, "getMaxCandidate");
+       AssertAnnotations.assertMethod(Election.class, "getMaxCandidates");
        AssertAnnotations.assertMethod(Election.class, "isVotingLinkAvailable");
        AssertAnnotations.assertMethod(Election.class, "getCandidates");
        AssertAnnotations.assertMethod(Election.class, "getCreationDate");
@@ -80,15 +80,15 @@ public class ElectionTest extends TestCase {
        AssertAnnotations.assertMethod(Election.class, "getVotes");
        AssertAnnotations.assertMethod(Election.class, "isResultLinkAvailable");
        AssertAnnotations.assertMethod(Election.class, "getTitleSpanish");
-       AssertAnnotations.assertMethod(Election.class, "getTituloIngles");
-       AssertAnnotations.assertMethod(Election.class, "getTituloPortugues");
-       AssertAnnotations.assertMethod(Election.class, "getDescripcionEspanol");
-       AssertAnnotations.assertMethod(Election.class, "getDescripcionIngles");
-       AssertAnnotations.assertMethod(Election.class, "getDescripcionPortugues");
-       AssertAnnotations.assertMethod(Election.class, "getTokenResultado");
+       AssertAnnotations.assertMethod(Election.class, "getTitleEnglish");
+       AssertAnnotations.assertMethod(Election.class, "getTitlePortuguese");
+       AssertAnnotations.assertMethod(Election.class, "getDescriptionSpanish");
+       AssertAnnotations.assertMethod(Election.class, "getDescriptionEnglish");
+       AssertAnnotations.assertMethod(Election.class, "getDescriptionPortuguese");
+       AssertAnnotations.assertMethod(Election.class, "getResultToken");
        AssertAnnotations.assertMethod(Election.class, "getAuditors");
        AssertAnnotations.assertMethod(Election.class, "getLinkSpanish");
-       AssertAnnotations.assertMethod(Election.class, "getLinkEnglish	");
+       AssertAnnotations.assertMethod(Election.class, "getLinkEnglish");
        AssertAnnotations.assertMethod(Election.class, "getLinkPortuguese");
        AssertAnnotations.assertMethod(Election.class, "getAuxStartDate");
        AssertAnnotations.assertMethod(Election.class, "getAuxStartHour");
@@ -109,7 +109,6 @@ public class ElectionTest extends TestCase {
        AssertAnnotations.assertMethod(Election.class, "isFinished");
        AssertAnnotations.assertMethod(Election.class, "isStarted");
        AssertAnnotations.assertMethod(Election.class, "isEnabledToVote");
-       AssertAnnotations.assertMethod(Election.class, "isMigrada");
        AssertAnnotations.assertMethod(Election.class, "isMigrated");
        AssertAnnotations.assertMethod(Election.class, "getCategory");
        
@@ -120,10 +119,10 @@ public class ElectionTest extends TestCase {
        
        Column c;
        OneToMany oa;
-       c = ReflectTool.getFieldAnnotation(Election.class, "idElection", Column.class);
-       assertEquals("id_election", c.name());
-       c = ReflectTool.getFieldAnnotation(Election.class, "idMigration", Column.class);
-       assertEquals("", c.name());
+       c = ReflectTool.getFieldAnnotation(Election.class, "electionId", Column.class);
+       assertEquals("election_id", c.name());
+       c = ReflectTool.getFieldAnnotation(Election.class, "migrationId", Column.class);
+       assertEquals("migration_id", c.name());
        c = ReflectTool.getFieldAnnotation(Election.class, "category", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Election.class, "migrated", Column.class);
@@ -152,7 +151,7 @@ public class ElectionTest extends TestCase {
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Election.class, "descriptionPortuguese", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Election.class, "maxCandidate", Column.class);
+       c = ReflectTool.getFieldAnnotation(Election.class, "maxCandidates", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Election.class, "votingLinkAvailable", Column.class);
        assertEquals("", c.name());

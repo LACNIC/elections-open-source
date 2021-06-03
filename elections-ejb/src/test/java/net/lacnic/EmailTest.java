@@ -27,9 +27,9 @@ public class EmailTest extends TestCase {
     	AssertAnnotations.assertType(Email.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(Email.class, "id", Id.class, GeneratedValue.class, SequenceGenerator.class);
+       AssertAnnotations.assertField(Email.class, "emailId", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
        AssertAnnotations.assertField(Email.class, "recipients", Column.class);
-       AssertAnnotations.assertField(Email.class, "emailFrom", Column.class);
+       AssertAnnotations.assertField(Email.class, "from", Column.class);
        AssertAnnotations.assertField(Email.class, "cc", Column.class);
        AssertAnnotations.assertField(Email.class, "bcc", Column.class);
        AssertAnnotations.assertField(Email.class, "subject", Column.class);
@@ -40,14 +40,14 @@ public class EmailTest extends TestCase {
        AssertAnnotations.assertField(Email.class, "election", JoinColumn.class, ManyToOne.class);
 
        //metodos       
-       AssertAnnotations.assertMethod(Email.class, "getId");
+       AssertAnnotations.assertMethod(Email.class, "getEmailId");
        AssertAnnotations.assertMethod(Email.class, "getRecipients");
        AssertAnnotations.assertMethod(Email.class, "getCc");
        AssertAnnotations.assertMethod(Email.class, "getBcc");
        AssertAnnotations.assertMethod(Email.class, "getSubject");
        AssertAnnotations.assertMethod(Email.class, "getBody");
        AssertAnnotations.assertMethod(Email.class, "getSent");
-       AssertAnnotations.assertMethod(Email.class, "getEmailFrom");
+       AssertAnnotations.assertMethod(Email.class, "getFrom");
        AssertAnnotations.assertMethod(Email.class, "getElection");
        AssertAnnotations.assertMethod(Email.class, "getTemplateType");
        AssertAnnotations.assertMethod(Email.class, "getCreatedDate");
@@ -57,15 +57,14 @@ public class EmailTest extends TestCase {
        assertEquals("", a.name());
        
        
-       Column c;
-       SequenceGenerator sg;
+       Column c;       
        JoinColumn jc;
-       sg = ReflectTool.getFieldAnnotation(Email.class, "id", SequenceGenerator.class);
-       assertEquals("emaile_seq", sg.name());
+       c = ReflectTool.getFieldAnnotation(Email.class, "emailId", Column.class);
+       assertEquals("email_id", c.name());
        c = ReflectTool.getFieldAnnotation(Email.class, "recipients", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "emailFrom", Column.class);
-       assertEquals("email_from", c.name());
+       c = ReflectTool.getFieldAnnotation(Email.class, "from", Column.class);
+       assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Email.class, "cc", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Email.class, "bcc", Column.class);
@@ -81,7 +80,7 @@ public class EmailTest extends TestCase {
        c = ReflectTool.getFieldAnnotation(Email.class, "templateType", Column.class);
        assertEquals("", c.name());
        jc = ReflectTool.getFieldAnnotation(Email.class, "election", JoinColumn.class);
-       assertEquals("id_election", jc.name());
+       assertEquals("election_id", jc.name());
        
     }
     

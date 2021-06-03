@@ -29,8 +29,8 @@ public class UserVoterTest extends TestCase {
     	AssertAnnotations.assertType(UserVoter.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(UserVoter.class, "idUserVoter", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
-       AssertAnnotations.assertField(UserVoter.class, "idMigration", Column.class);
+       AssertAnnotations.assertField(UserVoter.class, "userVoterId", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
+       AssertAnnotations.assertField(UserVoter.class, "migrationId", Column.class);
        AssertAnnotations.assertField(UserVoter.class, "election", JoinColumn.class, ManyToOne.class);
        AssertAnnotations.assertField(UserVoter.class, "voted", Column.class);
        AssertAnnotations.assertField(UserVoter.class, "voteToken", Column.class);
@@ -45,7 +45,7 @@ public class UserVoterTest extends TestCase {
        AssertAnnotations.assertField(UserVoter.class, "codeSummary", Transient.class);
 
        //metodos       
-       AssertAnnotations.assertMethod(UserVoter.class, "getIdUserVoter");
+       AssertAnnotations.assertMethod(UserVoter.class, "getUserVoterId");
        AssertAnnotations.assertMethod(UserVoter.class, "getName");
        AssertAnnotations.assertMethod(UserVoter.class, "getMail");
        AssertAnnotations.assertMethod(UserVoter.class, "getCountry");
@@ -60,7 +60,7 @@ public class UserVoterTest extends TestCase {
        AssertAnnotations.assertMethod(UserVoter.class, "getCodeSummary");
        AssertAnnotations.assertMethod(UserVoter.class, "getVoteLink");
        AssertAnnotations.assertMethod(UserVoter.class, "getVoteDate");
-       AssertAnnotations.assertMethod(UserVoter.class, "getIdMigration");
+       AssertAnnotations.assertMethod(UserVoter.class, "getMigrationId");
        
      //class annotations
        Entity a = ReflectTool.getClassAnnotation(UserVoter.class, Entity.class);
@@ -70,12 +70,12 @@ public class UserVoterTest extends TestCase {
        Column c;
        JoinColumn jc;
        OneToMany oa;
-       c = ReflectTool.getFieldAnnotation(UserVoter.class, "idUserVoter", Column.class);
-       assertEquals("id_user_voter", c.name());
-       c = ReflectTool.getFieldAnnotation(UserVoter.class, "idMigration", Column.class);
-       assertEquals("", c.name());
+       c = ReflectTool.getFieldAnnotation(UserVoter.class, "userVoterId", Column.class);
+       assertEquals("uservoter_id", c.name());
+       c = ReflectTool.getFieldAnnotation(UserVoter.class, "migrationId", Column.class);
+       assertEquals("migration_id", c.name());
        jc = ReflectTool.getFieldAnnotation(UserVoter.class, "election", JoinColumn.class);
-       assertEquals("id_election", jc.name());
+       assertEquals("election_id", jc.name());
        c = ReflectTool.getFieldAnnotation(UserVoter.class, "voted", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(UserVoter.class, "voteToken", Column.class);

@@ -25,15 +25,15 @@ public class IpAccessTest extends TestCase {
     	AssertAnnotations.assertType(IpAccess.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(IpAccess.class, "id", Id.class, GeneratedValue.class, SequenceGenerator.class);
+       AssertAnnotations.assertField(IpAccess.class, "ipAccessId", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
        AssertAnnotations.assertField(IpAccess.class, "attemptCount", Column.class);
        AssertAnnotations.assertField(IpAccess.class, "ip", Column.class);
        AssertAnnotations.assertField(IpAccess.class, "lastAttemptDate", Column.class);
        AssertAnnotations.assertField(IpAccess.class, "firstAttemptDate", Column.class);
        
-       //metodos       
+       //metodos    
+       AssertAnnotations.assertMethod(IpAccess.class, "getIpAccessId");
        AssertAnnotations.assertMethod(IpAccess.class, "getFirstAttemptDate");
-       AssertAnnotations.assertMethod(IpAccess.class, "getIdDisabledIp");
        AssertAnnotations.assertMethod(IpAccess.class, "getIp");
        AssertAnnotations.assertMethod(IpAccess.class, "getAttemptCount");
        AssertAnnotations.assertMethod(IpAccess.class, "getLastAttemptDate");
@@ -44,13 +44,15 @@ public class IpAccessTest extends TestCase {
        
        
        Column c;
+       c = ReflectTool.getFieldAnnotation(IpAccess.class, "ipAccessId", Column.class);
+       assertEquals("ipaccess_id", c.name());
        c = ReflectTool.getFieldAnnotation(IpAccess.class, "attemptCount", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(IpAccess.class, "ip", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(IpAccess.class, "lastAttemptDate", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(IpAccess.class, "getFirstAttemptDate", Column.class);
+       c = ReflectTool.getFieldAnnotation(IpAccess.class, "firstAttemptDate", Column.class);
        assertEquals("", c.name());
        
     }

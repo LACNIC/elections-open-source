@@ -23,9 +23,9 @@ public class EmailHistoryTest extends TestCase {
     	AssertAnnotations.assertType(EmailHistory.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(EmailHistory.class, "id", Id.class);
+       AssertAnnotations.assertField(EmailHistory.class, "emailHistoryId", Id.class, Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "recipients", Column.class);
-       AssertAnnotations.assertField(EmailHistory.class, "emailFrom", Column.class);
+       AssertAnnotations.assertField(EmailHistory.class, "from", Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "cc", Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "bcc", Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "subject", Column.class);
@@ -33,18 +33,18 @@ public class EmailHistoryTest extends TestCase {
        AssertAnnotations.assertField(EmailHistory.class, "sent", Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "createdDate", Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "templateType", Column.class);
-       AssertAnnotations.assertField(EmailHistory.class, "idElection", Column.class);
+       AssertAnnotations.assertField(EmailHistory.class, "electionId", Column.class);
        
      //metodos       
-       AssertAnnotations.assertMethod(EmailHistory.class, "getId");
+       AssertAnnotations.assertMethod(EmailHistory.class, "getEmailHistoryId");
        AssertAnnotations.assertMethod(EmailHistory.class, "getRecipients");
        AssertAnnotations.assertMethod(EmailHistory.class, "getCc");
        AssertAnnotations.assertMethod(EmailHistory.class, "getBcc");
        AssertAnnotations.assertMethod(EmailHistory.class, "getSubject");
        AssertAnnotations.assertMethod(EmailHistory.class, "getBody");
        AssertAnnotations.assertMethod(EmailHistory.class, "getSent");
-       AssertAnnotations.assertMethod(EmailHistory.class, "getEmailFrom");
-       AssertAnnotations.assertMethod(EmailHistory.class, "getIdElection");
+       AssertAnnotations.assertMethod(EmailHistory.class, "getFrom");
+       AssertAnnotations.assertMethod(EmailHistory.class, "getElectionId");
        AssertAnnotations.assertMethod(EmailHistory.class, "getTemplateType");
        AssertAnnotations.assertMethod(EmailHistory.class, "getCreatedDate");
  
@@ -54,10 +54,12 @@ public class EmailHistoryTest extends TestCase {
        
        
        Column c;       
+       c = ReflectTool.getFieldAnnotation(EmailHistory.class, "emailHistoryId", Column.class);
+       assertEquals("emailhistory_id", c.name());
        c = ReflectTool.getFieldAnnotation(EmailHistory.class, "recipients", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(EmailHistory.class, "emailFrom", Column.class);
-       assertEquals("email_from", c.name());
+       c = ReflectTool.getFieldAnnotation(EmailHistory.class, "from", Column.class);
+       assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(EmailHistory.class, "cc", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(EmailHistory.class, "bcc", Column.class);
@@ -72,8 +74,8 @@ public class EmailHistoryTest extends TestCase {
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(EmailHistory.class, "templateType", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(EmailHistory.class, "idElection", Column.class);
-       assertEquals("id_election", c.name());
+       c = ReflectTool.getFieldAnnotation(EmailHistory.class, "electionId", Column.class);
+       assertEquals("election_id", c.name());
     }
 
 }

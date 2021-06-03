@@ -27,22 +27,22 @@ public class VoteTest extends TestCase {
     	AssertAnnotations.assertType(Vote.class, Entity.class);
     	
    	   // fields
-       AssertAnnotations.assertField(Vote.class, "idVote", Id.class, GeneratedValue.class, SequenceGenerator.class);
+       AssertAnnotations.assertField(Vote.class, "voteId", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
        AssertAnnotations.assertField(Vote.class, "code", Column.class);
        AssertAnnotations.assertField(Vote.class, "ip", Column.class);
        AssertAnnotations.assertField(Vote.class, "voteDate", Column.class);
        AssertAnnotations.assertField(Vote.class, "candidate", JoinColumn.class, ManyToOne.class);
        AssertAnnotations.assertField(Vote.class, "election", JoinColumn.class, ManyToOne.class);
-       AssertAnnotations.assertField(Vote.class, "userVote", JoinColumn.class, ManyToOne.class);
+       AssertAnnotations.assertField(Vote.class, "userVoter", JoinColumn.class, ManyToOne.class);
        
        //metodos       
-       AssertAnnotations.assertMethod(Vote.class, "getUserVote");
-       AssertAnnotations.assertMethod(Vote.class, "getIdVote");
+       AssertAnnotations.assertMethod(Vote.class, "getVoteId");
        AssertAnnotations.assertMethod(Vote.class, "getElection");
        AssertAnnotations.assertMethod(Vote.class, "getCode");
        AssertAnnotations.assertMethod(Vote.class, "getCandidate");
        AssertAnnotations.assertMethod(Vote.class, "getIp");
        AssertAnnotations.assertMethod(Vote.class, "getVoteDate");
+       AssertAnnotations.assertMethod(Vote.class, "getUserVoter");
        
        //class annotations
        Entity a = ReflectTool.getClassAnnotation(Vote.class, Entity.class);
@@ -51,6 +51,8 @@ public class VoteTest extends TestCase {
        
        Column c;
        JoinColumn jc;
+       c = ReflectTool.getFieldAnnotation(Vote.class, "voteId", Column.class);
+       assertEquals("vote_id", c.name());
        c = ReflectTool.getFieldAnnotation(Vote.class, "code", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Vote.class, "ip", Column.class);
@@ -58,11 +60,11 @@ public class VoteTest extends TestCase {
        c = ReflectTool.getFieldAnnotation(Vote.class, "voteDate", Column.class);
        assertEquals("", c.name());
        jc = ReflectTool.getFieldAnnotation(Vote.class, "candidate", JoinColumn.class);
-       assertEquals("id_candidate", jc.name());
+       assertEquals("candidate_id", jc.name());
        jc = ReflectTool.getFieldAnnotation(Vote.class, "election", JoinColumn.class);
-       assertEquals("id_election", jc.name());
-       jc = ReflectTool.getFieldAnnotation(Vote.class, "userVote", JoinColumn.class);
-       assertEquals("id_user_vote", jc.name());
+       assertEquals("election_id", jc.name());
+       jc = ReflectTool.getFieldAnnotation(Vote.class, "userVoter", JoinColumn.class);
+       assertEquals("uservoter_id", jc.name());
        
        
     }

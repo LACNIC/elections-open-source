@@ -27,7 +27,7 @@ public class CustomizationTest extends TestCase {
     	AssertAnnotations.assertType(Customization.class, Entity.class);
     	
     	 // fields
-        AssertAnnotations.assertField(Customization.class, "idCstomization", Column.class, Id.class, GeneratedValue.class, SequenceGenerator.class);
+        AssertAnnotations.assertField(Customization.class, "customizationId", Column.class, Id.class, GeneratedValue.class, SequenceGenerator.class);
         AssertAnnotations.assertField(Customization.class, "picSmallLogo", Column.class);
         AssertAnnotations.assertField(Customization.class, "picBigLogo", Column.class);
         AssertAnnotations.assertField(Customization.class, "picSymbol", Column.class);
@@ -41,7 +41,7 @@ public class CustomizationTest extends TestCase {
         
         //metodos
      
-        AssertAnnotations.assertMethod(Customization.class, "getIdCstomization");
+        AssertAnnotations.assertMethod(Customization.class, "getCustomizationId");
         AssertAnnotations.assertMethod(Customization.class, "getPicSmallLogo");
         AssertAnnotations.assertMethod(Customization.class, "getPicBigLogo");
         AssertAnnotations.assertMethod(Customization.class, "getPicSymbol");
@@ -58,8 +58,8 @@ public class CustomizationTest extends TestCase {
         
         
         Column c;
-        c = ReflectTool.getFieldAnnotation(Customization.class, "idCstomization", Column.class);
-        assertEquals("id_customization", c.name());
+        c = ReflectTool.getFieldAnnotation(Customization.class, "customizationId", Column.class);
+        assertEquals("customization_id", c.name());
         c = ReflectTool.getFieldAnnotation(Customization.class, "picSmallLogo", Column.class);
         assertEquals("pic_small_logo", c.name());
         c = ReflectTool.getFieldAnnotation(Customization.class, "picBigLogo", Column.class);
