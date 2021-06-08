@@ -1,7 +1,6 @@
 package net.lacnic.elections.dao;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -18,9 +17,9 @@ public class ReportDao {
 	public ReportDao() { }
 
 	/**
-	 * Obtiene una lista de e-mails con estado A Enviar
+	 * Gets the amount of emails in the system
 	 * 
-	 * @return Retorna una lista de e-mails con estado A Enviar
+	 * @return returns the amount of emails in the system
 	 */
 	public long getEmailsAmount() {
 		Query q = em.createQuery("SELECT COUNT(e.emailId) FROM Email e");
@@ -28,9 +27,9 @@ public class ReportDao {
 	}
 
 	/**
-	 * Obtiene la cantidad de emails sin enviar
+	 * Gets the amount of unsent emails
 	 * 
-	 * @return Retorna un long refiriendose a la cantidad de emails sin enviar
+	 * @return returns the amount of unsent emails
 	 * 
 	 */
 	public long getPendingSendEmailsAmount() {
@@ -39,9 +38,9 @@ public class ReportDao {
 	}
 
 	/**
-	 * Obtiene la cantidad de emails enviados
+	 * Gets the amount of sent emails
 	 * 
-	 * @return Retorna un long refiriendose a la cantidad de emails enviados
+	 * @return Returns the amount of sent emails
 	 * 
 	 */
 	public long getSentEmailsAmount() {
@@ -50,11 +49,10 @@ public class ReportDao {
 	}
 
 	/**
-	 * Obtiene la cantidad de ips que han tenido accesos fallidos
+	 * Gets the amount of failed access attempts
 	 * 
 	 *
-	 * @return Retorna un long con la cantidad de ips que han tenido intento de
-	 *         acceso fallido
+	 * @return returns the amount of failed access attempts
 	 */
 	public long getFailedIpAccesesAmount() {
 		Query q = em.createQuery("SELECT COUNT(a.ipAccessId) FROM IpAccess a");
@@ -62,11 +60,10 @@ public class ReportDao {
 	}
 
 	/**
-	 * Obtiene la suma de los accesos fallidos de cada ip de la tabla AccesosIps
+	 * Gets the sum of all the amount of failed access attempts
 	 * 
 	 *
-	 * @return Retorna un long con la cantidad de ips que han tenido intento de
-	 *         Baneo
+	 * @return returns the sum of all the amount of failed access attempts
 	 */
 	public long getFailedIpAccesesSum() {
 		Query q = em.createQuery("SELECT COALESCE(SUM (a.attemptCount), 0) FROM IpAccess a");
@@ -75,14 +72,16 @@ public class ReportDao {
 
 
 	/***
-	 * Consultas para cada Eleccion
+	 * Election Querys
 	 */
 
 	/**
-	 * Obtiene la cantidad de emails sin enviar correspondiente al id de la eleccion
-	 * pasado por parametro * @param idEleccion el id de la eleccion
+	 * Gets the amount of pending emails for a particular election
 	 * 
-	 * @return Retorna un long refiriendose a la cantidad de emails sin enviar
+	 * @param electionId
+	 * 			election identifier
+	 * 
+	 * @return returns the amount of pending emails for a particular election
 	 * 
 	 */
 	public long getElectionPendingSendEmailsAmount(long electionId) {
@@ -98,21 +97,21 @@ public class ReportDao {
 	 *         Eleccion
 	 * 
 	 */
+	
+	@SuppressWarnings("unchecked")
 	public List<Object[]> getElectionsAllIdName() {
 		return em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e").getResultList();
 	}
+	
 
 	/**
-	 * Devuelve un long indicando la cantidad de votantes válidos que efectuaron su
-	 * votación correctamente para la eleccion proporcionada por parametro
+	 * Gets the amount of voter who actually vote on the election.
 	 * 
-	 * @param idEleccion
-	 *            la elección a la que referimos el votante pertenece
+	 * @param electionId
+	 *            election identifier
 	 *
 	 * 
-	 * @return Retorna un long indicando la cantidad de votantes válidos que
-	 *         efectuaron su votación correctamente para la eleccion proporcionada
-	 *         por parametro
+	 * @return returns the amount of voters who actually vote on the election.
 	 * 
 	 */
 	public long getElectionAlreadyVotedAmount(long electionId) {
@@ -122,15 +121,13 @@ public class ReportDao {
 	}
 
 	/**
-	 * Devuelve un long indicando la cantidad de votantes válidos que no han
-	 * efectuado su votación para la eleccion proporcionada por parametro
+	 * Gets the amount of voters who did not vote on the election.
 	 * 
-	 * @param idEleccion
-	 *            la elección a la que referimos el votante pertenece
+	 * @param electionId
+	 *            election identifier
 	 *
 	 * 
-	 * @return Retorna un long indicando la cantidad de votantes válidos que no han
-	 *         efectuado su votación para la eleccion proporcionada por parametro
+	 * @return returns the amount of voters who did not vote on the election.
 	 * 
 	 */
 	public long getElectionNotVotedYetAmount(long electionId) {
@@ -140,11 +137,13 @@ public class ReportDao {
 	}
 
 	/**
-	 * Obtiene la cantidad de UsuarioPadron que participan en la eleccion de
-	 * identificador pasado por parámetro * @param idEleccion el id de la elección
-	 * que buscamos el padrón
+	 * Get the amount of voters of a particular election
 	 * 
-	 * @return Retorna la cantidad de usuarios asociados a la eleccion
+	 * @param electionId
+	 *            election identifier
+	 * 
+	 * @return returns the amount of voters of a particular election
+	 * 
 	 */
 	public long getElectionCensusSize(long electionId) {
 		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId");

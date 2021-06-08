@@ -681,6 +681,10 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public List getRecipientsByRecipientType(ElectionEmailTemplate electionEmailTemplate) throws Exception {
 		RecipientType recipientType = electionEmailTemplate.getRecipientType();
+		List<UserVoter> result;
+		List<UserVoter> unifiedList = new ArrayList<>();
+		boolean exists = false;
+		
 		if (recipientType.equals(RecipientType.VOTERS)) {
 			return ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoters(electionEmailTemplate.getElection().getElectionId());
 		} else if (recipientType.equals(RecipientType.VOTERS_BR)) {
@@ -699,12 +703,60 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersVotedByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
 		} else if (recipientType.equals(RecipientType.VOTERS_ALREADY_VOTED_MX)) {
 			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersVotedByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
-		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_TWO_ELECTIONS)) {
-			return ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYet(electionEmailTemplate.getElection().getElectionId());
+		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_TWO_ELECTIONS)) {			
+			result =  ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYet(electionEmailTemplate.getElection().getElectionId());
+			unifiedList = new ArrayList<>();
+			exists = false;
+			if (!result.isEmpty())
+				unifiedList.add(result.get(0));
+			for (UserVoter userVoter : result) {
+				exists = false;
+				for (UserVoter unifiedUserVoter : unifiedList) {
+					if (unifiedUserVoter.getMail().equalsIgnoreCase(userVoter.getMail())) {
+						exists = true;
+						break;
+					}
+				}
+				if (!exists)
+					unifiedList.add(userVoter);
+			}			
+			return unifiedList;
 		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_TWO_ELECTIONS_BR)) {
-			return ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYetByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
+			result = ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYetByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
+			unifiedList = new ArrayList<>();
+			exists = false;
+			if (!result.isEmpty())
+				unifiedList.add(result.get(0));
+			for (UserVoter userVoter : result) {
+				exists = false;
+				for (UserVoter unifiedUserVoter : unifiedList) {
+					if (unifiedUserVoter.getMail().equalsIgnoreCase(userVoter.getMail())) {
+						exists = true;
+						break;
+					}
+				}
+				if (!exists)
+					unifiedList.add(userVoter);
+			}			
+			return unifiedList;
 		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_TWO_ELECTIONS_MX)) {
-			return ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYetByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
+			result = ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYetByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
+			unifiedList = new ArrayList<>();
+			exists = false;
+			if (!result.isEmpty())
+				unifiedList.add(result.get(0));
+			for (UserVoter userVoter : result) {
+				exists = false;
+				for (UserVoter unifiedUserVoter : unifiedList) {
+					if (unifiedUserVoter.getMail().equalsIgnoreCase(userVoter.getMail())) {
+						exists = true;
+						break;
+					}
+				}
+				if (!exists)
+					unifiedList.add(userVoter);
+			}			
+			return unifiedList;			 
 		} else if (recipientType.equals(RecipientType.AUDITORS)) {
 			return ElectionsDaoFactory.createAuditorDao(em).getElectionAuditors(electionEmailTemplate.getElection().getElectionId());
 		} else if (recipientType.equals(RecipientType.AUDITORS_NOT_AGREED_CONFORMITY_YET)) {

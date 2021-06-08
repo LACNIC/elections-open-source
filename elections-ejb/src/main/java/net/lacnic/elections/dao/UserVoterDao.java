@@ -1,6 +1,5 @@
 package net.lacnic.elections.dao;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -78,36 +77,16 @@ public class UserVoterDao {
 		return q.getResultList();
 	}
 
-
+	
 	public List<UserVoter> getJointElectionUserVotersNotVotedYet(long electionId) {
 		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u, JointElection p"
 				+ " WHERE (p.idElectionA = :electionId OR p.idElectionB = :electionId)"
 				+ " AND (u.election.electionId = p.idElectionA OR u.election.electionId = p.idElectionB)"
 				+ " AND u.voted = FALSE ORDER BY u.voteDate ASC", UserVoter.class);
 		q.setParameter("electionId", electionId);
-
-		List<UserVoter> unifiedList = new ArrayList<>();
-		boolean exists = false;
-
-		if (!q.getResultList().isEmpty())
-			unifiedList.add(q.getResultList().get(0));
-
-		for (UserVoter userVoter : q.getResultList()) {
-			exists = false;
-			for (UserVoter unifiedUserVoter : unifiedList) {
-				if (unifiedUserVoter.getMail().equalsIgnoreCase(userVoter.getMail())) {
-					exists = true;
-					break;
-				}
-			}
-
-			if (!exists)
-				unifiedList.add(userVoter);
-		}
-
-		return unifiedList;
+		return q.getResultList();
 	}
-
+	
 	public List<UserVoter> getJointElectionUserVotersNotVotedYetByCountry(long electionId, String country) {
 		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u, JointElection p"
 				+ " WHERE (p.idElectionA = :electionId OR p.idElectionB = :electionId)"
@@ -116,33 +95,9 @@ public class UserVoterDao {
 		q.setParameter("electionId", electionId);
 		q.setParameter("country", country.toUpperCase());
 
-		List<UserVoter> unifiedList = new ArrayList<>();
-		boolean exists = false;
-
-		if (!q.getResultList().isEmpty())
-			unifiedList.add(q.getResultList().get(0));
-
-		for (UserVoter userVoter : q.getResultList()) {
-			for (UserVoter unifiedUserVoter : unifiedList) {
-				if (unifiedUserVoter.getMail().equalsIgnoreCase(userVoter.getMail())) {
-					exists = true;
-					break;
-				}
-			}
-
-			if (!exists)
-				unifiedList.add(userVoter);
-		}
-
-		return unifiedList;
+		return q.getResultList();
 	}
-
-	public List<Object[]> getElectionUserVotersObjects(long electionId) {
-		Query nq = em.createNativeQuery("SELECT u.language, u.name, u.mail, u.voteAmount, u.country, u.orgID, u.voteToken FROM UserVoter u WHERE u.election.electionId = :electionId ORDER BY u.userVoterId ASC");
-		nq.setParameter("electionId", electionId);
-		List<Object[]> q = nq.getResultList();
-		return q;
-	}
+	
 
 	public Long getElectionCensusSize(long electionId) {
 		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId");

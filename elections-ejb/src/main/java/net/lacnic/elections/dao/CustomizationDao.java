@@ -17,7 +17,7 @@ public class CustomizationDao {
 
 
 	/**
-	 * Constructor - asigna el entityManager
+	 * Constructor - Assigns the entityManager
 	 *  
 	 */
 	public CustomizationDao(EntityManager em) {
@@ -25,9 +25,9 @@ public class CustomizationDao {
 	}
 
 	/**
-	 * Obtiene la información de personalización
+	 * Gets information about the customization
 	 * 
-	 * @return Retorna un objeto con la info de personalización
+	 * @return returns an entity with the  customization entity.
 	 * 
 	 */
 	public Customization getCustomization() {

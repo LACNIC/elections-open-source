@@ -21,35 +21,55 @@ public class ElectionEmailTemplateDao {
 	public ElectionEmailTemplateDao(EntityManager em) {
 		this.em = em;
 	}
-
-	public String getSubjectByElectionTypeLanguage(Long electionId, String templateType, String language) {
+	
+	public String getSubjectByElectionTypeLanguageSP(Long electionId, String templateType) {
 		TypedQuery<String> q;
-		if (language.equalsIgnoreCase("en")) {
-			q = em.createQuery("SELECT t.subjectEN FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
-		} else if (language.equalsIgnoreCase("pt")) {
-			q = em.createQuery("SELECT t.subjectPT FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
-		} else {
-			q = em.createQuery("SELECT t.subjectSP FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
-		}
+		q = em.createQuery("SELECT t.subjectSP FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
+		q.setParameter("electionId", electionId);
+		q.setParameter("templateType", templateType.toUpperCase());
+		return q.getSingleResult();
+	}
+	
+	public String getSubjectByElectionTypeLanguageEN(Long electionId, String templateType) {
+		TypedQuery<String> q;
+		q = em.createQuery("SELECT t.subjectEN FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
+		q.setParameter("electionId", electionId);
+		q.setParameter("templateType", templateType.toUpperCase());
+		return q.getSingleResult();
+	}
+	
+	public String getSubjectByElectionTypeLanguagePT(Long electionId, String templateType) {
+		TypedQuery<String> q;
+		q = em.createQuery("SELECT t.subjectPT FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
 		q.setParameter("electionId", electionId);
 		q.setParameter("templateType", templateType.toUpperCase());
 		return q.getSingleResult();
 	}
 
-	public String getBodyByElectionTypeLanguage(Long electionId, String templateType, String language) {
-		TypedQuery<String> q; 
-		if (language.equalsIgnoreCase("en")) {
-			q = em.createQuery("SELECT t.bodyEN  FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
-		} else if (language.equalsIgnoreCase("pt")) {
-			q = em.createQuery("SELECT t.bodyPT FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
-		} else {
-			q = em.createQuery("SELECT t.bodySP FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
-		}		
+	public String getBodyByElectionTypeLanguageSP(Long electionId, String templateType, String language) {
+		TypedQuery<String> q;		
+		q = em.createQuery("SELECT t.bodySP FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
 		q.setParameter("electionId", electionId);
 		q.setParameter("templateType", templateType.toUpperCase());
 		return q.getSingleResult();
 	}
-
+	
+	public String getBodyByElectionTypeLanguageEN(Long electionId, String templateType, String language) {
+		TypedQuery<String> q;		
+		q = em.createQuery("SELECT t.bodyEN FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
+		q.setParameter("electionId", electionId);
+		q.setParameter("templateType", templateType.toUpperCase());
+		return q.getSingleResult();
+	}
+	
+	public String getBodyByElectionTypeLanguagePT(Long electionId, String templateType, String language) {
+		TypedQuery<String> q;		
+		q = em.createQuery("SELECT t.bodyPT FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId AND t.templateType = :templateType", String.class);
+		q.setParameter("electionId", electionId);
+		q.setParameter("templateType", templateType.toUpperCase());
+		return q.getSingleResult();
+	}
+		
 	public List<ElectionEmailTemplate> getElectionTemplates(Long electionId) {
 		TypedQuery<ElectionEmailTemplate> q = em.createQuery("SELECT t FROM ElectionEmailTemplate t WHERE t.election.electionId = :electionId", ElectionEmailTemplate.class);
 		q.setParameter("electionId", electionId);

@@ -75,6 +75,7 @@ public class ElectionDao {
 				+ " FROM UserVoter u, Election e"
 				+ " WHERE u.orgID = :orgID AND u.election.electionId = e.electionId");
 		q.setParameter("orgID", orgID);
+		@SuppressWarnings("unchecked")
 		List<Object[]> result = q.getResultList();
 
 		List<Participation> resultList = new ArrayList<>();
@@ -115,6 +116,7 @@ public class ElectionDao {
 
 	public List<String> getElectionsAllIdAndTitle() {
 		Query q = em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e ORDER BY e.electionId");
+		@SuppressWarnings("unchecked")
 		List<Object[]> result = q.getResultList();
 
 		List<String> resultList = new ArrayList<>();
