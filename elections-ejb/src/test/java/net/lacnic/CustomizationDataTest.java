@@ -4,12 +4,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+//import javax.persistence.EntityManager;
+//import javax.persistence.EntityManagerFactory;
+//import javax.persistence.Persistence;
 
-import net.lacnic.elections.dao.CustomizationDao;
-import net.lacnic.elections.domain.Customization;
+//import net.lacnic.elections.dao.CustomizationDao;
+//import net.lacnic.elections.domain.Customization;
 
 
 public class CustomizationDataTest extends TestCase {

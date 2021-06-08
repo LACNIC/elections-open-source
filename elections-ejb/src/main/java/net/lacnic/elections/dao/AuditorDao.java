@@ -18,11 +18,11 @@ public class AuditorDao {
 	}
 
 	/**
-	 * Obtiene el Auditor de id=id
+	 * Gets Auditor by id.
 	 * 
 	 * @param id
-	 *            el id de un Auditor
-	 * @return Devuelve la entidad Auditor correspondiente al identificador
+	 *            Auditor id.
+	 * @return Returns the Auditor entity corresponding to the id 
 	 */
 	public Auditor getAuditor(long auditorId) {
 		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.auditorId = :auditorId", Auditor.class);
@@ -31,11 +31,9 @@ public class AuditorDao {
 	}
 
 	/**
-	 * Obtiene todos los auditores del sistema sin importar la eleccion a la que
-	 * corresponden
+	 * Gets all the auditor from the system.
 	 * 
-	 * @return Devfuelve todos los auditores del sistema sin importar la
-	 *         eleccion a la que corresponden
+	 * @return returns all the auditors present on the system.
 	 */
 	public List<Auditor> getAuditorsAll() {
 		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c", Auditor.class);
@@ -43,12 +41,11 @@ public class AuditorDao {
 	}
 
 	/**
-	 * Obtiene una lista con los auditores de la eleccion de id=idEleccion
+	 * Gets a list of Auditors related to a particular election.
 	 * 
 	 * @param idEleccion
-	 *            el id de la Eleccion de la cual queremos obtener los auditores
-	 * @return Devuelve una lista de Auditores que aplican para la eleccion de
-	 *         idEleccion
+	 *            Election identifier.
+	 * @return Returns a list of auditor related to a particular election.
 	 */
 	public List<Auditor> getElectionAuditors(long electionId) {
 		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.election.electionId = :electionId", Auditor.class);
@@ -72,12 +69,10 @@ public class AuditorDao {
 	}
 
 	/**
-	 * Obtiene todos los UUID de auditores existentes, es utilizado para chekear
-	 * que no se repitan los codigos generados
+	 * Gets a list of result tokens from the Auditors
 	 * 
 	 * 
-	 * @return Devuelve una lista con todos los UUIDS creados hasta el momento
-	 *         para descartar repeticiones
+	 * @return returns a list of result tokens from the Auditors
 	 */
 	public List<String> getAllAuditorsUUIDs() {
 		TypedQuery<String> q = em.createQuery("SELECT a.resultToken FROM Auditor a", String.class);

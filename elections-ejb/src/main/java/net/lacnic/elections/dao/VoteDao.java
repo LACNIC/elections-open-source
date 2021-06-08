@@ -37,6 +37,7 @@ public class VoteDao {
 		return q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Object[]> getElectionVotesCandidateAndCode(long electionId) {
 		Query q = em.createQuery("SELECT v.candidate.name, v.code FROM Vote v WHERE v.election.electionId = :electionId ORDER BY v.code");
 		q.setParameter("electionId", electionId);
@@ -47,6 +48,7 @@ public class VoteDao {
 		return getElectionVotes(electionId).size();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Object[]> getElectionVotesCandidateForUserVoter(long userVoterId, long electionId) {
 		Query q = em.createQuery("SELECT v.candidate.name, v.code, v.candidate.pictureInfo FROM Vote v WHERE v.userVoter.userVoterId = :userVoterId AND v.election.electionId = :electionId");
 		q.setParameter("userVoterId", userVoterId);

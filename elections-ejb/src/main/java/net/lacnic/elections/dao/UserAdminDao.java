@@ -23,13 +23,7 @@ public class UserAdminDao {
 		this.em = em;
 	}
 
-	/**
-	 * Devuelve la eleccion de id=idEleccion
-	 * 
-	 * @param idEleccion
-	 *            indica el identificador de la elección
-	 * @return Retorna la instancia de eleccion con id=idEleccion
-	 */
+	
 	public UserAdmin verifyUserLogin(String userAdminId, String password) {
 		try {
 			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE a.userAdminId = :userAdminId and a.password = :password", UserAdmin.class);
