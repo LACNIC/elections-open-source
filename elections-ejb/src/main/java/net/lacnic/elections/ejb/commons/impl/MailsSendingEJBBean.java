@@ -50,6 +50,17 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
+	/**
+	 * Creates mails with the information required depending on the template type, from a list of voters or auditors (depending on the template type). 
+	 * If the templates contains VOTE_SuMMARY on the body, it adds  the vote summary
+	 * if the template is for auditor, it creates a mail with the auditor information; if  not, it creates a mail for the voter.
+	 * 
+	 * @param templateEleccion
+	 * 			The email template from which to create the mail
+	 * @param users
+	 * 			A collection of either user voter entity of auditor entity with the information for each mail
+	 * 
+	 */
 	@Override
 	public void queueMassiveSending(List users, ElectionEmailTemplate electionTemplate) {
 		try {
@@ -127,6 +138,22 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		}
 	}
 
+	/**
+	 * Creates a mail with the information required depending on the template type. If the templates contains VOTE_SuMMARY on the body, it adds  the vote summary
+	 * if the template is fopr auditor, it creates a mail with the auditor information; if  not, it creates a mail for the voter.
+	 * 
+	 * @param templateEleccion
+	 * 			The email template from which to create the mail
+	 * @param userVoter
+	 * 			The voter of the election
+	 * @param auditor	
+	 * 			The  auditor of the election
+	 * @param election
+	 * 			The election
+	 * @param votes
+	 * 			A collection of vote entity containing the votes
+	 * 
+	 */
 	@Override
 	public void queueSingleSending(ElectionEmailTemplate templateEleccion, UserVoter userVoter, Auditor auditor, Election election, List<Vote> votes) {
 		try {
@@ -190,6 +217,13 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		}
 	}
 
+	/**
+	 * Gets a list of votes in the form of vote code / candidate name list
+	 * @param votes
+	 * 			A collection of vote entity containing the votes
+	 * 
+	 * @return returns a string with all the vote codes and candidate names in the form of "code / name" 
+	 */
 	private String addVotes(List<Vote> votes) {
 		String aux = "";
 		for (Vote v : votes) {
@@ -197,7 +231,17 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		}
 		return aux;
 	}
-
+	
+	/**
+	 * Maps the variables to the template fields using velocity
+	 *  
+	 * @param template
+	 * 			Template text with variables
+	 * @param variables
+	 * 			A map of string - object with the information.
+	 * @return returns a string with the template filled.
+	 * 
+	 */
 	private String processTemplate(String template, Map<String, Object> variables) throws IOException {
 		VelocityEngine velocityEngine = new VelocityEngine();
 		velocityEngine.init();
@@ -211,17 +255,31 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		Velocity.evaluate(context, stringWriter, "email-template", template);
 		return stringWriter.toString();
 	}
-
+	
+	/**
+	 * Gets a list of all the email pending to be sent.
+	 * 
+	 * @return returns a collection of email entity containing the information
+	 */
 	@Override
 	public List<Email> getEmailsToSend() {
 		return ElectionsDaoFactory.createEmailDao(em).getPendingSendEmails();
 	}
 
+	/**
+	 * Changes the status of all the emails on Email table as sent
+	 */
 	@Override
 	public void markEmailsAsSent() {
 		ElectionsDaoFactory.createEmailDao(em).markAllEmailsAsSent();
 	}
-
+	
+	/**
+	 * Takes a list of unsent emails and re sends them
+	 * 
+	 *  @param problemEmails
+	 *  			A collection of email entity containing the mails that need to be re-sent.
+	 */
 	@Override
 	public void reschedule(List<Email> problemEmails) {
 		for (Email email : problemEmails) {
@@ -233,7 +291,9 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 			}
 		}
 	}
-
+	/**
+	 * Moves emails with creation date older than 30 days to the table email history 
+	 */
 	@Override
 	public void moveEmailsToHistory() {
 		List<Email> emails = ElectionsDaoFactory.createEmailDao(em).getEmailsOlderOneMonth();
@@ -243,6 +303,9 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		}
 	}
 
+	/**
+	 * Deletes all the transactional information from the database (email, uservoter, candidate, election )
+	 */
 	@Override
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public void purgeTables() {
@@ -254,12 +317,12 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 			java.sql.Connection connection = sessionImpl.connection();
 			java.sql.PreparedStatement s1 = connection.prepareStatement("VACUUM email");
 			java.sql.PreparedStatement s2 = connection.prepareStatement("VACUUM FULL email");
-			java.sql.PreparedStatement s3 = connection.prepareStatement("VACUUM usuariopadron");
-			java.sql.PreparedStatement s4 = connection.prepareStatement("VACUUM FULL usuariopadron");
-			java.sql.PreparedStatement s5 = connection.prepareStatement("VACUUM candidato");
-			java.sql.PreparedStatement s6 = connection.prepareStatement("VACUUM FULL candidato");
-			java.sql.PreparedStatement s7 = connection.prepareStatement("VACUUM eleccion");
-			java.sql.PreparedStatement s8 = connection.prepareStatement("VACUUM FULL eleccion");
+			java.sql.PreparedStatement s3 = connection.prepareStatement("VACUUM uservoter");
+			java.sql.PreparedStatement s4 = connection.prepareStatement("VACUUM FULL uservoter");
+			java.sql.PreparedStatement s5 = connection.prepareStatement("VACUUM candidate");
+			java.sql.PreparedStatement s6 = connection.prepareStatement("VACUUM FULL candidate");
+			java.sql.PreparedStatement s7 = connection.prepareStatement("VACUUM election");
+			java.sql.PreparedStatement s8 = connection.prepareStatement("VACUUM FULL election");
 			java.sql.PreparedStatement s9 = connection.prepareStatement("VACUUM");
 			java.sql.PreparedStatement s10 = connection.prepareStatement("VACUUM FULL");
 		){

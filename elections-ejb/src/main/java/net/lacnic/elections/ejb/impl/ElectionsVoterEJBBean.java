@@ -58,12 +58,29 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 
 	public ElectionsVoterEJBBean() { }
 
-
+	/**
+	 * Gets a list of candidate name and vote code for an election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns a collection of array of objects, where each array contains the candidate name and vote code for all the votes in the election. 
+	 */
 	@Override
 	public List<Object[]> getElectionVotesCandidateAndCode(long electionId) {
 		return ElectionsDaoFactory.createVoteDao(em).getElectionVotesCandidateAndCode(electionId);
 	}
 
+	/**
+	 * Create a new vote or votes from a voter and the candidates chosen
+	 * 
+	 * @param candidates
+	 * 			List of candidate entity containing the ones the voter voted
+	 * @param userVoter
+	 * 			The information of the voter
+	 * @param ip 
+	 * 			The ip of the voter
+	 */
 	@Override
 	public void vote(List<Candidate> candidates, UserVoter userVoter, String ip) throws OperationNotPermittedException {
 		UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getUserVoter(userVoter.getUserVoterId());
@@ -96,6 +113,14 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		em.persist(userVoterDB);
 	}
 
+	/**
+	 * Gets the voter from a the vote token
+	 * 
+	 * @param voteToken
+	 * 			A string containing the unique vote token
+	 * 
+	 * @return returns a entity containing the voter associated to the token
+	 */
 	@Override
 	public UserVoter verifyUserVoterAccess(String voteToken) {
 		try {
@@ -105,6 +130,15 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		}
 	}
 
+	/**
+	 * Gets a voters of a joint election searching the the token from one and binding by the mail
+	 * 
+	 * @param voteToken
+	 * 			A string containing the unique vote token
+	 * 
+	 * @return returns an array containing two user voter entities, one corresponding to the voter associated to the token and the other is the user
+	 * voter from the same voter but associated to the other election.
+	 */
 	@Override
 	public UserVoter[] verifyUserVoterAccessJointElection(String voteToken) {
 		try {
@@ -132,6 +166,14 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		}
 	}
 
+	/**
+	 * Gets the election associated to a result token
+	 * 
+	 * @param resultToken
+	 * 			A string containing the unique result token
+	 * 
+	 * @return returns an election entity associated to the token or null if it  is not found
+	 */
 	@Override
 	public Election verifyResultAccess(String resultToken) {
 		try {
@@ -141,7 +183,15 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Gets the auditor associated to a result token
+	 * 
+	 * @param resultToken
+	 * 			A string containing the unique token
+	 * 
+	 * @return returns an auditor entity associated to the token or null if it  is not found
+	 */
 	@Override
 	public Auditor verifyAuditorResultAccess(String resultToken) {
 		try {
@@ -152,6 +202,13 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		}
 	}
 
+	/**
+	 * Creates an invalid ip access
+	 * 
+	 * @param remoteAddress
+	 * 			A string containing the ip address that failed to access
+	 * 
+	 */
 	@Override
 	public void saveFailedAccessIp(String remoteAddress) {
 		IpAccess ip = ElectionsDaoFactory.createIpAccessDao(em).getIP(remoteAddress);
@@ -169,27 +226,65 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		}
 	}
 
+	/**
+	 * Get a list of candidates from the election in the order defined
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return a collection of candidate entity containing all the candidates in the election inserted in the order defined.
+	 */
 	@Override
 	public List<Candidate> getElectionCandidatesOrdered(long electionId) throws Exception {
 		return EJBFactory.getInstance().getElectionsManagerEJB().getElectionCandidatesOrdered(electionId);
 	}
-
+	
+	/**
+	 * Gets the list of candidates of an election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns a collection of candidate entity with the candidates of the election
+	 */
 	@Override
 	public List<Candidate> getElectionCandidates(long electionId) throws Exception {
 		return ElectionsDaoFactory.createCandidateDao(em).getElectionCandidates(electionId);
 	}
 
+	/**
+	 * Gets the amount of voters who voter for a candidate 
+	 * 
+	 * @param candidateId
+	 * 				Identifier of the candidate
+	 * 
+	 * @return returns the amount of voters who voted for the candidate
+	 */
 	@Override
 	public long getCandidateVotesAmount(long candidateId) throws Exception {
 		return ElectionsDaoFactory.createCandidateDao(em).getCandidateVotesAmount(candidateId);
 	}
 
+	/**
+	 * Gets the amount of voters who did vote in an election
+	 * 
+	 * @param electionId
+	 * 				Identifier of the election
+	 * 
+	 * @return returns the amount of voters who did vote in the election
+	 */
 	@Override
 	public long getElectionUserVotersVotedAmount(long electionId) throws Exception {
 		UserVoterDao userVoterDao = ElectionsDaoFactory.createUserVoterDao(em);
 		return userVoterDao.getElectionUserVotersVotedAmount(electionId);
 	}
 
+	/**
+	 * Updates the conformity of an auditor, by setting the agreed conformity to true.
+	 * 
+	 * @param auditorId
+	 * 			Identifier of the auditor
+	 */
 	@Override
 	public void confirmAuditorAgreedConformity(long auditorId) {
 		try {
@@ -203,7 +298,16 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		}
 
 	}
-
+	
+	/**
+	 * Enables the auditor to be able to review an election.
+	 * 
+	 * @param auditorId
+	 * 				Identifier of the auditor
+	 * @param ip
+	 * 				Ip address of the user performing the action for loggin purposes.
+	 * 
+	 */
 	@Override
 	public void enableAuditorElectionRevision(long auditorId, String ip) {
 		try {
@@ -220,18 +324,39 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		}
 
 	}
-
+	
+	/**
+	 * Validates if a user has already voted
+	 * 
+	 * @param userVoterId
+	 * 			Identifier of the user voter
+	 * 
+	 * @return returns true if the voter has voted on the election, false otherwise
+	 */
 	@Override
 	public boolean userAlreadyVoted(long userVoterId) throws Exception {
 		UserVoter userVoter = ElectionsDaoFactory.createUserVoterDao(em).getUserVoter(userVoterId);
 		return userVoter.isVoted();
 	}
 
+	/**
+	 * Get the amount of votes from an election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns the amount of votes in an election
+	 */
 	@Override
 	public long getElectionVotesAmount(long electionId) throws Exception {
 		return ElectionsDaoFactory.createVoteDao(em).getElectionVotesAmount(electionId);
 	}
 
+	/**
+	 * Gets the sistem info document.
+	 * 
+	 * @return returns a byte array with the document info form the template path
+	 */
 	@Override
 	public byte[] getAquaItAudit() {
 		try {
@@ -242,6 +367,11 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		return "".getBytes();
 	}
 
+	/**
+	 * Gets the requirements document.
+	 * 
+	 * @return returns a byte array with the document info form the template path
+	 */
 	@Override
 	public byte[] getV1Requirements() {
 		try {
@@ -251,12 +381,28 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		}
 		return "".getBytes();
 	}
-
+	
+	/**
+	 * Gets the election revision document
+	 * 
+	 * @param filePath
+	 * 			A string containing the file path of the document
+	 * 
+	 * @return returns a file containing the document from the file path.
+	 */
 	@Override
 	public File getElectionRolesRevisionDocument(String filePath) {					
 		return FilesUtils.getElectionRolesRevisionDocument(filePath);			
 	}
 
+	/**
+	 * Gets the result of an election, including all the votes of each candidate.
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns an election result data object containing the result of an election.
+	 */
 	@Override
 	public ElectionsResultsData getElectionsResultsData(long electionId) throws Exception {
 		Election election = em.find(Election.class, electionId);
@@ -277,11 +423,29 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		return resultsData;
 	}
 
+	/**
+	 * Gets a list containing the  votes of a voter on an election
+	 * 
+	 * @param userVoterId
+	 * 			Identifier of the voter
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns a list containing the candidate name, vote code and candidate picture of all the votes of a voter in an election
+	 */
 	@Override
 	public List<Object[]> getElectionVotesCandidateForUserVoter(long userVoterId, long electionId) {
 		return ElectionsDaoFactory.createVoteDao(em).getElectionVotesCandidateForUserVoter(userVoterId, electionId);
 	}
-
+	
+	/**
+	 * Calculates the evolution of votes by day of an election, including for each day, the votes of the day and the sum of votes up to that day
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns a collection of object containing three lists, a list of days, a list of votes by day and a list with the sum of votes up to each day.
+	 */
 	@Override
 	public List<Object> getElectionVoteEvolutionData(long electionId) {
 		List<UserVoter> votersList = ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersVoted(electionId);
@@ -325,7 +489,17 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Gets a list of days in the range between two dates
+	 *  
+	 * @param startDate
+	 * 			Start date
+	 * @param endDate
+	 * 			End date
+	 * 
+	 * @return returns an array of string with the days between the dates.
+	 */
 	public static List<String> getDatesBetween(Date startDate, Date endDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<String> datesInRange = new ArrayList<>();
@@ -349,33 +523,88 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 
 		return datesInRange;
 	}
-
+	
+	/**
+	 * Gets an election.
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election searched
+	 * 
+	 * @return returns a election entity
+	 */
 	@Override
 	public Election getElection(long electionId) {
 		return ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
 	}
 
+	/**
+	 * Validates if an election is not a contained in a joint election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election searched
+	 * 
+	 * @return returns true if the election is not a cointained in a joint election, false if it is.
+	 */
 	@Override
 	public boolean electionIsSimple(long electionId) {
 		return ElectionsDaoFactory.createElectionDao(em).electionIsSimple(electionId);
 	}
-
+	
+	/**
+	 * Gets a  joint election filtering by an election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election searched
+	 * 
+	 * @return returns a joint election containing the election searched or null if it does not exists
+	 */
 	@Override
 	public JointElection getJointElection(long electionId) {
 		return ElectionsDaoFactory.createElectionDao(em).getJointElectionForElection(electionId);
 	}
 
-
+	/**
+	 * Calculates the amount of votes in an election with an specific amount each voter had the possibility to vote (no filtering whether the voter voted or no)
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param voteAmount
+	 * 			Amount of votes per voter searched 
+	 * @return returns the count of all the voter who had the chance to vote the amount of votes passed as a parameter in the election
+	 */
 	private Long getElectionUserVotersAmountByVoteAmount(long electionId, Integer voteAmount) {
 		UserVoterDao padronDao = ElectionsDaoFactory.createUserVoterDao(em);
 		return padronDao.getElectionUserVotersAmountByVoteAmount(electionId, voteAmount);
 	}
 
+	/**
+	 * Calculates the amount of votes in an election with an specific amount each voter voted
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param voteAmount
+	 * 			Amount of votes per voter searched 
+	 * @return returns the count of all the voter who voted the amount of votes passed as a parameter in the election
+	 */
 	private Long getElectionUserVotersAmountByVoteAmountAndVoted(long electionId, Integer voteAmount) {
 		UserVoterDao padronDao = ElectionsDaoFactory.createUserVoterDao(em);
 		return padronDao.getElectionUserVotersAmountByVoteAmountAndVoted(electionId, voteAmount);
 	}
 
+	/**
+	 * Creates a new activity log entry.
+	 * 
+	 * @param userAdminId
+	 * 			Identifier of the user performing the activity
+	 * @param activityType
+	 * 			Type of the activity
+	 * @param description
+	 * 			Description of the activity
+	 * @param ip
+	 * 			Ip of the user performing the activity
+	 * @param electionId
+	 * 			Identifier of the election on which the activity took place
+	 */
 	private void persistActivity(String userAdminId, ActivityType activityType, String description, String ip, Long electionId) {
 		Activity activity = new Activity();
 		activity.setIp(ip);

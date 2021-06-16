@@ -27,10 +27,12 @@ public class AutomaticProcesses {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
-
+	/**
+	 * Get the list of emails to send and tries to send them. Adds the ones who fail to the email wit problemas list which are re-scheduled to be sent later.
+	 */
 	@TransactionTimeout(35000)
 	@Schedules({ @Schedule(second = "0", minute = "*/10", hour = "*", persistent = false) })
-	public void envioEmail() {
+	public void sendEmail() {
 		try {
 			if (!running) {
 				running = true;
@@ -81,34 +83,60 @@ public class AutomaticProcesses {
 			appLogger.error(e1);
 		}
 	}
-
+	
+	/**
+	 * Adds the  email to the email with problems list and logs the info of the recipients
+	 * 
+	 * @param emailsWithProblems
+	 * 				A list of email entity containing the email with problems
+	 * @param email
+	 * 				Entity containing the email with problemas
+	 */
 	private void emailWithProblem(List<Email> emailsWithProblems, Email email) {
 		emailsWithProblems.add(email);
 		appLogger.info("ERROR sending mail to " + email.getRecipients());
 	}
-
+	
+	/**
+	 * Calculates and updates the health check information
+	 */
 	@Schedules({ @Schedule(second = "0", minute = "*/10", hour = "*", persistent = false) })
 	public void updateHealthCheckData() {
 		EJBFactory.getInstance().getElectionsMonitorEJB().updateHealthCheckData();
 	}
-
+	
+	/**
+	 * Moves all the email to the history tables 
+	 */
 	@TransactionTimeout(35000)
 	@Schedules({ @Schedule(second = "0", minute = "15", hour = "4", persistent = false) })
 	public void moveEmailsToHistory() {
 		EJBFactory.getInstance().getMailsSendingEJB().moveEmailsToHistory();
 	}
-
+	
+	/**
+	 * Purge the email tables.
+	 */
 	@TransactionTimeout(35000)
 	@Schedules({ @Schedule(second = "0", minute = "15", hour = "5", persistent = false) })
 	public void purgeTables() {
 		EJBFactory.getInstance().getMailsSendingEJB().purgeTables();
 	}
 
-
+	/**
+	 * Get the amount of attempts
+	 * 
+	 * @return returns an integer with the amount of attempts
+	 */
 	public static int getAttempts() {
 		return attempts;
 	}
 
+	/**
+	 * Updates the amount of attempts of automatic proceses
+	 * 
+	 * @param attempts
+	 */
 	public static void setAttempts(int attempts) {
 		AutomaticProcesses.attempts = attempts;
 	}
