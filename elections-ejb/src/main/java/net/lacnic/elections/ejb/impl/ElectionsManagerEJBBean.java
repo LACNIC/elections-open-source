@@ -76,6 +76,18 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public ElectionsManagerEJBBean() { }
 
 	
+	/**
+	 * Logs an user to the application and persists audit information in the activity table
+	 * 
+	 * @param userAdminId
+	 * 		Login id
+	 * @param password
+	 * 		User password
+	 * @param ip
+	 * 		Ip of the user login in
+	 * 
+	 * @return returns a UserAdmin entity if the id and password exists and null otherwise.
+	 */
 	@Override
 	public UserAdmin userAdminLogin(String userAdminId, String password, String ip) {
 		UserAdmin a = ElectionsDaoFactory.createUserAdminDao(em).verifyUserLogin(userAdminId, password);
@@ -93,16 +105,37 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		return a;
 	}
 
+	/**
+	 * Gets a list of all the users in the system
+	 * 
+	 * @return returns a list of UserAdmin entity.
+	 */
 	@Override
 	public List<UserAdmin> getUserAdminsAll() {
 		return ElectionsDaoFactory.createUserAdminDao(em).getUserAdminsAll();
 	}
-
+	
+	/**
+	 * Finds a user using the id as a parameter
+	 * 
+	 * @param userAdminId
+	 * 		The id of the user needed
+	 * 
+	 * @return returns an UserAdmin entity containing the information of the user id if found or null if it does not exists
+	 */
 	@Override
 	public UserAdmin getUserAdmin(String userAdminId) {
 		return em.find(UserAdmin.class, userAdminId);		
 	}
 
+	/**
+	 * Validates the captcha
+	 * 
+	 * @param reCaptchaResponse
+	 * 			The captcha string response
+	 * 
+	 * @return returns true if the captcha is valid, false if it is not
+	 */
 	@Override
 	public boolean isValidCaptchaResponse(String reCaptchaResponse) {
 
@@ -157,6 +190,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Validates if it is Prod environment
+	 * 
+	 * @return returns true if the parameter APP is igual a PROD 
+	 */
 	@Override
 	public boolean isProd() {
 		try {
@@ -166,12 +204,28 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			return false;
 		}
 	}
-
+	
+	/**
+	 * Gets an election by its identifier
+	 * 
+	 * @param electionId
+	 * 			identifier of the election
+	 * 
+	 * @return returns an entity with the election information
+	 */
 	@Override
 	public Election getElection(long electionId) {
 		return ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
 	}
-
+	
+	/**
+	 * Gets a list of the candidates of an election sorted
+	 * 
+	 * @param electionId
+	 * 			identifier of the election
+	 * 
+	 * @return returns a list of candidate entity sorted according to their order.
+	 */
 	@Override
 	public List<Candidate> getElectionCandidatesOrdered(long electionId) {
 		List<Candidate> candidates = ElectionsDaoFactory.createCandidateDao(em).getElectionCandidates(electionId);
@@ -195,6 +249,18 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		return candidates;
 	}
 
+	/**
+	 * Deletes an election removing all its related resources (admins, auditors, candidates, emails, votes and user voters)
+	 * 
+	 * @param electionId
+	 * 			identifier of the election	  
+	 * @param electionTitle
+	 * 			title of the election used for logging purposes	 
+	 * @param userAdminId
+	 * 			id of the user deleting the election, used for logging purposes	 
+	 * @param ip
+	 *  		ip of the user deleting the election, used for logging purposes
+	 */
 	@Override
 	public void removeElection(long electionId, String electionTitle, String userAdminId, String ip) throws Exception {
 		try {
@@ -227,22 +293,55 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			appLogger.error(e);
 		}
 	}
-
+	
+	/**
+	 * Get a list of the auditors related to an election
+	 * 
+	 * @param electionId
+	 * 			identifier of the election
+	 * 
+	 * @return returns a list of auditor entity related the election		
+	 */
 	@Override
 	public List<Auditor> getElectionAuditors(long electionId) throws Exception {
 		return ElectionsDaoFactory.createAuditorDao(em).getElectionAuditors(electionId);
 	}
-
+	
+	/**
+	 * Gets a list of all the elections on the application sorted by creation date
+	 * 
+	 * @return returns a list of the election entity sorted by creation date.
+	 */
 	@Override
 	public List<Election> getElectionsAllOrderCreationDate() {
 		return ElectionsDaoFactory.createElectionDao(em).getElectionsAllOrderCreationDate();
 	}
 
+	/**
+	 * Get a voter identified by the id
+	 * 
+	 * @param userVoterId
+	 * 			identifier of the voter
+	 * 
+	 * @return returns a entity with the voter information
+	 */
 	@Override
 	public UserVoter getUserVoter(long userVoterId) {
 		return em.find(UserVoter.class, userVoterId);
 	}
-
+	
+	/**
+	 * Updates or creates (if it does not exists) an election
+	 * 
+	 * @param election
+	 * 			An election entity with the information to update the election.
+	 * @param userAdminId
+	 * 			Id of the user, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 * 
+	 * @return returns the election entity of the updated election
+	 */
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Election updateElection(Election election, String userAdminId, String ip) throws Exception {
@@ -268,11 +367,32 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		return election;
 	}
 
+	/**
+	 * Gets then result html link of an election
+	 * 
+	 * @param election 
+	 * 			Entity of the election 
+	 * 
+	 * @return returns a string with the result link
+	 */
 	@Override
 	public String getResultsLink(Election election) throws Exception {
 		return LinksUtils.buildResultsLink(election.getResultToken());
 	}
 
+	/**
+	 * Updates the election result link, by enabling/disabling it
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param status
+	 * 			New value for the result link
+	 * @param userAdminId
+	 * 			Id of the user, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 * 
+	 */
 	@Override
 	public void setResultsLinkStatus(Long electionId, Boolean status, String userAdminId, String ip) {
 		try {
@@ -289,7 +409,20 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			appLogger.error(e1);
 		}
 	}
-
+	
+	/**
+	 * Updates the election audit link, by enabling/disabling it
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param status
+	 * 			New value for the audit link
+	 * @param userAdminId
+	 * 			Id of the user, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 * 
+	 */
 	@Override
 	public void setAuditLinkStatus(Long electionId, Boolean status, String userAdminId, String ip) {
 		try {
@@ -306,12 +439,30 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			appLogger.error(e1);
 		}
 	}
+	
+	/**
+	 * Gets all the commissioners from the system.
+	 * 
+	 * @return returns a list of commissioner entity containing all the commissioners in the system.
+	 */
 
 	@Override
 	public List<Commissioner> getCommissionersAll() {
 		return ElectionsDaoFactory.createCommissionerDao(em).getCommissionersAll();
 	}
 
+	/**
+	 * Removes a voter from the election census.
+	 * 
+	 * @param userVoter
+	 * 			Entity containing the information of the voter
+	 * @param electionTitle
+	 * 			Title of the election used for logging purposes
+	 * @param userAdminId
+	 * 			Identifier of the user performing the action used for logging purposes
+	 * @param ip
+	 * 			Ip of the user performing the action, used for logging purposes
+	 */
 	@Override
 	public void removeUserVoter(UserVoter userVoter, String electionTitle, String userAdminId, String ip) {
 		UserVoter userVoterDB = em.find(UserVoter.class, userVoter.getUserVoterId());
@@ -327,21 +478,57 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Gets all the activity log of the system.
+	 * 
+	 * @return returns a list of activity entity which contains all the  activities on the system
+	 */
 	@Override
 	public List<Activity> getActivitiesAll() {
 		return ElectionsDaoFactory.createActivityDao(em).getActivitiesAll();
 	}
 
+	/**
+	 * Gets a list of the activity for a particular election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns a list of activity entity which contains all the activities of the election.
+	 */
 	@Override
 	public List<Activity> getElectionActivities(long electionId) {
 		return ElectionsDaoFactory.createActivityDao(em).getElectionActivities(electionId);
 	}
-
+	
+	/**
+	 * Get the voters of a particular election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns a list of uservoter entity which contains the voters of the election. 
+	 */
 	@Override
 	public List<UserVoter> getElectionUserVoters(long electionId) {
 		return ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoters(electionId);
 	}
 
+	/**
+	 * Updates a particular voter's link of an election
+	 * 
+	 * @param userVoterId
+	 * 			Identifier of the voter
+	 * 
+	 * @param electionTitle
+	 * 			Title of the election used for logging purposes
+	 * @param userAdminId
+	 * 			Identifier of the user performing the action used for logging purposes
+	 * @param ip
+	 * 			Ip of the user performing the action, used for logging purposes
+	 * 
+	 * 
+	 */
 	@Override
 	public void updateUserVoterToken(long userVoterId, String name, String electionTitle, String userAdminId, String ip) {
 		UserVoter userVoter = em.find(UserVoter.class, userVoterId);
@@ -350,7 +537,17 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		String description = userAdminId.toUpperCase() + " actualizó el link de votación para el usuario " + name + " en la elección " + electionTitle;
 		persistActivity(userAdminId, ActivityType.UPDATE_TOKEN_USER_CENSUS, description, ip, userVoter.getElection().getElectionId());
 	}
-
+	
+	/**
+	 * Deletes a user admin from the system.
+	 * 
+	 * @param userAdminToDeleteId
+	 * 			Identifier of the user to be deleted
+	 * @param userAdminId
+	 * 			Identifier of the user performing the action used for logging purposes
+	 * @param ip
+	 * 			Ip of the user performing the action, used for logging purposes
+	 */
 	@Override
 	public void removeUserAdmin(String userAdminToDeleteId, String userAdminId, String ip) {
 		UserAdmin userAdmin = ElectionsDaoFactory.createUserAdminDao(em).getUserAdmin(userAdminToDeleteId);
@@ -358,7 +555,19 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		String description = userAdminId.toUpperCase() + " eliminó a " + userAdminToDeleteId.toUpperCase() + " de listado de admin";
 		persistActivity(userAdminId, ActivityType.REMOVE_ADMIN, description, ip, null);
 	}
-
+	
+	/**
+	 * Upload the census of a particular election from an excel sheet.
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param content
+	 * 			Excel file containing the voters to upload
+	 * @param userAdminId
+	 * 			Identifier of the user performing the action used for logging purposes
+	 * @param ip
+	 * 			Ip of the user performing the action, used for logging purposes
+	 */
 	@Override
 	public void updateElectionCensus(long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception {
 		try {
@@ -386,12 +595,32 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			throw e1;
 		}
 	}
-
+	
+	/**
+	 * Get a list of the elections from this year
+	 * 
+	 * @return returns a list election light entity containing the information
+	 */
 	@Override
 	public List<Election> getElectionsLightThisYear() {
 		return ElectionsDaoFactory.createElectionDao(em).getElectionsLightThisYear();
 	}
 
+	/**
+	 * Adds a voter to a particular election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param userVoter
+	 * 			Entity containing the voter information.
+	 * @param userAdminId
+	 * 			Identifier of the user performing the action used for logging purposes
+	 * @param ip
+	 * 			Ip of the user performing the action, used for logging purposes
+	 * 
+	 * @return returns true if the operation succeeds 
+	 * 			
+	 */
 	@Override
 	public boolean addUserVoter(long electionId, UserVoter userVoter, String userAdminId, String ip) throws CensusValidationException {
 		try {
@@ -416,7 +645,18 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			return false;
 		}
 	}
-
+	
+	/**
+	 * Updates the information of a voter.
+	 * 
+	 * @param userVoter
+	 * 			entity with the voter information
+	 * @param userAdminId
+	 * 			Identifier of the user performing the action used for logging purposes
+	 * @param ip
+	 * 			Ip of the user performing the action, used for logging purposes
+	 * 
+	 */
 	@Override
 	public void editUserVoter(UserVoter userVoter, String userAdminId, String ip) throws CensusValidationException {
 		try {
@@ -437,6 +677,14 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Gets all the email templates linked to a particular election.
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns a list of election email template entity containing the information.
+	 */
 	@Override
 	public List<ElectionEmailTemplate> getElectionEmailTemplates(long electionId) {
 		if (electionId == 0)
@@ -445,6 +693,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			return ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplates(electionId);
 	}
 
+	/**
+	 * Updates an email template information.
+	 * 
+	 * @param electionEmailTemplate
+	 * 			Entity with the information to update.
+	 */
 	@Override
 	public void modifyElectionEmailTemplate(ElectionEmailTemplate electionEmailTemplate) {
 		Election election = electionEmailTemplate.getElection();
@@ -453,6 +707,18 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		em.merge(electionEmailTemplate);
 	}
 
+	/**
+	 * Updates the election vote link, by enabling/disabling it
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param status
+	 * 			New value for the vote link
+	 * @param userAdminId
+	 * 			Id of the user, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void setVoteLinkStatus(Long electionId, Boolean status, String userAdminId, String ip) {
 		try {
@@ -470,11 +736,26 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Gets the default email templates
+	 * 
+	 * @return returns a  list of email template entity with the information.
+	 */
 	@Override
 	public List<ElectionEmailTemplate> getBaseEmailTemplates() {
 		return ElectionsDaoFactory.createElectionEmailTemplateDao(em).getBaseTemplates();
 	}
-
+	
+	/**
+	 * Get a particular email template of a particular election
+	 * 
+	 * @param templateType
+	 * 			Type of the template to get
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns an email template entity with the information
+	 */
 	@Override
 	public ElectionEmailTemplate getEmailTemplate(String templateType, long electionId) {
 		if (electionId == 0)
@@ -482,7 +763,21 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		else
 			return ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(templateType, electionId);
 	}
-
+	
+	/**
+	 * Updates the information of an admin user, including giving him/her privileges over a particular election
+	 * 
+	 * @param userAdmin
+	 * 			Entity with the information of the user.
+	 * @param email
+	 * 			Original email of the user
+	 * @param authorizedElectionId
+	 * 			Identifier of the election that user will have authorization
+	 * @param userAdminId
+	 * 			Id of the user, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void editUserAdmin(UserAdmin userAdmin, String email, Long authorizedElectionId, String userAdminId, String ip) {
 		try {
@@ -500,12 +795,32 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Generates an excel file with the census of an election.
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election.
+	 * 
+	 * @return returns an excel file containing the information.
+	 */
 	@Override
 	public File exportCensus(long electionId) {
 		String fileName = "/padron_electoral_" + electionId + ".xls";
 		return ExcelUtils.exportToExcel(getElectionUserVoters(electionId), fileName);
 	}
 
+	/**
+	 * Updates the password of an admin user
+	 * 
+	 * @param userAdminToUpdateId
+	 * 			Identifier of the user
+	 * @param password
+	 * 			New passwrod to set
+	 * @param userAdminId
+	 * 			Id of the user, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void editAdminUserPassword(String userAdminToUpdateId, String password, String userAdminId, String ip) {
 		try {
@@ -525,6 +840,16 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Creates a new admin user
+	 * 
+	 * @param userAdmin
+	 * 			Entity with the information of the new user.
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public boolean addUserAdmin(UserAdmin userAdmin, String userAdminId, String ip) {
 		try {
@@ -547,6 +872,18 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Creates a new candidate
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param candidate
+	 * 			Entity with the information of the new candidate
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void addCandidate(long electionId, Candidate candidate, String userAdminId, String ip) {
 		Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
@@ -559,7 +896,17 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		String description = userAdminId.toUpperCase() + " agregó un candidato para la elección  " + election.getTitleSpanish();
 		persistActivity(userAdminId, ActivityType.ADD_CANDIDATE, description, ip, election.getElectionId());
 	}
-
+	
+	/**
+	 * Deletes a candidate
+	 * 
+	 * @param candidateId
+	 * 			Identifier of the candidate
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void removeCandidate(long candidateId, String userAdminId, String ip) {
 		Candidate candidate = em.find(Candidate.class, candidateId);
@@ -572,11 +919,29 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		em.persist(election);
 	}
 
+	/**
+	 * Gets the information about a candidate
+	 * 
+	 * @param candidateId
+	 * 			Identifier of the candidate
+	 * 
+	 * @return returns a candidate entity with the information
+	 */
 	@Override
 	public Candidate getCandidate(long candidateId) {
 		return ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
 	}
-
+	
+	/**
+	 * Updates the information of a candidate
+	 * 
+	 * @param candidateId
+	 * 			Identifier of the candidate
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void editCandidate(Candidate candidate, String userAdminId, String ip) {
 		try {
@@ -588,6 +953,20 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Creates a new auditor and associates it to an election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param auditor
+	 * 			Entity containing the auditor information
+	 * @param electionTitle
+	 * 			Title of the election where the auditor will be added, used for logging purposes 
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void addAuditor(long electionId, Auditor auditor, String electionTitle, String userAdminId, String ip) {
 		Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
@@ -596,7 +975,17 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		String description = userAdminId.toUpperCase() + " agregó un auditor para la elección " + electionTitle;
 		persistActivity(userAdminId, ActivityType.ADD_AUDITOR, description, ip, electionId);
 	}
-
+	
+	/**
+	 * Deletes an auditor
+	 * 
+	 * @param auditorId
+	 * 			identifier of the auditor
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void removeAuditor(long auditorId, String userAdminId, String ip) {
 		Auditor auditor = em.find(Auditor.class, auditorId);
@@ -605,11 +994,29 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		persistActivity(userAdminId, ActivityType.REMOVE_AUDITOR, description, ip, auditor.getElection().getElectionId());
 	}
 
+	/**
+	 * Gets information about an auditor
+	 * 
+	 * @param auditorId
+	 * 			Identifier of the auditor
+	 * 
+	 * @return returns an auditor entity with the information.
+	 */
 	@Override
 	public Auditor getAuditor(long auditorId) {
 		return ElectionsDaoFactory.createAuditorDao(em).getAuditor(auditorId);
 	}
 
+	/**
+	 * Updates an auditor information
+	 * 
+	 * @param auditor
+	 * 			Entity containing the auditor information
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void editAuditor(Auditor auditor, String userAdminId, String ip) {
 		try {
@@ -621,6 +1028,18 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Updates the election flag for set auditors
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param electionTitle
+	 * 			Title of the election, used for logging purposes 
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void persistElectionAuditorsSet(long electionId, String electionTitle, String userAdminId, String ip) {
 		try {
@@ -634,19 +1053,41 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Gets a list with all the parameters
+	 * 
+	 * @return returns a list of parameter entity with all the parameters on the system.
+	 */
 	@Override
 	public List<Parameter> getParametersAll() {
 		return EJBFactory.getInstance().getElectionsParametersEJB().getParametersAll();
 	}
 
+	/**
+	 * Get a list of all the disabled Ips
+	 * 
+	 * @return returns a list of ip access entity with the information.
+	 */
 	@Override
 	public List<IpAccess> getAllDisabledIPs() {
 		return ElectionsDaoFactory.createIpAccessDao(em).getAllDisabledIPs();
 	}
 
+	/**
+	 * Add a new parameter to the system.
+	 * 
+	 * @param key
+	 * 			Parameter key.
+	 * @param  value
+	 * 			Value of the parameter.
+	 * @param  userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
-	public boolean addParameter(String key, String valor, String userAdminId, String ip) {
-		if (EJBFactory.getInstance().getElectionsParametersEJB().addParameter(key, valor)) {
+	public boolean addParameter(String key, String value, String userAdminId, String ip) {
+		if (EJBFactory.getInstance().getElectionsParametersEJB().addParameter(key, value)) {
 			String description = userAdminId.toUpperCase() + " creó el parámetro " + key;
 			persistActivity(userAdminId, ActivityType.ADD_PARAMETER, description, ip, null);
 			return true;
@@ -654,7 +1095,17 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			return false;
 		}
 	}
-
+	
+	/**
+	 * Edit the value of a parameter
+	 * 
+	 * @param parameter
+	 * 			entity with the parameter to update and the new value
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */	
 	@Override
 	public void editParameter(Parameter parameter, String userAdminId, String ip) {
 		try {
@@ -666,6 +1117,16 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Deletes a parameter from the system.
+	 * 
+	 * @param key
+	 * 			Key of the parameter to delete
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void removeParameter(String key, String userAdminId, String ip) {
 		try {
@@ -678,6 +1139,14 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Get list of the recipients an email template. Depending on the template it can be a list of voters or auditors
+	 * 
+	 * @param electionEmailTemplate
+	 * 			Entity of the email template with the information of the email template to get the recipients
+	 * 
+	 * @return returns a list, it may be of voters entity or auditors entity depending on the  email template.
+	 */
 	@Override
 	public List getRecipientsByRecipientType(ElectionEmailTemplate electionEmailTemplate) throws Exception {
 		RecipientType recipientType = electionEmailTemplate.getRecipientType();
@@ -767,7 +1236,13 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			throw new Exception("Should have never got here.");
 		}
 	}
-
+	
+	/**
+	 * Creates email templates for all the elections. It iterates the election and for every election 
+	 * it iterated the templates and for each template it creates an email template linked to the election
+	 * 
+	 * @return returns the number of template created.
+	 */
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Integer createMissingEmailTemplates() {
@@ -787,11 +1262,25 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		return amount;
 	}
 
+	/**
+	 * Sends emails to the list of voters/auditor using an email template, also creates the information on the mail table.
+	 * 
+	 * @param users
+	 * 			List of voter or auditor entity with the recipients of the email
+	 * @param electionEmailTemplate
+	 * 			Entity with the information of the election and email template.
+	 */
 	@Override
 	public void queueMassiveSending(List users, ElectionEmailTemplate electionEmailTemplate) {
 		EJBFactory.getInstance().getMailsSendingEJB().queueMassiveSending(users, electionEmailTemplate);
 	}
 
+	/**
+	 * Sets the maximum order to a candidate in order to appear first.
+	 * 
+	 * @param candidateId
+	 * 			Identifier of the candidate.
+	 */
 	@Override
 	public void fixCandidateToTop(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
@@ -804,6 +1293,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		em.persist(currentFirstCandidate);
 	}
 
+	/**
+	 * Set the order to a candidate to appear first on a non fixed election.
+	 * 
+	 * @param candidateId
+	 * 			Identifier of the candidate.
+	 */
 	@Override
 	public void fixCandidateToFirstNonFixed(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
@@ -812,6 +1307,13 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		em.persist(candidate);
 	}
 
+	/**
+	 * Set the minimum order to a candidate.
+	 * 
+	 * @param candidateId
+	 * 			Identifier of the candidate.
+	 * 	
+	 */
 	@Override
 	public void fixCandidateToBottom(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
@@ -824,6 +1326,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		em.persist(currentLastCandidate);
 	}
 
+	/**
+	 * Moves a candidate up in the order, by switching the order with the candidate immediate above.
+	 * 
+	 * @param candidateId
+	 * 			Identifier of the candidate. 
+	 */
 	@Override
 	public void moveCandidateUp(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
@@ -839,6 +1347,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Moves a candidate down in the order, by switching the order with the candidate immediate below.
+	 * 
+	 * @param candidateId
+	 * 			Identifier of the candidate. 
+	 */	
 	@Override
 	public void moveCandidateDown(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
@@ -854,42 +1368,98 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Enables/Disables the random order attribute so as to order the candidates randomly or not
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param value
+	 * 			Boolean value to be set, true for the order to be random, false to leave the order defined.
+	 */
 	@Override
-	public void setSortCandidatesRandomly(Long electionId, Boolean valor) {
+	public void setSortCandidatesRandomly(Long electionId, Boolean value) {
 		try {
 			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
-			election.setRandomOrderCandidates(valor);
+			election.setRandomOrderCandidates(value);
 			em.persist(election);
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
 	}
 
+	/**
+	 * Gets all the email that have not been sent.
+	 * 
+	 * @return returns a list of email entity containing the information
+	 */
 	@Override
 	public List<Email> getPendingSendEmails() {
 		return ElectionsDaoFactory.createEmailDao(em).getPendingSendEmails();
 	}
 
+	/**
+	 * Gets all the email on the system.
+	 * 
+	 * @return returns a list of email entity containing the information
+	 */
 	@Override
 	public List<Email> getEmailsAll() {
 		return ElectionsDaoFactory.createEmailDao(em).getEmailsAll();
 	}
 
+	/**
+	 * Gets all the email related to an election
+	 * 
+	 * @param electionId
+	 * 				Identifier of the election
+	 * 
+	 * @return returns a list of email entity containing the information
+	 */
 	@Override
 	public List<Email> getElectionEmails(Long electionId) {
 		return ElectionsDaoFactory.createEmailDao(em).getElectionEmails(electionId);
 	}
-
+	
+	/**
+	 * Gets all the email related to an election that have not been sent.
+	 * 
+	 * @param electionId
+	 * 				Identifier of the election
+	 * 
+	 * @return returns a list of email entity containing the information
+	 */
 	@Override
 	public List<Email> getElectionPendingSendEmails(Long electionId) {
 		return ElectionsDaoFactory.createEmailDao(em).getElectionPendingSendEmails(electionId);
 	}
 
+	/**
+	 * Get a commissioner
+	 * 
+	 * @param commissionerId
+	 * 			Identifier of the commissioner.
+	 * 
+	 * @return returns a commissioner entity with the information.
+	 */
 	@Override
 	public Commissioner getCommissioner(long commissionerId) {
 		return ElectionsDaoFactory.createCommissionerDao(em).getCommissioner(commissionerId);
 	}
 
+	/**
+	 * Adds a commissioner to the system.
+	 * 
+	 * @param name
+	 * 			Name of the commissioner
+	 * @param mail
+	 * 			Mail of the commissioner 
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 * 
+	 * @return returns true if the commissioner was correctly added, false if the mail was null or an exception is thrown.
+	 */
 	@Override
 	public boolean addCommissioner(String name, String mail, String userAdminId, String ip) {
 		try {
@@ -909,7 +1479,19 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			return false;
 		}
 	}
-
+	
+	/**
+	 * Remove a commissioner from the system.
+	 * 
+	 * @param commissionerId
+	 * 			Identifier of the commissioner.
+	 * @param name
+	 * 			Name of the commissioner, used for logging purposes
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void removeCommissioner(long commissionerId, String name, String userAdminId, String ip) {
 		Commissioner a = ElectionsDaoFactory.createCommissionerDao(em).getCommissioner(commissionerId);
@@ -917,7 +1499,17 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		String description = userAdminId.toUpperCase() + " eliminó al comisionado " + name + " del sistema";
 		persistActivity(userAdminId, ActivityType.REMOVE_COMMISSIONER, description, ip, null);
 	}
-
+	
+	/**
+	 * Updated the information of a commissioner
+	 * 
+	 * @param commissioner
+	 * 			Entity containing the information of the commissioner to be updated.
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void editCommissioner(Commissioner commissioner, String userAdminId, String ip) {
 		try {
@@ -928,11 +1520,25 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Gets the census example excel file.
+	 * 
+	 * @param filePath 
+	 * 			Path where to get the file.
+	 * 
+	 * @return returns the excel file.
+	 */
 	@Override
 	public File exportCensusExample(String filePath) {
 		return FilesUtils.getCensusExample(filePath);
 	}
 
+	/**
+	 * Creates a set of email templates for an election, based on the default ones.
+	 * 
+	 * @param  election
+	 * 			Entity with the election information
+	 */
 	@Override
 	public void createElectionEmailTemplates(Election election) {
 		List<ElectionEmailTemplate> bases = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getBaseTemplates();
@@ -944,6 +1550,18 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Resends a voter the election started and election created mails using the templates defined for the election.
+	 * 
+	 * @param userVoter
+	 * 			Entity with the voter information
+	 * @param election
+	 * 			Entity with the election information
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void resendUserVoterElectionMail(UserVoter userVoter, Election election, String userAdminId, String ip) {
 		ElectionEmailTemplate noticeTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(Constants.TemplateTypeELECTION_NOTICE, election.getElectionId());
@@ -958,17 +1576,45 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			persistActivity(userAdminId, ActivityType.RESEND_EMAIL_ELECTION_USER_CENSUS, description, ip, election.getElectionId());
 		}
 	}
-
+	
+	/**
+	 * Gets the identifier of the first election for which the user is authorized
+	 * 
+	 * @param userAdminId
+	 * 			Identifier of the user.
+	 * 
+	 * @return returns the identifier of the election.
+	 */
 	@Override
 	public long getUserAuthorizedElectionId(String userAdminId) {
 		return ElectionsDaoFactory.createUserAdminDao(em).getUserAuthorizedElectionId(userAdminId);
 	}
-
+	
+	/**
+	 * Gets a parameter filtering by its key
+	 * 
+	 * @param key
+	 * 			A string with the parameter key to search
+	 * 
+	 * @return returns a parameter entity with the information.
+	 */
 	@Override
 	public Parameter getParameter(String key) {
 		return ElectionsDaoFactory.createParameterDao(em).getParameter(key);
 	}
 
+	/**
+	 * Enables/Disables the revision flag for an election, also, if the revision is disabled, it updates the elections auditor to disable the revision.
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param status
+	 * 			The value of the revision status, true - enabled, false - disabled
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 */
 	@Override
 	public void requestElectionRevision(Long electionId, Boolean status, String userAdminId, String ip) {
 		try {
@@ -997,11 +1643,31 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Gets all the votes of an election.
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * 
+	 * @return returns a collection of vote entity with the information. 	
+	 */
 	@Override
 	public List<Vote> getElectionVotes(Long electionId) {
 		return ElectionsDaoFactory.createVoteDao(em).getElectionVotes(electionId);
 	}
-
+	
+	/**
+	 * Validates if an election has the revision active
+	 * 
+	 * @param electionId
+	 * 				Identifier of the election
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 * 
+	 * @return returns true if the election has the revision active and all the auditors too, false otherwise.
+	 */
 	@Override
 	public boolean isRevisionActive(long electionId, String userAdminId, String ip) {
 		Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
@@ -1019,36 +1685,95 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		return true;
 	}
 
+	/**
+	 * Returns the candidate orderer immediately above the parameter
+	 * 
+	 * @param candidate
+	 * 			Entity with the candidate from which the immediately above will be looked.
+	 * 
+	 * @return returns a candidate entity with the information with the candidate ordered immediately above to the one passed, null if there's none.
+	 */
 	@Override
 	public Candidate getNextAboveCandidate(Candidate candidate) {
 		return ElectionsDaoFactory.createCandidateDao(em).getNextAboveCandidate(candidate.getElection().getElectionId(), candidate.getCandidateOrder());
 	}
 
+	/**
+	 * Returns the candidate orderer immediately below the parameter
+	 * 
+	 * @param candidate
+	 * 			Entity with the candidate from which the immediately below will be looked.
+	 * 
+	 * @return returns a candidate entity with the information with the candidate ordered immediately below to the one passed, null if there's none.
+	 */
 	@Override
 	public Candidate getNextBelowCandidate(Candidate candidate) {
 		return ElectionsDaoFactory.createCandidateDao(em).getNextBelowCandidate(candidate.getElection().getElectionId(), candidate.getCandidateOrder());
 	}
-
+	
+	/**
+	 * Validates if a commissioner exists.
+	 * 
+	 * @param name
+	 * 			Name of the searched commissioner
+	 * @param mail
+	 * 			Mail of the searched commissioner
+	 * 
+	 * @return returns true if a commissioner with the name and mail exists, false if not
+	 */
 	@Override
 	public boolean commissionerExists(String name, String mail) {
 		return ElectionsDaoFactory.createCommissionerDao(em).commissionerExists(name, mail);
 	}
-
+	
+	/**
+	 * Validates if an auditor exists on an election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election
+	 * @param name
+	 * 			Name of the searched auditor
+	 * @param mail
+	 * 			Mail of the searched auditor
+	 * 
+	 * @return returns true if there is an auditor with the name and mail associated to the election, false if not.
+	 */
 	@Override
 	public boolean auditorExists(long electionId, String name, String mail) {
 		return ElectionsDaoFactory.createAuditorDao(em).auditorExists(electionId, name, mail);
 	}
-
+	
+	/**
+	 * Gets the default sender defined in the parameter DEFAULT_SENDER constant.
+	 * 
+	 * @return returns a string with the parameter value
+	 */
 	@Override
 	public String getDefaultSender() {
 		return EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.DEFAULT_SENDER);
 	}
 
+	/**
+	 * Gets the default website defined in the parameter WEBSITE_DEFAULT constant.
+	 * 
+	 * @return returns a string with the parameter value
+	 */
 	@Override
 	public String getDefaultWebsite() {
 		return EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.WEBSITE_DEFAULT);
 	}
-
+	/**
+	 * Adds or updates a base email template
+	 * 
+	 * @param electionEmailTemplate
+	 * 			Entity with the email template
+	 * @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 * 
+	 * @return returns true if la operation succeeds or false if there's an error
+	 */
 	@Override
 	public boolean createBaseEmailTemplate(ElectionEmailTemplate electionEmailTemplate, String userAdminId, String ip) {
 		try {
@@ -1063,46 +1788,106 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Get a list of the the joint elections on the system.
+	 * 
+	 * @return returns a collection of joint election entity containing the information.
+	 */
 	@Override
 	public List<JointElection> getJointElectionsAll() {
 		return ElectionsDaoFactory.createElectionDao(em).getJointElectionsAll();
 	}
 
+	/**
+	 * Gets a joint election information, searching by a election id
+	 * 
+	 * @param electionId
+	 * 			Identifier of an election searched
+	 * 
+	 * @return returns a joint election entity on which one of the elections is the one searched by or null if it does not find it.
+	 */
 	@Override
 	public JointElection getJointElectionForElection(long electionId) {
 		return ElectionsDaoFactory.createElectionDao(em).getJointElectionForElection(electionId);
 	}
 
+	/**
+	 * Creates or update (an existing) joint election.
+	 * 
+	 * @param jointElection
+	 * 			Entity containing the joint election information to be add/updated 
+	 */
 	@Override
 	public void updateJointElection(JointElection jointElection) {
 		em.merge(jointElection);
 	}
-
+	
+	/**
+	 * Deletes a joint election from the system.
+	 * 
+	 * @param jointElection
+	 * 			An entity containing the joint election information
+	 * 
+	 */
 	@Override
 	public void removeJointElection(JointElection jointElection) {
 		em.remove(em.contains(jointElection) ? jointElection : em.merge(jointElection));
 	}
 
+	/**
+	 * Validates if an election is involved in a joint election process
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election searched.
+	 * 
+	 * @return returns true if the election searched is joint with another, false if not.
+	 */
 	@Override
 	public boolean isJointElection(long electionId) {
 		return !ElectionsDaoFactory.createElectionDao(em).electionIsSimple(electionId);
 	}
 
+	/**
+	 * Validates if the census of both elections in a joint election contains the same voters
+	 * 
+	 * @param jointElection
+	 * 			Entity with the joint election information (contains two elections)
+	 * 
+	 * @return returns true if both census are the same, false if they differ.
+	 */
 	@Override
 	public boolean electionsCensusEqual(JointElection jointElection) {
 		return ElectionsDaoFactory.createUserVoterDao(em).electionsCensusEqual(jointElection.getIdElectionA(), jointElection.getIdElectionB());
 	}
 
+	/**
+	 * Gets a list with the identifier and title of all the system's elections
+	 * 
+	 * @return reutns a collection of string, on each string containing the id and title of the elections.
+	 */
 	@Override
 	public List<String> getElectionsAllIdAndTitle() {
 		return ElectionsDaoFactory.createElectionDao(em).getElectionsAllIdAndTitle();
 	}
 
+	/**
+	 * Gets the customization of the system.
+	 * 
+	 * @return returns a entity containing all the customizacion information.
+	 */
 	@Override
 	public Customization getCustomization() {
 		return ElectionsDaoFactory.createCustomizationDao(em).getCustomization();
 	}
 
+	/**
+	 * Update the customization of the system.
+	 * 
+	 * @param customization
+	 * 				Entity containing all the customization information.
+	 * 
+	 * @return returns true if the update was successfull, false if not.
+	 */
 	@Override
 	public boolean updateCustomization(Customization customization) {
 		try {
@@ -1114,6 +1899,20 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	/**
+	 * Saves an Activity log entry
+	 * 
+	 * @param userAdminId
+	 * 			Identifier of the user who performs the activity
+	 * @param activityType
+	 * 			Enumerate containing the type of the activity
+	 * @param description
+	 * 			A string with the description of the activity
+	 * @param ip
+	 * 			A string with the ip address of the user performing the activity
+	 * @param electionId
+	 * 			Identifier of the election. 
+	 */
 	@Override
 	public void persistActivity(String userAdminId, ActivityType activityType, String description, String ip, Long electionId) {
 		Activity activity = new Activity();

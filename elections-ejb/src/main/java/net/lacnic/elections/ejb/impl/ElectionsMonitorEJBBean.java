@@ -39,14 +39,23 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 	public ElectionsMonitorEJBBean() { }
 
-
+	/**
+	 * Get the health check data.
+	 * 
+	 * @return returns a health check entity containing the system's health information.
+	 */
 	@Override
 	public HealthCheck getHealthCheckData() {
 		if (healthCheck == null)
 			healthCheck = updateHealthCheckData();
 		return healthCheck;
 	}
-
+	
+	/**
+	 * Creates a updated health check report.
+	 * 
+	 * @return returns a health check entity containing the health check information from the system. 
+	 */
 	@Override
 	public HealthCheck updateHealthCheckData() {
 		ReportDao reportDao = ElectionsDaoFactory.createReportDao(em);
@@ -63,6 +72,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		return new HealthCheck(sendAttempts, failedAccessIps, failedAccessSum, mailsTotal, mailsPending, mailsSent, elections);
 	}
 
+	/**
+	 * Gets a list of reports from all the elections on the system
+	 * 
+	 * @return returns a collection of election report entity containing the information
+	 */
 	private List<ElectionReport> electionReport() {
 		ReportDao reportDao = ElectionsDaoFactory.createReportDao(em);
 		List<ElectionReport> election = new ArrayList<>();
@@ -81,6 +95,14 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		return election;
 	}
 
+	/**
+	 * Get a list of all the participations of an organization in all the elections.
+	 * 
+	 * @param org
+	 * 			String containing the organization looked for.
+	 * 
+	 * @return returns a collection of participation entity with the information.
+	 */
 	@Override
 	public List<Participation> getOrganizationParticipations(String org) {
 		List<Participation> participations = new ArrayList<>();
@@ -121,12 +143,21 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		return participations;
 	}
 
-
+	/**
+	 * Gets a list with the basic information of all the elections on the system orderer by date in descending order.
+	 * 
+	 * @return returns a collection of election light entity with the information.
+	 */
 	@Override
 	public List<ElectionLight> getElectionsLightAllOrderStartDateDesc() {
 		return ElectionsDaoFactory.createElectionDao(em).getElectionsLightAllOrderStartDateDesc();
 	}
 	
+	/**
+	 * Gets the authentication token to validate seb services invocation. It is withdrawn from the parameter WS_AUTH_TOKEN
+	 * 
+	 * @return returns a string with the token.
+	 */
 	@Override
 	public String getWsAuthToken() {
 		try {
@@ -137,6 +168,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		return null;
 	}
 	
+	/**
+	 * Gets and parses the list of authorized ips from which the web services can be invoked, the are withdrawn from the parameter WS_AUTHORIZED_IPS.
+	 *  
+	 * @return returns a ip resource set entity with the information.
+	 */
 	@Override
 	public IpResourceSet getWsAuthorizedIps() {
 		try {

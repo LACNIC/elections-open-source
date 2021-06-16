@@ -28,12 +28,24 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
-
+	/**
+	 * Gets a list with all the parameters on the system
+	 * 
+	 * @return returns a collection of parameter entity with the information.
+	 */
 	@Override
 	public List<Parameter> getParametersAll() {
 		return ElectionsDaoFactory.createParameterDao(em).getParametersAll();
 	}
-
+	
+	/**
+	 * Gets the value of a parameter
+	 * 
+	 * @param key
+	 * 			Key of the parameter to look for.
+	 * 
+	 * @return returns a string with the value of the parameter, empty string if it does not exists.
+	 */
 	@Override
 	public String getParameter(String key) {
 		if (Constants.getParameters().containsKey(key)) {
@@ -41,14 +53,19 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 			if (!value.isEmpty())
 				return value;
 		}
-		Parameter oarameter = em.find(Parameter.class, key);
-		if (oarameter != null) {
-			Constants.getParameters().put(key, oarameter.getValue());
-			return oarameter.getValue();
+		Parameter parameter = em.find(Parameter.class, key);
+		if (parameter != null) {
+			Constants.getParameters().put(key, parameter.getValue());
+			return parameter.getValue();
 		}
 		return "";
 	}
 
+	/**
+	 * Validates if the application is production
+	 * 
+	 * @return returns true if the APP parameter has value "PROD", false otherwise.
+	 */
 	@Override
 	public boolean isProd() {
 		String app = getParameter(Constants.APP);
@@ -58,6 +75,16 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 			return app.equalsIgnoreCase("PROD");
 	}
 
+	/**
+	 * Creates a new parameter on the system.
+	 * 
+	 * @param key
+	 * 			Key of the new parameter
+	 * @param  value
+	 * 			Value of the new parameter
+	 * 
+	 * @return returns true if the parameter is added correctly, false if it already exists or there is an exception thrown.
+	 */
 	@Override
 	public boolean addParameter(String key, String value) {
 		try {
@@ -77,16 +104,28 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 		}
 	}
 
+	/**
+	 * Updates the information of a parameter
+	 * 
+	 * @param parameter
+	 * 				Entity with the information of the parameter to update.
+	 */
 	@Override
-	public void editParameter(Parameter oarameter) {
+	public void editParameter(Parameter parameter) {
 		try {
-			em.merge(oarameter);
+			em.merge(parameter);
 			Constants.cleanParametersCache();
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
 	}
 
+	/**
+	 * Deletes a parameter from the system
+	 * 
+	 * @param key
+	 * 			Key of the parameter to delete.
+	 */
 	@Override
 	public void deleteParameter(String key) {
 		try {
