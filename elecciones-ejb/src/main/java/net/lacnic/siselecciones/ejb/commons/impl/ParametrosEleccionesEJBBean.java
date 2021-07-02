@@ -46,7 +46,7 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 		String app = obtenerParametro(Constantes.APP);
 		if (app.isEmpty())
 			return true;
-		else 
+		else
 			return app.equalsIgnoreCase("PROD");
 	}
 
@@ -93,6 +93,19 @@ public class ParametrosEleccionesEJBBean implements ParametrosEleccionesEJB {
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
+	}
+
+	@Override
+	public String getDataSiteKey() {
+		try {
+			String dataSiteKey = obtenerParametro(Constantes.DataSiteKeyReCaptcha);
+			if (dataSiteKey != null)
+				return dataSiteKey;
+
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return "";
 	}
 
 }

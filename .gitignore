@@ -15,3 +15,6 @@ elecciones-services/.project
 elecciones-services/target
 ansible/pass-vault.yaml
 ansible/*.retry
+ansible/.vagrant*
+ubuntu-xenial-16.04-cloudimg-console.log
+.tern-project

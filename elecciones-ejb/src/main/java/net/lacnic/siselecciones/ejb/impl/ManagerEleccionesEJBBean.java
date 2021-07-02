@@ -1095,4 +1095,14 @@ public class ManagerEleccionesEJBBean implements ManagerEleccionesEJB {
 			return false;
 		}
 	}
+
+	@Override
+	public String getDataSiteKey() {
+		try {
+			return EJBFactory.getInstance().getParametrosEleccionesEJB().getDataSiteKey();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return "";
+		}
+	}
 }

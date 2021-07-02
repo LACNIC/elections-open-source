@@ -61,8 +61,7 @@ public class MailHelper {
 	}
 
 	
-	public static Session initSession() {
-		Properties props = System.getProperties();
+	public static Session initSession(Properties props) {
 		props.put("mail.smtp.host", getSmtpHost());
 		props.put("mail.smtp.auth", "true");
 		return Session.getInstance(props, new javax.mail.Authenticator() {
@@ -73,8 +72,8 @@ public class MailHelper {
 		 
 	}
 
-	public static boolean sendMail(String fromString, String to, String cc, String bcc, String subject, String body) throws Exception {
-		return sendMail(initSession(), fromString, to, cc, bcc, subject, body);
+	public static boolean sendMail(Properties props, String fromString, String to, String cc, String bcc, String subject, String body) throws Exception {
+		return sendMail(initSession(props), fromString, to, cc, bcc, subject, body);
 	}
 
 	public static boolean sendMail(Session session, String fromString, String to, String cc, String bcc, String subject, String body) throws Exception {

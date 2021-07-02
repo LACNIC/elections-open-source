@@ -21,4 +21,6 @@ public interface ParametrosEleccionesEJB {
 
 	void borrarParametro(String c);
 
+	String getDataSiteKey();
+
 }

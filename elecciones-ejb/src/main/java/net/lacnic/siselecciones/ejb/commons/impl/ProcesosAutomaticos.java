@@ -2,6 +2,7 @@ package net.lacnic.siselecciones.ejb.commons.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ejb.Schedule;
 import javax.ejb.Schedules;
@@ -17,6 +18,7 @@ import net.lacnic.siselecciones.dominio.Email;
 import net.lacnic.siselecciones.utils.Constantes;
 import net.lacnic.siselecciones.utils.EJBFactory;
 import net.lacnic.siselecciones.utils.MailHelper;
+import net.lacnic.siselecciones.utils.UtilsFiles;
 
 @Stateless
 public class ProcesosAutomaticos {
@@ -36,13 +38,15 @@ public class ProcesosAutomaticos {
 				List<Email> emails = EJBFactory.getInstance().getEnvioMailsEJB().obtenerEmailsParaEnviar();
 				EJBFactory.getInstance().getEnvioMailsEJB().marcarEmailsComoEnviados();
 				List<Email> emailsProblematicos = new ArrayList<>();
+				
+				Properties props = UtilsFiles.getEmailProperties();
 				String host = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constantes.EMAIL_HOST);
 				String usuario = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constantes.EMAIL_USUARIO);
 				String clave = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constantes.EMAIL_CLAVE);
 				MailHelper.setSmtpHost(host);
 				MailHelper.setUser(usuario);
 				MailHelper.setPass(clave);
-				Session session = MailHelper.initSession();
+				Session session = MailHelper.initSession(props);
 
 				for (int i = 0; i < emails.size(); i++) {
 					Email email = emails.get(i);

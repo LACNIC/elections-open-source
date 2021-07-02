@@ -15,8 +15,8 @@ public class Comisionado implements Serializable {
 	private static final long serialVersionUID = 574501011615594210L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "candidato_seq")
-	@SequenceGenerator(name = "candidato_seq", sequenceName = "candidato_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comisionado_seq")
+	@SequenceGenerator(name = "comisionado_seq", sequenceName = "comisionado_seq", allocationSize = 1)
 	@Column(name = "id_comisionado")
 	private long idComisionado;
 

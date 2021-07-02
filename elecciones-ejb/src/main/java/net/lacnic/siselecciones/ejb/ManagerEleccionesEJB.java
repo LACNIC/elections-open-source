@@ -208,6 +208,7 @@ public interface ManagerEleccionesEJB {
 
 	public boolean actualizarPersonalizacion(Personalizacion personalizacion);
 
+	String getDataSiteKey();
 
 
 }
