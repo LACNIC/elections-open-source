@@ -28,7 +28,7 @@ public interface ManagerEleccionesEJB {
 
 	public boolean isValidCaptchaResponse(String reCaptchaResponse);
 
-	public boolean isProd();
+	public boolean isShowCaptcha();
 
 	public Eleccion obtenerEleccion(long idEleccion);
 

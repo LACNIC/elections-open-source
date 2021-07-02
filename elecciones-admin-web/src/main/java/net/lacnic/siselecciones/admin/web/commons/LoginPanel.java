@@ -36,7 +36,7 @@ public class LoginPanel extends Panel {
 		add(form);
 	}
 
-	boolean showCaptcha = Contexto.getInstance().getManagerBeanRemote().isProd();
+	boolean showCaptcha = Contexto.getInstance().getManagerBeanRemote().isShowCaptcha();
 
 	public final class SignInForm extends Form<Void> {
 

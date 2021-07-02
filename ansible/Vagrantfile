@@ -3,12 +3,12 @@
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/bionic64"
   config.vm.network "private_network", ip: "192.168.128.128"
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
-    vb.memory = "2048"
+    vb.memory = "4096"
   end
 
  config.vm.network "forwarded_port", guest: 8080, host: 8280
@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
  SHELL
 
  config.vm.provision "shell", inline: <<-SHELL
-  apt-get update
-  apt-get install -y python-simplejson
+#  apt-get update
+#  apt-get install -y python-simplejson
  SHELL
 
 end

@@ -144,13 +144,18 @@ public class ManagerEleccionesEJBBean implements ManagerEleccionesEJB {
 	}
 
 	@Override
-	public boolean isProd() {
+	public boolean isShowCaptcha() {
 		try {
-			return EJBFactory.getInstance().getParametrosEleccionesEJB().isProd();
+			return EJBFactory.getInstance().getParametrosEleccionesEJB().isProd() && !getDataSiteKey().isEmpty() && !getSkGoogleApiReCaptcha().isEmpty();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return false;
 		}
+	}
+
+	private String getSkGoogleApiReCaptcha() {
+		String skGoogleApiReCaptcha = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constantes.SkGoogleApiReCaptcha);
+		return skGoogleApiReCaptcha;
 	}
 
 	@Override

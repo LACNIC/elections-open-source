@@ -18,3 +18,4 @@ ansible/*.retry
 ansible/.vagrant*
 ubuntu-xenial-16.04-cloudimg-console.log
 .tern-project
+ubuntu-bionic-18.04-cloudimg-console.log
