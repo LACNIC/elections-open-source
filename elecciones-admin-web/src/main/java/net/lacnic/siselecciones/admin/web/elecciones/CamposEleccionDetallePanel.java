@@ -123,7 +123,7 @@ public class CamposEleccionDetallePanel extends Panel {
 
 			TextField<Integer> diffUTC = new TextField<>("diffUTC", new PropertyModel<>(eleccion, "diffUTC"));
 			diffUTC.setRequired(true);
-			diffUTC.add(RangeValidator.range(1, 12));
+			diffUTC.add(RangeValidator.range(0, 12));
 			add(diffUTC);
 
 			TextField<String> fechaInicio = new TextField<>("fechaInicio", new PropertyModel<>(eleccion, "auxFechaInicio"));
