@@ -40,6 +40,9 @@ public class ProcesosAutomaticos {
 				List<Email> emailsProblematicos = new ArrayList<>();
 				
 				Properties props = UtilsFiles.getEmailProperties();
+				appLogger.info("Properties para envio de correos: " );
+				appLogger.info(props.toString());
+
 				String host = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constantes.EMAIL_HOST);
 				String usuario = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constantes.EMAIL_USUARIO);
 				String clave = EJBFactory.getInstance().getParametrosEleccionesEJB().obtenerParametro(Constantes.EMAIL_CLAVE);
