@@ -1,0 +1,39 @@
+---
+
+- include_vars: pass-vault.yaml
+
+- name: 'Detención del servicio Wildfly'
+  systemd:
+    name: jboss
+    state: stopped
+    enabled: yes
+
+- name: 'Instalación de driver PostgreSQL'
+  copy:
+    src: files/postgresql-42.2.16.jar
+    dest: /opt/wildfly/standalone/deployments/
+    owner: jboss
+    group: jboss
+    mode: 0755
+
+- name: 'Instalación de módulos necesarios para la aplicación'
+  copy:
+    src: files/modules/
+    dest: /opt/wildfly/modules/system/layers/base/
+    owner: jboss
+    group: jboss
+    mode: 0755
+
+- name: 'Configuración de datasource'
+  template:
+    src:  templates/standalone.xml.j2
+    dest: "/opt/wildfly/standalone/configuration/standalone.xml"
+    owner: jboss
+    group: jboss
+    mode: 0755
+
+- name: 'Inicio del servicio Wildfly'
+  systemd:
+    name: jboss
+    state: started
+    enabled: yes

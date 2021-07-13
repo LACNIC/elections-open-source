@@ -1,0 +1,15 @@
+[Unit]
+Description=Jboss Application Server
+After=network.target
+
+[Service]
+Type=idle
+Environment=JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64 JBOSS_HOME=/opt/wildfly JBOSS_LOG_DIR=/var/log/jboss "JAVA_OPTS=-Xms{{ memoria_min }} -Xmx{{ memoria_max }}"
+User=root
+Group=root
+ExecStart=/opt/wildfly/bin/standalone.sh -b 0.0.0.0
+TimeoutStartSec=600
+TimeoutStopSec=600
+
+[Install]
+WantedBy=multi-user.target

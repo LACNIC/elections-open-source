@@ -1,0 +1,20 @@
+---
+
+- name: 'Crear grupos jboss y postgres'
+  group:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - jboss
+    - postgres
+
+- name: 'Crear usuarios para jboss y base de datos'
+  user:
+    name: "{{ item.user }}"
+    state: present
+    comment: "{{ item.comment }}"
+    groups: "{{ item.groups }}"
+    append: yes
+  with_items:
+    - { user: 'jboss', comment: 'JBoss', groups: 'jboss' }
+    - { user: 'elecusr', comment: 'Usuario de BD para elecciones', groups: 'postgres' }

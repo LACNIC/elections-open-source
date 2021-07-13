@@ -1,0 +1,61 @@
+---
+
+- name: 'Actualización de todos los paquetes a la última version (Ubuntu / Debian)'
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+    force_apt_get: true
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'Actualización de todos los paquetes a la última version (RedHat / CentOS)'
+  yum:
+    name: "*"
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Instalación de dependencias básicas del sistema (Ubuntu / Debian)'
+  apt:
+    name: ['unzip', 'maven', 'git', 'curl', 'gnupg']
+    force: yes
+    state: present
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: 'Instalación de dependencias básicas del sistema (RedHat / CentOS)'
+  yum:
+    name: ['unzip', 'maven', 'git', 'curl']
+    state: present
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: 'Instalación de Java 8 (Ubuntu)'
+  apt:
+    name: ['openjdk-8-jdk']
+    force: yes
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: 'Importación de key del repo de AdoptOpenJDK (Debian)'
+  apt_key:
+    url: https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public
+    state: present
+  when: ansible_distribution == 'Debian'
+
+- name: 'Instalación del repo de AdoptOpenJDK (Debian)'
+  apt_repository:
+    repo: deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb buster main
+    state: present
+  when: ansible_distribution == 'Debian'
+
+- name: 'Instalación de Java 8 (Debian)'
+  apt:
+    name: ['adoptopenjdk-8-hotspot']
+    force: yes
+    state: present
+  when: ansible_distribution == 'Debian'
+
+- name: 'Instalación de Java 8 (RedHat / CentOS)'
+  yum:
+    name: ['java-1.8.0-openjdk']
+    state: present
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

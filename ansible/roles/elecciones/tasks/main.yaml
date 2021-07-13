@@ -1,9 +1,0 @@
----
-
-- import_tasks: 01-users.yaml
-- import_tasks: 02-global.yaml
-- import_tasks: 03-postgres.yaml
-- import_tasks: 04-wildfly.yaml
-- import_tasks: 05-restore-dump.yaml
-- import_tasks: 06-config-apps.yaml
-- import_tasks: 07-deploy-apps.yaml
