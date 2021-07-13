@@ -2,6 +2,7 @@ package net.lacnic.elections.adminweb.wicket.util;
 
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+
 public class UtilsParameters {
 
 	public static String getIdText() {
@@ -146,7 +147,7 @@ public class UtilsParameters {
 		return pars;
 	}
 
-	public static String getParametro(String key, PageParameters pars) {
+	public static String getParameters(String key, PageParameters pars) {
 		return pars.get(key).toString("");
 	}
 

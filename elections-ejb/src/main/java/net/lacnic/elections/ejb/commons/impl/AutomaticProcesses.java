@@ -1,6 +1,5 @@
 package net.lacnic.elections.ejb.commons.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Schedule;
@@ -27,6 +26,7 @@ public class AutomaticProcesses {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
+
 	/**
 	 * Get the list of emails to send and tries to send them. Adds the ones who fail to the email wit problemas list which are re-scheduled to be sent later.
 	 */
@@ -38,8 +38,6 @@ public class AutomaticProcesses {
 				running = true;
 				appLogger.info("START Execute Elections Mails Sending");
 				List<Email> emails = EJBFactory.getInstance().getMailsSendingEJB().getEmailsToSend();
-				EJBFactory.getInstance().getMailsSendingEJB().markEmailsAsSent();
-				List<Email> emailsWithProblems = new ArrayList<>();
 				String host = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_HOST);
 				String user = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_USER);
 				String password = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_PASSWORD);
@@ -52,21 +50,23 @@ public class AutomaticProcesses {
 					Email email = emails.get(i);
 					try {
 						appLogger.info("SENDING EMAIL " + email.getSubject() + " to " + email.getRecipients());
-						if (!MailHelper.sendMail(session, email.getFrom(), email.getRecipients(), email.getCc(), email.getBcc(), email.getSubject(), email.getBody())) {
-							emailWithProblem(emailsWithProblems, email);
+						if(MailHelper.sendMail(session, email.getSender(), email.getRecipients(), email.getCc(), email.getBcc(), email.getSubject(), email.getBody())) {
+							// Sent OK, mark email as sent
+							EJBFactory.getInstance().getMailsSendingEJB().markEmailAsSent(email);
+						} else {
+							appLogger.error("ERROR sending mail to " + email.getRecipients());
 						}
 						if (i % 500 == 0)
 							Thread.sleep(5000);
 
 					} catch (MessagingException e) {
-						emailWithProblem(emailsWithProblems, email);
+						appLogger.error("ERROR sending mail to " + email.getRecipients());
 						appLogger.error(e);
 					} catch (Exception e) {
-						emailWithProblem(emailsWithProblems, email);
+						appLogger.error("ERROR sending mail to " + email.getRecipients());
 						appLogger.error(e);
 					}
 				}
-				EJBFactory.getInstance().getMailsSendingEJB().reschedule(emailsWithProblems);
 				appLogger.info("END Execute Elections Mails Sending");
 				running = false;
 			} else {
@@ -83,20 +83,7 @@ public class AutomaticProcesses {
 			appLogger.error(e1);
 		}
 	}
-	
-	/**
-	 * Adds the  email to the email with problems list and logs the info of the recipients
-	 * 
-	 * @param emailsWithProblems
-	 * 				A list of email entity containing the email with problems
-	 * @param email
-	 * 				Entity containing the email with problemas
-	 */
-	private void emailWithProblem(List<Email> emailsWithProblems, Email email) {
-		emailsWithProblems.add(email);
-		appLogger.info("ERROR sending mail to " + email.getRecipients());
-	}
-	
+
 	/**
 	 * Calculates and updates the health check information
 	 */
@@ -104,6 +91,7 @@ public class AutomaticProcesses {
 	public void updateHealthCheckData() {
 		EJBFactory.getInstance().getElectionsMonitorEJB().updateHealthCheckData();
 	}
+
 	
 	/**
 	 * Moves all the email to the history tables 
@@ -113,6 +101,7 @@ public class AutomaticProcesses {
 	public void moveEmailsToHistory() {
 		EJBFactory.getInstance().getMailsSendingEJB().moveEmailsToHistory();
 	}
+
 	
 	/**
 	 * Purge the email tables.
@@ -122,6 +111,7 @@ public class AutomaticProcesses {
 	public void purgeTables() {
 		EJBFactory.getInstance().getMailsSendingEJB().purgeTables();
 	}
+
 
 	/**
 	 * Get the amount of attempts

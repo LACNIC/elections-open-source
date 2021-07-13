@@ -115,7 +115,7 @@ public interface ElectionsManagerEJB {
 
 	public List<IpAccess> getAllDisabledIPs();
 
-	public boolean addParameter(String key, String valor, String userAdminId, String ip);
+	public boolean addParameter(String key, String value, String userAdminId, String ip);
 
 	public void editParameter(Parameter parameter, String userAdminId, String ip);
 

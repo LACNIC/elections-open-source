@@ -5,19 +5,19 @@
 
 	<persistence-unit name="elections-pu-test" transaction-type="RESOURCE_LOCAL">		
 
-		<class>net.lacnic.elections.domain.IpAccess</class>
 		<class>net.lacnic.elections.domain.Activity</class>
 		<class>net.lacnic.elections.domain.Auditor</class>
 		<class>net.lacnic.elections.domain.Candidate</class>
 		<class>net.lacnic.elections.domain.Commissioner</class>
+		<class>net.lacnic.elections.domain.Customization</class>
 		<class>net.lacnic.elections.domain.Election</class>
 		<class>net.lacnic.elections.domain.ElectionLight</class>
+		<class>net.lacnic.elections.domain.ElectionEmailTemplate</class>
 		<class>net.lacnic.elections.domain.Email</class>
 		<class>net.lacnic.elections.domain.EmailHistory</class>
-		<class>net.lacnic.elections.domain.Parameter</class>
-		<class>net.lacnic.elections.domain.Customization</class>
+		<class>net.lacnic.elections.domain.IpAccess</class>
 		<class>net.lacnic.elections.domain.JointElection</class>
-		<class>net.lacnic.elections.domain.ElectionEmailTemplate</class>
+		<class>net.lacnic.elections.domain.Parameter</class>
 		<class>net.lacnic.elections.domain.UserAdmin</class>
 		<class>net.lacnic.elections.domain.UserVoter</class>
 		<class>net.lacnic.elections.domain.Vote</class>
@@ -27,7 +27,6 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/elections" />
             <property name="javax.persistence.jdbc.user" value="postgres" />
             <property name="javax.persistence.jdbc.password" value="prueba" />
-            
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.archive.autodetection" value="hbm" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />

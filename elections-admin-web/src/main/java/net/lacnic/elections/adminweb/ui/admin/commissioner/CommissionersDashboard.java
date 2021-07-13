@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import net.lacnic.elections.adminweb.web.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.domain.Commissioner;
 
 public class CommissionersDashboard extends DashboardAdminBasePage {

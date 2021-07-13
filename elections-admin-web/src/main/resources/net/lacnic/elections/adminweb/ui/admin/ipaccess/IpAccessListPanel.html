@@ -1,0 +1,33 @@
+<wicket:panel>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5><wicket:message key="advDisIPTitle" /></h5>
+				</div>
+				<div class="ibox-content">
+					<div class="table-responsive m-t">
+						<table class="table dataTables">
+							<thead class="jumbotron">
+								<tr>
+									<th><wicket:message key="advDisIPIP" /></th>
+									<th><wicket:message key="advDisIPTries" /></th>
+									<th><wicket:message key="advDisIPFirstTry" /></th>
+									<th><wicket:message key="advDisIPLastTry" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr wicket:id="ipAccessList">
+									<td wicket:id="ip"></td>
+									<td wicket:id="attemptCount"></td>
+									<td wicket:id="firstAttemptDate"></td>
+									<td wicket:id="lastAttemptDate"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

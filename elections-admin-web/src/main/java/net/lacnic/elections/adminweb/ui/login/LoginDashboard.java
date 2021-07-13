@@ -8,7 +8,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.ElectionsWebAdminSession;
-import net.lacnic.elections.adminweb.web.bases.DashboardPublicBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardPublicBasePage;
 import net.lacnic.elections.domain.Customization;
 
 

@@ -1,0 +1,28 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedback" class="col-md-12"></div>
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5><wicket:message key="sendMail2Title" /></h5>
+				</div>
+				<div class="ibox-content">
+					<p><wicket:message key="sendMail2Select" /></p>
+					<form wicket:id="form" class="form-horizontal p-w-md">
+						<wicket:container wicket:id="recipients">
+							<div wicket:id="recipientTypes" class="p-xs">
+								<input wicket:id="recipientTypesRadio" type="radio" name="ticker"><span class="m-l-sm font-bold" wicket:id="label"></span></input>
+							</div>
+						</wicket:container>
+						<br>
+						<div class="hr-line-dashed"></div>
+						<div class="text-center">
+							<button class="btn btn-grey" wicket:id="cancel" name="cancel"><wicket:message key="sendMail2BtnCanc" /></button>
+							<button wicket:id="next" type="submit" class="btn btn-w-m btn-primary" name="next"><wicket:message key="sendMail1BtnNext" /></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

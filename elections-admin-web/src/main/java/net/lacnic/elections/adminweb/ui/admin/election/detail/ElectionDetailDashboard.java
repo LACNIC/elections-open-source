@@ -16,7 +16,7 @@ import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.admin.election.ElectionsDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.ManageElectionTabsPanel;
 import net.lacnic.elections.adminweb.ui.admin.election.census.ElectionCensusDashboard;
-import net.lacnic.elections.adminweb.web.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.ejb.ElectionsManagerEJB;

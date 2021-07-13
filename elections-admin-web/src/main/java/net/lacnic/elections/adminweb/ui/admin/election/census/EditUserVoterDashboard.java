@@ -9,7 +9,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.web.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.exception.CensusValidationException;
@@ -58,7 +58,7 @@ public class EditUserVoterDashboard extends DashboardAdminBasePage {
 						|| !(language.equalsIgnoreCase(userVoter.getLanguage()))) {
 					try {
 						AppContext.getInstance().getManagerBeanRemote().editUserVoter(getUserVoter(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
-						getSession().info(getString("censusManagementUserEditExito"));
+						getSession().info(getString("censusManagementUserEditSuccess"));
 						setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(userVoter.getElection().getElectionId()));
 					} catch (CensusValidationException e) {
 						error(getString(e.getMessage()));
@@ -72,7 +72,6 @@ public class EditUserVoterDashboard extends DashboardAdminBasePage {
 
 			@Override
 			public void onClick() {
-
 				setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(userVoter.getElection().getElectionId()));
 			}
 		});

@@ -1,0 +1,81 @@
+<wicket:panel>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5><wicket:message key="advCustomizationTitle" /></h5>
+				</div>
+				<div class="ibox-content">
+					<form role="form" method="post" class="form-inline" wicket:id="customizationForm">
+						<div class="form-group col-md-12">
+							<label class="col-sm-3 control-label "><wicket:message key="advCustomizationPicSmallLogo" /></label>
+							<div class="col-sm-6">
+								<input wicket:id="picSmallLogoUpload" type="file" class="form-control"></input>
+							</div>
+							<div class="col-sm-2">
+								<img alt="image" class="text-center" style="background-color: #1ab394; width: 20%" wicket:id="picSmallLogo">
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label class="col-sm-3 control-label "><wicket:message key="advCustomizationPicBiglLogo" /></label>
+							<div class="col-sm-6">
+								<input wicket:id="picBigLogoUpload" type="file" class="form-control"></input>
+							</div>
+							<div class="col-sm-2">
+								<img alt="image" class="text-center" style="width: 80%" wicket:id="picBigLogo">
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label class="col-sm-3 control-label "><wicket:message key="advCustomizationPicSymbol" /></label>
+							<div class="col-sm-6">
+								<input wicket:id="picSymbolUpload" type="file" class="form-control"></input>
+							</div>
+							<div class="col-sm-2">
+								<img alt="image" class="text-center" style="width: 30%" wicket:id="picSymbol">
+							</div>
+						</div>
+
+						<div class="col-md-12 hr-line-dashed"></div>
+
+						<div class="form-group col-md-12">
+							<label class="col-sm-3 control-label "><wicket:message key="advCustomizationSiteTitle" /></label>
+							<div class="col-sm-8">
+								<input wicket:message="placeholder:advCustomizationDefaultSiteTitle" id="siteTitle" class="form-control" wicket:id="siteTitle" style="margin-bottom: 10px; width: 59%;">
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label class="col-sm-3 control-label "><wicket:message key="advCustomizationLoginTitle" /></label>
+							<div class="col-sm-8">
+								<input wicket:message="placeholder:advCustomizationDefaultLoginTitle" id="loginTitle" class="form-control" wicket:id="loginTitle" style="margin-bottom: 10px; width: 59%;">
+							</div>
+						</div>
+						<div class="col-md-12 hr-line-dashed"></div>
+						<div class="form-group col-md-12" style="margin-bottom: 10px;">
+							<label class="col-sm-3 control-label "><wicket:message key="advCustomizationShowHome" /></label>
+							<div class="col-md-8" wicket:id="showHome" />
+						</div>
+						<div class="form-group col-md-12" style="margin-bottom: 10px;">
+							<label class="col-sm-3 control-label "><wicket:message key="advCustomizationHomeHtml" /></label>
+						</div>
+						<div class="form-group col-md-12">
+							<textarea id="summernote" wicket:id="homeHtml" type="text" class="form-control h-300"></textarea>
+						</div>
+						<div class="form-group">
+							<br>
+						</div>
+						<div class="text-center">
+							<button class="btn btn-primary" style="margin-top: 10px;" type="submit" wicket:id="save">
+								<wicket:message key="advEditParamBtnSave" />
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('#summernote').summernote({height: 300});
+		});
+	</script>
+</wicket:panel>

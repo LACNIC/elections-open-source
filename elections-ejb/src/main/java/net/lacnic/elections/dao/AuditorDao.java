@@ -54,10 +54,10 @@ public class AuditorDao {
 	}
 
 	public boolean auditorExists(long electionId, String name, String mail) {
-		Query q = em.createQuery("SELECT c.idAuditor FROM Auditor c WHERE c.election.electionId = :electionId AND c.name = :name AND c.mail = :mail");
+		Query q = em.createQuery("SELECT c.auditorId FROM Auditor c WHERE c.election.electionId = :electionId AND c.name = :name AND c.mail = :mail");
 		q.setParameter("electionId", electionId);
 		q.setParameter("mail", mail);
-		q.setParameter("nombre", name);
+		q.setParameter("name", name);
 		q.setMaxResults(1);
 		return !q.getResultList().isEmpty();
 	}

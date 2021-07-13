@@ -21,7 +21,7 @@ public class EmailHistory implements Serializable {
 	private String recipients;
 
 	@Column
-	private String from;
+	private String sender;
 
 	@Column
 	private String cc;
@@ -50,18 +50,18 @@ public class EmailHistory implements Serializable {
 
 	public EmailHistory() { }
 
-	public EmailHistory(Email e) {
-		this.emailHistoryId = e.getEmailId();
-		this.recipients = e.getRecipients();
-		this.from = e.getFrom();
-		this.cc = e.getCc();
-		this.bcc = e.getBcc();
-		this.subject = e.getSubject();
-		this.body = e.getBody();
-		this.sent = e.getSent();
-		this.createdDate = e.getCreatedDate();
-		this.templateType = e.getTemplateType();
-		this.electionId = e.getElection().getElectionId();
+	public EmailHistory(Email email) {
+		this.emailHistoryId = email.getEmailId();
+		this.recipients = email.getRecipients();
+		this.sender = email.getSender();
+		this.cc = email.getCc();
+		this.bcc = email.getBcc();
+		this.subject = email.getSubject();
+		this.body = email.getBody();
+		this.sent = email.getSent();
+		this.createdDate = email.getCreatedDate();
+		this.templateType = email.getTemplateType();
+		this.electionId = email.getElection().getElectionId();
 	}
 
 
@@ -81,12 +81,12 @@ public class EmailHistory implements Serializable {
 		this.recipients = recipients;
 	}
 
-	public String getFrom() {
-		return from;
+	public String getSender() {
+		return sender;
 	}
 
-	public void setFrom(String from) {
-		this.from = from;
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 
 	public String getCc() {

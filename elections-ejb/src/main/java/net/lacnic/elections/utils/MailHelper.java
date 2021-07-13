@@ -77,7 +77,7 @@ public class MailHelper {
 
 	public static boolean sendMail(Session session, String fromString, String to, String cc, String bcc, String subject, String body) throws Exception {
 		try {
-			if (body.contains("$usuario.") || body.contains("$eleccion.") || body.contains("$auditor."))
+			if (body.contains("$user.") || body.contains("$election.") || body.contains("$auditor."))
 				return false;
 
 			Message msg = new MimeMessage(session);
@@ -103,13 +103,13 @@ public class MailHelper {
 
 			Transport.send(msg);
 
-			appLogger.info("Message sent OK." + to);
+			appLogger.info("Message sent OK to " + to);
 			return true;
 
 		} catch (Exception e) {
+			appLogger.error(e);
 			return false;
 		}
-
 	}
 
 	private static String getHeaderMailer(String subject) {

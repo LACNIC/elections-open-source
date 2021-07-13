@@ -21,10 +21,10 @@ public class JointElection implements Serializable {
 	@Column(name = "jointelection_id")
 	private long jointElectionId;
 
-	@Column
+	@Column(name = "electiona_id")
 	private long idElectionA;
 
-	@Column
+	@Column(name = "electionb_id")
 	private long idElectionB;
 
 

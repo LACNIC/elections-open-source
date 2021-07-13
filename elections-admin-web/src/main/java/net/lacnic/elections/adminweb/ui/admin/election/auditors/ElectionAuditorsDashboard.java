@@ -6,33 +6,36 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.ui.admin.election.ManageElectionTabsPanel;
-import net.lacnic.elections.adminweb.web.bases.DashboardAdminBasePage;
-import net.lacnic.elections.adminweb.web.elecciones.AgregarAuditoresPanel;
+import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 
 
 @AuthorizeInstantiation("elections-only-one")
 public class ElectionAuditorsDashboard extends DashboardAdminBasePage {
-	private static final long serialVersionUID = 1L;
-	private Election eleccion;
+
+	private static final long serialVersionUID = 4512602604562487597L;
+
+	private Election election;
+
 
 	public ElectionAuditorsDashboard(PageParameters params) {
 		super(params);
-		setEleccion(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
+		setElection(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
 		add(new FeedbackPanel("feedback"));
 
-		add(new ManageElectionTabsPanel("tabsPanel", eleccion));
-		add(new ListaAuditoresPanel("listaAuditoresPanel", eleccion.getElectionId()));
-		add(new AgregarAuditoresPanel("agregarAuditoresPanel", eleccion));
+		add(new ManageElectionTabsPanel("tabsPanel", election));
+		add(new AuditorsListPanel("auditorsListPanel", election.getElectionId()));
+		add(new AddAuditorPanel("addAuditorPanel", election));
 
 	}
 
-	public Election getEleccion() {
-		return eleccion;
+	public Election getElection() {
+		return election;
 	}
 
-	public void setEleccion(Election eleccion) {
-		this.eleccion = eleccion;
+	public void setElection(Election election) {
+		this.election = election;
 	}
+
 }

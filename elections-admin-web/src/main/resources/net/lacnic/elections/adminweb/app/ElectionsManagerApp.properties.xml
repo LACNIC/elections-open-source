@@ -4,13 +4,13 @@
 
 	<!-- General -->
 	<entry key="lacnic">LACNIC</entry>
-	<entry key="lacnicYear">2020</entry>
+	<entry key="lacnicYear">2021</entry>
 	<entry key="pageTitle">Sistema de Elecciones - LACNIC</entry>
 	<entry key="copyright">Copyright</entry>
-	<entry key="copyrightLacnicYears">LACNIC © 2014-2020</entry>
+	<entry key="copyrightLacnicYears">LACNIC © 2014-2021</entry>
 	<entry key="privacyPolicy">Política de privacidad</entry>
 	<entry key="privacyPolicyLink">https://www.lacnic.net/politica-privacidad</entry>
-	<entry key="inicio">Inicio</entry>
+	<entry key="home">Inicio</entry>
 	<entry key="volver">Volver</entry>
 	<entry key="titulo_h">Sistema de elecciones</entry>
 
@@ -33,26 +33,22 @@
 	<entry key="homeSubtitlePar4">Cuenta con notificaciones parametrizables que permiten a los administradores notificar oportunamente 
 			a los electores, candidatos y auditores sobre diferentes eventos como inicio de elecciones, confirmación 
 			del voto o inicio de auditoría. Permite además definir sus propias notificaciones.</entry>
-
 	<entry key="homeConfigurationTitle">Configuración e Instalación</entry>
 	<entry key="homeConfiguration">El Sistema de Elecciones es una iniciativa open source, desarrollado 
 			con el framework Wicket de Apache. Utiliza Wildfly como servidor de aplicación y PostgreSQL 
 			como motor de base de datos.</entry> 
 	<entry key="homeConfigurationLink">Guía de Instalación y Configuración</entry>
-	
 	<entry key="homeDocumentationTitle">Documentación</entry>
 	<entry key="homeDocumentation">Puede acceder a información sobre las funcionalidades de la aplicación y 
 			ver ejemplos de cómo crear una elección, definir los candidatos, cargar el padrón 
 			electoral, los auditores y más.</entry>
 	<entry key="homeDocumentationLink">Documentación del sistema</entry>
 	<entry key="homeDocumentationServicesLink">Documentación de servicios</entry>
-	
 	<entry key="homeSourceCodeTitle">Código fuente</entry>
 	<entry key="homeSourceCode">El Sistema de Elecciones fue desarrollado por el área técnica 
 			de LACNIC con el espíritu de compartir y disponibilizar el código fuente para 
 			que pueda ser utilizado por quien lo desee.</entry>
 	<entry key="homeSourceCodeLink">Código fuente en GitHub</entry>
-	
 	<entry key="homeReleaseNotesTitle">Release notes</entry>
 	<entry key="homeLicenseTitle">Licencia</entry>
 	<entry key="homeReleaseNotesContent">El último release estable es el 1.1. Consulte las </entry>
@@ -62,8 +58,7 @@
 	<entry key="homeContactTitle">Contacto</entry>
 	<entry key="homeContactContent">¿Desea contactarse con nosotros? </entry>
 	<entry key="homeContactContent2">desarrollo@lacnic.net</entry>
-	
-	
+
 	<!-- Login -->
 	<entry key="loginTitle">Elecciones LACNIC</entry>
 	<entry key="adminPanel">Panel Administrativo</entry>
@@ -73,7 +68,7 @@
 	<entry key="loginText">Login</entry>
 	<entry key="loginError">Error: Verifique usuario y/o contraseña</entry>
 	<entry key="areYouRobot">¿Eres un Robot?</entry>
-	
+
 	<!-- Top and nav bar -->
 	<entry key="navTitle">Sistema Elecciones</entry>
 	<entry key="logout">Cerrar sesión</entry>
@@ -94,7 +89,7 @@
 	<entry key="updateTemplates">Actualizar Plantillas</entry>
 	<entry key="mergedElections">Elecciones Juntas</entry>
 	<entry key="personalization">Personalización</entry>
-	
+
 	<!-- Elections List -->
 	<entry key="title">Título</entry>
 	<entry key="edit">Editar</entry>
@@ -103,7 +98,6 @@
 	<entry key="endDate">Fin</entry>
 	<entry key="status">Estado</entry>
 	<entry key="options">Opciones</entry>
-	
 	<entry key="census">Padrón</entry>
 	<entry key="candidates">Candidatos</entry>
 	<entry key="auditors">Auditores</entry>
@@ -111,13 +105,12 @@
 	<entry key="mails">E-mails</entry>
 	<entry key="results">Resultados</entry>
 	<entry key="settings">Configuración</entry>
-	
 	<entry key="deleteElectionSuccess">Se eliminó la elección correctamente</entry>
 	<entry key="deleteElectionErrorJoint">No es posible eliminar la elección ya que esta asociada a una elección conjunta, si desea eliminarla debe primero eliminar la eleción conjunta</entry>
 	
 	<!-- Elections Detail -->
 	<entry key="electionsDetailTitle">DETALLE ELECCIÓN</entry>
-	<entry key="electionsDetailResultados">Resultados públicos</entry>
+	<entry key="electionsDetailResults">Resultados públicos</entry>
 	<entry key="electionsDetailEditLink">Editar	Elección</entry>
 	<entry key="electionsDetailCandidatesTitle">CANDIDATOS</entry>
 	<entry key="editCandidateLink">Editar Candidatos</entry>
@@ -128,31 +121,29 @@
 	<entry key="electionsDetailEmailTitle">E-MAILS</entry>
 	<entry key="electionsDetailActivitiesTitle">LISTADO ACTIVIDADES</entry>
 	<entry key="electionsDetailBack">Volver</entry>
-	
 	<entry key="diffUTC">Diferencia UTC (3 o 2 normalmente)</entry>
-	<entry key="maximoCandidatos">Máximo de candidatos:</entry>
-	<entry key="habilitadoLinkVotacion">Habilitado link votación:</entry>
-	<entry key="habilitadoLinkResultado">Habilitado link resultado:</entry>
-	<entry key="linkResultado">Link resultado:</entry>
-	<entry key="fechaCreacion">Fecha de creación:</entry>
-	<entry key="fechaInicio">Fecha de inicio:</entry>
-	<entry key="fechaFin">Fecha de fin:</entry>
-	
-	
+	<entry key="maxCandidatesDetailLabel">Máximo de candidatos:</entry>
+	<entry key="voteLinkAvailableDetailLabel">Habilitado link votación:</entry>
+	<entry key="resultsLinkAvailableDetailLabel">Habilitado link resultado:</entry>
+	<entry key="electionDetailLinkAvailableYes">SÍ</entry>
+	<entry key="electionDetailLinkAvailableNo">NO</entry>
+	<entry key="createDateDetailLabel">Fecha de creación:</entry>
+	<entry key="startDateDetailLabel">Fecha de inicio:</entry>
+	<entry key="endDateDetailLabel">Fecha de fin:</entry>
+
 	<!-- Unite Elections -->
-	<entry key="tituloDetalleEleccion_v1">DETALLE ELECCIÓN 1</entry>
-	<entry key="tituloDetalleEleccion_v2">DETALLE ELECCIÓN 2</entry>
-	
-	
+	<entry key="jointElection1DetailTitle">DETALLE ELECCIÓN 1</entry>
+	<entry key="jointElection2DetailTitle">DETALLE ELECCIÓN 2</entry>
+
 	<!-- Elections Management -->
 	<entry key="electionManagementTitle">Gestión Elección</entry>
+	<entry key="electionManagementDetail">Completar los siguientes pasos para crear una nueva elección. El padrón, los candidatos y auditores se pueden completar posteriormente.</entry>
 	<entry key="electionManagementCancel">Cancelar</entry>
 	<entry key="electionManagementSave">Guardar</entry>
 	<entry key="electionManagementDetailTab">Detalle</entry>
 	<entry key="electionManagementCensusTab">Padrón</entry>
 	<entry key="electionManagementCandidateTab">Candidatos</entry>
 	<entry key="electionManagementAuditorTab">Auditores</entry>
-	
 	<entry key="electionManagementCopyText">¿Copiar el texto de español en el resto de los idiomas (EN y PT)? </entry>
 	<entry key="electionManagementCategElec">Categoría Elección</entry>
 	<entry key="electionManagementTituloEsp">Título en Español</entry>
@@ -171,19 +162,16 @@
 	<entry key="electionManagementDifUTC">Diferencia UTC (3 o 2 normalmente)</entry>	
 	<entry key="electionManagementVacantes">Vacantes a cubrir (Máx. candidatos)</entry>	
 	<entry key="electionManagementRemitente">Remitente de correos por defecto</entry>	
-	
 	<entry key="electionManagementErrorDates">La fecha de Inicio no puede superar a la fecha de fin</entry>
 	<entry key="electionManagementErrorJointDates">La elección esta unida a otra, NO es posible modificar la fecha de inicio.</entry>
 	<entry key="electionManagementCreateSuccess">Enhorabuena! La elección se ha creado con éxito</entry>
 	<entry key="electionManagementUpdateSuccess">La elección se ha actualizado con éxito</entry>
-	
-	
+
 	<!-- Census Management -->
 	<entry key="censusManagementTitle">Gestión del Padron Electoral</entry>
 	<entry key="censusManagementBack">Atrás</entry>
 	<entry key="censusManagementIgnore">Saltar</entry>
 	<entry key="censusManagementNext">Siguiente</entry>
-	
 	<entry key="censusManagementFileUploadTitle">Instrucciones para subir el padrón electoral</entry>
 	<entry key="censusManagementFileUpload1">- El Padrón deberá estar en formato excel (.xls)</entry>
 	<entry key="censusManagementFileUpload2">- En la primera fila, como cabecera, sin saltos de columnas vacías: IDIOMA – NOMBRE - MAIL - CANTVOTOS - PAIS - ORGID (los 2 últimos son opcionales).</entry>
@@ -192,21 +180,16 @@
 	<entry key="censusManagementFileLabel">Archivo</entry>
 	<entry key="censusManagementFileNote">Nota: Siempre que se sube un archivo se borra el padrón viejo y crea uno nuevo.</entry>
 	<entry key="censusManagementFileDownload">Descargar ejemplo</entry>
-	
 	<entry key="censusManagementErrNoFile">Debe seleccionar un archivo primero</entry>
 	<entry key="censusManagementSuccessUploadFile">El padrón electoral se ha actualizado con éxito</entry>
 	<entry key="censusManagementErrBif">Error leyendo el Padrón, verifique las Instrucciones</entry>
-	
 	<entry key="censusManagementAddUserTitle">Agregar un usuario al padrón</entry>
 	<entry key="censusManagementAddUserBtn">Agregar</entry>
-	
 	<entry key="censusManagementPhName">Nombre</entry>
 	<entry key="censusManagementPhEmail">Email</entry>
 	<entry key="censusManagementPhVotos"># Votos</entry>
 	<entry key="censusManagementPhOrgId">Org ID</entry>
-	
-	<entry key="censusManagementExito">Usuario se ha agregado con éxito</entry>
-	
+	<entry key="censusManagementSuccess">Usuario se ha agregado con éxito</entry>
 	<entry key="censusManagementUserColLang">Idioma</entry>
 	<entry key="censusManagementUserColName">Nombre</entry>
 	<entry key="censusManagementUserColMail">Mail</entry>
@@ -214,37 +197,35 @@
 	<entry key="censusManagementUserColPais">Pais</entry>
 	<entry key="censusManagementUserColOrg">Org ID</entry>
 	<entry key="censusManagementUserColLink">Enlace</entry>
-	
 	<entry key="censusManagementUserListTitle">Padrón Electoral</entry>
 	<entry key="censusManagementUserListBtnExp">Exportar Padrón Electoral</entry>	
-	<entry key="censusManagementUserListColVoto">Voto?</entry>
+	<entry key="censusManagementUserListColVoted">Votó?</entry>
 	<entry key="censusManagementUserListColLang">Lang.</entry>
 	<entry key="censusManagementUserListColName">Nombre</entry>
 	<entry key="censusManagementUserListColEdit">Edit</entry>
-	<entry key="censusManagementUserListColVotos">Votos</entry>
-	<entry key="censusManagementUserListColPais">Pais</entry>
+	<entry key="censusManagementUserListColVotAm">Votos</entry>
+	<entry key="censusManagementUserListColCoun">Pais</entry>
 	<entry key="censusManagementUserListColOrgId">OrgID</entry>
 	<entry key="censusManagementUserListColRen">Ren.</entry>
 	<entry key="censusManagementUserListColLink">Link</entry>
 	<entry key="censusManagementUserListColMail">Email</entry>
-	<entry key="censusManagementUserListColEditar">Editar</entry>
-	
-	<entry key="censusManagementUserListExitoToken">Se ha generado un nuevo token con éxito</entry>
-	<entry key="censusManagementUserListExitoLink">Se ha enviado el link de votación con éxito</entry>
-	<entry key="censusManagementUserListExitoDelete">Usuario se ha eliminado con éxito</entry>
-	
+	<entry key="censusManagementUserListColEdit">Editar</entry>
+	<entry key="censusManagementUserListColVotedYes">SÍ</entry>
+	<entry key="censusManagementUserListColVotedNo">NO</entry>
+	<entry key="censusManagementUserListTokenSuccess">Se ha generado un nuevo token con éxito</entry>
+	<entry key="censusManagementUserListLinkSuccess">Se ha enviado el link de votación con éxito</entry>
+	<entry key="censusManagementUserListDeleteSuccess">Usuario se ha eliminado con éxito</entry>
 	<entry key="censusManagementUserEditTitle">Editar un usuario del padrón electoral</entry>
 	<entry key="censusManagementUserEditBtnCanc">Cancelar</entry>
 	<entry key="censusManagementUserEditBtnSave">Guardar</entry>
-	<entry key="censusManagementUserEditExito">Usuario se ha actualizado con éxito</entry>
-	
+	<entry key="censusManagementUserEditSuccess">Usuario se ha actualizado con éxito</entry>
+
 	<!-- Candidate Management -->
 	<entry key="candidateManagementTitle">Gestión de candidatos</entry>
 	<entry key="candidateManagementBack">Atrás</entry>
 	<entry key="candidateManagementIgnore">Saltar</entry>
 	<entry key="candidateManagementNext">Siguiente</entry>
 	<entry key="candidateManagementDetails">Candidatos</entry>
-	
 	<entry key="candidateManagementCopyText">¿Copiar el mismo texto para el resto de los idiomas (EN y PT)? </entry>
 	<entry key="candidateManagementName">Nombre candidato</entry>
 	<entry key="candidateManagementBioEsp">Biografía en español</entry>
@@ -255,33 +236,31 @@
 	<entry key="candidateManagementWebPor">Web información portugués (incluir http:// o https://)</entry>
 	<entry key="candidateManagementPicture">Foto (.jpg .gif o .png) (120px - 120px)</entry>
 	<entry key="candidateManagemenBtnAdd">Agregar candidato</entry>
-	
-	<entry key="candidateManagemenErrorForm">La extensión de la foto debe ser .jpg, .gif ó .png</entry>
-	<entry key="candidateManagemenExitoAdd">Candidato se ha agregado con éxito</entry>
+	<entry key="candidateManagementErrorForm">La extensión de la foto debe ser .jpg, .gif ó .png</entry>
+	<entry key="candidateManagemenSuccessAdd">Candidato se ha agregado con éxito</entry>
 	<entry key="candidateManagemenErrorProc">Error procesando datos, intente nuevamente</entry>
-	
-	<entry key="candidateManagemenListSort">Ordenar los candidatos de forma aleatoria :</entry>
+	<entry key="candidateManagemenListSort">Ordenar los candidatos de forma aleatoria:</entry>
 	<entry key="candidateManagemenListDel">Eliminar</entry>
 	<entry key="candidateManagemenListPicl">Foto</entry>
-	<entry key="candidateManagemenListName">Nombre &amp; Biografia</entry>
+	<entry key="candidateManagemenListName">Nombre y Biografía</entry>
 	<entry key="candidateManagemenListEdit">Editar</entry>
 	<entry key="candidateManagemenListOrd">Orden</entry>
 	<entry key="candidateManagemenListFirst">Fijar candidato al principio de lista</entry>
 	<entry key="candidateManagemenListLast">Fijar candidato al final de la lista</entry>
-	
-	<entry key="candidateManagemenListExitoDel">Candidato se ha eliminado con éxito</entry>
-	<entry key="candidateManagemenExitoAddCandidates"> agregó los candidatos para la elección </entry>
-	
+	<entry key="candidateManagemenListPosFixedFirst">Fijo - Primero</entry>
+	<entry key="candidateManagemenListPosFixedLast">Fijo - Último</entry>
+	<entry key="candidateManagemenListPosFixedPos">Fijo - Posición: </entry>
+	<entry key="candidateManagemenListPosRandom">Aleatorio</entry>
+	<entry key="candidateManagemenListSuccessDel">Candidato se ha eliminado con éxito</entry>
+	<entry key="candidateManagementSuccessAddCandidates"> agregó los candidatos para la elección </entry>
 	<entry key="candidateEditTitle">Editar un candidato</entry>
 	<entry key="candidateEditBtnCanc">Cancelar</entry>
 	<entry key="candidateEditBtnSave">Guardar</entry>
-	<entry key="candidateEditExito">Candidato se ha actualizado con éxito</entry>
+	<entry key="candidateEditSuccess">Candidato se ha actualizado con éxito</entry>
 	<entry key="candidateEditError">Error! No se han encontrado cambios en el nombre, biografía, website o en la foto del candidato</entry>
-	
-	
+
 	<!-- Auditor Management -->
 	<entry key="auditorManagementTitle">Gestión de auditores</entry>
-	<entry key="auditorManagementDetail">Completar los siguientes pasos para crear una nueva elección. El padrón, los candidatos y auditores se pueden completar posteriormente.</entry>
 	<entry key="auditorManagementSubtitle">Auditores</entry>
 	<entry key="auditorManagementName">Nombre Auditor</entry>
 	<entry key="auditorManagementMail">E-mail</entry>
@@ -290,28 +269,26 @@
 	<entry key="auditorManagementBack">Atrás</entry>	
 	<entry key="auditorManagementIgnore">Saltar</entry>
 	<entry key="auditorManagementFinish">Terminar</entry>	
-	
 	<entry key="auditorManagementListDel">Eliminar</entry>
 	<entry key="auditorManagementListName">Nombre</entry>
 	<entry key="auditorManagementListMail">E-mail</entry>
 	<entry key="auditorManagementListLink">Enlace</entry>
 	<entry key="auditorManagementListEdit">Editar</entry>
-	<entry key="auditorManagementListAprove">¿Aprueba elección?</entry>
-	<entry key="auditorManagementListAproved">¿Aprobó elección?</entry>
-	
-	<entry key="auditorManagementExitoAdd">Se ha agregado el auditor con éxito</entry>
+	<entry key="auditorManagementListApprove">¿Aprueba elección?</entry>
+	<entry key="auditorManagementListApproved">¿Aprobó elección?</entry>
+	<entry key="auditorManagementSuccessAdd">Se ha agregado el auditor con éxito</entry>
 	<entry key="auditorManagementErrorAdd">Error! intente nuevamente</entry>
 	<entry key="auditorManagementErrorExiste">Ya existe este comisionado</entry>
 	<entry key="auditorManagementErrorExisElec">Ya existe este auditor para esta elección</entry>
-	<entry key="auditorManagementExitoDel">Auditor eliminado correctamente!</entry>
-	
+	<entry key="auditorManagementSuccessDel">Auditor eliminado correctamente!</entry>
+	<entry key="auditorManagementCommissionerYes">SÍ</entry>
+	<entry key="auditorManagementCommissionerNo">NO</entry>
 	<entry key="auditorEditTitle">Editar un auditor</entry>
 	<entry key="auditorEditAprobe">Marcar si necesita aprobar la elección</entry>
 	<entry key="auditorEditBtnCanc">Cancelar</entry>
 	<entry key="auditorEditBtnSave">Guardar</entry>
-	<entry key="auditorEditExito">Auditor se ha actualizado con éxito</entry>
-		
-	
+	<entry key="auditorEditSuccess">Auditor se ha actualizado con éxito</entry>
+
 	<!-- Activity List -->
 	<entry key="activityListName">Nombre</entry>	
 	<entry key="activityListType">Tipo Actividad</entry>
@@ -319,16 +296,17 @@
 	<entry key="activityListIP">IP</entry>
 	<entry key="activityListTime">Tiempo</entry>
 	<entry key="activityListDesc">Descripción</entry>
-	
-	
+
 	<!-- Message List -->
 	<entry key="messageListState">Estado</entry>	
 	<entry key="messageListDest">Destinatario</entry>
 	<entry key="messageListType">Tipo</entry>
 	<entry key="messageListSubject">Asunto</entry>
 	<entry key="messageListBody">Cuerpo</entry>
-	
-	
+	<entry key="messageListSentYes">Enviado</entry>
+	<entry key="messageListSentNo">Por enviar</entry>
+	<entry key="messageListBodyNotAvailable">No disponible</entry>
+
 	<!-- Auditor More Info  -->
 	<entry key="auditMoreInfoPerc">Porcentaje</entry>	
 	<entry key="auditMoreInfoCantHab">Cantidad de Habilitados</entry>
@@ -336,76 +314,69 @@
 	<entry key="auditMoreInfoWeight">Peso</entry>
 	<entry key="auditMoreInfoVotes">Votos</entry>
 	<entry key="auditMoreInfoTotRang">Rango de totales</entry>
-	
-	
+
 	<!-- Auditors List  -->
 	<entry key="auditorsListName">Nombre</entry>
 	<entry key="auditorsListMail">E-mail</entry>
 	<entry key="auditorsListConf">Conformidad</entry>
-	<entry key="auditorsListLink">Link</entry>	
-	
-	
+	<entry key="auditorsListLink">Link</entry>
+	<entry key="auditorsListAgreedConformityYes">SÍ</entry>
+	<entry key="auditorsListAgreedConformityNo">NO</entry>
+
 	<!-- Advanced Parameters  -->
 	<entry key="advParameterTitle">Listado de parametros del sistema</entry>
 	<entry key="advParameterKey">Clave</entry>
 	<entry key="advParameterValue">Valor</entry>
 	<entry key="advParameterEdit">Editar</entry>
 	<entry key="advParameterExito">Se eliminó el parametro exitosamente</entry>
-	
-	
+
 	<!-- Advanced Disabled IP  -->
-	<entry key="advDisIPTitle">>Listado de Ips inválidas</entry>
+	<entry key="advDisIPTitle">Listado de Ips inválidas</entry>
 	<entry key="advDisIPIP">Ip</entry>
 	<entry key="advDisIPTries">Intentos</entry>
 	<entry key="advDisIPFirstTry">Fecha primer intento</entry>
 	<entry key="advDisIPLastTry">Fecha último intento</entry>
-	
-	
+
 	<!-- Advanced Add Edit Parameters  -->
 	<entry key="advAddParamTitle">Agregar parámetros</entry>
 	<entry key="advAddParamAddKey">Clave</entry>
 	<entry key="advAddParamAddValue">Valor</entry>
 	<entry key="advAddParamAddBtn">Agregar</entry>
-	<entry key="advAddParamExito">Se agregó el parámetro exitosamente</entry>
+	<entry key="advAddParamSuccess">Se agregó el parámetro exitosamente</entry>
 	<entry key="advAddParamError">Ya existe un parámetro con esta clave</entry>
-	
 	<entry key="advEditParamTitle">Editar parámetros</entry>
 	<entry key="advEditParamKey">Clave</entry>
 	<entry key="advEditParamValue">Valor</entry>
 	<entry key="advEditParamBtnCanc">Cancelar</entry>
 	<entry key="advEditParamBtnSave">Guardar</entry>
 	<entry key="advEditParamExito">Se editó el parametro exitosamente</entry>
-	
-	<entry key="advEditPersonalizTitle">Personalización</entry>
-	<entry key="advEditPersonalizPicSmallLogo">Logo Pequeño (.jpg .gif o .png) (26px - 50px)</entry>
-	<entry key="advEditPersonalizPicBiglLogo">Logo Grande (.jpg .gif o .png) (225px - 135px)</entry>
-	<entry key="advEditPersonalizPicSymbol">Simbolo (.jpg .gif o .png) (80px - 150px)</entry>
-	<entry key="advEditPersonalizErrorProc">Error procesando datos, intente nuevamente</entry>
-	<entry key="advEditPersonalizErrExt">La extensión de la(s) foto(s) debe ser .jpg, .gif ó .png</entry>	
-	<entry key="advEditPersonalizExito">Exito!</entry>
-	<entry key="advEditPersonalizTituloSitio">Título del sitio</entry>
-	<entry key="advEditPersonalizTitSitioDef">Sistema de Elecciones - Lacnic</entry>
-	<entry key="advEditPersonalizTituloLogin">Título del Login de Administrador</entry>
-	<entry key="advEditPersonalizTitLoginDef">Elecciones LACNIC</entry>	
-	<entry key="advEditPersonalizShowHome">Mostrar Home Personalizado</entry>	
-	<entry key="advEditPersonalizHomeHtml">HTML Home</entry>
-	
-	
+	<entry key="advCustomizationTitle">Personalización</entry>
+	<entry key="advCustomizationPicSmallLogo">Logo Pequeño (.jpg .gif o .png) (26px - 50px)</entry>
+	<entry key="advCustomizationPicBiglLogo">Logo Grande (.jpg .gif o .png) (225px - 135px)</entry>
+	<entry key="advCustomizationPicSymbol">Simbolo (.jpg .gif o .png) (80px - 150px)</entry>
+	<entry key="advCustomizationProcessingError">Error procesando datos, intente nuevamente</entry>
+	<entry key="advCustomizationExtensionError">La extensión de la(s) foto(s) debe ser .jpg, .gif ó .png</entry>	
+	<entry key="advCustomizationEditSuccess">Exito!</entry>
+	<entry key="advCustomizationSiteTitle">Título del sitio</entry>
+	<entry key="advCustomizationDefaultSiteTitle">Sistema de Elecciones - Lacnic</entry>
+	<entry key="advCustomizationLoginTitle">Título del Login de Administrador</entry>
+	<entry key="advCustomizationDefaultLoginTitle">Elecciones LACNIC</entry>	
+	<entry key="advCustomizationShowHome">Mostrar Home Personalizado</entry>	
+	<entry key="advCustomizationHomeHtml">HTML Home</entry>
+
 	<!-- United Election List  -->
 	<entry key="unitedElecListTitle">Lista de Elecciones Unidas</entry>
 	<entry key="unitedElecListElec1">Elección 1</entry>
 	<entry key="unitedElecListElec2">Elección 2</entry>
 	<entry key="unitedElecListExitoDel">Unión eliminada.</entry>
-	
-	
+
 	<!-- Commissioners List  -->
 	<entry key="commissionerListTitle">Lista de Comisionados</entry>
 	<entry key="commissionerListName">Nombre</entry>
 	<entry key="commissionerListMail">Email</entry>
 	<entry key="commissionerListEdit">Editar</entry>
 	<entry key="commissionerListSuccessDel">El comisionado se ha eliminado con éxito</entry>
-	
-	
+
 	<!-- Election Review List  -->
 	<entry key="electionReviewListTitle">Revisión de Elección</entry>
 	<entry key="electionReviewListVote">id voto</entry>
@@ -423,8 +394,7 @@
 	<entry key="electionReviewListVotes">Votos</entry>
 	<entry key="electionReviewListToken">token</entry>
 	<entry key="electionReviewListIP">IP</entry>
-	
-	
+
 	<!-- Mail Template List  -->
 	<entry key="mailTemplTitle">Editar plantilla</entry>
 	<entry key="mailTemplListTitle">Lista de Plantillas Base para E-mails</entry>
@@ -437,8 +407,7 @@
 	<entry key="mailTemplListBody">Cuerpo:</entry>
 	<entry key="mailTemplListEdit">Editar plantilla</entry>
 	<entry key="mailTemplListSendMail">Enviar mails</entry>
-	
-	
+
 	<!-- Admin User List  -->
 	<entry key="adminUserListTitle">Lista de Administradores</entry>
 	<entry key="adminUserListUser">Usuario</entry>
@@ -449,18 +418,16 @@
 	<entry key="adminUserListEditPwd">Editar Password</entry>
 	<entry key="adminUserListErrorDel">No puede eliminar su propio usuario administrador</entry>
 	<entry key="adminUserListSuccessDel">Usuario administrador se ha eliminado con éxito</entry>
-	
 	<entry key="adminUserEditUsrTitle">Editar un administrador del sistema</entry>
 	<entry key="adminUserEditTitle">Cambiar contraseña de un administrador</entry>
 	<entry key="adminUserEditNuPwd">Nueva contraseña</entry>
 	<entry key="adminUserEditNuPwdRep">Repetir contraseña</entry>
 	<entry key="adminUserEditBtnCanc">Cancelar</entry>
 	<entry key="adminUserEditBtnSave">Guardar</entry>
-	<entry key="adminUserEditExito">Contraseña se ha actualizado con éxito</entry>
+	<entry key="adminUserEditPwdSuccess">Contraseña se ha actualizado con éxito</entry>
 	<entry key="adminUserEditError">Contraseñas no coinciden</entry>
 	<entry key="adminUserEditUsrSuccess">Usuario administrador se ha actualizado con éxito</entry>
-	
-				
+
 	<!-- Send Mail Step 1  -->
 	<entry key="sendMail1Title">Contenido e-mail</entry>
 	<entry key="sendMail1Sender">Remitente</entry>
@@ -472,16 +439,14 @@
 	<entry key="sendMail1BodyPor">Cuerpo en Portugués</entry>
 	<entry key="sendMail1BtnBack">Volver</entry>
 	<entry key="sendMail1BtnNext">Siguiente</entry>
-	
-	
+
 	<!-- Send Mail Step 2  -->
 	<entry key="sendMail2Title">Seleccionar Destinatarios</entry>
 	<entry key="sendMail2Select">Seleccione una opción, en el siguiente paso podra ver los destinatarios y modificarlos si es necesario.</entry>
 	<entry key="sendMail2BtnCanc">Cancelar</entry>
 	<entry key="sendMail2Error">Seleccione una opción</entry>
-	<entry key="sendMailSupraPadronDifError">El padrón de ambas elecciones debe ser el mismo para continuar</entry>
-	
-	
+	<entry key="sendMailJointCensusDiffError">El padrón de ambas elecciones debe ser el mismo para continuar</entry>
+
 	<!-- Unite Elections Edit  -->
 	<entry key="uniteElecEditTitle">Unir Elecciones</entry>
 	<entry key="uniteElecEditElec1">Elección 1</entry>
@@ -490,8 +455,7 @@
 	<entry key="uniteElecEditError1">Las elecciones a relacionar deben ser distintas.</entry>
 	<entry key="uniteElecEditError2">Esta elección ya esta unida a otra: </entry>
 	<entry key="uniteElecEditError3">La fecha/hora de inicio de ambas elecciones debe ser la misma.</entry>
-	
-	
+
 	<!-- Mail Template Edit  -->
 	<entry key="mailTemplEditSubjectEsp">Asunto en Españo</entry>
 	<entry key="mailTemplEditSubjectEng">Asunto en Inglés</entry>
@@ -501,12 +465,11 @@
 	<entry key="mailTemplEditBodyPor">Cuerpo en Portugués</entry>
 	<entry key="mailTemplEditBtnBack">Volver</entry>
 	<entry key="mailTemplEditBtnSave">Guardar/Aplicar</entry>
-	<entry key="mailTemplEditExito1">Se ha modificado el template </entry>
-	<entry key="mailTemplEditExito2">Se ha modificado el template base </entry>
-	<entry key="mailTemplEditExito3"> de elección </entry>
-	<entry key="mailTemplEditExito4"> con éxito</entry>
-	
-	
+	<entry key="mailTemplEditSuccess1">El template </entry>
+	<entry key="mailTemplEditSuccess2">El template base </entry> 
+	<entry key="mailTemplEditSuccess3"> de la elección </entry>
+	<entry key="mailTemplEditSuccess4"> se ha modificado con éxito</entry>
+
 	<!-- Commissioner Add/Edit  -->
 	<entry key="commissionerAddTitle">Agregar Comisionado</entry>
 	<entry key="commissionerAddName">Nombre</entry>
@@ -514,15 +477,13 @@
 	<entry key="commissionerAddBtnAdd">Agregar</entry>
 	<entry key="commissionerAddSuccessAdd">Comisionado agregado con éxito</entry>
 	<entry key="commissionerAddErrorAdd">Ya existe un comisionado con ese e-mail.</entry>
-	
 	<entry key="commissionerEditTitle">Editar un comisionado del sistema</entry>
 	<entry key="commissionerEditName">Nombre</entry>
 	<entry key="commissionerEditMail">E-mail</entry>
 	<entry key="commissionerEditBtnCanc">Cancelar</entry>
 	<entry key="commissionerEditBtnSave">Guardar</entry>
 	<entry key="commissionerEditSuccess">Comisionado actualizado con éxito</entry>
-	
-	
+
 	<!-- Admin User Add  -->
 	<entry key="adminUserAddTitle">Agregar un usuario administrador</entry>
 	<entry key="adminUserAddUser">Usuario</entry>
@@ -532,8 +493,7 @@
 	<entry key="adminUserAddBtnAdd">Agregar</entry>
 	<entry key="adminUserAddSuccessAdd">Usuario administrador se ha agregado con éxito.</entry>
 	<entry key="adminUserAddErrorAdd">Usuario administrador ya existe.</entry>
-	
-	
+
 	<!-- Base Mail Template Add  -->
 	<entry key="baseMailTemplAddTitle">Agregar template base</entry>
 	<entry key="baseMailTemplAddType">Tipo email</entry>
@@ -546,65 +506,50 @@
 	<entry key="baseMailTemplAddBtnBack">Volver</entry>
 	<entry key="baseMailTemplAddBtnSave">Guardar</entry>
 	<entry key="baseMailTemplAddErrorAdd">Se agregó el template base exitosamente, para copiar el template en todos las elecciones oprima el botón actualizar plantillas en el submenu de avanzas.</entry>
-	<entry key="baseMailTemplAddExitoAdd">Se produjo un error insertando el template</entry>
-	
-	
+	<entry key="baseMailTemplAddSuccessAdd">Se produjo un error insertando el template</entry>
+
 	<!-- Auditors Revision List  -->
 	<entry key="auditorRevListTitle">Auditores</entry>
 	<entry key="auditorRevListName">Nombre</entry>
 	<entry key="auditorRevListMail">E-mail</entry>
 	<entry key="auditorRevListLink">Enlace</entry>
 	<entry key="auditorRevListHabRev">¿Habilitó revisión?</entry>
-	
-	
+	<entry key="auditorRevListHabRevYes">SÍ</entry>
+	<entry key="auditorRevListHabRevNo">NO</entry>
+
 	<!-- User Vote Detail  -->
 	<entry key="userVoteDetNoVotTitle">Todavía no ha votado en esta elección</entry>
 	<entry key="userVoteDetVotTitle">Ya votó en esta elección</entry>
 	<entry key="userVoteDetVote">VOTAR</entry>
-	
-	<entry key="panel_v">Panel de votación</entry>
-	<entry key="boton_votar">Votar</entry>
-	<entry key="boton_confirmar">Confirmar</entry>
-	<entry key="boton_cancelar">Cancelar</entry>
-	<entry key="ayuda_v">Para votar haga click sobre los candidatos de su
-		preferencia, luego oprima el boton Votar. El sistema le pedirá que
-		confirme su selección, para realizar esta acción oprima el botón
-		confirmar.</entry>
-	<entry key="ayuda2_v">Tenga en cuenta que en esta elección puede elegir
-		hasta un
-		máximo de
-	</entry>
-	<entry key="ayuda3_v">candidatos</entry>
-	<entry key="tituloDetalleEleccion_v">Detalle elección
-	</entry>	
-	<entry key="votante_v">Votante</entry>
-	<entry key="maximo_v">Máx. selección</entry>
-	<entry key="cantidadVotos_v">Valor voto</entry>
-	<entry key="tituloCandidatoElegidos">Candidatos elegidos</entry>
-	<entry key="codigo_ccp">Código de verificación</entry>
-	<entry key="candidato_ccp">Candidato</entry>
-	<entry key="candidatos_aleatorios">Los candidatos se presentan en orden aleatorio</entry>
-	<entry key='masInfo'>Más información</entry>
-	
-	<entry key="muchosCandidatos_v">Ha seleccionado muchos candidatos. La cantidad máxima
-		de candidatos a elegir es:
-	</entry>
-	<entry key="ningunCandidato_v">Debe seleccionar al menos un candidato. </entry>
-	<entry key="titulo_yv">Su voto se ha efectuado con éxito. Gracias por
-		participar
-	</entry>
-	
+	<entry key="votingPanel">Panel de votación</entry>
+	<entry key="voteButton">Votar</entry>
+	<entry key="confirmButton">Confirmar</entry>
+	<entry key="cancelButton">Cancelar</entry>
+	<entry key="voteHelp1">Para votar haga click sobre los candidatos de su preferencia, luego oprima el boton Votar. El sistema le pedirá que confirme su selección, para realizar esta acción oprima el botón confirmar.</entry>
+	<entry key="voteHelp2">Tenga en cuenta que en esta elección puede elegir hasta un máximo de </entry>
+	<entry key="voteHelp3"> candidatos.</entry>
+	<entry key="electionDetailTitle">Detalle elección</entry>	
+	<entry key="voterLabel">Votante</entry>
+	<entry key="maxCandidatesLabel">Máx. selección</entry>
+	<entry key="voteAmountLabel">Valor voto</entry>
+	<entry key="chosenCandidates">Candidatos elegidos</entry>
+	<entry key="verificationCode">Código de verificación</entry>
+	<entry key="candidateTitle">Candidato</entry>
+	<entry key="randomCandidates">Los candidatos se presentan en orden aleatorio</entry>
+	<entry key="moreInfo">Más información</entry>
+	<entry key="tooManyCandidatesChosen">Ha seleccionado muchos candidatos. La cantidad máxima de candidatos a elegir es: </entry>
+	<entry key="noCandidateChosen">Debe seleccionar al menos un candidato.</entry>
+	<entry key="alreadyVotedMessage">Su voto se ha efectuado con éxito. Gracias por participar.</entry>
+
 	<!-- User Vote Elec Juntas  -->
 	<entry key="userVoteNoComplete">IMPORTANTE: RECUERDE VOTAR EN AMBAS ELECCIONES</entry>		
-	
-	
+
 	<!-- Election Results -->
-	<entry key="candidato_rep">Candidatos </entry>
-	<entry key="votos_rep">Votos recibidos</entry>
-	<entry key="total_rep">Total de votos: </entry>
-	<entry key="participantes_rep">Cantidad de votantes: </entry>
-	
-		
+	<entry key="candidatesTitle">Candidatos</entry>
+	<entry key="votesTitle">Votos recibidos</entry>
+	<entry key="votesTotal">Total de votos: </entry>
+	<entry key="votersTotal">Cantidad de votantes: </entry>
+
 	<!-- Preview Destinatarios  -->
 	<entry key="prevDestTitle">Preview de destinatarios</entry>
 	<entry key="prevDestCant">Cantidad:</entry>
@@ -617,49 +562,33 @@
 	<entry key="prevDestCountry">País</entry>
 	<entry key="prevDestBtnCanc">Cancelar</entry>
 	<entry key="prevDestBtnEnv">Todo OK, enviar correo</entry>
-	<entry key="prevDestExito">Email masivo enviado, a continuación se presenta la lista de todos los mensajes de la elección</entry>
-	
-	
+	<entry key="prevDestSuccess">Email masivo enviado, a continuación se presenta la lista de todos los mensajes de la elección</entry>
+
 	<!-- Dashboard Messages  -->
 	<entry key="dshbMessageTitle">Filtrar mensajes por elección</entry>
 	<entry key="dshbMessageElec">Elección</entry>
 	<entry key="dshbMessageBtnFilter">Filtrar</entry>
-	
-	
+
 	<!-- Dashboard Statistics  -->
 	<entry key="dshbStatsTitle">Evolución votantes: </entry>
 	<entry key="dshbStatsMessage">Todavía no ha terminado el plazo de votación</entry>
-	<entry key="resultado_r">Resultado de la elección</entry>
-	<entry key="autoria_r">Panel de auditoria</entry>
-	
+	<entry key="electionResults">Resultado de la elección</entry>
+	<entry key="auditPanel">Panel de auditoría</entry>
+	<entry key="dshbStatsNoData">No hay datos en este momento para mostrar.</entry>
+	<entry key="dshbStatsAmountPerDayAxis">Cantidad por día</entry>
+	<entry key="dshbStatsTotalsAxis">Totales</entry>
+	<entry key="dshbStatsAmountPerDaySeries">Cantidad por día</entry>
+	<entry key="dshbStatsTotalsSeries">Totales</entry>
+
 	<!-- Dashboard Auditor -->
-	<entry key="revisionactiva">Usted ha habilitado a los administradores de LACNIC a
-		realizar una revisión exhaustiva de esta elección</entry>
-	<entry key="auditorconforme">Enhorabuena! se ha notificado a los responsables de
-		LACNIC su conformidad con esta elección</entry>
-	<entry key="resultado_a">Resultado de la elección</entry>			
-	<entry key="info_auditores_a">Esta tabla solo está disponible para los
-		comisionados
-		electorales y auditores externos</entry>
-	<entry key="info_auditoria_a">A continuación se muestra la lista con los códigos de
-		votación de esta elección</entry>
-	<entry key="texto_auditor_aprobacion">Usted es auditor en esta elección, es necesario que
-		informe a los administradores de LACNIC su conformidad con el proceso
-		y resultado de esta elección</entry>
-	<entry key="texto_auditor_revision">Los administradores de LACNIC han solicitado su
-		habilitación para realizar una revisión exhaustiva de esta elección.
-		Una vez que todos los auditores de esta elección den su aprobación
-		al
-		proceso de revisión, los administradores de LACNIC podrán visualizar
-		desde la interfaz administrativa del sistema la siguiente información:
-		información del votante, candidato elegido, fecha y hora
-		en que se
-		realizo en voto, código de voto y dirección IP desde donde se realizó
-		la votación.
-	</entry>
-	<entry key="titulo_a">Información disponible solo para auditores externos</entry>
-		
-	
+	<entry key="revisionActive">Usted ha habilitado a los administradores de LACNIC a realizar una revisión exhaustiva de esta elección</entry>
+	<entry key="auditorAgreedConfority">Enhorabuena! se ha notificado a los responsables de LACNIC su conformidad con esta elección</entry>
+	<entry key="auditElectionResults">Resultado de la elección</entry>			
+	<entry key="commissionersInformationText">Esta tabla solo está disponible para los comisionados electorales y auditores externos</entry>
+	<entry key="codesListText">A continuación se muestra la lista con los códigos de votación de esta elección</entry>
+	<entry key="auditorConformityText">Usted es auditor en esta elección, es necesario que informe a los administradores de LACNIC su conformidad con el proceso y resultado de esta elección</entry>
+	<entry key="auditorRevisionText">Los administradores de LACNIC han solicitado su habilitación para realizar una revisión exhaustiva de esta elección. Una vez que todos los auditores de esta elección den su aprobación al proceso de revisión, los administradores de LACNIC podrán visualizar desde la interfaz administrativa del sistema la siguiente información: información del votante, candidato elegido, fecha y hora en que se realizo en voto, código de voto y dirección IP desde donde se realizó la votación.</entry>
+
 	<!-- Common -->
 	<entry key="commontBtnActTokenPreg">Cambiar link de votación</entry>
 	<entry key="commontBtnActTokenConf">Confirmar</entry>
@@ -679,39 +608,28 @@
 	<entry key="commontBtnAprobAuditPreg">Estoy conforme con este proceso electoral</entry>
 	<entry key="commontBtnAprobAuditConf">Confirmar</entry>
 	<entry key="commontBtnAprobAuditCanc">Cancelar</entry>
-	
-	<entry key="linkEspanol">Link en español:</entry>
-	<entry key="linkIngles">Link en inglés:</entry>
-	<entry key="linkPortugues">Link en portugués:</entry>
-	<entry key="tituloEspanol">Titulo en español:</entry>
-	<entry key="tituloIngles">Titulo en inglés:</entry>
-	<entry key="tituloPortugues">Titulo en portugués:</entry>
-	<entry key="descripcionEspanol">Descripción en español:</entry>
-	<entry key="descripcionIngles">Descripción en inglés:</entry>
-	<entry key="descripcionPortugues">Descripción en portugués:</entry>
-	
+
+	<entry key="linkSpanishLabel">Link en español:</entry>
+	<entry key="linkEnglishLabel">Link en inglés:</entry>
+	<entry key="linkPortugueseLabel">Link en portugués:</entry>
+	<entry key="titleSpanishLabel">Titulo en español:</entry>
+	<entry key="titleEnglishLabel">Titulo en inglés:</entry>
+	<entry key="titlePortugueseLabel">Titulo en portugués:</entry>
+	<entry key="descriptionSpanishLabel">Descripción en español:</entry>
+	<entry key="descriptionEnglishLabel">Descripción en inglés:</entry>
+	<entry key="descriptionPortugueseLabel">Descripción en portugués:</entry>
+
 	<!-- Election Setup -->
 	<entry key="confElecTitle">En esta pantalla usted podrá configurar la Elección.</entry>
 	<entry key="confElecLinkVot">Link de Votación :</entry>
-	<entry key="confElecTextVot">Si se encuentra habilitado y la fecha
-								actual está dentro de las fechas de Inicio y Fin de la elección,
-								el sistema permitirá que los Usuarios del padrón puedan acceder
-								a votar con el link que se les proporcionó.</entry>
+	<entry key="confElecTextVot">Si se encuentra habilitado y la fecha actual está dentro de las fechas de Inicio y Fin de la elección, el sistema permitirá que los Usuarios del padrón puedan acceder a votar con el link que se les proporcionó.</entry>
 	<entry key="confElecLinkRes">Link de Resultado : </entry>
-	<entry key="confElecTextRes">Si se encuentra habilitado, el
-								sistema permitirá que los Usuarios del padrón puedan acceder a
-								ver los resultados de la Votación con el link común que se les
-								proporcionó.</entry>
+	<entry key="confElecTextRes">Si se encuentra habilitado, el sistema permitirá que los Usuarios del padrón puedan acceder a ver los resultados de la Votación con el link común que se les proporcionó.</entry>
 	<entry key="confElecLinkAud">Link de Auditoría : </entry>
-	<entry key="confElecTextAud">Si se encuentra habilitado, el
-								sistema permitirá que los Auditores y Comisionados puedan
-								acceder a la pantalla de Auditoría.</entry>
+	<entry key="confElecTextAud">Si se encuentra habilitado, el sistema permitirá que los Auditores y Comisionados puedan acceder a la pantalla de Auditoría.</entry>
 	<entry key="confElecDangerZone">Zona de peligro</entry>
 	<entry key="confElecSolRev">Solicitud de Revisión: </entry>
-	<entry key="confElecSolRev2">Al activar esta opción los
-								auditores de esta elección podrán habilitar a los
-								administradores de LACNIC a visualizar el detalle de los
-								votos de esta elección.</entry>
+	<entry key="confElecSolRev2">Al activar esta opción los auditores de esta elección podrán habilitar a los administradores de LACNIC a visualizar el detalle de los votos de esta elección.</entry>
 	<entry key="confElecSolRev3">Esta opción no es de uso frecuente y en elecciones desarrolladas con normalidad no se debería usar. </entry>
 	<entry key="confElecFooter1">Para obtener más información sobre el funcionamiento de este módulo acceda a la sección 6 (</entry>
 	<entry key="confElecFooter2">Proceso de revisión exhaustiva de la elección. Casos de anomalías o fraude</entry>
@@ -720,55 +638,33 @@
 	<entry key="confElecFooter5">) descargar </entry>
 	<entry key="confElecFooter6">aquí</entry>
 	<entry key="confElecBtnBack">Volver</entry>
-	
-	<entry key="confElecTemplTitle">En esta pantalla usted podrá configurar la Elección. El
-						concepto Estado no existe más para una elección, sin embargo la
-						misma se modela a través de la habilitación de los links.</entry>
+	<entry key="confElecTemplTitle">En esta pantalla usted podrá configurar la Elección. El concepto Estado no existe más para una elección, sin embargo la misma se modela a través de la habilitación de los links.</entry>
 	<entry key="confElecTemplLinkVote">Link de Votación :</entry>
-	<entry key="confElecTemplTextVote">Si se encuentra habilitado y la fecha
-								actual está dentro de las fechas de Inicio y Fin de la elección,
-								el sistema permitirá que los Usuarios del padrón puedan acceder
-								a votar con el link que se les proporcionó.</entry>
+	<entry key="confElecTemplTextVote">Si se encuentra habilitado y la fecha actual está dentro de las fechas de Inicio y Fin de la elección, el sistema permitirá que los Usuarios del padrón puedan acceder a votar con el link que se les proporcionó.</entry>
 	<entry key="confElecTemplLinkRes">Link de Resultado :</entry>
-	<entry key="confElecTemplTextRes">Si se encuentra habilitado, el
-								sistema permitirá que los Usuarios del padrón puedan acceder a
-								ver los resultados de la Votación con el link común que se les
-								proporcionó.</entry>
+	<entry key="confElecTemplTextRes">Si se encuentra habilitado, el sistema permitirá que los Usuarios del padrón puedan acceder a ver los resultados de la Votación con el link común que se les proporcionó.</entry>
 	<entry key="confElecTemplLinkAud">Link de Auditoría :</entry>
-	<entry key="confElecTemplTextAud">Si se encuentra habilitado, el
-								sistema permitirá que los Auditores y Comisionados puedan
-								acceder a la pantalla de Auditoría.</entry>
-	
-	
+	<entry key="confElecTemplTextAud">Si se encuentra habilitado, el sistema permitirá que los Auditores y Comisionados puedan acceder a la pantalla de Auditoría.</entry>
+
 	<!--  Error Pages -->
-	<entry key="recargar">Recargar</entry>
-	<entry key="titulo_votacion_nocomenzo">Esta elección comienza en:</entry>
-	
-	<entry key="titulo_401">401</entry>
-	<entry key="descripcion_401">No autorizado - Usted no tiene acceso a este contenido</entry>
+	<entry key="reload">Recargar</entry>
+	<entry key="errorVoteNotStartedTitle">Esta elección comienza en:</entry>
+	<entry key="error401Title">401</entry>
+	<entry key="error401Description">No autorizado - Usted no tiene acceso a este contenido</entry>
+	<entry key="error404Title">404</entry>
+	<entry key="error404Description">Página no encontrada - Lo sentimos, esta página no existe</entry>
+	<entry key="error410Title">410</entry>
+	<entry key="error410Description">Página expirada</entry>
+	<entry key="error500Title">500</entry>
+	<entry key="error500Description">Error Interno</entry>
+	<entry key="errorResultsNotPublicTitle">Acceso no autorizado</entry>
+	<entry key="errorResultsNotPublicDescription">Los resultados de esta elección no son públicos por el momento</entry>
+	<entry key="errorAuditNotPublicTitle">Acceso no autorizado</entry>
+	<entry key="errorAuditNotPublicDescription">La auditoria no está habilitada por el momento</entry>
+	<entry key="errorVoteNotPublicTitle">Acceso no autorizado</entry>
+	<entry key="errorVoteNotPublicDescription">La elección no está activa en este momento</entry>
 
-	<entry key="titulo_404">404</entry>
-	<entry key="descripcion_404">Página no encontrada - Lo sentimos, esta página no
-		existe</entry>
-
-	<entry key="titulo_410">410</entry>
-	<entry key="descripcion_410">Página expirada</entry>
-
-	<entry key="titulo_500">500</entry>
-	<entry key="descripcion_500">Error Interno</entry>
-	
-	<entry key="titulo_nopublicos">Acceso no autorizado</entry>
-	<entry key="descripcion_nopublicos">Los resultados de esta elección no son públicos por el
-		momento</entry>
-
-	<entry key="titulo_a_nopublicos">Acceso no autorizado</entry>
-	<entry key="descripcion_a_nopublicos">La auditoria no está habilitada por el momento</entry>
-
-	<entry key="titulo_votacion_nopublicos">Acceso no autorizado</entry>
-	<entry key="descripcion_votacion_nopublicos">La elección no está activa en este momento</entry>
-	
 	<!-- Exceptions -->
 	<entry key="duplicateEmailException">Ya existe un votante con el mismo e-mail en el Padrón.</entry>
-
 
 </properties>

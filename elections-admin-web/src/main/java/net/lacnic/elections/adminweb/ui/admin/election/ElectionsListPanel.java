@@ -16,15 +16,16 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.dashboard.admin.DashboardConfiguracion;
-import net.lacnic.elections.adminweb.dashboard.admin.DashboardEstadisticas;
-import net.lacnic.elections.adminweb.dashboard.admin.DashboardPlantillasVer;
-import net.lacnic.elections.adminweb.dashboard.admin.DashboardReview;
 import net.lacnic.elections.adminweb.ui.admin.election.auditors.ElectionAuditorsDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.candidates.ElectionCandidatesDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.census.ElectionCensusDashboard;
+import net.lacnic.elections.adminweb.ui.admin.election.configuration.ElectionConfigurationDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.detail.ElectionDetailDashboard;
+import net.lacnic.elections.adminweb.ui.admin.election.stats.StatsDashboard;
+import net.lacnic.elections.adminweb.ui.admin.election.view.ViewElectionDashboard;
+import net.lacnic.elections.adminweb.ui.admin.emailtemplate.EmailTemplatesDashboard;
 import net.lacnic.elections.adminweb.ui.components.ButtonDeleteWithConfirmation;
+import net.lacnic.elections.adminweb.ui.results.review.ReviewDashboard;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 
@@ -60,14 +61,14 @@ public class ElectionsListPanel extends Panel {
 
 			setOutputMarkupPlaceholderTag(true);
 
-			final ListView<Election> dataViewElecciones = new ListView<Election>("electionsList", electionsList) {
+			final ListView<Election> electionsListView = new ListView<Election>("electionsList", electionsList) {
 				private static final long serialVersionUID = 1786359392545666490L;
 
 				@Override
 				protected void populateItem(ListItem<Election> item) {
 					final Election currentElection = item.getModelObject();
 					try {
-						Label titles = new Label("titles", currentElection.getTitleSpanish());
+						Label titles = new Label("titles", currentElection.getTitle(SecurityUtils.getLocale().getLanguage()));
 						titles.setEscapeModelStrings(false);
 
 						item.add(new Label("creationDate", new SimpleDateFormat("dd/MM/yyyy").format(currentElection.getCreationDate())));
@@ -107,7 +108,7 @@ public class ElectionsListPanel extends Panel {
 								try {
 									boolean isNew = true;
 									boolean isJoint = false;
-									// Valido si la eleccion esta junta a otra, entonces NO puedo modificar la fecha de inicio
+									// Check if election is joint with another
 									if (currentElection.getElectionId() == 0) {
 										isNew = true;
 									} else {
@@ -131,28 +132,28 @@ public class ElectionsListPanel extends Panel {
 						item.add(buttonDeleteWithConfirmation);
 						buttonDeleteWithConfirmation.setVisible(SecurityUtils.getAuthorizedElectionId() == 0);
 
-						BookmarkablePageLink<Void> revisionEleccion = new BookmarkablePageLink<>("revision", DashboardReview.class, UtilsParameters.getId(currentElection.getElectionId()));
-						revisionEleccion.setMarkupId("revision" + currentElection.getElectionId());
-						revisionEleccion.setVisible(currentElection.isRevisionRequest());
-						item.add(revisionEleccion);
+						BookmarkablePageLink<Void> revisionLink = new BookmarkablePageLink<>("revision", ReviewDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
+						revisionLink.setMarkupId("revision" + currentElection.getElectionId());
+						revisionLink.setVisible(currentElection.isRevisionRequest());
+						item.add(revisionLink);
 						
-						BookmarkablePageLink<Void> gestionDeMailLink = new BookmarkablePageLink<>("manageEmails", DashboardPlantillasVer.class, UtilsParameters.getId(currentElection.getElectionId()));
-						gestionDeMailLink.setMarkupId("manageEmails" + currentElection.getElectionId());
-						item.add(gestionDeMailLink); 
+						BookmarkablePageLink<Void> manageEmailsLink = new BookmarkablePageLink<>("manageEmails", EmailTemplatesDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
+						manageEmailsLink.setMarkupId("manageEmails" + currentElection.getElectionId());
+						item.add(manageEmailsLink); 
 						
-						BookmarkablePageLink<Void> seeElectionStats = new BookmarkablePageLink<>("seeStats", DashboardEstadisticas.class, UtilsParameters.getId(currentElection.getElectionId()));
-						seeElectionStats.setMarkupId("seeStats" + currentElection.getElectionId());
-						item.add(seeElectionStats);
+						BookmarkablePageLink<Void> statsLink = new BookmarkablePageLink<>("seeStats", StatsDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
+						statsLink.setMarkupId("seeStats" + currentElection.getElectionId());
+						item.add(statsLink);
 
-						BookmarkablePageLink<Void> configuracion = new BookmarkablePageLink<>("configuration", DashboardConfiguracion.class, UtilsParameters.getId(currentElection.getElectionId()));
-						configuracion.setMarkupId("configuration" + currentElection.getElectionId());
-						item.add(configuracion);
+						BookmarkablePageLink<Void> configurationLink = new BookmarkablePageLink<>("configuration", ElectionConfigurationDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
+						configurationLink.setMarkupId("configuration" + currentElection.getElectionId());
+						item.add(configurationLink);
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
 				}
 			};
-			add(dataViewElecciones);
+			add(electionsListView);
 
 		} catch (Exception e) {
 			error(e.getMessage());

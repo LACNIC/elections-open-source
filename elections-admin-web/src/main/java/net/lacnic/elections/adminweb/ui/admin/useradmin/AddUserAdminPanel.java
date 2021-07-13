@@ -12,7 +12,7 @@ import org.apache.wicket.validation.validator.StringValidator;
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.components.DropDownElection;
-import net.lacnic.elections.adminweb.web.commons.UtilsString;
+import net.lacnic.elections.adminweb.wicket.util.UtilsString;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserAdmin;
 

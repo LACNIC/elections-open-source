@@ -55,15 +55,15 @@ public class ElectionEmailTemplate implements Serializable {
 
 	public ElectionEmailTemplate() { }
 
-	public ElectionEmailTemplate(Election e, ElectionEmailTemplate t) {
-		this.subjectEN = t.getSubjectEN();
-		this.subjectSP = t.getSubjectSP();
-		this.subjectPT = t.getSubjectPT();
-		this.bodyEN = t.getBodyEN();
-		this.bodySP = t.getBodySP();
-		this.bodyPT = t.getBodyPT();
-		this.templateType = t.getTemplateType();
-		this.election = e;
+	public ElectionEmailTemplate(Election election, ElectionEmailTemplate electionEmailTemplate) {
+		this.subjectEN = electionEmailTemplate.getSubjectEN();
+		this.subjectSP = electionEmailTemplate.getSubjectSP();
+		this.subjectPT = electionEmailTemplate.getSubjectPT();
+		this.bodyEN = electionEmailTemplate.getBodyEN();
+		this.bodySP = electionEmailTemplate.getBodySP();
+		this.bodyPT = electionEmailTemplate.getBodyPT();
+		this.templateType = electionEmailTemplate.getTemplateType();
+		this.election = election;
 	}
 
 

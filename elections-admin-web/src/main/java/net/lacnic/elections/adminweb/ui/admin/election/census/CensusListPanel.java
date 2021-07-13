@@ -24,137 +24,130 @@ import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.utils.LinksUtils;
 
+
 public class CensusListPanel extends Panel {
 
 	private static final long serialVersionUID = -1239455534678268981L;
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
-	private List<UserVoter> usuariosPadron;
-	private File archivo;
+	private List<UserVoter> userVoters;
+	private File censusFile;
 
-	public CensusListPanel(String id, Election eleccion) {
+
+	public CensusListPanel(String id, Election election) {
 		super(id);
-		usuariosPadron = AppContext.getInstance().getManagerBeanRemote().getElectionUserVoters(eleccion.getElectionId());
+		userVoters = AppContext.getInstance().getManagerBeanRemote().getElectionUserVoters(election.getElectionId());
 
-		add(new Label("cantidad", String.valueOf(usuariosPadron.size())));
+		add(new Label("censusSize", String.valueOf(userVoters.size())));
 
-		DownloadLink downloadLink = new DownloadLink("exportarPadron", new PropertyModel<>(CensusListPanel.this, "archivo")) {
-
+		DownloadLink downloadLink = new DownloadLink("exportCensus", new PropertyModel<>(CensusListPanel.this, "censusFile")) {
 			private static final long serialVersionUID = 5415706945162526592L;
 
 			@Override
 			public void onClick() {
-				setArchivo(AppContext.getInstance().getManagerBeanRemote().exportCensus(eleccion.getElectionId()));
+				setCensusFile(AppContext.getInstance().getManagerBeanRemote().exportCensus(election.getElectionId()));
 				super.onClick();
 			}
 		};
 		add(downloadLink);
-		downloadLink.setVisible(eleccion.isElectorsSet());
+		downloadLink.setVisible(election.isElectorsSet());
 
-		final ListView<UserVoter> usuariosPadronDataView = new ListView<UserVoter>("usuarioPadronList", usuariosPadron) {
+		final ListView<UserVoter> userVotersDataView = new ListView<UserVoter>("userVotersList", userVoters) {
 			private static final long serialVersionUID = 1786359392545666490L;
 
 			@Override
 			protected void populateItem(final ListItem<UserVoter> item) {
 				try {
-					final UserVoter actual = item.getModelObject();
+					final UserVoter currentUser = item.getModelObject();
 
-					item.add(new Label("idioma", actual.getLanguage()));
-					item.add(new Label("nombre", actual.getName()));
-					item.add(new Label("mail", actual.getMail()));
-					item.add(new Label("cantidadVotos", String.valueOf(actual.getVoteAmount())));
-					item.add(new Label("pais", actual.getCountry()));
-					item.add(new Label("orgId", actual.getOrgID()));
-					item.add(new Label("voto", (actual.isVoted() ? "SI" : "NO")));
-					String calcularLinkVotar = LinksUtils.buildVoteLink(actual.getVoteToken());
-					Label textoLinkVotar = new Label("textoLinkVotar", calcularLinkVotar);
-					ExternalLink linkvotar = new ExternalLink("linkVotar", calcularLinkVotar);
-					linkvotar.add(textoLinkVotar);
-					item.add(linkvotar);
-
-					ButtonUpdateToken botonActualizarToken = new ButtonUpdateToken("actualizar") {
-
-						private static final long serialVersionUID = 3609140813722818708L;
-
-						@Override
-						public void onConfirm() {
-
-							try {
-								AppContext.getInstance().getManagerBeanRemote().updateUserVoterToken(actual.getUserVoterId(), actual.getName(), eleccion.getTitleSpanish(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
-								getSession().info(getString("censusManagementUserListExitoToken"));
-								setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(eleccion.getElectionId()));
-							} catch (Exception e) {
-								appLogger.error(e);
-							}
-
-						}
-					};
-					item.add(botonActualizarToken);
-
-					ButtonResendVoteEmail botonReenviarEmailVotacion = new ButtonResendVoteEmail("enviarLink") {
-
-						private static final long serialVersionUID = -4628772989608517427L;
-
-						@Override
-						public void onConfirm() {
-
-							try {
-								AppContext.getInstance().getManagerBeanRemote().resendUserVoterElectionMail(actual, eleccion, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
-								getSession().info(getString("censusManagementUserListExitoLink"));
-								setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(eleccion.getElectionId()));
-							} catch (Exception e) {
-								appLogger.error(e);
-							}
-
-						}
-					};
-					item.add(botonReenviarEmailVotacion);
-
-					ButtonDeleteWithConfirmation botonConConfirmacionEliminar = new ButtonDeleteWithConfirmation("eliminar",item.getIndex()) {
-
+					ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeUser", item.getIndex()) {
 						private static final long serialVersionUID = -6583106894827434879L;
 
 						@Override
 						public void onConfirm() {
-
 							try {
-								AppContext.getInstance().getManagerBeanRemote().removeUserVoter(actual, eleccion.getTitleSpanish(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
-								getSession().info(getString("censusManagementUserListExitoDelete"));
-								setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(eleccion.getElectionId()));
+								AppContext.getInstance().getManagerBeanRemote().removeUserVoter(currentUser, election.getTitleSpanish(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
+								getSession().info(getString("censusManagementUserListDeleteSuccess"));
+								setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
 							} catch (Exception e) {
 								appLogger.error(e);
 							}
 						}
 					};
-					item.add(botonConConfirmacionEliminar);
+					buttonDeleteWithConfirmation.setMarkupId("removeUser" + item.getIndex());
+					item.add(buttonDeleteWithConfirmation);
 
-					Link<Void> editarUsuarioPadron = new Link<Void>("editarUsuarioPadron") {
+					item.add(new Label("language", currentUser.getLanguage()));
+					item.add(new Label("name", currentUser.getName()));
+					item.add(new Label("mail", currentUser.getMail()));
+					item.add(new Label("voteAmount", String.valueOf(currentUser.getVoteAmount())));
+					item.add(new Label("country", currentUser.getCountry()));
+					item.add(new Label("orgId", currentUser.getOrgID()));
+					item.add(new Label("voted", (currentUser.isVoted() ? getString("censusManagementUserListColVotedYes") : getString("censusManagementUserListColVotedNo"))));
+					String voteLinkText = LinksUtils.buildVoteLink(currentUser.getVoteToken());
+					Label voteLinkTextLabel = new Label("voteLinkText", voteLinkText);
+					ExternalLink voteLink = new ExternalLink("voteLink", voteLinkText);
+					voteLink.add(voteLinkTextLabel);
+					item.add(voteLink);
 
+					ButtonUpdateToken buttonUpdateToken = new ButtonUpdateToken("updateToken") {
+						private static final long serialVersionUID = 3609140813722818708L;
+
+						@Override
+						public void onConfirm() {
+							try {
+								AppContext.getInstance().getManagerBeanRemote().updateUserVoterToken(currentUser.getUserVoterId(), currentUser.getName(), election.getTitleSpanish(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
+								getSession().info(getString("censusManagementUserListTokenSuccess"));
+								setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
+							} catch (Exception e) {
+								appLogger.error(e);
+							}
+						}
+					};
+					item.add(buttonUpdateToken);
+
+					ButtonResendVoteEmail buttonResendVoteEmail = new ButtonResendVoteEmail("resendLink") {
+						private static final long serialVersionUID = -4628772989608517427L;
+
+						@Override
+						public void onConfirm() {
+							try {
+								AppContext.getInstance().getManagerBeanRemote().resendUserVoterElectionMail(currentUser, election, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
+								getSession().info(getString("censusManagementUserListLinkSuccess"));
+								setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
+							} catch (Exception e) {
+								appLogger.error(e);
+							}
+						}
+					};
+					item.add(buttonResendVoteEmail);
+
+					Link<Void> editUserVoterLink = new Link<Void>("editUserVoter") {
 						private static final long serialVersionUID = 8268292966477896858L;
 
 						@Override
 						public void onClick() {
-							setResponsePage(EditUserVoterDashboard.class, UtilsParameters.getUser(actual.getUserVoterId()));
+							setResponsePage(EditUserVoterDashboard.class, UtilsParameters.getUser(currentUser.getUserVoterId()));
 						}
-
 					};
-					editarUsuarioPadron.setMarkupId("editarUsu"+item.getIndex());
-					item.add(editarUsuarioPadron);
+					editUserVoterLink.setMarkupId("editUser" + item.getIndex());
+					item.add(editUserVoterLink);
 
 				} catch (Exception e) {
 					appLogger.error(e);
 				}
 			}
 		};
-		add(usuariosPadronDataView);
+		add(userVotersDataView);
 	}
 
-	public File getArchivo() {
-		return archivo;
+	public File getCensusFile() {
+		return censusFile;
 	}
 
-	public void setArchivo(File archivo) {
-		this.archivo = archivo;
+	public void setCensusFile(File censusFile) {
+		this.censusFile = censusFile;
 	}
+
 }

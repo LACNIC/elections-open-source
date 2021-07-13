@@ -19,11 +19,11 @@ public interface MailsSendingEJB {
 
 	List<Email> getEmailsToSend();
 
-	void reschedule(List<Email> problemEmails);
-
 	void queueSingleSending(ElectionEmailTemplate tamplateElection, UserVoter userVoter, Auditor auditor, Election election, List<Vote> votes);
 
 	void markEmailsAsSent();
+
+	void markEmailAsSent(Email email);
 
 	void moveEmailsToHistory();
 

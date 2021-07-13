@@ -13,7 +13,7 @@ import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.admin.election.ManageElectionTabsPanel;
 import net.lacnic.elections.adminweb.ui.admin.election.candidates.ElectionCandidatesDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.detail.ElectionDetailDashboard;
-import net.lacnic.elections.adminweb.web.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserVoter;
@@ -48,7 +48,7 @@ public class ElectionCensusDashboard extends DashboardAdminBasePage {
 				super.onSubmit();
 				try {
 					AppContext.getInstance().getManagerBeanRemote().addUserVoter(getElection().getElectionId(), getUserVoter(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
-					getSession().info(getString("censusManagementExito"));
+					getSession().info(getString("censusManagementSuccess"));
 					setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(getElection().getElectionId()));
 				} catch (CensusValidationException e) {
 					error(getString(e.getMessage()));

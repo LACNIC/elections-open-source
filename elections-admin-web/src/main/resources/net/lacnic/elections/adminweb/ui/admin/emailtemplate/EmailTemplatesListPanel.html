@@ -1,0 +1,45 @@
+<wicket:panel>
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5><wicket:message key="mailTemplListTitle" /></h5>
+			</div>
+			<div class="ibox-content">
+				<div class="table-responsive m-t">
+					<table class="table table-striped">
+						<thead class="jumbotron">
+							<tr>
+								<th class="text-center"><wicket:message key="mailTemplListType" /></th>
+								<th class="text-center"><wicket:message key="mailTemplListMailEsp" /></th>
+								<th class="text-center"><wicket:message key="mailTemplListMailEng" /></th>
+								<th class="text-center"><wicket:message key="mailTemplListMailPor" /></th>
+								<th class="text-center"><wicket:message key="mailTemplListActions" /></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="emailTemplatesList" name="emailTemplatesList">
+								<td class="text-center"><span wicket:id="templateType"></span></td>
+								<td class="text-left">
+									<p><b><wicket:message key="mailTemplListSubject" />&nbsp;</b><span wicket:id="subjectSP"></span></p>
+									<p><b><wicket:message key="mailTemplListBody" />&nbsp;</b><span wicket:id="bodySP"></span></p>
+								</td>
+								<td class="text-left">
+									<p><b><wicket:message key="mailTemplListSubject" />&nbsp;</b><span wicket:id="subjectEN"></span></p>
+									<p><b><wicket:message key="mailTemplListBody" />&nbsp;</b><span wicket:id="bodyEN"></span></p>
+								</td>
+								<td class="text-left">
+									<p><b><wicket:message key="mailTemplListSubject" />&nbsp;</b><span wicket:id="subjectPT"></span></p>
+									<p><wicket:message key="mailTemplListBody" />&nbsp;<span wicket:id="bodyPT"></span></p>
+								</td>
+								<td class="text-center vcenter">
+									<a wicket:id="editTemplate" wicket:message="title:mailTemplListEdit" class="text-primary fa fa-pencil fa-lg m-r-sm"></a>
+									<a wicket:id="sendEmail" wicket:message="title:mailTemplListSendMail" class="text-success fa fa-paper-plane fa-lg m-r-sm"></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

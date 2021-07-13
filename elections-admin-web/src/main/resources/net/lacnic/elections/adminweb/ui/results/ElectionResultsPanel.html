@@ -1,0 +1,22 @@
+<wicket:panel>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><wicket:message key="candidatesTitle" /></th>
+				<th><wicket:message key="votesTitle" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="candidatesList">
+				<td wicket:id="name"></td>
+				<td wicket:id="votes"></td>
+			</tr>
+		</tbody>
+		<thead>
+			<tr>
+				<th><strong><wicket:message key="votersTotal" /></strong><span wicket:id="totalVoters" id="electionTotalVoters" /></th>
+				<th><strong><wicket:message key="votesTotal" /></strong> <span wicket:id="totalVotes" id="electionTotalVotes" /></th>
+			</tr>
+		</thead>
+	</table>
+</wicket:panel>

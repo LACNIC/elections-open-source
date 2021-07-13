@@ -1,0 +1,26 @@
+<wicket:panel>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th><wicket:message key="auditorManagementListDel" /></th>
+				<th><wicket:message key="auditorManagementListName" /></th>
+				<th><wicket:message key="auditorManagementListMail" /></th>
+				<th><wicket:message key="auditorManagementListLink" /></th>
+				<th><wicket:message key="auditorManagementListEdit" /></th>
+				<th><wicket:message key="auditorManagementListApprove" /></th>
+				<th><wicket:message key="auditorManagementListApproved" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="auditorsList" id="auditorsList">
+				<td><div wicket:id="removeAuditor"></div></td>
+				<td><span wicket:id="name"></span></td>
+				<td><span wicket:id="mail"></span></td>
+				<td><a wicket:id="auditorLink" target="_blank"><span wicket:id="auditorLinkText"></span></a></td>
+				<td><a wicket:message="title:auditorManagementListEdit" class="text-primary fa fa-pencil fa-lg m-r-sm" wicket:id="editAuditor"></a></td>
+				<td class="text-center"><span wicket:id="isCommissioner"></span></td>
+				<td class="text-center"><span wicket:id="agreedConformity"></span></td>
+			</tr>
+		</tbody>
+	</table>
+</wicket:panel>

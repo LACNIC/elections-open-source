@@ -13,9 +13,9 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
+import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.ui.components.DropDownElection;
 import net.lacnic.elections.adminweb.ui.error.Error401;
-import net.lacnic.elections.adminweb.web.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserAdmin;

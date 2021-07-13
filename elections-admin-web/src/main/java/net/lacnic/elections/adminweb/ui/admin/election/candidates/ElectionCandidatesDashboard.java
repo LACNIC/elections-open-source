@@ -12,9 +12,7 @@ import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.admin.election.ManageElectionTabsPanel;
 import net.lacnic.elections.adminweb.ui.admin.election.auditors.ElectionAuditorsDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.census.ElectionCensusDashboard;
-import net.lacnic.elections.adminweb.web.bases.DashboardAdminBasePage;
-import net.lacnic.elections.adminweb.web.elecciones.CamposEleccionCandidatosPanel;
-import net.lacnic.elections.adminweb.web.elecciones.ListaEdicionCandidatosPanel;
+import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ActivityType;
@@ -23,78 +21,76 @@ import net.lacnic.elections.domain.ActivityType;
 @AuthorizeInstantiation("elections-only-one")
 public class ElectionCandidatesDashboard extends DashboardAdminBasePage {
 
-	private static final long serialVersionUID = 1L;
-	private Election eleccion;
+	private static final long serialVersionUID = -8712299592904499634L;
+	private Election election;
+
 
 	public ElectionCandidatesDashboard(PageParameters params) {
 		super(params);
 
-		setEleccion(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
+		setElection(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
 		add(new FeedbackPanel("feedback"));
-		add(new CandidatosEleccionForm("eleccionCandidatosForm", eleccion));
-		add(new ManageElectionTabsPanel("tabsPanel", eleccion));
-		add(new ListaEdicionCandidatosPanel("listaCandidatosPanel", eleccion));
+		add(new ElectionCandidateForm("electionCandidateForm", election));
+		add(new ManageElectionTabsPanel("tabsPanel", election));
+		add(new CandidatesListPanel("candidatesListPanel", election));
 	}
 
-	public final class CandidatosEleccionForm extends Form<Void> {
 
+	public final class ElectionCandidateForm extends Form<Void> {
 		private static final long serialVersionUID = 2351447413365706203L;
 
-		public CandidatosEleccionForm(String id, final Election eleccion) {
+		public ElectionCandidateForm(String id, final Election election) {
 			super(id);
+
 			setFileMaxSize(Bytes.kilobytes(2048));
-			CamposEleccionCandidatosPanel camposEleccionCandidatosPanel = new CamposEleccionCandidatosPanel("campos", eleccion);
-			add(camposEleccionCandidatosPanel);
+			AddCandidatePanel addCandidatePanel = new AddCandidatePanel("addCandidatePanel", election);
+			add(addCandidatePanel);
 
-			Link<Void> submitButton = new Link<Void>("siguiente") {
+			Link<Void> back = new Link<Void>("back") {
+				private static final long serialVersionUID = -2540140657992430113L;
 
+				@Override
+				public void onClick() {
+					setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
+				}
+			};
+			add(back);
+
+			Link<Void> skip = new Link<Void>("skip") {
+				private static final long serialVersionUID = 832866944403935918L;
+
+				@Override
+				public void onClick() {
+					setResponsePage(ElectionAuditorsDashboard.class, UtilsParameters.getId(election.getElectionId()));
+				}
+			};
+			add(skip);
+
+			Link<Void> next = new Link<Void>("next") {
 				private static final long serialVersionUID = 1073607359256986749L;
 
 				@Override
 				public void onClick() {
 					try {
-						String descripcion = SecurityUtils.getUserAdminId().toUpperCase() + getString("candidateManagemenExitoAddCandidates") + getEleccion().getTitleSpanish();
-						AppContext.getInstance().getManagerBeanRemote().persistActivity(SecurityUtils.getUserAdminId(), ActivityType.ADD_CANDIDATES, descripcion, SecurityUtils.getClientIp(), getEleccion().getElectionId());
-						setResponsePage(ElectionAuditorsDashboard.class, UtilsParameters.getId(eleccion.getElectionId()));
+						String description = SecurityUtils.getUserAdminId().toUpperCase() + getString("candidateManagementSuccessAddCandidates") + getElection().getTitleSpanish();
+						AppContext.getInstance().getManagerBeanRemote().persistActivity(SecurityUtils.getUserAdminId(), ActivityType.ADD_CANDIDATES, description, SecurityUtils.getClientIp(), getElection().getElectionId());
+						setResponsePage(ElectionAuditorsDashboard.class, UtilsParameters.getId(election.getElectionId()));
 					} catch (Exception e) {
 						error(e.getMessage());
 					}
 				}
-
 			};
-			add(submitButton);
-			submitButton.setEnabled(eleccion.isCandidatesSet());
-
-			Link<Void> saltarLink = new Link<Void>("saltar") {
-
-				private static final long serialVersionUID = 832866944403935918L;
-
-				@Override
-				public void onClick() {
-					setResponsePage(ElectionAuditorsDashboard.class, UtilsParameters.getId(eleccion.getElectionId()));
-				}
-			};
-			add(saltarLink);
-
-			Link<Void> atras = new Link<Void>("atras") {
-
-				private static final long serialVersionUID = -2540140657992430113L;
-
-				@Override
-				public void onClick() {
-					setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(eleccion.getElectionId()));
-				}
-			};
-			add(atras);
-
+			add(next);
+			next.setEnabled(election.isCandidatesSet());
 		}
 	}
 
-	public Election getEleccion() {
-		return eleccion;
+	public Election getElection() {
+		return election;
 	}
 
-	public void setEleccion(Election eleccion) {
-		this.eleccion = eleccion;
+	public void setElection(Election election) {
+		this.election = election;
 	}
+
 }

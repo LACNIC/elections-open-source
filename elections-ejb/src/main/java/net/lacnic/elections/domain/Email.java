@@ -28,7 +28,7 @@ public class Email implements Serializable {
 	private String recipients;
 
 	@Column
-	private String from;
+	private String sender;
 
 	@Column
 	private String cc;
@@ -77,12 +77,12 @@ public class Email implements Serializable {
 		this.recipients = recipients;
 	}
 
-	public String getFrom() {
-		return from;
+	public String getSender() {
+		return sender;
 	}
 
-	public void setFrom(String from) {
-		this.from = from;
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 
 	public String getCc() {

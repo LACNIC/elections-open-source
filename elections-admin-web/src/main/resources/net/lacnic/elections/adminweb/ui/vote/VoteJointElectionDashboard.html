@@ -1,0 +1,19 @@
+<wicket:extend>
+	<div wicket:id="feedbackPanel"></div>
+	<div class="row">
+		<div class="col-lg-10 col-lg-offset-1">
+			<div class="ibox ">
+				<div class="ibox-content text-center p-md">
+					<h2 wicket:id="voteNotComplete">
+						<strong><wicket:message key="userVoteNoComplete" /></strong>
+					</h2>
+					<h2 wicket:id="voter"></h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-5 col-lg-offset-1" wicket:id="election1Detail"></div>
+		<div class="col-lg-5" wicket:id="election2Detail"></div>
+	</div>
+</wicket:extend>

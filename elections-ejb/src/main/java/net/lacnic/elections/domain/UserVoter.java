@@ -25,8 +25,8 @@ public class UserVoter implements Serializable {
 	private static final long serialVersionUID = 574501011615594210L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_vote_seq")
-	@SequenceGenerator(name = "user_vote_seq", sequenceName = "user_vote_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "uservoter_seq")
+	@SequenceGenerator(name = "uservoter_seq", sequenceName = "uservoter_seq", allocationSize = 1)
 	@Column(name = "uservoter_id")
 	private long userVoterId;
 
@@ -68,7 +68,7 @@ public class UserVoter implements Serializable {
 	private List<Vote> votes;
 
 	@Transient
-	private String codeSummary;
+	private String codesSummary;
 
 
 	public UserVoter() { }
@@ -79,10 +79,10 @@ public class UserVoter implements Serializable {
 	}
 
 	public String getCompleteVoterInformation() {
-		String email= (getMail() != null && !getMail().isEmpty()) ? " (" + getMail() +") ": "";
+		String email= (getMail() != null && !getMail().isEmpty()) ? " (" + getMail() + ") " : "";
 		String orgid= (getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "";
 		String country= (getCountry() != null && !getCountry().isEmpty()) ? " - " + getCountry() : "";
-		return getName().concat(email+orgid+country);
+		return getName().concat(email + orgid + country);
 	}
 
 	public String getVoteLink() {
@@ -91,10 +91,10 @@ public class UserVoter implements Serializable {
 
 	public void setCodesSummary(List<Vote> votes) {
 		String aux = "";
-		for (Vote v : votes) {
-			aux = aux.concat(v.getCode() + " / " + v.getCandidate().getName() + "\n");
+		for (Vote vote : votes) {
+			aux = aux.concat(vote.getCode() + " / " + vote.getCandidate().getName() + "\n");
 		}
-		this.codeSummary = aux;
+		this.codesSummary = aux;
 	}
 
 
@@ -204,12 +204,12 @@ public class UserVoter implements Serializable {
 		this.votes = votes;
 	}
 
-	public String getCodeSummary() {
-		return codeSummary;
+	public String getCodesSummary() {
+		return codesSummary;
 	}
 
-	public void setCodeSummary(String codeSummary) {
-		this.codeSummary = codeSummary;
+	public void setCodesSummary(String codesSummary) {
+		this.codesSummary = codesSummary;
 	}
 
 }

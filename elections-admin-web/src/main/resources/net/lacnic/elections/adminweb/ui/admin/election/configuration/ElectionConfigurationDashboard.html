@@ -1,0 +1,77 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5><span wicket:id="electionTitle"></span></h5>
+				</div>
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-md-10">
+							<p><wicket:message key="confElecTitle" /></p>
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<div class="row">
+						<div class="col-md-10">
+							<p><b><wicket:message key="confElecLinkVot" /></b><wicket:message key="confElecTextVot" /></p>
+						</div>
+						<div class="col-md-2">
+							<div wicket:id="votingLinkAvailable" />
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<div class="row">
+						<div class="col-md-10">
+							<p><b><wicket:message key="confElecLinkRes" /></b><wicket:message key="confElecTextRes" /></p>
+						</div>
+						<div class="col-md-2">
+							<div wicket:id="resultLinkAvailable" />
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<div class="row">
+						<div class="col-md-10">
+							<p><b><wicket:message key="confElecLinkAud" /></b><wicket:message key="confElecTextAud" /></p>
+						</div>
+						<div class="col-md-2">
+							<div wicket:id="auditorLinkAvailable" />
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<div class="row">
+						<div class="col-md-12">
+							<h2 class="text-danger">
+								<strong><wicket:message key="confElecDangerZone" /></strong>
+							</h2>
+							<div class="panel panel-danger">
+								<div class="panel-body">
+									<div class="col-md-10">
+										<p><b><wicket:message key="confElecSolRev" /> </b><wicket:message key="confElecSolRev2" /></p>
+										<strong><wicket:message key="confElecSolRev3" /> </strong>
+									</div>
+									<div class="col-md-2">
+										<div wicket:id="revisionRequest" />
+									</div>
+								</div>
+								<div class="panel-footer">
+									<p>
+										<wicket:message key="confElecFooter1" /><i><wicket:message key="confElecFooter2" /></i>
+										<wicket:message key="confElecFooter3" /><i><wicket:message key="confElecFooter4" /></i>
+										<wicket:message key="confElecFooter5" /><a wicket:id="rolesDocument"><wicket:message key="confElecFooter6" /></a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<div class="text-center m-md">
+						<button wicket:id="back" type="button" class="btn btn-w-m btn-grey">
+							<wicket:message key="confElecBtnBack" />
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

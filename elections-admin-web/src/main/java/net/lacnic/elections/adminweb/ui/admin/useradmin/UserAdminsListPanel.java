@@ -12,7 +12,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.dashboard.admin.DashboardEditarPasswordAdministrador;
 import net.lacnic.elections.adminweb.ui.components.ButtonDeleteWithConfirmation;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.UserAdmin;
@@ -52,7 +51,7 @@ public class UserAdminsListPanel extends Panel {
 						editUserAdmin.setMarkupId("editUserAdmin" + currentUserAdmin.getUserAdminId());
 						item.add(editUserAdmin);
 
-						BookmarkablePageLink<Void> editUserAdminPassword = new BookmarkablePageLink<>("editUserAdminPassword", DashboardEditarPasswordAdministrador.class, UtilsParameters.getAdminId(currentUserAdmin.getUserAdminId()));
+						BookmarkablePageLink<Void> editUserAdminPassword = new BookmarkablePageLink<>("editUserAdminPassword", EditUserAdminPasswordDashboard.class, UtilsParameters.getAdminId(currentUserAdmin.getUserAdminId()));
 						editUserAdminPassword.setMarkupId("editUserAdminPassword" + currentUserAdmin.getUserAdminId());
 						item.add(editUserAdminPassword);
 

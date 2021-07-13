@@ -4,7 +4,8 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.web.bases.DashboardPublicBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardPublicBasePage;
+
 
 public class Error500 extends DashboardPublicBasePage {
 
@@ -12,13 +13,12 @@ public class Error500 extends DashboardPublicBasePage {
 
 	public Error500(PageParameters params) {
 		super(params);
-
-		add(new BookmarkablePageLink<Void>("inicio", SecurityUtils.getHomePage()));
+		add(new BookmarkablePageLink<Void>("home", SecurityUtils.getHomePage()));
 	}
 
 	@Override
 	protected Class validateToken(PageParameters params) {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

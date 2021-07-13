@@ -14,7 +14,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 
 import net.lacnic.elections.adminweb.app.AppContext;
-import net.lacnic.elections.adminweb.web.commons.UtilsString;
+import net.lacnic.elections.adminweb.wicket.util.UtilsString;
 
 
 public class LoginPanel extends Panel {
