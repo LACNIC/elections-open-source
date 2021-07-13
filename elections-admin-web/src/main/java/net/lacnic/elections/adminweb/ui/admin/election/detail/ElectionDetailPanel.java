@@ -141,7 +141,7 @@ public class ElectionDetailPanel extends Panel {
 
 			TextField<Integer> diffUTC = new TextField<>("diffUTC", new PropertyModel<>(election, "diffUTC"));
 			diffUTC.setRequired(true);
-			diffUTC.add(RangeValidator.range(1, 12));
+			diffUTC.add(RangeValidator.range(0, 12));
 			add(diffUTC);
 
 			EmailTextField defaultSender = new EmailTextField("defaultSender", new PropertyModel<>(election, "defaultSender"));

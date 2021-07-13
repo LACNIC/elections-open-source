@@ -31,7 +31,7 @@ public interface ElectionsManagerEJB {
 
 	public boolean isValidCaptchaResponse(String reCaptchaResponse);
 
-	public boolean isProd();
+	public boolean isShowCaptcha();
 
 	public Election getElection(long electionId);
 
@@ -204,5 +204,7 @@ public interface ElectionsManagerEJB {
 	public boolean updateCustomization(Customization customization);
 
 	public void persistActivity(String userAdminId, ActivityType activityType, String description, String ip, Long electionId);
+
+	public String getDataSiteKey();
 
 }

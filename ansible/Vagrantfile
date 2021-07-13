@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.network "private_network", ip: "192.168.128.128"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = true
+    vb.memory = "4096"
+  end
+
+ config.vm.network "forwarded_port", guest: 8080, host: 8280
+
+ config.vm.provision "shell", privileged:false,inline: <<-SHELL
+    curl https://github.com/grada84.keys >> ~/.ssh/authorized_keys
+    curl https://github.com/carloso92.keys >> ~/.ssh/authorized_keys
+ SHELL
+
+ config.vm.provision "shell", inline: <<-SHELL
+#  apt-get update
+#  apt-get install -y python-simplejson
+ SHELL
+
+end

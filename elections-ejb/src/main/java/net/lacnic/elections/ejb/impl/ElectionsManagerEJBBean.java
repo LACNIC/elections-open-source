@@ -191,20 +191,24 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Validates if it is Prod environment
+	 * Validates if it is Prod environment and captcha is configured
 	 * 
-	 * @return returns true if the parameter APP is igual a PROD 
+	 * @return returns true if captcha should be shown 
 	 */
 	@Override
-	public boolean isProd() {
+	public boolean isShowCaptcha() {
 		try {
-			return EJBFactory.getInstance().getElectionsParametersEJB().isProd();
+			return EJBFactory.getInstance().getElectionsParametersEJB().isProd() && !getDataSiteKey().isEmpty() && !getSkGoogleApiReCaptcha().isEmpty();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return false;
 		}
 	}
-	
+
+	private String getSkGoogleApiReCaptcha() {
+		return EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.SkGoogleApiReCaptcha);
+	}
+
 	/**
 	 * Gets an election by its identifier
 	 * 
@@ -1923,6 +1927,19 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		activity.setActivityType(activityType);
 		activity.setDescription(description);
 		em.persist(activity);
+	}
+
+	/**
+	 * Returns the data site key
+	 */
+	@Override
+	public String getDataSiteKey() {
+		try {
+			return EJBFactory.getInstance().getElectionsParametersEJB().getDataSiteKey();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return "";
+		}
 	}
 
 }

@@ -22,4 +22,6 @@ public interface ElectionsParametersEJB {
 
 	void deleteParameter(String key);
 
+	String getDataSiteKey();
+
 }

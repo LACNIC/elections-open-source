@@ -1,6 +1,7 @@
 package net.lacnic.elections.ejb.commons.impl;
 
 import java.util.List;
+import java.util.Properties;
 
 import javax.ejb.Schedule;
 import javax.ejb.Schedules;
@@ -15,6 +16,7 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 import net.lacnic.elections.domain.Email;
 import net.lacnic.elections.utils.Constants;
 import net.lacnic.elections.utils.EJBFactory;
+import net.lacnic.elections.utils.FilesUtils;
 import net.lacnic.elections.utils.MailHelper;
 
 
@@ -28,7 +30,7 @@ public class AutomaticProcesses {
 
 
 	/**
-	 * Get the list of emails to send and tries to send them. Adds the ones who fail to the email wit problemas list which are re-scheduled to be sent later.
+	 * Get the list of emails to send and tries to send them.
 	 */
 	@TransactionTimeout(35000)
 	@Schedules({ @Schedule(second = "0", minute = "*/10", hour = "*", persistent = false) })
@@ -38,13 +40,18 @@ public class AutomaticProcesses {
 				running = true;
 				appLogger.info("START Execute Elections Mails Sending");
 				List<Email> emails = EJBFactory.getInstance().getMailsSendingEJB().getEmailsToSend();
+
+				Properties props = FilesUtils.getEmailProperties();
+				appLogger.info("Email sending properties: " );
+				appLogger.info(props.toString());
+
 				String host = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_HOST);
 				String user = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_USER);
 				String password = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_PASSWORD);
 				MailHelper.setSmtpHost(host);
 				MailHelper.setUser(user);
 				MailHelper.setPass(password);
-				Session session = MailHelper.initSession();
+				Session session = MailHelper.initSession(props);
 
 				for (int i = 0; i < emails.size(); i++) {
 					Email email = emails.get(i);

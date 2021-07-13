@@ -37,7 +37,7 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	public List<Parameter> getParametersAll() {
 		return ElectionsDaoFactory.createParameterDao(em).getParametersAll();
 	}
-	
+
 	/**
 	 * Gets the value of a parameter
 	 * 
@@ -71,7 +71,7 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 		String app = getParameter(Constants.APP);
 		if (app.isEmpty())
 			return true;
-		else 
+		else
 			return app.equalsIgnoreCase("PROD");
 	}
 
@@ -135,6 +135,21 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
+	}
+
+	/**
+	 * Returns the data site key
+	 */
+	@Override
+	public String getDataSiteKey() {
+		try {
+			String dataSiteKey = getParameter(Constants.DataSiteKeyReCaptcha);
+			if (dataSiteKey != null)
+				return dataSiteKey;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return "";
 	}
 
 }

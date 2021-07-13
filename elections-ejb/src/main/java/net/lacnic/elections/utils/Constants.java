@@ -34,6 +34,7 @@ public class Constants {
 	public static final String JAR_NAME = "elections-ejb";
 
 	public static final String SkGoogleApiReCaptcha = "SkGoogleApiReCaptcha";
+	public static final String DataSiteKeyReCaptcha = "DataSiteKeyReCaptcha";
 
 	private static final String WAR_NAME = "elections";
 	private static final String VOTE = "/vote";

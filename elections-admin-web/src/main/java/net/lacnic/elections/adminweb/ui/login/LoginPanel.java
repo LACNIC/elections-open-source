@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
@@ -25,7 +26,7 @@ public class LoginPanel extends Panel {
 
 	private String username;
 	private String password;
-	boolean showCaptcha = AppContext.getInstance().getManagerBeanRemote().isProd();
+	boolean showCaptcha = AppContext.getInstance().getManagerBeanRemote().isShowCaptcha();
 
 
 	public LoginPanel(String id) {
@@ -50,8 +51,11 @@ public class LoginPanel extends Panel {
 			passwordField.setType(String.class);
 			add(passwordField);
 
-			final WebMarkupContainer captcha = new WebMarkupContainer("reCapthca");
-			add(captcha.setVisibilityAllowed(showCaptcha));
+			String dataSiteKey = AppContext.getInstance().getManagerBeanRemote().getDataSiteKey();
+			final WebMarkupContainer captcha = new WebMarkupContainer("reCaptcha");
+			captcha.add(new AttributeModifier("data-sitekey", dataSiteKey));
+			captcha.setVisibilityAllowed(showCaptcha && !dataSiteKey.isEmpty());
+			add(captcha);
 
 			SubmitLink submitButton = new SubmitLink("submit") {
 				private static final long serialVersionUID = -4212490116586366321L;

@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -19,6 +21,15 @@ public class FilesUtils {
 		throw new IllegalStateException("Utility class");
 	}
 
+
+	public static Properties getEmailProperties() {
+		Properties props = System.getProperties();
+		try (InputStream input = new FileInputStream(System.getProperty("jboss.server.config.dir").concat("/email.properties"))) {
+			props.load(input);
+		} catch (Exception ex) {
+		}
+		return props;
+	}
 
 	public static Object[] getDefaultPhoto(String filePath) throws IOException {
 		Object[] o = new Object[3];
