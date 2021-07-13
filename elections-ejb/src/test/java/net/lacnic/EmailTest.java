@@ -29,7 +29,7 @@ public class EmailTest extends TestCase {
    	   // fields
        AssertAnnotations.assertField(Email.class, "emailId", Id.class, GeneratedValue.class, SequenceGenerator.class, Column.class);
        AssertAnnotations.assertField(Email.class, "recipients", Column.class);
-       AssertAnnotations.assertField(Email.class, "from", Column.class);
+       AssertAnnotations.assertField(Email.class, "sender", Column.class);
        AssertAnnotations.assertField(Email.class, "cc", Column.class);
        AssertAnnotations.assertField(Email.class, "bcc", Column.class);
        AssertAnnotations.assertField(Email.class, "subject", Column.class);
@@ -47,7 +47,7 @@ public class EmailTest extends TestCase {
        AssertAnnotations.assertMethod(Email.class, "getSubject");
        AssertAnnotations.assertMethod(Email.class, "getBody");
        AssertAnnotations.assertMethod(Email.class, "getSent");
-       AssertAnnotations.assertMethod(Email.class, "getFrom");
+       AssertAnnotations.assertMethod(Email.class, "getSender");
        AssertAnnotations.assertMethod(Email.class, "getElection");
        AssertAnnotations.assertMethod(Email.class, "getTemplateType");
        AssertAnnotations.assertMethod(Email.class, "getCreatedDate");
@@ -63,7 +63,7 @@ public class EmailTest extends TestCase {
        assertEquals("email_id", c.name());
        c = ReflectTool.getFieldAnnotation(Email.class, "recipients", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(Email.class, "from", Column.class);
+       c = ReflectTool.getFieldAnnotation(Email.class, "sender", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(Email.class, "cc", Column.class);
        assertEquals("", c.name());

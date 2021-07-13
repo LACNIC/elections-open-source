@@ -25,7 +25,7 @@ public class EmailHistoryTest extends TestCase {
    	   // fields
        AssertAnnotations.assertField(EmailHistory.class, "emailHistoryId", Id.class, Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "recipients", Column.class);
-       AssertAnnotations.assertField(EmailHistory.class, "from", Column.class);
+       AssertAnnotations.assertField(EmailHistory.class, "sender", Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "cc", Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "bcc", Column.class);
        AssertAnnotations.assertField(EmailHistory.class, "subject", Column.class);
@@ -43,7 +43,7 @@ public class EmailHistoryTest extends TestCase {
        AssertAnnotations.assertMethod(EmailHistory.class, "getSubject");
        AssertAnnotations.assertMethod(EmailHistory.class, "getBody");
        AssertAnnotations.assertMethod(EmailHistory.class, "getSent");
-       AssertAnnotations.assertMethod(EmailHistory.class, "getFrom");
+       AssertAnnotations.assertMethod(EmailHistory.class, "getSender");
        AssertAnnotations.assertMethod(EmailHistory.class, "getElectionId");
        AssertAnnotations.assertMethod(EmailHistory.class, "getTemplateType");
        AssertAnnotations.assertMethod(EmailHistory.class, "getCreatedDate");
@@ -58,7 +58,7 @@ public class EmailHistoryTest extends TestCase {
        assertEquals("emailhistory_id", c.name());
        c = ReflectTool.getFieldAnnotation(EmailHistory.class, "recipients", Column.class);
        assertEquals("", c.name());
-       c = ReflectTool.getFieldAnnotation(EmailHistory.class, "from", Column.class);
+       c = ReflectTool.getFieldAnnotation(EmailHistory.class, "sender", Column.class);
        assertEquals("", c.name());
        c = ReflectTool.getFieldAnnotation(EmailHistory.class, "cc", Column.class);
        assertEquals("", c.name());
