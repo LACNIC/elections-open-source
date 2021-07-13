@@ -41,9 +41,9 @@ public class JointElectionTest extends TestCase {
        c = ReflectTool.getFieldAnnotation(JointElection.class, "jointElectionId", Column.class);
        assertEquals("jointelection_id", c.name());
        c = ReflectTool.getFieldAnnotation(JointElection.class, "idElectionA", Column.class);
-       assertEquals("", c.name());
+       assertEquals("electiona_id", c.name());
        c = ReflectTool.getFieldAnnotation(JointElection.class, "idElectionB", Column.class);
-       assertEquals("", c.name());
+       assertEquals("electionb_id", c.name());
        
     }
 

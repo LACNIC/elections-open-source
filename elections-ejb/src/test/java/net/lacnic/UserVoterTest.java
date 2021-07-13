@@ -42,7 +42,7 @@ public class UserVoterTest extends TestCase {
        AssertAnnotations.assertField(UserVoter.class, "orgID", Column.class);
        AssertAnnotations.assertField(UserVoter.class, "voteDate", Column.class);
        AssertAnnotations.assertField(UserVoter.class, "votes", OneToMany.class);
-       AssertAnnotations.assertField(UserVoter.class, "codeSummary", Transient.class);
+       AssertAnnotations.assertField(UserVoter.class, "codesSummary", Transient.class);
 
        //metodos       
        AssertAnnotations.assertMethod(UserVoter.class, "getUserVoterId");
@@ -57,7 +57,7 @@ public class UserVoterTest extends TestCase {
        AssertAnnotations.assertMethod(UserVoter.class, "getElection");
        AssertAnnotations.assertMethod(UserVoter.class, "getVoterInformation");
        AssertAnnotations.assertMethod(UserVoter.class, "getCompleteVoterInformation");
-       AssertAnnotations.assertMethod(UserVoter.class, "getCodeSummary");
+       AssertAnnotations.assertMethod(UserVoter.class, "getCodesSummary");
        AssertAnnotations.assertMethod(UserVoter.class, "getVoteLink");
        AssertAnnotations.assertMethod(UserVoter.class, "getVoteDate");
        AssertAnnotations.assertMethod(UserVoter.class, "getMigrationId");
