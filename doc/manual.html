@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Sistema Elecciones
-link_logo: http://elecciones-demo.lacnic.net.uy/elecciones
-link_title: http://elecciones-demo.lacnic.net.uy/elecciones
+link_logo: http://elecciones-demo.lacnic.net.uy/elections
+link_title: http://elecciones-demo.lacnic.net.uy/elections
 link_repo: https://github.com/LACNIC/elections-open-source
 ---
 <div class="row">
@@ -144,7 +144,7 @@ link_repo: https://github.com/LACNIC/elections-open-source
                     <li>Crear servicio
                         <ol class="paragraph" type="i">
                             <li>Crear archivo de servicio: <code>sudo nano /etc/systemd/system/jboss.service</code></li>
-                            En el directorio <code>ansible/roles/elecciones/templates</code> del repositorio se encuentran los templates <code>systemd_jboss_debian.j2</code>, <code>systemd_jboss_ubuntu.j2</code> y <code>systemd_jboss_rh-centos.j2</code>, a los que sólo hay que modificar los valores de mínimo y máximo para el tamaño del heap. Use el que corresponda según su sistema operativo.
+                            En el directorio <code>ansible/roles/elections/templates</code> del repositorio se encuentran los templates <code>systemd_jboss_debian.j2</code>, <code>systemd_jboss_ubuntu.j2</code> y <code>systemd_jboss_rh-centos.j2</code>, a los que sólo hay que modificar los valores de mínimo y máximo para el tamaño del heap. Use el que corresponda según su sistema operativo.
                             </li>
                             <li>Iniciar el servicio: <code>sudo systemctl start jboss</code></li>
                             <li>Activar el inicio automático del servicio: <code>sudo systemctl enable jboss</code></li>
@@ -223,7 +223,7 @@ link_repo: https://github.com/LACNIC/elections-open-source
                     <li>Configurar PostgreSQL para acceso con usuario y contraseña para conexiones locales:
                         <ol class="paragraph" type="i">
                             <li>Respaldar la configuración inicial de acceso: <code>sudo cp /var/lib/pgsql/12/data/pg_hba.conf /var/lib/pgsql/12/data/pg_hba.conf.original</code></li>
-                            <li>Tomar el archivo <code>ansible/roles/elecciones/files/db/pg_hba.conf</code> del repositorio y copiarlo en <code>/var/lib/pgsql/12/data/pg_hba.conf</code></li>
+                            <li>Tomar el archivo <code>ansible/roles/elections/files/db/pg_hba.conf</code> del repositorio y copiarlo en <code>/var/lib/pgsql/12/data/pg_hba.conf</code></li>
                         </ol>
                     </li>
                     <li>Iniciar el servicio: <code>sudo systemctl start postgresql-12</code></li>
@@ -250,16 +250,16 @@ link_repo: https://github.com/LACNIC/elections-open-source
             <div class="ibox-content">
                 <p class="paragraph">A continuación se detallan las tareas para levantar un dump inicial de la base de datos del sistema. El proceso es el mismo en todos los casos:</p>
                 <ol class="paragraph vertical-space">
-                    <li>Copiar el dump del repositorio (<code>ansible/roles/elecciones/files/db/elecciones.zip</code>) a <code>/opt/dumps/</code></li>
-                    <li>Descromprimirlo: <code>sudo unzip elecciones.zip</code></li>
+                    <li>Copiar el dump del repositorio (<code>ansible/roles/elections/files/db/elections.zip</code>) a <code>/opt/dumps/</code></li>
+                    <li>Descromprimirlo: <code>sudo unzip elections.zip</code></li>
                     <li>Cambiar a usuario postgres: <code>sudo su - postgres</code></li>
-                    <li>Crear la base de datos <code>elecciones</code> con el usuario <code>&lt;usuario&gt;</code> como dueño: <code>createdb elecciones -O &lt;usuario&gt;</code></li>
-                    <li>Restaurar el dump inicial: <code>psql -U postgres -d elecciones /opt/dumps/elecciones.sql</code></li>
+                    <li>Crear la base de datos <code>elections</code> con el usuario <code>&lt;usuario&gt;</code> como dueño: <code>createdb elections -O &lt;usuario&gt;</code></li>
+                    <li>Restaurar el dump inicial: <code>psql -U postgres -d elections /opt/dumps/elections.sql</code></li>
                     <li>Configurar permisos sobre la base de datos:
                         <ol class="paragraph" type="i">
-                            <li>Conectarse a la base con el usuario <code>postgres</code>: <code>psql -d elecciones</code>. Ejecutar las siguientes sentencias:</li>
+                            <li>Conectarse a la base con el usuario <code>postgres</code>: <code>psql -d elections</code>. Ejecutar las siguientes sentencias:</li>
                             <li><code>GRANT USAGE ON SCHEMA public TO &lt;usuario&gt;;</code></li>
-                            <li><code>GRANT ALL PRIVILEGES ON DATABASE elecciones TO &lt;usuario&gt;;</code></li>
+                            <li><code>GRANT ALL PRIVILEGES ON DATABASE elections TO &lt;usuario&gt;;</code></li>
                             <li><code>GRANT SELECT, USAGE ON ALL SEQUENCES IN SCHEMA public TO &lt;usuario&gt;;</code></li>
                             <li><code>GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO &lt;usuario&gt;;</code></li>
                         </ol>
@@ -280,9 +280,9 @@ link_repo: https://github.com/LACNIC/elections-open-source
                 <p class="paragraph">Para que la aplicación se pueda conectar a la base de datos, es necesario instalar el driver de PostgreSQL y crear el datasource en WildFly. El procedimiento es el mismo en todos los casos:</p>
                 <ol class="paragraph">
                     <li>Detener el servicio del WildFly: <code>sudo service jboss stop</code>.</li>
-                    <li>Copiar el driver de PostgreSQL del repositorio (<code>ansible/roles/elecciones/files/postgresql-42.2.16.jar</code>) a <code>/opt/wildfly/standalone/deployments/</code>.</li>
-                    <li>Copiar los módulos <code>jxl</code>, <code>ipresource</code> y <code>commons-validator</code> del repositorio (<code>ansible/roles/elecciones/files/modules/</code>) a <code>/opt/wildfly/modules/system/layers/base/</code> (copiar la estructura de directorios tal cual está en el repositorio).</li>
-                    <li>Agregar el datasource en <code>/opt/wildfly/standalone/configuration/standalone.xml</code>, puede basarse en el archivo <code>ansible/roles/elecciones/templates/standalone.xml.j2</code> del repositorio.</li>
+                    <li>Copiar el driver de PostgreSQL del repositorio (<code>ansible/roles/elections/files/postgresql-42.2.16.jar</code>) a <code>/opt/wildfly/standalone/deployments/</code>.</li>
+                    <li>Copiar los módulos <code>jxl</code>, <code>ipresource</code> y <code>commons-validator</code> del repositorio (<code>ansible/roles/elections/files/modules/</code>) a <code>/opt/wildfly/modules/system/layers/base/</code> (copiar la estructura de directorios tal cual está en el repositorio).</li>
+                    <li>Agregar el datasource en <code>/opt/wildfly/standalone/configuration/standalone.xml</code>, puede basarse en el archivo <code>ansible/roles/elections/templates/standalone.xml.j2</code> del repositorio.</li>
                     <li>Levantar el servicio del WildFly: <code>sudo service jboss start</code></li>
                 </ol>
             </div>
@@ -299,14 +299,14 @@ link_repo: https://github.com/LACNIC/elections-open-source
             <div class="ibox-content">
                 <p class="paragraph">El Sistema de Elecciones consiste de 3 artefactos a publicar en el servidor WildFly:</p>
                 <ul class="paragraph">
-                    <li><code>elecciones-ejb.jar</code></li>
-                    <li><code>elecciones-ws.war</code></li>
-                    <li><code>elecciones.war</code></li>
+                    <li><code>elections-ejb.jar</code></li>
+                    <li><code>elections-ws.war</code></li>
+                    <li><code>elections.war</code></li>
                 </ul>
                 <p class="paragraph vertical-space">Los procedimientos para empaquetado y publicación son los mismos en todos los casos.</p>
 
                 <h3>Empaquetado:</h3>
-                <p class="paragraph">En el directorio <code>ansible/roles/elecciones/files/deployments</code> del repositorio se encuentran los artefactos ya generados.</p>
+                <p class="paragraph">En el directorio <code>ansible/roles/elections/files/deployments</code> del repositorio se encuentran los artefactos ya generados.</p>
                 <p class="paragraph">También puede generarlos a partir del código fuente. Para esto, desde el directorio raíz del repositorio ejecute el siguiente comando Maven: <code>sudo mvn clean package</code></p>
                 <p class="paragraph vertical-space">Esto generará los 3 artefactos en los directorios <code>&lt;artefacto&gt;/target</code>.</p>
 
@@ -318,7 +318,7 @@ link_repo: https://github.com/LACNIC/elections-open-source
                         Editar el archivo <code>sudo nano /etc/maven/settings.xml</code> y agregar el servidor WildFly. Para esto, dentro del tag <code>&lt;servers&gt;</code> agregar:<br>
                         <code>
                         &lt;server&gt;<br>
-                        &nbsp;&nbsp;&lt;id&gt;wildfly-elecciones&lt;/id&gt;<br>
+                        &nbsp;&nbsp;&lt;id&gt;wildfly-elections&lt;/id&gt;<br>
                         &nbsp;&nbsp;&lt;username&gt;usuario&lt;/username&gt;<br>
                         &nbsp;&nbsp;&lt;password&gt;contraseña&lt;/password&gt;<br>
                         &lt;/server&gt;
@@ -328,11 +328,11 @@ link_repo: https://github.com/LACNIC/elections-open-source
                     </li>
                     <li>
                         Ejecutar el siguiente comando Maven para publicar los artefactos:<br>
-                        <code>sudo mvn wildfly:deploy-only -Dwildfly.id=wildfly-elecciones -Dwildfly.hostname=localhost -Dwildfly.port=9990</code><br>
+                        <code>sudo mvn wildfly:deploy-only -Dwildfly.id=wildfly-elections -Dwildfly.hostname=localhost -Dwildfly.port=9990</code><br>
                         El parámetro <code>wildfly.id</code> se corresponde con el <code>&lt;id&gt;</code> del paso anterior.
                     </li>
                 </ol>
-                <p class="paragraph">Luego de publicados los artefactos, el sistema ya está operativo y accesible en <code>http://&lt;ip-servidor&gt;:8080/elecciones</code>.</p>
+                <p class="paragraph">Luego de publicados los artefactos, el sistema ya está operativo y accesible en <code>http://&lt;ip-servidor&gt;:8080/elections</code>.</p>
             </div>
         </div>
     </div>
