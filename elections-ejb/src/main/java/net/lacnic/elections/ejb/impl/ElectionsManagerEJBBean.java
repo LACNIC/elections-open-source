@@ -1137,7 +1137,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			String description;
 			EJBFactory.getInstance().getElectionsParametersEJB().deleteParameter(key);
 			description = userAdminId.toUpperCase() + " eliminó el parámetro " + key + " del sistema";
-			persistActivity(userAdminId, ActivityType.DELET_PARAMETER, description, ip, null);
+			persistActivity(userAdminId, ActivityType.DELETE_PARAMETER, description, ip, null);
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
