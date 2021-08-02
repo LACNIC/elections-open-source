@@ -14,11 +14,15 @@ public interface ElectionsMonitorEJB {
 
 	public HealthCheck updateHealthCheckData();
 
-	List<Participation> getOrganizationParticipations(String org);
+	public List<Participation> getOrganizationParticipations(String org);
 
-	List<ElectionLight> getElectionsLightAllOrderStartDateDesc();
+	public List<ElectionLight> getElectionsLightAllOrderStartDateDesc();
 
 	public String getWsAuthToken();
+
+	public String getWsAuthMethod();
+
+	public String getWsLacnicAuthUrl();
 
 	public IpResourceSet getWsAuthorizedIps();
 

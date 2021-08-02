@@ -1,4 +1,4 @@
-package net.lacnic.ws.elections.app;
+package net.lacnic.elections.ws.app;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import net.lacnic.elections.ws.elections.ElectionsService;
+import net.lacnic.elections.ws.services.ElectionsService;
 
 @ApplicationPath("/")
 public class ElectionsServicesApplication extends Application {

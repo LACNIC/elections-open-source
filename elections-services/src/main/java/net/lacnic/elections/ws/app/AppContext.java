@@ -1,4 +1,4 @@
-package net.lacnic.elections.web.ext.elections.utils;
+package net.lacnic.elections.ws.app;
 
 import java.util.Hashtable;
 

@@ -21,9 +21,15 @@ public class Constants {
 	public static final String EMAIL_PASSWORD = "EMAIL_PASSWORD";
 	public static final String DEFAULT_SENDER = "DEFAULT_SENDER";
 	public static final String DEFAULT_RECIPIENT = "DEFAULT_RECIPIENT";
+	public static final String WS_AUTH_METHOD = "WS_AUTH_METHOD";
+	public static final String WS_LACNIC_AUTH_URL = "WS_LACNIC_AUTH_URL";
 	public static final String WS_AUTH_TOKEN = "WS_AUTH_TOKEN";
 	public static final String WS_AUTHORIZED_IPS = "WS_AUTHORIZED_IPS";
 	public static final String WEBSITE_DEFAULT = "WEBSITE_DEFAULT";
+
+	// Possible values for the 'WS_AUTH_METHOD' parameter
+	public static final String WS_AUTH_TYPE_APP = "APP";
+	public static final String WS_AUTH_TYPE_LACNIC = "LACNIC";
 
 	// Used for Candidates order
 	public static final int MIN_ORDER = 0;

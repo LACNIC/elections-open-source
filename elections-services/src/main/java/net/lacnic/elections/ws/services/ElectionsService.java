@@ -1,4 +1,4 @@
-package net.lacnic.elections.ws.elections;
+package net.lacnic.elections.ws.services;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,9 +20,8 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
-import net.lacnic.elections.web.ext.elections.utils.AppContext;
-import net.ripe.ipresource.IpAddress;
-import net.ripe.ipresource.IpResourceSet;
+import net.lacnic.elections.ws.app.AppContext;
+import net.lacnic.elections.ws.auth.WebServiceAuthentication;
 
 
 @Path("/")
@@ -37,7 +36,7 @@ public class ElectionsService implements Serializable {
 	@Produces("application/json; charset=UTF-8")
 	public Response getHC(@Context final HttpServletRequest request) {
 		try {
-			Response preResponse = authenticate(request);
+			Response preResponse = WebServiceAuthentication.authenticate(request);
 			if (preResponse != null)
 				return preResponse;
 			HealthCheck healthCheck = AppContext.getInstance().getMonitorBeanRemote().getHealthCheckData();
@@ -54,7 +53,7 @@ public class ElectionsService implements Serializable {
 	@Produces("application/json; charset=UTF-8")
 	public Response getParticipations(@Context final HttpServletRequest request, @PathParam("org") final String org) {
 		try {
-			Response preResponse = authenticate(request);
+			Response preResponse = WebServiceAuthentication.authenticate(request);
 			if (preResponse != null)
 				return preResponse;
 			List<Participation> participations = AppContext.getInstance().getMonitorBeanRemote().getOrganizationParticipations(org);
@@ -70,7 +69,7 @@ public class ElectionsService implements Serializable {
 	@Produces("application/json; charset=UTF-8")
 	public Response getElections(@Context final HttpServletRequest request) {
 		try {
-			Response preResponse = authenticate(request);
+			Response preResponse = WebServiceAuthentication.authenticate(request);
 			if (preResponse != null)
 				return preResponse;
 			return Response.ok(AppContext.getInstance().getMonitorBeanRemote().getElectionsLightAllOrderStartDateDesc()).build();
@@ -78,32 +77,6 @@ public class ElectionsService implements Serializable {
 			appLogger.error(e);
 			return Response.ok(e.getLocalizedMessage()).build();
 		}
-	}
-
-	public static String getRemoteAddr(final HttpServletRequest request) {
-		String ipAddress = request.getHeader("X-FORWARDED-FOR");
-		if (ipAddress == null) {
-			ipAddress = request.getRemoteAddr();
-		}
-		return ipAddress;
-	}
-
-	private Response authenticate(HttpServletRequest request) {
-		try {
-			String authKeyReceived = request.getHeader("AuthToken");
-			String authToken = AppContext.getInstance().getMonitorBeanRemote().getWsAuthToken();
-			IpResourceSet authorizedIPsList = AppContext.getInstance().getMonitorBeanRemote().getWsAuthorizedIps();
-			if (authKeyReceived == null || !authKeyReceived.equals(authToken))
-				return Response.status(Response.Status.UNAUTHORIZED).entity("Unathorized access, Apikey problem").build();
-
-			String ip = getRemoteAddr(request);
-			if (!authorizedIPsList.contains(IpAddress.parse(ip)))
-				return Response.status(Response.Status.UNAUTHORIZED).entity("Unathorized access IP problem").build();
-		} catch (Exception e) {
-			appLogger.error(e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Internal Server Error, Authenticate").build();
-		}
-		return null;
 	}
 
 	@HEAD

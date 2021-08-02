@@ -30,7 +30,7 @@ import net.ripe.ipresource.IpResourceSet;
 public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
-	
+
 	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
@@ -50,7 +50,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			healthCheck = updateHealthCheckData();
 		return healthCheck;
 	}
-	
+
 	/**
 	 * Creates a updated health check report.
 	 * 
@@ -137,7 +137,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			participation.setElectionLinkSP(election.getLinkSpanish());
 			participation.setElectionLinkEN(election.getLinkEnglish());
 			participation.setElectionLinkPT(election.getLinkPortuguese());
-			
+
 			participations.add(participation);
 		}
 		return participations;
@@ -152,9 +152,9 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	public List<ElectionLight> getElectionsLightAllOrderStartDateDesc() {
 		return ElectionsDaoFactory.createElectionDao(em).getElectionsLightAllOrderStartDateDesc();
 	}
-	
+
 	/**
-	 * Gets the authentication token to validate seb services invocation. It is withdrawn from the parameter WS_AUTH_TOKEN
+	 * Gets the authentication token to validate services invocation. It is withdrawn from the parameter WS_AUTH_TOKEN
 	 * 
 	 * @return returns a string with the token.
 	 */
@@ -167,7 +167,35 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Gets the authentication method used in web services. It is specified with the WS_AUTH_METHOD parameter
+	 * 
+	 * @return returns a string with the auth method.
+	 */
+	public String getWsAuthMethod() {
+		try {
+			return ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTH_METHOD).getValue();
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the authentication method used in web services. It is specified with the WS_AUTH_METHOD parameter
+	 * 
+	 * @return returns a string with the auth method.
+	 */
+	public String getWsLacnicAuthUrl() {
+		try {
+			return ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_LACNIC_AUTH_URL).getValue();
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+
 	/**
 	 * Gets and parses the list of authorized ips from which the web services can be invoked, the are withdrawn from the parameter WS_AUTHORIZED_IPS.
 	 *  
