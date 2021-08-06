@@ -16,6 +16,7 @@ import net.lacnic.elections.dao.ReportDao;
 import net.lacnic.elections.data.ElectionReport;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
+import net.lacnic.elections.domain.ActivityReportTable;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.UserVoter;
@@ -23,6 +24,11 @@ import net.lacnic.elections.ejb.ElectionsMonitorEJB;
 import net.lacnic.elections.ejb.commons.impl.AutomaticProcesses;
 import net.lacnic.elections.utils.Constants;
 import net.ripe.ipresource.IpResourceSet;
+
+import net.lacnic.elections.data.TablesReportData;
+import net.lacnic.elections.domain.ElectionReportTable;
+import net.lacnic.elections.dao.ActivityDao;
+
 
 
 @Stateless
@@ -205,6 +211,75 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	public IpResourceSet getWsAuthorizedIps() {
 		try {
 			return IpResourceSet.parse(ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTHORIZED_IPS).getValue());
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets all the rows from the elections table
+	 * 
+	 * @return a colection of election id y and spanish title
+	 */
+	@Override
+	public List<TablesReportData> getElectionsData() {
+		try {
+			return ElectionsDaoFactory.createElectionDao(em).getElectionsData();
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Get an election table row identify by id
+	 * 
+	 * @param id
+	 * 			Identifier of the election
+	 * 
+	 * @return an election table report entity containing the information
+	 */
+	@Override
+	public ElectionReportTable getElectionTableReport(Long id) {
+		try {
+			return ElectionsDaoFactory.createElectionDao(em).getElectionTableReport(id);
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets all the rows from the elections table
+	 * 
+	 * @return a colection of activity id y and description
+	 */
+	@Override
+	public List<TablesReportData> getActivitiesData() {
+		try {
+			ActivityDao activityDao = new ActivityDao(em);
+			return activityDao.getActivitiesData();
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Get an election table row identify by id
+	 * 
+	 * @param id
+	 * 			Identifier of the election
+	 * 
+	 * @return an election table report entity containing the information
+	 */
+	@Override
+	public ActivityReportTable getActivityTableReport(Long id) {
+		try {
+			ActivityDao activityDao = new ActivityDao(em);
+			return activityDao.getActivityTableReport(id);
+			
 		} catch (Exception e) {
 			appLogger.error(e);
 		}

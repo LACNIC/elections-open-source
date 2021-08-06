@@ -37,13 +37,15 @@ public class WebServiceAuthentication {
 
 				// Validate token
 				String clientAuthToken = request.getHeader("AuthToken");
+				System.out.println("token: " + clientAuthToken);
 				String appAuthToken = AppContext.getInstance().getMonitorBeanRemote().getWsAuthToken();
 				if (clientAuthToken == null || !clientAuthToken.equals(appAuthToken)) {
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, Apikey problem").build();
 				}
-
+				
 				// Authenticated OK, now check the client IP 
 				String clientIp = getRemoteAddr(request);
+				System.out.println("Ip: " + clientIp);
 				IpResourceSet authorizedIPsList = AppContext.getInstance().getMonitorBeanRemote().getWsAuthorizedIps();
 				if (!authorizedIPsList.contains(IpAddress.parse(clientIp))) {
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, IP problem").build();
@@ -72,6 +74,7 @@ public class WebServiceAuthentication {
 
 				// Authenticated OK, now check the client IP
 				String clientIp = getRemoteAddr(request);
+				
 				IpResourceSet authorizedIPsList = IpResourceSet.parse(response.getIpAllowed());
 				if (!authorizedIPsList.contains(IpAddress.parse(clientIp))) {
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, IP problem").build();

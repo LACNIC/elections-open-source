@@ -22,6 +22,8 @@
 		<class>net.lacnic.elections.domain.UserAdmin</class>
 		<class>net.lacnic.elections.domain.UserVoter</class>
 		<class>net.lacnic.elections.domain.Vote</class>
+		<class>net.lacnic.elections.domain.ElectionReportTable</class>
+		<class>net.lacnic.elections.domain.ActivityReportTable</class>
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

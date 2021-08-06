@@ -7,6 +7,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import net.lacnic.elections.ws.services.ElectionsService;
+import net.lacnic.elections.ws.services.ElectionsTablesServices;
 
 @ApplicationPath("/")
 public class ElectionsServicesApplication extends Application {
@@ -15,6 +16,7 @@ public class ElectionsServicesApplication extends Application {
 	public Set<Object> getSingletons() {
 		Set<Object> singletons = new HashSet<Object>();
 		singletons.add(new ElectionsService());
+		singletons.add(new ElectionsTablesServices());
 
 		return singletons;
 	}
