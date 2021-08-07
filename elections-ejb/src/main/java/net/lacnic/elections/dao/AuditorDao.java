@@ -1,12 +1,15 @@
 package net.lacnic.elections.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import net.lacnic.elections.data.TablesReportData;
 import net.lacnic.elections.domain.Auditor;
+import net.lacnic.elections.domain.AuditorReportTable;
 
 
 public class AuditorDao {
@@ -89,6 +92,27 @@ public class AuditorDao {
 		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.commissioner = TRUE AND a.agreedConformity = TRUE AND a.election.electionId = :electionId", Auditor.class);
 		q.setParameter("electionId", electionId);
 		return q.getResultList();
+	}
+	
+	
+	public List<TablesReportData> getAuditorsData() {
+		Query q = em.createQuery("SELECT a.auditorId, a.name FROM Auditor a ORDER BY a.auditorId");
+		@SuppressWarnings("unchecked")
+		List<Object[]> result = q.getResultList();
+
+		List<TablesReportData> resultList = new ArrayList<>();
+		for (int i = 0; i < result.size(); i++) {
+			TablesReportData trd = new TablesReportData((long)result.get(i)[0], result.get(i)[1].toString());
+			resultList.add(trd);
+		}
+		return resultList;	
+	}
+	
+	public AuditorReportTable getAuditorTableReport(Long id) {
+		TypedQuery<AuditorReportTable> q = em.createQuery("SELECT a FROM AuditorReportTable a WHERE a.auditorId = :auditorId", AuditorReportTable.class);
+		q.setParameter("auditorId", id);
+		return q.getSingleResult();
+	
 	}
 
 }

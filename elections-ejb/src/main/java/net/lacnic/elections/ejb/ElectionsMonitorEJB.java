@@ -5,11 +5,13 @@ import java.util.List;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.domain.ActivityReportTable;
+import net.lacnic.elections.domain.AuditorReportTable;
 import net.lacnic.elections.domain.ElectionLight;
 import net.ripe.ipresource.IpResourceSet;
 
 import net.lacnic.elections.data.TablesReportData;
 import net.lacnic.elections.domain.ElectionReportTable;
+import net.lacnic.elections.domain.IpAccess;
 
 
 public interface ElectionsMonitorEJB {
@@ -37,5 +39,14 @@ public interface ElectionsMonitorEJB {
 	public List<TablesReportData> getActivitiesData();
 	
 	public ActivityReportTable getActivityTableReport(Long id);
+	
+	public List<TablesReportData> getIpAccessData();
+	
+	public IpAccess getIpAccess(Long id);
+	
+	public List<TablesReportData> getauditorsData();
+	
+	public AuditorReportTable getAuditorTableReport(Long id);
+
 
 }

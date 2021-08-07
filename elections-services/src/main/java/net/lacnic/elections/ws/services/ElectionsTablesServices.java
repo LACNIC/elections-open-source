@@ -21,7 +21,9 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.data.TablesReportData;
 import net.lacnic.elections.domain.ActivityReportTable;
+import net.lacnic.elections.domain.AuditorReportTable;
 import net.lacnic.elections.domain.ElectionReportTable;
+import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.ws.app.AppContext;
 import net.lacnic.elections.ws.auth.WebServiceAuthentication;
 
@@ -112,6 +114,94 @@ public class ElectionsTablesServices implements Serializable {
 			System.out.println("repsondo elect?");
 			ActivityReportTable activityReport = AppContext.getInstance().getMonitorBeanRemote().getActivityTableReport(id);
 			Response response = Response.ok(activityReport).build();
+			
+			return response;			
+			
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.ok(e.getLocalizedMessage()).build();
+		}
+	}
+	
+	@GET
+	@Path("/ipaccess")
+	@Produces("application/json; charset=UTF-8")
+	public Response getIpAccess(@Context final HttpServletRequest request) {
+		try {			
+			Response preResponse = WebServiceAuthentication.authenticate(request);
+			if (preResponse != null) {
+				System.out.println("repsondo null");
+				return preResponse;
+			};	
+			System.out.println("repsondo list?");
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getIpAccessData();
+			Response response = Response.ok(listTablesReportData).build();
+			
+			return response;			
+			
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.ok(e.getLocalizedMessage()).build();
+		}
+	}
+	
+	@GET
+	@Path("/ipaccess/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getIpAccessId(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {			
+			Response preResponse = WebServiceAuthentication.authenticate(request);
+			if (preResponse != null) {
+				System.out.println("repsondo null");
+				return preResponse;
+			};	
+			
+			IpAccess ipAccess = AppContext.getInstance().getMonitorBeanRemote().getIpAccess(id);
+			Response response = Response.ok(ipAccess).build();
+			
+			return response;			
+			
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.ok(e.getLocalizedMessage()).build();
+		}
+	}
+	
+	@GET
+	@Path("/auditors")
+	@Produces("application/json; charset=UTF-8")
+	public Response getAuditors(@Context final HttpServletRequest request) {
+		try {			
+			Response preResponse = WebServiceAuthentication.authenticate(request);
+			if (preResponse != null) {
+				System.out.println("repsondo null");
+				return preResponse;
+			};	
+			System.out.println("repsondo list?");
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getauditorsData();
+			Response response = Response.ok(listTablesReportData).build();
+			
+			return response;			
+			
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.ok(e.getLocalizedMessage()).build();
+		}
+	}
+	
+	@GET
+	@Path("/auditor/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getAuditor(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {			
+			Response preResponse = WebServiceAuthentication.authenticate(request);
+			if (preResponse != null) {
+				System.out.println("repsondo null");
+				return preResponse;
+			};	
+			
+			AuditorReportTable auditorReportTable = AppContext.getInstance().getMonitorBeanRemote().getAuditorTableReport(id);
+			Response response = Response.ok(auditorReportTable).build();
 			
 			return response;			
 			

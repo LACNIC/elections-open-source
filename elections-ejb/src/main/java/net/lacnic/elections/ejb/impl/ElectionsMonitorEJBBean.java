@@ -12,11 +12,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import net.lacnic.elections.dao.ElectionsDaoFactory;
+import net.lacnic.elections.dao.IpAccessDao;
 import net.lacnic.elections.dao.ReportDao;
 import net.lacnic.elections.data.ElectionReport;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.domain.ActivityReportTable;
+import net.lacnic.elections.domain.AuditorReportTable;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.UserVoter;
@@ -27,6 +29,7 @@ import net.ripe.ipresource.IpResourceSet;
 
 import net.lacnic.elections.data.TablesReportData;
 import net.lacnic.elections.domain.ElectionReportTable;
+import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.dao.ActivityDao;
 
 
@@ -279,6 +282,78 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		try {
 			ActivityDao activityDao = new ActivityDao(em);
 			return activityDao.getActivityTableReport(id);
+			
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets all the rows from the ipAccess table
+	 * 
+	 * @return a colection of ip id y and ip
+	 */
+	@Override
+	public List<TablesReportData> getIpAccessData() {
+		try {
+			IpAccessDao ipAccessDao = new IpAccessDao(em);
+			return ipAccessDao.getIpAccessData();
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Get an Ip Access table row identify by id
+	 * 
+	 * @param id
+	 * 			Identifier of the Ip Access
+	 * 
+	 * @return an ip access table report entity containing the information
+	 */
+	@Override
+	public IpAccess getIpAccess(Long id) {
+		try {
+			IpAccessDao ipAccessDao = new IpAccessDao(em);
+			return ipAccessDao.getIpAccess(id);
+			
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets all the rows from the auditor table
+	 * 
+	 * @return a colection of auditor id y and name
+	 */
+	@Override
+	public List<TablesReportData> getauditorsData() {
+		try {
+			return ElectionsDaoFactory.createAuditorDao(em).getAuditorsData();
+			
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Get an Auditor table row identify by id
+	 * 
+	 * @param id
+	 * 			Identifier of the auditor
+	 * 
+	 * @return an auditor table report entity containing the information
+	 */
+	@Override
+	public AuditorReportTable getAuditorTableReport(Long id) {
+		try {
+			
+			return ElectionsDaoFactory.createAuditorDao(em).getAuditorTableReport(id);
 			
 		} catch (Exception e) {
 			appLogger.error(e);

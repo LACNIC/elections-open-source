@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 import net.lacnic.elections.data.TablesReportData;
 import net.lacnic.elections.domain.Activity;
 import net.lacnic.elections.domain.ActivityReportTable;
-import net.lacnic.elections.domain.ElectionReportTable;
 
 
 public class ActivityDao {
