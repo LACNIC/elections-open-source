@@ -13,7 +13,10 @@ import org.joda.time.DateTime;
 import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
+import net.lacnic.elections.domain.ElectionReportTable;
 import net.lacnic.elections.domain.JointElection;
+
+import net.lacnic.elections.data.TablesReportData;
 
 
 public class ElectionDao {
@@ -125,6 +128,26 @@ public class ElectionDao {
 			resultList.add(result.get(i)[0].toString() + "-" + result.get(i)[1].toString());
 		}
 		return resultList;
+	}
+	
+	public List<TablesReportData> getElectionsData() {
+		Query q = em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e ORDER BY e.electionId");
+		@SuppressWarnings("unchecked")
+		List<Object[]> result = q.getResultList();
+
+		List<TablesReportData> resultList = new ArrayList<>();
+		for (int i = 0; i < result.size(); i++) {
+			TablesReportData trd = new TablesReportData((long)result.get(i)[0], result.get(i)[1].toString());
+			resultList.add(trd);
+		}
+		return resultList;	
+	}
+	
+	public ElectionReportTable getElectionTableReport(Long id) {
+		TypedQuery<ElectionReportTable> q = em.createQuery("SELECT e FROM ElectionReportTable e WHERE e.electionId = :electionId", ElectionReportTable.class);
+		q.setParameter("electionId", id);
+		return q.getSingleResult();
+	
 	}
 
 }
