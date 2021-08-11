@@ -312,6 +312,11 @@ public class Election implements Serializable {
 		return simpleDateFormat.format(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
 	}
 
+	public String getCreationDateString() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
+		return simpleDateFormat.format(new DateTime(getCreationDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+	}
+
 
 	public long getElectionId() {
 		return electionId;

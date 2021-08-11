@@ -1,6 +1,7 @@
 package net.lacnic.elections.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 public class EmailHistory implements Serializable {
 
 	private static final long serialVersionUID = -6954869970189933966L;
+	private static final String SIMPLE_DATE_FORMAT = "dd/MM/yyyy HH:mm";
 
 	@Id
 	@Column(name = "emailhistory_id")
@@ -62,6 +64,12 @@ public class EmailHistory implements Serializable {
 		this.createdDate = email.getCreatedDate();
 		this.templateType = email.getTemplateType();
 		this.electionId = email.getElection().getElectionId();
+	}
+
+
+	public String getCreatedDateString() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
+		return simpleDateFormat.format(getCreatedDate());
 	}
 
 

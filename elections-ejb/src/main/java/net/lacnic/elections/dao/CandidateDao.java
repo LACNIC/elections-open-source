@@ -96,4 +96,10 @@ public class CandidateDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getCandidatesAllIdAndDescription() {
+		Query q = em.createQuery("SELECT c.candidateId, c.name FROM Candidate c ORDER BY c.candidateId");
+		return q.getResultList();
+	}
+
 }

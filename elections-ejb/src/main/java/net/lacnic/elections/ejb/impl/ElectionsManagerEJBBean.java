@@ -1871,7 +1871,13 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 */
 	@Override
 	public List<String> getElectionsAllIdAndTitle() {
-		return ElectionsDaoFactory.createElectionDao(em).getElectionsAllIdAndTitle();
+		List<Object[]> electionsIdTitleList = ElectionsDaoFactory.createElectionDao(em).getElectionsAllIdAndTitle();
+		List<String> resultList = new ArrayList<>();
+
+		for (int i = 0; i < electionsIdTitleList.size(); i++) {
+			resultList.add(electionsIdTitleList.get(i)[0].toString() + "-" + electionsIdTitleList.get(i)[1].toString());
+		}
+		return resultList;
 	}
 
 	/**

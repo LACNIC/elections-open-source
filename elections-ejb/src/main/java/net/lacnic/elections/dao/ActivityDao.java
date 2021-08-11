@@ -1,15 +1,12 @@
 package net.lacnic.elections.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import net.lacnic.elections.data.TablesReportData;
 import net.lacnic.elections.domain.Activity;
-import net.lacnic.elections.domain.ActivityReportTable;
 
 
 public class ActivityDao {
@@ -25,6 +22,12 @@ public class ActivityDao {
 		return q.getResultList();
 	}
 
+	public Activity getActivity(long activityId) {
+		TypedQuery<Activity> q = em.createQuery("SELECT a FROM Activity a WHERE a.activityId = :activityId", Activity.class);
+		q.setParameter("activityId", activityId);
+		return q.getSingleResult();
+	}
+
 	public List<Activity> getElectionActivities(long electionId) {
 		TypedQuery<Activity> q = em.createQuery("SELECT a FROM Activity a WHERE a.electionId = :electionId ORDER BY a.activityId DESC", Activity.class);
 		q.setParameter("electionId", electionId);
@@ -36,25 +39,11 @@ public class ActivityDao {
 		q.setParameter("userName", userName);
 		return q.getResultList();
 	}
-	
-	public List<TablesReportData> getActivitiesData() {
-		Query q = em.createQuery("SELECT a.activityId, a.description FROM Activity a ORDER BY a.activityId ");
-		@SuppressWarnings("unchecked")
-		List<Object[]> result = q.getResultList();
 
-		List<TablesReportData> resultList = new ArrayList<>();
-		for (int i = 0; i < result.size(); i++) {
-			TablesReportData trd = new TablesReportData((long)result.get(i)[0], result.get(i)[1].toString());
-			resultList.add(trd);
-		}
-		return resultList;	
-	}
-	
-	public ActivityReportTable getActivityTableReport(Long id) {
-		TypedQuery<ActivityReportTable> q = em.createQuery("SELECT a FROM ActivityReportTable a WHERE a.activityId = :activityId", ActivityReportTable.class);
-		q.setParameter("activityId", id);
-		return q.getSingleResult();
-	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getActivitiesAllIdAndDescription() {
+		Query q = em.createQuery("SELECT a.activityId, a.description FROM Activity a ORDER BY a.activityId");
+		return q.getResultList();
 	}
 
 }

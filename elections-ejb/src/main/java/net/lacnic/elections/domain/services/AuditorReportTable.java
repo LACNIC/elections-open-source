@@ -1,46 +1,37 @@
-package net.lacnic.elections.domain;
+package net.lacnic.elections.domain.services;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import net.lacnic.elections.domain.Auditor;
 
-@Entity
-@Table(name = "auditor")
+
 public class AuditorReportTable implements Serializable {
 
 	private static final long serialVersionUID = -6947143778751018563L;
-	
-	@Id
-	@Column(name = "auditor_id")
-	private long auditorId;
-	
-	@Column
-	private boolean commissioner;
 
-	@Column
+	private long auditorId;
+	private boolean commissioner;
 	private boolean agreedConformity;
-	
-	@Column(nullable = false)
 	private String mail;
-	
-	@Column(nullable = false)
 	private String name;
-	
-	@Column(nullable = true, name = "election_id")
 	private Long electionId;
-	
-	@Column
 	private boolean revisionAvailable;
-	
-	@Column(nullable = true, name = "migration_id")
 	private Long migrationId;
-	
+
+
 	public AuditorReportTable() { }
+
+	public AuditorReportTable(Auditor auditor) {
+		this.auditorId = auditor.getAuditorId();
+		this.commissioner = auditor.isCommissioner();
+		this.agreedConformity = auditor.isAgreedConformity();
+		this.mail = auditor.getMail();
+		this.name = auditor.getName();
+		this.electionId = auditor.getElection().getElectionId();
+		this.revisionAvailable = auditor.isRevisionAvailable();
+		this.migrationId = auditor.getMigrationId();
+	}
+
 
 	public long getAuditorId() {
 		return auditorId;
@@ -105,9 +96,5 @@ public class AuditorReportTable implements Serializable {
 	public void setMigrationId(Long migrationId) {
 		this.migrationId = migrationId;
 	}
-	
-	
-	
-	
 
 }

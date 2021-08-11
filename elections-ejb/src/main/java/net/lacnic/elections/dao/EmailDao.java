@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import org.joda.time.DateTimeUtils;
 
 import net.lacnic.elections.domain.Email;
+import net.lacnic.elections.domain.EmailHistory;
 
 
 public class EmailDao {
@@ -29,6 +30,12 @@ public class EmailDao {
 	public Email getEmail(long emailId) {
 		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.emailId = :emailId", Email.class);
 		q.setParameter("emailId", emailId);
+		return q.getSingleResult();
+	}
+
+	public EmailHistory getEmailHistory(long emailHistoryId) {
+		TypedQuery<EmailHistory> q = em.createQuery("SELECT eh FROM EmailHistory eh WHERE eh.emailHistoryId = :emailHistoryId", EmailHistory.class);
+		q.setParameter("emailHistoryId", emailHistoryId);
 		return q.getSingleResult();
 	}
 
@@ -57,6 +64,18 @@ public class EmailDao {
 	public List<Email> getElectionPendingSendEmails(Long electionId) {
 		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.election.electionId = :electionId AND e.sent = FALSE", Email.class);
 		q.setParameter("electionId", electionId);
+		return q.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getEmailsAllIdAndDescription() {
+		Query q = em.createQuery("SELECT e.emailId, e.subject FROM Email e ORDER BY e.emailId");
+		return q.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getEmailsHistoryAllIdAndDescription() {
+		Query q = em.createQuery("SELECT eh.emailHistoryId, eh.subject FROM EmailHistory eh ORDER BY eh.emailHistoryId");
 		return q.getResultList();
 	}
 

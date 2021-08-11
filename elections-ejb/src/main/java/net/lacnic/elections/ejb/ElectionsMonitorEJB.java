@@ -4,14 +4,16 @@ import java.util.List;
 
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
-import net.lacnic.elections.domain.ActivityReportTable;
-import net.lacnic.elections.domain.AuditorReportTable;
-import net.lacnic.elections.domain.ElectionLight;
-import net.ripe.ipresource.IpResourceSet;
-
 import net.lacnic.elections.data.TablesReportData;
-import net.lacnic.elections.domain.ElectionReportTable;
+import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.IpAccess;
+import net.lacnic.elections.domain.services.ActivityReportTable;
+import net.lacnic.elections.domain.services.AuditorReportTable;
+import net.lacnic.elections.domain.services.CandidateReportTable;
+import net.lacnic.elections.domain.services.CommissionerReportTable;
+import net.lacnic.elections.domain.services.ElectionReportTable;
+import net.lacnic.elections.domain.services.EmailReportTable;
+import net.ripe.ipresource.IpResourceSet;
 
 
 public interface ElectionsMonitorEJB {
@@ -31,22 +33,37 @@ public interface ElectionsMonitorEJB {
 	public String getWsLacnicAuthUrl();
 
 	public IpResourceSet getWsAuthorizedIps();
-	
-	public List<TablesReportData> getElectionsData();
-	
-	public ElectionReportTable getElectionTableReport(Long id);
-	
-	public List<TablesReportData> getActivitiesData();
-	
-	public ActivityReportTable getActivityTableReport(Long id);
-	
-	public List<TablesReportData> getIpAccessData();
-	
-	public IpAccess getIpAccess(Long id);
-	
-	public List<TablesReportData> getauditorsData();
-	
-	public AuditorReportTable getAuditorTableReport(Long id);
 
+	public List<TablesReportData> getActivitiesBasicData();
+
+	public ActivityReportTable getActivityTableReport(Long activityId);
+	
+	public List<TablesReportData> getAuditorsBasicData();
+
+	public AuditorReportTable getAuditorTableReport(Long auditorId);
+
+	public List<TablesReportData> getCandidatesBasicData();
+
+	public CandidateReportTable getCandidateTableReport(Long candidateId);
+
+	public List<TablesReportData> getCommissionersBasicData();
+
+	public CommissionerReportTable getCommissionerTableReport(Long commissionerId);
+
+	public List<TablesReportData> getElectionsBasicData();
+
+	public ElectionReportTable getElectionTableReport(Long electionId);
+
+	public List<TablesReportData> getEmailsBasicData();
+
+	public EmailReportTable getEmailTableReport(Long emailId);
+
+	public List<TablesReportData> getEmailsHistoryBasicData();
+
+	public EmailReportTable getEmailHistoryTableReport(Long emailHistoryId);
+
+	public List<TablesReportData> getIpAccessesBasicData();
+
+	public IpAccess getIpAccessTableReport(Long ipAccessId);
 
 }

@@ -44,7 +44,7 @@ public class ElectionsService implements Serializable {
 			return response;
 		} catch (Exception e) {
 			appLogger.error(e);
-			return Response.ok(e.getLocalizedMessage()).build();
+			return Response.serverError().build();
 		}
 	}
 
@@ -60,7 +60,7 @@ public class ElectionsService implements Serializable {
 			return Response.ok(participations).build();
 		} catch (Exception e) {
 			appLogger.error(e);
-			return Response.ok(e.getLocalizedMessage()).build();
+			return Response.serverError().build();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class ElectionsService implements Serializable {
 			return Response.ok(AppContext.getInstance().getMonitorBeanRemote().getElectionsLightAllOrderStartDateDesc()).build();
 		} catch (Exception e) {
 			appLogger.error(e);
-			return Response.ok(e.getLocalizedMessage()).build();
+			return Response.serverError().build();
 		}
 	}
 

@@ -52,4 +52,10 @@ public class CommissionerDao {
 		return !q.getResultList().isEmpty();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getCommissionersAllIdAndDescription() {
+		Query q = em.createQuery("SELECT c.commissionerId, c.name FROM Commissioner c ORDER BY c.commissionerId");
+		return q.getResultList();
+	}
+
 }

@@ -1,113 +1,77 @@
-package net.lacnic.elections.domain;
+package net.lacnic.elections.domain.services;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import net.lacnic.elections.domain.Election;
 
 
-
-@Entity
-@Table(name = "election")
 public class ElectionReportTable implements Serializable {
 
-	
 	private static final long serialVersionUID = -6249197041343974691L;
 
-	
-	@Id
-	@Column(name = "election_id")
 	private long electionId;
-	
-	@Column(columnDefinition = "TEXT")
 	private String descriptionSpanish;
-
-	@Column(columnDefinition = "TEXT")
 	private String descriptionEnglish;
-	
-	@Column(columnDefinition = "TEXT")
 	private String descriptionPortuguese;
-	
-	@Column(nullable = false)
-	private Date creationDate;
-	
-	@Column(nullable = false)
-	private Date endDate;
-	
-	@Column(nullable = false)
-	private Date startDate;
-	
-	@Column(nullable = false)
+	private String creationDate;
+	private String endDate;
+	private String startDate;
 	private boolean resultLinkAvailable;
-	
-	@Column(nullable = false)
 	private boolean votingLinkAvailable;
-
-	@Column(nullable = false, columnDefinition = "TEXT")
 	private String linkSpanish;
-
-	@Column(nullable = false, columnDefinition = "TEXT")
 	private String linkEnglish;
-
-	@Column(nullable = false, columnDefinition = "TEXT")
 	private String linkPortuguese;
-	
-	@Column(nullable = false)
 	private int maxCandidates;
-	
-	@Column(nullable = false, columnDefinition = "TEXT")
 	private String titleSpanish;
-
-	@Column(nullable = false, columnDefinition = "TEXT")
 	private String titleEnglish;
-
-	@Column(nullable = false, columnDefinition = "TEXT")
 	private String titlePortuguese;
-	
-	@Column(nullable = true)
 	private boolean auditorsSet;
-	
-	@Column(nullable = true)
 	private boolean candidatesSet;
-	
-	@Column(nullable = true)
 	private boolean electorsSet;
-	
-	@Column(nullable = false)
 	private boolean auditorLinkAvailable;
-	
-	@Column(nullable = true)
 	private boolean onlySp;
-	
-	@Column(nullable = true, length = 2000)
 	private String defaultSender;
-	
-	@Column(nullable = true)
 	private boolean randomOrderCandidates;
-
-	@Column(nullable = true)
 	private int diffUTC;
-	
-	@Column(nullable = false)
 	private boolean revisionRequest;
-	
-	@Column(nullable = true, name = "migration_id")
 	private Long migrationId;
-	
-	@Column
-	private boolean migrated = false;
-	
-	@Column
-	@Enumerated(EnumType.STRING)
-	ElectionCategory category;
+	private boolean migrated;
+	private String category;
 
-		
+
 	public ElectionReportTable() {	}
+
+	public ElectionReportTable(Election election) {
+		this.electionId = election.getElectionId();
+		this.descriptionSpanish = election.getDescriptionSpanish();
+		this.descriptionEnglish = election.getDescriptionEnglish();
+		this.descriptionPortuguese = election.getDescriptionPortuguese();
+		this.creationDate = election.getCreationDateString();
+		this.endDate = election.getEndDateString();
+		this.startDate = election.getStartDateString();
+		this.resultLinkAvailable = election.isResultLinkAvailable();
+		this.votingLinkAvailable = election.isVotingLinkAvailable();
+		this.linkSpanish = election.getLinkSpanish();
+		this.linkEnglish = election.getLinkEnglish();
+		this.linkPortuguese = election.getLinkPortuguese();
+		this.maxCandidates = election.getMaxCandidates();
+		this.titleSpanish = election.getTitleSpanish();
+		this.titleEnglish = election.getTitleEnglish();
+		this.titlePortuguese = election.getTitlePortuguese();
+		this.auditorsSet = election.isAuditorsSet();
+		this.candidatesSet = election.isCandidatesSet();
+		this.electorsSet = election.isElectorsSet();
+		this.auditorLinkAvailable = election.isAuditorLinkAvailable();
+		this.onlySp = election.isOnlySp();
+		this.defaultSender = election.getDefaultSender();
+		this.randomOrderCandidates = election.isRandomOrderCandidates();
+		this.diffUTC = election.getDiffUTC();
+		this.revisionRequest = election.isRevisionRequest();
+		this.migrationId = election.getMigrationId();
+		this.migrated = election.isMigrated();
+		this.category = election.getCategory().toString();
+	}
+
 
 	public long getElectionId() {
 		return electionId;
@@ -141,27 +105,27 @@ public class ElectionReportTable implements Serializable {
 		this.descriptionPortuguese = descriptionPortuguese;
 	}
 
-	public Date getCreationDate() {
+	public String getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(String creationDate) {
 		this.creationDate = creationDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
@@ -325,14 +289,12 @@ public class ElectionReportTable implements Serializable {
 		this.migrated = migrated;
 	}
 
-	public ElectionCategory getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(ElectionCategory category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
-	
-	
-	
+
 }

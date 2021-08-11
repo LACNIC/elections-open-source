@@ -1,42 +1,35 @@
-package net.lacnic.elections.domain;
+package net.lacnic.elections.domain.services;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import net.lacnic.elections.domain.Activity;
 
-@Entity
-@Table(name = "activity")
+
 public class ActivityReportTable implements Serializable {
 
 	private static final long serialVersionUID = 240604553108694223L;
-	
-	@Id
-	@Column(name = "activity_id")
+
 	private long activityId;
-	
-	@Column(columnDefinition="TEXT")
 	private String description;
-	
-	@Column(nullable = false)
 	private String userName;
-
-	@Column(nullable = false)
-	private Date timestamp;
-
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private ActivityType activityType;
-	
-	@Column(nullable = true, name = "election_id")
+	private String timestamp;
+	private String activityType;
 	private Long electionId;
-	
+	private String ip;
+
+
 	public ActivityReportTable() { }
+
+	public ActivityReportTable(Activity activity) {
+		this.activityId = activity.getActivityId();
+		this.description = activity.getDescription();
+		this.userName = activity.getUserName();
+		this.timestamp = activity.getTimestampString();
+		this.activityType = activity.getActivityType().toString();
+		this.electionId = activity.getElectionId();
+		this.ip = activity.getIp();
+	}
+
 
 	public long getActivityId() {
 		return activityId;
@@ -62,19 +55,19 @@ public class ActivityReportTable implements Serializable {
 		this.userName = userName;
 	}
 
-	public Date getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 
-	public ActivityType getActivityType() {
+	public String getActivityType() {
 		return activityType;
 	}
 
-	public void setActivityType(ActivityType activityType) {
+	public void setActivityType(String activityType) {
 		this.activityType = activityType;
 	}
 
@@ -85,7 +78,13 @@ public class ActivityReportTable implements Serializable {
 	public void setElectionId(Long electionId) {
 		this.electionId = electionId;
 	}
-	
-	
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
 }

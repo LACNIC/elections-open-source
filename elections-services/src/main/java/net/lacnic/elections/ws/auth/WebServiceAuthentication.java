@@ -22,7 +22,7 @@ public class WebServiceAuthentication {
 
 
 	/**
-	 * Authenticates the client accoding to the configured authentication method
+	 * Authenticates the client according to the configured authentication method
 	 * 
 	 * @param request
 	 * @return null if authentication OK, error Response if there's a problem
@@ -30,24 +30,26 @@ public class WebServiceAuthentication {
 	public static Response authenticate(HttpServletRequest request) {
 		try {
 			String wsAuthMethod = AppContext.getInstance().getMonitorBeanRemote().getWsAuthMethod();
+			String clientIp = getRemoteAddr(request);
+			String clientAuthToken = request.getHeader("Authorization");
+			appLogger.info("Authenticating WS call from IP " + clientIp + ", authMethod=" + wsAuthMethod);
+
 			if(wsAuthMethod.equals(Constants.WS_AUTH_TYPE_APP)) {
 				// Using Elections app native authentication method:
 				// - Header 'Authorization' must match 'WS_AUTH_TOKEN' system parameter and
 				// - Client IP must be among authorized IPs (system parameter)
 
 				// Validate token
-				String clientAuthToken = request.getHeader("Authorization");
-				System.out.println("token: " + clientAuthToken);
 				String appAuthToken = AppContext.getInstance().getMonitorBeanRemote().getWsAuthToken();
 				if (clientAuthToken == null || !clientAuthToken.equals(appAuthToken)) {
+					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", missing or invalid Auth Token");
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, Apikey problem").build();
 				}
-				
+
 				// Authenticated OK, now check the client IP 
-				String clientIp = getRemoteAddr(request);
-				System.out.println("Ip: " + clientIp);
 				IpResourceSet authorizedIPsList = AppContext.getInstance().getMonitorBeanRemote().getWsAuthorizedIps();
 				if (!authorizedIPsList.contains(IpAddress.parse(clientIp))) {
+					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", IP not allowed");
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, IP problem").build();
 				}
 			} else if(wsAuthMethod.equals(Constants.WS_AUTH_TYPE_LACNIC)) {
@@ -64,25 +66,27 @@ public class WebServiceAuthentication {
 				// Set URL, media type, authtoken header and call GET service method
 				LacnicAuthResponse response = client.target(AppContext.getInstance().getMonitorBeanRemote().getWsLacnicAuthUrl())
 						.request()
-						.header("Authorization", request.getHeader("Authorization"))
+						.header("Authorization", clientAuthToken)
 						.get(LacnicAuthResponse.class);
 
 				// Check response
 				if(response == null || !response.getAuthenticated()) {
+					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", missing or invalid Auth Token");
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, Apikey problem").build();
 				}
 
 				// Authenticated OK, now check the client IP
-				String clientIp = getRemoteAddr(request);
-				
 				IpResourceSet authorizedIPsList = IpResourceSet.parse(response.getIpAllowed());
 				if (!authorizedIPsList.contains(IpAddress.parse(clientIp))) {
+					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", IP not allowed");
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, IP problem").build();
 				}
 			} else {
 				// Auth type not properly configured
+				appLogger.error("Authentication failed for WS call from IP " + clientIp + ", auth method is wrongly configured");
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Internal Server Error during authentication").build();
 			}
+			appLogger.info("Authentication OK for WS call from IP " + clientIp + ", authMethod=" + wsAuthMethod);
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Internal Server Error during authentication").build();

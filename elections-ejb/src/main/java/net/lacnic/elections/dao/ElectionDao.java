@@ -1,6 +1,5 @@
 package net.lacnic.elections.dao;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,13 +9,9 @@ import javax.persistence.TypedQuery;
 
 import org.joda.time.DateTime;
 
-import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
-import net.lacnic.elections.domain.ElectionReportTable;
 import net.lacnic.elections.domain.JointElection;
-
-import net.lacnic.elections.data.TablesReportData;
 
 
 public class ElectionDao {
@@ -39,10 +34,6 @@ public class ElectionDao {
 		q.setParameter("resultToken", resultToken);
 		return q.getSingleResult();
 	}
-
-	//	public Election obtenerEleccionConTokenAuditor(String token) {		
-	//		return getElectionByResultToken(token);
-	//	}
 
 	public List<Election> getElectionsAllOrderCreationDate() {
 		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e ORDER BY e.creationDate", Election.class);
@@ -72,33 +63,6 @@ public class ElectionDao {
 		return !q.getResultList().isEmpty();
 	}
 
-	public List<Participation> getParticipationsForOrganization(String orgID) {
-		Query q = em.createQuery("SELECT u.name, u.mail, u.country, u.voted,"
-				+ " e.startDate, e.endDate, e.titleSpanish, e.titleEnglish, e.titlePortuguese, e.category"
-				+ " FROM UserVoter u, Election e"
-				+ " WHERE u.orgID = :orgID AND u.election.electionId = e.electionId");
-		q.setParameter("orgID", orgID);
-		@SuppressWarnings("unchecked")
-		List<Object[]> result = q.getResultList();
-
-		List<Participation> resultList = new ArrayList<>();
-		for (int i = 0; i < result.size(); i++) {
-			Participation p = new Participation();
-			p.setName((String) result.get(i)[0]);
-			p.setEmail((String) result.get(i)[1]);
-			p.setCountry((String) result.get(i)[2]);
-			p.setVoted((Boolean) result.get(i)[3]);
-			p.setElectionStartDate((Date) result.get(i)[4]);
-			p.setElectionEndDate((Date) result.get(i)[5]);
-			p.setElectionTitleSP((String) result.get(i)[6]);
-			p.setElectionTitleEN((String) result.get(i)[7]);
-			p.setElectionTitlePT((String) result.get(i)[8]);
-			p.setCategory((String) result.get(i)[9]);
-			resultList.add(p);
-		}
-		return resultList;
-	}
-
 	public boolean electionIsSimple(long electionId) {
 		Query q = em.createQuery("SELECT e FROM JointElection e WHERE e.idElectionA = :electionId OR e.idElectionB = :electionId");
 		q.setParameter("electionId", electionId);
@@ -117,37 +81,10 @@ public class ElectionDao {
 		return q.getResultList();
 	}
 
-	public List<String> getElectionsAllIdAndTitle() {
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getElectionsAllIdAndTitle() {
 		Query q = em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e ORDER BY e.electionId");
-		@SuppressWarnings("unchecked")
-		List<Object[]> result = q.getResultList();
-
-		List<String> resultList = new ArrayList<>();
-
-		for (int i = 0; i < result.size(); i++) {
-			resultList.add(result.get(i)[0].toString() + "-" + result.get(i)[1].toString());
-		}
-		return resultList;
-	}
-	
-	public List<TablesReportData> getElectionsData() {
-		Query q = em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e ORDER BY e.electionId");
-		@SuppressWarnings("unchecked")
-		List<Object[]> result = q.getResultList();
-
-		List<TablesReportData> resultList = new ArrayList<>();
-		for (int i = 0; i < result.size(); i++) {
-			TablesReportData trd = new TablesReportData((long)result.get(i)[0], result.get(i)[1].toString());
-			resultList.add(trd);
-		}
-		return resultList;	
-	}
-	
-	public ElectionReportTable getElectionTableReport(Long id) {
-		TypedQuery<ElectionReportTable> q = em.createQuery("SELECT e FROM ElectionReportTable e WHERE e.electionId = :electionId", ElectionReportTable.class);
-		q.setParameter("electionId", id);
-		return q.getSingleResult();
-	
+		return q.getResultList();
 	}
 
 }
