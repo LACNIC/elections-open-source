@@ -193,7 +193,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getAuditorsBasicData();
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCommissionersBasicData();
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);

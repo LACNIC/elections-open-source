@@ -16,7 +16,7 @@ public class EmailReportTable implements Serializable {
 	private String cc;
 	private String bcc;
 	private String subject;
-	private Boolean sent = false;
+	private Boolean sent;
 	private String createdDate;
 	private String templateType;
 	private Long electionId;

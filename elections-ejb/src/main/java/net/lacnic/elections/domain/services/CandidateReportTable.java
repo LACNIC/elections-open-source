@@ -1,6 +1,7 @@
 package net.lacnic.elections.domain.services;
 
 import java.io.Serializable;
+import java.util.Base64;
 
 import net.lacnic.elections.domain.Candidate;
 
@@ -13,7 +14,7 @@ public class CandidateReportTable implements Serializable {
 	private Long migrationId;
 	private String name;
 	private Long electionId;
-	//	private byte[] pictureInfo;
+	private String pictureInfo;
 	private String pictureName;
 	private String bioSpanish;
 	private String bioEnglish;
@@ -33,6 +34,7 @@ public class CandidateReportTable implements Serializable {
 		this.migrationId = candidate.getMigrationId();
 		this.name = candidate.getName();
 		this.electionId = candidate.getElection().getElectionId();
+		this.pictureInfo = Base64.getEncoder().encodeToString(candidate.getPictureInfo());
 		this.pictureName = candidate.getPictureName();
 		this.bioSpanish = candidate.getBioSpanish();
 		this.bioEnglish = candidate.getBioEnglish();
@@ -156,6 +158,14 @@ public class CandidateReportTable implements Serializable {
 
 	public void setLinkPortuguese(String linkPortuguese) {
 		this.linkPortuguese = linkPortuguese;
+	}
+
+	public String getPictureInfo() {
+		return pictureInfo;
+	}
+
+	public void setPictureInfo(String pictureInfo) {
+		this.pictureInfo = pictureInfo;
 	}
 
 }
