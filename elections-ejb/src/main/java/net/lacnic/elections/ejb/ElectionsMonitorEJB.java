@@ -6,6 +6,7 @@ import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.data.TablesReportData;
 import net.lacnic.elections.domain.Customization;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
@@ -75,6 +76,10 @@ public interface ElectionsMonitorEJB {
 	public List<TablesReportData> getJointElectionsBasicData();
 
 	public JointElection getJointElectionBasicData(Long id);
+
+	public List<TablesReportData> getElectionEmailsTemplateBasicData();
+	
+	public ElectionEmailTemplate getElectionEmailTemplateBasicData(Long id);
 
 	
 

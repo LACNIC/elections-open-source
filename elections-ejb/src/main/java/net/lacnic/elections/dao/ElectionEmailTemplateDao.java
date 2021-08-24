@@ -13,6 +13,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import net.lacnic.elections.domain.ElectionEmailTemplate;
+import net.lacnic.elections.domain.JointElection;
 
 
 public class ElectionEmailTemplateDao {
@@ -28,8 +29,14 @@ public class ElectionEmailTemplateDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getAllElectionEmailTemplateDao() {
-		Query q = em.createQuery("SELECT e FROM Customization e");
+		Query q = em.createQuery("SELECT e.electionEmailTemplateId, e.templateType FROM ElectionEmailTemplate e order by e.electionEmailTemplateId");
 		return q.getResultList();
+	}
+	
+	public ElectionEmailTemplate getElectionEmailTemplate(Long electionEmailTemplateId) {
+		TypedQuery<ElectionEmailTemplate> q = em.createQuery("SELECT e FROM ElectionEmailTemplate e WHERE e.electionEmailTemplateId = :electionEmailTemplateId", ElectionEmailTemplate.class);
+		q.setParameter("electionEmailTemplateId", electionEmailTemplateId);
+		return q.getSingleResult();
 	}
 	
 	public String getSubjectByElectionTypeLanguageSP(Long electionId, String templateType) {

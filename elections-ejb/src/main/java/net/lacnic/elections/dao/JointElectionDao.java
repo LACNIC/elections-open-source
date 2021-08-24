@@ -31,5 +31,5 @@ public class JointElectionDao {
 		TypedQuery<JointElection> q = em.createQuery("SELECT j FROM JointElection j WHERE j.jointElectionId = :jointElectionId", JointElection.class);
 		q.setParameter("jointElectionId", jointElectionId);
 		return q.getSingleResult();
-}
+	}
 }

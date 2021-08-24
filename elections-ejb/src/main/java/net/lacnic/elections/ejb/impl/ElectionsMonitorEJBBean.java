@@ -24,6 +24,7 @@ import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.domain.Commissioner;
 import net.lacnic.elections.domain.Customization;
 import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.Email;
 import net.lacnic.elections.domain.EmailHistory;
@@ -610,10 +611,10 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	public List<TablesReportData> getJointElectionsBasicData(){
 		try {
 			List<TablesReportData> customizationData = new ArrayList<>();
-			List <Long> customizationDataDataList = ElectionsDaoFactory.createJointElectionDao(em).getJointElections();
+			List <Long> jointElectionDataList = ElectionsDaoFactory.createJointElectionDao(em).getJointElections();
 
-			for(int i = 0; i < customizationDataDataList.size(); i++) {
-				customizationData.add(new TablesReportData((long)customizationDataDataList.get(i),(String)" "));
+			for(int i = 0; i < jointElectionDataList.size(); i++) {
+				customizationData.add(new TablesReportData((long)jointElectionDataList.get(i),(String)" "));
 			}
 
 			
@@ -634,7 +635,34 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		}
 		return null;
 	}
-
 	
+	@Override
+	public List<TablesReportData> getElectionEmailsTemplateBasicData(){
+		try {
+			List<TablesReportData> electionEmailsDataList = new ArrayList<>();
+			List <Object[]> electionEmailsData = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getAllElectionEmailTemplateDao();
+
+			for(int i = 0; i < electionEmailsData.size(); i++) {
+				electionEmailsDataList.add(new TablesReportData((long)electionEmailsData.get(i)[0],(String)electionEmailsData.get(i)[1]));
+			}
+
+			return electionEmailsDataList;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+
+	@Override
+	public ElectionEmailTemplate getElectionEmailTemplateBasicData(Long id){
+		try {
+			ElectionEmailTemplate electionEmailTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionEmailTemplate(id);
+			return electionEmailTemplate;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
 
 }
