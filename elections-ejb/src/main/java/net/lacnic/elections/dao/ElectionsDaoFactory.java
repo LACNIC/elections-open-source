@@ -64,4 +64,7 @@ public class ElectionsDaoFactory {
 		return new CustomizationDao(em);
 	}
 
+	public static JointElectionDao createJointElectionDao(EntityManager em) {
+		return new JointElectionDao(em);
+	}
 }

@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import net.lacnic.elections.dao.CustomizationDao;
 import net.lacnic.elections.dao.ElectionsDaoFactory;
 import net.lacnic.elections.dao.ReportDao;
 import net.lacnic.elections.data.ElectionReport;
@@ -22,13 +23,16 @@ import net.lacnic.elections.domain.Activity;
 import net.lacnic.elections.domain.Auditor;
 import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.domain.Commissioner;
+import net.lacnic.elections.domain.Customization;
 import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.Email;
 import net.lacnic.elections.domain.EmailHistory;
 import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.domain.UserAdmin;
+import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.domain.services.ActivityReportTable;
@@ -741,6 +745,99 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			if(parameter != null) {
 				return parameter;
 			}
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a list with id and description for all EmailsHistory in the system
+	 * 
+	 * @return List of EmailsHistory id and description
+	 */
+	@Override
+	public List<TablesReportData> getCustomizationsBasicData(){
+		try {
+			List<TablesReportData> customizationData = new ArrayList<>();
+			List<Object []> customizationDataDataList = ElectionsDaoFactory.createCustomizationDao(em).getAllCustomization();
+
+			for(int i = 0; i < customizationDataDataList.size(); i++) {
+		
+				customizationData.add(new TablesReportData((long)customizationDataDataList.get(i)[0],(String)customizationDataDataList.get(i)[1]));
+			}
+
+			
+			return customizationData;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	@Override
+	public Customization getCustomizationBasicData(Long id){
+		try {
+			Customization customization = ElectionsDaoFactory.createCustomizationDao(em).getOneCustomization(id);
+			return customization;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	@Override
+	public List<TablesReportData> getJointElectionsBasicData(){
+		try {
+			List<TablesReportData> customizationData = new ArrayList<>();
+			List <Long> jointElectionDataList = ElectionsDaoFactory.createJointElectionDao(em).getJointElections();
+
+			for(int i = 0; i < jointElectionDataList.size(); i++) {
+				customizationData.add(new TablesReportData((long)jointElectionDataList.get(i),(String)" "));
+			}
+
+			
+			return customizationData;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	@Override
+	public JointElection getJointElectionBasicData(Long id){
+		try {
+			JointElection jointelection = ElectionsDaoFactory.createJointElectionDao(em).getJointElection(id);
+			return jointelection;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	@Override
+	public List<TablesReportData> getElectionEmailsTemplateBasicData(){
+		try {
+			List<TablesReportData> electionEmailsDataList = new ArrayList<>();
+			List <Object[]> electionEmailsData = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getAllElectionEmailTemplateDao();
+
+			for(int i = 0; i < electionEmailsData.size(); i++) {
+				electionEmailsDataList.add(new TablesReportData((long)electionEmailsData.get(i)[0],(String)electionEmailsData.get(i)[1]));
+			}
+
+			return electionEmailsDataList;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+
+	@Override
+	public ElectionEmailTemplate getElectionEmailTemplateBasicData(Long id){
+		try {
+			ElectionEmailTemplate electionEmailTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionEmailTemplate(id);
+			return electionEmailTemplate;
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
