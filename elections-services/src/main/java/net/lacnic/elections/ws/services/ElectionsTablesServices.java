@@ -1,6 +1,7 @@
 package net.lacnic.elections.ws.services;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import net.lacnic.elections.data.TablesReportData;
+import net.lacnic.elections.domain.Customization;
 import net.lacnic.elections.domain.IpAccess;
+import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
@@ -413,6 +416,110 @@ public class ElectionsTablesServices implements Serializable {
 			} else {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/customizations")
+	@Produces("application/json; charset=UTF-8")
+	public Response getCustomizations(@Context final HttpServletRequest request) {
+
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+		
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCustomizationsBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/customization/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getCustomization(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			Customization customization = AppContext.getInstance().getMonitorBeanRemote().getCustomizationBasicData(id);
+			if(customization != null) {
+				return Response.ok(customization).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+			
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/jointelections")
+	@Produces("application/json; charset=UTF-8")
+	public Response getJointElections(@Context final HttpServletRequest request) {
+
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+		
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getJointElectionsBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/jointelection/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getJointElection(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			JointElection jointelection = AppContext.getInstance().getMonitorBeanRemote().getJointElectionBasicData(id);
+			if(jointelection != null) {
+				return Response.ok(jointelection).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+			
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();

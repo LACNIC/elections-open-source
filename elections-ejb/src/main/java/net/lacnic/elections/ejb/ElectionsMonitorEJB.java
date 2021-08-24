@@ -5,8 +5,10 @@ import java.util.List;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.data.TablesReportData;
+import net.lacnic.elections.domain.Customization;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.IpAccess;
+import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
@@ -65,5 +67,15 @@ public interface ElectionsMonitorEJB {
 	public List<TablesReportData> getIpAccessesBasicData();
 
 	public IpAccess getIpAccessTableReport(Long ipAccessId);
+	
+	public List<TablesReportData> getCustomizationsBasicData();
+
+	public Customization getCustomizationBasicData(Long id);
+
+	public List<TablesReportData> getJointElectionsBasicData();
+
+	public JointElection getJointElectionBasicData(Long id);
+
+	
 
 }

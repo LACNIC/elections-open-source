@@ -1,6 +1,10 @@
 package net.lacnic.elections.dao;
 
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -20,6 +24,12 @@ public class ElectionEmailTemplateDao {
 
 	public ElectionEmailTemplateDao(EntityManager em) {
 		this.em = em;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getAllElectionEmailTemplateDao() {
+		Query q = em.createQuery("SELECT e FROM Customization e");
+		return q.getResultList();
 	}
 	
 	public String getSubjectByElectionTypeLanguageSP(Long electionId, String templateType) {
