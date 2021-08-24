@@ -65,7 +65,11 @@ public class Email implements Serializable {
 
 	public String getCreatedDateString() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-		return simpleDateFormat.format(getCreatedDate());
+		if (getCreatedDate() != null) {
+			return simpleDateFormat.format(getCreatedDate());
+		} else {
+			return null;
+		}		
 	}
 
 

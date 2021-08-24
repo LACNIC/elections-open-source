@@ -1,6 +1,7 @@
 package net.lacnic.elections.ws.services;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +16,22 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import net.lacnic.elections.data.TablesReportData;
+import net.lacnic.elections.data.TableReportStringData;
 import net.lacnic.elections.domain.IpAccess;
+import net.lacnic.elections.domain.Parameter;
+import net.lacnic.elections.domain.Customization;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
+import net.lacnic.elections.domain.IpAccess;
+import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
 import net.lacnic.elections.domain.services.CommissionerReportTable;
 import net.lacnic.elections.domain.services.ElectionReportTable;
 import net.lacnic.elections.domain.services.EmailReportTable;
+import net.lacnic.elections.domain.services.UserAdminReportTable;
+import net.lacnic.elections.domain.services.UserVoterReportTable;
+import net.lacnic.elections.domain.services.VoteReportTable;
 import net.lacnic.elections.ws.app.AppContext;
 import net.lacnic.elections.ws.auth.WebServiceAuthentication;
 
@@ -419,4 +429,338 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 	
+	@GET
+	@Path("/votes")
+	@Produces("application/json; charset=UTF-8")
+	public Response getVotes(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getVotesBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/vote/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getVote(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			VoteReportTable voteReportTable = AppContext.getInstance().getMonitorBeanRemote().getVoteTableReport(id);
+			if(voteReportTable != null) {
+				return Response.ok(voteReportTable).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/uservoters")
+	@Produces("application/json; charset=UTF-8")
+	public Response getUserVoters(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserVoterBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/uservoter/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getUserVoter(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+			// Auth OK, return requested data
+			UserVoterReportTable userVoterReportTable = AppContext.getInstance().getMonitorBeanRemote().getUserVoterReportTable(id);
+			if(userVoterReportTable != null) {
+				return Response.ok(userVoterReportTable).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/useradmins")
+	@Produces("application/json; charset=UTF-8")
+	public Response getUserAdmins(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<TableReportStringData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserAdminBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/useradmin/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getUserAdmin(@Context final HttpServletRequest request, @PathParam("id") String id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			UserAdminReportTable userAdminReportTable = AppContext.getInstance().getMonitorBeanRemote().getUserAdminReportTable(id);
+			if(userAdminReportTable != null) {
+				return Response.ok(userAdminReportTable).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/parameters")
+	@Produces("application/json; charset=UTF-8")
+	public Response getParameters(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<TableReportStringData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getParametersBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/parameter/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getParameter(@Context final HttpServletRequest request, @PathParam("id") String id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			Parameter parameter = AppContext.getInstance().getMonitorBeanRemote().getParameterReport(id);
+			if(parameter != null) {
+				return Response.ok(parameter).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/customizations")
+	@Produces("application/json; charset=UTF-8")
+	public Response getCustomizations(@Context final HttpServletRequest request) {	
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}	
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCustomizationsBasicData();
+			return Response.ok(listTablesReportData).build();
+
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/customization/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getCustomization(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+			
+			// Auth OK, return requested data
+			Customization customization = AppContext.getInstance().getMonitorBeanRemote().getCustomizationBasicData(id);
+			if(customization != null) {
+				return Response.ok(customization).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/jointelections")
+	@Produces("application/json; charset=UTF-8")
+	public Response getJointElections(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+			
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getJointElectionsBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+
+	@GET
+	@Path("/jointelection/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getJointElection(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data	
+			JointElection jointelection = AppContext.getInstance().getMonitorBeanRemote().getJointElectionBasicData(id);
+			if(jointelection != null) {
+				return Response.ok(jointelection).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@Path("/electionemailstemplate")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionEmailsTemplate(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<TablesReportData> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionEmailsTemplateBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	
+	@GET
+	@Path("/electionemailtemplate/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionEmailTemplate(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+	
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			ElectionEmailTemplate electionEmailTemplate = AppContext.getInstance().getMonitorBeanRemote().getElectionEmailTemplateBasicData(id);
+			if(electionEmailTemplate != null) {
+				return Response.ok(electionEmailTemplate).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}	
+
 }

@@ -4,15 +4,23 @@ import java.util.List;
 
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
+import net.lacnic.elections.data.TableReportStringData;
 import net.lacnic.elections.data.TablesReportData;
+import net.lacnic.elections.domain.Customization;
+import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.IpAccess;
+import net.lacnic.elections.domain.Parameter;
+import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
 import net.lacnic.elections.domain.services.CommissionerReportTable;
 import net.lacnic.elections.domain.services.ElectionReportTable;
 import net.lacnic.elections.domain.services.EmailReportTable;
+import net.lacnic.elections.domain.services.UserAdminReportTable;
+import net.lacnic.elections.domain.services.UserVoterReportTable;
+import net.lacnic.elections.domain.services.VoteReportTable;
 import net.ripe.ipresource.IpResourceSet;
 
 
@@ -65,5 +73,33 @@ public interface ElectionsMonitorEJB {
 	public List<TablesReportData> getIpAccessesBasicData();
 
 	public IpAccess getIpAccessTableReport(Long ipAccessId);
+
+	public List<TablesReportData> getVotesBasicData();
+
+	public VoteReportTable getVoteTableReport(Long voteId);
+	
+	public List<TablesReportData> getUserVoterBasicData();
+
+	public UserVoterReportTable getUserVoterReportTable(Long userVoterId);
+	
+	public List<TableReportStringData> getUserAdminBasicData();
+
+	public UserAdminReportTable getUserAdminReportTable(String userAdminId);
+	
+	public List<TableReportStringData> getParametersBasicData();
+
+	public Parameter getParameterReport(String key);
+
+	public List<TablesReportData> getCustomizationsBasicData();
+
+	public Customization getCustomizationBasicData(Long id);
+
+	public List<TablesReportData> getJointElectionsBasicData();
+
+	public JointElection getJointElectionBasicData(Long id);
+
+	public List<TablesReportData> getElectionEmailsTemplateBasicData();
+	
+	public ElectionEmailTemplate getElectionEmailTemplateBasicData(Long id);
 
 }
