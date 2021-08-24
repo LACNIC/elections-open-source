@@ -61,5 +61,17 @@ public class VoteDao {
 		q.setParameter("electionId", electionId);
 		q.executeUpdate();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getVotesAllIdAndDate() {
+		Query q = em.createQuery("SELECT v.voteId, v.candidate.candidateId FROM Vote v ORDER BY v.voteId");
+		return q.getResultList();
+	}
+	
+	public Vote getVote(long voteId) {
+		TypedQuery<Vote> q = em.createQuery("SELECT v FROM Vote v WHERE v.voteId = :voteId", Vote.class);
+		q.setParameter("voteId", voteId);
+		return q.getSingleResult();
+	}
 
 }

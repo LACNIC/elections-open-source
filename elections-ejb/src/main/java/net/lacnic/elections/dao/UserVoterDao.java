@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import net.lacnic.elections.domain.UserVoter;
+import net.lacnic.elections.domain.Vote;
 
 
 public class UserVoterDao {
@@ -167,6 +168,12 @@ public class UserVoterDao {
 		Collections.sort(census2);
 
 		return census1.equals(census2);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getUserVotersAllIdAndName() {
+		Query q = em.createQuery("SELECT u.userVoterId, u.name FROM UserVoter u ORDER BY u.userVoterId");
+		return q.getResultList();
 	}
 
 }

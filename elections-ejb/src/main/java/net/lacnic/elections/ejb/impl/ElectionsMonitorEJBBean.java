@@ -17,6 +17,7 @@ import net.lacnic.elections.data.ElectionReport;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.data.TablesReportData;
+import net.lacnic.elections.data.TableReportStringData;
 import net.lacnic.elections.domain.Activity;
 import net.lacnic.elections.domain.Auditor;
 import net.lacnic.elections.domain.Candidate;
@@ -26,13 +27,19 @@ import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.Email;
 import net.lacnic.elections.domain.EmailHistory;
 import net.lacnic.elections.domain.IpAccess;
+import net.lacnic.elections.domain.Parameter;
+import net.lacnic.elections.domain.UserAdmin;
 import net.lacnic.elections.domain.UserVoter;
+import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
 import net.lacnic.elections.domain.services.CommissionerReportTable;
 import net.lacnic.elections.domain.services.ElectionReportTable;
 import net.lacnic.elections.domain.services.EmailReportTable;
+import net.lacnic.elections.domain.services.UserAdminReportTable;
+import net.lacnic.elections.domain.services.UserVoterReportTable;
+import net.lacnic.elections.domain.services.VoteReportTable;
 import net.lacnic.elections.ejb.ElectionsMonitorEJB;
 import net.lacnic.elections.ejb.commons.impl.AutomaticProcesses;
 import net.lacnic.elections.utils.Constants;
@@ -562,6 +569,178 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		try {
 			IpAccess ipAccess = ElectionsDaoFactory.createIpAccessDao(em).getIpAccess(ipAccessId);
 			return ipAccess;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns a list with id and description for all votes in the system
+	 * 
+	 * @return List of votes id and dadte
+	 */
+	@Override
+	public List<TablesReportData> getVotesBasicData() {
+		try {
+			List<TablesReportData> votesData = new ArrayList<>();
+			List<Object[]> votesDataList = ElectionsDaoFactory.createVoteDao(em).getVotesAllIdAndDate();
+
+			for(int i = 0; i < votesDataList.size(); i++) {
+				votesData.add(new TablesReportData((long)votesDataList.get(i)[0], votesDataList.get(i)[1].toString()));
+			}
+
+			return votesData;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns information about the Vote with the given id
+	 * 
+	 * @param voteId
+	 * 			Identifier of the vote
+	 * 
+	 * @return An vote instance containing the information
+	 */
+	@Override
+	public VoteReportTable getVoteTableReport(Long voteId) {
+		try {
+			Vote vote = ElectionsDaoFactory.createVoteDao(em).getVote(voteId);
+			if(vote != null) {
+				return new VoteReportTable(vote);
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns a list with id and description for all user voters in the system
+	 * 
+	 * @return List of voters id and name
+	 */
+	@Override
+	public List<TablesReportData> getUserVoterBasicData() {
+		try {
+			List<TablesReportData> userVotesData = new ArrayList<>();
+			List<Object[]> userVotersDataList = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersAllIdAndName();
+
+			for(int i = 0; i < userVotersDataList.size(); i++) {
+				userVotesData.add(new TablesReportData((long)userVotersDataList.get(i)[0], userVotersDataList.get(i)[1].toString()));
+			}
+
+			return userVotesData;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns information about the voter with the given id
+	 * 
+	 * @param userVoteId
+	 * 			Identifier of the voter
+	 * 
+	 * @return An user voter instance containing the information
+	 */
+	@Override
+	public UserVoterReportTable getUserVoterReportTable(Long userVoterId) {
+		try {
+			UserVoter userVoter = ElectionsDaoFactory.createUserVoterDao(em).getUserVoter(userVoterId);
+			if(userVoter != null) {
+				return new UserVoterReportTable(userVoter);
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns a list with id and description for all user admins in the system
+	 * 
+	 * @return List of admins id and name
+	 */
+	@Override
+	public List<TableReportStringData> getUserAdminBasicData() {
+		try {
+			List<TableReportStringData> userAdminsData = new ArrayList<>();
+			List<Object[]> userAdminssDataList = ElectionsDaoFactory.createUserAdminDao(em).getUserAdminsAllIdAndName();
+
+			for(int i = 0; i < userAdminssDataList.size(); i++) {
+				userAdminsData.add(new TableReportStringData(userAdminssDataList.get(i)[0].toString(), userAdminssDataList.get(i)[1].toString()));
+			}
+
+			return userAdminsData;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns information about the user admin with the given id
+	 * 
+	 * @param userAdminId
+	 * 			Identifier of the admin
+	 * 
+	 * @return An user admin instance containing the information
+	 */
+	@Override
+	public UserAdminReportTable getUserAdminReportTable(String userAdminId) {
+		try {
+			UserAdmin userAdmin = ElectionsDaoFactory.createUserAdminDao(em).getUserAdmin(userAdminId);
+			if(userAdmin != null) {
+				return new UserAdminReportTable(userAdmin);
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns a list with id and description for all user parameters in the system
+	 * 
+	 * @return List of parameters key and value
+	 */
+	@Override
+	public List<TableReportStringData> getParametersBasicData() {
+		try {
+			List<TableReportStringData> parameterData = new ArrayList<>();
+			List<Object[]> parameterDataList = ElectionsDaoFactory.createParameterDao(em).getParameterReportTable();
+
+			for(int i = 0; i < parameterDataList.size(); i++) {
+				parameterData.add(new TableReportStringData(parameterDataList.get(i)[0].toString(), parameterDataList.get(i)[1].toString()));
+			}
+
+			return parameterData;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns information about the parameter with the given key
+	 * 
+	 * @param key
+	 * 			Identifier of the parameter
+	 * 
+	 * @return An parameter instance containing the information
+	 */
+	@Override
+	public Parameter getParameterReport(String key) {
+		try {
+			Parameter parameter = ElectionsDaoFactory.createParameterDao(em).getParameterReport(key);
+			if(parameter != null) {
+				return parameter;
+			}
 		} catch (Exception e) {
 			appLogger.error(e);
 		}

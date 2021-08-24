@@ -78,5 +78,11 @@ public class UserAdminDao {
 			return 0L;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getUserAdminsAllIdAndName() {		
+		Query q = em.createQuery("SELECT a.userAdminId, a.email FROM UserAdmin a ORDER BY a.userAdminId");
+		return q.getResultList();		
+	}
 
 }
