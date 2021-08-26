@@ -9,33 +9,33 @@ public class ElectionReportTable implements Serializable {
 
 	private static final long serialVersionUID = -6249197041343974691L;
 
-	private long electionId;
+	private Long electionId;
 	private String descriptionSpanish;
 	private String descriptionEnglish;
 	private String descriptionPortuguese;
 	private String creationDate;
 	private String endDate;
 	private String startDate;
-	private boolean resultLinkAvailable;
-	private boolean votingLinkAvailable;
+	private Boolean resultLinkAvailable;
+	private Boolean votingLinkAvailable;
 	private String linkSpanish;
 	private String linkEnglish;
 	private String linkPortuguese;
-	private int maxCandidates;
+	private Integer maxCandidates;
 	private String titleSpanish;
 	private String titleEnglish;
 	private String titlePortuguese;
-	private boolean auditorsSet;
-	private boolean candidatesSet;
-	private boolean electorsSet;
-	private boolean auditorLinkAvailable;
-	private boolean onlySp;
+	private Boolean auditorsSet;
+	private Boolean candidatesSet;
+	private Boolean electorsSet;
+	private Boolean auditorLinkAvailable;
+	private Boolean onlySp;
 	private String defaultSender;
-	private boolean randomOrderCandidates;
-	private int diffUTC;
-	private boolean revisionRequest;
+	private Boolean randomOrderCandidates;
+	private Integer diffUTC;
+	private Boolean revisionRequest;
 	private Long migrationId;
-	private boolean migrated;
+	private Boolean migrated;
 	private String category;
 
 
@@ -73,11 +73,11 @@ public class ElectionReportTable implements Serializable {
 	}
 
 
-	public long getElectionId() {
+	public Long getElectionId() {
 		return electionId;
 	}
 
-	public void setElectionId(long electionId) {
+	public void setElectionId(Long electionId) {
 		this.electionId = electionId;
 	}
 
@@ -129,19 +129,19 @@ public class ElectionReportTable implements Serializable {
 		this.startDate = startDate;
 	}
 
-	public boolean isResultLinkAvailable() {
+	public Boolean getResultLinkAvailable() {
 		return resultLinkAvailable;
 	}
 
-	public void setResultLinkAvailable(boolean resultLinkAvailable) {
+	public void setResultLinkAvailable(Boolean resultLinkAvailable) {
 		this.resultLinkAvailable = resultLinkAvailable;
 	}
 
-	public boolean isVotingLinkAvailable() {
+	public Boolean getVotingLinkAvailable() {
 		return votingLinkAvailable;
 	}
 
-	public void setVotingLinkAvailable(boolean votingLinkAvailable) {
+	public void setVotingLinkAvailable(Boolean votingLinkAvailable) {
 		this.votingLinkAvailable = votingLinkAvailable;
 	}
 
@@ -169,11 +169,11 @@ public class ElectionReportTable implements Serializable {
 		this.linkPortuguese = linkPortuguese;
 	}
 
-	public int getMaxCandidates() {
+	public Integer getMaxCandidates() {
 		return maxCandidates;
 	}
 
-	public void setMaxCandidates(int maxCandidates) {
+	public void setMaxCandidates(Integer maxCandidates) {
 		this.maxCandidates = maxCandidates;
 	}
 
@@ -201,43 +201,43 @@ public class ElectionReportTable implements Serializable {
 		this.titlePortuguese = titlePortuguese;
 	}
 
-	public boolean isAuditorsSet() {
+	public Boolean getAuditorsSet() {
 		return auditorsSet;
 	}
 
-	public void setAuditorsSet(boolean auditorsSet) {
+	public void setAuditorsSet(Boolean auditorsSet) {
 		this.auditorsSet = auditorsSet;
 	}
 
-	public boolean isCandidatesSet() {
+	public Boolean getCandidatesSet() {
 		return candidatesSet;
 	}
 
-	public void setCandidatesSet(boolean candidatesSet) {
+	public void setCandidatesSet(Boolean candidatesSet) {
 		this.candidatesSet = candidatesSet;
 	}
 
-	public boolean isElectorsSet() {
+	public Boolean getElectorsSet() {
 		return electorsSet;
 	}
 
-	public void setElectorsSet(boolean electorsSet) {
+	public void setElectorsSet(Boolean electorsSet) {
 		this.electorsSet = electorsSet;
 	}
 
-	public boolean isAuditorLinkAvailable() {
+	public Boolean getAuditorLinkAvailable() {
 		return auditorLinkAvailable;
 	}
 
-	public void setAuditorLinkAvailable(boolean auditorLinkAvailable) {
+	public void setAuditorLinkAvailable(Boolean auditorLinkAvailable) {
 		this.auditorLinkAvailable = auditorLinkAvailable;
 	}
 
-	public boolean isOnlySp() {
+	public Boolean getOnlySp() {
 		return onlySp;
 	}
 
-	public void setOnlySp(boolean onlySp) {
+	public void setOnlySp(Boolean onlySp) {
 		this.onlySp = onlySp;
 	}
 
@@ -249,27 +249,27 @@ public class ElectionReportTable implements Serializable {
 		this.defaultSender = defaultSender;
 	}
 
-	public boolean isRandomOrderCandidates() {
+	public Boolean getRandomOrderCandidates() {
 		return randomOrderCandidates;
 	}
 
-	public void setRandomOrderCandidates(boolean randomOrderCandidates) {
+	public void setRandomOrderCandidates(Boolean randomOrderCandidates) {
 		this.randomOrderCandidates = randomOrderCandidates;
 	}
 
-	public int getDiffUTC() {
+	public Integer getDiffUTC() {
 		return diffUTC;
 	}
 
-	public void setDiffUTC(int diffUTC) {
+	public void setDiffUTC(Integer diffUTC) {
 		this.diffUTC = diffUTC;
 	}
 
-	public boolean isRevisionRequest() {
+	public Boolean getRevisionRequest() {
 		return revisionRequest;
 	}
 
-	public void setRevisionRequest(boolean revisionRequest) {
+	public void setRevisionRequest(Boolean revisionRequest) {
 		this.revisionRequest = revisionRequest;
 	}
 
@@ -281,11 +281,11 @@ public class ElectionReportTable implements Serializable {
 		this.migrationId = migrationId;
 	}
 
-	public boolean isMigrated() {
+	public Boolean getMigrated() {
 		return migrated;
 	}
 
-	public void setMigrated(boolean migrated) {
+	public void setMigrated(Boolean migrated) {
 		this.migrated = migrated;
 	}
 

@@ -2,18 +2,18 @@ package net.lacnic.elections.data;
 
 import java.io.Serializable;
 
-public class TableReportStringData implements Serializable {
-	
+
+public class TableReportDataStringId implements Serializable {
+
 	private static final long serialVersionUID = 35111768959822129L;
-	
+
 	private String id;
 	private String description;
 
 
-	public TableReportStringData() { }
+	public TableReportDataStringId() { }
 
-	public TableReportStringData(String id, String description) {
-		super();
+	public TableReportDataStringId(String id, String description) {
 		this.id = id;
 		this.description = description;
 	}

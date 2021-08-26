@@ -9,13 +9,13 @@ public class AuditorReportTable implements Serializable {
 
 	private static final long serialVersionUID = -6947143778751018563L;
 
-	private long auditorId;
-	private boolean commissioner;
-	private boolean agreedConformity;
+	private Long auditorId;
+	private Boolean commissioner;
+	private Boolean agreedConformity;
 	private String mail;
 	private String name;
 	private Long electionId;
-	private boolean revisionAvailable;
+	private Boolean revisionAvailable;
 	private Long migrationId;
 
 
@@ -33,27 +33,27 @@ public class AuditorReportTable implements Serializable {
 	}
 
 
-	public long getAuditorId() {
+	public Long getAuditorId() {
 		return auditorId;
 	}
 
-	public void setAuditorId(long auditorId) {
+	public void setAuditorId(Long auditorId) {
 		this.auditorId = auditorId;
 	}
 
-	public boolean isCommissioner() {
+	public Boolean getCommissioner() {
 		return commissioner;
 	}
 
-	public void setCommissioner(boolean commissioner) {
+	public void setCommissioner(Boolean commissioner) {
 		this.commissioner = commissioner;
 	}
 
-	public boolean isAgreedConformity() {
+	public Boolean getAgreedConformity() {
 		return agreedConformity;
 	}
 
-	public void setAgreedConformity(boolean agreedConformity) {
+	public void setAgreedConformity(Boolean agreedConformity) {
 		this.agreedConformity = agreedConformity;
 	}
 
@@ -73,19 +73,19 @@ public class AuditorReportTable implements Serializable {
 		this.name = name;
 	}
 
-	public Long getElection() {
+	public Long getElectionId() {
 		return electionId;
 	}
 
-	public void setElection(Long electionId) {
+	public void setElectionId(Long electionId) {
 		this.electionId = electionId;
 	}
 
-	public boolean isRevisionAvailable() {
+	public Boolean getRevisionAvailable() {
 		return revisionAvailable;
 	}
 
-	public void setRevisionAvailable(boolean revisionAvailable) {
+	public void setRevisionAvailable(Boolean revisionAvailable) {
 		this.revisionAvailable = revisionAvailable;
 	}
 

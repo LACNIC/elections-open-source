@@ -42,8 +42,8 @@ public class AutomaticProcesses {
 				List<Email> emails = EJBFactory.getInstance().getMailsSendingEJB().getEmailsToSend();
 
 				Properties props = FilesUtils.getEmailProperties();
-				appLogger.info("Email sending properties: " );
-				appLogger.info(props.toString());
+				appLogger.debug("Email sending properties: " );
+				appLogger.debug(props.toString());
 
 				String host = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_HOST);
 				String user = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_USER);

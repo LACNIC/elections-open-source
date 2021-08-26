@@ -1,7 +1,6 @@
 package net.lacnic.elections.domain;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,7 +17,7 @@ import javax.persistence.SequenceGenerator;
 public class Activity implements Serializable {
 
 	private static final long serialVersionUID = 574501011615594210L;
-	private static final String SIMPLE_DATE_FORMAT = "dd/MM/yyyy HH:mm";
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_seq")
@@ -47,12 +46,6 @@ public class Activity implements Serializable {
 
 
 	public Activity() { }
-
-
-	public String getTimestampString() {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-		return simpleDateFormat.format(getTimestamp());
-	}
 
 
 	public long getActivityId() {

@@ -8,7 +8,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import net.lacnic.elections.domain.UserVoter;
-import net.lacnic.elections.domain.Vote;
 
 
 public class UserVoterDao {
@@ -78,7 +77,7 @@ public class UserVoterDao {
 		return q.getResultList();
 	}
 
-	
+
 	public List<UserVoter> getJointElectionUserVotersNotVotedYet(long electionId) {
 		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u, JointElection p"
 				+ " WHERE (p.idElectionA = :electionId OR p.idElectionB = :electionId)"
@@ -87,7 +86,7 @@ public class UserVoterDao {
 		q.setParameter("electionId", electionId);
 		return q.getResultList();
 	}
-	
+
 	public List<UserVoter> getJointElectionUserVotersNotVotedYetByCountry(long electionId, String country) {
 		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u, JointElection p"
 				+ " WHERE (p.idElectionA = :electionId OR p.idElectionB = :electionId)"
@@ -98,7 +97,7 @@ public class UserVoterDao {
 
 		return q.getResultList();
 	}
-	
+
 
 	public Long getElectionCensusSize(long electionId) {
 		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId");
@@ -169,7 +168,7 @@ public class UserVoterDao {
 
 		return census1.equals(census2);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getUserVotersAllIdAndName() {
 		Query q = em.createQuery("SELECT u.userVoterId, u.name FROM UserVoter u ORDER BY u.userVoterId");

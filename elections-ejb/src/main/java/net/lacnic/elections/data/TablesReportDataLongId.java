@@ -3,7 +3,7 @@ package net.lacnic.elections.data;
 import java.io.Serializable;
 
 
-public class TablesReportData implements Serializable {
+public class TablesReportDataLongId implements Serializable {
 
 	private static final long serialVersionUID = -6063578840115168590L;
 
@@ -11,10 +11,9 @@ public class TablesReportData implements Serializable {
 	private String description;
 
 
-	public TablesReportData() { }
+	public TablesReportDataLongId() { }
 
-	public TablesReportData(long id, String description) {
-		super();
+	public TablesReportDataLongId(long id, String description) {
 		this.id = id;
 		this.description = description;
 	}

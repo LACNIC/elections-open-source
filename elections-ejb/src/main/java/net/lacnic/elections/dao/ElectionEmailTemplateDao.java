@@ -1,19 +1,15 @@
 package net.lacnic.elections.dao;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
-
-import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import net.lacnic.elections.domain.ElectionEmailTemplate;
-import net.lacnic.elections.domain.JointElection;
 
 
 public class ElectionEmailTemplateDao {
@@ -26,13 +22,7 @@ public class ElectionEmailTemplateDao {
 	public ElectionEmailTemplateDao(EntityManager em) {
 		this.em = em;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Object[]> getAllElectionEmailTemplateDao() {
-		Query q = em.createQuery("SELECT e.electionEmailTemplateId, e.templateType FROM ElectionEmailTemplate e order by e.electionEmailTemplateId");
-		return q.getResultList();
-	}
-	
+
 	public ElectionEmailTemplate getElectionEmailTemplate(Long electionEmailTemplateId) {
 		TypedQuery<ElectionEmailTemplate> q = em.createQuery("SELECT e FROM ElectionEmailTemplate e WHERE e.electionEmailTemplateId = :electionEmailTemplateId", ElectionEmailTemplate.class);
 		q.setParameter("electionEmailTemplateId", electionEmailTemplateId);
@@ -115,6 +105,12 @@ public class ElectionEmailTemplateDao {
 		q.setParameter("electionId", electionId);
 		List<ElectionEmailTemplate> templates = q.getResultList();
 		return templates.isEmpty() ? null : templates.get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getElectionEmailTemplatesAllIdAndDescription() {
+		Query q = em.createQuery("SELECT e.electionEmailTemplateId, e.templateType FROM ElectionEmailTemplate e ORDER BY e.electionEmailTemplateId");
+		return q.getResultList();
 	}
 
 }

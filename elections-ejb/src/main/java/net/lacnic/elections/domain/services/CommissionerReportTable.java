@@ -9,7 +9,7 @@ public class CommissionerReportTable implements Serializable {
 
 	private static final long serialVersionUID = -4660664185660216489L;
 
-	private long commissionerId;
+	private Long commissionerId;
 	private String name;
 	private String mail;
 
@@ -23,11 +23,11 @@ public class CommissionerReportTable implements Serializable {
 	}
 
 
-	public long getCommissionerId() {
+	public Long getCommissionerId() {
 		return commissionerId;
 	}
 
-	public void setCommissionerId(long commissionerId) {
+	public void setCommissionerId(Long commissionerId) {
 		this.commissionerId = commissionerId;
 	}
 

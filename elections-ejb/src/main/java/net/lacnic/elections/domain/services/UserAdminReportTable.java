@@ -4,21 +4,26 @@ import java.io.Serializable;
 
 import net.lacnic.elections.domain.UserAdmin;
 
-public class UserAdminReportTable implements Serializable{
+
+public class UserAdminReportTable implements Serializable {
 
 	private static final long serialVersionUID = 2884083950630100276L;
-	
+
 	private String userAdminId;
 	private String email;
-	private long authorizedElectionId;
-	
+	private String password;
+	private Long authorizedElectionId;
+
+
 	public UserAdminReportTable() { }
-	
+
 	public UserAdminReportTable(UserAdmin userAdmin) {
 		this.userAdminId = userAdmin.getUserAdminId();
 		this.email = userAdmin.getEmail();
 		this.authorizedElectionId = userAdmin.getAuthorizedElectionId();
+		this.password = "**********";
 	}
+
 
 	public String getUserAdminId() {
 		return userAdminId;
@@ -36,14 +41,20 @@ public class UserAdminReportTable implements Serializable{
 		this.email = email;
 	}
 
-	public long getAuthorizedElectionId() {
+	public Long getAuthorizedElectionId() {
 		return authorizedElectionId;
 	}
 
-	public void setAuthorizedElectionId(long authorizedElectionId) {
+	public void setAuthorizedElectionId(Long authorizedElectionId) {
 		this.authorizedElectionId = authorizedElectionId;
 	}
-	
-	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 }

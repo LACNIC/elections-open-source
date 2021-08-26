@@ -10,7 +10,7 @@ public class CandidateReportTable implements Serializable {
 
 	private static final long serialVersionUID = 7063712150369421531L;
 
-	private long candidateId;
+	private Long candidateId;
 	private Long migrationId;
 	private String name;
 	private Long electionId;
@@ -20,8 +20,8 @@ public class CandidateReportTable implements Serializable {
 	private String bioEnglish;
 	private String bioPortuguese;
 	private String pictureExtension;
-	private int candidateOrder;
-	private boolean onlySp;
+	private Integer candidateOrder;
+	private Boolean onlySp;
 	private String linkSpanish;
 	private String linkEnglish;
 	private String linkPortuguese;
@@ -48,11 +48,11 @@ public class CandidateReportTable implements Serializable {
 	}
 
 
-	public long getCandidateId() {
+	public Long getCandidateId() {
 		return candidateId;
 	}
 
-	public void setCandidateId(long candidateId) {
+	public void setCandidateId(Long candidateId) {
 		this.candidateId = candidateId;
 	}
 
@@ -120,19 +120,19 @@ public class CandidateReportTable implements Serializable {
 		this.pictureExtension = pictureExtension;
 	}
 
-	public int getCandidateOrder() {
+	public Integer getCandidateOrder() {
 		return candidateOrder;
 	}
 
-	public void setCandidateOrder(int candidateOrder) {
+	public void setCandidateOrder(Integer candidateOrder) {
 		this.candidateOrder = candidateOrder;
 	}
 
-	public boolean isOnlySp() {
+	public Boolean isOnlySp() {
 		return onlySp;
 	}
 
-	public void setOnlySp(boolean onlySp) {
+	public void setOnlySp(Boolean onlySp) {
 		this.onlySp = onlySp;
 	}
 

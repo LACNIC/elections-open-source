@@ -23,15 +23,15 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import net.lacnic.elections.utils.StringUtils;
+import net.lacnic.elections.utils.DateTimeUtils;
 import net.lacnic.elections.utils.LinksUtils;
 
 
 @Entity
 public class Election implements Serializable {
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
-	private static final String SIMPLE_DATE_FORMAT = "dd/MM/yyyy HH:mm";
 	private static final long serialVersionUID = 574501011615594210L;
+	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 
 	@Id
@@ -225,10 +225,9 @@ public class Election implements Serializable {
 	 */
 	public void initDatesStartEndDates() {
 		if (!getAuxEndDate().isEmpty() && !getAuxStartDate().isEmpty() && !getAuxStartHour().isEmpty() && !getAuxEndHour().isEmpty()) {
-
 			String startDatetime = getAuxStartDate() + " " + getAuxStartHour();
 			String endDatetime = getAuxEndDate() + " " + getAuxEndHour();
-			SimpleDateFormat sdf = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
+			SimpleDateFormat sdf = new SimpleDateFormat(DateTimeUtils.ELECTION_DATE_TIME_FORMAT);
 
 			try {
 				Date beforeSubtractStart = sdf.parse(startDatetime);
@@ -239,7 +238,6 @@ public class Election implements Serializable {
 				appLogger.error(e);
 			}
 		}
-
 	}
 
 	/**
@@ -249,8 +247,8 @@ public class Election implements Serializable {
 		Date unchangedStartDate = getStartDate();
 		Date unchangedEndDate = getEndDate();
 		if (unchangedEndDate != null && unchangedStartDate != null) {
-			SimpleDateFormat day = new SimpleDateFormat("dd/MM/yyyy");
-			SimpleDateFormat hour = new SimpleDateFormat("HH:mm");
+			SimpleDateFormat day = new SimpleDateFormat(DateTimeUtils.ELECTION_DATE_FORMAT);
+			SimpleDateFormat hour = new SimpleDateFormat(DateTimeUtils.ELECTION_TIME_FORMAT);
 
 			setAuxStartDate(day.format(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()));
 			setAuxStartHour(hour.format(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()));
@@ -303,18 +301,15 @@ public class Election implements Serializable {
 	}
 
 	public String getStartDateString() {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-		return simpleDateFormat.format(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		return DateTimeUtils.getElectionDateTimeString(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
 	}
 
 	public String getEndDateString() {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-		return simpleDateFormat.format(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		return DateTimeUtils.getElectionDateTimeString(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
 	}
 
 	public String getCreationDateString() {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-		return simpleDateFormat.format(new DateTime(getCreationDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		return DateTimeUtils.getElectionDateTimeString(new DateTime(getCreationDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
 	}
 
 

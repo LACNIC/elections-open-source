@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import net.lacnic.elections.domain.Email;
 import net.lacnic.elections.domain.EmailHistory;
+import net.lacnic.elections.utils.DateTimeUtils;
 
 
 public class EmailReportTable implements Serializable {
@@ -32,7 +33,7 @@ public class EmailReportTable implements Serializable {
 		this.bcc = email.getBcc();
 		this.subject = email.getSubject();
 		this.sent = email.getSent();
-		this.createdDate = email.getCreatedDateString();
+		this.createdDate = DateTimeUtils.getTableServicesDateTimeString(email.getCreatedDate());
 		this.templateType = email.getTemplateType();
 		this.electionId = email.getElection().getElectionId();
 	}
@@ -45,7 +46,7 @@ public class EmailReportTable implements Serializable {
 		this.bcc = email.getBcc();
 		this.subject = email.getSubject();
 		this.sent = email.getSent();
-		this.createdDate = email.getCreatedDateString();
+		this.createdDate = DateTimeUtils.getTableServicesDateTimeString(email.getCreatedDate());
 		this.templateType = email.getTemplateType();
 		this.electionId = email.getElectionId();
 	}

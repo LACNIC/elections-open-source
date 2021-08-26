@@ -23,7 +23,7 @@ public class UserAdminDao {
 		this.em = em;
 	}
 
-	
+
 	public UserAdmin verifyUserLogin(String userAdminId, String password) {
 		try {
 			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE a.userAdminId = :userAdminId and a.password = :password", UserAdmin.class);
@@ -78,7 +78,7 @@ public class UserAdminDao {
 			return 0L;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getUserAdminsAllIdAndName() {		
 		Query q = em.createQuery("SELECT a.userAdminId, a.email FROM UserAdmin a ORDER BY a.userAdminId");

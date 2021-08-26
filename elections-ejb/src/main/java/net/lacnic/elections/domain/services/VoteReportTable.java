@@ -1,79 +1,71 @@
 package net.lacnic.elections.domain.services;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 
 import net.lacnic.elections.domain.Vote;
+import net.lacnic.elections.utils.DateTimeUtils;
+
 
 public class VoteReportTable implements Serializable {
 
 	private static final long serialVersionUID = 8648483458946434365L;
-	private static final String SIMPLE_DATE_FORMAT = "dd/MM/yyyy HH:mm";
-	
-	private long voteId;
+
+	private Long voteId;
 	private String ip;
 	private String voteDate;
-	private long candidateId;
-	private long electionId;
-	
+	private Long candidateId;
+	private Long electionId;
+
+
 	public VoteReportTable() { }
-	
+
 	public VoteReportTable(Vote vote) {
 		this.voteId = vote.getVoteId();
 		this.ip = vote.getIp();
-		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-		if (vote.getVoteDate() == null) {
-			this.voteDate = "";
-		} else {
-			this.voteDate = simpleDateFormat.format(vote.getVoteDate());
-		};
-		
+		this.voteDate = DateTimeUtils.getTableServicesDateTimeString(vote.getVoteDate());
 		this.candidateId = vote.getCandidate().getCandidateId();
 		this.electionId = vote.getElection().getElectionId();
-		
 	}
-	
-	public long getVoteId() {
+
+
+	public Long getVoteId() {
 		return voteId;
 	}
-	
-	public void setVoteId(long voteId) {
+
+	public void setVoteId(Long voteId) {
 		this.voteId = voteId;
 	}
-	
+
 	public String getIp() {
 		return ip;
 	}
-	
+
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
+
 	public String getVoteDate() {
 		return voteDate;
 	}
-	
+
 	public void setVoteDate(String voteDate) {
 		this.voteDate = voteDate;
 	}
-	
-	public long getCandidateId() {
+
+	public Long getCandidateId() {
 		return candidateId;
 	}
-	
-	public void setCandidateId(long candidateId) {
+
+	public void setCandidateId(Long candidateId) {
 		this.candidateId = candidateId;
 	}
-	
-	public long getElectionId() {
+
+	public Long getElectionId() {
 		return electionId;
 	}
-	
-	public void setElectionId(long electionId) {
+
+	public void setElectionId(Long electionId) {
 		this.electionId = electionId;
 	}
-	
-	
 
 }
