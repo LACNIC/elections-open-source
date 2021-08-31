@@ -17,6 +17,8 @@ A continuación un detalle de las tecnologías utilizadas:
 
 Puede consultar la guía de Instalación y Configuración [aquí](https://lacnic.github.io/elections-open-source-doc).
 
+Documento de post-instalación [aquí](postinst.md).
+
 ## Licencia
 
 El sistema está licenciado bajo [Licencia MIT](LICENSE).
