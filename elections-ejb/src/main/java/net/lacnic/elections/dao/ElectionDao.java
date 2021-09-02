@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.JointElection;
+import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
 
 
 public class ElectionDao {
@@ -22,11 +23,16 @@ public class ElectionDao {
 	public ElectionDao(EntityManager em) {
 		this.em = em;
 	}
-
+	
 	public Election getElection(long electionId) {
 		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e WHERE e.electionId = :electionId", Election.class);
 		q.setParameter("electionId", electionId);
 		return q.getSingleResult();
+	}
+
+	public List<Election> getElections() {
+		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e", Election.class);
+		return q.getResultList();
 	}
 
 	public Election getElectionByResultToken(String resultToken) {
@@ -84,6 +90,13 @@ public class ElectionDao {
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getElectionsAllIdAndTitle() {
 		Query q = em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e ORDER BY e.electionId");
+		return q.getResultList();
+	}
+	
+
+	public List <Object[]>getElectionDetail(long electionId) {
+		Query q = em.createQuery("SELECT e,a,c,cm,u FROM Election e left join Auditor a on a.election.electionId= e.electionId left join Candidate c on c.election.electionId= e.electionId left join Commissioner cm on cm.mail=a.mail left join UserVoter u on u.election.electionId=e.electionId where e.electionId=:electionId");
+		q.setParameter("electionId", electionId);
 		return q.getResultList();
 	}
 

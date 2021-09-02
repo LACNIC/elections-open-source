@@ -20,6 +20,7 @@ import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.Parameter;
+import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
@@ -755,6 +756,50 @@ public class ElectionsTablesServices implements Serializable {
 			} else {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/electionsDetail/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionsDetail(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			ElectionDetailReportTable listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionDetailTableReport(id);
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/electionsDetails")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionsDetail(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<ElectionDetailReportTable> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsDetailsTableReport();
+			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();

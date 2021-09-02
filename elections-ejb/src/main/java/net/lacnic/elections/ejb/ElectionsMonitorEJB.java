@@ -11,6 +11,7 @@ import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.Parameter;
+import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
@@ -101,5 +102,11 @@ public interface ElectionsMonitorEJB {
 	public List<TablesReportDataLongId> getVotesBasicData();
 
 	public VoteReportTable getVoteTableReport(Long voteId);
+	
+	public ElectionDetailReportTable getElectionDetailTableReport(Long electionId);
 
+	public List <ElectionDetailReportTable> getElectionsDetailsTableReport();
+
+	
+	
 }
