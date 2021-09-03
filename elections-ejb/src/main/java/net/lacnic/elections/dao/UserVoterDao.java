@@ -7,12 +7,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import net.lacnic.elections.domain.UserVoter;
 
 
 public class UserVoterDao {
 
 	private EntityManager em;
+	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 
 	public UserVoterDao(EntityManager em) {
@@ -178,6 +182,12 @@ public class UserVoterDao {
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getUserVotersAllIdAndName() {
 		Query q = em.createQuery("SELECT u.userVoterId, u.name FROM UserVoter u ORDER BY u.userVoterId");
+		return q.getResultList();
+	}
+	
+	public List <UserVoter> getUserVotersByOrganization(String orgID) {
+		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u WHERE u.orgID = :orgID ORDER BY u.orgID", UserVoter.class);
+		q.setParameter("orgID", orgID);
 		return q.getResultList();
 	}
 

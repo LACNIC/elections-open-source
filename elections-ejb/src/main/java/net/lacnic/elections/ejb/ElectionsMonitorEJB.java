@@ -12,6 +12,7 @@ import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
+import net.lacnic.elections.domain.newservices.OrganizationReportTableDetail;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
@@ -108,6 +109,9 @@ public interface ElectionsMonitorEJB {
 	public List <ElectionDetailReportTable> getElectionsDetailsTableReport();
 
 	public List <ElectionReportTable> getElectionsByEmail(String email);
+
+	public OrganizationReportTableDetail getOrganizationDetailsById(String orgID);
+	
 
 	
 	

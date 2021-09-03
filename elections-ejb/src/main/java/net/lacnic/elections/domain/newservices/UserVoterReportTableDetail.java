@@ -34,7 +34,7 @@ public class UserVoterReportTableDetail implements Serializable{
 		this.orgID = userVoter.getOrgID();
 		this.voteAmount = userVoter.getVoteAmount();
 		this.voted = userVoter.isVoted();
-		this.voteDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getVoteDate());
+		this.voteDate= DateTimeUtils.getTableServicesDateTimeString(userVoter.getVoteDate());
 	}
 
 

@@ -21,6 +21,7 @@ import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
+import net.lacnic.elections.domain.newservices.OrganizationReportTableDetail;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
@@ -822,6 +823,28 @@ public class ElectionsTablesServices implements Serializable {
 			// Auth OK, return requested data
 			List <ElectionReportTable> electionsReportTable=AppContext.getInstance().getMonitorBeanRemote().getElectionsByEmail(email);
 			return Response.ok(electionsReportTable).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+	
+	@GET
+	@Path("/organization/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getOrganizationDetails(@Context final HttpServletRequest request, @PathParam("id") String id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			OrganizationReportTableDetail organizationReportTableDetail=AppContext.getInstance().getMonitorBeanRemote().getOrganizationDetailsById(id);
+			return Response.ok(organizationReportTableDetail).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();

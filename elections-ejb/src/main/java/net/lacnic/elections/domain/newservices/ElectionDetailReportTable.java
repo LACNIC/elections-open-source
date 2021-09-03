@@ -77,16 +77,11 @@ public class ElectionDetailReportTable implements Serializable{
 		this.migrationId = election.getMigrationId();
 		this.migrated = election.isMigrated();
 		this.category = election.getCategory().toString();
-
-		
 		setAuditors(auditors);
 		setCandidates(candidates);
-		
 		setUserVoters(userVoters);
-		
 		setCommissioners(commissioners);	
-		}
-
+	}
 
 
 

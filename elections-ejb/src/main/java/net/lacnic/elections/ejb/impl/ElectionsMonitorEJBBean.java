@@ -35,6 +35,7 @@ import net.lacnic.elections.domain.UserAdmin;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
+import net.lacnic.elections.domain.newservices.OrganizationReportTableDetail;
 import net.lacnic.elections.domain.services.ActivityReportTable;
 import net.lacnic.elections.domain.services.AuditorReportTable;
 import net.lacnic.elections.domain.services.CandidateReportTable;
@@ -1006,4 +1007,20 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		return null;
 	}
 
+	
+	@Override
+	public OrganizationReportTableDetail getOrganizationDetailsById(String orgID){
+		try {
+			appLogger.info(orgID);
+			List <UserVoter> userVoters= ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByOrganization(orgID);
+			appLogger.info("id "+userVoters.get(0).getElection().getElectionId());
+			appLogger.info(userVoters.size());
+			return new OrganizationReportTableDetail(userVoters);	
+
+		} catch (Exception e) {
+			appLogger.info("CAUSA:("+e.getCause());
+			appLogger.error(e);
+		}
+		return null;
+	}
 }
