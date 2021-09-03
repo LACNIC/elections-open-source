@@ -805,5 +805,27 @@ public class ElectionsTablesServices implements Serializable {
 			return Response.serverError().build();
 		}
 	}
+	
+	@GET
+	@Path("/elections/{email}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionsDetail(@Context final HttpServletRequest request, @PathParam("email") String email) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List <ElectionReportTable> electionsReportTable=AppContext.getInstance().getMonitorBeanRemote().getElectionsByEmail(email);
+			return Response.ok(electionsReportTable).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
 
 }

@@ -107,6 +107,8 @@ public interface ElectionsMonitorEJB {
 
 	public List <ElectionDetailReportTable> getElectionsDetailsTableReport();
 
+	public List <ElectionReportTable> getElectionsByEmail(String email);
+
 	
 	
 }

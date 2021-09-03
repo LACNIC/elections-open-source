@@ -976,5 +976,34 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		}
 		return null;
 	}
+	
+	@Override
+	public List <ElectionReportTable> getElectionsByEmail(String email){
+		try {
+			List <Auditor> auditors= ElectionsDaoFactory.createAuditorDao(em).getAuditorsByEmail(email);
+			List <UserVoter> userVoters=ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByEmail(email);
+			List<ElectionReportTable> elections= new ArrayList<ElectionReportTable>();
+			for(int i=0;i<auditors.size();i++) {
+				Election election = auditors.get(i).getElection();
+				if(!elections.contains(new ElectionReportTable(election))) {
+					elections.add(new ElectionReportTable(election));
+				}
+			}
+			
+			for(int i=0;i<userVoters.size();i++) {
+				Election election=userVoters.get(i).getElection();
+				if(!elections.contains(new ElectionReportTable(election))) {
+					elections.add(new ElectionReportTable(election));
+				}
+			}
+			
+			
+			return elections;	
+
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
 
 }

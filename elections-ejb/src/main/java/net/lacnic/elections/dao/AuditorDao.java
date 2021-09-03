@@ -53,6 +53,12 @@ public class AuditorDao {
 		return q.getResultList();
 	}
 
+	public List<Auditor> getAuditorsByEmail(String email) {
+		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.mail = :email", Auditor.class);
+		q.setParameter("email", email);
+		return q.getResultList();
+	}
+	
 	public boolean auditorExists(long electionId, String name, String mail) {
 		Query q = em.createQuery("SELECT c.auditorId FROM Auditor c WHERE c.election.electionId = :electionId AND c.name = :name AND c.mail = :mail");
 		q.setParameter("electionId", electionId);

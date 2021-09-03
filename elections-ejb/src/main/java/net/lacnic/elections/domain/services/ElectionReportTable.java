@@ -2,6 +2,9 @@ package net.lacnic.elections.domain.services;
 
 import java.io.Serializable;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import net.lacnic.elections.domain.Election;
 
 
@@ -37,6 +40,7 @@ public class ElectionReportTable implements Serializable {
 	private Long migrationId;
 	private Boolean migrated;
 	private String category;
+	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 
 	public ElectionReportTable() {	}
@@ -295,6 +299,11 @@ public class ElectionReportTable implements Serializable {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	
+	@Override
+	public boolean equals(Object election) {
+		return this.electionId.equals(((ElectionReportTable)election).electionId);
 	}
 
 }

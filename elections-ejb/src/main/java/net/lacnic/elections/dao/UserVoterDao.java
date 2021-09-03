@@ -31,6 +31,12 @@ public class UserVoterDao {
 		return q.getResultList();
 	}
 
+	public List<UserVoter> getUserVotersByEmail(String email) {		
+		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u WHERE u.mail = :email ORDER BY u.userVoterId", UserVoter.class);
+		q.setParameter("email", email);
+		return q.getResultList();
+	}
+	
 	public UserVoter getElectionUserVoterByMail(long electionId, String mail) {
 		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u WHERE u.election.electionId = :electionId AND u.mail = :mail", UserVoter.class);
 		q.setParameter("electionId", electionId);
