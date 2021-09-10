@@ -37,13 +37,14 @@ public class ElectionParticipationDetailReport implements Serializable {
 		this.endDate = DateTimeUtils.getTableServicesDateTimeString(auditor.getElection().getEndDate());
 	}
 
-
 	public ElectionParticipationDetailReport(Candidate candidate) {
 		this.electionId = candidate.getElection().getElectionId();
 		this.electionTitleEN = candidate.getElection().getTitleEnglish();
 		this.electionTitleES = candidate.getElection().getTitleSpanish();
 		this.electionTitleSP = candidate.getElection().getTitlePortuguese();
 		this.role = "Candidate";
+		this.startDate = DateTimeUtils.getTableServicesDateTimeString(candidate.getElection().getStartDate());
+		this.endDate = DateTimeUtils.getTableServicesDateTimeString(candidate.getElection().getEndDate());
 	}
 
 	public ElectionParticipationDetailReport(UserVoter userVoter) {
@@ -52,7 +53,10 @@ public class ElectionParticipationDetailReport implements Serializable {
 		this.electionTitleES = userVoter.getElection().getTitleSpanish();
 		this.electionTitleSP = userVoter.getElection().getTitlePortuguese();
 		this.role = "Voter";
+		this.startDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getElection().getStartDate());
+		this.endDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getElection().getEndDate());
 	}
+
 
 	public Long getElectionId() {
 		return electionId;
