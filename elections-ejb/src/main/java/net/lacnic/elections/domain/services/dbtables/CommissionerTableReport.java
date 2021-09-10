@@ -1,11 +1,11 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 
 import net.lacnic.elections.domain.Commissioner;
 
 
-public class CommissionerReportTable implements Serializable {
+public class CommissionerTableReport implements Serializable {
 
 	private static final long serialVersionUID = -4660664185660216489L;
 
@@ -14,9 +14,9 @@ public class CommissionerReportTable implements Serializable {
 	private String mail;
 
 
-	public CommissionerReportTable() { }
+	public CommissionerTableReport() { }
 
-	public CommissionerReportTable(Commissioner commissioner) {
+	public CommissionerTableReport(Commissioner commissioner) {
 		this.commissionerId = commissioner.getCommissionerId();
 		this.name = commissioner.getName();
 		this.mail = commissioner.getMail();

@@ -624,7 +624,5 @@ public class Election implements Serializable {
 	public void setAuxEndHour(String auxEndHour) {
 		this.auxEndHour = auxEndHour;
 	}
-	
-	
 
 }

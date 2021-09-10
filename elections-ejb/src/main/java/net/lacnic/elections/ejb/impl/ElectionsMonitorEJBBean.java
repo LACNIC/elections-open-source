@@ -34,18 +34,19 @@ import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.domain.UserAdmin;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.domain.Vote;
-import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
-import net.lacnic.elections.domain.newservices.OrganizationReportTableDetail;
-import net.lacnic.elections.domain.services.ActivityReportTable;
-import net.lacnic.elections.domain.services.AuditorReportTable;
-import net.lacnic.elections.domain.services.CandidateReportTable;
-import net.lacnic.elections.domain.services.CommissionerReportTable;
-import net.lacnic.elections.domain.services.CustomizationReportTable;
-import net.lacnic.elections.domain.services.ElectionReportTable;
-import net.lacnic.elections.domain.services.EmailReportTable;
-import net.lacnic.elections.domain.services.UserAdminReportTable;
-import net.lacnic.elections.domain.services.UserVoterReportTable;
-import net.lacnic.elections.domain.services.VoteReportTable;
+import net.lacnic.elections.domain.services.dbtables.ActivityTableReport;
+import net.lacnic.elections.domain.services.dbtables.AuditorTableReport;
+import net.lacnic.elections.domain.services.dbtables.CandidateTableReport;
+import net.lacnic.elections.domain.services.dbtables.CommissionerTableReport;
+import net.lacnic.elections.domain.services.dbtables.CustomizationTableReport;
+import net.lacnic.elections.domain.services.dbtables.ElectionTableReport;
+import net.lacnic.elections.domain.services.dbtables.EmailTableReport;
+import net.lacnic.elections.domain.services.dbtables.UserAdminTableReport;
+import net.lacnic.elections.domain.services.dbtables.UserVoterTableReport;
+import net.lacnic.elections.domain.services.dbtables.VoteTableReport;
+import net.lacnic.elections.domain.services.detail.ElectionDetailReport;
+import net.lacnic.elections.domain.services.detail.ElectionParticipationDetailReport;
+import net.lacnic.elections.domain.services.detail.OrganizationVoterDetailReport;
 import net.lacnic.elections.ejb.ElectionsMonitorEJB;
 import net.lacnic.elections.ejb.commons.impl.AutomaticProcesses;
 import net.lacnic.elections.utils.Constants;
@@ -138,8 +139,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		List<Participation> participations = new ArrayList<>();
 		List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElectionsAllOrderStartDateDesc();
 		for (Election election : elections) {
-			UserVoter userVoter = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVotersByOrganization(org,
-					election.getElectionId());
+			UserVoter userVoter = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByOrganization(org, election.getElectionId());
 			Participation participation = new Participation();
 			participation.setCategory(election.getCategory().toString());
 			if (userVoter != null) {
@@ -159,7 +159,6 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				participation.setVoted(false);
 				participation.setVoteLink("");
 			}
-			;
 			participation.setElectionEndDate(election.getEndDate());
 			participation.setElectionStartDate(election.getStartDate());
 			participation.setOrgId(org);
@@ -281,11 +280,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return An ActivityReportTable instance containing the information
 	 */
 	@Override
-	public ActivityReportTable getActivityTableReport(Long activityId) {
+	public ActivityTableReport getActivityTableReport(Long activityId) {
 		try {
 			Activity activity = ElectionsDaoFactory.createActivityDao(em).getActivity(activityId);
 			if (activity != null) {
-				return new ActivityReportTable(activity);
+				return new ActivityTableReport(activity);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -324,11 +323,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return An AuditorReportTable instance containing the information
 	 */
 	@Override
-	public AuditorReportTable getAuditorTableReport(Long auditorId) {
+	public AuditorTableReport getAuditorTableReport(Long auditorId) {
 		try {
 			Auditor auditor = ElectionsDaoFactory.createAuditorDao(em).getAuditor(auditorId);
 			if (auditor != null) {
-				return new AuditorReportTable(auditor);
+				return new AuditorTableReport(auditor);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -368,11 +367,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return A CandidateReportTable instance containing the information
 	 */
 	@Override
-	public CandidateReportTable getCandidateTableReport(Long candidateId) {
+	public CandidateTableReport getCandidateTableReport(Long candidateId) {
 		try {
 			Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
 			if (candidate != null) {
-				return new CandidateReportTable(candidate);
+				return new CandidateTableReport(candidate);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -412,11 +411,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return A CommissionerReportTable instance containing the information
 	 */
 	@Override
-	public CommissionerReportTable getCommissionerTableReport(Long commissionerId) {
+	public CommissionerTableReport getCommissionerTableReport(Long commissionerId) {
 		try {
 			Commissioner commissioner = ElectionsDaoFactory.createCommissionerDao(em).getCommissioner(commissionerId);
 			if (commissioner != null) {
-				return new CommissionerReportTable(commissioner);
+				return new CommissionerTableReport(commissioner);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -456,12 +455,12 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return A CustomizationReportTable instance containing the information
 	 */
 	@Override
-	public CustomizationReportTable getCustomizationTableReport(Long customizationId) {
+	public CustomizationTableReport getCustomizationTableReport(Long customizationId) {
 		try {
 			Customization customization = ElectionsDaoFactory.createCustomizationDao(em)
 					.getCustomizationById(customizationId);
 			if (customization != null) {
-				return new CustomizationReportTable(customization);
+				return new CustomizationTableReport(customization);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -500,11 +499,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return An ElectionReportTable instance containing the information
 	 */
 	@Override
-	public ElectionReportTable getElectionTableReport(Long electionId) {
+	public ElectionTableReport getElectionTableReport(Long electionId) {
 		try {
 			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
 			if (election != null) {
-				return new ElectionReportTable(election);
+				return new ElectionTableReport(election);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -587,11 +586,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return An EmailReportTable instance containing the information
 	 */
 	@Override
-	public EmailReportTable getEmailTableReport(Long emailId) {
+	public EmailTableReport getEmailTableReport(Long emailId) {
 		try {
 			Email email = ElectionsDaoFactory.createEmailDao(em).getEmail(emailId);
 			if (email != null) {
-				return new EmailReportTable(email);
+				return new EmailTableReport(email);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -631,11 +630,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return An EmailReportTable instance containing the information
 	 */
 	@Override
-	public EmailReportTable getEmailHistoryTableReport(Long emailHistoryId) {
+	public EmailTableReport getEmailHistoryTableReport(Long emailHistoryId) {
 		try {
 			EmailHistory emailHistory = ElectionsDaoFactory.createEmailDao(em).getEmailHistory(emailHistoryId);
 			if (emailHistory != null) {
-				return new EmailReportTable(emailHistory);
+				return new EmailTableReport(emailHistory);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -790,11 +789,10 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	public List<TableReportDataStringId> getUserAdminBasicData() {
 		try {
 			List<TableReportDataStringId> userAdminsData = new ArrayList<>();
-			List<Object[]> userAdminssDataList = ElectionsDaoFactory.createUserAdminDao(em).getUserAdminsAllIdAndName();
+			List<Object[]> userAdminsDataList = ElectionsDaoFactory.createUserAdminDao(em).getUserAdminsAllIdAndName();
 
-			for (int i = 0; i < userAdminssDataList.size(); i++) {
-				userAdminsData.add(new TableReportDataStringId(userAdminssDataList.get(i)[0].toString(),
-						userAdminssDataList.get(i)[1].toString()));
+			for (int i = 0; i < userAdminsDataList.size(); i++) {
+				userAdminsData.add(new TableReportDataStringId(userAdminsDataList.get(i)[0].toString(), userAdminsDataList.get(i)[1].toString()));
 			}
 
 			return userAdminsData;
@@ -812,11 +810,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return An user admin instance containing the information
 	 */
 	@Override
-	public UserAdminReportTable getUserAdminReportTable(String userAdminId) {
+	public UserAdminTableReport getUserAdminReportTable(String userAdminId) {
 		try {
 			UserAdmin userAdmin = ElectionsDaoFactory.createUserAdminDao(em).getUserAdmin(userAdminId);
 			if (userAdmin != null) {
-				return new UserAdminReportTable(userAdmin);
+				return new UserAdminTableReport(userAdmin);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -836,8 +834,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			List<Object[]> userVotersDataList = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersAllIdAndName();
 
 			for (int i = 0; i < userVotersDataList.size(); i++) {
-				userVotersData.add(new TablesReportDataLongId((Long) userVotersDataList.get(i)[0],
-						userVotersDataList.get(i)[1].toString()));
+				userVotersData.add(new TablesReportDataLongId((Long) userVotersDataList.get(i)[0], userVotersDataList.get(i)[1].toString()));
 			}
 
 			return userVotersData;
@@ -855,11 +852,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return An UserVoter instance containing the information
 	 */
 	@Override
-	public UserVoterReportTable getUserVoterReportTable(Long userVoterId) {
+	public UserVoterTableReport getUserVoterReportTable(Long userVoterId) {
 		try {
 			UserVoter userVoter = ElectionsDaoFactory.createUserVoterDao(em).getUserVoter(userVoterId);
 			if (userVoter != null) {
-				return new UserVoterReportTable(userVoter);
+				return new UserVoterTableReport(userVoter);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -879,8 +876,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			List<Object[]> votesDataList = ElectionsDaoFactory.createVoteDao(em).getVotesAllIdAndDate();
 
 			for (int i = 0; i < votesDataList.size(); i++) {
-				votesData.add(
-						new TablesReportDataLongId((Long) votesDataList.get(i)[0], votesDataList.get(i)[1].toString()));
+				votesData.add(new TablesReportDataLongId((Long) votesDataList.get(i)[0], votesDataList.get(i)[1].toString()));
 			}
 
 			return votesData;
@@ -898,11 +894,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return A VoteReportTable instance containing the information
 	 */
 	@Override
-	public VoteReportTable getVoteTableReport(Long voteId) {
+	public VoteTableReport getVoteTableReport(Long voteId) {
 		try {
 			Vote vote = ElectionsDaoFactory.createVoteDao(em).getVote(voteId);
 			if (vote != null) {
-				return new VoteReportTable(vote);
+				return new VoteTableReport(vote);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -911,116 +907,96 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
-	 * Returns information about the Election Detail with the given id
+	 * Returns detailed information about the Elections in the system
+	 * 
+	 * @return A List of ElectionDetailReport containing the information
+	 */
+	@Override
+	public List<ElectionDetailReport> getElectionsDetailReport() {
+		try {
+			List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElections();
+			List<ElectionDetailReport> electionsDetailList = new ArrayList<ElectionDetailReport>();
+			for(Election election : elections) {
+				electionsDetailList.add(new ElectionDetailReport(election));
+			}
+
+			return electionsDetailList;
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns detailed information about the Election with the given id
 	 * 
 	 * @param electionId Identifier of the election
 	 * 
-	 * @return A ElectionDetailReportTable instance containing the information
+	 * @return An ElectionDetailReport instance containing the information
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public ElectionDetailReportTable getElectionDetailTableReport(Long electionId) {
+	public ElectionDetailReport getElectionDetailReport(Long electionId) {
 		try {
 			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
-
 			if (election != null) {
-				List<Auditor> auditors = election.getAuditors();
-				List<Auditor> commissioners = new ArrayList<Auditor>();
-				List<Auditor> filteredAuditors = new ArrayList<Auditor>();
-
-				for (int i = 0; i < auditors.size(); i++) {
-					Auditor auditor = auditors.get(i);
-					if (auditor.isCommissioner()) {
-						commissioners.add(auditor);
-					} else {
-						filteredAuditors.add(auditor);
-					}
-				}
-				List<Candidate> candidates = election.getCandidates();
-				List<UserVoter> userVoters = election.getUserVoters();
-
-				return new ElectionDetailReportTable(election, filteredAuditors, candidates, userVoters, commissioners);
-
+				return new ElectionDetailReport(election);
 			}
-
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+
+	/**
+	 * Returns detailed information about the participations of the given email in different elections
+	 * 
+	 * @param email The email to search for
+	 * 
+	 * @return A list of ElectionParticipationDetailReport instances containing the information
+	 */
 	@Override
-	public List<ElectionDetailReportTable> getElectionsDetailsTableReport() {
+	public List<ElectionParticipationDetailReport> getElectionsParticipationsByEmail(String email) {
 		try {
-			List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElections();
-			List<ElectionDetailReportTable> electionsDetailsReportTable = new ArrayList<ElectionDetailReportTable>();
-			for (int i = 0; i < elections.size(); i++) {
-				List<Auditor> commissioners = new ArrayList<Auditor>();
-				List<Auditor> filteredAuditors = new ArrayList<Auditor>();
-				List<Auditor> auditors = elections.get(i).getAuditors();
-				for (int j = 0; j < auditors.size(); j++) {
-					Auditor auditor = auditors.get(j);
-					if (auditor.isCommissioner()) {
-						commissioners.add(auditor);
-					} else {
-						filteredAuditors.add(auditor);
-					}
-				}
-				electionsDetailsReportTable.add(new ElectionDetailReportTable(elections.get(i), filteredAuditors,elections.get(i).getCandidates(), elections.get(i).getUserVoters(), commissioners));
+			List<Auditor> auditors = ElectionsDaoFactory.createAuditorDao(em).getAuditorsByEmail(email);
+			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByEmail(email);
+
+			List<ElectionParticipationDetailReport> participations = new ArrayList<>();
+			for(Auditor auditor : auditors) {
+				participations.add(new ElectionParticipationDetailReport(auditor));
+			}
+			for(UserVoter userVoter : userVoters) {
+				participations.add(new ElectionParticipationDetailReport(userVoter));
 			}
 
-			return electionsDetailsReportTable;
-
+			return participations;	
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Returns detailed information about the participations of the given organization in different elections
+	 * 
+	 * @param orgID The organization id to search for
+	 * 
+	 * @return A list of OrganizationVoterDetailReport instances containing the information
+	 */
 	@Override
-	public List <ElectionReportTable> getElectionsByEmail(String email){
+	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID){
 		try {
-			List <Auditor> auditors= ElectionsDaoFactory.createAuditorDao(em).getAuditorsByEmail(email);
-			List <UserVoter> userVoters=ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByEmail(email);
-			List<ElectionReportTable> elections= new ArrayList<ElectionReportTable>();
-			for(int i=0;i<auditors.size();i++) {
-				Election election = auditors.get(i).getElection();
-				if(!elections.contains(new ElectionReportTable(election))) {
-					elections.add(new ElectionReportTable(election));
-				}
+			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByOrganization(orgID);
+			List<OrganizationVoterDetailReport> orgVoterDetailList = new ArrayList<>();
+			for(UserVoter userVoter : userVoters) {
+				orgVoterDetailList.add(new OrganizationVoterDetailReport(userVoter));
 			}
-			
-			for(int i=0;i<userVoters.size();i++) {
-				Election election=userVoters.get(i).getElection();
-				if(!elections.contains(new ElectionReportTable(election))) {
-					elections.add(new ElectionReportTable(election));
-				}
-			}
-			
-			
-			return elections;	
 
+			return orgVoterDetailList;	
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
 		return null;
 	}
 
-	
-	@Override
-	public OrganizationReportTableDetail getOrganizationDetailsById(String orgID){
-		try {
-			appLogger.info(orgID);
-			List <UserVoter> userVoters= ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByOrganization(orgID);
-			appLogger.info("id "+userVoters.get(0).getElection().getElectionId());
-			appLogger.info(userVoters.size());
-			return new OrganizationReportTableDetail(userVoters);	
-
-		} catch (Exception e) {
-			appLogger.info("CAUSA:("+e.getCause());
-			appLogger.error(e);
-		}
-		return null;
-	}
 }

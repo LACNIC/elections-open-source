@@ -20,6 +20,9 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
+import net.lacnic.elections.domain.services.detail.ElectionDetailReport;
+import net.lacnic.elections.domain.services.detail.ElectionParticipationDetailReport;
+import net.lacnic.elections.domain.services.detail.OrganizationVoterDetailReport;
 import net.lacnic.elections.ws.app.AppContext;
 import net.lacnic.elections.ws.auth.WebServiceAuthentication;
 
@@ -78,6 +81,96 @@ public class ElectionsService implements Serializable {
 			return Response.serverError().build();
 		}
 	}
+
+	@GET
+	@Path("/electionsDetail")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionsDetail(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<ElectionDetailReport> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsDetailReport();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/electionDetail/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionDetail(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			ElectionDetailReport listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionDetailReport(id);
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/electionsParticipationsByEmail/{email}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionsParticipationsByEmail(@Context final HttpServletRequest request, @PathParam("email") String email) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<ElectionParticipationDetailReport> participationsDetailList = AppContext.getInstance().getMonitorBeanRemote().getElectionsParticipationsByEmail(email);
+			return Response.ok(participationsDetailList).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/electionsParticipationsByOrg/{orgID}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getOrganizationDetails(@Context final HttpServletRequest request, @PathParam("orgID") String orgID) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<OrganizationVoterDetailReport> participationsDetailList = AppContext.getInstance().getMonitorBeanRemote().getElectionsParticipationsByOrgId(orgID);
+			return Response.ok(participationsDetailList).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+
 
 	@HEAD
 	@PUT

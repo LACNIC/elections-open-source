@@ -12,7 +12,6 @@ import org.joda.time.DateTime;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.JointElection;
-import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
 
 
 public class ElectionDao {
@@ -90,13 +89,6 @@ public class ElectionDao {
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getElectionsAllIdAndTitle() {
 		Query q = em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e ORDER BY e.electionId");
-		return q.getResultList();
-	}
-	
-
-	public List <Object[]>getElectionDetail(long electionId) {
-		Query q = em.createQuery("SELECT e,a,c,cm,u FROM Election e left join Auditor a on a.election.electionId= e.electionId left join Candidate c on c.election.electionId= e.electionId left join Commissioner cm on cm.mail=a.mail left join UserVoter u on u.election.electionId=e.electionId where e.electionId=:electionId");
-		q.setParameter("electionId", electionId);
 		return q.getResultList();
 	}
 

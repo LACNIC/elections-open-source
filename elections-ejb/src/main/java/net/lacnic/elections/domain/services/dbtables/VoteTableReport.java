@@ -1,4 +1,4 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.utils.DateTimeUtils;
 
 
-public class VoteReportTable implements Serializable {
+public class VoteTableReport implements Serializable {
 
 	private static final long serialVersionUID = 8648483458946434365L;
 
@@ -17,9 +17,9 @@ public class VoteReportTable implements Serializable {
 	private Long electionId;
 
 
-	public VoteReportTable() { }
+	public VoteTableReport() { }
 
-	public VoteReportTable(Vote vote) {
+	public VoteTableReport(Vote vote) {
 		this.voteId = vote.getVoteId();
 		this.ip = vote.getIp();
 		this.voteDate = DateTimeUtils.getTableServicesDateTimeString(vote.getVoteDate());

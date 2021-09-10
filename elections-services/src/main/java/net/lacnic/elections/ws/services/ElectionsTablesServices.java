@@ -20,18 +20,16 @@ import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.Parameter;
-import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
-import net.lacnic.elections.domain.newservices.OrganizationReportTableDetail;
-import net.lacnic.elections.domain.services.ActivityReportTable;
-import net.lacnic.elections.domain.services.AuditorReportTable;
-import net.lacnic.elections.domain.services.CandidateReportTable;
-import net.lacnic.elections.domain.services.CommissionerReportTable;
-import net.lacnic.elections.domain.services.CustomizationReportTable;
-import net.lacnic.elections.domain.services.ElectionReportTable;
-import net.lacnic.elections.domain.services.EmailReportTable;
-import net.lacnic.elections.domain.services.UserAdminReportTable;
-import net.lacnic.elections.domain.services.UserVoterReportTable;
-import net.lacnic.elections.domain.services.VoteReportTable;
+import net.lacnic.elections.domain.services.dbtables.ActivityTableReport;
+import net.lacnic.elections.domain.services.dbtables.AuditorTableReport;
+import net.lacnic.elections.domain.services.dbtables.CandidateTableReport;
+import net.lacnic.elections.domain.services.dbtables.CommissionerTableReport;
+import net.lacnic.elections.domain.services.dbtables.CustomizationTableReport;
+import net.lacnic.elections.domain.services.dbtables.ElectionTableReport;
+import net.lacnic.elections.domain.services.dbtables.EmailTableReport;
+import net.lacnic.elections.domain.services.dbtables.UserAdminTableReport;
+import net.lacnic.elections.domain.services.dbtables.UserVoterTableReport;
+import net.lacnic.elections.domain.services.dbtables.VoteTableReport;
 import net.lacnic.elections.ws.app.AppContext;
 import net.lacnic.elections.ws.auth.WebServiceAuthentication;
 
@@ -81,7 +79,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			ActivityReportTable activityReport = AppContext.getInstance().getMonitorBeanRemote().getActivityTableReport(id);
+			ActivityTableReport activityReport = AppContext.getInstance().getMonitorBeanRemote().getActivityTableReport(id);
 			if(activityReport != null) {
 				return Response.ok(activityReport).build();
 			} else {
@@ -129,7 +127,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			AuditorReportTable auditorReport = AppContext.getInstance().getMonitorBeanRemote().getAuditorTableReport(id);
+			AuditorTableReport auditorReport = AppContext.getInstance().getMonitorBeanRemote().getAuditorTableReport(id);
 			if(auditorReport != null) {
 				return Response.ok(auditorReport).build();
 			} else {
@@ -177,7 +175,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			CandidateReportTable candidateReport = AppContext.getInstance().getMonitorBeanRemote().getCandidateTableReport(id);
+			CandidateTableReport candidateReport = AppContext.getInstance().getMonitorBeanRemote().getCandidateTableReport(id);
 			if(candidateReport != null) {
 				return Response.ok(candidateReport).build();
 			} else {
@@ -225,7 +223,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			CommissionerReportTable auditorReportTable = AppContext.getInstance().getMonitorBeanRemote().getCommissionerTableReport(id);
+			CommissionerTableReport auditorReportTable = AppContext.getInstance().getMonitorBeanRemote().getCommissionerTableReport(id);
 			if(auditorReportTable != null) {
 				return Response.ok(auditorReportTable).build();
 			} else {
@@ -273,7 +271,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			CustomizationReportTable customizationReportTable = AppContext.getInstance().getMonitorBeanRemote().getCustomizationTableReport(id);
+			CustomizationTableReport customizationReportTable = AppContext.getInstance().getMonitorBeanRemote().getCustomizationTableReport(id);
 			if(customizationReportTable != null) {
 				return Response.ok(customizationReportTable).build();
 			} else {
@@ -321,7 +319,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			ElectionReportTable electionReport = AppContext.getInstance().getMonitorBeanRemote().getElectionTableReport(id);
+			ElectionTableReport electionReport = AppContext.getInstance().getMonitorBeanRemote().getElectionTableReport(id);
 			if(electionReport != null) {
 				return Response.ok(electionReport).build();
 			} else {
@@ -417,7 +415,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			EmailReportTable emailReport = AppContext.getInstance().getMonitorBeanRemote().getEmailTableReport(id);
+			EmailTableReport emailReport = AppContext.getInstance().getMonitorBeanRemote().getEmailTableReport(id);
 			if(emailReport != null) {
 				return Response.ok(emailReport).build();
 			} else {
@@ -465,7 +463,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			EmailReportTable emailHistoryReport = AppContext.getInstance().getMonitorBeanRemote().getEmailHistoryTableReport(id);
+			EmailTableReport emailHistoryReport = AppContext.getInstance().getMonitorBeanRemote().getEmailHistoryTableReport(id);
 			if(emailHistoryReport != null) {
 				return Response.ok(emailHistoryReport).build();
 			} else {
@@ -480,7 +478,7 @@ public class ElectionsTablesServices implements Serializable {
 	@GET
 	@Path("/ipaccesses")
 	@Produces("application/json; charset=UTF-8")
-	public Response getIpAccess(@Context final HttpServletRequest request) {
+	public Response getIpAccesses(@Context final HttpServletRequest request) {
 		try {			
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -502,7 +500,7 @@ public class ElectionsTablesServices implements Serializable {
 	@GET
 	@Path("/ipaccess/{id}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getIpAccessId(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+	public Response getIpAccess(@Context final HttpServletRequest request, @PathParam("id") Long id) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -573,149 +571,6 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/votes")
-	@Produces("application/json; charset=UTF-8")
-	public Response getVotes(@Context final HttpServletRequest request) {
-		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
-
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
-			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getVotesBasicData();
-			return Response.ok(listTablesReportData).build();
-		} catch (Exception e) {
-			appLogger.error(e);
-			return Response.serverError().build();
-		}
-	}
-
-	@GET
-	@Path("/vote/{id}")
-	@Produces("application/json; charset=UTF-8")
-	public Response getVote(@Context final HttpServletRequest request, @PathParam("id") Long id) {
-		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
-
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
-			}
-
-			// Auth OK, return requested data
-			VoteReportTable voteReport = AppContext.getInstance().getMonitorBeanRemote().getVoteTableReport(id);
-			if(voteReport != null) {
-				return Response.ok(voteReport).build();
-			} else {
-				return Response.status(Response.Status.NOT_FOUND).build();
-			}
-		} catch (Exception e) {
-			appLogger.error(e);
-			return Response.serverError().build();
-		}
-	}
-
-	@GET
-	@Path("/uservoters")
-	@Produces("application/json; charset=UTF-8")
-	public Response getUserVoters(@Context final HttpServletRequest request) {
-		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
-
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
-			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserVotersBasicData();
-			return Response.ok(listTablesReportData).build();
-		} catch (Exception e) {
-			appLogger.error(e);
-			return Response.serverError().build();
-		}
-	}
-
-	@GET
-	@Path("/uservoter/{id}")
-	@Produces("application/json; charset=UTF-8")
-	public Response getUserVoter(@Context final HttpServletRequest request, @PathParam("id") Long id) {
-		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
-
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
-			}
-			// Auth OK, return requested data
-			UserVoterReportTable userVoterReport = AppContext.getInstance().getMonitorBeanRemote().getUserVoterReportTable(id);
-			if(userVoterReport != null) {
-				return Response.ok(userVoterReport).build();
-			} else {
-				return Response.status(Response.Status.NOT_FOUND).build();
-			}
-		} catch (Exception e) {
-			appLogger.error(e);
-			return Response.serverError().build();
-		}
-	}
-
-	@GET
-	@Path("/useradmins")
-	@Produces("application/json; charset=UTF-8")
-	public Response getUserAdmins(@Context final HttpServletRequest request) {
-		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
-
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
-			}
-
-			// Auth OK, return requested data
-			List<TableReportDataStringId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserAdminBasicData();
-			return Response.ok(listTablesReportData).build();
-		} catch (Exception e) {
-			appLogger.error(e);
-			return Response.serverError().build();
-		}
-	}
-
-	@GET
-	@Path("/useradmin/{id}")
-	@Produces("application/json; charset=UTF-8")
-	public Response getUserAdmin(@Context final HttpServletRequest request, @PathParam("id") String id) {
-		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
-
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
-			}
-
-			// Auth OK, return requested data
-			UserAdminReportTable userAdminReport = AppContext.getInstance().getMonitorBeanRemote().getUserAdminReportTable(id);
-			if(userAdminReport != null) {
-				return Response.ok(userAdminReport).build();
-			} else {
-				return Response.status(Response.Status.NOT_FOUND).build();
-			}
-		} catch (Exception e) {
-			appLogger.error(e);
-			return Response.serverError().build();
-		}
-	}
-
-	@GET
 	@Path("/parameters")
 	@Produces("application/json; charset=UTF-8")
 	public Response getParameters(@Context final HttpServletRequest request) {
@@ -762,11 +617,11 @@ public class ElectionsTablesServices implements Serializable {
 			return Response.serverError().build();
 		}
 	}
-	
+
 	@GET
-	@Path("/electionsDetail/{id}")
+	@Path("/useradmins")
 	@Produces("application/json; charset=UTF-8")
-	public Response getElectionsDetail(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+	public Response getUserAdmins(@Context final HttpServletRequest request) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -777,18 +632,18 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			ElectionDetailReportTable listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionDetailTableReport(id);
+			List<TableReportDataStringId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserAdminBasicData();
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
 		}
 	}
-	
+
 	@GET
-	@Path("/electionsDetails")
+	@Path("/useradmin/{id}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getElectionsDetail(@Context final HttpServletRequest request) {
+	public Response getUserAdmin(@Context final HttpServletRequest request, @PathParam("id") String id) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -799,18 +654,44 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<ElectionDetailReportTable> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsDetailsTableReport();
+			UserAdminTableReport userAdminReport = AppContext.getInstance().getMonitorBeanRemote().getUserAdminReportTable(id);
+			if(userAdminReport != null) {
+				return Response.ok(userAdminReport).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/uservoters")
+	@Produces("application/json; charset=UTF-8")
+	public Response getUserVoters(@Context final HttpServletRequest request) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserVotersBasicData();
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
 		}
 	}
-	
+
 	@GET
-	@Path("/elections/{email}")
+	@Path("/uservoter/{id}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getElectionsDetail(@Context final HttpServletRequest request, @PathParam("email") String email) {
+	public Response getUserVoter(@Context final HttpServletRequest request, @PathParam("id") Long id) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -819,20 +700,23 @@ public class ElectionsTablesServices implements Serializable {
 			if (authResponse != null) {
 				return authResponse;
 			}
-
 			// Auth OK, return requested data
-			List <ElectionReportTable> electionsReportTable=AppContext.getInstance().getMonitorBeanRemote().getElectionsByEmail(email);
-			return Response.ok(electionsReportTable).build();
+			UserVoterTableReport userVoterReport = AppContext.getInstance().getMonitorBeanRemote().getUserVoterReportTable(id);
+			if(userVoterReport != null) {
+				return Response.ok(userVoterReport).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
 		}
 	}
-	
+
 	@GET
-	@Path("/organization/{id}")
+	@Path("/votes")
 	@Produces("application/json; charset=UTF-8")
-	public Response getOrganizationDetails(@Context final HttpServletRequest request, @PathParam("id") String id) {
+	public Response getVotes(@Context final HttpServletRequest request) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -843,8 +727,34 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			OrganizationReportTableDetail organizationReportTableDetail=AppContext.getInstance().getMonitorBeanRemote().getOrganizationDetailsById(id);
-			return Response.ok(organizationReportTableDetail).build();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getVotesBasicData();
+			return Response.ok(listTablesReportData).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/vote/{id}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getVote(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		try {
+			// Authenticate
+			Response authResponse = WebServiceAuthentication.authenticate(request);
+
+			// If auth response not null then authentication failed, return auth response
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			// Auth OK, return requested data
+			VoteTableReport voteReport = AppContext.getInstance().getMonitorBeanRemote().getVoteTableReport(id);
+			if(voteReport != null) {
+				return Response.ok(voteReport).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();

@@ -1,11 +1,13 @@
-package net.lacnic.elections.domain.newservices;
+package net.lacnic.elections.domain.services.detail;
 
 import java.io.Serializable;
 import java.util.Base64;
 
 import net.lacnic.elections.domain.Candidate;
 
-public class CandidateReportTableDetail implements Serializable {
+
+public class CandidateDetailReport implements Serializable {
+
 	private static final long serialVersionUID = 7063712150369421531L;
 
 	private Long candidateId;
@@ -25,9 +27,9 @@ public class CandidateReportTableDetail implements Serializable {
 	private String linkPortuguese;
 
 
-	public CandidateReportTableDetail() { }
+	public CandidateDetailReport() { }
 
-	public CandidateReportTableDetail(Candidate candidate) {
+	public CandidateDetailReport(Candidate candidate) {
 		this.candidateId = candidate.getCandidateId();
 		this.migrationId = candidate.getMigrationId();
 		this.name = candidate.getName();
@@ -165,4 +167,5 @@ public class CandidateReportTableDetail implements Serializable {
 	public void setPictureInfo(String pictureInfo) {
 		this.pictureInfo = pictureInfo;
 	}
+
 }

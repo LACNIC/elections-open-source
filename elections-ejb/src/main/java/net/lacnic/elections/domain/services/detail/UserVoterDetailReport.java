@@ -1,11 +1,13 @@
-package net.lacnic.elections.domain.newservices;
+package net.lacnic.elections.domain.services.detail;
 
 import java.io.Serializable;
 
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.utils.DateTimeUtils;
 
-public class UserVoterReportTableDetail implements Serializable{
+
+public class UserVoterDetailReport implements Serializable {
+
 	private static final long serialVersionUID = 4933453990097788863L;
 
 	private Long userVoterId;
@@ -21,9 +23,9 @@ public class UserVoterReportTableDetail implements Serializable{
 	private String voteDate;
 
 
-	public UserVoterReportTableDetail() { }
+	public UserVoterDetailReport() { }
 
-	public UserVoterReportTableDetail(UserVoter userVoter) {
+	public UserVoterDetailReport(UserVoter userVoter) {
 		this.userVoterId = userVoter.getUserVoterId();
 		this.migrationId = userVoter.getMigrationId();
 		this.electionId = userVoter.getElection().getElectionId();
@@ -125,4 +127,5 @@ public class UserVoterReportTableDetail implements Serializable{
 	public void setVoteDate(String voteDate) {
 		this.voteDate = voteDate;
 	}
+
 }

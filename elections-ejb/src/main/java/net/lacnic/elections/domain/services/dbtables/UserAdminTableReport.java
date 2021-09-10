@@ -1,11 +1,11 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 
 import net.lacnic.elections.domain.UserAdmin;
 
 
-public class UserAdminReportTable implements Serializable {
+public class UserAdminTableReport implements Serializable {
 
 	private static final long serialVersionUID = 2884083950630100276L;
 
@@ -15,9 +15,9 @@ public class UserAdminReportTable implements Serializable {
 	private Long authorizedElectionId;
 
 
-	public UserAdminReportTable() { }
+	public UserAdminTableReport() { }
 
-	public UserAdminReportTable(UserAdmin userAdmin) {
+	public UserAdminTableReport(UserAdmin userAdmin) {
 		this.userAdminId = userAdmin.getUserAdminId();
 		this.email = userAdmin.getEmail();
 		this.authorizedElectionId = userAdmin.getAuthorizedElectionId();

@@ -1,4 +1,4 @@
-package net.lacnic.elections.domain.newservices;
+package net.lacnic.elections.domain.services.detail;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,13 +6,14 @@ import java.util.List;
 
 import net.lacnic.elections.domain.Auditor;
 import net.lacnic.elections.domain.Candidate;
-import net.lacnic.elections.domain.Commissioner;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserVoter;
-import net.lacnic.elections.domain.services.CommissionerReportTable;
 
-public class ElectionDetailReportTable implements Serializable{
+
+public class ElectionDetailReport implements Serializable {
+
 	private static final long serialVersionUID = -6947143778751018563L;
+
 	private Long electionId;
 	private String descriptionSpanish;
 	private String descriptionEnglish;
@@ -41,14 +42,15 @@ public class ElectionDetailReportTable implements Serializable{
 	private Long migrationId;
 	private Boolean migrated;
 	private String category;
-	List <AuditorReportTableDetail> auditorsReportTableDetail= new ArrayList<AuditorReportTableDetail>();
-	List <CandidateReportTableDetail> candidatesReportTableDetail= new ArrayList<CandidateReportTableDetail>();
-	List <AuditorReportTableDetail> commissionersReportTableDetail= new ArrayList<AuditorReportTableDetail>();
-	List <UserVoterReportTableDetail> userVotersReportTableDetail= new ArrayList<UserVoterReportTableDetail>();
-	
-	public ElectionDetailReportTable() {	}
+	private List<AuditorDetailReport> auditors;
+	private List<CandidateDetailReport> candidates;
+	private List<AuditorDetailReport> commissioners;
+	private List<UserVoterDetailReport> userVoters;
 
-	public ElectionDetailReportTable(Election election,	List <Auditor> auditors,	List < Candidate> candidates,List < UserVoter> userVoters,List < Auditor> commissioners) {
+
+	public ElectionDetailReport() {	}
+
+	public ElectionDetailReport(Election election) {
 		this.electionId = election.getElectionId();
 		this.descriptionSpanish = election.getDescriptionSpanish();
 		this.descriptionEnglish = election.getDescriptionEnglish();
@@ -77,12 +79,36 @@ public class ElectionDetailReportTable implements Serializable{
 		this.migrationId = election.getMigrationId();
 		this.migrated = election.isMigrated();
 		this.category = election.getCategory().toString();
-		setAuditors(auditors);
-		setCandidates(candidates);
-		setUserVoters(userVoters);
-		setCommissioners(commissioners);	
+		this.auditors = new ArrayList<>();
+		this.candidates = new ArrayList<>();
+		this.commissioners = new ArrayList<>();
+		this.userVoters = new ArrayList<>();
+		setAuditorsAndCommissioners(election);
+		setCandidates(election);
+		setUserVoters(election);
 	}
 
+	private void setAuditorsAndCommissioners(Election election) {
+		for(Auditor auditor : election.getAuditors()) {
+			if (auditor.isCommissioner()) {
+				commissioners.add(new AuditorDetailReport(auditor));
+			} else {
+				auditors.add(new AuditorDetailReport(auditor));
+			}
+		}
+	}
+
+	private void setCandidates(Election election) {
+		for(Candidate candidate : election.getCandidates()) {
+			this.candidates.add(new CandidateDetailReport(candidate));
+		}
+	}
+
+	private void setUserVoters(Election election) {
+		for(UserVoter userVoter : election.getUserVoters()) {
+			this.userVoters.add(new UserVoterDetailReport(userVoter));
+		}
+	}
 
 
 	public Long getElectionId() {
@@ -308,49 +334,37 @@ public class ElectionDetailReportTable implements Serializable{
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
-	public List <AuditorReportTableDetail> getAuditors() {
-		return this.auditorsReportTableDetail;
-	}
-	
-	public void setAuditors(List < Auditor> auditors) {
-		for(int i=0;i<auditors.size();i++) {
-			AuditorReportTableDetail auditorReportTableDetail= new AuditorReportTableDetail(auditors.get(i));
-			auditorsReportTableDetail.add(auditorReportTableDetail);
-		}
-	}
-	
-	public List <AuditorReportTableDetail> getCommissioners() {
-		return this.commissionersReportTableDetail;
-	}
-	
-	public void setCommissioners(List < Auditor> auditors) {
-		for(int i=0;i<auditors.size();i++) {
-			AuditorReportTableDetail auditorReportTableDetail= new AuditorReportTableDetail(auditors.get(i));
-			commissionersReportTableDetail.add(auditorReportTableDetail);
-		}
+
+	public List<AuditorDetailReport> getAuditors() {
+		return auditors;
 	}
 
-	public List <UserVoterReportTableDetail> getUserVoters(){
-		return this.userVotersReportTableDetail;
-	}
-	public void setUserVoters(List<UserVoter> userVoters) {
-		for(int i=0;i<userVoters.size();i++) {
-			UserVoterReportTableDetail userVoterReportTableDetail= new UserVoterReportTableDetail(userVoters.get(i));
-			userVotersReportTableDetail.add(userVoterReportTableDetail);
-		}
-	}
-	
-	public List <CandidateReportTableDetail> getCandidates(){
-		return this.candidatesReportTableDetail;
+	public void setAuditors(List<AuditorDetailReport> auditors) {
+		this.auditors = auditors;
 	}
 
-	public void setCandidates(List<Candidate> candidates) {
-		for(int i=0;i<candidates.size();i++) {
-			CandidateReportTableDetail candidateReportTableDetail= new CandidateReportTableDetail(candidates.get(i));
-			candidatesReportTableDetail.add(candidateReportTableDetail);
-		}
+	public List<CandidateDetailReport> getCandidates() {
+		return candidates;
 	}
-	
+
+	public void setCandidates(List<CandidateDetailReport> candidates) {
+		this.candidates = candidates;
+	}
+
+	public List<AuditorDetailReport> getCommissioners() {
+		return commissioners;
+	}
+
+	public void setCommissioners(List<AuditorDetailReport> commissioners) {
+		this.commissioners = commissioners;
+	}
+
+	public List<UserVoterDetailReport> getUserVoters() {
+		return userVoters;
+	}
+
+	public void setUserVoters(List<UserVoterDetailReport> userVoters) {
+		this.userVoters = userVoters;
+	}
 
 }

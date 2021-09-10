@@ -1,4 +1,4 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import net.lacnic.elections.domain.Activity;
 import net.lacnic.elections.utils.DateTimeUtils;
 
 
-public class ActivityReportTable implements Serializable {
+public class ActivityTableReport implements Serializable {
 
 	private static final long serialVersionUID = 240604553108694223L;
 
@@ -19,9 +19,9 @@ public class ActivityReportTable implements Serializable {
 	private String ip;
 
 
-	public ActivityReportTable() { }
+	public ActivityTableReport() { }
 
-	public ActivityReportTable(Activity activity) {
+	public ActivityTableReport(Activity activity) {
 		this.activityId = activity.getActivityId();
 		this.description = activity.getDescription();
 		this.userName = activity.getUserName();

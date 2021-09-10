@@ -1,4 +1,4 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 import java.util.Base64;
@@ -6,7 +6,7 @@ import java.util.Base64;
 import net.lacnic.elections.domain.Customization;
 
 
-public class CustomizationReportTable implements Serializable {
+public class CustomizationTableReport implements Serializable {
 
 	private static final long serialVersionUID = 6467734290258269435L;
 
@@ -23,9 +23,9 @@ public class CustomizationReportTable implements Serializable {
 	private String homeHtml;
 
 
-	public CustomizationReportTable() { }
+	public CustomizationTableReport() { }
 
-	public CustomizationReportTable(Customization customization) {
+	public CustomizationTableReport(Customization customization) {
 		this.customizationId = customization.getCustomizationId();
 		this.picSmallLogo = customization.getPicSmallLogo();
 		this.picBigLogo = customization.getPicBigLogo();

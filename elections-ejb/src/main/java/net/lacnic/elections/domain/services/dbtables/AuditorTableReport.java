@@ -1,11 +1,11 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 
 import net.lacnic.elections.domain.Auditor;
 
 
-public class AuditorReportTable implements Serializable {
+public class AuditorTableReport implements Serializable {
 
 	private static final long serialVersionUID = -6947143778751018563L;
 
@@ -19,9 +19,9 @@ public class AuditorReportTable implements Serializable {
 	private Long migrationId;
 
 
-	public AuditorReportTable() { }
+	public AuditorTableReport() { }
 
-	public AuditorReportTable(Auditor auditor) {
+	public AuditorTableReport(Auditor auditor) {
 		this.auditorId = auditor.getAuditorId();
 		this.commissioner = auditor.isCommissioner();
 		this.agreedConformity = auditor.isAgreedConformity();

@@ -11,18 +11,19 @@ import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.Parameter;
-import net.lacnic.elections.domain.newservices.ElectionDetailReportTable;
-import net.lacnic.elections.domain.newservices.OrganizationReportTableDetail;
-import net.lacnic.elections.domain.services.ActivityReportTable;
-import net.lacnic.elections.domain.services.AuditorReportTable;
-import net.lacnic.elections.domain.services.CandidateReportTable;
-import net.lacnic.elections.domain.services.CommissionerReportTable;
-import net.lacnic.elections.domain.services.CustomizationReportTable;
-import net.lacnic.elections.domain.services.ElectionReportTable;
-import net.lacnic.elections.domain.services.EmailReportTable;
-import net.lacnic.elections.domain.services.UserAdminReportTable;
-import net.lacnic.elections.domain.services.UserVoterReportTable;
-import net.lacnic.elections.domain.services.VoteReportTable;
+import net.lacnic.elections.domain.services.dbtables.ActivityTableReport;
+import net.lacnic.elections.domain.services.dbtables.AuditorTableReport;
+import net.lacnic.elections.domain.services.dbtables.CandidateTableReport;
+import net.lacnic.elections.domain.services.dbtables.CommissionerTableReport;
+import net.lacnic.elections.domain.services.dbtables.CustomizationTableReport;
+import net.lacnic.elections.domain.services.dbtables.ElectionTableReport;
+import net.lacnic.elections.domain.services.dbtables.EmailTableReport;
+import net.lacnic.elections.domain.services.dbtables.UserAdminTableReport;
+import net.lacnic.elections.domain.services.dbtables.UserVoterTableReport;
+import net.lacnic.elections.domain.services.dbtables.VoteTableReport;
+import net.lacnic.elections.domain.services.detail.ElectionDetailReport;
+import net.lacnic.elections.domain.services.detail.ElectionParticipationDetailReport;
+import net.lacnic.elections.domain.services.detail.OrganizationVoterDetailReport;
 import net.ripe.ipresource.IpResourceSet;
 
 
@@ -46,27 +47,27 @@ public interface ElectionsMonitorEJB {
 
 	public List<TablesReportDataLongId> getActivitiesBasicData();
 
-	public ActivityReportTable getActivityTableReport(Long activityId);
+	public ActivityTableReport getActivityTableReport(Long activityId);
 
 	public List<TablesReportDataLongId> getAuditorsBasicData();
 
-	public AuditorReportTable getAuditorTableReport(Long auditorId);
+	public AuditorTableReport getAuditorTableReport(Long auditorId);
 
 	public List<TablesReportDataLongId> getCandidatesBasicData();
 
-	public CandidateReportTable getCandidateTableReport(Long candidateId);
+	public CandidateTableReport getCandidateTableReport(Long candidateId);
 
 	public List<TablesReportDataLongId> getCommissionersBasicData();
 
-	public CommissionerReportTable getCommissionerTableReport(Long commissionerId);
+	public CommissionerTableReport getCommissionerTableReport(Long commissionerId);
 
 	public List<TablesReportDataLongId> getCustomizationsBasicData();
 
-	public CustomizationReportTable getCustomizationTableReport(Long customizationId);
+	public CustomizationTableReport getCustomizationTableReport(Long customizationId);
 
 	public List<TablesReportDataLongId> getElectionsBasicData();
 
-	public ElectionReportTable getElectionTableReport(Long electionId);
+	public ElectionTableReport getElectionTableReport(Long electionId);
 
 	public List<TablesReportDataLongId> getElectionEmailTemplatesBasicData();
 
@@ -74,11 +75,11 @@ public interface ElectionsMonitorEJB {
 
 	public List<TablesReportDataLongId> getEmailsBasicData();
 
-	public EmailReportTable getEmailTableReport(Long emailId);
+	public EmailTableReport getEmailTableReport(Long emailId);
 
 	public List<TablesReportDataLongId> getEmailsHistoryBasicData();
 
-	public EmailReportTable getEmailHistoryTableReport(Long emailHistoryId);
+	public EmailTableReport getEmailHistoryTableReport(Long emailHistoryId);
 
 	public List<TablesReportDataLongId> getIpAccessesBasicData();
 
@@ -94,25 +95,22 @@ public interface ElectionsMonitorEJB {
 
 	public List<TableReportDataStringId> getUserAdminBasicData();
 
-	public UserAdminReportTable getUserAdminReportTable(String userAdminId);
+	public UserAdminTableReport getUserAdminReportTable(String userAdminId);
 
 	public List<TablesReportDataLongId> getUserVotersBasicData();
 
-	public UserVoterReportTable getUserVoterReportTable(Long userVoterId);
+	public UserVoterTableReport getUserVoterReportTable(Long userVoterId);
 
 	public List<TablesReportDataLongId> getVotesBasicData();
 
-	public VoteReportTable getVoteTableReport(Long voteId);
-	
-	public ElectionDetailReportTable getElectionDetailTableReport(Long electionId);
+	public VoteTableReport getVoteTableReport(Long voteId);
 
-	public List <ElectionDetailReportTable> getElectionsDetailsTableReport();
+	public List<ElectionDetailReport> getElectionsDetailReport();
 
-	public List <ElectionReportTable> getElectionsByEmail(String email);
+	public ElectionDetailReport getElectionDetailReport(Long electionId);
 
-	public OrganizationReportTableDetail getOrganizationDetailsById(String orgID);
-	
+	public List<ElectionParticipationDetailReport> getElectionsParticipationsByEmail(String email);
 
-	
-	
+	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID);
+
 }

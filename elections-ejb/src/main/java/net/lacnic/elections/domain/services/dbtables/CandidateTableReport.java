@@ -1,4 +1,4 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 import java.util.Base64;
@@ -6,7 +6,7 @@ import java.util.Base64;
 import net.lacnic.elections.domain.Candidate;
 
 
-public class CandidateReportTable implements Serializable {
+public class CandidateTableReport implements Serializable {
 
 	private static final long serialVersionUID = 7063712150369421531L;
 
@@ -27,9 +27,9 @@ public class CandidateReportTable implements Serializable {
 	private String linkPortuguese;
 
 
-	public CandidateReportTable() { }
+	public CandidateTableReport() { }
 
-	public CandidateReportTable(Candidate candidate) {
+	public CandidateTableReport(Candidate candidate) {
 		this.candidateId = candidate.getCandidateId();
 		this.migrationId = candidate.getMigrationId();
 		this.name = candidate.getName();

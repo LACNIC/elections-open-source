@@ -25,7 +25,7 @@ public class AuditorDao {
 	 * @return Returns the Auditor entity corresponding to the id 
 	 */
 	public Auditor getAuditor(long auditorId) {
-		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.auditorId = :auditorId", Auditor.class);
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.auditorId = :auditorId", Auditor.class);
 		q.setParameter("auditorId", auditorId);
 		return q.getSingleResult();
 	}
@@ -36,7 +36,7 @@ public class AuditorDao {
 	 * @return returns all the auditors present on the system.
 	 */
 	public List<Auditor> getAuditorsAll() {
-		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c", Auditor.class);
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a", Auditor.class);
 		return q.getResultList();
 	}
 
@@ -48,19 +48,19 @@ public class AuditorDao {
 	 * @return Returns a list of auditor related to a particular election.
 	 */
 	public List<Auditor> getElectionAuditors(long electionId) {
-		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.election.electionId = :electionId", Auditor.class);
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.election.electionId = :electionId", Auditor.class);
 		q.setParameter("electionId", electionId);
 		return q.getResultList();
 	}
 
 	public List<Auditor> getAuditorsByEmail(String email) {
-		TypedQuery<Auditor> q = em.createQuery("SELECT c FROM Auditor c WHERE c.mail = :email", Auditor.class);
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.mail = :email", Auditor.class);
 		q.setParameter("email", email);
 		return q.getResultList();
 	}
 	
 	public boolean auditorExists(long electionId, String name, String mail) {
-		Query q = em.createQuery("SELECT c.auditorId FROM Auditor c WHERE c.election.electionId = :electionId AND c.name = :name AND c.mail = :mail");
+		Query q = em.createQuery("SELECT a.auditorId FROM Auditor a WHERE a.election.electionId = :electionId AND a.name = :name AND a.mail = :mail");
 		q.setParameter("electionId", electionId);
 		q.setParameter("mail", mail);
 		q.setParameter("name", name);

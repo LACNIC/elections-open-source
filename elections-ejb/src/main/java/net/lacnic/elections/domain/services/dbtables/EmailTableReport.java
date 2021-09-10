@@ -1,4 +1,4 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import net.lacnic.elections.domain.EmailHistory;
 import net.lacnic.elections.utils.DateTimeUtils;
 
 
-public class EmailReportTable implements Serializable {
+public class EmailTableReport implements Serializable {
 
 	private static final long serialVersionUID = -1874006208868867429L;
 
@@ -23,9 +23,9 @@ public class EmailReportTable implements Serializable {
 	private Long electionId;
 
 
-	public EmailReportTable() { }
+	public EmailTableReport() { }
 
-	public EmailReportTable(Email email) {
+	public EmailTableReport(Email email) {
 		this.emailId = email.getEmailId();
 		this.recipients = email.getRecipients();
 		this.sender = email.getSender();
@@ -38,7 +38,7 @@ public class EmailReportTable implements Serializable {
 		this.electionId = email.getElection().getElectionId();
 	}
 
-	public EmailReportTable(EmailHistory email) {
+	public EmailTableReport(EmailHistory email) {
 		this.emailId = email.getEmailHistoryId();
 		this.recipients = email.getRecipients();
 		this.sender = email.getSender();

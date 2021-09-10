@@ -1,14 +1,11 @@
-package net.lacnic.elections.domain.services;
+package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import net.lacnic.elections.domain.Election;
 
 
-public class ElectionReportTable implements Serializable {
+public class ElectionTableReport implements Serializable {
 
 	private static final long serialVersionUID = -6249197041343974691L;
 
@@ -40,12 +37,11 @@ public class ElectionReportTable implements Serializable {
 	private Long migrationId;
 	private Boolean migrated;
 	private String category;
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 
-	public ElectionReportTable() {	}
+	public ElectionTableReport() {	}
 
-	public ElectionReportTable(Election election) {
+	public ElectionTableReport(Election election) {
 		this.electionId = election.getElectionId();
 		this.descriptionSpanish = election.getDescriptionSpanish();
 		this.descriptionEnglish = election.getDescriptionEnglish();
@@ -300,10 +296,10 @@ public class ElectionReportTable implements Serializable {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
+
 	@Override
 	public boolean equals(Object election) {
-		return this.electionId.equals(((ElectionReportTable)election).electionId);
+		return this.electionId.equals(((ElectionTableReport)election).electionId);
 	}
 
 }
