@@ -33,18 +33,12 @@ public class ViewUserVotersListPanel extends Panel {
 			protected void populateItem(final ListItem<UserVoter> item) {
 				try {
 					final UserVoter current = item.getModelObject();
-
 					item.add(new Label("language", current.getLanguage()));
 					item.add(new Label("name", current.getName()));
 					item.add(new Label("mail", current.getMail()));
 					item.add(new Label("voteAmount", String.valueOf(current.getVoteAmount())));
 					item.add(new Label("country", current.getCountry()));
 					item.add(new Label("orgid", current.getOrgID()));
-
-					final Label voteLink = new Label("voteLink", LinksUtils.buildVoteLink(current.getVoteToken()));
-					voteLink.setOutputMarkupPlaceholderTag(true);
-					item.add(voteLink);
-
 				} catch (Exception e) {
 					appLogger.error(e);
 				}

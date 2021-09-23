@@ -35,7 +35,10 @@
 							<td wicket:id="country">[country]</td>
 							<td wicket:id="orgId">[orgId]</td>
 							<td><div wicket:id="updateToken"></div></td>
-							<td><a wicket:id="voteLink" target="_blank"><span wicket:id="voteLinkText"></span></a></td>
+							 <td><span id="voteLinkButton" wicket:id="voteLinkId"   type="submit" ></span></td>
+							<!-- <td>
+							<a wicket:id="voteLink" target="_blank"><span wicket:id="voteLinkText"></span></a></td>
+							 -->
 							<td><span wicket:id="resendLink"></span></td>
 						</tr>
 					</tbody>
@@ -43,6 +46,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<script>
 		$(document).ready(function() {
 			$('.dataTables').dataTable({

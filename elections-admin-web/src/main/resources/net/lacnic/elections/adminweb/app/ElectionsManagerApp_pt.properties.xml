@@ -618,6 +618,7 @@
 	<entry key="descriptionSpanishLabel">Descrição em espanhol:</entry>
 	<entry key="descriptionEnglishLabel">Descrição em inglês:</entry>
 	<entry key="descriptionPortugueseLabel">Descrição em português:</entry>
+	<entry key="linkNotAvailable">Link não acessível</entry>
 
 	<!-- Election Setup -->
 	<entry key="confElecTitle">Nesta tela você poderá configurar a eleição.</entry>

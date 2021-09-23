@@ -19,7 +19,9 @@ import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.components.ButtonDeleteWithConfirmation;
 import net.lacnic.elections.adminweb.ui.components.ButtonResendVoteEmail;
 import net.lacnic.elections.adminweb.ui.components.ButtonUpdateToken;
+import net.lacnic.elections.adminweb.ui.components.ButtonViewLink;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
+import net.lacnic.elections.domain.ActivityType;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.utils.LinksUtils;
@@ -86,11 +88,34 @@ public class CensusListPanel extends Panel {
 					item.add(new Label("orgId", currentUser.getOrgID()));
 					item.add(new Label("voted", (currentUser.isVoted() ? getString("censusManagementUserListColVotedYes") : getString("censusManagementUserListColVotedNo"))));
 					String voteLinkText = LinksUtils.buildVoteLink(currentUser.getVoteToken());
+					
 					Label voteLinkTextLabel = new Label("voteLinkText", voteLinkText);
 					ExternalLink voteLink = new ExternalLink("voteLink", voteLinkText);
 					voteLink.add(voteLinkTextLabel);
 					item.add(voteLink);
 
+					
+					String userAdminId= SecurityUtils.getUserAdminId();
+					String description = userAdminId.toUpperCase() + " ingresó a ver link en elección "   +election.getTitleSpanish() + " del usuario "+currentUser.getName();
+					ActivityType activityType= ActivityType.VIEW_LINK;
+					String ip=SecurityUtils.getClientIp();
+					Long electionId= currentUser.getElection().getElectionId();
+					ButtonViewLink button= new ButtonViewLink("voteLinkId",voteLinkText,userAdminId,activityType,description,ip,electionId) {
+
+						private static final long serialVersionUID = 3666243113529801997L;
+
+						@Override
+						public void onConfirm() {
+							try {
+
+									
+								//setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
+							} catch (Exception e) {
+								appLogger.error(e);
+							}
+						}
+					};
+					item.add(button);
 					ButtonUpdateToken buttonUpdateToken = new ButtonUpdateToken("updateToken") {
 						private static final long serialVersionUID = 3609140813722818708L;
 
@@ -141,6 +166,8 @@ public class CensusListPanel extends Panel {
 		};
 		add(userVotersDataView);
 	}
+	
+	
 
 	public File getCensusFile() {
 		return censusFile;
