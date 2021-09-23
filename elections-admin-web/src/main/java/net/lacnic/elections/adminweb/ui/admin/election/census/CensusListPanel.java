@@ -101,19 +101,8 @@ public class CensusListPanel extends Panel {
 					String ip=SecurityUtils.getClientIp();
 					Long electionId= currentUser.getElection().getElectionId();
 					ButtonViewLink button= new ButtonViewLink("voteLinkId",voteLinkText,userAdminId,activityType,description,ip,electionId) {
-
 						private static final long serialVersionUID = 3666243113529801997L;
-
-						@Override
-						public void onConfirm() {
-							try {
-
-									
-								//setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
-							} catch (Exception e) {
-								appLogger.error(e);
-							}
-						}
+		
 					};
 					item.add(button);
 					ButtonUpdateToken buttonUpdateToken = new ButtonUpdateToken("updateToken") {
