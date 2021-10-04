@@ -29,19 +29,15 @@ import net.lacnic.elections.exception.CensusValidationException;
  * importacion del padrón
  * 
  */
-public class ExcelUtils {
+public class ExcelUtilsXLS implements IExcelUtils{
 
 	private static final String TEMP_DIR ="jboss.server.temp.dir";
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 
-	private ExcelUtils() {
-		throw new IllegalStateException("Utility class");
-	}
 
-
-	public static List<UserVoter> processCensusExcel(byte[] census) throws Exception {
+	public  List<UserVoter> processCensusExcel(byte[] census) throws Exception {
 		List<UserVoter> userVotersList = new ArrayList<>();
 		String filePath = System.getProperty(TEMP_DIR).concat("/padron");
 		File file = FilesUtils.convertBytesArrayToFile(census, filePath);

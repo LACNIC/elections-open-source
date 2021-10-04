@@ -13,6 +13,8 @@
 			<module name="javax.json.api" />
 			<module name="org.apache.commons.validator" />
 			<module name="jxl" />
+			<module name="poi" />
+		
 		</dependencies>
 	</deployment>
 

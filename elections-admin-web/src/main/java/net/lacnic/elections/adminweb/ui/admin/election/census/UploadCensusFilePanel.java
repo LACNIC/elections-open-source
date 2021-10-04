@@ -46,7 +46,7 @@ public class UploadCensusFilePanel extends Panel {
 						setCensusFile(censusFileInput.getFileUpload().getBytes());
 						setFileName(censusFileInput.getFileUpload().getClientFileName());
 						try {
-							AppContext.getInstance().getManagerBeanRemote().updateElectionCensus(election.getElectionId(), getCensusFile(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
+							AppContext.getInstance().getManagerBeanRemote().updateElectionCensus(censusFileInput.getFileUpload().getContentType(),election.getElectionId(), getCensusFile(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
 							getSession().info(getString("censusManagementSuccessUploadFile"));
 							if (classs != null)
 								setResponsePage(classs, UtilsParameters.getId(election.getElectionId()));

@@ -53,9 +53,12 @@ import net.lacnic.elections.ejb.ElectionsManagerEJB;
 import net.lacnic.elections.exception.CensusValidationException;
 import net.lacnic.elections.utils.Constants;
 import net.lacnic.elections.utils.EJBFactory;
+import net.lacnic.elections.utils.ExcelFactory;
+import net.lacnic.elections.utils.ExcelUtilsXLS;
 import net.lacnic.elections.utils.StringUtils;
-import net.lacnic.elections.utils.ExcelUtils;
+import net.lacnic.elections.utils.ExcelUtilsXLSX;
 import net.lacnic.elections.utils.FilesUtils;
+import net.lacnic.elections.utils.IExcelUtils;
 import net.lacnic.elections.utils.LinksUtils;
 
 
@@ -573,9 +576,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 			Ip of the user performing the action, used for logging purposes
 	 */
 	@Override
-	public void updateElectionCensus(long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception {
+	public void updateElectionCensus(String contentType,long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception {
 		try {
-			List<UserVoter> userVoters = ExcelUtils.processCensusExcel(content);
+			ExcelFactory excelFactory= new ExcelFactory();
+			IExcelUtils excelUtils=excelFactory.getExcelUtil(contentType);
+			List<UserVoter> userVoters = excelUtils.processCensusExcel(content);
 			Election election = em.find(Election.class, electionId);
 			election.setElectorsSet(true);
 			ElectionsDaoFactory.createVoteDao(em).deleteElectionVotes(electionId);
@@ -810,7 +815,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public File exportCensus(long electionId) {
 		String fileName = "/padron_electoral_" + electionId + ".xls";
-		return ExcelUtils.exportToExcel(getElectionUserVoters(electionId), fileName);
+		return ExcelUtilsXLS.exportToExcel(getElectionUserVoters(electionId), fileName);
 	}
 
 	/**
