@@ -173,7 +173,7 @@
 	<entry key="censusManagementIgnore">Pular</entry>
 	<entry key="censusManagementNext">Seguinte</entry>
 	<entry key="censusManagementFileUploadTitle">Instruções para fazer o upload do cadastro eleitoral</entry>
-	<entry key="censusManagementFileUpload1">- O cadastro deverá estar em formato excel (.xls)</entry>
+	<entry key="censusManagementFileUpload1">- O cadastro deverá estar em formato excel (.xls ou .xlsx) </entry>
 	<entry key="censusManagementFileUpload2">- Na primeira linha, como um cabeçalho, sem quebras de colunas vazias: IDIOMA - NOME - E-MAIL- CANTVOTOS - PAÍS - ORGID (os 2 últimos são opcionais).</entry>
 	<entry key="censusManagementFileUpload3">- Nas linhas restantes, deverá conter os dados para as variáveis ​​anteriores, sem quebras de linhas vazias.</entry>
 	<entry key="censusManagementFileUpload4">- Finalmente, clique no botão para carregar o cadastro!</entry>	

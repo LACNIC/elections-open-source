@@ -173,7 +173,7 @@
 	<entry key="censusManagementIgnore">Saltar</entry>
 	<entry key="censusManagementNext">Siguiente</entry>
 	<entry key="censusManagementFileUploadTitle">Instrucciones para subir el padrón electoral</entry>
-	<entry key="censusManagementFileUpload1">- El Padrón deberá estar en formato excel (.xls)</entry>
+	<entry key="censusManagementFileUpload1">- El Padrón deberá estar en formato excel (.xls o .xlsx)</entry>
 	<entry key="censusManagementFileUpload2">- En la primera fila, como cabecera, sin saltos de columnas vacías: IDIOMA – NOMBRE - MAIL - CANTVOTOS - PAIS - ORGID (los 2 últimos son opcionales).</entry>
 	<entry key="censusManagementFileUpload3">- En las restantes filas deberá contener los datos para las variables anteriores, sin saltos de filas vacías.</entry>
 	<entry key="censusManagementFileUpload4">- Finalmente haga click sobre el botón para cargar el padrón!</entry>	

@@ -173,7 +173,7 @@
 	<entry key="censusManagementIgnore">Skip</entry>
 	<entry key="censusManagementNext">Next</entry>
 	<entry key="censusManagementFileUploadTitle">Instructions for uploading the voters registry</entry>
-	<entry key="censusManagementFileUpload1">- The voters registry must be in Excel format (.xls)</entry>
+	<entry key="censusManagementFileUpload1">- The voters registry must be in Excel format (.xls or .xlsx)</entry>
 	<entry key="censusManagementFileUpload2">- In first row, as a heading, leaving no empty columns, write the following IDIOMA – NOMBRE – MAIL – CANTVOTOS – PAIS – ORGID (the latter two are optional).</entry>
 	<entry key="censusManagementFileUpload3">- The remaining rows must contain the data for the variables above, leaving no empty rows.</entry>
 	<entry key="censusManagementFileUpload4">- Finally, click on the button to upload the voters registry.</entry>	
