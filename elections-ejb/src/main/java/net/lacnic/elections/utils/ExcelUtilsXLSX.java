@@ -63,65 +63,53 @@ public class ExcelUtilsXLSX implements IExcelUtils {
 					votes = cell.getNumericCellValue();
 					break;
 				}
-
+				String value=obj.toString();
 				if (rowNumber > 0) {
-					if (obj != null && obj.toString().trim().isEmpty()) {
+					if (obj != null && value.trim().isEmpty()) {
 						isEmpty = true;
 					}
 					int cellNumber = cell.getColumnIndex();
 					if (cellNumber == nameIndex) {
-						if (isEmpty)
-							throw new CensusValidationException(
-									"El nombre de no puede ser nulo en fila : " + rowNumber);
-						String name = cell.getStringCellValue();
-						userVoter.setName(name);
+						this.throwExceptionIfNameIsEmpty(isEmpty, rowNumber);
+						userVoter.setName(value);
 
 					} else if (cellNumber == mailIndex) {
 						this.throwExceptionIfMailIsNotValid( obj, rowNumber,mails);
-						userVoter.setMail(obj.toString());
+						userVoter.setMail(value);
 
 					} else if (cellNumber == orgIdIndex) {
 						if (this.isValidIndex(orgIdIndex))
-							userVoter.setOrgID(obj.toString());
+							userVoter.setOrgID(value);
 					}
 					if (cellNumber == languageIndex) {
 						if (this.isValidIndex(languageIndex)) {
 							this.throwExceptionIfLanguageIsNotValid(rowNumber, obj);
-							userVoter.setLanguage(obj.toString());
+						userVoter.setLanguage(value);
 						}
 					} else if (cellNumber == countryIndex) {
-						String country = obj.toString().toUpperCase();
-						if (countryIndex != -1) {
-							if (!obj.toString().isEmpty() && !countryUtils.getIdsList().contains(country)) {
-								throw new CensusValidationException("Fila: " + rowNumber	+ " contiene un país no vacío y no válido: " + obj.toString());
-							}
-							userVoter.setCountry(obj.toString());
+						if (this.isValidIndex(countryIndex)) {
+							this.throwExceptionIfCountryIsNotValid(value.toUpperCase(),rowNumber);
+							userVoter.setCountry(value.toUpperCase());
 						}
 					} else if (cellNumber == voteAmountIndex) {
-						try {
-							if (cell.getCellType() == CellType.BLANK)
-								throw new CensusValidationException("Fila: " + rowNumber + " no contiene una cantidad de votos válida: ");
-							userVoter.setVoteAmount((int) cell.getNumericCellValue());
-						} catch (Exception e) {
-							throw new CensusValidationException(
-									"Fila: " + rowNumber + " no contiene una cantidad de votos válida: ");
-						}
+						this.throwExceptionIfCellVoteIsEmpty(cell, rowNumber);
+						userVoter=this.trySettingUserVoterVotes(userVoter, cell, rowNumber);
 					}
 
 				} else {
 					index = sheet.getRow(0).getCell(cell.getColumnIndex()).getColumnIndex();
-					String value = sheet.getRow(0).getCell(cell.getColumnIndex()).getStringCellValue();
-					if (value.equalsIgnoreCase(("idioma"))) {
+					String cellValue = sheet.getRow(0).getCell(cell.getColumnIndex()).getStringCellValue();
+					if (cellValue.equalsIgnoreCase(("idioma"))) {
 						languageIndex = index;
-					} else if (value.equalsIgnoreCase(("nombre"))) {
+					} else if (cellValue.equalsIgnoreCase(("nombre"))) {
 						nameIndex = index;
-					} else if (value.equalsIgnoreCase(("mail"))) {
+					} else if (cellValue.equalsIgnoreCase(("mail"))) {
 						mailIndex = index;
-					} else if (value.equalsIgnoreCase(("orgID"))) {
+					} else if (cellValue.equalsIgnoreCase(("orgID"))) {
 						orgIdIndex = index;
-					} else if (value.equalsIgnoreCase(("pais"))) {
+					} else if (cellValue.equalsIgnoreCase(("pais"))) {
 						countryIndex = index;
-					} else if (value.equalsIgnoreCase(("cantVotos"))) {
+					} else if (cellValue.equalsIgnoreCase(("cantVotos"))) {
 						voteAmountIndex = index;
 					}
 				}
@@ -137,6 +125,22 @@ public class ExcelUtilsXLSX implements IExcelUtils {
 		return userVotersList;
 
 	}
+	
+	private UserVoter trySettingUserVoterVotes(UserVoter userVoter, Cell cell, int rowNumber) throws CensusValidationException {
+		try {
+			userVoter.setVoteAmount((int) cell.getNumericCellValue());
+		} catch (NumberFormatException ne) {
+			throw new CensusValidationException("Fila: " + rowNumber + " no contiene una cantidad de votos válida");
+		}
+		return userVoter;
+	}
+	
+	private void throwExceptionIfCellVoteIsEmpty(Cell cell, int rowNumber) throws CensusValidationException {
+		if (cell.getCellType() == CellType.BLANK) {
+			throw new CensusValidationException("Fila: " + rowNumber + " no contiene una cantidad de votos válida ");
+		}
+	}
+	
 	
 	private boolean isValidIndex(int index) {
 		return index!=-1;
@@ -162,7 +166,10 @@ public class ExcelUtilsXLSX implements IExcelUtils {
 		}
 	}
 	
-
+	private void throwExceptionIfNameIsEmpty(boolean isEmpty, int rowNumber) throws CensusValidationException {
+		if (isEmpty)
+			throw new CensusValidationException("El nombre  no puede ser nulo en fila : " + rowNumber);
+	}
 
 	private void validateNullAttributes(int rowNumber, UserVoter userVoter) throws CensusValidationException {
 		this.validateAttribute(rowNumber, userVoter.getVoteAmount(), "votos");
