@@ -12,7 +12,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserVoter;
-import net.lacnic.elections.utils.LinksUtils;
 
 
 public class ViewUserVotersListPanel extends Panel {

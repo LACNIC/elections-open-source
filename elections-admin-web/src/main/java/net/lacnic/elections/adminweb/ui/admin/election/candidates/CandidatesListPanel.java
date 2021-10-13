@@ -68,6 +68,8 @@ public class CandidatesListPanel extends Panel {
 
 					item.add(new Label("name", currentCandidate.getName()));
 
+					item.add(new Label("mail", currentCandidate.getMail()));
+
 					Label bio = new Label("bio", currentCandidate.getBioSpanish());
 					bio.setEscapeModelStrings(false);
 					item.add(bio);

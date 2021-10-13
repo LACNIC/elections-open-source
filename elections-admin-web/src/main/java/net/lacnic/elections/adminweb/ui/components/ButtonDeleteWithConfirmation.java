@@ -27,7 +27,6 @@ public abstract class ButtonDeleteWithConfirmation extends Panel {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-
 				container.setVisible(true);
 				ask.setVisible(false);
 				target.add(ButtonDeleteWithConfirmation.this);
@@ -52,7 +51,6 @@ public abstract class ButtonDeleteWithConfirmation extends Panel {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-
 				container.setVisible(false);
 				ask.setVisible(true);
 				target.add(container);

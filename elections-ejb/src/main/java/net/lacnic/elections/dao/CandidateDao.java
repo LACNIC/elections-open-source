@@ -30,6 +30,12 @@ public class CandidateDao {
 		return q.getSingleResult();
 	}
 
+	public List<Candidate> getCandidatesByEmail(String email) {		
+		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c WHERE c.mail = :email ORDER BY c.candidateId", Candidate.class);
+		q.setParameter("email", email);
+		return q.getResultList();
+	}
+
 	public Candidate getElectionFirstCandidate(long electionId) {
 		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c WHERE c.election.electionId = :electionId ORDER BY c.candidateOrder DESC", Candidate.class);
 		q.setParameter("electionId", electionId);

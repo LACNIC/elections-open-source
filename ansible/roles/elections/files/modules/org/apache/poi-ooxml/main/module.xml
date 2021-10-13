@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="org.apache.poi-ooxml" xmlns="urn:jboss:module:1.5">
+    <resources>
+        <resource-root path="poi-ooxml-5.0.0.jar"/>
+    </resources>
+
+	<dependencies>
+		<module name="org.apache.poi"/>
+		<module name="org.apache.poi-ooxml-lite"/>
+		<module name="org.apache.xmlbeans"/>
+		<module name="org.apache.commons.collections4"/>
+		<module name="org.apache.commons.compress"/>
+	</dependencies>
+</module>

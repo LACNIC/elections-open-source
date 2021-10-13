@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.apache.wicket.validation.validator.UrlValidator;
 
@@ -40,6 +41,7 @@ public class EditCandidateDashboard extends DashboardAdminBasePage {
 	private byte[] pictureInfo;
 	private String pictureName;
 	private String name;
+	private String mail;
 	private String bioSpanish;
 	private String bioEnglish;
 	private String bioPortuguese;
@@ -56,6 +58,7 @@ public class EditCandidateDashboard extends DashboardAdminBasePage {
 		long candidateId = UtilsParameters.getCandidateAsLong(params);
 		candidate = AppContext.getInstance().getManagerBeanRemote().getCandidate(candidateId);
 		name = candidate.getName();
+		mail = candidate.getMail();
 		bioSpanish = candidate.getBioSpanish();
 		bioEnglish = candidate.getBioEnglish();
 		bioPortuguese = candidate.getBioPortuguese();
@@ -88,6 +91,11 @@ public class EditCandidateDashboard extends DashboardAdminBasePage {
 			nameTextField.setRequired(true);
 			nameTextField.add(StringValidator.maximumLength(255));
 			candidateForm.add(nameTextField);
+
+			TextField<String> mailTextField = new TextField<>("mail", new PropertyModel<>(candidate, "mail"));
+			mailTextField.setRequired(true);
+			mailTextField.add(EmailAddressValidator.getInstance());
+			candidateForm.add(mailTextField);
 
 			TextArea<String> bioSpanishTextField = new TextArea<>("bioSpanish", new PropertyModel<>(candidate, "bioSpanish"));
 			bioSpanishTextField.add(StringValidator.maximumLength(2000));
@@ -150,7 +158,7 @@ public class EditCandidateDashboard extends DashboardAdminBasePage {
 				}
 
 				private void save() {
-					if (!(name.equalsIgnoreCase(candidate.getName())) || !(Arrays.equals(pictureInfo, candidate.getPictureInfo()))
+					if (!(name.equalsIgnoreCase(candidate.getName())) || !(mail != null && mail.equalsIgnoreCase(candidate.getMail())) || !(Arrays.equals(pictureInfo, candidate.getPictureInfo()))
 							|| !(bioSpanish.equalsIgnoreCase(candidate.getBioSpanish())) || !(bioEnglish.equalsIgnoreCase(candidate.getBioEnglish()))
 							|| !(bioPortuguese.equalsIgnoreCase(candidate.getBioPortuguese())) || !(linkSpanish != null && linkSpanish.equalsIgnoreCase(candidate.getLinkSpanish())) 
 							|| !(linkPortuguese != null && linkPortuguese.equalsIgnoreCase(candidate.getLinkPortuguese())) || !(linkEnglish != null && linkEnglish.equalsIgnoreCase(candidate.getLinkEnglish()))) {

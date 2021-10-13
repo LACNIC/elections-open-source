@@ -1,8 +1,7 @@
 <wicket:panel>
-	<div>
-	  <a wicket:id="ask" class="text-success fa fa-eye" align='center' style="font-size:34px" wicket:message="title:commontBtnActTokenPreg"></a>
-	</div>
-	<div wicket:id="container" class="pull-left">
-		
+	<div wicket:id="viewLinkContainer">
+		<a wicket:id="viewLinkButton" class="text-success fa fa-eye" align="center" style="font-size: 34px" wicket:message="title:commontBtnViewVoteLinkTitle"></a>
+		<a wicket:id="hideLinkButton" class="text-success fa fa-eye-slash" align="center" style="font-size: 34px" wicket:message="title:commontBtnViewVoteLinkTitle"></a>
+		<a wicket:id="voteLink" target="_blank"><span wicket:id="voteLinkText"></span></a>
 	</div>
 </wicket:panel>

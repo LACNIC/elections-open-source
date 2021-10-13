@@ -7,7 +7,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.DownloadLink;
-import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -87,24 +86,21 @@ public class CensusListPanel extends Panel {
 					item.add(new Label("country", currentUser.getCountry()));
 					item.add(new Label("orgId", currentUser.getOrgID()));
 					item.add(new Label("voted", (currentUser.isVoted() ? getString("censusManagementUserListColVotedYes") : getString("censusManagementUserListColVotedNo"))));
+					
 					String voteLinkText = LinksUtils.buildVoteLink(currentUser.getVoteToken());
-					
-					Label voteLinkTextLabel = new Label("voteLinkText", voteLinkText);
-					ExternalLink voteLink = new ExternalLink("voteLink", voteLinkText);
-					voteLink.add(voteLinkTextLabel);
-					item.add(voteLink);
-
-					
-					String userAdminId= SecurityUtils.getUserAdminId();
-					String description = userAdminId.toUpperCase() + " ingresó a ver link en elección "   +election.getTitleSpanish() + " del usuario "+currentUser.getName();
-					ActivityType activityType= ActivityType.VIEW_LINK;
-					String ip=SecurityUtils.getClientIp();
-					Long electionId= currentUser.getElection().getElectionId();
-					ButtonViewLink button= new ButtonViewLink("voteLinkId",voteLinkText,userAdminId,activityType,description,ip,electionId) {
+					String userAdminId = SecurityUtils.getUserAdminId();
+					String activityDescription = userAdminId.toUpperCase() + " vió el link de votación del votante " + currentUser.getName() + " en la elección " + election.getTitleSpanish();
+					ButtonViewLink viewLinkButton = new ButtonViewLink("viewLinkButton", item.getIndex(), voteLinkText) {
 						private static final long serialVersionUID = 3666243113529801997L;
-		
+
+						@Override
+						public void registerActivity() {
+							AppContext.getInstance().getManagerBeanRemote().persistActivity(SecurityUtils.getUserAdminId(),
+									ActivityType.VIEW_LINK, activityDescription, SecurityUtils.getClientIp(), currentUser.getElection().getElectionId());
+						}
 					};
-					item.add(button);
+					item.add(viewLinkButton);
+
 					ButtonUpdateToken buttonUpdateToken = new ButtonUpdateToken("updateToken") {
 						private static final long serialVersionUID = 3609140813722818708L;
 

@@ -13,6 +13,7 @@ public class CandidateDetailReport implements Serializable {
 	private Long candidateId;
 	private Long migrationId;
 	private String name;
+	private String mail;
 	private Long electionId;
 	private String pictureInfo;
 	private String pictureName;
@@ -33,6 +34,7 @@ public class CandidateDetailReport implements Serializable {
 		this.candidateId = candidate.getCandidateId();
 		this.migrationId = candidate.getMigrationId();
 		this.name = candidate.getName();
+		this.mail = candidate.getMail();
 		this.electionId = candidate.getElection().getElectionId();
 		this.pictureInfo = Base64.getEncoder().encodeToString(candidate.getPictureInfo());
 		this.pictureName = candidate.getPictureName();
@@ -166,6 +168,14 @@ public class CandidateDetailReport implements Serializable {
 
 	public void setPictureInfo(String pictureInfo) {
 		this.pictureInfo = pictureInfo;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 }

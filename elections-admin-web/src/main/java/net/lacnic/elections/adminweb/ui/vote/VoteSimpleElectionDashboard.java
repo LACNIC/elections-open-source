@@ -218,6 +218,10 @@ public class VoteSimpleElectionDashboard extends DashboardPublicBasePage {
 					if (chosenCandidates.size() > getElection().getMaxCandidates()) {
 						error(getString("tooManyCandidatesChosen") + getElection().getMaxCandidates());
 						return false;
+					} else {
+						if ((chosenCandidates.size() < getElection().getMaxCandidates())) {
+							info(getString("tooLittleCandidatesChosen"));
+						}
 					}
 				}
 			}

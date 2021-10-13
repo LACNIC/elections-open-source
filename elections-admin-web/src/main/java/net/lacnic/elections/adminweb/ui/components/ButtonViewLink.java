@@ -1,50 +1,75 @@
 package net.lacnic.elections.adminweb.ui.components;
 
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.pages.RedirectPage;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.panel.Panel;
-
-import net.lacnic.elections.domain.ActivityType;
-import net.lacnic.elections.utils.EJBFactory;
 
 
 public abstract class ButtonViewLink extends Panel {
 
-	private static final long serialVersionUID = -8151328146531390609L;
+	private static final long serialVersionUID = 3593755033216180134L;
+
 	private WebMarkupContainer container;
-	private AjaxLink<Void> ask;
+	private AjaxLink<Void> viewLinkButton;
+	private AjaxLink<Void> hideLinkButton;
+	private ExternalLink voteLink;
 
 
-	public ButtonViewLink(String id, String voterLink,String userAdminId, ActivityType activityType, String description, String ip, Long electionId) {
+	public ButtonViewLink(String id, long i, String voteLinkText) {
 		super(id);
 		setOutputMarkupPlaceholderTag(true);
-		container = new WebMarkupContainer("container");
+
+		container = new WebMarkupContainer("viewLinkContainer");
 		container.setOutputMarkupPlaceholderTag(true);
-		container.setVisible(false);
+		container.setMarkupId("viewLinkContainer" + i);
 		add(container);
 
-		ask = new AjaxLink<Void>("ask") {
-			private static final long serialVersionUID = -1763298278543164951L;
+		Label voteLinkTextLabel = new Label("voteLinkText", voteLinkText);
+		voteLink = new ExternalLink("voteLink", voteLinkText);
+		voteLink.setMarkupId("voteLink" + i);
+		voteLink.add(voteLinkTextLabel);
+		voteLink.setVisible(false);
+
+		viewLinkButton = new AjaxLink<Void>("viewLinkButton") {
+			private static final long serialVersionUID = 6329100614104709360L;
+
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				container.setVisible(true);
-				ask.setVisible(false);
-				target.add(ButtonViewLink.this);
-				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(userAdminId,activityType,  description,  ip,  electionId);
-				container.setVisible(true);
-				ask.setVisible(false);
-				setResponsePage(new RedirectPage(voterLink));
-
+				target.add(container);
+				voteLink.setVisible(true);
+				viewLinkButton.setVisible(false);
+				hideLinkButton.setVisible(true);
+				if(voteLink.isVisible()) {
+					registerActivity();
+				}
 			}
 		};
-		ask.setOutputMarkupPlaceholderTag(true);
-		add(ask);
+		viewLinkButton.setMarkupId(id + i);
+		viewLinkButton.setOutputMarkupPlaceholderTag(true);
 
+		hideLinkButton = new AjaxLink<Void>("hideLinkButton") {
+			private static final long serialVersionUID = -8573643875855205238L;
+
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				target.add(container);
+				voteLink.setVisible(false);
+				viewLinkButton.setVisible(true);
+				hideLinkButton.setVisible(false);
+			}
+		};
+		hideLinkButton.setVisible(false);
+		hideLinkButton.setMarkupId("hideLinkButton" + i);
+		hideLinkButton.setOutputMarkupPlaceholderTag(true);
+
+		container.add(voteLink);
+		container.add(viewLinkButton);
+		container.add(hideLinkButton);
 	}
 
-	
+	public abstract void registerActivity();
 
 }

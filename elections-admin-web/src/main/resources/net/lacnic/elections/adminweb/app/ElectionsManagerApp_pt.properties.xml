@@ -182,6 +182,15 @@
 	<entry key="censusManagementFileDownload">Baixar exemplo</entry>
 	<entry key="censusManagementErrNoFile">Primeiro deve selecionar um arquivo</entry>
 	<entry key="censusManagementSuccessUploadFile">O cadastro eleitoral foi atualizado com sucesso</entry>
+	<entry key="censusManagementUploadMissingColumns">Faltam colunas obrigatórias, verifique as instruções.</entry>
+	<entry key="censusManagementUploadNullRequiredFields">Campos obrigatórios estão faltando na linha {0}, verifique as instruções.</entry>
+	<entry key="censusManagementUploadWrongLanguage">Idioma errado '{0}' na linha {1}, deve ser SP, EN ou PT.</entry>
+	<entry key="censusManagementUploadWrongEmail">Email inválido '{0}' na linha {1}.</entry>
+	<entry key="censusManagementUploadDuplicateEmail">O email '{0}' na linha {1} já está registrado no cadastro.</entry>
+	<entry key="censusManagementUploadWrongVoteAmount">Número inválido de votos na linha {0}.</entry>
+	<entry key="censusManagementUploadWrongCountry">Código de país inválido '{0}' na linha {1}.</entry>
+	<entry key="censusManagementUploadFileError">Erro ao carregar o arquivo, por favor tente novamente.</entry>
+	<entry key="censusManagementUploadUnknownFileType">Tipo de arquivo não compatível, deve ser xls ou xlsx.</entry>
 	<entry key="censusManagementErrBif">Erro ao ler o cadastro, verifique as instruções</entry>
 	<entry key="censusManagementAddUserTitle">Adicionar um usuário ao cadastro</entry>
 	<entry key="censusManagementAddUserBtn">Adicionar</entry>
@@ -219,6 +228,7 @@
 	<entry key="censusManagementUserEditBtnCanc">Cancelar</entry>
 	<entry key="censusManagementUserEditBtnSave">Salvar</entry>
 	<entry key="censusManagementUserEditSuccess">O usuário foi atualizado com sucesso</entry>
+	<entry key="censusManagementDuplicateEmail">Já existe um eleitor com o mesmo e-mail no cadastro eleitoral.</entry>
 
 	<!-- Candidate Management -->
 	<entry key="candidateManagementTitle">Gestão de candidatos</entry>
@@ -227,6 +237,7 @@
 	<entry key="candidateManagementNext">Seguinte</entry>
 	<entry key="candidateManagementDetails">Candidatos</entry>
 	<entry key="candidateManagementCopyText">Copiar o mesmo texto nos outros idiomas (EN e PT)? </entry>
+	<entry key="candidateManagementMail">Correio eletrônico</entry>
 	<entry key="candidateManagementName">Nome do candidato</entry>
 	<entry key="candidateManagementBioEsp">Biografia em espanhol</entry>
 	<entry key="candidateManagementWebEsp">Site informações espanhol (incluir http:// ou https://)</entry>
@@ -540,6 +551,7 @@
 	<entry key="tooManyCandidatesChosen">Selecionou muitos candidatos. O número máximo de candidatos para escolher é: </entry>
 	<entry key="noCandidateChosen">Deve selecionar pelo menos um candidato.</entry>
 	<entry key="alreadyVotedMessage">Seu voto foi realizado com sucesso. Obrigado por participar.</entry>
+	<entry key="tooLittleCandidatesChosen">Ainda pode selecionar mais candidatos.</entry>
 
 	<!-- User Vote Elec Juntas  -->
 	<entry key="userVoteNoComplete">IMPORTANTE: LEMBRE-SE DE VOTAR EM AMBAS AS ELEIÇÕES</entry>
@@ -591,6 +603,7 @@
 
 	<!-- Common -->
 	<entry key="commontBtnActTokenPreg">Alterar link de votação</entry>
+	<entry key="commontBtnViewVoteLinkTitle">Ver link de votação</entry>
 	<entry key="commontBtnActTokenConf">Confirmar</entry>
 	<entry key="commontBtnActTokenCanc">Cancelar</entry>
 	<entry key="commontBtnConfDelPreg">Remover</entry>
@@ -664,8 +677,5 @@
 	<entry key="errorAuditNotPublicDescription">A auditoria não está habilitada no momento</entry>
 	<entry key="errorVoteNotPublicTitle">Acesso não autorizado</entry>
 	<entry key="errorVoteNotPublicDescription">A eleição não está ativa no momento</entry>
-
-	<!-- Exceptions -->
-	<entry key="duplicateEmailException">Já existe um eleitor com o mesmo e-mail no cadastro eleitoral.</entry>
 
 </properties>

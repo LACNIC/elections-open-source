@@ -174,7 +174,7 @@
 	<entry key="censusManagementNext">Next</entry>
 	<entry key="censusManagementFileUploadTitle">Instructions for uploading the voters registry</entry>
 	<entry key="censusManagementFileUpload1">- The voters registry must be in Excel format (.xls or .xlsx)</entry>
-	<entry key="censusManagementFileUpload2">- In first row, as a heading, leaving no empty columns, write the following IDIOMA – NOMBRE – MAIL – CANTVOTOS – PAIS – ORGID (the latter two are optional).</entry>
+	<entry key="censusManagementFileUpload2">- In first row, as a heading, leaving no empty columns, write the following: IDIOMA – NOMBRE – MAIL – CANTVOTOS – PAIS – ORGID (the latter two are optional).</entry>
 	<entry key="censusManagementFileUpload3">- The remaining rows must contain the data for the variables above, leaving no empty rows.</entry>
 	<entry key="censusManagementFileUpload4">- Finally, click on the button to upload the voters registry.</entry>	
 	<entry key="censusManagementFileLabel">File</entry>
@@ -182,6 +182,15 @@
 	<entry key="censusManagementFileDownload">Download example</entry>
 	<entry key="censusManagementErrNoFile">Please select a file first</entry>
 	<entry key="censusManagementSuccessUploadFile">The voters registry was successfully updated</entry>
+	<entry key="censusManagementUploadMissingColumns">Required columns missing, please check the instructions.</entry>
+	<entry key="censusManagementUploadNullRequiredFields">Row {0} is missing required fields, please check the instructions.</entry>
+	<entry key="censusManagementUploadWrongLanguage">Wrong language '{0}' in row {1}, must be SP, EN or PT.</entry>
+	<entry key="censusManagementUploadWrongEmail">Invalid email address '{0}' in row {1}.</entry>
+	<entry key="censusManagementUploadDuplicateEmail">Email '{0}' in row {1} already exists in the voters registry.</entry>
+	<entry key="censusManagementUploadWrongVoteAmount">Wrong vote amount in row {0}.</entry>
+	<entry key="censusManagementUploadWrongCountry">Invalid country code '{0}' in row {1}.</entry>
+	<entry key="censusManagementUploadFileError">Error loading the file. Please try again.</entry>
+	<entry key="censusManagementUploadUnknownFileType">Unsupported file type, must be xls or xlsx.</entry>
 	<entry key="censusManagementErrBif">Error reading the voters registry, please check the instructions</entry>
 	<entry key="censusManagementAddUserTitle">Add user to the voters registry</entry>
 	<entry key="censusManagementAddUserBtn">Add</entry>
@@ -219,6 +228,7 @@
 	<entry key="censusManagementUserEditBtnCanc">Cancel</entry>
 	<entry key="censusManagementUserEditBtnSave">Save</entry>
 	<entry key="censusManagementUserEditSuccess">User was successfully updated</entry>
+	<entry key="censusManagementDuplicateEmail">A voter with the same email address already exists in the voters registry.</entry>
 
 	<!-- Candidate Management -->
 	<entry key="candidateManagementTitle">Manage Candidates</entry>
@@ -227,6 +237,7 @@
 	<entry key="candidateManagementNext">Next</entry>
 	<entry key="candidateManagementDetails">Candidates</entry>
 	<entry key="candidateManagementCopyText">Copy the same text in the other languages (EN and PT)? </entry>
+	<entry key="candidateManagementMail">Email address</entry>
 	<entry key="candidateManagementName">Name of the candidate</entry>
 	<entry key="candidateManagementBioEsp">Biography in Spanish</entry>
 	<entry key="candidateManagementWebEsp">Website information in Spanish (include http:// or https://)</entry>
@@ -540,6 +551,7 @@
 	<entry key="tooManyCandidatesChosen">Too many candidates selected The maximum number of candidates to select is: </entry>
 	<entry key="noCandidateChosen">Please select at least one candidate.</entry>
 	<entry key="alreadyVotedMessage">Vote successfully received. Thank you for participating.</entry>
+	<entry key="tooLittleCandidatesChosen">You can still select more candidates.</entry>
 
 	<!-- User Vote Elec Juntas  -->
 	<entry key="userVoteNoComplete">IMPORTANT: REMEMBER TO VOTE IN BOTH ELECTIONS</entry>
@@ -591,6 +603,7 @@
 
 	<!-- Common -->
 	<entry key="commontBtnActTokenPreg">Change voting link</entry>
+	<entry key="commontBtnViewVoteLinkTitle">View voting link</entry>
 	<entry key="commontBtnActTokenConf">Confirm</entry>
 	<entry key="commontBtnActTokenCanc">Cancel</entry>
 	<entry key="commontBtnConfDelPreg">Delete</entry>
@@ -664,8 +677,5 @@
 	<entry key="errorVoteNotStartedTitle">This election begins in:</entry>
 	<entry key="errorVoteNotPublicTitle">Access not authorized</entry>
 	<entry key="errorVoteNotPublicDescription">The election is not active at the moment</entry>
-
-	<!-- Exceptions -->
-	<entry key="duplicateEmailException">A voter with the same email address already exists in the voters registry.</entry>
 
 </properties>

@@ -53,13 +53,10 @@ import net.lacnic.elections.ejb.ElectionsManagerEJB;
 import net.lacnic.elections.exception.CensusValidationException;
 import net.lacnic.elections.utils.Constants;
 import net.lacnic.elections.utils.EJBFactory;
-import net.lacnic.elections.utils.ExcelFactory;
-import net.lacnic.elections.utils.ExcelUtilsXLS;
-import net.lacnic.elections.utils.StringUtils;
-import net.lacnic.elections.utils.ExcelUtilsXLSX;
+import net.lacnic.elections.utils.ExcelUtils;
 import net.lacnic.elections.utils.FilesUtils;
-import net.lacnic.elections.utils.IExcelUtils;
 import net.lacnic.elections.utils.LinksUtils;
+import net.lacnic.elections.utils.StringUtils;
 
 
 @Stateless
@@ -576,11 +573,9 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 			Ip of the user performing the action, used for logging purposes
 	 */
 	@Override
-	public void updateElectionCensus(String contentType,long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception {
+	public void updateElectionCensus(String contentType, long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception {
 		try {
-			ExcelFactory excelFactory= new ExcelFactory();
-			IExcelUtils excelUtils=excelFactory.getExcelUtil(contentType);
-			List<UserVoter> userVoters = excelUtils.processCensusExcel(content);
+			List<UserVoter> userVoters = ExcelUtils.processCensusExcel(contentType, content);
 			Election election = em.find(Election.class, electionId);
 			election.setElectorsSet(true);
 			ElectionsDaoFactory.createVoteDao(em).deleteElectionVotes(electionId);
@@ -644,7 +639,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 				persistActivity(userAdminId, ActivityType.ADD_VOTE_USER, description, ip, electionId);
 				return true;
 			} else {
-				throw new CensusValidationException("duplicateEmailException");
+				throw new CensusValidationException("censusManagementDuplicateEmail", null, null);
 			}
 		} catch (CensusValidationException censusValidationException) {
 			appLogger.error(censusValidationException);
@@ -676,7 +671,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 				String description = userAdminId.toUpperCase() + " actualizó los datos de un usuario padrón para la elección  " + userVoter.getElection().getTitleSpanish();
 				persistActivity(userAdminId, ActivityType.EDIT_VOTE_USER, description, ip, userVoter.getElection().getElectionId());
 			} else {
-				throw new CensusValidationException("duplicateEmailException");
+				throw new CensusValidationException("censusManagementDuplicateEmail", null, null);
 			}
 		} catch (CensusValidationException censusValidationException) {
 			appLogger.error(censusValidationException);
@@ -814,8 +809,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 */
 	@Override
 	public File exportCensus(long electionId) {
-		String fileName = "/padron_electoral_" + electionId + ".xls";
-		return ExcelUtilsXLS.exportToExcel(getElectionUserVoters(electionId), fileName);
+		String fileName = "/padron_electoral_" + electionId + ".xlsx";
+		return ExcelUtils.exportToExcel(getElectionUserVoters(electionId), fileName);
 	}
 
 	/**

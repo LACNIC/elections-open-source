@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.link.DownloadLink;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.protocol.http.WebApplication;
 
 import net.lacnic.elections.adminweb.app.AppContext;
@@ -17,6 +18,7 @@ import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.exception.CensusValidationException;
+
 
 public class UploadCensusFilePanel extends Panel {
 
@@ -27,7 +29,7 @@ public class UploadCensusFilePanel extends Panel {
 	private byte[] censusFile;
 	private String fileName;
 
-	public UploadCensusFilePanel(String id, Election election, Class classs) {
+	public UploadCensusFilePanel(String id, Election election, Class responsePage) {
 		super(id);
 		try {
 			setOutputMarkupId(true);
@@ -46,19 +48,27 @@ public class UploadCensusFilePanel extends Panel {
 						setCensusFile(censusFileInput.getFileUpload().getBytes());
 						setFileName(censusFileInput.getFileUpload().getClientFileName());
 						try {
-							AppContext.getInstance().getManagerBeanRemote().updateElectionCensus(censusFileInput.getFileUpload().getContentType(),election.getElectionId(), getCensusFile(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
+							AppContext.getInstance().getManagerBeanRemote().updateElectionCensus(censusFileInput.getFileUpload().getContentType(), election.getElectionId(), getCensusFile(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
 							getSession().info(getString("censusManagementSuccessUploadFile"));
-							if (classs != null)
-								setResponsePage(classs, UtilsParameters.getId(election.getElectionId()));
-						} catch (CensusValidationException e) {
-							getSession().error(e.getMessage());
-							appLogger.error(e);
-							setResponsePage(classs, UtilsParameters.getId(election.getElectionId()));
+							if (responsePage != null)
+								setResponsePage(responsePage, UtilsParameters.getId(election.getElectionId()));
+						} catch (CensusValidationException cve) {
+							appLogger.error(cve);
+							if(cve.getMessage().matches("censusManagementUploadMissingColumns|censusManagementUploadFileError|censusManagementUploadUnknownFileType")) {
+								getSession().error(getString(cve.getMessage()));
+							} else if (cve.getMessage().matches("censusManagementUploadNullRequiredFields|censusManagementUploadWrongVoteAmount")) {
+								getSession().error(new StringResourceModel(cve.getMessage()).setParameters(cve.getErrorInfo(), cve.getErrorRow()).getString());
+							} else if (cve.getMessage().matches("censusManagementUploadWrongLanguage|censusManagementUploadWrongEmail|censusManagementUploadDuplicateEmail|censusManagementUploadWrongCountry")) {
+								getSession().error(new StringResourceModel(cve.getMessage()).setParameters(cve.getErrorInfo(), cve.getErrorRow()).getString());
+							} else {
+								getSession().error(getString("censusManagementErrBif"));
+							}
+							setResponsePage(responsePage, UtilsParameters.getId(election.getElectionId()));
 						} catch (Exception e) {
 							if (e.getMessage().equals("BiffException"))
 								getSession().error(getString("censusManagementErrBif"));
 							appLogger.error(e);
-							setResponsePage(classs, UtilsParameters.getId(election.getElectionId()));
+							setResponsePage(responsePage, UtilsParameters.getId(election.getElectionId()));
 						}
 					}
 				}

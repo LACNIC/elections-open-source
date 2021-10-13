@@ -15,144 +15,6 @@
 	<name>elections-ejb</name>
 
 	<dependencies>
-	<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-all -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>batik-all</artifactId>
-    <version>1.13</version>
-    <type>pom</type>
-</dependency>
-	<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on -->
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcpkix-jdk15on</artifactId>
-    <version>1.68</version>
-</dependency>
-	<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
-    <version>1.68</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox -->
-<dependency>
-    <groupId>org.apache.pdfbox</groupId>
-    <artifactId>fontbox</artifactId>
-    <version>2.0.22</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/de.rototor.pdfbox/graphics2d -->
-<dependency>
-    <groupId>de.rototor.pdfbox</groupId>
-    <artifactId>graphics2d</artifactId>
-    <version>0.30</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
-<dependency>
-    <groupId>org.apache.pdfbox</groupId>
-    <artifactId>pdfbox</artifactId>
-    <version>2.0.22</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/xml-apis/xml-apis-ext -->
-<dependency>
-    <groupId>xml-apis</groupId>
-    <artifactId>xml-apis-ext</artifactId>
-    <version>1.3.04</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/xmlgraphics-commons -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>xmlgraphics-commons</artifactId>
-    <version>2.4</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.santuario/xmlsec -->
-<dependency>
-    <groupId>org.apache.santuario</groupId>
-    <artifactId>xmlsec</artifactId>
-    <version>2.2.1</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
-<dependency>
-    <groupId>commons-codec</groupId>
-    <artifactId>commons-codec</artifactId>
-    <version>1.15</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-collections4</artifactId>
-    <version>4.4</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-math3</artifactId>
-    <version>3.6.1</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/com.zaxxer/SparseBitSet -->
-<dependency>
-    <groupId>com.zaxxer</groupId>
-    <artifactId>SparseBitSet</artifactId>
-    <version>1.2</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-compress</artifactId>
-    <version>1.20</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/com.github.virtuald/curvesapi -->
-<dependency>
-    <groupId>com.github.virtuald</groupId>
-    <artifactId>curvesapi</artifactId>
-    <version>1.06</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans -->
-<dependency>
-    <groupId>org.apache.xmlbeans</groupId>
-    <artifactId>xmlbeans</artifactId>
-    <version>4.0.0</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi</artifactId>
-    <version>5.0.0</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-examples -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-examples</artifactId>
-    <version>5.0.0</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-excelant -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-excelant</artifactId>
-    <version>5.0.0</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml</artifactId>
-    <version>5.0.0</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-full -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml-full</artifactId>
-    <version>5.0.0</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-lite -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml-lite</artifactId>
-    <version>5.0.0</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-scratchpad</artifactId>
-    <version>5.0.0</version>
-</dependency>
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
@@ -194,12 +56,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.sourceforge.jexcelapi</groupId>
-			<artifactId>jxl</artifactId>
-			<version>2.6.12</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 		</dependency>
@@ -208,47 +64,8 @@
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
 			<version>1.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-collections</groupId>
-					<artifactId>commons-collections</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-<dependency>
-<groupId>org.docx4j</groupId>
-<artifactId>docx4j-JAXB-Internal</artifactId>
-<version>8.0.0</version>
-</dependency>
 
-<dependency>
-<groupId>org.docx4j</groupId>
-<artifactId>docx4j-JAXB-ReferenceImpl</artifactId>
-<version>8.0.0</version>
-</dependency>
- <dependency>
- <groupId>org.slf4j</groupId>
- <artifactId>slf4j-api</artifactId>
- </dependency>
- <dependency>
- <groupId>ch.qos.logback</groupId>
- <artifactId>logback-classic</artifactId>
- <version>1.3.0-alpha4</version>
-</dependency>
- <dependency>
- <groupId>org.slf4j</groupId>
- <artifactId>slf4j-log4j12</artifactId>
- <version>1.7.5</version>
- </dependency>
-<dependency>
-<groupId>org.docx4j</groupId>
-<artifactId>docx4j-JAXB-MOXy</artifactId>
-<version>8.0.0</version>
-</dependency>
-          <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        </dependency>
 		<dependency>
 			<groupId>net.ripe.ipresource</groupId>
 			<artifactId>ipresource</artifactId>
@@ -267,19 +84,24 @@
 			<version>1.2.17</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>1.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-collections</groupId>
-					<artifactId>commons-collections</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

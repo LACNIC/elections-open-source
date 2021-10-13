@@ -12,9 +12,8 @@
 			<module name="org.joda.time" />
 			<module name="javax.json.api" />
 			<module name="org.apache.commons.validator" />
-			<module name="jxl" />
 			<module name="org.apache.poi" />
-		
+			<module name="org.apache.poi-ooxml" />
 		</dependencies>
 	</deployment>
 

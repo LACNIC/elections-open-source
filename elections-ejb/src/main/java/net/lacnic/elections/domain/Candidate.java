@@ -73,6 +73,9 @@ public class Candidate implements Serializable {
 	@OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
 	private List<Vote> votes;
 
+	@Column(nullable = true)
+	private String mail;
+
 
 	public Candidate() { }
 
@@ -107,6 +110,7 @@ public class Candidate implements Serializable {
 		this.bioEnglish = null;
 		this.bioPortuguese = null;
 		this.pictureExtension = null;
+		this.mail = null;
 	}
 
 	public boolean isFixed() {
@@ -240,6 +244,14 @@ public class Candidate implements Serializable {
 
 	public void setVotes(List<Vote> votes) {
 		this.votes = votes;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 }

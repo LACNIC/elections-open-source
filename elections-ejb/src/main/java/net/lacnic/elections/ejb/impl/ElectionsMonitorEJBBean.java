@@ -960,6 +960,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		try {
 			List<Auditor> auditors = ElectionsDaoFactory.createAuditorDao(em).getAuditorsByEmail(email);
 			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByEmail(email);
+			List<Candidate> candidates = ElectionsDaoFactory.createCandidateDao(em).getCandidatesByEmail(email);
 
 			List<ElectionParticipationDetailReport> participations = new ArrayList<>();
 			for(Auditor auditor : auditors) {
@@ -967,6 +968,9 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			}
 			for(UserVoter userVoter : userVoters) {
 				participations.add(new ElectionParticipationDetailReport(userVoter));
+			}
+			for(Candidate candidate : candidates) {
+				participations.add(new ElectionParticipationDetailReport(candidate));
 			}
 
 			return participations;	

@@ -67,7 +67,7 @@ public interface ElectionsManagerEJB {
 
 	public void removeUserAdmin(String userAdminToDeleteId, String userAdminId, String ip);
 
-	public void updateElectionCensus(String contentType,long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception;
+	public void updateElectionCensus(String contentType, long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception;
 
 	public List<Election> getElectionsLightThisYear();
 

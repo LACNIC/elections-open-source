@@ -15,6 +15,7 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.apache.wicket.validation.validator.UrlValidator;
 
@@ -49,6 +50,11 @@ public class AddCandidatePanel extends Panel {
 			nameTextField.setRequired(true);
 			nameTextField.add(StringValidator.maximumLength(255));
 			add(nameTextField);
+
+			TextField<String> mail = new TextField<>("mail", new PropertyModel<>(candidate, "mail"));
+			mail.setRequired(true);
+			mail.add(EmailAddressValidator.getInstance());
+			add(mail);
 
 			addBios();
 

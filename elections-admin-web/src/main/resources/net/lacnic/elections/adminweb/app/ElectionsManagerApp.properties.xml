@@ -168,7 +168,7 @@
 	<entry key="electionManagementUpdateSuccess">La elección se ha actualizado con éxito</entry>
 
 	<!-- Census Management -->
-	<entry key="censusManagementTitle">Gestión del Padron Electoral</entry>
+	<entry key="censusManagementTitle">Gestión del Padrón Electoral</entry>
 	<entry key="censusManagementBack">Atrás</entry>
 	<entry key="censusManagementIgnore">Saltar</entry>
 	<entry key="censusManagementNext">Siguiente</entry>
@@ -182,7 +182,16 @@
 	<entry key="censusManagementFileDownload">Descargar ejemplo</entry>
 	<entry key="censusManagementErrNoFile">Debe seleccionar un archivo primero</entry>
 	<entry key="censusManagementSuccessUploadFile">El padrón electoral se ha actualizado con éxito</entry>
-	<entry key="censusManagementErrBif">Error leyendo el Padrón, verifique las Instrucciones</entry>
+	<entry key="censusManagementUploadMissingColumns">Faltan columnas requeridas, verifique las instrucciones.</entry>
+	<entry key="censusManagementUploadNullRequiredFields">Faltan campos requeridos en la fila {0}, verifique las instrucciones.</entry>
+	<entry key="censusManagementUploadWrongLanguage">Idioma '{0}' incorrecto en la fila {1}, debe ser SP, EN o PT.</entry>
+	<entry key="censusManagementUploadWrongEmail">Email '{0}' inválido en la fila {1}.</entry>
+	<entry key="censusManagementUploadDuplicateEmail">El email '{0}' en la fila {1} ya está registrado en el padrón.</entry>
+	<entry key="censusManagementUploadWrongVoteAmount">Cantidad de votos inválida en la fila {0}.</entry>
+	<entry key="censusManagementUploadWrongCountry">Código de país '{0}' inválido en la fila {1}.</entry>
+	<entry key="censusManagementUploadFileError">Error cargando el archivo, por favor intente nuevamente.</entry>
+	<entry key="censusManagementUploadUnknownFileType">Tipo de archivo no soportado, debe ser xls o xlsx.</entry>
+	<entry key="censusManagementErrBif">Error leyendo el padrón, verifique las instrucciones</entry>
 	<entry key="censusManagementAddUserTitle">Agregar un usuario al padrón</entry>
 	<entry key="censusManagementAddUserBtn">Agregar</entry>
 	<entry key="censusManagementPhName">Nombre</entry>
@@ -219,6 +228,7 @@
 	<entry key="censusManagementUserEditBtnCanc">Cancelar</entry>
 	<entry key="censusManagementUserEditBtnSave">Guardar</entry>
 	<entry key="censusManagementUserEditSuccess">Usuario se ha actualizado con éxito</entry>
+	<entry key="censusManagementDuplicateEmail">Ya existe un votante con el mismo e-mail en el Padrón.</entry>
 
 	<!-- Candidate Management -->
 	<entry key="candidateManagementTitle">Gestión de candidatos</entry>
@@ -227,6 +237,7 @@
 	<entry key="candidateManagementNext">Siguiente</entry>
 	<entry key="candidateManagementDetails">Candidatos</entry>
 	<entry key="candidateManagementCopyText">¿Copiar el mismo texto para el resto de los idiomas (EN y PT)? </entry>
+	<entry key="candidateManagementMail">Email</entry>
 	<entry key="candidateManagementName">Nombre candidato</entry>
 	<entry key="candidateManagementBioEsp">Biografía en español</entry>
 	<entry key="candidateManagementWebEsp">Web información español (incluir http:// o https://)</entry>
@@ -528,7 +539,7 @@
 	<entry key="voteHelp1">Para votar haga click sobre los candidatos de su preferencia, luego oprima el boton Votar. El sistema le pedirá que confirme su selección, para realizar esta acción oprima el botón confirmar.</entry>
 	<entry key="voteHelp2">Tenga en cuenta que en esta elección puede elegir hasta un máximo de </entry>
 	<entry key="voteHelp3"> candidatos.</entry>
-	<entry key="electionDetailTitle">Detalle elección</entry>	
+	<entry key="electionDetailTitle">Detalle elección</entry>
 	<entry key="voterLabel">Votante</entry>
 	<entry key="maxCandidatesLabel">Máx. selección</entry>
 	<entry key="voteAmountLabel">Valor voto</entry>
@@ -540,6 +551,7 @@
 	<entry key="tooManyCandidatesChosen">Ha seleccionado muchos candidatos. La cantidad máxima de candidatos a elegir es: </entry>
 	<entry key="noCandidateChosen">Debe seleccionar al menos un candidato.</entry>
 	<entry key="alreadyVotedMessage">Su voto se ha efectuado con éxito. Gracias por participar.</entry>
+	<entry key="tooLittleCandidatesChosen">Aún puede seleccionar más candidatos.</entry>
 
 	<!-- User Vote Elec Juntas  -->
 	<entry key="userVoteNoComplete">IMPORTANTE: RECUERDE VOTAR EN AMBAS ELECCIONES</entry>		
@@ -591,6 +603,7 @@
 
 	<!-- Common -->
 	<entry key="commontBtnActTokenPreg">Cambiar link de votación</entry>
+	<entry key="commontBtnViewVoteLinkTitle">Ver link de votación</entry>
 	<entry key="commontBtnActTokenConf">Confirmar</entry>
 	<entry key="commontBtnActTokenCanc">Cancelar</entry>
 	<entry key="commontBtnConfDelPreg">Eliminar</entry>
@@ -664,8 +677,5 @@
 	<entry key="errorAuditNotPublicDescription">La auditoria no está habilitada por el momento</entry>
 	<entry key="errorVoteNotPublicTitle">Acceso no autorizado</entry>
 	<entry key="errorVoteNotPublicDescription">La elección no está activa en este momento</entry>
-
-	<!-- Exceptions -->
-	<entry key="duplicateEmailException">Ya existe un votante con el mismo e-mail en el Padrón.</entry>
 
 </properties>
