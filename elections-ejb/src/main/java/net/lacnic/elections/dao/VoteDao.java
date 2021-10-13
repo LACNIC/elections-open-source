@@ -63,8 +63,10 @@ public class VoteDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getVotesAllIdAndDate() {
+	public List<Object[]> getVotesAllIdAndDate(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT v.voteId, v.candidate.candidateId FROM Vote v ORDER BY v.voteId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 	

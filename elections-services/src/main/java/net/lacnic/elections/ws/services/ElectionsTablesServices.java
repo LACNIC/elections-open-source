@@ -44,9 +44,9 @@ public class ElectionsTablesServices implements Serializable {
 
 
 	@GET
-	@Path("/activities")
+	@Path("/activities/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getActivities(@Context final HttpServletRequest request) {
+	public Response getActivities(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -57,7 +57,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getActivitiesBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getActivitiesBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -92,9 +92,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/auditors")
+	@Path("/auditors/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getAuditors(@Context final HttpServletRequest request) {
+	public Response getAuditors(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -105,7 +105,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getAuditorsBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getAuditorsBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -140,9 +140,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/candidates")
+	@Path("/candidates/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getCandidates(@Context final HttpServletRequest request) {
+	public Response getCandidates(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -153,7 +153,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCandidatesBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCandidatesBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -188,9 +188,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/commissioners")
+	@Path("/commissioners/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getCommissioners(@Context final HttpServletRequest request) {
+	public Response getCommissioners(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -201,7 +201,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCommissionersBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCommissionersBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -284,9 +284,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/elections")
+	@Path("/elections/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getElections(@Context final HttpServletRequest request) {
+	public Response getElections(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -297,7 +297,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -332,9 +332,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/electionemailtemplates")
+	@Path("/electionemailtemplates/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getElectionEmailTemplates(@Context final HttpServletRequest request) {
+	public Response getElectionEmailTemplates(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -345,7 +345,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionEmailTemplatesBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionEmailTemplatesBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -380,9 +380,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/emails")
+	@Path("/emails/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getEmails(@Context final HttpServletRequest request) {
+	public Response getEmails(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -393,7 +393,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getEmailsBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getEmailsBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -428,9 +428,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/emailshistory")
+	@Path("/emailshistory/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getEmailsHistory(@Context final HttpServletRequest request) {
+	public Response getEmailsHistory(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -441,7 +441,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getEmailsHistoryBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getEmailsHistoryBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -476,9 +476,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/ipaccesses")
+	@Path("/ipaccesses/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getIpAccesses(@Context final HttpServletRequest request) {
+	public Response getIpAccesses(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {			
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -489,7 +489,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getIpAccessesBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getIpAccessesBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -524,9 +524,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/jointelections")
+	@Path("/jointelections/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getJointElections(@Context final HttpServletRequest request) {
+	public Response getJointElections(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -536,7 +536,7 @@ public class ElectionsTablesServices implements Serializable {
 				return authResponse;
 			}
 
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getJointElectionsBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getJointElectionsBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -619,9 +619,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/useradmins")
+	@Path("/useradmins/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getUserAdmins(@Context final HttpServletRequest request) {
+	public Response getUserAdmins(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -632,7 +632,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TableReportDataStringId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserAdminBasicData();
+			List<TableReportDataStringId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserAdminBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -667,9 +667,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/uservoters")
+	@Path("/uservoters/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getUserVoters(@Context final HttpServletRequest request) {
+	public Response getUserVoters(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -680,7 +680,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserVotersBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserVotersBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -714,9 +714,9 @@ public class ElectionsTablesServices implements Serializable {
 	}
 
 	@GET
-	@Path("/votes")
+	@Path("/votes/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getVotes(@Context final HttpServletRequest request) {
+	public Response getVotes(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
 		try {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
@@ -727,7 +727,7 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getVotesBasicData();
+			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getVotesBasicData(pageSize, offset);
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);

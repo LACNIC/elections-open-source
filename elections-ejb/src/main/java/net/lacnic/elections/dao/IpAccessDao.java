@@ -41,8 +41,10 @@ public class IpAccessDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getIpAccessesAllIdAndDescription() {
+	public List<Object[]> getIpAccessesAllIdAndDescription(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT i.ipAccessId, i.ip FROM IpAccess i ORDER BY i.ipAccessId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

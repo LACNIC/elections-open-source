@@ -41,8 +41,10 @@ public class ActivityDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getActivitiesAllIdAndDescription() {
+	public List<Object[]> getActivitiesAllIdAndDescription(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT a.activityId, a.description FROM Activity a ORDER BY a.activityId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

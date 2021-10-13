@@ -176,8 +176,10 @@ public class UserVoterDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getUserVotersAllIdAndName() {
+	public List<Object[]> getUserVotersAllIdAndName(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT u.userVoterId, u.name FROM UserVoter u ORDER BY u.userVoterId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

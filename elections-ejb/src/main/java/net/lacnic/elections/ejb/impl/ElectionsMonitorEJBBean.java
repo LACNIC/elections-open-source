@@ -63,8 +63,9 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 	private static HealthCheck healthCheck;
 
-	public ElectionsMonitorEJBBean() {
-	}
+
+	public ElectionsMonitorEJBBean() { }
+
 
 	/**
 	 * Get the health check data.
@@ -98,8 +99,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 		List<ElectionReport> elections = electionReport();
 
-		return new HealthCheck(sendAttempts, failedAccessIps, failedAccessSum, mailsTotal, mailsPending, mailsSent,
-				elections);
+		return new HealthCheck(sendAttempts, failedAccessIps, failedAccessSum, mailsTotal, mailsPending, mailsSent, elections);
 	}
 
 	/**
@@ -119,8 +119,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			long usersNotVoted = reportDao.getElectionNotVotedYetAmount(id);
 			long usersTotal = reportDao.getElectionCensusSize(id);
 			long pendingMails = reportDao.getElectionPendingSendEmailsAmount(id);
-			ElectionReport eleccionReport = new ElectionReport(electionName, usersVoted, usersNotVoted, usersTotal,
-					pendingMails);
+			ElectionReport eleccionReport = new ElectionReport(electionName, usersVoted, usersNotVoted, usersTotal, pendingMails);
 			election.add(eleccionReport);
 		}
 
@@ -240,8 +239,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	@Override
 	public IpResourceSet getWsAuthorizedIps() {
 		try {
-			return IpResourceSet.parse(
-					ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTHORIZED_IPS).getValue());
+			return IpResourceSet.parse(ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTHORIZED_IPS).getValue());
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -254,15 +252,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of Activities id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getActivitiesBasicData() {
+	public List<TablesReportDataLongId> getActivitiesBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> activitiesData = new ArrayList<>();
-			List<Object[]> activitiesDataList = ElectionsDaoFactory.createActivityDao(em)
-					.getActivitiesAllIdAndDescription();
+			List<Object[]> activitiesDataList = ElectionsDaoFactory.createActivityDao(em).getActivitiesAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < activitiesDataList.size(); i++) {
-				activitiesData.add(new TablesReportDataLongId((Long) activitiesDataList.get(i)[0],
-						activitiesDataList.get(i)[1].toString()));
+				activitiesData.add(new TablesReportDataLongId((Long) activitiesDataList.get(i)[0], activitiesDataList.get(i)[1].toString()));
 			}
 
 			return activitiesData;
@@ -298,14 +294,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of Auditors id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getAuditorsBasicData() {
+	public List<TablesReportDataLongId> getAuditorsBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> auditorsData = new ArrayList<>();
-			List<Object[]> auditorsDataList = ElectionsDaoFactory.createAuditorDao(em).getAuditorsAllIdAndDescription();
+			List<Object[]> auditorsDataList = ElectionsDaoFactory.createAuditorDao(em).getAuditorsAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < auditorsDataList.size(); i++) {
-				auditorsData.add(new TablesReportDataLongId((Long) auditorsDataList.get(i)[0],
-						auditorsDataList.get(i)[1].toString()));
+				auditorsData.add(new TablesReportDataLongId((Long) auditorsDataList.get(i)[0], auditorsDataList.get(i)[1].toString()));
 			}
 
 			return auditorsData;
@@ -341,15 +336,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of Candidates id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getCandidatesBasicData() {
+	public List<TablesReportDataLongId> getCandidatesBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> candidatesData = new ArrayList<>();
-			List<Object[]> candidatesDataList = ElectionsDaoFactory.createCandidateDao(em)
-					.getCandidatesAllIdAndDescription();
+			List<Object[]> candidatesDataList = ElectionsDaoFactory.createCandidateDao(em).getCandidatesAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < candidatesDataList.size(); i++) {
-				candidatesData.add(new TablesReportDataLongId((Long) candidatesDataList.get(i)[0],
-						candidatesDataList.get(i)[1].toString()));
+				candidatesData.add(new TablesReportDataLongId((Long) candidatesDataList.get(i)[0], candidatesDataList.get(i)[1].toString()));
 			}
 
 			return candidatesData;
@@ -385,15 +378,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of Commissioners id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getCommissionersBasicData() {
+	public List<TablesReportDataLongId> getCommissionersBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> commissionersData = new ArrayList<>();
-			List<Object[]> commissionersDataList = ElectionsDaoFactory.createCommissionerDao(em)
-					.getCommissionersAllIdAndDescription();
+			List<Object[]> commissionersDataList = ElectionsDaoFactory.createCommissionerDao(em).getCommissionersAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < commissionersDataList.size(); i++) {
-				commissionersData.add(new TablesReportDataLongId((Long) commissionersDataList.get(i)[0],
-						commissionersDataList.get(i)[1].toString()));
+				commissionersData.add(new TablesReportDataLongId((Long) commissionersDataList.get(i)[0], commissionersDataList.get(i)[1].toString()));
 			}
 
 			return commissionersData;
@@ -432,12 +423,10 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	public List<TablesReportDataLongId> getCustomizationsBasicData() {
 		try {
 			List<TablesReportDataLongId> customizationData = new ArrayList<>();
-			List<Object[]> customizationDataList = ElectionsDaoFactory.createCustomizationDao(em)
-					.getCustomizationsAllIdAndDescription();
+			List<Object[]> customizationDataList = ElectionsDaoFactory.createCustomizationDao(em).getCustomizationsAllIdAndDescription();
 
 			for (int i = 0; i < customizationDataList.size(); i++) {
-				customizationData.add(new TablesReportDataLongId((Long) customizationDataList.get(i)[0],
-						customizationDataList.get(i)[1].toString()));
+				customizationData.add(new TablesReportDataLongId((Long) customizationDataList.get(i)[0], customizationDataList.get(i)[1].toString()));
 			}
 
 			return customizationData;
@@ -457,8 +446,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	@Override
 	public CustomizationTableReport getCustomizationTableReport(Long customizationId) {
 		try {
-			Customization customization = ElectionsDaoFactory.createCustomizationDao(em)
-					.getCustomizationById(customizationId);
+			Customization customization = ElectionsDaoFactory.createCustomizationDao(em).getCustomizationById(customizationId);
 			if (customization != null) {
 				return new CustomizationTableReport(customization);
 			}
@@ -474,14 +462,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of Elections id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getElectionsBasicData() {
+	public List<TablesReportDataLongId> getElectionsBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> electionsData = new ArrayList<>();
-			List<Object[]> electionsDataList = ElectionsDaoFactory.createElectionDao(em).getElectionsAllIdAndTitle();
+			List<Object[]> electionsDataList = ElectionsDaoFactory.createElectionDao(em).getElectionsAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < electionsDataList.size(); i++) {
-				electionsData.add(new TablesReportDataLongId((Long) electionsDataList.get(i)[0],
-						electionsDataList.get(i)[1].toString()));
+				electionsData.add(new TablesReportDataLongId((Long) electionsDataList.get(i)[0], electionsDataList.get(i)[1].toString()));
 			}
 
 			return electionsData;
@@ -518,15 +505,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of ElectionEmailTemplates id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getElectionEmailTemplatesBasicData() {
+	public List<TablesReportDataLongId> getElectionEmailTemplatesBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> electionEmailsDataList = new ArrayList<>();
-			List<Object[]> electionEmailsData = ElectionsDaoFactory.createElectionEmailTemplateDao(em)
-					.getElectionEmailTemplatesAllIdAndDescription();
+			List<Object[]> electionEmailsData = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionEmailTemplatesAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < electionEmailsData.size(); i++) {
-				electionEmailsDataList.add(new TablesReportDataLongId((Long) electionEmailsData.get(i)[0],
-						electionEmailsData.get(i)[1].toString()));
+				electionEmailsDataList.add(new TablesReportDataLongId((Long) electionEmailsData.get(i)[0], electionEmailsData.get(i)[1].toString()));
 			}
 
 			return electionEmailsDataList;
@@ -546,8 +531,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	@Override
 	public ElectionEmailTemplate getElectionEmailTemplateTableReport(Long electionEmailTemplateId) {
 		try {
-			ElectionEmailTemplate electionEmailTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em)
-					.getElectionEmailTemplate(electionEmailTemplateId);
+			ElectionEmailTemplate electionEmailTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionEmailTemplate(electionEmailTemplateId);
 			return electionEmailTemplate;
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -561,14 +545,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of Emails id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getEmailsBasicData() {
+	public List<TablesReportDataLongId> getEmailsBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> emailsData = new ArrayList<>();
-			List<Object[]> emailsDataList = ElectionsDaoFactory.createEmailDao(em).getEmailsAllIdAndDescription();
+			List<Object[]> emailsDataList = ElectionsDaoFactory.createEmailDao(em).getEmailsAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < emailsDataList.size(); i++) {
-				emailsData.add(new TablesReportDataLongId((Long) emailsDataList.get(i)[0],
-						emailsDataList.get(i)[1].toString()));
+				emailsData.add(new TablesReportDataLongId((Long) emailsDataList.get(i)[0], emailsDataList.get(i)[1].toString()));
 			}
 
 			return emailsData;
@@ -604,15 +587,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of EmailsHistory id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getEmailsHistoryBasicData() {
+	public List<TablesReportDataLongId> getEmailsHistoryBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> emailsHistoryData = new ArrayList<>();
-			List<Object[]> emailsHistoryDataList = ElectionsDaoFactory.createEmailDao(em)
-					.getEmailsHistoryAllIdAndDescription();
+			List<Object[]> emailsHistoryDataList = ElectionsDaoFactory.createEmailDao(em).getEmailsHistoryAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < emailsHistoryDataList.size(); i++) {
-				emailsHistoryData.add(new TablesReportDataLongId((Long) emailsHistoryDataList.get(i)[0],
-						emailsHistoryDataList.get(i)[1].toString()));
+				emailsHistoryData.add(new TablesReportDataLongId((Long) emailsHistoryDataList.get(i)[0], emailsHistoryDataList.get(i)[1].toString()));
 			}
 
 			return emailsHistoryData;
@@ -648,15 +629,13 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of IpAccesses id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getIpAccessesBasicData() {
+	public List<TablesReportDataLongId> getIpAccessesBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> ipAccessesData = new ArrayList<>();
-			List<Object[]> ipAccessesDataList = ElectionsDaoFactory.createIpAccessDao(em)
-					.getIpAccessesAllIdAndDescription();
+			List<Object[]> ipAccessesDataList = ElectionsDaoFactory.createIpAccessDao(em).getIpAccessesAllIdAndDescription(pageSize, offset);
 
 			for (int i = 0; i < ipAccessesDataList.size(); i++) {
-				ipAccessesData.add(new TablesReportDataLongId((Long) ipAccessesDataList.get(i)[0],
-						ipAccessesDataList.get(i)[1].toString()));
+				ipAccessesData.add(new TablesReportDataLongId((Long) ipAccessesDataList.get(i)[0], ipAccessesDataList.get(i)[1].toString()));
 			}
 
 			return ipAccessesData;
@@ -690,10 +669,10 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of JointElections id and description
 	 */
 	@Override
-	public List<TablesReportDataLongId> getJointElectionsBasicData() {
+	public List<TablesReportDataLongId> getJointElectionsBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> jointElectionsData = new ArrayList<>();
-			List<Long> jointElectionsDataList = ElectionsDaoFactory.createJointElectionDao(em).getJointElectionsIds();
+			List<Long> jointElectionsDataList = ElectionsDaoFactory.createJointElectionDao(em).getJointElectionsIds(pageSize, offset);
 
 			for (int i = 0; i < jointElectionsDataList.size(); i++) {
 				jointElectionsData.add(new TablesReportDataLongId((Long) jointElectionsDataList.get(i), ""));
@@ -716,8 +695,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	@Override
 	public JointElection getJointElectionTableReport(Long jointElectionId) {
 		try {
-			JointElection jointelection = ElectionsDaoFactory.createJointElectionDao(em)
-					.getJointElection(jointElectionId);
+			JointElection jointelection = ElectionsDaoFactory.createJointElectionDao(em).getJointElection(jointElectionId);
 			return jointelection;
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -767,8 +745,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			Parameter parameter = ElectionsDaoFactory.createParameterDao(em).getParameter(key);
 			if (parameter != null) {
 				if (parameter.getKey().equals(Constants.EMAIL_HOST) || parameter.getKey().equals(Constants.EMAIL_USER)
-						|| parameter.getKey().equals(Constants.EMAIL_PASSWORD)
-						|| parameter.getKey().equals(Constants.WS_AUTH_TOKEN)
+						|| parameter.getKey().equals(Constants.EMAIL_PASSWORD) || parameter.getKey().equals(Constants.WS_AUTH_TOKEN)
 						|| parameter.getKey().equals(Constants.WS_AUTHORIZED_IPS)) {
 					parameter.setValue("**********");
 				}
@@ -786,10 +763,10 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of UserAdmins id and name
 	 */
 	@Override
-	public List<TableReportDataStringId> getUserAdminBasicData() {
+	public List<TableReportDataStringId> getUserAdminBasicData(int pageSize, int offset) {
 		try {
 			List<TableReportDataStringId> userAdminsData = new ArrayList<>();
-			List<Object[]> userAdminsDataList = ElectionsDaoFactory.createUserAdminDao(em).getUserAdminsAllIdAndName();
+			List<Object[]> userAdminsDataList = ElectionsDaoFactory.createUserAdminDao(em).getUserAdminsAllIdAndName(pageSize, offset);
 
 			for (int i = 0; i < userAdminsDataList.size(); i++) {
 				userAdminsData.add(new TableReportDataStringId(userAdminsDataList.get(i)[0].toString(), userAdminsDataList.get(i)[1].toString()));
@@ -828,10 +805,10 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of UserVoters id and name
 	 */
 	@Override
-	public List<TablesReportDataLongId> getUserVotersBasicData() {
+	public List<TablesReportDataLongId> getUserVotersBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> userVotersData = new ArrayList<>();
-			List<Object[]> userVotersDataList = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersAllIdAndName();
+			List<Object[]> userVotersDataList = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersAllIdAndName(pageSize, offset);
 
 			for (int i = 0; i < userVotersDataList.size(); i++) {
 				userVotersData.add(new TablesReportDataLongId((Long) userVotersDataList.get(i)[0], userVotersDataList.get(i)[1].toString()));
@@ -870,10 +847,10 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return List of Votes id and date
 	 */
 	@Override
-	public List<TablesReportDataLongId> getVotesBasicData() {
+	public List<TablesReportDataLongId> getVotesBasicData(int pageSize, int offset) {
 		try {
 			List<TablesReportDataLongId> votesData = new ArrayList<>();
-			List<Object[]> votesDataList = ElectionsDaoFactory.createVoteDao(em).getVotesAllIdAndDate();
+			List<Object[]> votesDataList = ElectionsDaoFactory.createVoteDao(em).getVotesAllIdAndDate(pageSize, offset);
 
 			for (int i = 0; i < votesDataList.size(); i++) {
 				votesData.add(new TablesReportDataLongId((Long) votesDataList.get(i)[0], votesDataList.get(i)[1].toString()));

@@ -45,19 +45,19 @@ public interface ElectionsMonitorEJB {
 
 	public IpResourceSet getWsAuthorizedIps();
 
-	public List<TablesReportDataLongId> getActivitiesBasicData();
+	public List<TablesReportDataLongId> getActivitiesBasicData(int pageSize, int offset);
 
 	public ActivityTableReport getActivityTableReport(Long activityId);
 
-	public List<TablesReportDataLongId> getAuditorsBasicData();
+	public List<TablesReportDataLongId> getAuditorsBasicData(int pageSize, int offset);
 
 	public AuditorTableReport getAuditorTableReport(Long auditorId);
 
-	public List<TablesReportDataLongId> getCandidatesBasicData();
+	public List<TablesReportDataLongId> getCandidatesBasicData(int pageSize, int offset);
 
 	public CandidateTableReport getCandidateTableReport(Long candidateId);
 
-	public List<TablesReportDataLongId> getCommissionersBasicData();
+	public List<TablesReportDataLongId> getCommissionersBasicData(int pageSize, int offset);
 
 	public CommissionerTableReport getCommissionerTableReport(Long commissionerId);
 
@@ -65,27 +65,27 @@ public interface ElectionsMonitorEJB {
 
 	public CustomizationTableReport getCustomizationTableReport(Long customizationId);
 
-	public List<TablesReportDataLongId> getElectionsBasicData();
+	public List<TablesReportDataLongId> getElectionsBasicData(int pageSize, int offset);
 
 	public ElectionTableReport getElectionTableReport(Long electionId);
 
-	public List<TablesReportDataLongId> getElectionEmailTemplatesBasicData();
+	public List<TablesReportDataLongId> getElectionEmailTemplatesBasicData(int pageSize, int offset);
 
 	public ElectionEmailTemplate getElectionEmailTemplateTableReport(Long electionEmailTemplateId);
 
-	public List<TablesReportDataLongId> getEmailsBasicData();
+	public List<TablesReportDataLongId> getEmailsBasicData(int pageSize, int offset);
 
 	public EmailTableReport getEmailTableReport(Long emailId);
 
-	public List<TablesReportDataLongId> getEmailsHistoryBasicData();
+	public List<TablesReportDataLongId> getEmailsHistoryBasicData(int pageSize, int offset);
 
 	public EmailTableReport getEmailHistoryTableReport(Long emailHistoryId);
 
-	public List<TablesReportDataLongId> getIpAccessesBasicData();
+	public List<TablesReportDataLongId> getIpAccessesBasicData(int pageSize, int offset);
 
 	public IpAccess getIpAccessTableReport(Long ipAccessId);
 
-	public List<TablesReportDataLongId> getJointElectionsBasicData();
+	public List<TablesReportDataLongId> getJointElectionsBasicData(int pageSize, int offset);
 
 	public JointElection getJointElectionTableReport(Long jointElectionId);
 
@@ -93,15 +93,15 @@ public interface ElectionsMonitorEJB {
 
 	public Parameter getParameterReport(String key);
 
-	public List<TableReportDataStringId> getUserAdminBasicData();
+	public List<TableReportDataStringId> getUserAdminBasicData(int pageSize, int offset);
 
 	public UserAdminTableReport getUserAdminReportTable(String userAdminId);
 
-	public List<TablesReportDataLongId> getUserVotersBasicData();
+	public List<TablesReportDataLongId> getUserVotersBasicData(int pageSize, int offset);
 
 	public UserVoterTableReport getUserVoterReportTable(Long userVoterId);
 
-	public List<TablesReportDataLongId> getVotesBasicData();
+	public List<TablesReportDataLongId> getVotesBasicData(int pageSize, int offset);
 
 	public VoteTableReport getVoteTableReport(Long voteId);
 

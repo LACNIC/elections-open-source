@@ -103,22 +103,11 @@ public class CandidateDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getCandidatesAllIdAndDescription() {
+	public List<Object[]> getCandidatesAllIdAndDescription(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT c.candidateId, c.name FROM Candidate c ORDER BY c.candidateId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
-
-//	@SuppressWarnings("unchecked")
-//	public List<Object[]> getCandidateByElectionId(long electionId) {
-//		Query q = em.createQuery("SELECT c FROM Candidate c  WHERE c.election.electionId = :electionId ORDER BY c.candidateId");
-//		q.setParameter("electionId", electionId);
-//		return q.getResultList();
-//	}
-	
-//	public List<Candidate> getCandidatesByElectionId(Long electionId) {
-//		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c  WHERE c.election.electionId = :electionId ORDER BY c.candidateId", Candidate.class);
-//		q.setParameter("electionId", electionId);
-//		return q.getResultList();
-//	}
 
 }

@@ -17,8 +17,10 @@ public class JointElectionDao {
 		this.em = em;
 	}
 
-	public List<Long> getJointElectionsIds() {
+	public List<Long> getJointElectionsIds(int pageSize, int offset) {
 		TypedQuery<Long> q = em.createQuery("SELECT j.jointElectionId FROM JointElection j ORDER BY j.jointElectionId", Long.class);
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

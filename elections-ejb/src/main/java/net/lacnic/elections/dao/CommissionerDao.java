@@ -53,8 +53,10 @@ public class CommissionerDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getCommissionersAllIdAndDescription() {
+	public List<Object[]> getCommissionersAllIdAndDescription(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT c.commissionerId, c.name FROM Commissioner c ORDER BY c.commissionerId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

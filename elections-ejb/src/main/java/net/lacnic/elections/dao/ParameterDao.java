@@ -38,21 +38,4 @@ public class ParameterDao {
 		return q.getResultList();
 	}
 
-//	@SuppressWarnings("unchecked")
-//	public List<Object[]> getParameterReportTable() {
-//		Query q = em.createQuery("SELECT p.key, p.value FROM Parameter p WHERE p.key NOT IN ('EMAIL_HOST','WS_AUTHORIZED_IPS','EMAIL_PASSWORD', 'EMAIL_USER', 'WS_AUTH_TOKEN')");
-//		return q.getResultList();
-//	}
-
-//	public Parameter getParameterReport(String key) {
-//		try {
-//			TypedQuery<Parameter> q = em.createQuery("SELECT p FROM Parameter p WHERE p.key = :key AND p.key NOT IN ('EMAIL_HOST','WS_AUTHORIZED_IPS','EMAIL_PASSWORD', 'EMAIL_USER', 'WS_AUTH_TOKEN')", Parameter.class);
-//			q.setParameter("key", key);
-//			return q.getSingleResult();
-//		} catch (Exception e) {
-//			appLogger.error(e);
-//			return null;
-//		}
-//	}
-
 }

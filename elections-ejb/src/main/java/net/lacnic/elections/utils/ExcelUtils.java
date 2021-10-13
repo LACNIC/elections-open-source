@@ -26,7 +26,7 @@ import net.lacnic.elections.exception.CensusValidationException;
 
 
 /**
- * Util class for Excel operations in xlsx format
+ * Util class for Excel operations
  * 
  */
 public class ExcelUtils {
@@ -225,6 +225,13 @@ public class ExcelUtils {
 	}
 
 
+	/**
+	 * Export the list of voters to a xlsx Excel file
+	 * 
+	 * @param userVoters the voters list
+	 * @param fileName the file name
+	 * @return the File object
+	 */
 	public static File exportToExcel(List<UserVoter> userVoters, String fileName) {
 		File file = new File(System.getProperty(TEMP_DIR).concat(fileName));
 

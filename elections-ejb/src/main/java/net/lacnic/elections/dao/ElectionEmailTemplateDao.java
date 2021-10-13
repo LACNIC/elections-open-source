@@ -108,8 +108,10 @@ public class ElectionEmailTemplateDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getElectionEmailTemplatesAllIdAndDescription() {
+	public List<Object[]> getElectionEmailTemplatesAllIdAndDescription(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT e.electionEmailTemplateId, e.templateType FROM ElectionEmailTemplate e ORDER BY e.electionEmailTemplateId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

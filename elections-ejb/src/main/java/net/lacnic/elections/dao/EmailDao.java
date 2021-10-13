@@ -68,14 +68,18 @@ public class EmailDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getEmailsAllIdAndDescription() {
+	public List<Object[]> getEmailsAllIdAndDescription(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT e.emailId, e.subject FROM Email e ORDER BY e.emailId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getEmailsHistoryAllIdAndDescription() {
+	public List<Object[]> getEmailsHistoryAllIdAndDescription(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT eh.emailHistoryId, eh.subject FROM EmailHistory eh ORDER BY eh.emailHistoryId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

@@ -98,8 +98,10 @@ public class AuditorDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getAuditorsAllIdAndDescription() {
+	public List<Object[]> getAuditorsAllIdAndDescription(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT a.auditorId, a.name FROM Auditor a ORDER BY a.auditorId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

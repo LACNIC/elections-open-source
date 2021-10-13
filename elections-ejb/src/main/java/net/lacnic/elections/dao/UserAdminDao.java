@@ -80,8 +80,10 @@ public class UserAdminDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getUserAdminsAllIdAndName() {		
+	public List<Object[]> getUserAdminsAllIdAndName(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT a.userAdminId, a.email FROM UserAdmin a ORDER BY a.userAdminId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();		
 	}
 

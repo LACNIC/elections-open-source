@@ -92,4 +92,12 @@ public class ElectionDao {
 		return q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getElectionsAllIdAndDescription(int pageSize, int offset) {
+		Query q = em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e ORDER BY e.electionId");
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
+		return q.getResultList();
+	}
+
 }
