@@ -34,6 +34,13 @@ public class ElectionDao {
 		return q.getResultList();
 	}
 
+	public List<Election> getElections(int pageSize, int offset) {
+		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e ORDER BY e.electionId", Election.class);
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
+		return q.getResultList();
+	}
+
 	public Election getElectionByResultToken(String resultToken) {
 		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e WHERE e.resultToken = :resultToken", Election.class);
 		q.setParameter("resultToken", resultToken);

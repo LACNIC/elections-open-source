@@ -39,10 +39,10 @@ public class JointElectionsListPanel extends Panel {
 
 				@Override
 				protected void populateItem(ListItem<JointElection> item) {
-					final JointElection actual = item.getModelObject();
+					final JointElection current = item.getModelObject();
 					try {
-						item.add(new Label("electionA", AppContext.getInstance().getManagerBeanRemote().getElection(actual.getIdElectionA()).getTitleSpanish()));
-						item.add(new Label("electionB", AppContext.getInstance().getManagerBeanRemote().getElection(actual.getIdElectionB()).getTitleSpanish()));
+						item.add(new Label("electionA", AppContext.getInstance().getManagerBeanRemote().getElection(current.getIdElectionA()).getTitleSpanish()));
+						item.add(new Label("electionB", AppContext.getInstance().getManagerBeanRemote().getElection(current.getIdElectionB()).getTitleSpanish()));
 
 						ButtonDeleteWithConfirmation buttonDelete = new ButtonDeleteWithConfirmation("remove", item.getIndex()) {
 							private static final long serialVersionUID = 6986190296016629836L;
@@ -50,7 +50,7 @@ public class JointElectionsListPanel extends Panel {
 							@Override
 							public void onConfirm() {
 								try {
-									AppContext.getInstance().getManagerBeanRemote().removeJointElection(actual);
+									AppContext.getInstance().getManagerBeanRemote().removeJointElection(current);
 									getSession().info(getString("unitedElecListExitoDel"));
 									setResponsePage(JointElectionsDashboard.class);
 								} catch (Exception e) {

@@ -24,7 +24,7 @@ public class ActivitiesListPanel extends Panel {
 	private List<Activity> activitiesList; 
 
 
-	public ActivitiesListPanel(String id, long electionId){
+	public ActivitiesListPanel(String id, long electionId) {
 		super(id);
 		if(electionId == -1)
 			activitiesList = AppContext.getInstance().getManagerBeanRemote().getActivitiesAll();
@@ -42,14 +42,14 @@ public class ActivitiesListPanel extends Panel {
 
 				@Override
 				protected void populateItem(ListItem<Activity> item) {
-					final Activity actual = item.getModelObject();
+					final Activity current = item.getModelObject();
 					try {
-						item.add(new Label("userName", actual.getUserName()));
-						item.add(new Label("activityType", actual.getActivityType().toString()));
-						item.add(new Label("electionId", actual.getElectionId()));
-						item.add(new Label("ip", actual.getIp()));
-						item.add(new Label("timestamp", sdf.format(actual.getTimestamp())));
-						item.add(new MultiLineLabel("description", actual.getDescription()));
+						item.add(new Label("userName", current.getUserName()));
+						item.add(new Label("activityType", current.getActivityType().toString()));
+						item.add(new Label("electionId", current.getElectionId()));
+						item.add(new Label("ip", current.getIp()));
+						item.add(new Label("timestamp", sdf.format(current.getTimestamp())));
+						item.add(new MultiLineLabel("description", current.getDescription()));
 					} catch (Exception e) {
 						appLogger.error(e);
 						error(e.getMessage());

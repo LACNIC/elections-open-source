@@ -25,6 +25,7 @@ import net.lacnic.elections.domain.services.detail.ElectionParticipationDetailRe
 import net.lacnic.elections.domain.services.detail.OrganizationVoterDetailReport;
 import net.lacnic.elections.ws.app.AppContext;
 import net.lacnic.elections.ws.auth.WebServiceAuthentication;
+import net.lacnic.elections.ws.services.util.PagingUtil;
 
 
 @Path("/")
@@ -82,22 +83,37 @@ public class ElectionsService implements Serializable {
 		}
 	}
 
+
+	/*** Elections detail ***/
+
 	@GET
-	@Path("/electionsDetail")
+	@Path("/electionsDetail{path: .*}")
 	@Produces("application/json; charset=UTF-8")
 	public Response getElectionsDetail(@Context final HttpServletRequest request) {
+		return getElectionsDetail(request, null, null);
+	}
+
+	@GET
+	@Path("/electionsDetail/{pageSize}/{offset}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionsDetail(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<ElectionDetailReport> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsDetailReport(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/electionsDetail")).build();
 			}
-
-			// Auth OK, return requested data
-			List<ElectionDetailReport> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsDetailReport();
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -118,52 +134,86 @@ public class ElectionsService implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			ElectionDetailReport listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionDetailReport(id);
-			return Response.ok(listTablesReportData).build();
+			ElectionDetailReport electionReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionDetailReport(id);
+			if(electionReportData != null) {
+				return Response.ok(electionReportData).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
 		}
 	}
 
+
+	/*** Elections participations by mail ***/
+
 	@GET
-	@Path("/electionsParticipationsByEmail/{email}")
+	@Path("/electionsParticipationsByEmail{path: .*}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getElectionsParticipationsByEmail(@Context final HttpServletRequest request, @PathParam("email") String email) {
+	public Response getElectionsParticipationsByEmail(@Context final HttpServletRequest request) {
+		return getElectionsParticipationsByEmail(request, null, null, null);
+	}
+
+	@GET
+	@Path("/electionsParticipationsByEmail/{email}/{pageSize}/{offset}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionsParticipationsByEmail(@Context final HttpServletRequest request, @PathParam("email") String email, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<ElectionParticipationDetailReport> participationsDetailList = AppContext.getInstance().getMonitorBeanRemote().getElectionsParticipationsByEmail(email, pageSize, offset);
+				return Response.ok(participationsDetailList).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/electionsParticipationsByEmail/<email>")).build();
 			}
-
-			// Auth OK, return requested data
-			List<ElectionParticipationDetailReport> participationsDetailList = AppContext.getInstance().getMonitorBeanRemote().getElectionsParticipationsByEmail(email);
-			return Response.ok(participationsDetailList).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
 		}
 	}
 
+
+	/*** Elections participations by organization ***/
+
 	@GET
-	@Path("/electionsParticipationsByOrg/{orgID}")
+	@Path("/electionsParticipationsByOrg{path: .*}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getOrganizationDetails(@Context final HttpServletRequest request, @PathParam("orgID") String orgID) {
+	public Response getElectionsParticipationsByOrganization(@Context final HttpServletRequest request) {
+		return getElectionsParticipationsByOrganization(request, null, null, null);
+	}
+
+	@GET
+	@Path("/electionsParticipationsByOrg/{orgID}/{pageSize}/{offset}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionsParticipationsByOrganization(@Context final HttpServletRequest request, @PathParam("orgID") String orgID, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<OrganizationVoterDetailReport> participationsDetailList = AppContext.getInstance().getMonitorBeanRemote().getElectionsParticipationsByOrgId(orgID, pageSize, offset);
+				return Response.ok(participationsDetailList).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/electionsParticipationsByOrg/<orgID>")).build();
 			}
-
-			// Auth OK, return requested data
-			List<OrganizationVoterDetailReport> participationsDetailList = AppContext.getInstance().getMonitorBeanRemote().getElectionsParticipationsByOrgId(orgID);
-			return Response.ok(participationsDetailList).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();

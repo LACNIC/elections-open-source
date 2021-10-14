@@ -30,9 +30,11 @@ public class CandidateDao {
 		return q.getSingleResult();
 	}
 
-	public List<Candidate> getCandidatesByEmail(String email) {		
+	public List<Candidate> getCandidatesByEmail(String email, int pageSize, int offset) {
 		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c WHERE c.mail = :email ORDER BY c.candidateId", Candidate.class);
 		q.setParameter("email", email);
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

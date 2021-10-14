@@ -9,6 +9,7 @@
 			<module name="org.jboss.ejb-client" />
 			<module name="net.ipresource" />
 			<module name="deployment.elections-ejb.jar" />
+			<module name="org.jboss.resteasy.resteasy-jackson2-provider" />
 		</dependencies>
 	</deployment>
 </jboss-deployment-structure>

@@ -44,6 +44,7 @@ ALTER TABLE candidato RENAME COLUMN linkespanol TO linkspanish;
 ALTER TABLE candidato RENAME COLUMN linkingles TO linkenglish;
 ALTER TABLE candidato RENAME COLUMN linkportugues TO linkportuguese;
 ALTER TABLE candidato RENAME TO candidate;
+ALTER TABLE candidate ADD COLUMN mail CHARACTER VARYING(255);
 
 -- comisionado
 ALTER TABLE comisionado RENAME COLUMN id_comisionado TO commissioner_id;

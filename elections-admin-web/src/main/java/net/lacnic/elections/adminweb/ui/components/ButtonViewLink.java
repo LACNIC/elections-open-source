@@ -14,7 +14,6 @@ public abstract class ButtonViewLink extends Panel {
 
 	private WebMarkupContainer container;
 	private AjaxLink<Void> viewLinkButton;
-	private AjaxLink<Void> hideLinkButton;
 	private ExternalLink voteLink;
 
 
@@ -41,7 +40,6 @@ public abstract class ButtonViewLink extends Panel {
 				target.add(container);
 				voteLink.setVisible(true);
 				viewLinkButton.setVisible(false);
-				hideLinkButton.setVisible(true);
 				if(voteLink.isVisible()) {
 					registerActivity();
 				}
@@ -50,24 +48,8 @@ public abstract class ButtonViewLink extends Panel {
 		viewLinkButton.setMarkupId(id + i);
 		viewLinkButton.setOutputMarkupPlaceholderTag(true);
 
-		hideLinkButton = new AjaxLink<Void>("hideLinkButton") {
-			private static final long serialVersionUID = -8573643875855205238L;
-
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				target.add(container);
-				voteLink.setVisible(false);
-				viewLinkButton.setVisible(true);
-				hideLinkButton.setVisible(false);
-			}
-		};
-		hideLinkButton.setVisible(false);
-		hideLinkButton.setMarkupId("hideLinkButton" + i);
-		hideLinkButton.setOutputMarkupPlaceholderTag(true);
-
 		container.add(voteLink);
 		container.add(viewLinkButton);
-		container.add(hideLinkButton);
 	}
 
 	public abstract void registerActivity();

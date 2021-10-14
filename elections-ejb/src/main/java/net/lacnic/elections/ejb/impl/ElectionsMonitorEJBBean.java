@@ -247,6 +247,21 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
+	 * Gets the maximum page size for services. It is specified with the
+	 * WS_MAX_PAGE_SIZE parameter
+	 * 
+	 * @return the max page size
+	 */
+	public Integer getWsMaxPageSize() {
+		try {
+			return Integer.parseInt(ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_MAX_PAGE_SIZE).getValue());
+		} catch (Exception e) {
+			appLogger.error(e);
+		}
+		return null;
+	}
+
+	/**
 	 * Returns a list with id and description for all Activities in the system
 	 * 
 	 * @return List of Activities id and description
@@ -889,9 +904,9 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return A List of ElectionDetailReport containing the information
 	 */
 	@Override
-	public List<ElectionDetailReport> getElectionsDetailReport() {
+	public List<ElectionDetailReport> getElectionsDetailReport(int pageSize, int offset) {
 		try {
-			List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElections();
+			List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElections(pageSize, offset);
 			List<ElectionDetailReport> electionsDetailList = new ArrayList<ElectionDetailReport>();
 			for(Election election : elections) {
 				electionsDetailList.add(new ElectionDetailReport(election));
@@ -933,11 +948,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return A list of ElectionParticipationDetailReport instances containing the information
 	 */
 	@Override
-	public List<ElectionParticipationDetailReport> getElectionsParticipationsByEmail(String email) {
+	public List<ElectionParticipationDetailReport> getElectionsParticipationsByEmail(String email, int pageSize, int offset) {
 		try {
-			List<Auditor> auditors = ElectionsDaoFactory.createAuditorDao(em).getAuditorsByEmail(email);
-			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByEmail(email);
-			List<Candidate> candidates = ElectionsDaoFactory.createCandidateDao(em).getCandidatesByEmail(email);
+			List<Auditor> auditors = ElectionsDaoFactory.createAuditorDao(em).getAuditorsByEmail(email, pageSize, offset);
+			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByEmail(email, pageSize, offset);
+			List<Candidate> candidates = ElectionsDaoFactory.createCandidateDao(em).getCandidatesByEmail(email, pageSize, offset);
 
 			List<ElectionParticipationDetailReport> participations = new ArrayList<>();
 			for(Auditor auditor : auditors) {
@@ -965,9 +980,9 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return A list of OrganizationVoterDetailReport instances containing the information
 	 */
 	@Override
-	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID){
+	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID, int pageSize, int offset){
 		try {
-			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByOrganization(orgID);
+			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByOrganization(orgID, pageSize, offset);
 			List<OrganizationVoterDetailReport> orgVoterDetailList = new ArrayList<>();
 			for(UserVoter userVoter : userVoters) {
 				orgVoterDetailList.add(new OrganizationVoterDetailReport(userVoter));

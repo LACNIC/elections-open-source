@@ -136,3 +136,11 @@ UPDATE public.activity SET activitytype='ADD_PARAMETER' WHERE activitytype='AGRE
 UPDATE public.activity SET activitytype='EDIT_PARAMETER' WHERE activitytype='EDITAR_PARAMETRO';
 UPDATE public.activity SET activitytype='DELETE_PARAMETER' WHERE activitytype='ELIMINAR_PARAMETRO';
 UPDATE public.activity SET activitytype='ADD_BASE_TEMPLATE' WHERE activitytype='AGREGAR_TEMPLATE_BASE';
+
+INSERT INTO public.parameter (key, value) VALUES
+('WS_AUTH_METHOD', 'APP'),
+('WS_LACNIC_AUTH_URL', 'https://pai.lacnic.net/portal-ws/authorization'),
+('WS_MAX_PAGE_SIZE', '50');
+
+UPDATE public.parameter SET value = REPLACE(value, '/elecciones', '/elections')
+WHERE key='WEBSITE_DEFAULT';

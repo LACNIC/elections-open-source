@@ -31,9 +31,11 @@ public class UserVoterDao {
 		return q.getResultList();
 	}
 
-	public List<UserVoter> getUserVotersByEmail(String email) {		
+	public List<UserVoter> getUserVotersByEmail(String email, int pageSize, int offset) {
 		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u WHERE u.mail = :email ORDER BY u.userVoterId", UserVoter.class);
 		q.setParameter("email", email);
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 	
@@ -183,9 +185,11 @@ public class UserVoterDao {
 		return q.getResultList();
 	}
 
-	public List <UserVoter> getUserVotersByOrganization(String orgID) {
-		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u WHERE u.orgID = :orgID ORDER BY u.orgID", UserVoter.class);
+	public List<UserVoter> getUserVotersByOrganization(String orgID, int pageSize, int offset) {
+		TypedQuery<UserVoter> q = em.createQuery("SELECT u FROM UserVoter u WHERE u.orgID = :orgID ORDER BY u.orgID, u.userVoterId", UserVoter.class);
 		q.setParameter("orgID", orgID);
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 

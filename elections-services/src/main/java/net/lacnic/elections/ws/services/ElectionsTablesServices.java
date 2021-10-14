@@ -32,6 +32,7 @@ import net.lacnic.elections.domain.services.dbtables.UserVoterTableReport;
 import net.lacnic.elections.domain.services.dbtables.VoteTableReport;
 import net.lacnic.elections.ws.app.AppContext;
 import net.lacnic.elections.ws.auth.WebServiceAuthentication;
+import net.lacnic.elections.ws.services.util.PagingUtil;
 
 
 @Path("/tables")
@@ -43,22 +44,36 @@ public class ElectionsTablesServices implements Serializable {
 
 
 
+	/*** Activities ***/
+
+	@GET
+	@Path("/activities{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getActivities(@Context final HttpServletRequest request) {
+		return getActivities(request, null, null);
+	}
+
 	@GET
 	@Path("/activities/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getActivities(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getActivities(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getActivitiesBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/activities")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getActivitiesBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -91,22 +106,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** Auditors ***/
+
+	@GET
+	@Path("/auditors{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getAuditors(@Context final HttpServletRequest request) {
+		return getAuditors(request, null, null);
+	}
+
 	@GET
 	@Path("/auditors/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getAuditors(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getAuditors(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getAuditorsBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/auditors")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getAuditorsBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -139,22 +169,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** Candidates ***/
+
+	@GET
+	@Path("/candidates{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getCandidates(@Context final HttpServletRequest request) {
+		return getCandidates(request, null, null);
+	}
+
 	@GET
 	@Path("/candidates/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getCandidates(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getCandidates(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCandidatesBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/candidates")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCandidatesBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -187,22 +232,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** Commissioners ***/
+
+	@GET
+	@Path("/commissioners{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getCommissioners(@Context final HttpServletRequest request) {
+		return getCommissioners(request, null, null);
+	}
+
 	@GET
 	@Path("/commissioners/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getCommissioners(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getCommissioners(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCommissionersBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/commissioners")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCommissionersBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -234,6 +294,9 @@ public class ElectionsTablesServices implements Serializable {
 			return Response.serverError().build();
 		}
 	}
+
+
+	/*** Customizations ***/
 
 	@GET
 	@Path("/customizations")
@@ -283,22 +346,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** Elections ***/
+
+	@GET
+	@Path("/elections{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElections(@Context final HttpServletRequest request) {
+		return getElections(request, null, null);
+	}
+
 	@GET
 	@Path("/elections/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getElections(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getElections(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/elections")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionsBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -331,22 +409,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** ElectionEmailTemplates ***/
+
+	@GET
+	@Path("/electionemailtemplates{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionEmailTemplates(@Context final HttpServletRequest request) {
+		return getElectionEmailTemplates(request, null, null);
+	}
+
 	@GET
 	@Path("/electionemailtemplates/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getElectionEmailTemplates(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getElectionEmailTemplates(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionEmailTemplatesBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/electionemailtemplates")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionEmailTemplatesBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -379,22 +472,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** Emails ***/
+
+	@GET
+	@Path("/emails{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getEmails(@Context final HttpServletRequest request) {
+		return getEmails(request, null, null);
+	}
+
 	@GET
 	@Path("/emails/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getEmails(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getEmails(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getEmailsBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/emails")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getEmailsBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -427,22 +535,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** EmailsHistory ***/
+
+	@GET
+	@Path("/emailshistory{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getEmailsHistory(@Context final HttpServletRequest request) {
+		return getEmailsHistory(request, null, null);
+	}
+
 	@GET
 	@Path("/emailshistory/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getEmailsHistory(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getEmailsHistory(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getEmailsHistoryBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/emailshistory")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getEmailsHistoryBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -475,22 +598,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** IpAccesses ***/
+
+	@GET
+	@Path("/ipaccesses{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getIpAccesses(@Context final HttpServletRequest request) {
+		return getIpAccesses(request, null, null);
+	}
+
 	@GET
 	@Path("/ipaccesses/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getIpAccesses(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
-		try {			
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+	public Response getIpAccesses(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
+		try {
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getIpAccessesBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/ipaccesses")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getIpAccessesBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -523,21 +661,36 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** JointElections ***/
+
+	@GET
+	@Path("/jointelections{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getJointElections(@Context final HttpServletRequest request) {
+		return getJointElections(request, null, null);
+	}
+
 	@GET
 	@Path("/jointelections/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getJointElections(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getJointElections(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getJointElectionsBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/jointelections")).build();
 			}
-
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getJointElectionsBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -618,22 +771,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** UserAdmins ***/
+
+	@GET
+	@Path("/useradmins{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getUserAdmins(@Context final HttpServletRequest request) {
+		return getUserAdmins(request, null, null);
+	}
+
 	@GET
 	@Path("/useradmins/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getUserAdmins(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getUserAdmins(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TableReportDataStringId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserAdminBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/useradmins")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TableReportDataStringId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserAdminBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -666,22 +834,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** UserVoters ***/
+
+	@GET
+	@Path("/uservoters{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getUserVoters(@Context final HttpServletRequest request) {
+		return getUserVoters(request, null, null);
+	}
+
 	@GET
 	@Path("/uservoters/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getUserVoters(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getUserVoters(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserVotersBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/uservoters")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getUserVotersBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();
@@ -713,22 +896,37 @@ public class ElectionsTablesServices implements Serializable {
 		}
 	}
 
+
+	/*** Votes ***/
+
+	@GET
+	@Path("/votes{path: .*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getVotes(@Context final HttpServletRequest request) {
+		return getVotes(request, null, null);
+	}
+
 	@GET
 	@Path("/votes/{pageSize}/{offset}")
 	@Produces("application/json; charset=UTF-8")
-	public Response getVotes(@Context final HttpServletRequest request, @PathParam("pageSize") int pageSize, @PathParam("offset") int offset) {
+	public Response getVotes(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
-			// Authenticate
-			Response authResponse = WebServiceAuthentication.authenticate(request);
+			// Validate paging parameters
+			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+				// Authenticate
+				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
-			if (authResponse != null) {
-				return authResponse;
+				// If auth response not null then authentication failed, return auth response
+				if (authResponse != null) {
+					return authResponse;
+				}
+
+				// Auth OK, return requested data
+				List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getVotesBasicData(pageSize, offset);
+				return Response.ok(listTablesReportData).build();
+			} else {
+				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/votes")).build();
 			}
-
-			// Auth OK, return requested data
-			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getVotesBasicData(pageSize, offset);
-			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return Response.serverError().build();

@@ -53,9 +53,11 @@ public class AuditorDao {
 		return q.getResultList();
 	}
 
-	public List<Auditor> getAuditorsByEmail(String email) {
-		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.mail = :email", Auditor.class);
+	public List<Auditor> getAuditorsByEmail(String email, int pageSize, int offset) {
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.mail = :email ORDER BY a.auditorId", Auditor.class);
 		q.setParameter("email", email);
+		q.setMaxResults(pageSize);
+		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
 	

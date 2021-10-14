@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import net.lacnic.elections.ws.json.JacksonConfigurationProvider;
 import net.lacnic.elections.ws.services.ElectionsService;
 import net.lacnic.elections.ws.services.ElectionsTablesServices;
 
@@ -17,6 +18,7 @@ public class ElectionsServicesApplication extends Application {
 		Set<Object> singletons = new HashSet<Object>();
 		singletons.add(new ElectionsService());
 		singletons.add(new ElectionsTablesServices());
+		singletons.add(new JacksonConfigurationProvider());
 
 		return singletons;
 	}

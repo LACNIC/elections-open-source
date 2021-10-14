@@ -25,6 +25,7 @@ public class Constants {
 	public static final String WS_LACNIC_AUTH_URL = "WS_LACNIC_AUTH_URL";
 	public static final String WS_AUTH_TOKEN = "WS_AUTH_TOKEN";
 	public static final String WS_AUTHORIZED_IPS = "WS_AUTHORIZED_IPS";
+	public static final String WS_MAX_PAGE_SIZE = "WS_MAX_PAGE_SIZE";
 	public static final String WEBSITE_DEFAULT = "WEBSITE_DEFAULT";
 
 	// Possible values for the 'WS_AUTH_METHOD' parameter

@@ -45,6 +45,8 @@ public interface ElectionsMonitorEJB {
 
 	public IpResourceSet getWsAuthorizedIps();
 
+	public Integer getWsMaxPageSize();
+
 	public List<TablesReportDataLongId> getActivitiesBasicData(int pageSize, int offset);
 
 	public ActivityTableReport getActivityTableReport(Long activityId);
@@ -105,12 +107,12 @@ public interface ElectionsMonitorEJB {
 
 	public VoteTableReport getVoteTableReport(Long voteId);
 
-	public List<ElectionDetailReport> getElectionsDetailReport();
+	public List<ElectionDetailReport> getElectionsDetailReport(int pageSize, int offset);
 
 	public ElectionDetailReport getElectionDetailReport(Long electionId);
 
-	public List<ElectionParticipationDetailReport> getElectionsParticipationsByEmail(String email);
+	public List<ElectionParticipationDetailReport> getElectionsParticipationsByEmail(String email, int pageSize, int offset);
 
-	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID);
+	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID, int pageSize, int offset);
 
 }
