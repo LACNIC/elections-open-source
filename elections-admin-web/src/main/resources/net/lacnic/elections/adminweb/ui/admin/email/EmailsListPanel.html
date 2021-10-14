@@ -1,0 +1,40 @@
+<wicket:panel>
+	<div class="table-responsive m-t">
+		<table class="table dataTables1">
+			<thead class="jumbotron">
+				<tr>
+					<th class="text-left"><wicket:message key="messageListState" /></th>
+					<th class="text-left"><wicket:message key="messageListDest" /></th>
+					<th class="text-left"><wicket:message key="messageListType" /></th>
+					<th class="text-left"><wicket:message key="messageListSubject" /></th>
+					<th class="text-left"><wicket:message key="messageListBody" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr wicket:id="emailsList" name="emailsList">
+					<td class="text-left"><span wicket:id="sent"></span></td>
+					<td class="text-left"><span wicket:id="recipients"></span></td>
+					<td class="text-left"><span wicket:id="templateType"></span></td>
+					<td class="text-left"><span wicket:id="subject"></span></td>
+					<td class="text-left"><span wicket:id="body"></span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.dataTables1').dataTable({
+				"order" : [ [ 4, "desc" ] ],
+				"dom" : '<"top"f>rt<"bottom"p><"clear">',
+				"language" : {
+					"sSearch" : "Filter:",
+					"oPaginate" : {
+						"sNext" : ">",
+						"sPrevious" : "<"
+					}
+				}
+			});
+
+		});
+	</script>
+</wicket:panel>

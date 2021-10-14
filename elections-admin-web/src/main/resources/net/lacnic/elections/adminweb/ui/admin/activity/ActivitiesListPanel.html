@@ -1,0 +1,41 @@
+<wicket:panel>
+	<div class="table-responsive m-t">
+		<table class="table dataTables-activitiesList">
+			<thead class="jumbotron">
+				<tr>
+					<th><wicket:message key="activityListName" /></th>
+					<th><wicket:message key="activityListType" /></th>
+					<th><wicket:message key="activityListElection" /></th>
+					<th><wicket:message key="activityListIP" /></th>
+					<th><wicket:message key="activityListTime" /></th>
+					<th><wicket:message key="activityListDesc" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr wicket:id="activitiesList" name="activitiesList">
+					<td><span wicket:id="userName"></span></td>
+					<td><span wicket:id="activityType"></span></td>
+					<td><span wicket:id="electionId"></span></td>
+					<td><span wicket:id="ip"></span></td>
+					<td><span wicket:id="timestamp"></span></td>
+					<td><span wicket:id="description"></span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.dataTables-activitiesList').dataTable({
+				"order" : [ [ 4, "desc" ] ],
+				"dom" : '<"top"f>rt<"bottom"p><"clear">',
+				"language" : {
+					"sSearch" : "Filter:",
+					"oPaginate" : {
+						"sNext" : ">",
+						"sPrevious" : "<"
+					}
+				}
+			});
+		});
+	</script>
+</wicket:panel>

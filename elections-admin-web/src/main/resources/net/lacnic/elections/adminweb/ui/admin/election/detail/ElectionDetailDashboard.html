@@ -1,0 +1,37 @@
+<wicket:extend>
+	<div class="row ">
+		<div wicket:id="feedback"></div>
+		<div class="col-lg-12">
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5><wicket:message key="electionManagementTitle" /></h5>
+				</div>
+				<div class="ibox-content">
+					<p><wicket:message key="electionManagementDetail" /></p>
+					<div class="wizard-big wizard clearfix form-horizontal">
+						<div wicket:id="tabsPanel" class="steps clearfix"></div>
+					</div>
+					<form id="form" wicket:id="newElectionForm" action="#" class="wizard-big wizard clearfix form-horizontal" role="application">
+						<div class="jumbotron content clearfix">
+							<span wicket:id="fields"></span>
+						</div>
+						<div class="actions clearfix">
+							<ul role="menu" aria-label="Pagination">
+								<li>
+									<button wicket:id="cancel" type="button" id="cancel" class="btn btn-w-m btn-grey" name="Cancel">
+										<wicket:message key="electionManagementCancel" />
+									</button>
+								</li>
+								<li>
+									<button wicket:id="submit" type="submit" id="save" class="btn btn-w-m btn-primary" name="Create">
+										<wicket:message key="electionManagementSave" />
+									</button>
+								</li>
+							</ul>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

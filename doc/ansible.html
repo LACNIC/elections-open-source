@@ -1,8 +1,8 @@
 --- 
 layout: default
 title: Sistema Elecciones
-link_logo: http://elecciones-demo.lacnic.net.uy/elecciones
-link_title: http://elecciones-demo.lacnic.net.uy/elecciones
+link_logo: http://elecciones-demo.lacnic.net.uy/elections
+link_title: http://elecciones-demo.lacnic.net.uy/elections
 link_repo: https://github.com/LACNIC/elections-open-source
 ---
 <div class="row">
@@ -145,7 +145,7 @@ link_repo: https://github.com/LACNIC/elections-open-source
 				</ol>
 				<br>
 				
-				<p class="paragraph">Finalizada la ejecución del playbook, el sistema ya está operativo y accesible en <code>http://&lt;ip-servidor&gt;:8080/elecciones</code>.</p>
+				<p class="paragraph">Finalizada la ejecución del playbook, el sistema ya está operativo y accesible en <code>http://&lt;ip-servidor&gt;:8080/elections</code>.</p>
 				
 			</div>
     	</div>
@@ -162,10 +162,10 @@ link_repo: https://github.com/LACNIC/elections-open-source
 				<p class="paragraph">Hay 2 playbooks adicionales disponibles:</p>
 				<ul class="paragraph">
 					<li>Deploy de los artefactos del Sistema: <code>deploy.yaml</code>:
-						<p class="paragraph">Publica los artefactos del sistema que se encuentran en <code>ansible/roles/elecciones/files/deployments</code>.</p>
+						<p class="paragraph">Publica los artefactos del sistema que se encuentran en <code>ansible/roles/elections/files/deployments</code>.</p>
 					</li>
 					<li>Restore de dump de base de datos: <code>restore-dump.yaml</code>:
-						<p class="paragraph">Borra la base de datos actual y levanta el dump que se encuentra en <code>ansible/roles/elecciones/files/db/elecciones.zip</code>.</p>
+						<p class="paragraph">Borra la base de datos actual y levanta el dump que se encuentra en <code>ansible/roles/elections/files/db/elections.zip</code>.</p>
 					</li>
 				</ul>
 				<p class="paragraph">Para ejecutar estos playbooks se usa el comando <code>ansible-playbook</code> como se detalla en la sección anterior, cambiando el nombre del playbook a ejecutar.</p>
@@ -204,7 +204,7 @@ link_repo: https://github.com/LACNIC/elections-open-source
                 <h2>{{ "6. Configuración inicial" }}</h2>
             </div>
             <div class="ibox-content">
-                <p class="paragraph">Antes de comenzar a usar el sistema, son necesarias algunas tareas iniciales de configuación.</p>
+                <p class="paragraph">Antes de comenzar a usar el sistema, son necesarias algunas tareas iniciales de configuración.</p>
                 <p class="paragraph">Estas tareas se detallan en el siguiente <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documento</a>.</p>
             </div>
         </div>

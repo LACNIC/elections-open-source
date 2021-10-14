@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<module name="jxl" xmlns="urn:jboss:module:1.5">
-    <resources>
-        <resource-root path="jxl-2.6.jar"/>
-    </resources>
-</module>

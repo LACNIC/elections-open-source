@@ -19,21 +19,21 @@ jobs:
           java-version: 1.8
 
       - name: Build with Maven
-        run:  mvn clean package -DskipTests
+        run: mvn clean package
 
       # Share artifacts inside workflow
       - name: Upload actifacts
         uses: actions/upload-artifact@v2
         with:
-          name: lacnic-elecciones-build
+          name: lacnic-elections-build
           path: |
             pom.xml
-            elecciones-ejb/pom.xml
-            elecciones-ejb/target/elecciones-ejb.jar
-            elecciones-admin-web/pom.xml
-            elecciones-admin-web/target/elecciones.war
-            elecciones-services/pom.xml
-            elecciones-services/target/elecciones-ws.war
+            elections-ejb/pom.xml
+            elections-ejb/target/elections-ejb.jar
+            elections-admin-web/pom.xml
+            elections-admin-web/target/elections.war
+            elections-services/pom.xml
+            elections-services/target/elections-ws.war
 
   deploy: 
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
       - name: Download actifacts
         uses: actions/download-artifact@v2
         with:
-          name: lacnic-elecciones-build
+          name: lacnic-elections-build
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2

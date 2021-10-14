@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<log4j:configuration debug="true" xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<!-- Console log -->
+	<appender name="ejbConsoleAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="append" value="true" />
+		<param name="file" value="${jboss.server.log.dir}/elections-ejb-console.log" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd/MM/yy HH:mm:ss.SSS}] %-5p %m%n" />
+		</layout>
+	</appender>
+
+	<!-- App log -->
+	<appender name="ejbAppAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="append" value="true" />
+		<param name="file" value="${jboss.server.log.dir}/elections-ejb-app.log" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd/MM/yy HH:mm:ss.SSS}] %-5p %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="ejbAppLogger" additivity="false">
+		<level value="INFO" />
+        <appender-ref ref="ejbAppAppender" />
+    </logger>
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="ejbConsoleAppender" />
+	</root>
+
+</log4j:configuration>

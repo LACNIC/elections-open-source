@@ -1,9 +1,9 @@
 ---
 
-- name: 'Elecciones'
+- name: 'Elections'
   hosts: all
   become: true
   tasks:
   - include_role:
-     name: 'elecciones'
+     name: 'elections'
      tasks_from: 05-restore-dump

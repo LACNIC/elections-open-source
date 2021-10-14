@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="org.apache.poi" xmlns="urn:jboss:module:1.5">
+    <resources>
+        <resource-root path="poi-5.0.0.jar"/>
+    </resources>
+
+	<dependencies>
+		<module name="org.apache.commons.collections4"/>
+		<module name="org.apache.commons.math3"/>
+	</dependencies>
+</module>

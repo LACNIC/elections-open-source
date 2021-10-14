@@ -1,0 +1,67 @@
+<wicket:panel>
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h5><wicket:message key="censusManagementUserListTitle" /></h5>
+			<div class="text-right">
+				<a wicket:message="title:censusManagementUserListBtnExp" class="text-primary fa fa-download fa-lg m-r-sm" wicket:id="exportCensus"></a>
+			</div>
+		</div>
+		<div class="ibox-content">
+			<div class="table-responsive m-t">
+				<table class="table dataTables">
+					<thead class="jumbotron">
+						<tr>
+							<th><span wicket:id="censusSize" /></th>
+							<th><wicket:message key="censusManagementUserListColVoted" /></th>
+							<th><wicket:message key="censusManagementUserListColLang" /></th>
+							<th><wicket:message key="censusManagementUserListColName" /></th>
+							<th><wicket:message key="censusManagementUserListColEdit" /></th>
+							<th><wicket:message key="censusManagementUserListColVotAm" /></th>
+							<th><wicket:message key="censusManagementUserListColCoun" /></th>
+							<th><wicket:message key="censusManagementUserListColOrgId" /></th>
+							<th><wicket:message key="censusManagementUserListColRen" /></th>
+							<th><wicket:message key="censusManagementUserListColLink" /></th>
+							<th><wicket:message key="censusManagementUserListColMail" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="userVotersList" id="userVotersList">
+							<td><div wicket:id="removeUser"></div></td>
+							<td wicket:id="voted">[voted]</td>
+							<td wicket:id="language">[language]</td>
+							<td><span wicket:id="name" /> <span wicket:id="mail" /></td>
+							<td><a wicket:message="title:censusManagementUserListColEdit" class="text-primary fa fa-pencil fa-lg m-r-sm" wicket:id="editUserVoter"></a></td>
+							<td wicket:id="voteAmount">[voteAmount]</td>
+							<td wicket:id="country">[country]</td>
+							<td wicket:id="orgId">[orgId]</td>
+							<td><div wicket:id="updateToken"></div></td>
+							<td><span wicket:id="viewLinkButton" type="submit" ></span></td>
+							<td><span wicket:id="resendLink"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		$(document).ready(function() {
+			$('.dataTables').dataTable({
+				"dom" : '<"top"f>rt<"bottom"p><"clear">',
+				"order" : [ [ 7, "asc" ] ],
+				"columnDefs" : [ {
+					"orderable" : false,
+					"targets" : [ 0, 4, 8, 9, 10 ],
+				} ],
+				"pageLength" : 250,
+				"language" : {
+					"sSearch" : "Filtrar:",
+					"oPaginate" : {
+						"sNext" : ">",
+						"sPrevious" : "<"
+					}
+				}
+			});
+		});
+	</script>
+</wicket:panel>

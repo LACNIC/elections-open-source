@@ -1,0 +1,100 @@
+<wicket:panel>
+	<br>
+	<div class="form-group col-md-12">
+		<label class="col-sm-8 control-label  "><wicket:message key="candidateManagementCopyText" /></label>
+		<div class="col-sm-4">
+			<label class="checkbox-inline"><input wicket:id="checkboxBios" id="checkboxBios" type="checkbox">&nbsp;</label>
+		</div>
+	</div>
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label "><wicket:message key="candidateManagementName" /></label>
+		<div class="col-sm-10">
+			<input wicket:id="name" id="name" type="text" class="form-control"></input>
+		</div>
+	</div>
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label "><wicket:message key="candidateManagementMail" /></label>
+		<div class="col-sm-10">
+			<input wicket:id="mail" id="mail" type="text" class="form-control"></input>
+		</div>
+	</div>
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label "><wicket:message key="candidateManagementBioEsp" /></label>
+		<div class="col-sm-10">
+			<textarea wicket:id="bioSpanish" id="bioSpanish" type="text" class="form-control h-150" name="bioSpanish"></textarea>
+		</div>
+	</div>
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label "><wicket:message key="candidateManagementWebEsp" /></label>
+		<div class="col-sm-10">
+			<input wicket:id="linkSpanish" id="linkSpanish" type="text" class="form-control"></input>
+		</div>
+	</div>
+	<div wicket:id="candidateEnPtBios">
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="candidateManagementBioEng" /></label>
+			<div class="col-sm-10">
+				<textarea wicket:id="bioEnglish" id="bioEnglish" type="text" class="form-control h-150" name="bioEnglish"></textarea>
+			</div>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="candidateManagementWebEng" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="linkEnglish" id="linkEnglish" type="text" class="form-control"></input>
+			</div>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="candidateManagementBioPor" /></label>
+			<div class="col-sm-10">
+				<textarea wicket:id="bioPortuguese" id="bioPortuguese" type="text" class="form-control h-150" name="bioPortuguese"></textarea>
+			</div>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="candidateManagementWebPor" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="linkPortuguese" id="linkPortuguese" type="text" class="form-control"></input>
+			</div>
+		</div>
+		<script>
+	        $(document).ready(function(){
+	        	tinymce.originalSettings = {
+	            	  selector: 'textarea',
+	            	  menubar: false,
+	            	  plugins: [
+	            	    'advlist autolink lists link image charmap preview anchor',
+	            	    'searchreplace visualblocks code fullscreen',
+	            	    'insertdatetime media table contextmenu paste code'
+	            	  ],
+	            	  toolbar: 'bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
+	            	}
+	            tinymce.init(tinymce.originalSettings);
+	       });
+	    </script>
+	</div>
+
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label "><wicket:message key="candidateManagementPicture" /></label>
+		<div class="col-sm-10">
+			<input wicket:id="candidatePicture" id="candidatePicture" type="file" class="form-control"></input>
+		</div>
+	</div>
+
+	<div class="form-group col-md-12 text-center">
+		<a class="btn btn-success" wicket:id="addCandidate" id="addCandidate" name="addCandidate"><wicket:message key="candidateManagemenBtnAdd" /></a>
+	</div>
+	<script>
+        $(document).ready(function(){
+        	tinymce.originalSettings = {
+            	  selector: 'textarea',
+            	  menubar: false,
+            	  plugins: [
+            	    'advlist autolink lists link image charmap preview anchor',
+            	    'searchreplace visualblocks code fullscreen',
+            	    'insertdatetime media table contextmenu paste code'
+            	  ],
+            	  toolbar: 'bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
+            	}
+            tinymce.init(tinymce.originalSettings);
+       });
+    </script>
+</wicket:panel>

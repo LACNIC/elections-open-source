@@ -1,0 +1,34 @@
+<wicket:panel>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><wicket:message key="auditMoreInfoPerc" /></th>
+				<th><wicket:message key="auditMoreInfoCantHab" /></th>
+				<th><wicket:message key="auditMoreInfoCantPart" /></th>
+				<th><wicket:message key="auditMoreInfoWeight" /></th>
+				<th><wicket:message key="auditMoreInfoVotes" /> <span wicket:id="maxVotes"></span></th>
+				<th><wicket:message key="auditMoreInfoTotRang" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="participantsList">
+				<td align="center" wicket:id="percentage"></td>
+				<td align="center" wicket:id="enabled"></td>
+				<td align="center"><span wicket:id="participants"></span></td>
+				<td align="center"><span wicket:id="weight"></span></td>
+				<td align="center">?</td>
+				<td align="center" wicket:id="total"></td>
+			</tr>
+		</tbody>
+		<thead>
+			<tr>
+				<td align="center"><b wicket:id="percentageTotal"></b></td>
+				<td align="center"><b wicket:id="enabledTotal"></b></td>
+				<td align="center"><b wicket:id="participantsTotal"></b></td>
+				<td align="center"><b>-</b></td>
+				<td align="center"><b>?</b></td>
+				<td align="center"><b wicket:id="totalTotal"></b></td>
+			</tr>
+		</thead>
+	</table>
+</wicket:panel>

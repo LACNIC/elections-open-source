@@ -1,0 +1,191 @@
+<wicket:panel>
+	<div class="form-group col-md-12">
+		<label class="col-sm-9 control-label"><wicket:message key="electionManagementCopyText" /></label>
+		<div class="col-sm-3">
+			<label class="checkbox-inline"> <input wicket:id="onlySpCheckbox" id="languageCheck" name="languageCheck" type="checkbox">&nbsp;</label>
+		</div>
+	</div>
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label"><wicket:message key="electionManagementCategElec" /></label>
+		<div class="col-sm-10">
+			<select wicket:id="selectCategory" class="form-control" id="category" name="category"></select>
+		</div>
+	</div>
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label"><wicket:message key="electionManagementTituloEsp" /></label>
+		<div class="col-sm-10">
+			<input wicket:id="titleSpanish" type="text" class="form-control" id="titleSpanish" name="titleSpanish"></input>
+		</div>
+	</div>
+	<div wicket:id="electionTitles">
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="electionManagementTituloEng" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="titleEnglish" name="titleEnglish" type="text" id="titleEnglish" class="form-control"></input>
+			</div>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="electionManagementTituloPor" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="titlePortuguese" name="titlePortuguese" id="titlePortuguese" type="text" class="form-control"></input>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 hr-line-dashed"></div>
+
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label "><wicket:message key="electionManagementDescripEsp" /></label>
+		<div class="col-sm-10">
+			<textarea wicket:id="descriptionSpanish" type="text" id="descriptionSpanish" name="descriptionSpanish" class="form-control h-150"></textarea>
+		</div>
+	</div>
+	<div wicket:id="electionDescriptions">
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="electionManagementDescripEng" /></label>
+			<div class="col-sm-10">
+				<textarea wicket:id="descriptionEnglish" type="text" id="descriptionEnglish" name="descriptionEnglish" class="form-control h-150"></textarea>
+			</div>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="electionManagementDescripPor" /></label>
+			<div class="col-sm-10">
+				<textarea wicket:id="descriptionPortuguese" type="text" id="descriptionPortuguese" name="descriptionPortuguese" class="form-control h-150"></textarea>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function() {
+				tinymce.originalSettings = {
+					selector : 'textarea',
+					menubar : false,
+					plugins : [
+							'advlist autolink lists link image charmap preview anchor',
+							'searchreplace visualblocks code fullscreen',
+							'insertdatetime media table contextmenu paste code' ],
+					toolbar : 'bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
+				}
+				tinymce.init(tinymce.originalSettings);
+			});
+		</script>
+	</div>
+
+	<div class="col-md-12 hr-line-dashed"></div>
+
+	<div class="form-group col-md-12">
+		<label class="col-sm-2 control-label "><wicket:message key="electionManagementWebsiteEsp" /></label>
+		<div class="col-sm-10">
+			<input wicket:id="linkSpanish" type="text" name="linkSpanish" id="linkSpanish" class="form-control"></input>
+		</div>
+	</div>
+	<div wicket:id="electionUrls">
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="electionManagementWebsiteEng" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="linkEnglish" type="text" name="linkEnglish" id="linkEnglish" class="form-control"></input>
+			</div>
+		</div>
+		<div class="form-group col-md-12">
+			<label class="col-sm-2 control-label "><wicket:message key="electionManagementWebsitePor" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="linkPortuguese" type="text" name="linkPortuguese" id="linkPortuguese" class="form-control"></input>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 hr-line-dashed"></div>
+
+	<div class="col-md-6 m-t-md">
+		<div class="form-group" id="data_1">
+			<label class="col-sm-4 control-label "><wicket:message key="electionManagementFecIni" /></label>
+			<div class="col-sm-6">
+				<div class="input-group date">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input wicket:id="startDate" name="startDate" type="text" id="startDate" class="form-control" value="dd/mm/yyy">
+				</div>
+			</div>
+		</div>
+		<div class="form-group" id="data_1">
+			<label class="col-sm-4 control-label "><wicket:message key="electionManagementFecFin" /></label>
+			<div class="col-sm-6">
+				<div class="input-group date">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input wicket:id="endDate" name="endDate" type="text" id="endDate" class="form-control" value="dd/mm/yyy">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 m-t-md">
+		<div class="form-group">
+			<label class="col-sm-4 control-label"><wicket:message key="electionManagementHorIni" /></label>
+			<div class="col-sm-6">
+				<div class="input-group clockpicker" data-autoclose="true">
+					<span class="input-group-addon"> <span class="fa fa-clock-o"></span>
+					</span><input wicket:id="startTime" name="startTime" type="text" id="startTime" class="form-control" value="09:30">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label"><wicket:message key="electionManagementHorFin" /></label>
+			<div class="col-sm-6">
+				<div class="input-group clockpicker" data-autoclose="true">
+					<span class="input-group-addon"> <span class="fa fa-clock-o"></span>
+					</span><input wicket:id="endTime" name="endTime" type="text" id="endTime" class="form-control" value="09:30">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6 m-t-md">
+		<div class="form-group">
+			<label class="col-sm-4 control-label "><wicket:message key="electionManagementDifUTC"></wicket:message></label>
+			<div class="col-sm-6">
+				<input wicket:id="diffUTC" name="diffUTC" type="text" id="diffUTC" class="form-control"></input>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 m-t-md">
+		<div class="form-group">
+			<label class="col-sm-4 control-label "><wicket:message key="electionManagementVacantes" /></label>
+			<div class="col-sm-6">
+				<input wicket:id="maxCandidates" name="maxCandidates" type="text" id="maxCandidates" class="form-control"></input>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 m-t-md">
+		<div class="form-group">
+			<label class="col-sm-2 control-label "><wicket:message key="electionManagementRemitente" /></label>
+			<div class="col-sm-3">
+				<input wicket:id="defaultSender" name="defaultSender" type="email" id="defaultSender" class="form-control"></input>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			$('#data_1 .input-group.date').datepicker({
+				todayBtn : "linked",
+				keyboardNavigation : false,
+				forceParse : true,
+				calendarWeeks : true,
+				autoclose : true,
+				format : "dd/mm/yyyy"
+			});
+			$('.clockpicker').clockpicker();
+		});
+
+		$(document).ready(function() {
+			tinymce.originalSettings = {
+				selector : 'textarea',
+				menubar : false,
+				plugins : [
+						'advlist autolink lists link image charmap preview anchor',
+						'searchreplace visualblocks code fullscreen',
+						'insertdatetime media table contextmenu paste code' ],
+				toolbar : 'bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
+			}
+			tinymce.init(tinymce.originalSettings);
+		});
+	</script>
+</wicket:panel>
+

@@ -1,0 +1,48 @@
+<wicket:panel>
+	<div class="col-md-4">
+		<span><wicket:message key="candidateManagemenListSort" /></span>
+	</div>
+	<div class="col-md-8">
+		<div wicket:id="randomOrder"></div>
+	</div>
+	<div class="col-md-12 m-t-md"></div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th><wicket:message key="candidateManagemenListDel" /></th>
+				<th class="text-center"><wicket:message key="candidateManagemenListPicl" /></th>
+				<th><wicket:message key="candidateManagemenListName" /></th>
+				<th><wicket:message key="candidateManagemenListEdit" /></th>
+				<th></th>
+				<th class="text-center" style="min-width: 120px"><wicket:message key="candidateManagemenListOrd" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="candidatesList" id="candidatesList">
+				<td class="vcenter text-center"><div wicket:id="removeCandidate"></div></td>
+				<td class="vcenter"><img alt="image" class="img-circle m-t-xs img-md" wicket:id="picture"></td>
+				<td>
+					<strong wicket:id="name"></strong>
+					<div class="scroll_content m-t-sm m-b-sm"><p wicket:id="bio"></p>
+					<div ><p wicket:id="mail"></p></div>
+					</div> <a wicket:id="externalLink" target="_blank"><small wicket:id="externalLinkText" /></a>
+				</td>
+				<td class="vcenter text-center"><a wicket:message="title:candidateManagemenListEdit" wicket:id="edit"><i class="text-primary fa fa-pencil fa-lg"></i></a></td>
+				<td class="vcenter">
+					<a wicket:id="fixTop"><i class="fa fa-angle-double-up fa-2x text-danger" wicket:message="title:candidateManagemenListFirst"></i></a>
+					<a wicket:id="moveUp"><i class="fa fa-angle-up fa-2x"></i></a>
+					<a wicket:id="moveDown"><i class="fa fa-angle-down fa-2x"></i></a>
+					<a wicket:id="fixBottom"><i class="fa fa-angle-double-down fa-2x text-danger" wicket:message="title:candidateManagemenListLast"></i></a>
+				</td>
+				<td class="vcenter text-center"><span class="label label-info" wicket:id="sortStatus"></span><a wicket:id="removeFixed">&nbsp;<i class="fa fa-times text-danger fa-lg"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+	<script>
+	    $(document).ready(function () {
+	        $('.scroll_content').slimscroll({
+	            height: '100px'
+	        })
+	    });
+	</script>
+</wicket:panel>

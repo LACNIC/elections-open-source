@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="org.apache.poi-ooxml-lite" xmlns="urn:jboss:module:1.5">
+    <resources>
+        <resource-root path="poi-ooxml-lite-5.0.0.jar"/>
+    </resources>
+
+	<dependencies>
+		<module name="org.apache.xmlbeans"/>
+	</dependencies>
+</module>

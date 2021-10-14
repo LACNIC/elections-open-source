@@ -1,0 +1,25 @@
+<wicket:extend>
+	<div wicket:id="feedback" />
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5><wicket:message key="censusManagementUserEditTitle" /></h5>
+				</div>
+				<div class="ibox-content">
+					<form role="form" class="form-inline" wicket:id="userVoterForm">
+						<div class="row">
+							<div class="col-lg-9" wicket:id="addUserVoterPanel"></div>
+							<div class="col-lg-3">
+								<a class="btn btn-grey" wicket:id="cancel"><wicket:message key="censusManagementUserEditBtnCanc" /></a>
+								<button class="btn btn-primary" type="submit" wicket:id="save" id="saveUserVoter">
+									<wicket:message key="censusManagementUserEditBtnSave" />
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

@@ -1,0 +1,24 @@
+<wicket:panel>
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h5 id="commissionerAddTitle"><wicket:message key="commissionerAddTitle" /></h5>
+		</div>
+		<div class="ibox-content">
+			<form role="form" class="form-horizontal" wicket:id="formCommissioner">
+				<div class="form-group">
+					<label class="col-sm-1 control-label"><wicket:message key="commissionerAddName" /></label>
+					<div class="col-sm-3">
+						<input type="text" id="name" class="form-control" wicket:id="name" />
+					</div>
+					<label class="col-sm-1 control-label"><wicket:message key="commissionerAddMail" /></label>
+					<div class="col-md-4">
+						<input type="email" id="mail" class="form-control" wicket:id="mail" />
+					</div>
+					<div class="col-md-3">
+						<button class="btn btn-primary" id="addCommissioner" type="submit" wicket:id="add"><wicket:message key="commissionerAddBtnAdd" /></button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>
