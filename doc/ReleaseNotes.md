@@ -1,10 +1,16 @@
 # Release Notes
 
+## v2.1 (11/11/2021)
+
+#### Nuevas funcionalidades y correcciones:
+
+* Fix menor en servicio de tabla de Emails.
+
+
 ## v2.0 (14/10/2021)
 
 #### Destacados:
 
-* Nueva versión disponible!
 * Refactor general de código.
 * Nuevos servicios.
 * Soporte archivos .xlsx.
@@ -47,10 +53,6 @@ Si generó sus propios templates de email, debe regenerarlos ya que las referenc
 
 ## v1.2 (22/04/2021)
 
-#### Destacados:
-
-* Nueva versión disponible!
-
 #### Nuevas funcionalidades y correcciones:
 
 * Corrección de dependencia en módulo de servicios.
@@ -58,10 +60,6 @@ Si generó sus propios templates de email, debe regenerarlos ya que las referenc
 
 
 ## v1.1 (22/03/2021)
-
-#### Destacados:
-
-* Nueva versión disponible!
 
 #### Nuevas funcionalidades y correcciones:
 
