@@ -39,6 +39,7 @@ import net.lacnic.elections.domain.services.dbtables.AuditorTableReport;
 import net.lacnic.elections.domain.services.dbtables.CandidateTableReport;
 import net.lacnic.elections.domain.services.dbtables.CommissionerTableReport;
 import net.lacnic.elections.domain.services.dbtables.CustomizationTableReport;
+import net.lacnic.elections.domain.services.dbtables.ElectionEmailTemplateTableReport;
 import net.lacnic.elections.domain.services.dbtables.ElectionTableReport;
 import net.lacnic.elections.domain.services.dbtables.EmailTableReport;
 import net.lacnic.elections.domain.services.dbtables.UserAdminTableReport;
@@ -544,10 +545,12 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return An ElectionEmailTemplate instance containing the information
 	 */
 	@Override
-	public ElectionEmailTemplate getElectionEmailTemplateTableReport(Long electionEmailTemplateId) {
+	public ElectionEmailTemplateTableReport getElectionEmailTemplateTableReport(Long electionEmailTemplateId) {
 		try {
 			ElectionEmailTemplate electionEmailTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionEmailTemplate(electionEmailTemplateId);
-			return electionEmailTemplate;
+			if (electionEmailTemplate != null) {
+				return new ElectionEmailTemplateTableReport(electionEmailTemplate);
+			}
 		} catch (Exception e) {
 			appLogger.error(e);
 		}

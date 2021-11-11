@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 
 import net.lacnic.elections.data.TableReportDataStringId;
 import net.lacnic.elections.data.TablesReportDataLongId;
-import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.Parameter;
@@ -25,6 +24,7 @@ import net.lacnic.elections.domain.services.dbtables.AuditorTableReport;
 import net.lacnic.elections.domain.services.dbtables.CandidateTableReport;
 import net.lacnic.elections.domain.services.dbtables.CommissionerTableReport;
 import net.lacnic.elections.domain.services.dbtables.CustomizationTableReport;
+import net.lacnic.elections.domain.services.dbtables.ElectionEmailTemplateTableReport;
 import net.lacnic.elections.domain.services.dbtables.ElectionTableReport;
 import net.lacnic.elections.domain.services.dbtables.EmailTableReport;
 import net.lacnic.elections.domain.services.dbtables.UserAdminTableReport;
@@ -460,9 +460,9 @@ public class ElectionsTablesServices implements Serializable {
 			}
 
 			// Auth OK, return requested data
-			ElectionEmailTemplate electionEmailTemplate = AppContext.getInstance().getMonitorBeanRemote().getElectionEmailTemplateTableReport(id);
-			if(electionEmailTemplate != null) {
-				return Response.ok(electionEmailTemplate).build();
+			ElectionEmailTemplateTableReport electionEmailTemplateTableReport = AppContext.getInstance().getMonitorBeanRemote().getElectionEmailTemplateTableReport(id);
+			if(electionEmailTemplateTableReport != null) {
+				return Response.ok(electionEmailTemplateTableReport).build();
 			} else {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
