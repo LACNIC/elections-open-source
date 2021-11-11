@@ -6,7 +6,6 @@ import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
 import net.lacnic.elections.data.TableReportDataStringId;
 import net.lacnic.elections.data.TablesReportDataLongId;
-import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.IpAccess;
 import net.lacnic.elections.domain.JointElection;
@@ -16,6 +15,7 @@ import net.lacnic.elections.domain.services.dbtables.AuditorTableReport;
 import net.lacnic.elections.domain.services.dbtables.CandidateTableReport;
 import net.lacnic.elections.domain.services.dbtables.CommissionerTableReport;
 import net.lacnic.elections.domain.services.dbtables.CustomizationTableReport;
+import net.lacnic.elections.domain.services.dbtables.ElectionEmailTemplateTableReport;
 import net.lacnic.elections.domain.services.dbtables.ElectionTableReport;
 import net.lacnic.elections.domain.services.dbtables.EmailTableReport;
 import net.lacnic.elections.domain.services.dbtables.UserAdminTableReport;
@@ -73,7 +73,7 @@ public interface ElectionsMonitorEJB {
 
 	public List<TablesReportDataLongId> getElectionEmailTemplatesBasicData(int pageSize, int offset);
 
-	public ElectionEmailTemplate getElectionEmailTemplateTableReport(Long electionEmailTemplateId);
+	public ElectionEmailTemplateTableReport getElectionEmailTemplateTableReport(Long electionEmailTemplateId);
 
 	public List<TablesReportDataLongId> getEmailsBasicData(int pageSize, int offset);
 
