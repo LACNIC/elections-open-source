@@ -27,7 +27,6 @@ import net.lacnic.elections.ws.app.AppContext;
 import net.lacnic.elections.ws.auth.WebServiceAuthentication;
 import net.lacnic.elections.ws.services.util.PagingUtil;
 
-
 @Path("/")
 public class ElectionsService implements Serializable {
 
@@ -83,6 +82,36 @@ public class ElectionsService implements Serializable {
 		}
 	}
 
+	@GET
+	@Path("/participaciones/{org:.*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getParticipaciones(@Context final HttpServletRequest request, @PathParam("org") final String org) {
+		try {
+			Response preResponse = WebServiceAuthentication.authenticate(request);
+			if (preResponse != null)
+				return preResponse;
+			List<Participation> participations = AppContext.getInstance().getMonitorBeanRemote().getOrganizationParticipations(org);
+			return Response.ok(participations).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/elecciones")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElecciones(@Context final HttpServletRequest request) {
+		try {
+			Response preResponse = WebServiceAuthentication.authenticate(request);
+			if (preResponse != null)
+				return preResponse;
+			return Response.ok(AppContext.getInstance().getMonitorBeanRemote().getElectionsLightAllOrderStartDateDesc()).build();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return Response.serverError().build();
+		}
+	}
 
 	/*** Elections detail ***/
 
@@ -99,11 +128,12 @@ public class ElectionsService implements Serializable {
 	public Response getElectionsDetail(@Context final HttpServletRequest request, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
 			// Validate paging parameters
-			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+			if (PagingUtil.validatePagingParameters(pageSize, offset)) {
 				// Authenticate
 				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-				// If auth response not null then authentication failed, return auth response
+				// If auth response not null then authentication failed, return
+				// auth response
 				if (authResponse != null) {
 					return authResponse;
 				}
@@ -128,14 +158,15 @@ public class ElectionsService implements Serializable {
 			// Authenticate
 			Response authResponse = WebServiceAuthentication.authenticate(request);
 
-			// If auth response not null then authentication failed, return auth response
+			// If auth response not null then authentication failed, return auth
+			// response
 			if (authResponse != null) {
 				return authResponse;
 			}
 
 			// Auth OK, return requested data
 			ElectionDetailReport electionReportData = AppContext.getInstance().getMonitorBeanRemote().getElectionDetailReport(id);
-			if(electionReportData != null) {
+			if (electionReportData != null) {
 				return Response.ok(electionReportData).build();
 			} else {
 				return Response.status(Response.Status.NOT_FOUND).build();
@@ -145,7 +176,6 @@ public class ElectionsService implements Serializable {
 			return Response.serverError().build();
 		}
 	}
-
 
 	/*** Elections participations by mail ***/
 
@@ -162,11 +192,12 @@ public class ElectionsService implements Serializable {
 	public Response getElectionsParticipationsByEmail(@Context final HttpServletRequest request, @PathParam("email") String email, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
 			// Validate paging parameters
-			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+			if (PagingUtil.validatePagingParameters(pageSize, offset)) {
 				// Authenticate
 				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-				// If auth response not null then authentication failed, return auth response
+				// If auth response not null then authentication failed, return
+				// auth response
 				if (authResponse != null) {
 					return authResponse;
 				}
@@ -183,7 +214,6 @@ public class ElectionsService implements Serializable {
 		}
 	}
 
-
 	/*** Elections participations by organization ***/
 
 	@GET
@@ -199,11 +229,12 @@ public class ElectionsService implements Serializable {
 	public Response getElectionsParticipationsByOrganization(@Context final HttpServletRequest request, @PathParam("orgID") String orgID, @PathParam("pageSize") Integer pageSize, @PathParam("offset") Integer offset) {
 		try {
 			// Validate paging parameters
-			if(PagingUtil.validatePagingParameters(pageSize, offset)) {
+			if (PagingUtil.validatePagingParameters(pageSize, offset)) {
 				// Authenticate
 				Response authResponse = WebServiceAuthentication.authenticate(request);
 
-				// If auth response not null then authentication failed, return auth response
+				// If auth response not null then authentication failed, return
+				// auth response
 				if (authResponse != null) {
 					return authResponse;
 				}
@@ -219,8 +250,6 @@ public class ElectionsService implements Serializable {
 			return Response.serverError().build();
 		}
 	}
-
-
 
 	@HEAD
 	@PUT
