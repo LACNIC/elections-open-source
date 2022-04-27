@@ -4,10 +4,10 @@
 <properties>
 	<!-- General -->
 	<entry key="lacnic">LACNIC</entry>
-	<entry key="lacnicYear">2021</entry>
+	<entry key="lacnicYear">2022</entry>
 	<entry key="pageTitle">Sistema de eleições - LACNIC</entry>
 	<entry key="copyright">Copyright</entry>
-	<entry key="copyrightLacnicYears">LACNIC © 2014-2021</entry>
+	<entry key="copyrightLacnicYears">LACNIC © 2014-2022</entry>
 	<entry key="privacyPolicy">Política de privacidade</entry>
 	<entry key="privacyPolicyLink">https://www.lacnic.net/politica-privacidad</entry>
 	<entry key="home">Início</entry>
@@ -107,6 +107,7 @@
 	<entry key="settings">Configuração</entry>
 	<entry key="deleteElectionSuccess">A eleição foi removida corretamente</entry>
 	<entry key="deleteElectionErrorJoint">Não é possível remover a eleição porque está vinculada a outra, por favor remova a vinculação primeiro</entry>
+	<entry key="closedText">Fechada</entry>
 	
 	<!-- Elections Detail -->
 	<entry key="electionsDetailTitle">DETALHE ELEIÇÃO</entry>
@@ -659,6 +660,16 @@
 	<entry key="confElecTemplTextRes">Se estiver habilitado, o sistema permitirá que os usuários do cadastro possam acessar para ver os resultados da votação com o link comum que lhes foi fornecido.</entry>
 	<entry key="confElecTemplLinkAud">Link da auditoria :</entry>
 	<entry key="confElecTemplTextAud">Se habilitado, o sistema permitirá que os auditores e comissionados possam acessar à tela da auditoria.</entry>
+	<entry key="confElecClosing">Encerramento da eleição: </entry>
+	<entry key="confElecClosingDesc">Ao ativar esta opção, a ligação entre o eleitor e o candidato eleito é eliminada de maneira irreversível. Os resultados (número de votos obtidos por cada candidato) e o registro dos eleitores da eleição não vão se perder.</entry>
+	<entry key="confElecClosingIrrev">Esta ação é irreversível!</entry>
+	<entry key="confElecClosingOk">A eleição foi encerrada corretamente.</entry>
+	<entry key="confElecClosingFailed">Erro ao encerrar a eleição, por favor tente novamente.</entry>
+	<entry key="confElecCloseElectionNotAvailable">Esta opção será habilitada após a data de encerramento da eleição e deverá ser usada nos dias seguintes ao anúncio oficial dos resultados.</entry>
+	<entry key="confElecElectionAlreadyClosed">Esta eleição já está encerrada.</entry>
+	<entry key="confElecClosingAskButton">Encerrar eleição</entry>
+	<entry key="confElecClosingConfirmButton">Confirmar</entry>
+	<entry key="confElecClosingCancelButton">Cancelar</entry>
 
 	<!--  Error Pages -->
 	<entry key="reload">Recarregar</entry>
@@ -677,5 +688,7 @@
 	<entry key="errorAuditNotPublicDescription">A auditoria não está habilitada no momento</entry>
 	<entry key="errorVoteNotPublicTitle">Acesso não autorizado</entry>
 	<entry key="errorVoteNotPublicDescription">A eleição não está ativa no momento</entry>
+	<entry key="errorElectionClosedTitle">Eleição está encerrada</entry>
+	<entry key="errorElectionClosedDescription">Esta eleição está encerrada e não pode ser editada.</entry>
 
 </properties>

@@ -41,7 +41,7 @@ public class Vote implements Serializable {
 	@JoinColumn(name = "election_id")
 	private Election election;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "uservoter_id")
 	private UserVoter userVoter;
 

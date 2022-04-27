@@ -4,10 +4,10 @@
 <properties>
 	<!-- General -->
 	<entry key="lacnic">LACNIC</entry>
-	<entry key="lacnicYear">2021</entry>
+	<entry key="lacnicYear">2022</entry>
 	<entry key="pageTitle">LACNIC Election System</entry>
 	<entry key="copyright">Copyright</entry>
-	<entry key="copyrightLacnicYears">LACNIC © 2014-2021</entry>
+	<entry key="copyrightLacnicYears">LACNIC © 2014-2022</entry>
 	<entry key="privacyPolicy">Privacy Policy</entry>
 	<entry key="privacyPolicyLink">https://www.lacnic.net/politica-privacidad</entry>
 	<entry key="home">Home</entry>
@@ -100,13 +100,14 @@
 	<entry key="options">Options</entry>
 	<entry key="census">Voters Registry</entry>
 	<entry key="candidates">Candidates</entry>
-	<entry key="auditors">Auditors</entry>
+	<entry key="auditorsconfElecSolRev">Auditors</entry>
 	<entry key="revision">Review</entry>
 	<entry key="mails">Emails</entry>
 	<entry key="results">Results</entry>
 	<entry key="settings">Settings</entry>
 	<entry key="deleteElectionSuccess">The election was successfully deleted</entry>
 	<entry key="deleteElectionErrorJoint">It is not possible to delete the election since it is combined with another election. Please delete the combination first.</entry>
+	<entry key="closedText">Closed</entry>
 	
 	<!-- Elections Detail -->
 	<entry key="electionsDetailTitle">ELECTION DETAILS</entry>
@@ -659,6 +660,16 @@
 	<entry key="confElecTemplTextRes">If they are authorized, the system will allow the users included in the voters registry to see the election results using the common link that was provided.</entry>
 	<entry key="confElecTemplLinkAud">Audit link:</entry>
 	<entry key="confElecTemplTextAud">If they are authorized, the system will allow Auditors and Commissioners to access the Audit screen.</entry>
+	<entry key="confElecClosing">Closing of the election: </entry>
+	<entry key="confElecClosingDesc">By activating this option you will irreversibly delete the link between voter and elected candidate. Election results (number of votes obtained by each candidate) and the voter record will not be deleted.</entry>
+	<entry key="confElecClosingIrrev">This action cannot be undone!</entry>
+	<entry key="confElecClosingOk">The election was closed successfully.</entry>
+	<entry key="confElecClosingFailed">An error occurred closing the election. Please try again.</entry>
+	<entry key="confElecCloseElectionNotAvailable">This option will be enabled after the election closing date and should be used in the days following the official announcement of results.</entry>
+	<entry key="confElecElectionAlreadyClosed">This election is already closed.</entry>
+	<entry key="confElecClosingAskButton">Close election</entry>
+	<entry key="confElecClosingConfirmButton">Confirm</entry>
+	<entry key="confElecClosingCancelButton">Cancel</entry>
 
 	<!--  Error Pages -->
 	<entry key="reload">Reload</entry>
@@ -677,5 +688,7 @@
 	<entry key="errorVoteNotStartedTitle">This election begins in:</entry>
 	<entry key="errorVoteNotPublicTitle">Access not authorized</entry>
 	<entry key="errorVoteNotPublicDescription">The election is not active at the moment</entry>
+	<entry key="errorElectionClosedTitle">Election is closed</entry>
+	<entry key="errorElectionClosedDescription">This election is closed and cannot be edited.</entry>
 
 </properties>

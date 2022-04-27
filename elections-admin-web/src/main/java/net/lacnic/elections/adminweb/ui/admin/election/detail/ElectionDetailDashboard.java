@@ -17,6 +17,7 @@ import net.lacnic.elections.adminweb.ui.admin.election.ElectionsDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.ManageElectionTabsPanel;
 import net.lacnic.elections.adminweb.ui.admin.election.census.ElectionCensusDashboard;
 import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.error.ErrorElectionClosed;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.ejb.ElectionsManagerEJB;
@@ -34,12 +35,21 @@ public class ElectionDetailDashboard extends DashboardAdminBasePage {
 
 	public ElectionDetailDashboard(PageParameters params) {
 		super(params);
-		election = new Election();
-		election.setLinkSpanish((AppContext.getInstance().getManagerBeanRemote().getDefaultWebsite()));
-		election.setDefaultSender(AppContext.getInstance().getManagerBeanRemote().getDefaultSender());
+
+		// Check if election is closed (user might be using a direct link to get to this page)
 		if (UtilsParameters.isId(params)) {
-			setElection(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
-			getElection().initStringsStartEndDates();
+			Election election = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
+			if(election.isClosed()) {
+				setResponsePage(ErrorElectionClosed.class);
+				return;
+			} else {
+				setElection(election);
+				getElection().initStringsStartEndDates();
+			}
+		} else {
+			election = new Election();
+			election.setLinkSpanish((AppContext.getInstance().getManagerBeanRemote().getDefaultWebsite()));
+			election.setDefaultSender(AppContext.getInstance().getManagerBeanRemote().getDefaultSender());
 		}
 		add(new FeedbackPanel("feedback"));
 		add(new ManageElectionTabsPanel("tabsPanel", election));

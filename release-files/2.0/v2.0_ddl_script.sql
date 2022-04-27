@@ -3,7 +3,9 @@ ALTER TABLE accesosips RENAME COLUMN id TO ipaccess_id;
 ALTER TABLE accesosips RENAME COLUMN fechaprimerintento TO firstattemptdate;
 ALTER TABLE accesosips RENAME COLUMN fechaultimointento TO lastattemptdate;
 ALTER TABLE accesosips RENAME COLUMN intentos TO attemptcount;
+ALTER TABLE accesosips RENAME CONSTRAINT accesosips_pkey TO ipaccess_pkey;
 ALTER TABLE accesosips RENAME TO ipaccess;
+
 
 -- actividad
 ALTER TABLE actividad RENAME COLUMN id_actividad TO activity_id;
@@ -12,6 +14,7 @@ ALTER TABLE actividad RENAME COLUMN nomuser TO username;
 ALTER TABLE actividad RENAME COLUMN tiempo TO timestamp;
 ALTER TABLE actividad RENAME COLUMN tipoactividad TO activitytype;
 ALTER TABLE actividad RENAME COLUMN ideleccion TO election_id;
+ALTER TABLE actividad RENAME CONSTRAINT actividad_pkey TO activity_pkey;
 ALTER TABLE actividad RENAME TO activity;
 
 -- auditor
@@ -43,6 +46,7 @@ ALTER TABLE candidato RENAME COLUMN idmigracion TO migration_id;
 ALTER TABLE candidato RENAME COLUMN linkespanol TO linkspanish;
 ALTER TABLE candidato RENAME COLUMN linkingles TO linkenglish;
 ALTER TABLE candidato RENAME COLUMN linkportugues TO linkportuguese;
+ALTER TABLE candidato RENAME CONSTRAINT candidato_pkey TO candidate_pkey;
 ALTER TABLE candidato RENAME TO candidate;
 ALTER TABLE candidate ADD COLUMN mail CHARACTER VARYING(255);
 
@@ -50,6 +54,7 @@ ALTER TABLE candidate ADD COLUMN mail CHARACTER VARYING(255);
 ALTER TABLE comisionado RENAME COLUMN id_comisionado TO commissioner_id;
 ALTER TABLE comisionado RENAME COLUMN nombre TO name;
 ALTER TABLE comisionado RENAME COLUMN tokenresultado TO resulttoken;
+ALTER TABLE comisionado RENAME CONSTRAINT comisionado_pkey TO commissioner_pkey;
 ALTER TABLE comisionado RENAME TO commissioner;
 
 -- eleccion
@@ -82,6 +87,7 @@ ALTER TABLE eleccion RENAME COLUMN idmigracion TO migration_id;
 ALTER TABLE eleccion RENAME COLUMN migrada TO migrated;
 ALTER TABLE eleccion RENAME COLUMN categoria TO category;
 ALTER TABLE eleccion DROP COLUMN auxfechafin;
+ALTER TABLE eleccion RENAME CONSTRAINT eleccion_pkey TO election_pkey;
 ALTER TABLE eleccion RENAME TO election;
 
 -- email
@@ -105,6 +111,7 @@ ALTER TABLE emailhistorico RENAME COLUMN enviado TO sent;
 ALTER TABLE emailhistorico RENAME COLUMN tipotemplate TO templatetype;
 ALTER TABLE emailhistorico RENAME COLUMN ideleccion TO election_id;
 ALTER TABLE emailhistorico RENAME COLUMN fechacreado TO createddate;
+ALTER TABLE emailhistorico RENAME CONSTRAINT emailhistorico_pkey TO emailhistory_pkey;
 ALTER TABLE emailhistorico RENAME TO emailhistory;
 
 -- ipinhabilitada
@@ -113,6 +120,7 @@ DROP TABLE ipinhabilitada;
 -- parametro
 ALTER TABLE parametro RENAME COLUMN clave TO key;
 ALTER TABLE parametro RENAME COLUMN valor TO value;
+ALTER TABLE parametro RENAME CONSTRAINT parametro_pkey TO parameter_pkey;
 ALTER TABLE parametro RENAME TO parameter;
 
 -- personalizacion
@@ -121,12 +129,14 @@ ALTER TABLE personalizacion RENAME COLUMN pic_simbolo TO pic_symbol;
 ALTER TABLE personalizacion RENAME COLUMN cont_pic_simbolo TO cont_pic_symbol;
 ALTER TABLE personalizacion RENAME COLUMN titulo_sitio TO site_title;
 ALTER TABLE personalizacion RENAME COLUMN titulo_login TO login_title;
-ALTER TABLE personalizacion  RENAME TO customization;
+ALTER TABLE personalizacion RENAME CONSTRAINT personalizacion_pkey TO customization_pkey;
+ALTER TABLE personalizacion RENAME TO customization;
 
 -- supraeleccion
 ALTER TABLE supraeleccion RENAME COLUMN id TO jointelection_id;
 ALTER TABLE supraeleccion RENAME COLUMN idelecciona TO electiona_id;
 ALTER TABLE supraeleccion RENAME COLUMN ideleccionb TO electionb_id;
+ALTER TABLE supraeleccion RENAME CONSTRAINT supraeleccion_pkey TO jointelection_pkey;
 ALTER TABLE supraeleccion RENAME TO jointelection;
 
 -- templateeleccion
@@ -139,12 +149,14 @@ ALTER TABLE templateeleccion RENAME COLUMN cuerpopt TO bodypt;
 ALTER TABLE templateeleccion RENAME COLUMN tipo TO type;
 ALTER TABLE templateeleccion RENAME COLUMN id_eleccion TO election_id;
 ALTER TABLE templateeleccion RENAME COLUMN asuntoes TO subjectsp;
-ALTER TABLE templateeleccion  RENAME TO electionemailtemplate;
+ALTER TABLE templateeleccion RENAME CONSTRAINT templateeleccion_pkey TO electionemailtemplate_pkey;
+ALTER TABLE templateeleccion RENAME TO electionemailtemplate;
 
 -- usuarioadmin
 ALTER TABLE usuarioadmin RENAME COLUMN user_id TO useradmin_id;
 ALTER TABLE usuarioadmin RENAME COLUMN id_eleccion_autorizado TO authorizedelection_id;
-ALTER TABLE usuarioadmin  RENAME TO useradmin;
+ALTER TABLE usuarioadmin RENAME CONSTRAINT usuarioadmin_pkey TO useradmin_pkey;
+ALTER TABLE usuarioadmin RENAME TO useradmin;
 
 -- usuariopadron
 ALTER TABLE usuariopadron RENAME COLUMN id_usuario_padron TO uservoter_id;
@@ -157,6 +169,7 @@ ALTER TABLE usuariopadron RENAME COLUMN yavoto TO voted;
 ALTER TABLE usuariopadron RENAME COLUMN id_eleccion TO election_id;
 ALTER TABLE usuariopadron RENAME COLUMN fechavoto TO votedate;
 ALTER TABLE usuariopadron RENAME COLUMN idmigracion TO migration_id;
+ALTER TABLE usuariopadron RENAME CONSTRAINT usuariopadron_pkey TO uservoter_pkey;
 ALTER TABLE usuariopadron RENAME TO uservoter;
 
 -- voto
@@ -166,6 +179,7 @@ ALTER TABLE voto RENAME COLUMN fechavoto TO votedate;
 ALTER TABLE voto RENAME COLUMN id_candidato TO candidate_id;
 ALTER TABLE voto RENAME COLUMN id_eleccion TO election_id;
 ALTER TABLE voto RENAME COLUMN id_usuario_padron TO uservoter_id;
+ALTER TABLE voto RENAME CONSTRAINT voto_pkey TO vote_pkey;
 ALTER TABLE voto RENAME TO vote;
 
 -- secuencias
@@ -181,7 +195,9 @@ ALTER SEQUENCE public.templateeleccion_seq RENAME TO electionemailtemplate_seq;
 ALTER SEQUENCE public.usuario_padron_seq RENAME TO uservoter_seq;
 ALTER SEQUENCE public.voto_seq RENAME TO vote_seq;
 CREATE SEQUENCE public.commissioner_seq START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
+SELECT setval('commissioner_seq', max(commissioner_id)+1) FROM commissioner;
 ALTER TABLE public.commissioner_seq OWNER TO postgres;
 
 -- base de datos
+\c postgres
 ALTER DATABASE elecciones RENAME TO elections;

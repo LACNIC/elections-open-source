@@ -128,9 +128,12 @@
 						</div>
 						<div class="panel panel" style="border: 1px solid #ddd">
 							<div class="panel-heading">
-								<h5 class="panel-title">
+								<h5 class="panel-title viewCensusTitle">
 									<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"> <wicket:message key="electionsDetailCensusTitle" /></a>
 								</h5>
+								<div class="text-right viewCensusExport">
+									<a wicket:id="exportCensus" wicket:message="title:censusManagementUserListBtnExp" class="text-primary fa fa-download fa-lg m-r-sm"></a>
+								</div>
 							</div>
 							<div id="collapseFour" class="panel-collapse collapse" style="background-colour: #ddd">
 								<div class="panel-body">

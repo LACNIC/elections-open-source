@@ -37,6 +37,8 @@ public class ElectionTableReport implements Serializable {
 	private Long migrationId;
 	private Boolean migrated;
 	private String category;
+	private Boolean closed;
+	private String closedDate;
 
 
 	public ElectionTableReport() {	}
@@ -70,6 +72,8 @@ public class ElectionTableReport implements Serializable {
 		this.migrationId = election.getMigrationId();
 		this.migrated = election.isMigrated();
 		this.category = election.getCategory().toString();
+		this.closed = election.isClosed();
+		this.closedDate = election.getClosedDateString();
 	}
 
 
@@ -295,6 +299,22 @@ public class ElectionTableReport implements Serializable {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public Boolean getClosed() {
+		return closed;
+	}
+
+	public void setClosed(Boolean closed) {
+		this.closed = closed;
+	}
+
+	public String getClosedDate() {
+		return closedDate;
+	}
+
+	public void setClosedDate(String closedDate) {
+		this.closedDate = closedDate;
 	}
 
 	@Override

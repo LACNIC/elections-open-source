@@ -109,6 +109,12 @@ public class ElectionLight implements Serializable {
 	@Column(nullable = true)
 	private int diffUTC;
 
+	@Column(nullable = true)
+	private boolean closed;
+	
+	@Column(nullable = true)
+	private Date closedDate;
+
 
 	public ElectionLight() { }
 
@@ -192,6 +198,15 @@ public class ElectionLight implements Serializable {
 	public String getEndDateString() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
 		return simpleDateFormat.format(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+	}
+
+	public String getClosedDateString() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
+		if (this.getClosedDate() == null) {
+			return "";
+		} else {		
+			return simpleDateFormat.format(new DateTime(getClosedDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		}
 	}
 
 	public String getResultLink() {
@@ -421,6 +436,22 @@ public class ElectionLight implements Serializable {
 
 	public void setDiffUTC(int diffUTC) {
 		this.diffUTC = diffUTC;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+
+	public Date getClosedDate() {
+		return closedDate;
+	}
+
+	public void setClosedDate(Date closedDate) {
+		this.closedDate = closedDate;
 	}
 
 }

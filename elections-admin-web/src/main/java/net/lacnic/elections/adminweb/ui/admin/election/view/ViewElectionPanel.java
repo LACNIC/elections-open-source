@@ -1,5 +1,6 @@
 package net.lacnic.elections.adminweb.ui.admin.election.view;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 import org.apache.log4j.LogManager;
@@ -7,8 +8,10 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxLazyLoadPanel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.DownloadLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.PropertyModel;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.ui.admin.activity.ActivitiesListPanel;
@@ -27,6 +30,8 @@ public class ViewElectionPanel extends Panel {
 	private static final long serialVersionUID = -7217245542954325281L;
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+
+	private File censusFile;
 
 
 	public ViewElectionPanel(String id, final long electionId, final boolean sent) {
@@ -63,7 +68,9 @@ public class ViewElectionPanel extends Panel {
 			add(new Label("resultsLinkAvailable", election.isResultLinkAvailable() ? getString("electionDetailLinkAvailableYes") : getString("electionDetailLinkAvailableNo")));
 			add(new Label("resultsLink", AppContext.getInstance().getManagerBeanRemote().getResultsLink(election)));
 
-			add(new BookmarkablePageLink<Void>("editElection", ElectionDetailDashboard.class, UtilsParameters.getId(election.getElectionId())));
+			BookmarkablePageLink<Void> editElection = new BookmarkablePageLink<Void>("editElection", ElectionDetailDashboard.class, UtilsParameters.getId(election.getElectionId()));
+			editElection.setVisible(!election.isClosed());
+			add(editElection);
 
 			add(new AjaxLazyLoadPanel<ViewCandidatesListPanel>("candidatesListPanel") {
 				private static final long serialVersionUID = 6513156554118602169L;
@@ -73,7 +80,10 @@ public class ViewElectionPanel extends Panel {
 					return new ViewCandidatesListPanel(markupId, election.getElectionId());
 				}
 			});
-			add(new BookmarkablePageLink<Void>("editCandidates", ElectionCandidatesDashboard.class, UtilsParameters.getId(election.getElectionId())));
+
+			BookmarkablePageLink<Void> editCandidates = new BookmarkablePageLink<Void>("editCandidates", ElectionCandidatesDashboard.class, UtilsParameters.getId(election.getElectionId()));
+			editCandidates.setVisible(!election.isClosed());
+			add(editCandidates);
 
 			add(new AjaxLazyLoadPanel<ViewAuditorsListPanel>("auditorsListPanel") {
 				private static final long serialVersionUID = -8684993569281131596L;
@@ -83,7 +93,10 @@ public class ViewElectionPanel extends Panel {
 					return new ViewAuditorsListPanel(markupId, election.getElectionId());
 				}
 			});
-			add(new BookmarkablePageLink<Void>("editAuditors", ElectionAuditorsDashboard.class, UtilsParameters.getId(election.getElectionId())));
+			
+			BookmarkablePageLink<Void> editAuditors = new BookmarkablePageLink<Void>("editAuditors", ElectionAuditorsDashboard.class, UtilsParameters.getId(election.getElectionId()));
+			editAuditors.setVisible(!election.isClosed());
+			add(editAuditors);
 
 			add(new AjaxLazyLoadPanel<ViewUserVotersListPanel>("votersList") {
 				private static final long serialVersionUID = -5066564828514741892L;
@@ -93,7 +106,22 @@ public class ViewElectionPanel extends Panel {
 					return new ViewUserVotersListPanel(markupId, election);
 				}
 			});
-			add(new BookmarkablePageLink<Void>("editCensus", ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId())));
+
+			BookmarkablePageLink<Void> editCensus = new BookmarkablePageLink<Void>("editCensus", ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
+			editCensus.setVisible(!election.isClosed());
+			add(editCensus);
+
+			DownloadLink downloadLink = new DownloadLink("exportCensus", new PropertyModel<>(ViewElectionPanel.this, "censusFile")) {
+				private static final long serialVersionUID = 4098839411736270253L;
+
+				@Override
+				public void onClick() {
+					setCensusFile(AppContext.getInstance().getManagerBeanRemote().exportCensus(election.getElectionId()));
+					super.onClick();
+				}
+			};
+			downloadLink.setVisible(election.isElectorsSet() && election.isClosed());
+			add(downloadLink);
 
 			add(new AjaxLazyLoadPanel<EmailsListPanel>("emailsList") {
 				private static final long serialVersionUID = -6326434661632018604L;
@@ -131,6 +159,14 @@ public class ViewElectionPanel extends Panel {
 			appLogger.error(e);
 		}
 
+	}
+
+	public File getCensusFile() {
+		return censusFile;
+	}
+
+	public void setCensusFile(File censusFile) {
+		this.censusFile = censusFile;
 	}
 
 }

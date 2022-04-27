@@ -166,7 +166,7 @@ public interface ElectionsManagerEJB {
 	public Parameter getParameter(String key);
 
 	public void requestElectionRevision(Long electionId, Boolean status, String userAdminId, String ip);
-
+	
 	public List<Vote> getElectionVotes(Long electionId);
 
 	public boolean isRevisionActive(long electionId, String userAdminId, String ip);
@@ -206,5 +206,9 @@ public interface ElectionsManagerEJB {
 	public void persistActivity(String userAdminId, ActivityType activityType, String description, String ip, Long electionId);
 
 	public String getDataSiteKey();
+
+	public boolean electionCanBeClosed(long electionId);
+	
+	public boolean closeElection(long electionId, String userAdminId, String ip);
 
 }

@@ -67,6 +67,8 @@ public class ElectionTest extends TestCase {
        AssertAnnotations.assertField(Election.class, "auxStartHour", Transient.class);
        AssertAnnotations.assertField(Election.class, "auxEndDate", Transient.class);
        AssertAnnotations.assertField(Election.class, "auxEndHour", Transient.class);
+       AssertAnnotations.assertField(Election.class, "closed", Column.class);
+       AssertAnnotations.assertField(Election.class, "closedDate", Column.class);
        
        //metodos       
        AssertAnnotations.assertMethod(Election.class, "getElectionId");
@@ -111,6 +113,8 @@ public class ElectionTest extends TestCase {
        AssertAnnotations.assertMethod(Election.class, "isEnabledToVote");
        AssertAnnotations.assertMethod(Election.class, "isMigrated");
        AssertAnnotations.assertMethod(Election.class, "getCategory");
+       AssertAnnotations.assertMethod(Election.class, "isClosed");
+       AssertAnnotations.assertMethod(Election.class, "getClosedDate");
        
        //class annotations
        Entity a = ReflectTool.getClassAnnotation(Election.class, Entity.class);
@@ -189,6 +193,10 @@ public class ElectionTest extends TestCase {
        assertEquals("election", oa.mappedBy());
        oa = ReflectTool.getFieldAnnotation(Election.class, "email", OneToMany.class);
        assertEquals("election", oa.mappedBy());
+       c = ReflectTool.getFieldAnnotation(Election.class, "closed", Column.class);
+       assertEquals("", c.name());
+       c = ReflectTool.getFieldAnnotation(Election.class, "closedDate", Column.class);
+       assertEquals("", c.name());
        
     
     

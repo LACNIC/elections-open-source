@@ -13,6 +13,7 @@ import net.lacnic.elections.adminweb.ui.admin.election.ManageElectionTabsPanel;
 import net.lacnic.elections.adminweb.ui.admin.election.auditors.ElectionAuditorsDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.census.ElectionCensusDashboard;
 import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.error.ErrorElectionClosed;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ActivityType;
@@ -28,7 +29,14 @@ public class ElectionCandidatesDashboard extends DashboardAdminBasePage {
 	public ElectionCandidatesDashboard(PageParameters params) {
 		super(params);
 
-		setElection(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
+		// Check if election is closed (user might be using a direct link to get to this page)
+		Election election = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
+		if(election.isClosed()) {
+			setResponsePage(ErrorElectionClosed.class);
+			return;
+		} else {
+			setElection(election);
+		}
 		add(new FeedbackPanel("feedback"));
 		add(new ElectionCandidateForm("electionCandidateForm", election));
 		add(new ManageElectionTabsPanel("tabsPanel", election));

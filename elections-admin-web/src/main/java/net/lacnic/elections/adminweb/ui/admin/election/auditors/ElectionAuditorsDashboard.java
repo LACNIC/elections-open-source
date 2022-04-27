@@ -7,6 +7,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.ui.admin.election.ManageElectionTabsPanel;
 import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.error.ErrorElectionClosed;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 
@@ -21,13 +22,19 @@ public class ElectionAuditorsDashboard extends DashboardAdminBasePage {
 
 	public ElectionAuditorsDashboard(PageParameters params) {
 		super(params);
-		setElection(AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params)));
-		add(new FeedbackPanel("feedback"));
 
+		// Check if election is closed (user might be using a direct link to get to this page)
+		Election election = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
+		if(election.isClosed()) {
+			setResponsePage(ErrorElectionClosed.class);
+			return;
+		} else {
+			setElection(election);
+		}
+		add(new FeedbackPanel("feedback"));
 		add(new ManageElectionTabsPanel("tabsPanel", election));
 		add(new AuditorsListPanel("auditorsListPanel", election.getElectionId()));
 		add(new AddAuditorPanel("addAuditorPanel", election));
-
 	}
 
 	public Election getElection() {

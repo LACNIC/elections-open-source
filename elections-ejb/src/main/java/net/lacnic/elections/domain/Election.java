@@ -143,6 +143,12 @@ public class Election implements Serializable {
 	@OneToMany(mappedBy = "election", cascade = CascadeType.REMOVE)
 	private List<Email> email;
 
+	@Column(nullable = false)
+	private boolean closed;
+
+	@Column(nullable = true)
+	private Date closedDate;
+
 	@Transient
 	String auxStartDate = "";
 	@Transient
@@ -166,6 +172,7 @@ public class Election implements Serializable {
 		setRandomOrderCandidates(true);
 		setResultToken(StringUtils.createSecureToken());
 		setDiffUTC(3);
+		setClosed(false);
 	}
 
 	public Election(long id) {
@@ -182,6 +189,7 @@ public class Election implements Serializable {
 		setRandomOrderCandidates(true);
 		setResultToken(StringUtils.createSecureToken());
 		setTitle("TODOS");
+		setClosed(false);
 	}
 
 	public boolean isFinished() {
@@ -312,6 +320,13 @@ public class Election implements Serializable {
 		return DateTimeUtils.getElectionDateTimeString(new DateTime(getCreationDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
 	}
 
+	public String getClosedDateString() {
+		if (this.getClosedDate() == null) {
+			return "";
+		} else {
+			return DateTimeUtils.getElectionDateTimeString(new DateTime(getClosedDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		}
+	}
 
 	public long getElectionId() {
 		return electionId;
@@ -623,6 +638,22 @@ public class Election implements Serializable {
 
 	public void setAuxEndHour(String auxEndHour) {
 		this.auxEndHour = auxEndHour;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+
+	public Date getClosedDate() {
+		return closedDate;
+	}
+
+	public void setClosedDate(Date closedDate) {
+		this.closedDate = closedDate;
 	}
 
 }

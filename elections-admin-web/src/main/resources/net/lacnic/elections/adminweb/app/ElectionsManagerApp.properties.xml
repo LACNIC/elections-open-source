@@ -4,10 +4,10 @@
 
 	<!-- General -->
 	<entry key="lacnic">LACNIC</entry>
-	<entry key="lacnicYear">2021</entry>
+	<entry key="lacnicYear">2022</entry>
 	<entry key="pageTitle">Sistema de Elecciones - LACNIC</entry>
 	<entry key="copyright">Copyright</entry>
-	<entry key="copyrightLacnicYears">LACNIC © 2014-2021</entry>
+	<entry key="copyrightLacnicYears">LACNIC © 2014-2022</entry>
 	<entry key="privacyPolicy">Política de privacidad</entry>
 	<entry key="privacyPolicyLink">https://www.lacnic.net/politica-privacidad</entry>
 	<entry key="home">Inicio</entry>
@@ -107,6 +107,7 @@
 	<entry key="settings">Configuración</entry>
 	<entry key="deleteElectionSuccess">Se eliminó la elección correctamente</entry>
 	<entry key="deleteElectionErrorJoint">No es posible eliminar la elección ya que esta asociada a una elección conjunta, si desea eliminarla debe primero eliminar la eleción conjunta</entry>
+	<entry key="closedText">Cerrada</entry>
 	
 	<!-- Elections Detail -->
 	<entry key="electionsDetailTitle">DETALLE ELECCIÓN</entry>
@@ -659,6 +660,16 @@
 	<entry key="confElecTemplTextRes">Si se encuentra habilitado, el sistema permitirá que los Usuarios del padrón puedan acceder a ver los resultados de la Votación con el link común que se les proporcionó.</entry>
 	<entry key="confElecTemplLinkAud">Link de Auditoría :</entry>
 	<entry key="confElecTemplTextAud">Si se encuentra habilitado, el sistema permitirá que los Auditores y Comisionados puedan acceder a la pantalla de Auditoría.</entry>
+	<entry key="confElecClosing">Cierre de la elección: </entry>
+	<entry key="confElecClosingDesc">Al activar esta opción se elimina de forma irreversible el vínculo entre votante y candidato elegido. No se perderán los resultados (cantidad de votos obtenidos por cada candidato) ni el registro de los votantes de la elección.</entry>
+	<entry key="confElecClosingIrrev">¡Esta acción es irreversible!</entry>
+	<entry key="confElecClosingOk">La elección se cerró satisfactoriamente.</entry>
+	<entry key="confElecClosingFailed">Ocurrió un error al cerrar la elección, por favor intente nuevamente.</entry>
+	<entry key="confElecCloseElectionNotAvailable">Esta opción estará habilitada luego de la fecha de cierre de la elección y debería ser usada en los días siguientes al anuncio oficial de resultados.</entry>
+	<entry key="confElecElectionAlreadyClosed">Esta elección ya está cerrada.</entry>
+	<entry key="confElecClosingAskButton">Cerrar elección</entry>
+	<entry key="confElecClosingConfirmButton">Confirmar</entry>
+	<entry key="confElecClosingCancelButton">Cancelar</entry>
 
 	<!--  Error Pages -->
 	<entry key="reload">Recargar</entry>
@@ -677,5 +688,7 @@
 	<entry key="errorAuditNotPublicDescription">La auditoria no está habilitada por el momento</entry>
 	<entry key="errorVoteNotPublicTitle">Acceso no autorizado</entry>
 	<entry key="errorVoteNotPublicDescription">La elección no está activa en este momento</entry>
+	<entry key="errorElectionClosedTitle">Elección cerrada</entry>
+	<entry key="errorElectionClosedDescription">Esta elección está cerrada y no puede ser editada.</entry>
 
 </properties>

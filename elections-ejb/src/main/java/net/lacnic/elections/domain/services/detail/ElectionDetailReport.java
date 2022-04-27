@@ -46,6 +46,8 @@ public class ElectionDetailReport implements Serializable {
 	private List<CandidateDetailReport> candidates;
 	private List<AuditorDetailReport> commissioners;
 	private List<UserVoterDetailReport> userVoters;
+	private Boolean closed;
+	private String closedDate;
 
 
 	public ElectionDetailReport() {	}
@@ -86,6 +88,8 @@ public class ElectionDetailReport implements Serializable {
 		setAuditorsAndCommissioners(election);
 		setCandidates(election);
 		setUserVoters(election);
+		this.closed = election.isClosed();
+		this.closedDate = election.getClosedDateString();
 	}
 
 	private void setAuditorsAndCommissioners(Election election) {
@@ -365,6 +369,22 @@ public class ElectionDetailReport implements Serializable {
 
 	public void setUserVoters(List<UserVoterDetailReport> userVoters) {
 		this.userVoters = userVoters;
+	}
+
+	public Boolean getClosed() {
+		return closed;
+	}
+
+	public void setClosed(Boolean closed) {
+		this.closed = closed;
+	}
+
+	public String getClosedDate() {
+		return closedDate;
+	}
+
+	public void setClosedDate(String closedDate) {
+		this.closedDate = closedDate;
 	}
 
 }

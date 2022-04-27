@@ -31,6 +31,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 
 import net.lacnic.elections.dao.ElectionsDaoFactory;
 import net.lacnic.elections.domain.Activity;
@@ -1647,6 +1648,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		}
 	}
 
+	
 	/**
 	 * Gets all the votes of an election.
 	 * 
@@ -1945,6 +1947,75 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		} catch (Exception e) {
 			appLogger.error(e);
 			return "";
+		}
+	}
+
+
+	/**
+	 * Validates if an election can be closed
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election.
+	 * 
+	 * @return returns true if the election can be closed
+	 */
+	@Override
+	public boolean electionCanBeClosed(long electionId) {
+		try {
+			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
+			boolean closed = election.isClosed();
+			Date endDate = election.getEndDate();
+			Date currentDate = DateTime.now().toDate();
+
+			if ((!closed) && (endDate.before(currentDate))) {
+				return true;
+			} else {
+				return false;
+			}				
+		} catch (Exception e) {
+			appLogger.error(e);
+			return false;
+		}
+	}
+
+	/**
+	 * Closes an election
+	 * 
+	 * @param electionId
+	 * 			Identifier of the election searched.
+	 * 
+	 *  @param userAdminId
+	 * 			Id of the user performing the action, used for logging purposes
+	 * @param ip
+	 * 			Ip of the user, used for logging purposes
+	 * 
+	 * @return returns true if the operation succeeds or false if there's an error
+	 * 
+	 */
+	@Override
+	public boolean closeElection(long electionId, String userAdminId, String ip) {
+		try {
+			// Set election as closed and date of closure
+			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
+			election.setClosed(true);
+			election.setClosedDate(new Date());
+
+			// Disable voting link
+			election.setVotingLinkAvailable(false);
+
+			// Remove the voter info from votes
+			List<Vote> votes = election.getVotes();
+			for(Vote vote : votes) {
+				vote.setUserVoter(null);
+				em.persist(vote);
+			}
+			em.persist(election);
+
+			persistActivity(userAdminId, ActivityType.CLOSE_ELECTION, userAdminId + " ha cerrado la elección " + electionId, ip, null);
+			return true;
+		} catch (Exception e) {
+			appLogger.error(e);
+			return false;
 		}
 	}
 

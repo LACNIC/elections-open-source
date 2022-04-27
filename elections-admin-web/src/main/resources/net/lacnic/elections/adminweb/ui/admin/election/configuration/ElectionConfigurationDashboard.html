@@ -1,5 +1,6 @@
 <wicket:extend>
 	<div class="row">
+		<div wicket:id="feedbackPanel"></div>
 		<div class="col-md-10 col-md-offset-1">
 			<div class="ibox">
 				<div class="ibox-title">
@@ -60,6 +61,22 @@
 										<wicket:message key="confElecFooter3" /><i><wicket:message key="confElecFooter4" /></i>
 										<wicket:message key="confElecFooter5" /><a wicket:id="rolesDocument"><wicket:message key="confElecFooter6" /></a>
 									</p>
+								</div>
+							</div>
+							<div class="panel panel-danger">
+								<div class="panel-body">
+									<div class="col-md-12">
+										<p><b><wicket:message key="confElecClosing" /> </b><wicket:message key="confElecClosingDesc" /></p>
+										<div id="closeElectionNotAvailable" wicket:id="closeElectionNotAvailable">
+											<strong><wicket:message key="confElecCloseElectionNotAvailable" /> </strong>
+										</div>
+										<div id="electionAlreadyClosed" wicket:id="electionAlreadyClosed">
+											<strong><wicket:message key="confElecElectionAlreadyClosed" /> </strong>
+										</div>
+									</div>
+									<div class="col-md-12 text-right closeElectionButtons">
+										<div id="closeElectionButton" wicket:id="closeElectionButton"></div>
+									</div>
 								</div>
 							</div>
 						</div>

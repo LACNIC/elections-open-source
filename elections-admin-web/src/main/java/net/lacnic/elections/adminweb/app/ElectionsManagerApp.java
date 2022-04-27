@@ -47,6 +47,7 @@ import net.lacnic.elections.adminweb.ui.error.Error404;
 import net.lacnic.elections.adminweb.ui.error.Error410;
 import net.lacnic.elections.adminweb.ui.error.Error500;
 import net.lacnic.elections.adminweb.ui.error.ErrorAuditNotPublic;
+import net.lacnic.elections.adminweb.ui.error.ErrorElectionClosed;
 import net.lacnic.elections.adminweb.ui.error.ErrorResultsNotPublic;
 import net.lacnic.elections.adminweb.ui.error.ErrorVoteNotPublic;
 import net.lacnic.elections.adminweb.ui.error.ErrorVoteNotStarted;
@@ -55,9 +56,9 @@ import net.lacnic.elections.adminweb.ui.login.LoginDashboard;
 import net.lacnic.elections.adminweb.ui.results.ResultsDashboard;
 import net.lacnic.elections.adminweb.ui.results.audit.AuditDashboard;
 import net.lacnic.elections.adminweb.ui.results.review.ReviewDashboard;
+import net.lacnic.elections.adminweb.ui.vote.AlreadyVotedDashboard;
 import net.lacnic.elections.adminweb.ui.vote.VoteDashboard;
 import net.lacnic.elections.adminweb.ui.vote.VoteJointElectionDashboard;
-import net.lacnic.elections.adminweb.ui.vote.AlreadyVotedDashboard;
 import net.lacnic.elections.adminweb.ui.vote.VoteSimpleElectionDashboard;
 
 
@@ -117,6 +118,7 @@ public class ElectionsManagerApp extends AuthenticatedWebApplication {
 		mountAppPage("/results/notpublic", ErrorResultsNotPublic.class);
 		mountAppPage("/vote/notpublic", ErrorVoteNotPublic.class);
 		mountAppPage("/vote/notstarted", ErrorVoteNotStarted.class);
+		mountAppPage("/election/closed", ErrorElectionClosed.class);
 		getApplicationSettings().setAccessDeniedPage(Error401.class);
 		getApplicationSettings().setPageExpiredErrorPage(Error410.class);
 		getApplicationSettings().setInternalErrorPage(Error500.class);

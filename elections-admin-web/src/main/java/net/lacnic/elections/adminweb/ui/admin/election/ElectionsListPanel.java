@@ -71,6 +71,10 @@ public class ElectionsListPanel extends Panel {
 						Label titles = new Label("titles", currentElection.getTitle(SecurityUtils.getLocale().getLanguage()));
 						titles.setEscapeModelStrings(false);
 
+						Label closedTag = new Label("closedTag", getString("closedText"));
+						closedTag.setVisible(currentElection.isClosed());
+						item.add(closedTag);
+
 						item.add(new Label("creationDate", new SimpleDateFormat("dd/MM/yyyy").format(currentElection.getCreationDate())));
 						item.add(new Label("startDate", currentElection.getStartDateString()));
 						item.add(new Label("endDate", currentElection.getEndDateString()));
@@ -79,26 +83,29 @@ public class ElectionsListPanel extends Panel {
 
 						BookmarkablePageLink<Void> editElection = new BookmarkablePageLink<>("editElection", ElectionDetailDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						editElection.setMarkupId("editElection" + currentElection.getElectionId());
+						editElection.setVisible(!currentElection.isClosed());
 						item.add(editElection);
 
 						BookmarkablePageLink<Void> census = new BookmarkablePageLink<>("manageCensus", ElectionCensusDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						census.setMarkupId("electionCensus" + currentElection.getElectionId());
+						census.setEnabled(!currentElection.isClosed());
+						if (currentElection.isElectorsSet())
+							census.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
 						item.add(census);
 
 						BookmarkablePageLink<Void> candidates = new BookmarkablePageLink<>("candidates", ElectionCandidatesDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						candidates.setMarkupId("electionCandidates" + currentElection.getElectionId());
+						candidates.setEnabled(!currentElection.isClosed());
+						if (currentElection.isCandidatesSet())
+							candidates.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
 						item.add(candidates);
 
 						BookmarkablePageLink<Void> auditors = new BookmarkablePageLink<>("auditors", ElectionAuditorsDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						auditors.setMarkupId("electionAuditors" + currentElection.getElectionId());
-						item.add(auditors);
-
-						if (currentElection.isCandidatesSet())
-							candidates.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
-						if (currentElection.isElectorsSet())
-							census.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
+						auditors.setEnabled(!currentElection.isClosed());
 						if (currentElection.isAuditorsSet())
 							auditors.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
+						item.add(auditors);
 
 						ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeElection", currentElection.getElectionId()) {
 							private static final long serialVersionUID = -2068256428165604654L;
@@ -119,7 +126,7 @@ public class ElectionsListPanel extends Panel {
 									if ((!isNew) && (isJoint)) {
 										SecurityUtils.error(getString("deleteElectionErrorJoint"));
 										setResponsePage(ElectionsDashboard.class);
-									} else {									
+									} else {
 										AppContext.getInstance().getManagerBeanRemote().removeElection(currentElection.getElectionId(), currentElection.getTitleSpanish(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
 										SecurityUtils.info(getString("deleteElectionSuccess"));
 										setResponsePage(ElectionsDashboard.class);
@@ -136,11 +143,12 @@ public class ElectionsListPanel extends Panel {
 						revisionLink.setMarkupId("revision" + currentElection.getElectionId());
 						revisionLink.setVisible(currentElection.isRevisionRequest());
 						item.add(revisionLink);
-						
+
 						BookmarkablePageLink<Void> manageEmailsLink = new BookmarkablePageLink<>("manageEmails", EmailTemplatesDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						manageEmailsLink.setMarkupId("manageEmails" + currentElection.getElectionId());
+						manageEmailsLink.setVisible(!currentElection.isClosed());
 						item.add(manageEmailsLink); 
-						
+
 						BookmarkablePageLink<Void> statsLink = new BookmarkablePageLink<>("seeStats", StatsDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						statsLink.setMarkupId("seeStats" + currentElection.getElectionId());
 						item.add(statsLink);

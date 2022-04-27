@@ -1,5 +1,17 @@
 # Release Notes
 
+## v2.2 (27/04/2022)
+
+#### Nuevas funcionalidades y correcciones:
+
+* Nueva funcionalidad Cierre de elección permite eliminar el registro de candidato(s) elegido(s) por cada votante.
+
+#### Script de actualización de base de datos:
+
+Es necesario ejecutar el siguiente script de base de datos:
+[v2.2_script.sql](../release-files/2.2/v2.2_script.sql)
+
+
 ## v2.1 (11/11/2021)
 
 #### Nuevas funcionalidades y correcciones:

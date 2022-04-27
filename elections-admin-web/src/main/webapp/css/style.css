@@ -11148,3 +11148,26 @@ li.feedbackPanelINFO {
 	display: flex;
 	flex-wrap: wrap;
 }
+
+.tag {
+	background: #EE2F25;
+    color: white;
+    width: 55px;
+    border-radius: 25%/100%;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.closeElectionButtons {
+	margin-top: 10px;
+}
+
+.viewCensusTitle {
+	display: inline;
+}
+
+.viewCensusExport {
+	display: inline;
+	float: right;
+}
