@@ -33,10 +33,10 @@ public class Customization implements Serializable {
 	@Column(name = "cont_pic_small_logo", nullable = true)
 	private byte[] contPicSmallLogo;
 
-	@Column(name = "cont_pic_big_logo", nullable = false)
+	@Column(name = "cont_pic_big_logo", nullable = true)
 	private byte[] contPicBigLogo;
 
-	@Column(name = "cont_pic_symbol", nullable = false)
+	@Column(name = "cont_pic_symbol", nullable = true)
 	private byte[] contPicSymbol;
 
 	@Column(name = "site_title", nullable = false, length = 255)
@@ -45,7 +45,7 @@ public class Customization implements Serializable {
 	@Column(name = "login_title", nullable = false, length = 255)
 	private String loginTitle;
 
-	@Column(name = "show_home", nullable = true)
+	@Column(name = "show_home", nullable = false)
 	private boolean showHome;
 
 	@Column(name = "home_html", nullable = true, columnDefinition = "TEXT")
