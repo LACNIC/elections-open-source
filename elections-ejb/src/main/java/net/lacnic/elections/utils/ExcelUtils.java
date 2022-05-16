@@ -118,7 +118,7 @@ public class ExcelUtils {
 
 							// mail
 							String mail = row.getCell(mailIndex).getStringCellValue();
-							if (!(EmailValidator.getInstance().isValid(mail))) {
+							if (!(EmailValidator.getInstance(false).isValid(mail))) {
 								throw new CensusValidationException("censusManagementUploadWrongEmail", i, mail);
 							}
 							// Yes, it is possible that the same email
