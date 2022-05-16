@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -118,7 +117,10 @@ public class ExcelUtils {
 
 							// mail
 							String mail = row.getCell(mailIndex).getStringCellValue();
-							if (!(EmailValidator.getInstance(false).isValid(mail))) {
+							// if
+							// (!(EmailValidator.getInstance(false).isValid(mail)))
+							// {
+							if (!isValid(mail)) {
 								throw new CensusValidationException("censusManagementUploadWrongEmail", i, mail);
 							}
 							// Yes, it is possible that the same email
@@ -189,6 +191,10 @@ public class ExcelUtils {
 				}
 			}
 		}
+	}
+
+	private static boolean isValid(String mail) {
+		return mail.contains("@") && mail.contains(".");
 	}
 
 	/**
