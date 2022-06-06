@@ -211,6 +211,6 @@ public interface ElectionsManagerEJB {
 
 	public boolean closeElection(long electionId, String userAdminId, String ip);
 
-	public UserAdmin login(String username, String password);
+	public UserAdmin login(String username, String password, String ip);
 
 }

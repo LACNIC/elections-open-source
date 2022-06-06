@@ -49,7 +49,7 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 			 userAdmin = AppContext.getInstance().getManagerBeanRemote().userAdminLogin(userAdminId,UtilsString.wantHashMd5(password), getIPClient());
 
 		}else {
-			 userAdmin = AppContext.getInstance().getManagerBeanRemote().login(userAdminId, password);		
+			 userAdmin = AppContext.getInstance().getManagerBeanRemote().login(userAdminId, password, getIPClient());		
 		}		
 
 		String lang;

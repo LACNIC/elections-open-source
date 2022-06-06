@@ -2010,22 +2010,29 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	@Override
-	public UserAdmin login(String username, String password) {
+	public UserAdmin login(String username, String password, String ip) {
 		try {
 			LoginData dataLDAP = UtilsLogin.login(username, password);
 			if (dataLDAP.getAuthenticated()) {
+				String description = username.toUpperCase() + " se ha logueado exitosamente";
+				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username,
+						ActivityType.LOGIN_SUCCESSFUL, description, ip, null);
+
 				return crearActualizarAdminUser(dataLDAP);
+			} else {
+				String description = "Intento fallido de login de usuario " + username.toUpperCase();
+				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username, ActivityType.LOGIN_FAILED,
+						description, ip, null);
 			}
 			return null;
 		} catch (Exception e) {
-			e.printStackTrace();
+			appLogger.error(e);
 			return null;
 		}
 	}
 
 	private UserAdmin crearActualizarAdminUser(LoginData paiUser) {
 		try {
-//			UserAdmin userAdmin = ElectionsDaoFactory.createUserAdminDao(em).getUserAdminByEmail(paiUser.getUsername());
 			UserAdmin userAdmin = ElectionsDaoFactory.createUserAdminDao(em).getUserAdmin(paiUser.getUsername());
 
 			if (userAdmin != null) {
@@ -2048,7 +2055,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			appLogger.error(e);
 		}
 		return null;
 	}
