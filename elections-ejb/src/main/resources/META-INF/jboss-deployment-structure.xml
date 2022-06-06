@@ -14,6 +14,11 @@
 			<module name="org.apache.commons.validator" />
 			<module name="org.apache.poi" />
 			<module name="org.apache.poi-ooxml" />
+			<module name="deployment.portal-auth-client.jar" meta-inf="export">
+				<imports>
+					<include path="META-INF" />
+				</imports>
+			</module>
 		</dependencies>
 	</deployment>
 

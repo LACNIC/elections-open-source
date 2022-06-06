@@ -18,11 +18,9 @@ public class UserAdminDao {
 
 	private EntityManager em;
 
-
 	public UserAdminDao(EntityManager em) {
 		this.em = em;
 	}
-
 
 	public UserAdmin verifyUserLogin(String userAdminId, String password) {
 		try {
@@ -84,7 +82,18 @@ public class UserAdminDao {
 		Query q = em.createQuery("SELECT a.userAdminId, a.email FROM UserAdmin a ORDER BY a.userAdminId");
 		q.setMaxResults(pageSize);
 		q.setFirstResult(offset * pageSize);
-		return q.getResultList();		
+		return q.getResultList();
+	}
+
+	public UserAdmin getUserAdminByEmail(String email) {
+		try {
+			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE a.email = :userAdminEmail", UserAdmin.class);
+			q.setParameter("userAdminEmail", email);
+			return q.getSingleResult();
+		} catch (Exception e) {
+			appLogger.error(e);
+			return null;
+		}
 	}
 
 }

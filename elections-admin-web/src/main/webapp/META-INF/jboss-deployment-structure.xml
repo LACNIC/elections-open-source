@@ -8,6 +8,7 @@
 		<dependencies>
 			<module name="org.jboss.ejb-client" />
 			<module name="deployment.elections-ejb.jar" />
+			<module name="deployment.portal-auth-client.jar" meta-inf="export"/>			
 		</dependencies>
 	</deployment>
 </jboss-deployment-structure>

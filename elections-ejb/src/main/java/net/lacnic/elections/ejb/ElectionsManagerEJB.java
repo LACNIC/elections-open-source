@@ -19,7 +19,7 @@ import net.lacnic.elections.domain.UserAdmin;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.exception.CensusValidationException;
-
+import net.lacnic.portal.auth.client.LoginData;
 
 public interface ElectionsManagerEJB {
 
@@ -166,7 +166,7 @@ public interface ElectionsManagerEJB {
 	public Parameter getParameter(String key);
 
 	public void requestElectionRevision(Long electionId, Boolean status, String userAdminId, String ip);
-	
+
 	public List<Vote> getElectionVotes(Long electionId);
 
 	public boolean isRevisionActive(long electionId, String userAdminId, String ip);
@@ -208,7 +208,9 @@ public interface ElectionsManagerEJB {
 	public String getDataSiteKey();
 
 	public boolean electionCanBeClosed(long electionId);
-	
+
 	public boolean closeElection(long electionId, String userAdminId, String ip);
+
+	public UserAdmin login(String username, String password);
 
 }

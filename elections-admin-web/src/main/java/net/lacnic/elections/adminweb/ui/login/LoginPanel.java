@@ -86,7 +86,7 @@ public class LoginPanel extends Panel {
 		}
 
 		public boolean login(String username, String password) {
-			return AuthenticatedWebSession.get().signIn(username, UtilsString.wantHashMd5(password));
+			return AuthenticatedWebSession.get().signIn(username, password);
 		}
 
 		protected void onLoginSucceeded() {
