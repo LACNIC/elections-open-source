@@ -11,7 +11,11 @@ import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.apache.wicket.request.Request;
 
+import net.lacnic.elections.adminweb.wicket.util.UtilsString;
+import net.lacnic.elections.dao.ElectionsDaoFactory;
+import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.domain.UserAdmin;
+import net.lacnic.elections.utils.Constants;
 import net.lacnic.portal.auth.client.LoginData;
 
 public class ElectionsWebAdminSession extends AuthenticatedWebSession {
@@ -19,92 +23,61 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 	private static final long serialVersionUID = 5650965863312480143L;
 
 	private String userAdminId;
+	private String password;
 	private Long authorizedElectionId;
+	private UserAdmin userAdmin;
+
+
+	public UserAdmin getUserAdmin() {
+		return userAdmin;
+	}
+
+	public void setUserAdmin(UserAdmin userAdmin) {
+		this.userAdmin = userAdmin;
+	}
 
 	public ElectionsWebAdminSession(Request request) {
 		super(request);
 	}
 
 	@Override
-	public boolean authenticate(String username, String password) {
-		try {
-			UserAdmin userAdmin = AppContext.getInstance().getManagerBeanRemote().login(username, password);
-			
-			String lang;
-			if (userAdmin != null) {
-				setUserAdminId(userAdminId);
-				setAuthorizedElectionId(userAdmin.getAuthorizedElectionId());
-				lang = getLocale().getLanguage();
-				switch (lang) {
-				case "pt":
-					setLocale(new Locale("PT"));
-					break;
-				case "en":
-					setLocale(new Locale("EN"));
-					break;
-				case "es":
-					setLocale(new Locale("ES"));
-					break;
-				default:
-					setLocale(new Locale("ES"));
-				}
+	public boolean authenticate(String userAdminId, String password) {
+		
+		Parameter parameter =AppContext.getInstance().getManagerBeanRemote().getParameter("PAI_ACTIVO");
 
-				return true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(parameter.getValue().equals("false")) {
+			 userAdmin = AppContext.getInstance().getManagerBeanRemote().userAdminLogin(userAdminId,UtilsString.wantHashMd5(password), getIPClient());
+
+		}else {
+			 userAdmin = AppContext.getInstance().getManagerBeanRemote().login(userAdminId, password);		
+		}		
+
+		String lang;
+
+		if (userAdmin != null) {
+			setUserAdminId(userAdminId);
+			setPassword(password);
+			setAuthorizedElectionId(userAdmin.getAuthorizedElectionId());
+
+			lang = getLocale().getLanguage();			
+			switch(lang) {
+			case "pt":
+				setLocale(new Locale("PT"));
+				break;
+			case "en":
+				setLocale(new Locale("EN"));
+				break;
+			case "es":
+				setLocale(new Locale("ES"));
+				break;				
+			default:
+				setLocale(new Locale("ES"));
+			}			
+
+			return true;
 		}
 		return false;
 	}
-
-//	@Override
-//	public Roles getRoles() {
-//		Roles roles = null;
-//		if (isSignedIn()) {
-//			try {
-//				roles = addRollesToSession(getLoginData().getRoles());
-//			} catch (PolicyContextException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return roles;
-//	}
-
-	
-
-	// @Override
-	// public boolean authenticate(String userAdminId, String password) {
-	// UserAdmin userAdmin =
-	// AppContext.getInstance().getManagerBeanRemote().userAdminLogin(userAdminId,
-	// password, getIPClient());
-	//
-	// String lang;
-	//
-	// if (userAdmin != null) {
-	// setUserAdminId(userAdminId);
-	// setPassword(password);
-	// setAuthorizedElectionId(userAdmin.getAuthorizedElectionId());
-	//
-	// lang = getLocale().getLanguage();
-	// switch(lang) {
-	// case "pt":
-	// setLocale(new Locale("PT"));
-	// break;
-	// case "en":
-	// setLocale(new Locale("EN"));
-	// break;
-	// case "es":
-	// setLocale(new Locale("ES"));
-	// break;
-	// default:
-	// setLocale(new Locale("ES"));
-	// }
-	//
-	// return true;
-	// }
-	// return false;
-	// }
-	//
 
 	@Override
 	public Roles getRoles() {
@@ -131,14 +104,13 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 	public void logOut() {
 		signOut();
 
-		
 	}
-	
 
 	public static String getIPClient() {
 		WebClientInfo info = get().getClientInfo();
 		return info.getProperties().getRemoteAddress();
 	}
+
 
 	public String getUserAdminId() {
 		return userAdminId;
@@ -146,6 +118,14 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 
 	public void setUserAdminId(String userAdminId) {
 		this.userAdminId = userAdminId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Long getAuthorizedElectionId() {
