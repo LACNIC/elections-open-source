@@ -52,6 +52,7 @@ public class EditUserVoterDashboard extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				// Save only if something changed
+				//BUG-FIX: Now redirects to the Election Dashboard in case of non-changes
 				if (!(mail.equalsIgnoreCase(userVoter.getMail())) || !(name.equalsIgnoreCase(userVoter.getName())) || !(voteAmount.equals(userVoter.getVoteAmount())) 
 						|| (orgID != null && !(orgID.equalsIgnoreCase(userVoter.getOrgID()))) || (userVoter.getOrgID() != null && !(userVoter.getOrgID().equalsIgnoreCase(orgID))) 
 						|| (country != null && !(country.equalsIgnoreCase(userVoter.getCountry()))) || (userVoter.getCountry() != null && !(userVoter.getCountry().equalsIgnoreCase(country))) 
@@ -63,6 +64,9 @@ public class EditUserVoterDashboard extends DashboardAdminBasePage {
 					} catch (CensusValidationException e) {
 						error(getString(e.getMessage()));
 					}
+				}else
+				{
+					setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(userVoter.getElection().getElectionId()));
 				}
 			}
 		});
