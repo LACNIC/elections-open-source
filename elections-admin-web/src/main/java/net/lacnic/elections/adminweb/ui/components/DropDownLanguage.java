@@ -18,14 +18,14 @@ public class DropDownLanguage extends DropDownChoice<String> {
 		setModel(model);
 		setRequired(true);
 
-		this.add(new FormComponentUpdatingBehavior() {
-			private static final long serialVersionUID = -61527320105022401L;
-
-			@Override
-			protected void onUpdate() {
-
-			}
-		});
+//		this.add(new FormComponentUpdatingBehavior() {
+//			private static final long serialVersionUID = -61527320105022401L;
+//
+//			@Override
+//			protected void onUpdate() {
+//
+//			}
+//		});
 	}
 
 	@Override
