@@ -5,12 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -24,7 +21,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.exception.CensusValidationException;
 
-
 /**
  * Util class for Excel operations
  * 
@@ -37,12 +33,14 @@ public class ExcelUtils {
 	private static final String CONTENT_TYPE_XLS = "application/vnd.ms-excel";
 	private static final String CONTENT_TYPE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-
 	/**
-	 * Processes the census in the Excel file and returns it as a list of UserVoter 
+	 * Processes the census in the Excel file and returns it as a list of
+	 * UserVoter
 	 * 
-	 * @param contentType Excel type (xls or xlsx)
-	 * @param census the file
+	 * @param contentType
+	 *            Excel type (xls or xlsx)
+	 * @param census
+	 *            the file
 	 * @return the UserVoter list
 	 * @throws CensusValidationException
 	 */
@@ -55,9 +53,9 @@ public class ExcelUtils {
 
 		try {
 			fis = new FileInputStream(file);
-			if(contentType.equals(CONTENT_TYPE_XLS)) {
+			if (contentType.equals(CONTENT_TYPE_XLS)) {
 				workbook = new HSSFWorkbook(fis);
-			} else if(contentType.equals(CONTENT_TYPE_XLSX)) {
+			} else if (contentType.equals(CONTENT_TYPE_XLSX)) {
 				workbook = new XSSFWorkbook(fis);
 			} else {
 				throw new CensusValidationException("censusManagementUploadUnknownFileType", null, null);
@@ -74,7 +72,7 @@ public class ExcelUtils {
 
 			Row firstRow = sheet.getRow(0);
 			// check that all required columns exist
-			if(validateRequiredColumns(firstRow)) {
+			if (validateRequiredColumns(firstRow)) {
 				// find column index for each field
 				while (variablesAmount < firstRow.getLastCellNum() && !firstRow.getCell(variablesAmount).getStringCellValue().equals("")) {
 					String value = firstRow.getCell(variablesAmount).getStringCellValue();
@@ -95,16 +93,16 @@ public class ExcelUtils {
 				}
 
 				int i = 0;
-				Set<String> mails = new HashSet<>();
+				// Set<String> mails = new HashSet<>();
 				CountryUtils countryUtils = new CountryUtils();
 				// process each row
 				Iterator<Row> rowIterator = sheet.iterator();
-				while(rowIterator.hasNext()) {
+				while (rowIterator.hasNext()) {
 					Row row = rowIterator.next();
 					// first row is titles
-					if(i > 0) {
+					if (i > 0) {
 						// check that required fields are not null
-						if(validateRequiredFields(row, languageIndex, nameIndex, mailIndex, voteAmountIndex)) {
+						if (validateRequiredFields(row, languageIndex, nameIndex, mailIndex, voteAmountIndex)) {
 							UserVoter userVoter = new UserVoter();
 
 							// language
@@ -119,18 +117,25 @@ public class ExcelUtils {
 
 							// mail
 							String mail = row.getCell(mailIndex).getStringCellValue();
-							if(!(EmailValidator.getInstance().isValid(mail))) {
+							// if
+							// (!(EmailValidator.getInstance(false).isValid(mail)))
+							// {
+							if (!isValid(mail)) {
 								throw new CensusValidationException("censusManagementUploadWrongEmail", i, mail);
 							}
-							if(!mails.add(mail)) {
-								throw new CensusValidationException("censusManagementUploadDuplicateEmail", i, mail);
-							}
+							// Yes, it is possible that the same email
+							// participates many times in an election
+							// if(!mails.add(mail)) {
+							// throw new
+							// CensusValidationException("censusManagementUploadDuplicateEmail",
+							// i, mail);
+							// }
 							userVoter.setMail(mail);
 
 							// votes
 							try {
-								int votes = (int)row.getCell(voteAmountIndex).getNumericCellValue();
-								if(votes > 0)
+								int votes = (int) row.getCell(voteAmountIndex).getNumericCellValue();
+								if (votes > 0)
 									userVoter.setVoteAmount(votes);
 								else
 									throw new CensusValidationException("censusManagementUploadWrongVoteAmount", i, null);
@@ -171,19 +176,32 @@ public class ExcelUtils {
 			appLogger.error(ioe);
 			throw new CensusValidationException("censusManagementUploadFileError", null, null);
 		} finally {
-			if(workbook != null) {
-				try { workbook.close(); } catch (IOException ioe) { appLogger.error(ioe); }
+			if (workbook != null) {
+				try {
+					workbook.close();
+				} catch (IOException ioe) {
+					appLogger.error(ioe);
+				}
 			}
-			if(fis != null) {
-				try { fis.close(); } catch (IOException ioe) { appLogger.error(ioe); }
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (IOException ioe) {
+					appLogger.error(ioe);
+				}
 			}
 		}
+	}
+
+	private static boolean isValid(String mail) {
+		return mail.contains("@") && mail.contains(".");
 	}
 
 	/**
 	 * Validate that required columns exist
 	 * 
-	 * @param firstRow titles row
+	 * @param firstRow
+	 *            titles row
 	 * @return true if valid, false otherwise
 	 */
 	private static boolean validateRequiredColumns(Row firstRow) {
@@ -213,23 +231,29 @@ public class ExcelUtils {
 	/**
 	 * Validate that required fields are not null in given row
 	 * 
-	 * @param row the row to check
-	 * @param languageIndex the language column index
-	 * @param nameIndex the name column index
-	 * @param mailIndex the mail column index
-	 * @param voteAmountIndex the voteAmount column index
+	 * @param row
+	 *            the row to check
+	 * @param languageIndex
+	 *            the language column index
+	 * @param nameIndex
+	 *            the name column index
+	 * @param mailIndex
+	 *            the mail column index
+	 * @param voteAmountIndex
+	 *            the voteAmount column index
 	 * @return true if valid, false otherwise
 	 */
 	private static boolean validateRequiredFields(Row row, int languageIndex, int nameIndex, int mailIndex, int voteAmountIndex) {
 		return !(row.getCell(languageIndex) == null || row.getCell(nameIndex) == null || row.getCell(mailIndex) == null || row.getCell(voteAmountIndex) == null);
 	}
 
-
 	/**
 	 * Export the list of voters to a xlsx Excel file
 	 * 
-	 * @param userVoters the voters list
-	 * @param fileName the file name
+	 * @param userVoters
+	 *            the voters list
+	 * @param fileName
+	 *            the file name
 	 * @return the File object
 	 */
 	public static File exportToExcel(List<UserVoter> userVoters, String fileName) {
@@ -255,7 +279,7 @@ public class ExcelUtils {
 			cell = row.createCell(columnIndex++);
 			cell.setCellValue("ORGID");
 
-			for(UserVoter userVoter : userVoters) {
+			for (UserVoter userVoter : userVoters) {
 				columnIndex = 0;
 				row = sheet.createRow(rowIndex++);
 				cell = row.createCell(columnIndex++);
@@ -272,14 +296,14 @@ public class ExcelUtils {
 				cell.setCellValue(userVoter.getOrgID());
 			}
 
-			for(int i = 0; i < sheet.getRow(0).getLastCellNum(); i++) {
+			for (int i = 0; i < sheet.getRow(0).getLastCellNum(); i++) {
 				sheet.autoSizeColumn(i);
 			}
 
 			workbook.write(new FileOutputStream(file));
 			workbook.close();
 			return file;
-		} catch(IOException ioe) {
+		} catch (IOException ioe) {
 			appLogger.error(ioe);
 		}
 		return null;
