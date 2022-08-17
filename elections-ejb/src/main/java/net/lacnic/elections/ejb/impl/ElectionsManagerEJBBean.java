@@ -2012,6 +2012,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public UserAdmin login(String username, String password, String ip) {
 		try {
+			
 			LoginData dataLDAP = UtilsLogin.login(username, password);
 			if (dataLDAP.getAuthenticated()&& dataLDAP.getRoles().contains(Constants.elections_admin)) {
 				String description = username.toUpperCase() + " se ha logueado exitosamente";

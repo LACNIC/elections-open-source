@@ -70,9 +70,6 @@ public class WebServiceAuthentication {
 						.get(LacnicAuthResponse.class);
 
 				// Check response
-				System.out.println("response roles:"+response.getRoles().toString());
-				System.out.println("response roles:"+response.getAuthenticated());
-
 				
 				if(response == null || !response.getAuthenticated() || !response.getRoles().contains(Constants.api_Eleccions) ) {
 					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", missing or invalid Auth Token");
