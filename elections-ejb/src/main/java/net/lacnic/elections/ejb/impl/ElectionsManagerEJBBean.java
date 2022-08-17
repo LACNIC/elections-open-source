@@ -2013,7 +2013,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public UserAdmin login(String username, String password, String ip) {
 		try {
 			LoginData dataLDAP = UtilsLogin.login(username, password);
-			if (dataLDAP.getAuthenticated()) {
+			if (dataLDAP.getAuthenticated()&& dataLDAP.getRoles().contains(Constants.elections_admin)) {
 				String description = username.toUpperCase() + " se ha logueado exitosamente";
 				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username,
 						ActivityType.LOGIN_SUCCESSFUL, description, ip, null);

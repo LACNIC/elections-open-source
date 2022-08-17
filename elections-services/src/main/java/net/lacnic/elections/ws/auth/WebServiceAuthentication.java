@@ -70,7 +70,11 @@ public class WebServiceAuthentication {
 						.get(LacnicAuthResponse.class);
 
 				// Check response
-				if(response == null || !response.getAuthenticated()) {
+				System.out.println("response roles:"+response.getRoles().toString());
+				System.out.println("response roles:"+response.getAuthenticated());
+
+				
+				if(response == null || !response.getAuthenticated() || !response.getRoles().contains(Constants.api_Eleccions) ) {
 					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", missing or invalid Auth Token");
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, Apikey problem").build();
 				}
