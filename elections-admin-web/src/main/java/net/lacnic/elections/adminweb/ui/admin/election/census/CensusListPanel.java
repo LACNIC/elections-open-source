@@ -62,7 +62,7 @@ public class CensusListPanel extends Panel {
 				try {
 					final UserVoter currentUser = item.getModelObject();
 
-					ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeUser", item.getIndex()) {
+					ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeUser",currentUser.getUserVoterId()) {
 						private static final long serialVersionUID = -6583106894827434879L;
 
 						@Override
@@ -90,7 +90,7 @@ public class CensusListPanel extends Panel {
 					String voteLinkText = LinksUtils.buildVoteLink(currentUser.getVoteToken());
 					String userAdminId = SecurityUtils.getUserAdminId();
 					String activityDescription = userAdminId.toUpperCase() + " vió el link de votación del votante " + currentUser.getName() + " en la elección " + election.getTitleSpanish();
-					ButtonViewLink viewLinkButton = new ButtonViewLink("viewLinkButton", item.getIndex(), voteLinkText) {
+					ButtonViewLink viewLinkButton = new ButtonViewLink("viewLinkButton", currentUser.getMigrationId(), voteLinkText) {
 						private static final long serialVersionUID = 3666243113529801997L;
 
 						@Override
@@ -101,7 +101,7 @@ public class CensusListPanel extends Panel {
 					};
 					item.add(viewLinkButton);
 
-					ButtonUpdateToken buttonUpdateToken = new ButtonUpdateToken("updateToken") {
+					ButtonUpdateToken buttonUpdateToken = new ButtonUpdateToken("updateToken",currentUser.getMigrationId()) {
 						private static final long serialVersionUID = 3609140813722818708L;
 
 						@Override
@@ -117,7 +117,7 @@ public class CensusListPanel extends Panel {
 					};
 					item.add(buttonUpdateToken);
 
-					ButtonResendVoteEmail buttonResendVoteEmail = new ButtonResendVoteEmail("resendLink") {
+					ButtonResendVoteEmail buttonResendVoteEmail = new ButtonResendVoteEmail("resendLink",currentUser.getUserVoterId()) {
 						private static final long serialVersionUID = -4628772989608517427L;
 
 						@Override

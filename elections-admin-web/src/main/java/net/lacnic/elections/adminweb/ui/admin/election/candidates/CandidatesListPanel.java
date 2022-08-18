@@ -51,7 +51,7 @@ public class CandidatesListPanel extends Panel {
 				protected void populateItem(final ListItem<Candidate> item) {
 					final Candidate currentCandidate = item.getModelObject();
 
-					ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeCandidate", item.getIndex()) {
+					ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeCandidate", currentCandidate.getCandidateId()) {
 						private static final long serialVersionUID = 542913566518615150L;
 
 						@Override

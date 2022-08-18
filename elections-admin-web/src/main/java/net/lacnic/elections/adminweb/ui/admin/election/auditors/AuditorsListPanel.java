@@ -54,7 +54,7 @@ public class AuditorsListPanel extends Panel {
 					String auditorLinkText = LinksUtils.buildAuditorResultsLink(currentAuditor.getResultToken());
 					String userAdminId = SecurityUtils.getUserAdminId();
 					String activityDescription = userAdminId.toUpperCase() + " vió el link de auditoría de resultados del auditor " + currentAuditor.getName() + " en la elección " + election.getTitleSpanish();
-					ButtonViewLink viewLinkButton = new ButtonViewLink("viewLinkButton", item.getIndex(), auditorLinkText) {
+					ButtonViewLink viewLinkButton = new ButtonViewLink("viewLinkButton", currentAuditor.getAuditorId(), auditorLinkText) {
 						private static final long serialVersionUID = 3666243113529801997L;
 
 						@Override
@@ -77,7 +77,7 @@ public class AuditorsListPanel extends Panel {
 					editAuditor.setMarkupId("editAuditor" + item.getIndex());
 					item.add(editAuditor);
 
-					ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeAuditor", item.getIndex()) {
+					ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeAuditor", currentAuditor.getAuditorId()) {
 						private static final long serialVersionUID = 4479213289810959012L;
 
 						@Override

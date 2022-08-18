@@ -48,7 +48,7 @@ public class CommissionersListPanel extends Panel {
 						editCommissioner.setMarkupId("editCommissioner" + item.getIndex());
 						item.add(editCommissioner);
 
-						ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("remove", item.getIndex()) {
+						ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("remove", currentCommissioner.getCommissionerId()) {
 
 							private static final long serialVersionUID = 3950434097284027591L;
 
