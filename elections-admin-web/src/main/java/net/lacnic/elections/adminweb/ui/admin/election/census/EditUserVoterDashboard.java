@@ -14,7 +14,6 @@ import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.exception.CensusValidationException;
 
-
 @AuthorizeInstantiation("elections-only-one")
 public class EditUserVoterDashboard extends DashboardAdminBasePage {
 
@@ -26,7 +25,6 @@ public class EditUserVoterDashboard extends DashboardAdminBasePage {
 	private String orgID;
 	private String country;
 	private String language;
-
 
 	public EditUserVoterDashboard(PageParameters params) {
 		super(params);
@@ -52,10 +50,8 @@ public class EditUserVoterDashboard extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				// Save only if something changed
-				if (!(mail.equalsIgnoreCase(userVoter.getMail())) || !(name.equalsIgnoreCase(userVoter.getName())) || !(voteAmount.equals(userVoter.getVoteAmount())) 
-						|| (orgID != null && !(orgID.equalsIgnoreCase(userVoter.getOrgID()))) || (userVoter.getOrgID() != null && !(userVoter.getOrgID().equalsIgnoreCase(orgID))) 
-						|| (country != null && !(country.equalsIgnoreCase(userVoter.getCountry()))) || (userVoter.getCountry() != null && !(userVoter.getCountry().equalsIgnoreCase(country))) 
-						|| !(language.equalsIgnoreCase(userVoter.getLanguage()))) {
+				// BUG-FIX: Now redirects to the Election Dashboard in case of non-changes
+				if (!(mail.equalsIgnoreCase(userVoter.getMail())) || !(name.equalsIgnoreCase(userVoter.getName())) || !(voteAmount.equals(userVoter.getVoteAmount())) || (orgID != null && !(orgID.equalsIgnoreCase(userVoter.getOrgID()))) || (userVoter.getOrgID() != null && !(userVoter.getOrgID().equalsIgnoreCase(orgID))) || (country != null && !(country.equalsIgnoreCase(userVoter.getCountry()))) || (userVoter.getCountry() != null && !(userVoter.getCountry().equalsIgnoreCase(country))) || !(language.equalsIgnoreCase(userVoter.getLanguage()))) {
 					try {
 						AppContext.getInstance().getManagerBeanRemote().editUserVoter(getUserVoter(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
 						getSession().info(getString("censusManagementUserEditSuccess"));
@@ -63,6 +59,8 @@ public class EditUserVoterDashboard extends DashboardAdminBasePage {
 					} catch (CensusValidationException e) {
 						error(getString(e.getMessage()));
 					}
+				} else {
+					setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(userVoter.getElection().getElectionId()));
 				}
 			}
 		});

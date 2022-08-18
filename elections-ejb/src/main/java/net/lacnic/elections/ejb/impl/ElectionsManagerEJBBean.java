@@ -624,9 +624,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public boolean addUserVoter(long electionId, UserVoter userVoter, String userAdminId, String ip)
 			throws CensusValidationException {
 		try {
-			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByMail(electionId,
-					userVoter.getMail());
-			if (userVoterDB == null) {
+			//Bug-Fix: Now the e-mail can be repeated because the same person can vote per different organizations
+			
+//			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByMail(electionId,
+//					userVoter.getMail());
+//			if (userVoterDB == null) {
 				Election election = em.find(Election.class, electionId);
 				userVoter.setElection(election);
 				userVoter.setVoteToken(StringUtils.createSecureToken());
@@ -636,12 +638,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 						+ " como usuario padrón para la elección " + election.getTitleSpanish();
 				persistActivity(userAdminId, ActivityType.ADD_VOTE_USER, description, ip, electionId);
 				return true;
-			} else {
-				throw new CensusValidationException("censusManagementDuplicateEmail", null, null);
-			}
-		} catch (CensusValidationException censusValidationException) {
-			appLogger.error(censusValidationException);
-			throw censusValidationException;
+//			} else {
+//				throw new CensusValidationException("censusManagementDuplicateEmail", null, null);
+//			}
+//		} catch (CensusValidationException censusValidationException) {
+//			appLogger.error(censusValidationException);
+//			throw censusValidationException;
 		} catch (Exception e) {
 			appLogger.error(e);
 			return false;
@@ -661,9 +663,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public void editUserVoter(UserVoter userVoter, String userAdminId, String ip) throws CensusValidationException {
 		try {
-			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionUserVoterByMail(userVoter.getElection().getElectionId(), userVoter.getMail());
-			if (userVoterDB == null || userVoterDB.getUserVoterId() == userVoter.getUserVoterId()) {
+			//Bug-Fix: Now the e-mail can be repeated because the same person can vote per different organizations
+
+//			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em)
+//					.getElectionUserVoterByMail(userVoter.getElection().getElectionId(), userVoter.getMail());
+//			if (userVoterDB == null || userVoterDB.getUserVoterId() == userVoter.getUserVoterId()) {
 				// If found user is the same as the one we're updating, it's ok
 				em.merge(userVoter);
 				String description = userAdminId.toUpperCase()
@@ -671,12 +675,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 						+ userVoter.getElection().getTitleSpanish();
 				persistActivity(userAdminId, ActivityType.EDIT_VOTE_USER, description, ip,
 						userVoter.getElection().getElectionId());
-			} else {
-				throw new CensusValidationException("censusManagementDuplicateEmail", null, null);
-			}
-		} catch (CensusValidationException censusValidationException) {
-			appLogger.error(censusValidationException);
-			throw censusValidationException;
+//			} else {
+//				throw new CensusValidationException("censusManagementDuplicateEmail", null, null);
+//			}
+//		} catch (CensusValidationException censusValidationException) {
+//			appLogger.error(censusValidationException);
+//			throw censusValidationException;
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
