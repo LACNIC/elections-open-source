@@ -94,12 +94,10 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		try {
 			if (a != null) {
 				String description = userAdminId.toUpperCase() + " se ha logueado exitosamente";
-				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(userAdminId,
-						ActivityType.LOGIN_SUCCESSFUL, description, ip, null);
+				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(userAdminId, ActivityType.LOGIN_SUCCESSFUL, description, ip, null);
 			} else {
 				String description = "Intento fallido de login de usuario " + userAdminId.toUpperCase();
-				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(userAdminId,
-						ActivityType.LOGIN_FAILED, description, ip, null);
+				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(userAdminId, ActivityType.LOGIN_FAILED, description, ip, null);
 			}
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -144,10 +142,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			appLogger.info("start verifying ...");
 			appLogger.info("reCAPTCHA response value : " + reCaptchaResponse);
 
-			String skGoogleApiReCaptcha = EJBFactory.getInstance().getElectionsParametersEJB()
-					.getParameter(Constants.SkGoogleApiReCaptcha);
-			String checkURL = "https://www.google.com/recaptcha/api/siteverify" + "?secret=" + skGoogleApiReCaptcha
-					+ "&response=" + reCaptchaResponse;
+			String skGoogleApiReCaptcha = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.SkGoogleApiReCaptcha);
+			String checkURL = "https://www.google.com/recaptcha/api/siteverify" + "?secret=" + skGoogleApiReCaptcha + "&response=" + reCaptchaResponse;
 
 			appLogger.info("check URL : " + checkURL);
 
@@ -168,8 +164,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			appLogger.info("Post parameters : " + post.getEntity());
 			appLogger.info("Response Code : " + httpClientResponse.getStatusLine().getStatusCode());
 
-			BufferedReader bufferReader = new BufferedReader(
-					new InputStreamReader(httpClientResponse.getEntity().getContent()));
+			BufferedReader bufferReader = new BufferedReader(new InputStreamReader(httpClientResponse.getEntity().getContent()));
 
 			StringBuilder result = new StringBuilder();
 			String line = "";
@@ -202,8 +197,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public boolean isShowCaptcha() {
 		try {
-			return EJBFactory.getInstance().getElectionsParametersEJB().isProd() && !getDataSiteKey().isEmpty()
-					&& !getSkGoogleApiReCaptcha().isEmpty();
+			return EJBFactory.getInstance().getElectionsParametersEJB().isProd() && !getDataSiteKey().isEmpty() && !getSkGoogleApiReCaptcha().isEmpty();
 		} catch (Exception e) {
 			appLogger.error(e);
 			return false;
@@ -249,8 +243,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 				else if (election.isRandomOrderCandidates()) {
 					result = Integer.valueOf(rand.nextInt(30)).compareTo(Integer.valueOf(rand.nextInt(30)));
 				} else
-					result = (Integer.valueOf(candidate2.getCandidateOrder())
-							.compareTo(Integer.valueOf(candidate1.getCandidateOrder())));
+					result = (Integer.valueOf(candidate2.getCandidateOrder()).compareTo(Integer.valueOf(candidate1.getCandidateOrder())));
 				return result;
 			}
 		});
@@ -275,8 +268,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			List<Auditor> auditors = ElectionsDaoFactory.createAuditorDao(em).getElectionAuditors(electionId);
 			List<Candidate> candidates = ElectionsDaoFactory.createCandidateDao(em).getElectionCandidates(electionId);
 			List<Email> emails = ElectionsDaoFactory.createEmailDao(em).getElectionEmails(electionId);
-			List<ElectionEmailTemplate> emailTemplates = ElectionsDaoFactory.createElectionEmailTemplateDao(em)
-					.getElectionTemplates(electionId);
+			List<ElectionEmailTemplate> emailTemplates = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplates(electionId);
 			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoters(electionId);
 			List<Vote> votes = ElectionsDaoFactory.createVoteDao(em).getElectionVotes(electionId);
 			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
@@ -353,8 +345,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			String description;
 			if (election.getElectionId() == 0) {
 				em.persist(election);
-				description = userAdminId.toUpperCase() + " creó la elección" + " (" + election.getTitleSpanish() + ")"
-						+ " correctamente";
+				description = userAdminId.toUpperCase() + " creó la elección" + " (" + election.getTitleSpanish() + ")" + " correctamente";
 				persistActivity(userAdminId, ActivityType.CREATE_ELECTION, description, ip, election.getElectionId());
 				createElectionEmailTemplates(election); // new
 				List<Commissioner> commisioners = ElectionsDaoFactory.createCommissionerDao(em).getCommissionersAll();
@@ -363,8 +354,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 				}
 			} else
 				em.merge(election);
-			description = userAdminId.toUpperCase() + " actualizó la elección " + " (" + election.getTitleSpanish()
-					+ ")" + " correctamente";
+			description = userAdminId.toUpperCase() + " actualizó la elección " + " (" + election.getTitleSpanish() + ")" + " correctamente";
 			persistActivity(userAdminId, ActivityType.EDIT_ELECTION, description, ip, election.getElectionId());
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -464,14 +454,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		UserVoter userVoterDB = em.find(UserVoter.class, userVoter.getUserVoterId());
 		Long electionId = userVoterDB.getElection().getElectionId();
 		em.remove(userVoterDB);
-		String description = userAdminId.toUpperCase() + " eliminó a " + userVoterDB.getName()
-				+ " del listado de usuario padrón en la elección " + electionTitle;
+		String description = userAdminId.toUpperCase() + " eliminó a " + userVoterDB.getName() + " del listado de usuario padrón en la elección " + electionTitle;
 		persistActivity(userAdminId, ActivityType.REMOVE_USER_CENSUS, description, ip, electionId);
-		long candidateAmount = ElectionsDaoFactory.createUserVoterDao(em)
-				.getElectionCensusSize(userVoterDB.getElection().getElectionId());
+		long candidateAmount = ElectionsDaoFactory.createUserVoterDao(em).getElectionCensusSize(userVoterDB.getElection().getElectionId());
 		if (candidateAmount < 1) {
-			Election election = ElectionsDaoFactory.createElectionDao(em)
-					.getElection(userVoterDB.getElection().getElectionId());
+			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(userVoterDB.getElection().getElectionId());
 			election.setElectorsSet(false);
 			em.persist(election);
 		}
@@ -528,15 +515,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 */
 	@Override
-	public void updateUserVoterToken(long userVoterId, String name, String electionTitle, String userAdminId,
-			String ip) {
+	public void updateUserVoterToken(long userVoterId, String name, String electionTitle, String userAdminId, String ip) {
 		UserVoter userVoter = em.find(UserVoter.class, userVoterId);
 		userVoter.setVoteToken(StringUtils.createSecureToken());
 		em.merge(userVoter);
-		String description = userAdminId.toUpperCase() + " actualizó el link de votación para el usuario " + name
-				+ " en la elección " + electionTitle;
-		persistActivity(userAdminId, ActivityType.UPDATE_TOKEN_USER_CENSUS, description, ip,
-				userVoter.getElection().getElectionId());
+		String description = userAdminId.toUpperCase() + " actualizó el link de votación para el usuario " + name + " en la elección " + electionTitle;
+		persistActivity(userAdminId, ActivityType.UPDATE_TOKEN_USER_CENSUS, description, ip, userVoter.getElection().getElectionId());
 	}
 
 	/**
@@ -552,8 +536,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public void removeUserAdmin(String userAdminToDeleteId, String userAdminId, String ip) {
 		UserAdmin userAdmin = ElectionsDaoFactory.createUserAdminDao(em).getUserAdmin(userAdminToDeleteId);
 		em.remove(userAdmin);
-		String description = userAdminId.toUpperCase() + " eliminó a " + userAdminToDeleteId.toUpperCase()
-				+ " de listado de admin";
+		String description = userAdminId.toUpperCase() + " eliminó a " + userAdminToDeleteId.toUpperCase() + " de listado de admin";
 		persistActivity(userAdminId, ActivityType.REMOVE_ADMIN, description, ip, null);
 	}
 
@@ -568,8 +551,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 *                    purposes
 	 */
 	@Override
-	public void updateElectionCensus(String contentType, long electionId, byte[] content, String userAdminId, String ip)
-			throws CensusValidationException, Exception {
+	public void updateElectionCensus(String contentType, long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception {
 		try {
 			List<UserVoter> userVoters = ExcelUtils.processCensusExcel(contentType, content);
 			Election election = em.find(Election.class, electionId);
@@ -584,8 +566,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			}
 			em.persist(election);
 
-			String description = userAdminId.toUpperCase() + " agregó el padrón para la elección  " + "("
-					+ election.getTitleSpanish() + ")";
+			String description = userAdminId.toUpperCase() + " agregó el padrón para la elección  " + "(" + election.getTitleSpanish() + ")";
 			persistActivity(userAdminId, ActivityType.ADD_CENSUS, description, ip, electionId);
 
 		} catch (CensusValidationException e) {
@@ -621,19 +602,16 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 */
 	@Override
-	public boolean addUserVoter(long electionId, UserVoter userVoter, String userAdminId, String ip)
-			throws CensusValidationException {
+	public boolean addUserVoter(long electionId, UserVoter userVoter, String userAdminId, String ip) throws CensusValidationException {
 		try {
-			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByMail(electionId,
-					userVoter.getMail());
+			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByMail(electionId, userVoter.getMail());
 			if (userVoterDB == null) {
 				Election election = em.find(Election.class, electionId);
 				userVoter.setElection(election);
 				userVoter.setVoteToken(StringUtils.createSecureToken());
 				em.persist(userVoter);
 				election.setElectorsSet(true);
-				String description = userAdminId.toUpperCase() + " agregó a " + userVoter.getName()
-						+ " como usuario padrón para la elección " + election.getTitleSpanish();
+				String description = userAdminId.toUpperCase() + " agregó a " + userVoter.getName() + " como usuario padrón para la elección " + election.getTitleSpanish();
 				persistActivity(userAdminId, ActivityType.ADD_VOTE_USER, description, ip, electionId);
 				return true;
 			} else {
@@ -661,16 +639,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public void editUserVoter(UserVoter userVoter, String userAdminId, String ip) throws CensusValidationException {
 		try {
-			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionUserVoterByMail(userVoter.getElection().getElectionId(), userVoter.getMail());
+			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByMail(userVoter.getElection().getElectionId(), userVoter.getMail());
 			if (userVoterDB == null || userVoterDB.getUserVoterId() == userVoter.getUserVoterId()) {
 				// If found user is the same as the one we're updating, it's ok
 				em.merge(userVoter);
-				String description = userAdminId.toUpperCase()
-						+ " actualizó los datos de un usuario padrón para la elección  "
-						+ userVoter.getElection().getTitleSpanish();
-				persistActivity(userAdminId, ActivityType.EDIT_VOTE_USER, description, ip,
-						userVoter.getElection().getElectionId());
+				String description = userAdminId.toUpperCase() + " actualizó los datos de un usuario padrón para la elección  " + userVoter.getElection().getTitleSpanish();
+				persistActivity(userAdminId, ActivityType.EDIT_VOTE_USER, description, ip, userVoter.getElection().getElectionId());
 			} else {
 				throw new CensusValidationException("censusManagementDuplicateEmail", null, null);
 			}
@@ -759,8 +733,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		if (electionId == 0)
 			return ElectionsDaoFactory.createElectionEmailTemplateDao(em).getBaseTemplate(templateType);
 		else
-			return ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(templateType,
-					electionId);
+			return ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(templateType, electionId);
 	}
 
 	/**
@@ -775,19 +748,15 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * @param ip                   Ip of the user, used for logging purposes
 	 */
 	@Override
-	public void editUserAdmin(UserAdmin userAdmin, String email, Long authorizedElectionId, String userAdminId,
-			String ip) {
+	public void editUserAdmin(UserAdmin userAdmin, String email, Long authorizedElectionId, String userAdminId, String ip) {
 		try {
 			userAdmin.setAuthorizedElectionId(authorizedElectionId);
 			em.merge(userAdmin);
 			String description;
 			if (userAdminId.equalsIgnoreCase(userAdmin.getUserAdminId())) {
-				description = userAdminId.toUpperCase() + " editó  su email de " + email + " a " + userAdmin.getEmail()
-						+ " y su elección autorizada a la de id " + authorizedElectionId;
+				description = userAdminId.toUpperCase() + " editó  su email de " + email + " a " + userAdmin.getEmail() + " y su elección autorizada a la de id " + authorizedElectionId;
 			} else {
-				description = userAdminId.toUpperCase() + " editó el email del usuario "
-						+ userAdmin.getUserAdminId().toUpperCase() + " de " + email + " a " + userAdmin.getEmail()
-						+ " y la elección autorizada a la de id " + authorizedElectionId;
+				description = userAdminId.toUpperCase() + " editó el email del usuario " + userAdmin.getUserAdminId().toUpperCase() + " de " + email + " a " + userAdmin.getEmail() + " y la elección autorizada a la de id " + authorizedElectionId;
 			}
 			persistActivity(userAdminId, ActivityType.EDIT_ADMIN, description, ip, authorizedElectionId);
 		} catch (Exception e) {
@@ -827,8 +796,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			if (userAdminId.equalsIgnoreCase(userAdminToUpdateId)) {
 				description = userAdminId.toUpperCase() + " cambió su contraseña";
 			} else {
-				description = userAdminId.toUpperCase() + " cambió la contraseña de "
-						+ userAdminToUpdateId.toUpperCase();
+				description = userAdminId.toUpperCase() + " cambió la contraseña de " + userAdminToUpdateId.toUpperCase();
 			}
 			persistActivity(userAdminId, ActivityType.EDIT_ADMIN, description, ip, null);
 		} catch (Exception e) {
@@ -854,10 +822,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 				userAdminAux.setEmail(userAdmin.getEmail().toLowerCase());
 				userAdminAux.setAuthorizedElectionId(userAdmin.getAuthorizedElectionId());
 				em.persist(userAdminAux);
-				String description = userAdminId.toUpperCase() + " agregó a " + userAdmin.getUserAdminId().toUpperCase()
-						+ " como admin";
-				persistActivity(userAdminId, ActivityType.ADD_ADMIN, description, ip,
-						userAdmin.getAuthorizedElectionId());
+				String description = userAdminId.toUpperCase() + " agregó a " + userAdmin.getUserAdminId().toUpperCase() + " como admin";
+				persistActivity(userAdminId, ActivityType.ADD_ADMIN, description, ip, userAdmin.getAuthorizedElectionId());
 				return true;
 			} else {
 				return false;
@@ -886,8 +852,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		em.persist(candidate);
 		election.setCandidatesSet(true);
 		em.persist(election);
-		String description = userAdminId.toUpperCase() + " agregó un candidato para la elección  "
-				+ election.getTitleSpanish();
+		String description = userAdminId.toUpperCase() + " agregó un candidato para la elección  " + election.getTitleSpanish();
 		persistActivity(userAdminId, ActivityType.ADD_CANDIDATE, description, ip, election.getElectionId());
 	}
 
@@ -903,13 +868,10 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public void removeCandidate(long candidateId, String userAdminId, String ip) {
 		Candidate candidate = em.find(Candidate.class, candidateId);
 		em.remove(candidate);
-		String description = userAdminId.toUpperCase() + " eliminó al candidato " + candidate.getName() + TEXT_ELECCION
-				+ candidate.getElection().getTitleSpanish();
-		persistActivity(userAdminId, ActivityType.REMOVE_CANDIDATE, description, ip,
-				candidate.getElection().getElectionId());
+		String description = userAdminId.toUpperCase() + " eliminó al candidato " + candidate.getName() + TEXT_ELECCION + candidate.getElection().getTitleSpanish();
+		persistActivity(userAdminId, ActivityType.REMOVE_CANDIDATE, description, ip, candidate.getElection().getElectionId());
 
-		Election election = ElectionsDaoFactory.createElectionDao(em)
-				.getElection(candidate.getElection().getElectionId());
+		Election election = ElectionsDaoFactory.createElectionDao(em).getElection(candidate.getElection().getElectionId());
 		election.setCandidatesSet(election.getCandidates().size() > 1);
 		em.persist(election);
 	}
@@ -938,10 +900,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public void editCandidate(Candidate candidate, String userAdminId, String ip) {
 		try {
 			em.merge(candidate);
-			String description = userAdminId.toUpperCase() + " actualizó los datos de un candidato para la elección "
-					+ candidate.getElection().getTitleSpanish();
-			persistActivity(userAdminId, ActivityType.EDIT_CANDIDATES, description, ip,
-					candidate.getElection().getElectionId());
+			String description = userAdminId.toUpperCase() + " actualizó los datos de un candidato para la elección " + candidate.getElection().getTitleSpanish();
+			persistActivity(userAdminId, ActivityType.EDIT_CANDIDATES, description, ip, candidate.getElection().getElectionId());
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -979,10 +939,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public void removeAuditor(long auditorId, String userAdminId, String ip) {
 		Auditor auditor = em.find(Auditor.class, auditorId);
 		em.remove(auditor);
-		String description = userAdminId.toUpperCase() + " eliminó al auditor " + auditor.getName() + TEXT_ELECCION
-				+ auditor.getElection().getTitleSpanish();
-		persistActivity(userAdminId, ActivityType.REMOVE_AUDITOR, description, ip,
-				auditor.getElection().getElectionId());
+		String description = userAdminId.toUpperCase() + " eliminó al auditor " + auditor.getName() + TEXT_ELECCION + auditor.getElection().getTitleSpanish();
+		persistActivity(userAdminId, ActivityType.REMOVE_AUDITOR, description, ip, auditor.getElection().getElectionId());
 	}
 
 	/**
@@ -1009,10 +967,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public void editAuditor(Auditor auditor, String userAdminId, String ip) {
 		try {
 			em.merge(auditor);
-			String description = userAdminId.toUpperCase() + " actualizó los datos de un auditor para la elección "
-					+ auditor.getElection().getTitleSpanish();
-			persistActivity(userAdminId, ActivityType.EDIT_AUDITOR, description, ip,
-					auditor.getElection().getElectionId());
+			String description = userAdminId.toUpperCase() + " actualizó los datos de un auditor para la elección " + auditor.getElection().getTitleSpanish();
+			persistActivity(userAdminId, ActivityType.EDIT_AUDITOR, description, ip, auditor.getElection().getElectionId());
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -1139,35 +1095,25 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		boolean exists = false;
 
 		if (recipientType.equals(RecipientType.VOTERS)) {
-			return ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionUserVoters(electionEmailTemplate.getElection().getElectionId());
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoters(electionEmailTemplate.getElection().getElectionId());
 		} else if (recipientType.equals(RecipientType.VOTERS_BR)) {
-			return ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionCensusByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionCensusByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
 		} else if (recipientType.equals(RecipientType.VOTERS_MX)) {
-			return ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionCensusByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionCensusByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
 		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET)) {
-			return ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionsUserVotersNotVotedYet(electionEmailTemplate.getElection().getElectionId());
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersNotVotedYet(electionEmailTemplate.getElection().getElectionId());
 		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_BR)) {
-			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersNotVotedYetByCountry(
-					electionEmailTemplate.getElection().getElectionId(), "BR");
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersNotVotedYetByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
 		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_MX)) {
-			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersNotVotedYetByCountry(
-					electionEmailTemplate.getElection().getElectionId(), "MX");
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersNotVotedYetByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
 		} else if (recipientType.equals(RecipientType.VOTERS_ALREADY_VOTED)) {
-			return ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionsUserVotersVoted(electionEmailTemplate.getElection().getElectionId());
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersVoted(electionEmailTemplate.getElection().getElectionId());
 		} else if (recipientType.equals(RecipientType.VOTERS_ALREADY_VOTED_BR)) {
-			return ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionsUserVotersVotedByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersVotedByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
 		} else if (recipientType.equals(RecipientType.VOTERS_ALREADY_VOTED_MX)) {
-			return ElectionsDaoFactory.createUserVoterDao(em)
-					.getElectionsUserVotersVotedByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
+			return ElectionsDaoFactory.createUserVoterDao(em).getElectionsUserVotersVotedByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
 		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_TWO_ELECTIONS)) {
-			result = ElectionsDaoFactory.createUserVoterDao(em)
-					.getJointElectionUserVotersNotVotedYet(electionEmailTemplate.getElection().getElectionId());
+			result = ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYet(electionEmailTemplate.getElection().getElectionId());
 			unifiedList = new ArrayList<>();
 			exists = false;
 			if (!result.isEmpty())
@@ -1185,8 +1131,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			}
 			return unifiedList;
 		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_TWO_ELECTIONS_BR)) {
-			result = ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYetByCountry(
-					electionEmailTemplate.getElection().getElectionId(), "BR");
+			result = ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYetByCountry(electionEmailTemplate.getElection().getElectionId(), "BR");
 			unifiedList = new ArrayList<>();
 			exists = false;
 			if (!result.isEmpty())
@@ -1204,8 +1149,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			}
 			return unifiedList;
 		} else if (recipientType.equals(RecipientType.VOTERS_NOT_VOTED_YET_TWO_ELECTIONS_MX)) {
-			result = ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYetByCountry(
-					electionEmailTemplate.getElection().getElectionId(), "MX");
+			result = ElectionsDaoFactory.createUserVoterDao(em).getJointElectionUserVotersNotVotedYetByCountry(electionEmailTemplate.getElection().getElectionId(), "MX");
 			unifiedList = new ArrayList<>();
 			exists = false;
 			if (!result.isEmpty())
@@ -1223,14 +1167,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			}
 			return unifiedList;
 		} else if (recipientType.equals(RecipientType.AUDITORS)) {
-			return ElectionsDaoFactory.createAuditorDao(em)
-					.getElectionAuditors(electionEmailTemplate.getElection().getElectionId());
+			return ElectionsDaoFactory.createAuditorDao(em).getElectionAuditors(electionEmailTemplate.getElection().getElectionId());
 		} else if (recipientType.equals(RecipientType.AUDITORS_NOT_AGREED_CONFORMITY_YET)) {
-			return ElectionsDaoFactory.createAuditorDao(em)
-					.getElectionAuditorsNotAgreedConformity(electionEmailTemplate.getElection().getElectionId());
+			return ElectionsDaoFactory.createAuditorDao(em).getElectionAuditorsNotAgreedConformity(electionEmailTemplate.getElection().getElectionId());
 		} else if (recipientType.equals(RecipientType.AUDITORS_ALREADY_AGREED_CONFORMITY)) {
-			return ElectionsDaoFactory.createAuditorDao(em)
-					.getElectionAuditorsAgreedConformity(electionEmailTemplate.getElection().getElectionId());
+			return ElectionsDaoFactory.createAuditorDao(em).getElectionAuditorsAgreedConformity(electionEmailTemplate.getElection().getElectionId());
 		} else {
 			throw new Exception("Should have never got here.");
 		}
@@ -1284,8 +1225,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public void fixCandidateToTop(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
-		Candidate currentFirstCandidate = ElectionsDaoFactory.createCandidateDao(em)
-				.getElectionFirstCandidate(candidate.getElection().getElectionId());
+		Candidate currentFirstCandidate = ElectionsDaoFactory.createCandidateDao(em).getElectionFirstCandidate(candidate.getElection().getElectionId());
 		if (currentFirstCandidate != null) {
 			currentFirstCandidate.setCandidateOrder(candidate.getCandidateOrder());
 		}
@@ -1302,8 +1242,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public void fixCandidateToFirstNonFixed(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
-		int lastNonFixedOrder = ElectionsDaoFactory.createCandidateDao(em)
-				.getLastNonFixedCandidateOrder(candidate.getElection().getElectionId());
+		int lastNonFixedOrder = ElectionsDaoFactory.createCandidateDao(em).getLastNonFixedCandidateOrder(candidate.getElection().getElectionId());
 		candidate.setCandidateOrder(lastNonFixedOrder + 1);
 		em.persist(candidate);
 	}
@@ -1317,8 +1256,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public void fixCandidateToBottom(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
-		Candidate currentLastCandidate = ElectionsDaoFactory.createCandidateDao(em)
-				.getElectionLastCandidate(candidate.getElection().getElectionId());
+		Candidate currentLastCandidate = ElectionsDaoFactory.createCandidateDao(em).getElectionLastCandidate(candidate.getElection().getElectionId());
 		if (currentLastCandidate != null) {
 			currentLastCandidate.setCandidateOrder(candidate.getCandidateOrder());
 		}
@@ -1336,8 +1274,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public void moveCandidateUp(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
-		Candidate nextAboveCandidate = ElectionsDaoFactory.createCandidateDao(em)
-				.getNextAboveCandidate(candidate.getElection().getElectionId(), candidate.getCandidateOrder());
+		Candidate nextAboveCandidate = ElectionsDaoFactory.createCandidateDao(em).getNextAboveCandidate(candidate.getElection().getElectionId(), candidate.getCandidateOrder());
 		if (nextAboveCandidate != null && nextAboveCandidate.getCandidateOrder() != Constants.MAX_ORDER) {
 			appLogger.info(candidate.getCandidateOrder() + " - " + nextAboveCandidate.getCandidateOrder());
 
@@ -1358,8 +1295,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	@Override
 	public void moveCandidateDown(long candidateId) {
 		Candidate candidate = ElectionsDaoFactory.createCandidateDao(em).getCandidate(candidateId);
-		Candidate nextBelowCandidate = ElectionsDaoFactory.createCandidateDao(em)
-				.getNextBelowCandidate(candidate.getElection().getElectionId(), candidate.getCandidateOrder());
+		Candidate nextBelowCandidate = ElectionsDaoFactory.createCandidateDao(em).getNextBelowCandidate(candidate.getElection().getElectionId(), candidate.getCandidateOrder());
 		if (nextBelowCandidate != null && nextBelowCandidate.getCandidateOrder() != Constants.MIN_ORDER) {
 			int aux = candidate.getCandidateOrder();
 			appLogger.info(candidate.getCandidateOrder() + " - " + nextBelowCandidate.getCandidateOrder());
@@ -1508,8 +1444,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	public void editCommissioner(Commissioner commissioner, String userAdminId, String ip) {
 		try {
 			em.merge(commissioner);
-			persistActivity(userAdminId, ActivityType.EDIT_COMMISSIONER,
-					userAdminId + " ha editado el comidionado " + commissioner.getName(), ip, null);
+			persistActivity(userAdminId, ActivityType.EDIT_COMMISSIONER, userAdminId + " ha editado el comidionado " + commissioner.getName(), ip, null);
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -1555,23 +1490,16 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 */
 	@Override
 	public void resendUserVoterElectionMail(UserVoter userVoter, Election election, String userAdminId, String ip) {
-		ElectionEmailTemplate noticeTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em)
-				.getElectionTemplateByType(Constants.TemplateTypeELECTION_NOTICE, election.getElectionId());
-		ElectionEmailTemplate startedTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em)
-				.getElectionTemplateByType(Constants.TemplateTypeELECTION_START, election.getElectionId());
+		ElectionEmailTemplate noticeTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(Constants.TemplateTypeELECTION_NOTICE, election.getElectionId());
+		ElectionEmailTemplate startedTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(Constants.TemplateTypeELECTION_START, election.getElectionId());
 		if (noticeTemplate != null || startedTemplate != null) {
 			Date now = new Date();
 			if (((now.after(election.getCreationDate())) && (now.before(election.getStartDate()))))
-				EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(noticeTemplate, userVoter, null,
-						election, new ArrayList<>());
-			if ((election.isVotingLinkAvailable())
-					&& ((now.after(election.getStartDate())) && (now.before(election.getEndDate()))))
-				EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(startedTemplate, userVoter, null,
-						election, new ArrayList<>());
-			String description = userAdminId.toUpperCase() + " reénvio el email al usuario padrón "
-					+ userVoter.getName().toUpperCase() + " de la elección " + "(" + election.getTitleSpanish() + ")";
-			persistActivity(userAdminId, ActivityType.RESEND_EMAIL_ELECTION_USER_CENSUS, description, ip,
-					election.getElectionId());
+				EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(noticeTemplate, userVoter, null, election, new ArrayList<>());
+			if ((election.isVotingLinkAvailable()) && ((now.after(election.getStartDate())) && (now.before(election.getEndDate()))))
+				EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(startedTemplate, userVoter, null, election, new ArrayList<>());
+			String description = userAdminId.toUpperCase() + " reénvio el email al usuario padrón " + userVoter.getName().toUpperCase() + " de la elección " + "(" + election.getTitleSpanish() + ")";
+			persistActivity(userAdminId, ActivityType.RESEND_EMAIL_ELECTION_USER_CENSUS, description, ip, election.getElectionId());
 		}
 	}
 
@@ -1621,12 +1549,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 				for (Auditor auditor : auditors) {
 					auditor.setRevisionAvailable(false);
 					em.persist(auditor);
-					String description = userAdminId.toUpperCase()
-							+ " cerró el proceso de revisión y se revocó la autorizacion de la revisión del auditor: "
-							+ auditor.getAuditorId() + " - " + auditor.getName() + TEXT_ELECCION + "("
-							+ election.getTitleSpanish() + ")";
-					persistActivity(userAdminId, ActivityType.ELECTION_REVISION_NO, description, ip,
-							election.getElectionId());
+					String description = userAdminId.toUpperCase() + " cerró el proceso de revisión y se revocó la autorizacion de la revisión del auditor: " + auditor.getAuditorId() + " - " + auditor.getName() + TEXT_ELECCION + "(" + election.getTitleSpanish() + ")";
+					persistActivity(userAdminId, ActivityType.ELECTION_REVISION_NO, description, ip, election.getElectionId());
 				}
 			}
 			election.setRevisionRequest(status);
@@ -1635,8 +1559,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			if (Boolean.TRUE.equals(status)) {
 				strValor = " solicitó la ";
 			}
-			String description = userAdminId.toUpperCase() + strValor + "revisión para la elección " + "("
-					+ election.getTitleSpanish() + ")";
+			String description = userAdminId.toUpperCase() + strValor + "revisión para la elección " + "(" + election.getTitleSpanish() + ")";
 			persistActivity(userAdminId, ActivityType.ELECTION_REVISION, description, ip, election.getElectionId());
 		} catch (Exception e1) {
 			appLogger.error(e1);
@@ -1678,8 +1601,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 				return false;
 		}
 
-		String description = userAdminId.toUpperCase() + " ingresó a la revisión de votos para la elección " + "("
-				+ election.getTitleSpanish() + ")";
+		String description = userAdminId.toUpperCase() + " ingresó a la revisión de votos para la elección " + "(" + election.getTitleSpanish() + ")";
 		persistActivity(userAdminId, ActivityType.ENTER_TO_REVISION, description, ip, election.getElectionId());
 		return true;
 	}
@@ -1695,8 +1617,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 */
 	@Override
 	public Candidate getNextAboveCandidate(Candidate candidate) {
-		return ElectionsDaoFactory.createCandidateDao(em).getNextAboveCandidate(candidate.getElection().getElectionId(),
-				candidate.getCandidateOrder());
+		return ElectionsDaoFactory.createCandidateDao(em).getNextAboveCandidate(candidate.getElection().getElectionId(), candidate.getCandidateOrder());
 	}
 
 	/**
@@ -1710,8 +1631,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 */
 	@Override
 	public Candidate getNextBelowCandidate(Candidate candidate) {
-		return ElectionsDaoFactory.createCandidateDao(em).getNextBelowCandidate(candidate.getElection().getElectionId(),
-				candidate.getCandidateOrder());
+		return ElectionsDaoFactory.createCandidateDao(em).getNextBelowCandidate(candidate.getElection().getElectionId(), candidate.getCandidateOrder());
 	}
 
 	/**
@@ -1778,8 +1698,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		try {
 			electionEmailTemplate.setTemplateType(electionEmailTemplate.getTemplateType().toUpperCase());
 			em.persist(electionEmailTemplate);
-			String description = userAdminId.toUpperCase() + " creó un nuevo template base "
-					+ electionEmailTemplate.getTemplateType();
+			String description = userAdminId.toUpperCase() + " creó un nuevo template base " + electionEmailTemplate.getTemplateType();
 			persistActivity(userAdminId, ActivityType.ADD_BASE_TEMPLATE, description, ip, null);
 			return true;
 		} catch (Exception e) {
@@ -1858,8 +1777,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 */
 	@Override
 	public boolean electionsCensusEqual(JointElection jointElection) {
-		return ElectionsDaoFactory.createUserVoterDao(em).electionsCensusEqual(jointElection.getIdElectionA(),
-				jointElection.getIdElectionB());
+		return ElectionsDaoFactory.createUserVoterDao(em).electionsCensusEqual(jointElection.getIdElectionA(), jointElection.getIdElectionB());
 	}
 
 	/**
@@ -1918,8 +1836,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * @param electionId   Identifier of the election.
 	 */
 	@Override
-	public void persistActivity(String userAdminId, ActivityType activityType, String description, String ip,
-			Long electionId) {
+	public void persistActivity(String userAdminId, ActivityType activityType, String description, String ip, Long electionId) {
 		Activity activity = new Activity();
 		activity.setIp(ip);
 		activity.setElectionId(electionId);
@@ -2000,8 +1917,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			}
 			em.persist(election);
 
-			persistActivity(userAdminId, ActivityType.CLOSE_ELECTION,
-					userAdminId + " ha cerrado la elección " + electionId, ip, null);
+			persistActivity(userAdminId, ActivityType.CLOSE_ELECTION, userAdminId + " ha cerrado la elección " + electionId, ip, null);
 			return true;
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -2015,14 +1931,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			LoginData dataLDAP = UtilsLogin.login(username, password);
 			if (dataLDAP.getAuthenticated()) {
 				String description = username.toUpperCase() + " se ha logueado exitosamente";
-				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username,
-						ActivityType.LOGIN_SUCCESSFUL, description, ip, null);
+				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username, ActivityType.LOGIN_SUCCESSFUL, description, ip, null);
 
 				return crearActualizarAdminUser(dataLDAP);
 			} else {
 				String description = "Intento fallido de login de usuario " + username.toUpperCase();
-				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username, ActivityType.LOGIN_FAILED,
-						description, ip, null);
+				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username, ActivityType.LOGIN_FAILED, description, ip, null);
 			}
 			return null;
 		} catch (Exception e) {
@@ -2058,6 +1972,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			appLogger.error(e);
 		}
 		return null;
+	}
+
+	@Override
+	public String getAuditReportURL() {
+		return getParameter("AUDIT_REPORT_LINK").getValue();
 	}
 
 }

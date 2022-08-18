@@ -1,7 +1,10 @@
 package net.lacnic.elections.adminweb.ui.home;
 
+import java.io.File;
+
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -11,13 +14,13 @@ import net.lacnic.elections.adminweb.ui.admin.election.ElectionsDashboard;
 import net.lacnic.elections.adminweb.ui.bases.DashboardPublicBasePage;
 import net.lacnic.elections.domain.Customization;
 
-
 public class PublicHomeDashboard extends DashboardPublicBasePage {
 
 	private static final long serialVersionUID = 1392182581021963077L;
 
 	private Customization customization;
 
+	private File reportFile;
 
 	public PublicHomeDashboard(PageParameters params) {
 		super(params);
@@ -34,6 +37,8 @@ public class PublicHomeDashboard extends DashboardPublicBasePage {
 		homeCustom.add(homeHtmlLabel).setEscapeModelStrings(false);
 		add(homeCustom);
 
+		ExternalLink downloadLink = new ExternalLink("exportAuditLink", AppContext.getInstance().getManagerBeanRemote().getAuditReportURL());
+		homeContainer.add(downloadLink);
 
 		if (customization.isShowHome()) {
 			homeContainer.setVisible(false);
@@ -48,6 +53,10 @@ public class PublicHomeDashboard extends DashboardPublicBasePage {
 	@Override
 	protected Class validateToken(PageParameters params) {
 		return null;
+	}
+
+	public void setReportFile(File reportFile) {
+		this.reportFile = reportFile;
 	}
 
 }
