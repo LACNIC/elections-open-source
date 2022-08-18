@@ -1,16 +1,14 @@
 package net.lacnic.elections.ejb;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.lacnic.elections.data.ElectionsResultsData;
-import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.domain.Candidate;
-import net.lacnic.elections.domain.Election;
-import net.lacnic.elections.domain.JointElection;
-import net.lacnic.elections.domain.UserVoter;
+import net.lacnic.elections.domain.*;
 import net.lacnic.elections.exception.OperationNotPermittedException;
 
+import javax.persistence.OptimisticLockException;
 
 public interface ElectionsVoterEJB {
 
@@ -62,4 +60,5 @@ public interface ElectionsVoterEJB {
 
 	public JointElection getJointElection(long electionId);
 
+	ArrayList<Vote> doVotes(List<Candidate> candidates, UserVoter userVoter, String ip) throws OperationNotPermittedException;
 }

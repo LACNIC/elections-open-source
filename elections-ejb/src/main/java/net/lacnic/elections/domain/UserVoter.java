@@ -4,17 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import net.lacnic.elections.utils.LinksUtils;
 
@@ -63,6 +53,10 @@ public class UserVoter implements Serializable {
 
 	@Column(nullable = true)
 	private Date voteDate;
+
+	@Version
+	@Column(name = "version")
+	private int version;
 
 	@OneToMany(mappedBy = "userVoter", cascade = CascadeType.REMOVE)
 	private List<Vote> votes;
@@ -212,4 +206,11 @@ public class UserVoter implements Serializable {
 		this.codesSummary = codesSummary;
 	}
 
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
 }

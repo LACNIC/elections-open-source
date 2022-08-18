@@ -10,9 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.ejb.Remote;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -83,13 +81,25 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 	 */
 	@Override
 	public void vote(List<Candidate> candidates, UserVoter userVoter, String ip) throws OperationNotPermittedException {
+		try {
+			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getUserVoter(userVoter.getUserVoterId());
+			Election election = userVoterDB.getElection();
+			ArrayList<Vote> votes = EJBFactory.getInstance().getElectionsVoterEJB().doVotes(candidates, userVoter, ip);
+			ElectionEmailTemplate t = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TemplateTypeVOTE_CODES, election.getElectionId());
+			EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(t, userVoterDB, null, election, votes);
+		} catch (Exception e) {
+			e.printStackTrace();
+			context.setRollbackOnly();
+			throw new OperationNotPermittedException("Operación no permitida");
+		}
+	}
+
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public ArrayList<Vote> doVotes(List<Candidate> candidates, UserVoter userVoter, String ip) throws OperationNotPermittedException {
 		UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getUserVoter(userVoter.getUserVoterId());
-		if (userVoterDB.isVoted()) {
+		if (userVoterDB.isVoted() || candidates.size() > userVoterDB.getElection().getMaxCandidates() || !userVoterDB.getElection().isEnabledToVote())
 			throw new OperationNotPermittedException("Operación no permitida");
-		}
-		if (candidates.size() > userVoterDB.getElection().getMaxCandidates() || userVoterDB.isVoted() || !userVoterDB.getElection().isEnabledToVote()) {
-			throw new OperationNotPermittedException("Operación no permitida");
-		}
 
 		ArrayList<Vote> votes = new ArrayList<>();
 		Date voteDate = new Date();
@@ -108,10 +118,10 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 		}
 		userVoterDB.setVoted(true);
 		userVoterDB.setVoteDate(voteDate);
-		ElectionEmailTemplate t = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TemplateTypeVOTE_CODES, userVoterDB.getElection().getElectionId());
-		EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(t, userVoterDB, null, userVoterDB.getElection(), votes);
 		em.persist(userVoterDB);
+		return votes;
 	}
+
 
 	/**
 	 * Gets the voter from a the vote token
@@ -500,7 +510,7 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 	 * 
 	 * @return returns an array of string with the days between the dates.
 	 */
-	public static List<String> getDatesBetween(Date startDate, Date endDate) {
+	public List<String> getDatesBetween(Date startDate, Date endDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<String> datesInRange = new ArrayList<>();
 
