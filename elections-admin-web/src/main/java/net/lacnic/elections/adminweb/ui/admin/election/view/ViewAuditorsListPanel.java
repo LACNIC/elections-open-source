@@ -13,15 +13,12 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.domain.Auditor;
-import net.lacnic.elections.utils.LinksUtils;
-
 
 public class ViewAuditorsListPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
-
 
 	public ViewAuditorsListPanel(String id, long electionId) {
 		super(id);
@@ -45,9 +42,10 @@ public class ViewAuditorsListPanel extends Panel {
 					item.add(new Label("email", current.getMail()));
 					item.add(new Label("agreedConformity", current.isAgreedConformity() ? getString("auditorsListAgreedConformityYes") : getString("auditorsListAgreedConformityNo")));
 
-					final Label resultsLink = new Label("resultsLink", LinksUtils.buildAuditorResultsLink(current.getResultToken()));
-					resultsLink.setOutputMarkupPlaceholderTag(true);	
-					item.add(resultsLink);
+					// F_WatchAuditLinkRegistryAndHideAutitLink
+//					final Label resultsLink = new Label("resultsLink", LinksUtils.buildAuditorResultsLink(current.getResultToken()));
+//					resultsLink.setOutputMarkupPlaceholderTag(true);	
+//					item.add(resultsLink);
 				}
 			};
 			auditorsListContainer.add(auditorsListView);
