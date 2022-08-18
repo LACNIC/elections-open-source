@@ -26,15 +26,20 @@
 	<script>
 		$(document).ready(function() {
 			$('.dataTables-activitiesList').dataTable({
-				"order" : [ [ 4, "desc" ] ],
 				"dom" : '<"top"f>rt<"bottom"p><"clear">',
+				"order": [[ 4, "desc" ]],
 				"language" : {
 					"sSearch" : "Filter:",
 					"oPaginate" : {
 						"sNext" : ">",
 						"sPrevious" : "<"
 					}
-				}
+				},
+				"columnDefs": [
+					{
+						"targets": 4,
+						"render": $.fn.dataTable.moment('dd/MM/yyyy HH:mm')
+					},
 			});
 		});
 	</script>
