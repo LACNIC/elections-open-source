@@ -33,7 +33,7 @@ public class ElectionAuditorsDashboard extends DashboardAdminBasePage {
 		}
 		add(new FeedbackPanel("feedback"));
 		add(new ManageElectionTabsPanel("tabsPanel", election));
-		add(new AuditorsListPanel("auditorsListPanel", election.getElectionId()));
+		add(new AuditorsListPanel("auditorsListPanel", election));
 		add(new AddAuditorPanel("addAuditorPanel", election));
 	}
 
