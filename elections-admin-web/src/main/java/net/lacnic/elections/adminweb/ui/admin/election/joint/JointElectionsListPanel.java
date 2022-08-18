@@ -44,7 +44,7 @@ public class JointElectionsListPanel extends Panel {
 						item.add(new Label("electionA", AppContext.getInstance().getManagerBeanRemote().getElection(current.getIdElectionA()).getTitleSpanish()));
 						item.add(new Label("electionB", AppContext.getInstance().getManagerBeanRemote().getElection(current.getIdElectionB()).getTitleSpanish()));
 
-						ButtonDeleteWithConfirmation buttonDelete = new ButtonDeleteWithConfirmation("remove", item.getIndex()) {
+						ButtonDeleteWithConfirmation buttonDelete = new ButtonDeleteWithConfirmation("remove", current.getJointElectionId()) {
 							private static final long serialVersionUID = 6986190296016629836L;
 
 							@Override

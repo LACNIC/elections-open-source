@@ -17,13 +17,14 @@ public abstract class ButtonResendVoteEmail extends Panel {
 	private AjaxLink<Void> cancel;
 
 
-	public ButtonResendVoteEmail(String id) {
+	public ButtonResendVoteEmail(String id, long i) {
 		super(id);
 		setOutputMarkupPlaceholderTag(true);
 
 		container = new WebMarkupContainer("container");
 		container.setOutputMarkupPlaceholderTag(true);
 		container.setVisible(false);
+		container.setMarkupId("buttonResendVoteEmail.container."+i);
 		add(container);
 
 		ask = new AjaxLink<Void>("ask") {
@@ -37,6 +38,7 @@ public abstract class ButtonResendVoteEmail extends Panel {
 			}
 		};
 		ask.setOutputMarkupPlaceholderTag(true);
+		ask.setMarkupId("buttonResendVoteEmail.ask."+i);
 		add(ask);
 
 		confirm = new Link<Void>("confirm") {
@@ -48,6 +50,7 @@ public abstract class ButtonResendVoteEmail extends Panel {
 			}
 		};
 		confirm.setOutputMarkupPlaceholderTag(true);
+		confirm.setMarkupId("buttonResendVoteEmail.confirm."+i);
 		container.add(confirm);
 
 		cancel = new AjaxLink<Void>("cancel") {
@@ -62,6 +65,7 @@ public abstract class ButtonResendVoteEmail extends Panel {
 			}
 		};
 		cancel.setOutputMarkupPlaceholderTag(true);
+		cancel.setMarkupId("buttonResendVoteEmail.cancel."+i);
 		container.add(cancel);
 
 	}

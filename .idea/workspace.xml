@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="elections-admin-web:war exploded" />
+      <artifact name="elections-ejb:ejb" />
+      <artifact name="elections-services:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ecfd4992-3ea7-452f-84df-debc5e3c0130" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/commissioner/CommissionersListPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/commissioner/CommissionersListPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/auditors/AuditorsListPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/auditors/AuditorsListPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/candidates/CandidatesListPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/candidates/CandidatesListPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/census/CensusListPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/census/CensusListPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/joint/JointElectionsListPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/joint/JointElectionsListPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/components/ButtonResendVoteEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/components/ButtonResendVoteEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/components/ButtonUpdateToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/components/ButtonUpdateToken.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2DAUR6DiNtwO6aNgH3ixdUzGOsO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/gerardo/git/elections-open-source/elections-ejb/lib",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Java"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/elections-ejb/lib" />
+      <recent name="$PROJECT_DIR$/release-files/2.3" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="JBoss/WildFly 20.0.0.Final" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss/WildFly 20.0.0.Final" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="/Library/Java/JavaVirtualMachines/adoptopenjdk-9.jdk/Contents/Home" nameIsGenerated="true">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="elections-admin-web:war exploded">
+          <settings />
+        </artifact>
+        <artifact name="elections-services:war exploded">
+          <settings />
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="SERVER" />
+        <option name="BINDING_SET_NAME" value="" />
+        <option name="DOMAIN" value="false" />
+        <option name="SERVER_GROUP" value="main-server-group" />
+        <option name="USERNAME" value="" />
+        <option name="CREDENTIAL_ALIAS" />
+      </server-settings>
+      <log_file alias="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-admin-web-console.log" path="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-admin-web-console.log" show_all="true" />
+      <log_file alias="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-ejb-app.log" path="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-ejb-app.log" />
+      <log_file alias="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/server.log" path="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/server.log" />
+      <log_file alias="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-ejb-console.log" path="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-ejb-console.log" />
+      <log_file alias="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-services-console.log" path="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-services-console.log" />
+      <log_file alias="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-services-app.log" path="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-services-app.log" />
+      <log_file alias="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-admin-web-app.log" path="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/elections-admin-web-app.log" />
+      <log_file alias="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/audit.log" path="$USER_HOME$/wildfly-20.0.0.Final/standalone/log/audit.log" />
+      <predefined_log_file enabled="true" id="JBoss" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="55746" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="false" />
+          <option name="SCRIPT" value="$USER_HOME$/wildfly-20.0.0.Final/bin/standalone.sh" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value=" -c standalone-elecciones.xml" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="false" />
+          <option name="SCRIPT" value="$USER_HOME$/wildfly-20.0.0.Final/bin/standalone.sh" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value=" -c standalone-elecciones.xml" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="false" />
+          <option name="SCRIPT" value="$USER_HOME$/wildfly-20.0.0.Final/bin/standalone.sh" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="-c standalone-elecciones.xml" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="elections-admin-web:war exploded" />
+          <artifact name="elections-ejb:ejb" />
+          <artifact name="elections-services:war exploded" />
+        </option>
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ecfd4992-3ea7-452f-84df-debc5e3c0130" name="Changes" comment="" />
+      <created>1660141374562</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1660141374562</updated>
+      <workItem from="1660141378483" duration="197000" />
+      <workItem from="1660141611585" duration="8464000" />
+      <workItem from="1660840280292" duration="20023000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
