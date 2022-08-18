@@ -43,9 +43,9 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 	@Override
 	public boolean authenticate(String userAdminId, String password) {
 		
-		Parameter parameter =AppContext.getInstance().getManagerBeanRemote().getParameter("PAI_ACTIVO");
+		Parameter parameter =AppContext.getInstance().getManagerBeanRemote().getParameter(Constants.WS_AUTH_METHOD);
 
-		if(parameter.getValue().equals("false")) {
+		if(parameter.getValue().equals(Constants.WS_AUTH_TYPE_APP)) {
 			 userAdmin = AppContext.getInstance().getManagerBeanRemote().userAdminLogin(userAdminId,UtilsString.wantHashMd5(password), getIPClient());
 
 		}else {
