@@ -90,7 +90,7 @@ public class CensusListPanel extends Panel {
 					String voteLinkText = LinksUtils.buildVoteLink(currentUser.getVoteToken());
 					String userAdminId = SecurityUtils.getUserAdminId();
 					String activityDescription = userAdminId.toUpperCase() + " vió el link de votación del votante " + currentUser.getName() + " en la elección " + election.getTitleSpanish();
-					ButtonViewLink viewLinkButton = new ButtonViewLink("viewLinkButton", currentUser.getMigrationId(), voteLinkText) {
+					ButtonViewLink viewLinkButton = new ButtonViewLink("viewLinkButton", currentUser.getUserVoterId(), voteLinkText) {
 						private static final long serialVersionUID = 3666243113529801997L;
 
 						@Override
@@ -101,7 +101,7 @@ public class CensusListPanel extends Panel {
 					};
 					item.add(viewLinkButton);
 
-					ButtonUpdateToken buttonUpdateToken = new ButtonUpdateToken("updateToken",currentUser.getMigrationId()) {
+					ButtonUpdateToken buttonUpdateToken = new ButtonUpdateToken("updateToken",currentUser.getUserVoterId()) {
 						private static final long serialVersionUID = 3609140813722818708L;
 
 						@Override
