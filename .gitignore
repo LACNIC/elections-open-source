@@ -1,5 +1,6 @@
 .project
 .settings
+*.idea/*
 target
 elections-admin-web/.settings
 elections-admin-web/.classpath
