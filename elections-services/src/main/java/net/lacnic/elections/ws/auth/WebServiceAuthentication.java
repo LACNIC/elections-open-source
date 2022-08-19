@@ -15,11 +15,9 @@ import net.lacnic.elections.ws.app.AppContext;
 import net.ripe.ipresource.IpAddress;
 import net.ripe.ipresource.IpResourceSet;
 
-
 public class WebServiceAuthentication {
 
 	private static final Logger appLogger = LogManager.getLogger("servicesAppLogger");
-
 
 	/**
 	 * Authenticates the client according to the configured authentication method
@@ -34,7 +32,7 @@ public class WebServiceAuthentication {
 			String clientAuthToken = request.getHeader("Authorization");
 			appLogger.info("Authenticating WS call from IP " + clientIp + ", authMethod=" + wsAuthMethod);
 
-			if(wsAuthMethod.equals(Constants.WS_AUTH_TYPE_APP)) {
+			if (wsAuthMethod.equals(Constants.WS_AUTH_TYPE_APP)) {
 				// Using Elections app native authentication method:
 				// - Header 'Authorization' must match 'WS_AUTH_TOKEN' system parameter and
 				// - Client IP must be among authorized IPs (system parameter)
@@ -46,13 +44,13 @@ public class WebServiceAuthentication {
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, Apikey problem").build();
 				}
 
-				// Authenticated OK, now check the client IP 
+				// Authenticated OK, now check the client IP
 				IpResourceSet authorizedIPsList = AppContext.getInstance().getMonitorBeanRemote().getWsAuthorizedIps();
 				if (!authorizedIPsList.contains(IpAddress.parse(clientIp))) {
 					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", IP not allowed");
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, IP problem").build();
 				}
-			} else if(wsAuthMethod.equals(Constants.WS_AUTH_TYPE_LACNIC)) {
+			} else if (wsAuthMethod.equals(Constants.WS_AUTH_TYPE_LACNIC)) {
 				// Using LACNIC's authentication framework:
 				// - Header 'Authorization' passed on to LACNIC's authentication service
 				// - Client IP must be among authorized IPs (returned by service)
@@ -64,14 +62,11 @@ public class WebServiceAuthentication {
 				Client client = clientBuilder.build();
 
 				// Set URL, media type, authtoken header and call GET service method
-				LacnicAuthResponse response = client.target(AppContext.getInstance().getMonitorBeanRemote().getWsLacnicAuthUrl())
-						.request()
-						.header("Authorization", clientAuthToken)
-						.get(LacnicAuthResponse.class);
+				LacnicAuthResponse response = client.target(AppContext.getInstance().getMonitorBeanRemote().getWsLacnicAuthUrl()).request().header("Authorization", clientAuthToken).get(LacnicAuthResponse.class);
 
 				// Check response
-				
-				if(response == null || !response.getAuthenticated() || !response.getRoles().contains(Constants.api_Eleccions) ) {
+
+				if (response == null || !response.getAuthenticated() || !response.getRoles().contains(Constants.api_elections)) {
 					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", missing or invalid Auth Token");
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, Apikey problem").build();
 				}

@@ -2,9 +2,9 @@ package net.lacnic.elections.utils;
 
 import java.util.HashMap;
 
-
 /**
- * This class is used to store system constants like template paths, services URLs, etc.
+ * This class is used to store system constants like template paths, services
+ * URLs, etc.
  * 
  * @author LACNIC
  *
@@ -28,7 +28,6 @@ public class Constants {
 	public static final String WS_MAX_PAGE_SIZE = "WS_MAX_PAGE_SIZE";
 	public static final String WEBSITE_DEFAULT = "WEBSITE_DEFAULT";
 	public static final String PAI_ACTIVO = "PAI_ACTIVO";
-
 
 	// Possible values for the 'WS_AUTH_METHOD' parameter
 	public static final String WS_AUTH_TYPE_APP = "APP";
@@ -58,14 +57,10 @@ public class Constants {
 	public static final String TemplateTypeELECTION_ABOUT_TO_END = "ELECTION_ABOUT_TO_END";
 	public static final String TemplateTypeNEW = "NEW";
 	public static final String TemplateTypeSIGNATURE = "SIGNATURE";
-	public static final String TemplateTypeVOTE_RESULT = "VOTE_RESULT";	
+	public static final String TemplateTypeVOTE_RESULT = "VOTE_RESULT";
 	public static final String TemplateTypeVOTE_CODES = "VOTE_CODES";
-	public static final String api_Eleccions = "api-Eleccions";
+	public static final String api_elections = "api-elections";
 	public static final String elections_admin = "elections-admin";
-
-	
-	
-
 
 	private Constants() {
 		throw new IllegalStateException("Utility class");
