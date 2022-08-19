@@ -1,7 +1,5 @@
 package net.lacnic.elections.adminweb.ui.home;
 
-import java.io.File;
-
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -19,8 +17,6 @@ public class PublicHomeDashboard extends DashboardPublicBasePage {
 	private static final long serialVersionUID = 1392182581021963077L;
 
 	private Customization customization;
-
-	private File reportFile;
 
 	public PublicHomeDashboard(PageParameters params) {
 		super(params);
@@ -53,10 +49,6 @@ public class PublicHomeDashboard extends DashboardPublicBasePage {
 	@Override
 	protected Class validateToken(PageParameters params) {
 		return null;
-	}
-
-	public void setReportFile(File reportFile) {
-		this.reportFile = reportFile;
 	}
 
 }
