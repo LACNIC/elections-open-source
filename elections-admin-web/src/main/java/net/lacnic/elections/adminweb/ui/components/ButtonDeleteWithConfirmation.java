@@ -19,6 +19,7 @@ public abstract class ButtonDeleteWithConfirmation extends Panel {
 
 	public ButtonDeleteWithConfirmation(String id, long i) {
 		super(id);
+		setMarkupId("buttonDeleteWithConfirmation." + i);
 
 		setOutputMarkupPlaceholderTag(true);
 
@@ -34,7 +35,7 @@ public abstract class ButtonDeleteWithConfirmation extends Panel {
 		};
 		ask.setOutputMarkupPlaceholderTag(true);
 		add(ask);
-		ask.setMarkupId(id + i);
+		ask.setMarkupId("buttonDeleteWithConfirmation.ask" + i);
 
 		confirm = new Link<Void>("confirm") {
 			private static final long serialVersionUID = -5497166159069241885L;
@@ -44,7 +45,7 @@ public abstract class ButtonDeleteWithConfirmation extends Panel {
 				onConfirm();
 			}
 		};
-		confirm.setMarkupId("confirmRemove" + i);
+		confirm.setMarkupId("buttonDeleteWithConfirmation.confirmRemove" + i);
 
 		cancel = new AjaxLink<Void>("cancel") {
 			private static final long serialVersionUID = 5860568364324870195L;
@@ -57,7 +58,7 @@ public abstract class ButtonDeleteWithConfirmation extends Panel {
 				target.add(ask);
 			}
 		};
-		cancel.setMarkupId("cancelRemove" + i);
+		cancel.setMarkupId("buttonDeleteWithConfirmation.cancelRemove" + i);
 
 		container = new WebMarkupContainer("container");
 		container.setOutputMarkupPlaceholderTag(true);

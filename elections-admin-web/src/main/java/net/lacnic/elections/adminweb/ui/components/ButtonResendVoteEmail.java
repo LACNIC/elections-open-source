@@ -11,15 +11,16 @@ public abstract class ButtonResendVoteEmail extends Panel {
 
 	private static final long serialVersionUID = 9177980088598096272L;
 
-	private WebMarkupContainer container;
-	private AjaxLink<Void> ask;
-	private Link<Void> confirm;
-	private AjaxLink<Void> cancel;
+	private final WebMarkupContainer container;
+	private final AjaxLink<Void> ask;
+	private final Link<Void> confirm;
+	private final AjaxLink<Void> cancel;
 
 
 	public ButtonResendVoteEmail(String id, long i) {
 		super(id);
 		setOutputMarkupPlaceholderTag(true);
+		setMarkupId("buttonResendVoteEmail."+i);
 
 		container = new WebMarkupContainer("container");
 		container.setOutputMarkupPlaceholderTag(true);
