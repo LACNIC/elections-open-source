@@ -19,7 +19,6 @@ import net.lacnic.elections.domain.UserAdmin;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.exception.CensusValidationException;
-import net.lacnic.portal.auth.client.LoginData;
 
 public interface ElectionsManagerEJB {
 
@@ -212,5 +211,7 @@ public interface ElectionsManagerEJB {
 	public boolean closeElection(long electionId, String userAdminId, String ip);
 
 	public UserAdmin login(String username, String password, String ip);
+
+	public String getAuditReportURL();
 
 }

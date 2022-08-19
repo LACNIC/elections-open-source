@@ -51,13 +51,16 @@
 	<entry key="homeSourceCodeLink">Código fuente en GitHub</entry>
 	<entry key="homeReleaseNotesTitle">Release notes</entry>
 	<entry key="homeLicenseTitle">Licencia</entry>
-	<entry key="homeReleaseNotesContent">El último release estable es el 1.1. Consulte las </entry>
+	<entry key="homeReleaseNotesContent">El último release estable es el 2.3. Consulte las </entry>
 	<entry key="homeReleaseNotesContent2">Release Notes</entry>
 	<entry key="homeLicenseContent">El sistema de elecciones es un creación de LACNIC © 2014-2020. El sistema esta licenciado bajo </entry>
 	<entry key="homeLicenseContent2">Licencia MIT</entry>
 	<entry key="homeContactTitle">Contacto</entry>
 	<entry key="homeContactContent">¿Desea contactarse con nosotros? </entry>
 	<entry key="homeContactContent2">desarrollo@lacnic.net</entry>
+	<entry key="auditReportTitle">Reporte de auditoría</entry>
+	<entry key="auditReportContent">Puede consultar el reporte de auditoría del release 2.1 </entry>
+	<entry key="auditReportContent2">aquí</entry>
 
 	<!-- Login -->
 	<entry key="loginTitle">Elecciones LACNIC</entry>
