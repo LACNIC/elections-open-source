@@ -18,6 +18,11 @@ public interface ElectionsParametersEJB {
 
 	boolean addParameter(String key, String value);
 
+
+
+
+
+
 	void editParameter(Parameter p);
 
 	void deleteParameter(String key);
