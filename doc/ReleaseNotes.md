@@ -1,5 +1,24 @@
 # Release Notes
 
+## v2.3 (30/09/2022)
+
+#### Nuevas funcionalidades y correcciones:
+
+* El sistema ahora permite tener más de un Votante con el mismo e-mail en la misma elección.
+* El sistema ahora deja registro cuando un admin vé el link de un Auditor, así como ya sucedía con Link Votante.
+* Se actualizó el informe de Auditoría en el Home y ahora lo toma de un parámetro.
+* El sistema incluye ahora 2 mecanismos de Login Administrativo tanto para la aplicación como el WS, según el parámetro WS_AUTH_METHOD. Si está en APP, autentica contra la base de datos como siempre, pero si está en LACNIC autentica contra un sistema interno de LACNIC.
+* Se agrega una actividad de log específica para el nuevo Login Administrativo.
+* Validación más sencilla de la dirección de e-mail.
+* Se corrigió un problema de formato y orden de Fecha en la lista de Actividades.
+* Mejoras y corrección de bugs menores.
+
+
+#### Script de actualización de base de datos:
+
+Es necesario ejecutar el siguiente script de base de datos:
+[v2.3_script.sql](../release-files/2.3/v2.3_script.sql)
+
 ## v2.2 (27/04/2022)
 
 #### Nuevas funcionalidades y correcciones:
