@@ -1,6 +1,6 @@
 # Release Notes
 
-## v2.3 (30/09/2022)
+## v2.3 (29/09/2022)
 
 #### Nuevas funcionalidades y correcciones:
 
