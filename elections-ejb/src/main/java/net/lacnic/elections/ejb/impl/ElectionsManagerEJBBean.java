@@ -1940,7 +1940,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		try {
 
 			LoginData dataLDAP = UtilsLogin.login(username, password);
-			if (dataLDAP.getAuthenticated() && dataLDAP.getRoles().contains(Constants.elections_admin)) {
+			if (dataLDAP.getAuthenticated() && dataLDAP.getRoles().contains(Constants.elections_manager)) {
 				String description = username.toUpperCase() + " se ha logueado exitosamente";
 				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username, ActivityType.LOGIN_SUCCESSFUL, description, ip, null);
 

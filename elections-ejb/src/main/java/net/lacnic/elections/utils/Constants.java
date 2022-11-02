@@ -58,8 +58,8 @@ public class Constants {
 	public static final String TemplateTypeSIGNATURE = "SIGNATURE";
 	public static final String TemplateTypeVOTE_RESULT = "VOTE_RESULT";
 	public static final String TemplateTypeVOTE_CODES = "VOTE_CODES";
-	public static final String api_elections = "api-elections";
-	public static final String elections_admin = "elections-admin";
+	public static final String api_elections = "api-Elections";
+	public static final String elections_manager = "elections-manager";
 
 	private Constants() {
 		throw new IllegalStateException("Utility class");
