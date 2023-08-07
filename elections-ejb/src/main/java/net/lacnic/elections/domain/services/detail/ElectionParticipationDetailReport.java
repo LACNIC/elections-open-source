@@ -23,8 +23,19 @@ public class ElectionParticipationDetailReport implements Serializable {
 	private String startDate;
 	private String endDate;
 	private String role;
+	
+	//Voters Info
+	private String voterOrgID;
+	private String voterCountry;
+	private String voterLanguage;
+	private int voterVoteAmount;
+	private boolean voterVoted;
+	private String voterVoteDate;
 
-
+	//Candidates Info
+	private String candidateBio;
+	private String candidateLink;
+	
 	public ElectionParticipationDetailReport() { }
 
 	public ElectionParticipationDetailReport(Auditor auditor) {
@@ -57,6 +68,10 @@ public class ElectionParticipationDetailReport implements Serializable {
 		this.role = "Candidate";
 		this.startDate = DateTimeUtils.getTableServicesDateTimeString(candidate.getElection().getStartDate());
 		this.endDate = DateTimeUtils.getTableServicesDateTimeString(candidate.getElection().getEndDate());
+		
+		this.candidateBio = candidate.getBioSpanish();
+		this.candidateLink = candidate.getLinkSpanish();
+
 	}
 
 	public ElectionParticipationDetailReport(UserVoter userVoter) {
@@ -71,6 +86,13 @@ public class ElectionParticipationDetailReport implements Serializable {
 		this.descriptionSpanish = userVoter.getElection().getDescriptionSpanish();
 		this.startDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getElection().getStartDate());
 		this.endDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getElection().getEndDate());
+		
+		this.voterOrgID = userVoter.getOrgID();
+		this.voterCountry = userVoter.getCountry();
+		this.voterLanguage = userVoter.getLanguage();
+		this.voterVoteAmount = userVoter.getVoteAmount();
+		this.voterVoted = userVoter.isVoted();
+		this.voterVoteDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getVoteDate());
 	}
 
 
@@ -160,6 +182,70 @@ public class ElectionParticipationDetailReport implements Serializable {
 
 	public void setDescriptionPortuguese(String descriptionPortuguese) {
 		this.descriptionPortuguese=descriptionPortuguese;
+	}
+
+	public String getVoterOrgID() {
+		return voterOrgID;
+	}
+
+	public void setVoterOrgID(String voterOrgID) {
+		this.voterOrgID = voterOrgID;
+	}
+
+	public String getVoterCountry() {
+		return voterCountry;
+	}
+
+	public void setVoterCountry(String voterCountry) {
+		this.voterCountry = voterCountry;
+	}
+
+	public String getVoterLanguage() {
+		return voterLanguage;
+	}
+
+	public void setVoterLanguage(String voterLanguage) {
+		this.voterLanguage = voterLanguage;
+	}
+
+	public int getVoterVoteAmount() {
+		return voterVoteAmount;
+	}
+
+	public void setVoterVoteAmount(int voterVoteAmount) {
+		this.voterVoteAmount = voterVoteAmount;
+	}
+
+	public boolean isVoterVoted() {
+		return voterVoted;
+	}
+
+	public void setVoterVoted(boolean voterVoted) {
+		this.voterVoted = voterVoted;
+	}
+
+	public String getVoterVoteDate() {
+		return voterVoteDate;
+	}
+
+	public void setVoterVoteDate(String voterVoteDate) {
+		this.voterVoteDate = voterVoteDate;
+	}
+
+	public String getCandidateBio() {
+		return candidateBio;
+	}
+
+	public void setCandidateBio(String candidateBio) {
+		this.candidateBio = candidateBio;
+	}
+
+	public String getCandidateLink() {
+		return candidateLink;
+	}
+
+	public void setCandidateLink(String candidateLink) {
+		this.candidateLink = candidateLink;
 	}
 
 }
