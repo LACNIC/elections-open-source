@@ -1,5 +1,11 @@
 # Release Notes
 
+## v2.3.1 (07/08/2023)
+
+#### Nuevas funcionalidades y correcciones:
+
+* Se amplio la información que se muestra en WS que muestra el reporte de partición por email.
+
 ## v2.3 (29/09/2022)
 
 #### Nuevas funcionalidades y correcciones:
