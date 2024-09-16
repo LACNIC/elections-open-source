@@ -1,0 +1,31 @@
+<project name="mvn-caller-elections" default="deploy" basedir=".">
+	
+	<property name="maven.executable" value="${maven.home}/bin/mvn" />
+
+	<target name="deploy" description="deploy full" depends="deploy-ws">
+	</target>
+
+	<target name="deploy-ws" description="deploy ws" depends="deploy-web">
+		<copy todir="${WILDFLY20}${STANDALONE-ELECCIONES}" file="elections-services/target/elections-ws.war" />
+		<copy todir="${dist}" file="elections-services/target/elections-ws.war" />
+	</target>
+
+	<target name="deploy-web" description="deploy web" depends="deploy-ejb">
+		<copy todir="${WILDFLY20}${STANDALONE-ELECCIONES}" file="elections-admin-web/target/elections.war" />
+		<copy todir="${dist}" file="elections-admin-web/target/elections.war" />
+	</target>
+
+	<target name="deploy-ejb" description="deploy ejb" depends="call-maven">
+		<copy todir="${WILDFLY20}${STANDALONE-ELECCIONES}" file="elections-ejb/target/elections-ejb.jar" />
+		<copy todir="${dist}" file="elections-ejb/target/elections-ejb.jar" />
+	</target>
+	
+	<target name="call-maven">
+		<exec executable="${maven.executable}">
+			<arg value="clean" />
+			<arg value="compile" />
+			<arg value="package" />
+<!--			<arg value="install" />-->
+		</exec>
+	</target>
+</project>
