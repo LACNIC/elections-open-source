@@ -15,13 +15,13 @@
 	<name>elections-ejb</name>
 
 	<dependencies>
-		<dependency>
-			<groupId>portal-auth-client</groupId>
-			<artifactId>portal-auth-client</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/portal-auth-client.jar</systemPath>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>portal-auth-client</groupId>-->
+<!--			<artifactId>portal-auth-client</artifactId>-->
+<!--			<version>1.0</version>-->
+<!--			<scope>system</scope>-->
+<!--			<systemPath>${basedir}/lib/portal-auth-client.jar</systemPath>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
