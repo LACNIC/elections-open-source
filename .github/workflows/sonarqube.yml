@@ -35,4 +35,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESO_REPOSITORIOS }}  # Needed to get PR information, if any ??
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=lacnic -Dsonar.projectKey=LACNIC_elections-open-source  -DskipTests=false
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.branch.name=${CI_COMMIT_REF_NAME} -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=lacnic -Dsonar.projectKey=LACNIC_elections-open-source  -DskipTests=false
