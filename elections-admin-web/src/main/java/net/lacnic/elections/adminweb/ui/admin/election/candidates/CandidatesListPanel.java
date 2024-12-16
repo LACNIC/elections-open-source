@@ -22,13 +22,11 @@ import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.utils.Constants;
 
-
 public class CandidatesListPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
-
 
 	public CandidatesListPanel(String id, Election election) {
 		super(id);
@@ -139,17 +137,18 @@ public class CandidatesListPanel extends Panel {
 
 					int candidateOrder = currentCandidate.getCandidateOrder();
 					Label label;
+					String sortStatus = "sortStatus";
 					if (candidateOrder == Constants.MAX_ORDER) {
-						label = new Label("sortStatus", getString("candidateManagemenListPosFixedFirst"));
+						label = new Label(sortStatus, getString("candidateManagemenListPosFixedFirst"));
 						label.add(new AttributeModifier("class", "label label-success"));
 					} else if (candidateOrder == Constants.MIN_ORDER) {
-						label = new Label("sortStatus", getString("candidateManagemenListPosFixedLast"));
+						label = new Label(sortStatus, getString("candidateManagemenListPosFixedLast"));
 						label.add(new AttributeModifier("class", "label label-danger"));
 					} else {
 						if (election.isRandomOrderCandidates()) {
-							label = new Label("sortStatus", getString("candidateManagemenListPosRandom"));
+							label = new Label(sortStatus, getString("candidateManagemenListPosRandom"));
 						} else {
-							label = new Label("sortStatus", getString("candidateManagemenListPosFixedPos") + (item.getIndex() + 1));
+							label = new Label(sortStatus, getString("candidateManagemenListPosFixedPos") + (item.getIndex() + 1));
 						}
 					}
 					item.add(label);
