@@ -41,15 +41,7 @@ public class AuditorsListPanel extends Panel {
 					item.add(new Label("name", currentAuditor.getName()));
 					item.add(new Label("mail", currentAuditor.getMail()));
 					item.add(new Label("isCommissioner", (currentAuditor.isCommissioner() ? getString("auditorManagementCommissionerYes") : getString("auditorManagementCommissionerNo"))));
-					item.add(new Label("agreedConformity", (currentAuditor.isCommissioner() ? (currentAuditor.isAgreedConformity() ? getString("auditorManagementCommissionerYes") : getString("auditorManagementCommissionerNo")) : "-")));
-
-//					String auditorLinkText = LinksUtils.buildAuditorResultsLink(currentAuditor.getResultToken());
-//					Label auditorLinkTextLabel = new Label("auditorLinkText", auditorLinkText);
-//					ExternalLink auditorLink = new ExternalLink("auditorLink", auditorLinkText);
-// 					auditorLink.add(auditorLinkTextLabel);
-//					item.add(auditorLink);
-
-					// Feature: WatchAuditLinkRegistryAndHideAutitLink
+					item.add(new Label("agreedConformity", getAgreedConformityLabel(currentAuditor)));
 
 					String auditorLinkText = LinksUtils.buildAuditorResultsLink(currentAuditor.getResultToken());
 					String userAdminId = SecurityUtils.getUserAdminId();
@@ -96,6 +88,14 @@ public class AuditorsListPanel extends Panel {
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
+
+	}
+
+	private String getAgreedConformityLabel(Auditor currentAuditor) {
+		if (currentAuditor.isCommissioner()) {
+			return currentAuditor.isAgreedConformity() ? getString("auditorManagementCommissionerYes") : getString("auditorManagementCommissionerNo");
+		}
+		return "-";
 	}
 
 }
