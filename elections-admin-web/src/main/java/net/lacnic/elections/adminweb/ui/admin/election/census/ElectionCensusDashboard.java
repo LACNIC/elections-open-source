@@ -20,7 +20,6 @@ import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.exception.CensusValidationException;
 
-
 @AuthorizeInstantiation("elections-only-one")
 public class ElectionCensusDashboard extends DashboardAdminBasePage {
 
@@ -29,21 +28,21 @@ public class ElectionCensusDashboard extends DashboardAdminBasePage {
 	private Election election;
 	private UserVoter userVoter = new UserVoter();
 
-
 	public ElectionCensusDashboard(PageParameters params) {
 		super(params);
 
-		// Check if election is closed (user might be using a direct link to get to this page)
-		Election election = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
-		if(election.isClosed()) {
+		// Check if election is closed (user might be using a direct link to get to this
+		// page)
+		Election fetchedElection = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
+		if (fetchedElection.isClosed()) {
 			setResponsePage(ErrorElectionClosed.class);
 			return;
 		} else {
-			setElection(election);
+			setElection(fetchedElection);
 		}
 		add(new FeedbackPanel("feedback"));
-		add(new ManageElectionTabsPanel("tabsPanel", election));
-		add(new ElectionCensusForm("electionCensusForm", election));
+		add(new ManageElectionTabsPanel("tabsPanel", fetchedElection));
+		add(new ElectionCensusForm("electionCensusForm", fetchedElection));
 
 		Form<Void> userVoterForm = new Form<>("userVoterForm");
 		userVoterForm.add(new AddUserVoterPanel("addUserVoterPanel", userVoter));
@@ -70,12 +69,11 @@ public class ElectionCensusDashboard extends DashboardAdminBasePage {
 
 			@Override
 			public CensusListPanel getLazyLoadComponent(String markupId) {
-				return new CensusListPanel(markupId, election);
+				return new CensusListPanel(markupId, fetchedElection);
 			}
 		});
 
 	}
-
 
 	public final class ElectionCensusForm extends Form<Void> {
 		private static final long serialVersionUID = 2351447413365706203L;
