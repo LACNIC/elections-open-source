@@ -18,7 +18,6 @@ import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Auditor;
 
-
 @AuthorizeInstantiation("elections-only-one")
 public class EditAuditorDashboard extends DashboardAdminBasePage {
 
@@ -28,7 +27,6 @@ public class EditAuditorDashboard extends DashboardAdminBasePage {
 	private String name;
 	private String mail;
 	private boolean commissioner;
-
 
 	public EditAuditorDashboard(PageParameters params) {
 		super(params);
@@ -62,7 +60,7 @@ public class EditAuditorDashboard extends DashboardAdminBasePage {
 			public void onSubmit() {
 				super.onSubmit();
 				// Save only if something changed
-				if (!(mail.equalsIgnoreCase(auditor.getMail())) || !(name.equalsIgnoreCase(auditor.getName())) || !(commissioner == auditor.isCommissioner())) {
+				if (!(mail.equalsIgnoreCase(auditor.getMail())) || !(name.equalsIgnoreCase(auditor.getName())) || (commissioner != auditor.isCommissioner())) {
 					AppContext.getInstance().getManagerBeanRemote().editAuditor(getAuditor(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
 					getSession().info(getString("auditorEditSuccess"));
 				}
@@ -79,7 +77,6 @@ public class EditAuditorDashboard extends DashboardAdminBasePage {
 			}
 		});
 	}
-
 
 	public Auditor getAuditor() {
 		return auditor;
