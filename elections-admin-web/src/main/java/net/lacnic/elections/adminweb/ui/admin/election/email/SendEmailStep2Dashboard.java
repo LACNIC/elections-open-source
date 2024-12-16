@@ -26,7 +26,6 @@ import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.JointElection;
 import net.lacnic.elections.domain.RecipientType;
 
-
 @AuthorizeInstantiation("elections-only-one")
 public class SendEmailStep2Dashboard extends DashboardAdminBasePage {
 
@@ -35,7 +34,6 @@ public class SendEmailStep2Dashboard extends DashboardAdminBasePage {
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
 	private RecipientType recipientType;
-
 
 	public SendEmailStep2Dashboard(final ElectionEmailTemplate template, PageParameters params) {
 		super(params);
@@ -55,9 +53,9 @@ public class SendEmailStep2Dashboard extends DashboardAdminBasePage {
 
 		Form<Void> form = new Form<>("form");
 		add(form);
-		
+
 		form.add(recipients);
-		
+
 		form.add(new BookmarkablePageLink<>("cancel", EmailTemplatesDashboard.class, UtilsParameters.getId(template.getElection().getElectionId())));
 
 		form.add(new Button("next") {
@@ -68,22 +66,23 @@ public class SendEmailStep2Dashboard extends DashboardAdminBasePage {
 				try {
 					boolean isJoint = false;
 					boolean toVoters = false;
-					boolean votersEqual = true;				
+					boolean votersEqual = true;
 					JointElection jointElection;
 
 					if ((getRecipientType() != null) && (getRecipientType().compareTo(RecipientType.VOTERS) == 0)) {
 						toVoters = true;
 						isJoint = AppContext.getInstance().getManagerBeanRemote().isJointElection(template.getElection().getElectionId());
-						// If it is a joint election and sending mail to voters, validate if census are equal 
+						// If it is a joint election and sending mail to voters, validate if census are
+						// equal
 						if (isJoint) {
 							jointElection = AppContext.getInstance().getManagerBeanRemote().getJointElectionForElection(template.getElection().getElectionId());
-							votersEqual = AppContext.getInstance().getManagerBeanRemote().electionsCensusEqual(jointElection); 
-						};				
-					};
+							votersEqual = AppContext.getInstance().getManagerBeanRemote().electionsCensusEqual(jointElection);
+						}
+					}
 
 					if (getRecipientType() == null) {
 						error(getString("sendMail2Error"));
-					} else if (toVoters && isJoint && !votersEqual) { 
+					} else if (toVoters && isJoint && !votersEqual) {
 						error(getString("sendMailJointCensusDiffError"));
 					} else {
 						template.setRecipientType(recipientType);
