@@ -11,11 +11,9 @@ import net.lacnic.elections.adminweb.ui.admin.election.detail.ElectionDetailDash
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 
-
 public class ManageElectionTabsPanel extends Panel {
 
 	private static final long serialVersionUID = 7849505995342956937L;
-
 
 	public ManageElectionTabsPanel(String id, Election election) {
 		super(id);
@@ -64,31 +62,36 @@ public class ManageElectionTabsPanel extends Panel {
 		auditors.setEnabled(election.getElectionId() != 0);
 		add(auditors);
 
+		String atribute = "class";
+		String current = " current";
+		String done = " done";
+		String disabled = " disabled";
+
 		if (id.equalsIgnoreCase("tabDetail"))
-			detail.add(new AttributeAppender("class", " current"));
+			detail.add(new AttributeAppender(atribute, current));
 		else
-			detail.add(new AttributeAppender("class", " done"));
+			detail.add(new AttributeAppender(atribute, done));
 
 		if (id.equalsIgnoreCase("tabCensus"))
-			census.add(new AttributeAppender("class", " current"));
+			census.add(new AttributeAppender(atribute, current));
 		else if (election.isElectorsSet())
-			census.add(new AttributeAppender("class", " done"));
+			census.add(new AttributeAppender(atribute, done));
 		else
-			census.add(new AttributeAppender("class", " disabled"));
+			census.add(new AttributeAppender(atribute, disabled));
 
 		if (id.equalsIgnoreCase("tabCandidates"))
-			candidates.add(new AttributeAppender("class", " current"));
+			candidates.add(new AttributeAppender(atribute, current));
 		else if (election.isCandidatesSet())
-			candidates.add(new AttributeAppender("class", " done"));
+			candidates.add(new AttributeAppender(atribute, done));
 		else
-			candidates.add(new AttributeAppender("class", " disabled"));
+			candidates.add(new AttributeAppender(atribute, disabled));
 
 		if (id.equalsIgnoreCase("tabAuditors"))
-			auditors.add(new AttributeAppender("class", " current"));
+			auditors.add(new AttributeAppender(atribute, current));
 		else if (election.isAuditorsSet())
-			auditors.add(new AttributeAppender("class", " done"));
+			auditors.add(new AttributeAppender(atribute, done));
 		else
-			auditors.add(new AttributeAppender("class", " disabled"));
+			auditors.add(new AttributeAppender(atribute, disabled));
 
 	}
 
