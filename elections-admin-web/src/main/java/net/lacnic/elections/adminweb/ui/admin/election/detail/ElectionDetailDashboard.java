@@ -22,7 +22,6 @@ import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.ejb.ElectionsManagerEJB;
 
-
 @AuthorizeInstantiation("elections-only-one")
 public class ElectionDetailDashboard extends DashboardAdminBasePage {
 
@@ -32,18 +31,18 @@ public class ElectionDetailDashboard extends DashboardAdminBasePage {
 
 	private Election election;
 
-
 	public ElectionDetailDashboard(PageParameters params) {
 		super(params);
 
-		// Check if election is closed (user might be using a direct link to get to this page)
+		// Check if election is closed (user might be using a direct link to get to this
+		// page)
 		if (UtilsParameters.isId(params)) {
-			Election election = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
-			if(election.isClosed()) {
+			Election fetchedElection = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
+			if (fetchedElection.isClosed()) {
 				setResponsePage(ErrorElectionClosed.class);
 				return;
 			} else {
-				setElection(election);
+				setElection(fetchedElection);
 				getElection().initStringsStartEndDates();
 			}
 		} else {
@@ -55,7 +54,6 @@ public class ElectionDetailDashboard extends DashboardAdminBasePage {
 		add(new ManageElectionTabsPanel("tabsPanel", election));
 		add(new NewElectionForm("newElectionForm"));
 	}
-
 
 	public final class NewElectionForm extends Form<Void> {
 		private static final long serialVersionUID = -5221887812611102034L;
@@ -92,12 +90,12 @@ public class ElectionDetailDashboard extends DashboardAdminBasePage {
 									originalElection = managerBeanRemote.getElection(election.getElectionId());
 									originalElectionStartDate = originalElection.getStartDate();
 								}
-							};
+							}
 
 							election.initDatesStartEndDates();
 							if (election.getStartDate().after(election.getEndDate())) {
 								error(getString("electionManagementErrorDates"));
-							} else if ((!isNew) && (isJoint) && (originalElectionStartDate.compareTo(election.getStartDate())!= 0)) {
+							} else if ((!isNew) && (isJoint) && (originalElectionStartDate.compareTo(election.getStartDate()) != 0)) {
 								error(getString("electionManagementErrorJointDates"));
 							} else {
 								copyTexts();
@@ -135,7 +133,7 @@ public class ElectionDetailDashboard extends DashboardAdminBasePage {
 			}
 		}
 
-		public void copyTexts() throws Exception {
+		public void copyTexts() {
 			if (election.isOnlySp()) {
 				election.copyLanguageDescriptions("SP");
 				election.copyLanguageTitles("SP");
