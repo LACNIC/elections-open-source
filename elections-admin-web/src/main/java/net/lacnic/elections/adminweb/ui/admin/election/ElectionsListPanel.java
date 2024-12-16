@@ -29,7 +29,6 @@ import net.lacnic.elections.adminweb.ui.results.review.ReviewDashboard;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 
-
 public class ElectionsListPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
@@ -37,7 +36,6 @@ public class ElectionsListPanel extends Panel {
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
 	private long userAdminId;
-
 
 	public ElectionsListPanel(String id, PageParameters pars) {
 		super(id);
@@ -89,22 +87,25 @@ public class ElectionsListPanel extends Panel {
 						BookmarkablePageLink<Void> census = new BookmarkablePageLink<>("manageCensus", ElectionCensusDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						census.setMarkupId("electionCensus" + currentElection.getElectionId());
 						census.setEnabled(!currentElection.isClosed());
+						String atribute = "class";
+						String btnClass = "btn-circle btn-primary btn-sm";
+
 						if (currentElection.isElectorsSet())
-							census.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
+							census.add(new AttributeModifier(atribute, btnClass));
 						item.add(census);
 
 						BookmarkablePageLink<Void> candidates = new BookmarkablePageLink<>("candidates", ElectionCandidatesDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						candidates.setMarkupId("electionCandidates" + currentElection.getElectionId());
 						candidates.setEnabled(!currentElection.isClosed());
 						if (currentElection.isCandidatesSet())
-							candidates.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
+							candidates.add(new AttributeModifier(atribute, btnClass));
 						item.add(candidates);
 
 						BookmarkablePageLink<Void> auditors = new BookmarkablePageLink<>("auditors", ElectionAuditorsDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						auditors.setMarkupId("electionAuditors" + currentElection.getElectionId());
 						auditors.setEnabled(!currentElection.isClosed());
 						if (currentElection.isAuditorsSet())
-							auditors.add(new AttributeModifier("class", "btn-circle btn-primary btn-sm"));
+							auditors.add(new AttributeModifier(atribute, btnClass));
 						item.add(auditors);
 
 						ButtonDeleteWithConfirmation buttonDeleteWithConfirmation = new ButtonDeleteWithConfirmation("removeElection", currentElection.getElectionId()) {
@@ -121,7 +122,7 @@ public class ElectionsListPanel extends Panel {
 									} else {
 										isNew = false;
 										isJoint = AppContext.getInstance().getManagerBeanRemote().isJointElection(currentElection.getElectionId());
-									};
+									}
 
 									if ((!isNew) && (isJoint)) {
 										SecurityUtils.error(getString("deleteElectionErrorJoint"));
@@ -147,7 +148,7 @@ public class ElectionsListPanel extends Panel {
 						BookmarkablePageLink<Void> manageEmailsLink = new BookmarkablePageLink<>("manageEmails", EmailTemplatesDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						manageEmailsLink.setMarkupId("manageEmails" + currentElection.getElectionId());
 						manageEmailsLink.setVisible(!currentElection.isClosed());
-						item.add(manageEmailsLink); 
+						item.add(manageEmailsLink);
 
 						BookmarkablePageLink<Void> statsLink = new BookmarkablePageLink<>("seeStats", StatsDashboard.class, UtilsParameters.getId(currentElection.getElectionId()));
 						statsLink.setMarkupId("seeStats" + currentElection.getElectionId());
