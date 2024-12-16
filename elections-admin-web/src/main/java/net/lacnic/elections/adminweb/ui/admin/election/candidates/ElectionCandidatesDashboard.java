@@ -15,9 +15,8 @@ import net.lacnic.elections.adminweb.ui.admin.election.census.ElectionCensusDash
 import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
 import net.lacnic.elections.adminweb.ui.error.ErrorElectionClosed;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ActivityType;
-
+import net.lacnic.elections.domain.Election;
 
 @AuthorizeInstantiation("elections-only-one")
 public class ElectionCandidatesDashboard extends DashboardAdminBasePage {
@@ -25,24 +24,23 @@ public class ElectionCandidatesDashboard extends DashboardAdminBasePage {
 	private static final long serialVersionUID = -8712299592904499634L;
 	private Election election;
 
-
 	public ElectionCandidatesDashboard(PageParameters params) {
 		super(params);
 
-		// Check if election is closed (user might be using a direct link to get to this page)
-		Election election = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
-		if(election.isClosed()) {
+		// Check if election is closed (user might be using a direct link to get to this
+		// page)
+		Election fetchedElection = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
+		if (fetchedElection.isClosed()) {
 			setResponsePage(ErrorElectionClosed.class);
 			return;
 		} else {
-			setElection(election);
+			setElection(fetchedElection);
 		}
 		add(new FeedbackPanel("feedback"));
-		add(new ElectionCandidateForm("electionCandidateForm", election));
-		add(new ManageElectionTabsPanel("tabsPanel", election));
-		add(new CandidatesListPanel("candidatesListPanel", election));
+		add(new ElectionCandidateForm("electionCandidateForm", fetchedElection));
+		add(new ManageElectionTabsPanel("tabsPanel", fetchedElection));
+		add(new CandidatesListPanel("candidatesListPanel", fetchedElection));
 	}
-
 
 	public final class ElectionCandidateForm extends Form<Void> {
 		private static final long serialVersionUID = 2351447413365706203L;
