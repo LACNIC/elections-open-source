@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.security.jacc.PolicyContextException;
-
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.apache.wicket.request.Request;
 
 import net.lacnic.elections.adminweb.wicket.util.UtilsString;
-import net.lacnic.elections.dao.ElectionsDaoFactory;
 import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.domain.UserAdmin;
 import net.lacnic.elections.utils.Constants;
-import net.lacnic.portal.auth.client.LoginData;
 
 public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 
@@ -26,7 +22,6 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 	private String password;
 	private Long authorizedElectionId;
 	private UserAdmin userAdmin;
-
 
 	public UserAdmin getUserAdmin() {
 		return userAdmin;
@@ -42,15 +37,15 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 
 	@Override
 	public boolean authenticate(String userAdminId, String password) {
-		
-		Parameter parameter =AppContext.getInstance().getManagerBeanRemote().getParameter(Constants.WS_AUTH_METHOD);
 
-		if(parameter.getValue().equals(Constants.WS_AUTH_TYPE_APP)) {
-			 userAdmin = AppContext.getInstance().getManagerBeanRemote().userAdminLogin(userAdminId,UtilsString.wantHashMd5(password), getIPClient());
+		Parameter parameter = AppContext.getInstance().getManagerBeanRemote().getParameter(Constants.WS_AUTH_METHOD);
 
-		}else {
-			 userAdmin = AppContext.getInstance().getManagerBeanRemote().login(userAdminId, password, getIPClient());		
-		}		
+		if (parameter.getValue().equals(Constants.WS_AUTH_TYPE_APP)) {
+			userAdmin = AppContext.getInstance().getManagerBeanRemote().userAdminLogin(userAdminId, UtilsString.wantHashMd5(password), getIPClient());
+
+		} else {
+			userAdmin = AppContext.getInstance().getManagerBeanRemote().login(userAdminId, password, getIPClient());
+		}
 
 		String lang;
 
@@ -59,8 +54,8 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 			setPassword(password);
 			setAuthorizedElectionId(userAdmin.getAuthorizedElectionId());
 
-			lang = getLocale().getLanguage();			
-			switch(lang) {
+			lang = getLocale().getLanguage();
+			switch (lang) {
 			case "pt":
 				setLocale(new Locale("PT"));
 				break;
@@ -69,10 +64,10 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 				break;
 			case "es":
 				setLocale(new Locale("ES"));
-				break;				
+				break;
 			default:
 				setLocale(new Locale("ES"));
-			}			
+			}
 
 			return true;
 		}
@@ -110,7 +105,6 @@ public class ElectionsWebAdminSession extends AuthenticatedWebSession {
 		WebClientInfo info = get().getClientInfo();
 		return info.getProperties().getRemoteAddress();
 	}
-
 
 	public String getUserAdminId() {
 		return userAdminId;
