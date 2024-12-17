@@ -27,7 +27,6 @@ import net.lacnic.elections.domain.Auditor;
 import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.UserVoter;
 
-
 @AuthorizeInstantiation("elections-only-one")
 public class SendEmailStep3Dashboard extends DashboardAdminBasePage {
 
@@ -38,7 +37,6 @@ public class SendEmailStep3Dashboard extends DashboardAdminBasePage {
 	private List<Auditor> auditorsList = new ArrayList<>();
 	private List<UserVoter> votersList = new ArrayList<>();
 	int quantity;
-
 
 	public SendEmailStep3Dashboard(final ElectionEmailTemplate template, PageParameters params) {
 		super(params);
@@ -59,9 +57,10 @@ public class SendEmailStep3Dashboard extends DashboardAdminBasePage {
 					auditorsList = recipientsList;
 				}
 			}
+			String stringQuantity = "quantity";
 
 			WebMarkupContainer auditorsContainer = new WebMarkupContainer("auditorsContainer");
-			auditorsContainer.add(new Label("quantity", new PropertyModel<>(SendEmailStep3Dashboard.this, "quantity")));
+			auditorsContainer.add(new Label(stringQuantity, new PropertyModel<>(SendEmailStep3Dashboard.this, stringQuantity)));
 
 			ListView<Auditor> auditorsListView = new ListView<Auditor>("auditorsRecipientList", auditorsList) {
 				private static final long serialVersionUID = 1786359392545666490L;
@@ -97,7 +96,7 @@ public class SendEmailStep3Dashboard extends DashboardAdminBasePage {
 			auditorsContainer.setVisible(!auditorsList.isEmpty());
 
 			WebMarkupContainer votersContainer = new WebMarkupContainer("votersContainer");
-			votersContainer.add(new Label("quantity", new PropertyModel<>(SendEmailStep3Dashboard.this, "quantity")));
+			votersContainer.add(new Label(stringQuantity, new PropertyModel<>(SendEmailStep3Dashboard.this, stringQuantity)));
 
 			ListView<UserVoter> votersListView = new ListView<UserVoter>("votersRecipientList", votersList) {
 				private static final long serialVersionUID = 1786359392545666490L;
@@ -158,7 +157,6 @@ public class SendEmailStep3Dashboard extends DashboardAdminBasePage {
 			appLogger.error(e);
 		}
 	}
-
 
 	public Integer getQuantity() {
 		return quantity;
