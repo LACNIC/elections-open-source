@@ -19,7 +19,6 @@ import net.lacnic.elections.adminweb.ui.components.OnOffSwitch;
 import net.lacnic.elections.adminweb.wicket.util.ImageResource;
 import net.lacnic.elections.domain.Customization;
 
-
 public class CustomizationPanel extends Panel {
 
 	private static final long serialVersionUID = 6920524802771454293L;
@@ -37,7 +36,6 @@ public class CustomizationPanel extends Panel {
 	private String siteTitle;
 	private String loginTitle;
 	private String homeHtml;
-
 
 	public CustomizationPanel(String id) {
 		super(id);
@@ -59,23 +57,25 @@ public class CustomizationPanel extends Panel {
 		Form<Void> form = new Form<>("customizationForm");
 		add(form);
 
+		String imageType = "image/";
+
 		try {
 			if (contPicSmallLogo == null) {
-				form.add(new ContextImage("picSmallLogo","image/" + picSmallLogo));
+				form.add(new ContextImage("picSmallLogo", imageType + picSmallLogo));
 			} else {
 				pictureFileExtension = FilenameUtils.getExtension(picSmallLogo);
 				form.add(new NonCachingImage("picSmallLogo", new ImageResource(contPicSmallLogo, pictureFileExtension)));
 			}
 
 			if (contPicBigLogo == null) {
-				form.add(new ContextImage("picBigLogo","image/" + picBigLogo));
+				form.add(new ContextImage("picBigLogo", imageType + picBigLogo));
 			} else {
 				pictureFileExtension = FilenameUtils.getExtension(picBigLogo);
 				form.add(new NonCachingImage("picBigLogo", new ImageResource(contPicBigLogo, pictureFileExtension)));
 			}
 
 			if (contPicSymbol == null) {
-				form.add(new ContextImage("picSymbol","image/" + picSymbol));
+				form.add(new ContextImage("picSymbol", imageType + picSymbol));
 			} else {
 				pictureFileExtension = FilenameUtils.getExtension(picSymbol);
 				form.add(new NonCachingImage("picSymbol", new ImageResource(contPicSymbol, pictureFileExtension)));
@@ -108,7 +108,7 @@ public class CustomizationPanel extends Panel {
 			};
 			form.add(showHomeCtrl);
 
-			TextArea<String> homehtmlTxtAr = new TextArea<>("homeHtml", new PropertyModel<>(customization, "homeHtml"));		
+			TextArea<String> homehtmlTxtAr = new TextArea<>("homeHtml", new PropertyModel<>(customization, "homeHtml"));
 			form.add(homehtmlTxtAr);
 
 			form.add(new Button("save") {
@@ -117,6 +117,10 @@ public class CustomizationPanel extends Panel {
 				@Override
 				public void onSubmit() {
 					try {
+						String advCustomizationExtensionError = "advCustomizationExtensionError";
+						String imageExtension = "jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF";
+						String advCustomizationDefaultSiteTitle = "advCustomizationDefaultSiteTitle";
+
 						FileUpload fileUploadBigLogo = picBigLogoUploadField.getFileUpload();
 						FileUpload fileUploadSmallLogo = picSmallLogoUploadField.getFileUpload();
 						FileUpload fileUploadSymbol = picSymbolUploadField.getFileUpload();
@@ -124,9 +128,9 @@ public class CustomizationPanel extends Panel {
 
 						if (fileUploadBigLogo != null) {
 							// validate extension
-							if (!(fileUploadBigLogo.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
+							if (!(fileUploadBigLogo.getClientFileName().split("\\.")[1].matches(imageExtension))) {
 								error = true;
-								getSession().error(getString("advCustomizationExtensionError"));
+								getSession().error(getString(advCustomizationExtensionError));
 							} else {
 								// set file
 								customization.setPicBigLogo(fileUploadBigLogo.getClientFileName());
@@ -136,9 +140,9 @@ public class CustomizationPanel extends Panel {
 
 						if ((!error) && (fileUploadSmallLogo != null)) {
 							// validate extension
-							if (!(fileUploadSmallLogo.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
+							if (!(fileUploadSmallLogo.getClientFileName().split("\\.")[1].matches(imageExtension))) {
 								error = true;
-								getSession().error(getString("advCustomizationExtensionError"));
+								getSession().error(getString(advCustomizationExtensionError));
 							} else {
 								// set file
 								customization.setPicSmallLogo(fileUploadSmallLogo.getClientFileName());
@@ -148,9 +152,9 @@ public class CustomizationPanel extends Panel {
 
 						if ((!error) && (fileUploadSymbol != null)) {
 							// validate extension
-							if (!(fileUploadSymbol.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
+							if (!(fileUploadSymbol.getClientFileName().split("\\.")[1].matches(imageExtension))) {
 								error = true;
-								getSession().error(getString("advCustomizationExtensionError"));
+								getSession().error(getString(advCustomizationExtensionError));
 							} else {
 								// set file
 								customization.setPicSymbol(fileUploadSymbol.getClientFileName());
@@ -158,16 +162,16 @@ public class CustomizationPanel extends Panel {
 							}
 						}
 
-						if((getLoginTitle() == null) || (getLoginTitle().compareTo("") == 0)) {
-							setLoginTitle(getString("advCustomizationDefaultSiteTitle"));
+						if ((getLoginTitle() == null) || (getLoginTitle().compareTo("") == 0)) {
+							setLoginTitle(getString(advCustomizationDefaultSiteTitle));
 						}
-						if((getSiteTitle() == null) || (getSiteTitle().compareTo("") == 0)) {
-							setSiteTitle(getString("advCustomizationDefaultSiteTitle"));
+						if ((getSiteTitle() == null) || (getSiteTitle().compareTo("") == 0)) {
+							setSiteTitle(getString(advCustomizationDefaultSiteTitle));
 						}
 						customization.setLoginTitle(getLoginTitle());
 						customization.setSiteTitle(getSiteTitle());
 
-						if ((!error) ) {
+						if ((!error)) {
 							AppContext.getInstance().getManagerBeanRemote().updateCustomization(customization);
 							getSession().info(getString("advCustomizationEditSuccess"));
 						}
@@ -182,7 +186,6 @@ public class CustomizationPanel extends Panel {
 			appLogger.error(e);
 		}
 	}
-
 
 	public Customization getCustomization() {
 		return customization;
