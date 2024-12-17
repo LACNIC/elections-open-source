@@ -41,11 +41,6 @@ public class ViewAuditorsListPanel extends Panel {
 					item.add(new Label("name", current.getName()));
 					item.add(new Label("email", current.getMail()));
 					item.add(new Label("agreedConformity", current.isAgreedConformity() ? getString("auditorsListAgreedConformityYes") : getString("auditorsListAgreedConformityNo")));
-
-					// F_WatchAuditLinkRegistryAndHideAutitLink
-//					final Label resultsLink = new Label("resultsLink", LinksUtils.buildAuditorResultsLink(current.getResultToken()));
-//					resultsLink.setOutputMarkupPlaceholderTag(true);	
-//					item.add(resultsLink);
 				}
 			};
 			auditorsListContainer.add(auditorsListView);
