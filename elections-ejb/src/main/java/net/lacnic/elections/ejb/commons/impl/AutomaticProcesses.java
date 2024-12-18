@@ -19,7 +19,6 @@ import net.lacnic.elections.utils.EJBFactory;
 import net.lacnic.elections.utils.FilesUtils;
 import net.lacnic.elections.utils.MailHelper;
 
-
 @Stateless
 public class AutomaticProcesses {
 
@@ -28,13 +27,12 @@ public class AutomaticProcesses {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
-
 	/**
 	 * Get the list of emails to send and tries to send them.
 	 */
 	@TransactionTimeout(35000)
 	@Schedules({ @Schedule(second = "0", minute = "*/10", hour = "*", persistent = false) })
-	public void sendEmail() {
+	public void sendEmail() throws Exception {
 		try {
 			if (!running) {
 				running = true;
@@ -42,7 +40,7 @@ public class AutomaticProcesses {
 				List<Email> emails = EJBFactory.getInstance().getMailsSendingEJB().getEmailsToSend();
 
 				Properties props = FilesUtils.getEmailProperties();
-				appLogger.debug("Email sending properties: " );
+				appLogger.debug("Email sending properties: ");
 				appLogger.debug(props.toString());
 
 				String host = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.EMAIL_HOST);
@@ -57,7 +55,7 @@ public class AutomaticProcesses {
 					Email email = emails.get(i);
 					try {
 						appLogger.info("SENDING EMAIL " + email.getSubject() + " to " + email.getRecipients());
-						if(MailHelper.sendMail(session, email.getSender(), email.getRecipients(), email.getCc(), email.getBcc(), email.getSubject(), email.getBody())) {
+						if (MailHelper.sendMail(session, email.getSender(), email.getRecipients(), email.getCc(), email.getBcc(), email.getSubject(), email.getBody())) {
 							// Sent OK, mark email as sent
 							EJBFactory.getInstance().getMailsSendingEJB().markEmailAsSent(email);
 						} else {
@@ -72,6 +70,7 @@ public class AutomaticProcesses {
 					} catch (Exception e) {
 						appLogger.error("ERROR sending mail to " + email.getRecipients());
 						appLogger.error(e);
+						throw e;
 					}
 				}
 				appLogger.info("END Execute Elections Mails Sending");
@@ -88,6 +87,7 @@ public class AutomaticProcesses {
 			}
 		} catch (Exception e1) {
 			appLogger.error(e1);
+			throw e1;
 		}
 	}
 
@@ -99,9 +99,8 @@ public class AutomaticProcesses {
 		EJBFactory.getInstance().getElectionsMonitorEJB().updateHealthCheckData();
 	}
 
-	
 	/**
-	 * Moves all the email to the history tables 
+	 * Moves all the email to the history tables
 	 */
 	@TransactionTimeout(35000)
 	@Schedules({ @Schedule(second = "0", minute = "15", hour = "4", persistent = false) })
@@ -109,7 +108,6 @@ public class AutomaticProcesses {
 		EJBFactory.getInstance().getMailsSendingEJB().moveEmailsToHistory();
 	}
 
-	
 	/**
 	 * Purge the email tables.
 	 */
@@ -118,7 +116,6 @@ public class AutomaticProcesses {
 	public void purgeTables() {
 		EJBFactory.getInstance().getMailsSendingEJB().purgeTables();
 	}
-
 
 	/**
 	 * Get the amount of attempts
