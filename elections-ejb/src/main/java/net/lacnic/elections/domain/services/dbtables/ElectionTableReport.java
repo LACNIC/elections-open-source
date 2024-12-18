@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import net.lacnic.elections.domain.Election;
 
-
 public class ElectionTableReport implements Serializable {
 
 	private static final long serialVersionUID = -6249197041343974691L;
@@ -40,8 +39,8 @@ public class ElectionTableReport implements Serializable {
 	private Boolean closed;
 	private String closedDate;
 
-
-	public ElectionTableReport() {	}
+	public ElectionTableReport() {
+	}
 
 	public ElectionTableReport(Election election) {
 		this.electionId = election.getElectionId();
@@ -75,7 +74,6 @@ public class ElectionTableReport implements Serializable {
 		this.closed = election.isClosed();
 		this.closedDate = election.getClosedDateString();
 	}
-
 
 	public Long getElectionId() {
 		return electionId;
@@ -319,7 +317,19 @@ public class ElectionTableReport implements Serializable {
 
 	@Override
 	public boolean equals(Object election) {
-		return this.electionId.equals(((ElectionTableReport)election).electionId);
+		if (this == election) {
+			return true;
+		}
+		if (election == null || getClass() != election.getClass()) {
+			return false;
+		}
+		ElectionTableReport other = (ElectionTableReport) election;
+		return this.electionId.equals(other.electionId);
+	}
+
+	@Override
+	public int hashCode() {
+		return electionId.hashCode();
 	}
 
 }
