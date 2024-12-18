@@ -34,13 +34,10 @@ public class ExcelUtils {
 	private static final String CONTENT_TYPE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	/**
-	 * Processes the census in the Excel file and returns it as a list of
-	 * UserVoter
+	 * Processes the census in the Excel file and returns it as a list of UserVoter
 	 * 
-	 * @param contentType
-	 *            Excel type (xls or xlsx)
-	 * @param census
-	 *            the file
+	 * @param contentType Excel type (xls or xlsx)
+	 * @param census      the file
 	 * @return the UserVoter list
 	 * @throws CensusValidationException
 	 */
@@ -200,8 +197,7 @@ public class ExcelUtils {
 	/**
 	 * Validate that required columns exist
 	 * 
-	 * @param firstRow
-	 *            titles row
+	 * @param firstRow titles row
 	 * @return true if valid, false otherwise
 	 */
 	private static boolean validateRequiredColumns(Row firstRow) {
@@ -231,16 +227,11 @@ public class ExcelUtils {
 	/**
 	 * Validate that required fields are not null in given row
 	 * 
-	 * @param row
-	 *            the row to check
-	 * @param languageIndex
-	 *            the language column index
-	 * @param nameIndex
-	 *            the name column index
-	 * @param mailIndex
-	 *            the mail column index
-	 * @param voteAmountIndex
-	 *            the voteAmount column index
+	 * @param row             the row to check
+	 * @param languageIndex   the language column index
+	 * @param nameIndex       the name column index
+	 * @param mailIndex       the mail column index
+	 * @param voteAmountIndex the voteAmount column index
 	 * @return true if valid, false otherwise
 	 */
 	private static boolean validateRequiredFields(Row row, int languageIndex, int nameIndex, int mailIndex, int voteAmountIndex) {
@@ -250,17 +241,14 @@ public class ExcelUtils {
 	/**
 	 * Export the list of voters to a xlsx Excel file
 	 * 
-	 * @param userVoters
-	 *            the voters list
-	 * @param fileName
-	 *            the file name
+	 * @param userVoters the voters list
+	 * @param fileName   the file name
 	 * @return the File object
 	 */
 	public static File exportToExcel(List<UserVoter> userVoters, String fileName) {
 		File file = new File(System.getProperty(TEMP_DIR).concat(fileName));
 
-		try {
-			XSSFWorkbook workbook = new XSSFWorkbook();
+		try (XSSFWorkbook workbook = new XSSFWorkbook()) {
 			XSSFSheet sheet = workbook.createSheet("Padron_Electoral");
 
 			int rowIndex = 0;
