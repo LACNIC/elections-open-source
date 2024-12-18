@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-
 @Entity
 public class Customization implements Serializable {
 
@@ -27,7 +26,7 @@ public class Customization implements Serializable {
 	@Column(name = "pic_big_logo", nullable = false, length = 255)
 	private String picBigLogo;
 
-	@Column(name = "pic_symbol",nullable = false, length = 255)
+	@Column(name = "pic_symbol", nullable = false, length = 255)
 	private String picSymbol;
 
 	@Column(name = "cont_pic_small_logo", nullable = true)
@@ -51,9 +50,9 @@ public class Customization implements Serializable {
 	@Column(name = "home_html", nullable = true, columnDefinition = "TEXT")
 	private String homeHtml;
 
-
-	public Customization() { }
-
+	public Customization() {
+		// Default initialization
+	}
 
 	public long getCustomizationId() {
 		return customizationId;

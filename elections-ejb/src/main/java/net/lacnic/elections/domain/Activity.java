@@ -12,12 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-
 @Entity
 public class Activity implements Serializable {
 
 	private static final long serialVersionUID = 574501011615594210L;
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_seq")
@@ -41,12 +39,12 @@ public class Activity implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private ActivityType activityType;
 
-	@Column(columnDefinition="TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String description;
 
-
-	public Activity() { }
-
+	public Activity() {
+		// Default initialization
+	}
 
 	public long getActivityId() {
 		return activityId;

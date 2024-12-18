@@ -75,18 +75,17 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	private EntityManager em;
 
 	public ElectionsManagerEJBBean() {
+		// Default initialization
 	}
 
 	/**
-	 * Logs an user to the application and persists audit information in the
-	 * activity table
+	 * Logs an user to the application and persists audit information in the activity table
 	 * 
 	 * @param userAdminId Login id
 	 * @param password    User password
 	 * @param ip          Ip of the user login in
 	 * 
-	 * @return returns a UserAdmin entity if the id and password exists and null
-	 *         otherwise.
+	 * @return returns a UserAdmin entity if the id and password exists and null otherwise.
 	 */
 	@Override
 	public UserAdmin userAdminLogin(String userAdminId, String password, String ip) {
@@ -120,8 +119,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param userAdminId The id of the user needed
 	 * 
-	 * @return returns an UserAdmin entity containing the information of the user id
-	 *         if found or null if it does not exists
+	 * @return returns an UserAdmin entity containing the information of the user id if found or null if it does not exists
 	 */
 	@Override
 	public UserAdmin getUserAdmin(String userAdminId) {
@@ -251,15 +249,12 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Deletes an election removing all its related resources (admins, auditors,
-	 * candidates, emails, votes and user voters)
+	 * Deletes an election removing all its related resources (admins, auditors, candidates, emails, votes and user voters)
 	 * 
 	 * @param electionId    identifier of the election
 	 * @param electionTitle title of the election used for logging purposes
-	 * @param userAdminId   id of the user deleting the election, used for logging
-	 *                      purposes
-	 * @param ip            ip of the user deleting the election, used for logging
-	 *                      purposes
+	 * @param userAdminId   id of the user deleting the election, used for logging purposes
+	 * @param ip            ip of the user deleting the election, used for logging purposes
 	 */
 	@Override
 	public void removeElection(long electionId, String electionTitle, String userAdminId, String ip) throws Exception {
@@ -331,8 +326,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Updates or creates (if it does not exists) an election
 	 * 
-	 * @param election    An election entity with the information to update the
-	 *                    election.
+	 * @param election    An election entity with the information to update the election.
 	 * @param userAdminId Id of the user, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 * 
@@ -430,8 +424,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Gets all the commissioners from the system.
 	 * 
-	 * @return returns a list of commissioner entity containing all the
-	 *         commissioners in the system.
+	 * @return returns a list of commissioner entity containing all the commissioners in the system.
 	 */
 
 	@Override
@@ -444,10 +437,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param userVoter     Entity containing the information of the voter
 	 * @param electionTitle Title of the election used for logging purposes
-	 * @param userAdminId   Identifier of the user performing the action used for
-	 *                      logging purposes
-	 * @param ip            Ip of the user performing the action, used for logging
-	 *                      purposes
+	 * @param userAdminId   Identifier of the user performing the action used for logging purposes
+	 * @param ip            Ip of the user performing the action, used for logging purposes
 	 */
 	@Override
 	public void removeUserVoter(UserVoter userVoter, String electionTitle, String userAdminId, String ip) {
@@ -467,8 +458,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Gets all the activity log of the system.
 	 * 
-	 * @return returns a list of activity entity which contains all the activities
-	 *         on the system
+	 * @return returns a list of activity entity which contains all the activities on the system
 	 */
 	@Override
 	public List<Activity> getActivitiesAll() {
@@ -480,8 +470,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId Identifier of the election
 	 * 
-	 * @return returns a list of activity entity which contains all the activities
-	 *         of the election.
+	 * @return returns a list of activity entity which contains all the activities of the election.
 	 */
 	@Override
 	public List<Activity> getElectionActivities(long electionId) {
@@ -493,8 +482,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId Identifier of the election
 	 * 
-	 * @return returns a list of uservoter entity which contains the voters of the
-	 *         election.
+	 * @return returns a list of uservoter entity which contains the voters of the election.
 	 */
 	@Override
 	public List<UserVoter> getElectionUserVoters(long electionId) {
@@ -507,10 +495,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * @param userVoterId   Identifier of the voter
 	 * 
 	 * @param electionTitle Title of the election used for logging purposes
-	 * @param userAdminId   Identifier of the user performing the action used for
-	 *                      logging purposes
-	 * @param ip            Ip of the user performing the action, used for logging
-	 *                      purposes
+	 * @param userAdminId   Identifier of the user performing the action used for logging purposes
+	 * @param ip            Ip of the user performing the action, used for logging purposes
 	 * 
 	 * 
 	 */
@@ -527,10 +513,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Deletes a user admin from the system.
 	 * 
 	 * @param userAdminToDeleteId Identifier of the user to be deleted
-	 * @param userAdminId         Identifier of the user performing the action used
-	 *                            for logging purposes
-	 * @param ip                  Ip of the user performing the action, used for
-	 *                            logging purposes
+	 * @param userAdminId         Identifier of the user performing the action used for logging purposes
+	 * @param ip                  Ip of the user performing the action, used for logging purposes
 	 */
 	@Override
 	public void removeUserAdmin(String userAdminToDeleteId, String userAdminId, String ip) {
@@ -545,10 +529,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId  Identifier of the election
 	 * @param content     Excel file containing the voters to upload
-	 * @param userAdminId Identifier of the user performing the action used for
-	 *                    logging purposes
-	 * @param ip          Ip of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Identifier of the user performing the action used for logging purposes
+	 * @param ip          Ip of the user performing the action, used for logging purposes
 	 */
 	@Override
 	public void updateElectionCensus(String contentType, long electionId, byte[] content, String userAdminId, String ip) throws CensusValidationException, Exception {
@@ -593,10 +575,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId  Identifier of the election
 	 * @param userVoter   Entity containing the voter information.
-	 * @param userAdminId Identifier of the user performing the action used for
-	 *                    logging purposes
-	 * @param ip          Ip of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Identifier of the user performing the action used for logging purposes
+	 * @param ip          Ip of the user performing the action, used for logging purposes
 	 * 
 	 * @return returns true if the operation succeeds
 	 * 
@@ -635,10 +615,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Updates the information of a voter.
 	 * 
 	 * @param userVoter   entity with the voter information
-	 * @param userAdminId Identifier of the user performing the action used for
-	 *                    logging purposes
-	 * @param ip          Ip of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Identifier of the user performing the action used for logging purposes
+	 * @param ip          Ip of the user performing the action, used for logging purposes
 	 * 
 	 */
 	@Override
@@ -671,8 +649,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId Identifier of the election
 	 * 
-	 * @return returns a list of election email template entity containing the
-	 *         information.
+	 * @return returns a list of election email template entity containing the information.
 	 */
 	@Override
 	public List<ElectionEmailTemplate> getElectionEmailTemplates(long electionId) {
@@ -747,13 +724,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Updates the information of an admin user, including giving him/her privileges
-	 * over a particular election
+	 * Updates the information of an admin user, including giving him/her privileges over a particular election
 	 * 
 	 * @param userAdmin            Entity with the information of the user.
 	 * @param email                Original email of the user
-	 * @param authorizedElectionId Identifier of the election that user will have
-	 *                             authorization
+	 * @param authorizedElectionId Identifier of the election that user will have authorization
 	 * @param userAdminId          Id of the user, used for logging purposes
 	 * @param ip                   Ip of the user, used for logging purposes
 	 */
@@ -818,8 +793,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Creates a new admin user
 	 * 
 	 * @param userAdmin   Entity with the information of the new user.
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -849,8 +823,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId  Identifier of the election
 	 * @param candidate   Entity with the information of the new candidate
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -870,8 +843,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Deletes a candidate
 	 * 
 	 * @param candidateId Identifier of the candidate
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -902,8 +874,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Updates the information of a candidate
 	 * 
 	 * @param candidateId Identifier of the candidate
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -922,10 +893,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId    Identifier of the election
 	 * @param auditor       Entity containing the auditor information
-	 * @param electionTitle Title of the election where the auditor will be added,
-	 *                      used for logging purposes
-	 * @param userAdminId   Id of the user performing the action, used for logging
-	 *                      purposes
+	 * @param electionTitle Title of the election where the auditor will be added, used for logging purposes
+	 * @param userAdminId   Id of the user performing the action, used for logging purposes
 	 * @param ip            Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -941,8 +910,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Deletes an auditor
 	 * 
 	 * @param auditorId   identifier of the auditor
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -969,8 +937,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Updates an auditor information
 	 * 
 	 * @param auditor     Entity containing the auditor information
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -989,8 +956,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId    Identifier of the election
 	 * @param electionTitle Title of the election, used for logging purposes
-	 * @param userAdminId   Id of the user performing the action, used for logging
-	 *                      purposes
+	 * @param userAdminId   Id of the user performing the action, used for logging purposes
 	 * @param ip            Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -1009,8 +975,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Gets a list with all the parameters
 	 * 
-	 * @return returns a list of parameter entity with all the parameters on the
-	 *         system.
+	 * @return returns a list of parameter entity with all the parameters on the system.
 	 */
 	@Override
 	public List<Parameter> getParametersAll() {
@@ -1032,8 +997,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param key         Parameter key.
 	 * @param value       Value of the parameter.
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -1051,8 +1015,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Edit the value of a parameter
 	 * 
 	 * @param parameter   entity with the parameter to update and the new value
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -1070,8 +1033,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Deletes a parameter from the system.
 	 * 
 	 * @param key         Key of the parameter to delete
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -1087,15 +1049,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Get list of the recipients an email template. Depending on the template it
-	 * can be a list of voters or auditors
+	 * Get list of the recipients an email template. Depending on the template it can be a list of voters or auditors
 	 * 
-	 * @param electionEmailTemplate Entity of the email template with the
-	 *                              information of the email template to get the
-	 *                              recipients
+	 * @param electionEmailTemplate Entity of the email template with the information of the email template to get the recipients
 	 * 
-	 * @return returns a list, it may be of voters entity or auditors entity
-	 *         depending on the email template.
+	 * @return returns a list, it may be of voters entity or auditors entity depending on the email template.
 	 */
 	@Override
 	public List getRecipientsByRecipientType(ElectionEmailTemplate electionEmailTemplate) throws Exception {
@@ -1188,9 +1146,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Creates email templates for all the elections. It iterates the election and
-	 * for every election it iterated the templates and for each template it creates
-	 * an email template linked to the election
+	 * Creates email templates for all the elections. It iterates the election and for every election it iterated the templates and for each template it creates an email template linked to the election
 	 * 
 	 * @return returns the number of template created.
 	 */
@@ -1214,13 +1170,10 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Sends emails to the list of voters/auditor using an email template, also
-	 * creates the information on the mail table.
+	 * Sends emails to the list of voters/auditor using an email template, also creates the information on the mail table.
 	 * 
-	 * @param users                 List of voter or auditor entity with the
-	 *                              recipients of the email
-	 * @param electionEmailTemplate Entity with the information of the election and
-	 *                              email template.
+	 * @param users                 List of voter or auditor entity with the recipients of the email
+	 * @param electionEmailTemplate Entity with the information of the election and email template.
 	 */
 	@Override
 	public void queueMassiveSending(List users, ElectionEmailTemplate electionEmailTemplate) {
@@ -1276,8 +1229,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Moves a candidate up in the order, by switching the order with the candidate
-	 * immediate above.
+	 * Moves a candidate up in the order, by switching the order with the candidate immediate above.
 	 * 
 	 * @param candidateId Identifier of the candidate.
 	 */
@@ -1297,8 +1249,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Moves a candidate down in the order, by switching the order with the
-	 * candidate immediate below.
+	 * Moves a candidate down in the order, by switching the order with the candidate immediate below.
 	 * 
 	 * @param candidateId Identifier of the candidate.
 	 */
@@ -1318,12 +1269,10 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Enables/Disables the random order attribute so as to order the candidates
-	 * randomly or not
+	 * Enables/Disables the random order attribute so as to order the candidates randomly or not
 	 * 
 	 * @param electionId Identifier of the election
-	 * @param value      Boolean value to be set, true for the order to be random,
-	 *                   false to leave the order defined.
+	 * @param value      Boolean value to be set, true for the order to be random, false to leave the order defined.
 	 */
 	@Override
 	public void setSortCandidatesRandomly(Long electionId, Boolean value) {
@@ -1397,12 +1346,10 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param name        Name of the commissioner
 	 * @param mail        Mail of the commissioner
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 * 
-	 * @return returns true if the commissioner was correctly added, false if the
-	 *         mail was null or an exception is thrown.
+	 * @return returns true if the commissioner was correctly added, false if the mail was null or an exception is thrown.
 	 */
 	@Override
 	public boolean addCommissioner(String name, String mail, String userAdminId, String ip) {
@@ -1429,8 +1376,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param commissionerId Identifier of the commissioner.
 	 * @param name           Name of the commissioner, used for logging purposes
-	 * @param userAdminId    Id of the user performing the action, used for logging
-	 *                       purposes
+	 * @param userAdminId    Id of the user performing the action, used for logging purposes
 	 * @param ip             Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -1444,10 +1390,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Updated the information of a commissioner
 	 * 
-	 * @param commissioner Entity containing the information of the commissioner to
-	 *                     be updated.
-	 * @param userAdminId  Id of the user performing the action, used for logging
-	 *                     purposes
+	 * @param commissioner Entity containing the information of the commissioner to be updated.
+	 * @param userAdminId  Id of the user performing the action, used for logging purposes
 	 * @param ip           Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -1489,13 +1433,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Resends a voter the election started and election created mails using the
-	 * templates defined for the election.
+	 * Resends a voter the election started and election created mails using the templates defined for the election.
 	 * 
 	 * @param userVoter   Entity with the voter information
 	 * @param election    Entity with the election information
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -1538,14 +1480,11 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Enables/Disables the revision flag for an election, also, if the revision is
-	 * disabled, it updates the elections auditor to disable the revision.
+	 * Enables/Disables the revision flag for an election, also, if the revision is disabled, it updates the elections auditor to disable the revision.
 	 * 
 	 * @param electionId  Identifier of the election
-	 * @param status      The value of the revision status, true - enabled, false -
-	 *                    disabled
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param status      The value of the revision status, true - enabled, false - disabled
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 */
 	@Override
@@ -1592,12 +1531,10 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Validates if an election has the revision active
 	 * 
 	 * @param electionId  Identifier of the election
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 * 
-	 * @return returns true if the election has the revision active and all the
-	 *         auditors too, false otherwise.
+	 * @return returns true if the election has the revision active and all the auditors too, false otherwise.
 	 */
 	@Override
 	public boolean isRevisionActive(long electionId, String userAdminId, String ip) {
@@ -1619,11 +1556,9 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Returns the candidate orderer immediately above the parameter
 	 * 
-	 * @param candidate Entity with the candidate from which the immediately above
-	 *                  will be looked.
+	 * @param candidate Entity with the candidate from which the immediately above will be looked.
 	 * 
-	 * @return returns a candidate entity with the information with the candidate
-	 *         ordered immediately above to the one passed, null if there's none.
+	 * @return returns a candidate entity with the information with the candidate ordered immediately above to the one passed, null if there's none.
 	 */
 	@Override
 	public Candidate getNextAboveCandidate(Candidate candidate) {
@@ -1633,11 +1568,9 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Returns the candidate orderer immediately below the parameter
 	 * 
-	 * @param candidate Entity with the candidate from which the immediately below
-	 *                  will be looked.
+	 * @param candidate Entity with the candidate from which the immediately below will be looked.
 	 * 
-	 * @return returns a candidate entity with the information with the candidate
-	 *         ordered immediately below to the one passed, null if there's none.
+	 * @return returns a candidate entity with the information with the candidate ordered immediately below to the one passed, null if there's none.
 	 */
 	@Override
 	public Candidate getNextBelowCandidate(Candidate candidate) {
@@ -1650,8 +1583,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * @param name Name of the searched commissioner
 	 * @param mail Mail of the searched commissioner
 	 * 
-	 * @return returns true if a commissioner with the name and mail exists, false
-	 *         if not
+	 * @return returns true if a commissioner with the name and mail exists, false if not
 	 */
 	@Override
 	public boolean commissionerExists(String name, String mail) {
@@ -1665,8 +1597,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * @param name       Name of the searched auditor
 	 * @param mail       Mail of the searched auditor
 	 * 
-	 * @return returns true if there is an auditor with the name and mail associated
-	 *         to the election, false if not.
+	 * @return returns true if there is an auditor with the name and mail associated to the election, false if not.
 	 */
 	@Override
 	public boolean auditorExists(long electionId, String name, String mail) {
@@ -1697,8 +1628,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * Adds or updates a base email template
 	 * 
 	 * @param electionEmailTemplate Entity with the email template
-	 * @param userAdminId           Id of the user performing the action, used for
-	 *                              logging purposes
+	 * @param userAdminId           Id of the user performing the action, used for logging purposes
 	 * @param ip                    Ip of the user, used for logging purposes
 	 * 
 	 * @return returns true if la operation succeeds or false if there's an error
@@ -1720,8 +1650,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Get a list of the the joint elections on the system.
 	 * 
-	 * @return returns a collection of joint election entity containing the
-	 *         information.
+	 * @return returns a collection of joint election entity containing the information.
 	 */
 	@Override
 	public List<JointElection> getJointElectionsAll() {
@@ -1733,8 +1662,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId Identifier of an election searched
 	 * 
-	 * @return returns a joint election entity on which one of the elections is the
-	 *         one searched by or null if it does not find it.
+	 * @return returns a joint election entity on which one of the elections is the one searched by or null if it does not find it.
 	 */
 	@Override
 	public JointElection getJointElectionForElection(long electionId) {
@@ -1744,8 +1672,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Creates or update (an existing) joint election.
 	 * 
-	 * @param jointElection Entity containing the joint election information to be
-	 *                      add/updated
+	 * @param jointElection Entity containing the joint election information to be add/updated
 	 */
 	@Override
 	public void updateJointElection(JointElection jointElection) {
@@ -1768,8 +1695,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId Identifier of the election searched.
 	 * 
-	 * @return returns true if the election searched is joint with another, false if
-	 *         not.
+	 * @return returns true if the election searched is joint with another, false if not.
 	 */
 	@Override
 	public boolean isJointElection(long electionId) {
@@ -1777,11 +1703,9 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	/**
-	 * Validates if the census of both elections in a joint election contains the
-	 * same voters
+	 * Validates if the census of both elections in a joint election contains the same voters
 	 * 
-	 * @param jointElection Entity with the joint election information (contains two
-	 *                      elections)
+	 * @param jointElection Entity with the joint election information (contains two elections)
 	 * 
 	 * @return returns true if both census are the same, false if they differ.
 	 */
@@ -1793,8 +1717,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	/**
 	 * Gets a list with the identifier and title of all the system's elections
 	 * 
-	 * @return reutns a collection of string, on each string containing the id and
-	 *         title of the elections.
+	 * @return reutns a collection of string, on each string containing the id and title of the elections.
 	 */
 	@Override
 	public List<String> getElectionsAllIdAndTitle() {
@@ -1841,8 +1764,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * @param userAdminId  Identifier of the user who performs the activity
 	 * @param activityType Enumerate containing the type of the activity
 	 * @param description  A string with the description of the activity
-	 * @param ip           A string with the ip address of the user performing the
-	 *                     activity
+	 * @param ip           A string with the ip address of the user performing the activity
 	 * @param electionId   Identifier of the election.
 	 */
 	@Override
@@ -1901,8 +1823,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 * 
 	 * @param electionId  Identifier of the election searched.
 	 * 
-	 * @param userAdminId Id of the user performing the action, used for logging
-	 *                    purposes
+	 * @param userAdminId Id of the user performing the action, used for logging purposes
 	 * @param ip          Ip of the user, used for logging purposes
 	 * 
 	 * @return returns true if the operation succeeds or false if there's an error

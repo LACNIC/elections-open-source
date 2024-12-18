@@ -7,14 +7,13 @@ import org.apache.wicket.validation.ValidationError;
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.domain.ElectionEmailTemplate;
 
-
 public class TemplateTypeValidator implements IValidator<String> {
 
 	private static final long serialVersionUID = 9018437443482309026L;
 
-
-	public TemplateTypeValidator() { }
-
+	public TemplateTypeValidator() {
+		// Default initialization
+	}
 
 	@Override
 	public void validate(IValidatable<String> templateToValidate) {

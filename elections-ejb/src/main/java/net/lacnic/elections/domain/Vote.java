@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-
 @Entity
 public class Vote implements Serializable {
 
@@ -45,9 +44,9 @@ public class Vote implements Serializable {
 	@JoinColumn(name = "uservoter_id")
 	private UserVoter userVoter;
 
-
-	public Vote() { }
-
+	public Vote() {
+		// Default initialization
+	}
 
 	public long getVoteId() {
 		return voteId;

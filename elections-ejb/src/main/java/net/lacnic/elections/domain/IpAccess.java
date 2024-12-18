@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-
 @Entity
 public class IpAccess implements Serializable {
 
@@ -34,9 +33,9 @@ public class IpAccess implements Serializable {
 	@Column(nullable = false)
 	private Date firstAttemptDate;
 
-
-	public IpAccess() { }
-
+	public IpAccess() {
+		// Default initialization
+	}
 
 	public long getIpAccessId() {
 		return ipAccessId;

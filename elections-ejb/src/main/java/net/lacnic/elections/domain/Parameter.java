@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-
 @Entity
 public class Parameter implements Serializable {
 
@@ -15,12 +14,12 @@ public class Parameter implements Serializable {
 	@Id
 	private String key;
 
-	@Column(columnDefinition="TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String value;
 
-
-	public Parameter() { }
-
+	public Parameter() {
+		// Default initialization
+	}
 
 	public String getKey() {
 		return key;

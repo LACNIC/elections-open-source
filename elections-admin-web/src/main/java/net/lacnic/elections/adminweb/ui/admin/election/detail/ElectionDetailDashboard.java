@@ -58,7 +58,7 @@ public class ElectionDetailDashboard extends DashboardAdminBasePage {
 	public final class NewElectionForm extends Form<Void> {
 		private static final long serialVersionUID = -5221887812611102034L;
 
-		private ElectionsManagerEJB managerBeanRemote;
+		private transient ElectionsManagerEJB managerBeanRemote;
 		ElectionDetailPanel electionDetailPanel;
 
 		public NewElectionForm(String id) {

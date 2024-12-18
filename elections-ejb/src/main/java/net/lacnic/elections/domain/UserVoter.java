@@ -4,10 +4,20 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import net.lacnic.elections.utils.LinksUtils;
-
 
 @Entity
 public class UserVoter implements Serializable {
@@ -21,7 +31,7 @@ public class UserVoter implements Serializable {
 	private long userVoterId;
 
 	@Column(nullable = true, name = "migration_id")
-	private Long  migrationId;
+	private Long migrationId;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "election_id")
@@ -64,18 +74,18 @@ public class UserVoter implements Serializable {
 	@Transient
 	private String codesSummary;
 
-
-	public UserVoter() { }
-
+	public UserVoter() {
+		// Default initialization
+	}
 
 	public String getVoterInformation() {
 		return getName().concat((getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "");
 	}
 
 	public String getCompleteVoterInformation() {
-		String email= (getMail() != null && !getMail().isEmpty()) ? " (" + getMail() + ") " : "";
-		String orgid= (getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "";
-		String country= (getCountry() != null && !getCountry().isEmpty()) ? " - " + getCountry() : "";
+		String email = (getMail() != null && !getMail().isEmpty()) ? " (" + getMail() + ") " : "";
+		String orgid = (getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "";
+		String country = (getCountry() != null && !getCountry().isEmpty()) ? " - " + getCountry() : "";
 		return getName().concat(email + orgid + country);
 	}
 
@@ -90,7 +100,6 @@ public class UserVoter implements Serializable {
 		}
 		this.codesSummary = aux;
 	}
-
 
 	public long getUserVoterId() {
 		return userVoterId;

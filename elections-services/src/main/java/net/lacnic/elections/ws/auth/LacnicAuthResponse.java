@@ -3,11 +3,9 @@ package net.lacnic.elections.ws.auth;
 import java.io.Serializable;
 import java.util.List;
 
-
 public class LacnicAuthResponse implements Serializable {
 
 	private static final long serialVersionUID = 2480608316427827824L;
-
 
 	private Boolean authenticated;
 	private String token;
@@ -15,9 +13,9 @@ public class LacnicAuthResponse implements Serializable {
 	private String error;
 	private String ipAllowed;
 
-
-	public LacnicAuthResponse() { }
-
+	public LacnicAuthResponse() {
+		// Default initialization
+	}
 
 	public Boolean getAuthenticated() {
 		return authenticated;

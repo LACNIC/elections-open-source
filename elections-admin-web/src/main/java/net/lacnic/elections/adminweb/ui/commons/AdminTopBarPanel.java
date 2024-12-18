@@ -7,7 +7,6 @@ import org.apache.wicket.protocol.http.WebApplication;
 
 import net.lacnic.elections.adminweb.app.SecurityUtils;
 
-
 public class AdminTopBarPanel extends Panel {
 
 	private static final long serialVersionUID = 2624199794320344167L;
@@ -15,7 +14,6 @@ public class AdminTopBarPanel extends Panel {
 	Link<Void> spanishLink;
 	Link<Void> portugueseLink;
 	Link<Void> englishLink;
-
 
 	public AdminTopBarPanel(String id) {
 		super(id);
@@ -82,7 +80,7 @@ public class AdminTopBarPanel extends Panel {
 		spanishLink.setVisible(true);
 		englishLink.setVisible(true);
 
-		switch(language) {
+		switch (language) {
 		case "pt":
 			portugueseLink.setVisible(false);
 			break;
@@ -93,7 +91,11 @@ public class AdminTopBarPanel extends Panel {
 
 		case "es":
 			spanishLink.setVisible(false);
-			break;	
+			break;
+
+		default:
+			spanishLink.setVisible(false);
+			break;
 		}
 	}
 

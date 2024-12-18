@@ -14,8 +14,7 @@ import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.login.LoginDashboard;
 import net.lacnic.elections.adminweb.wicket.util.ImageResource;
-import net.lacnic.elections.domain.Customization; 
-
+import net.lacnic.elections.domain.Customization;
 
 public class PublicTopBarPanel extends Panel {
 
@@ -26,7 +25,6 @@ public class PublicTopBarPanel extends Panel {
 	private Link<Void> spanishLink;
 	private Link<Void> portugueseLink;
 	private Link<Void> englishLink;
-
 
 	public PublicTopBarPanel(String id) {
 		super(id);
@@ -48,7 +46,7 @@ public class PublicTopBarPanel extends Panel {
 		smallLogoFileName = customization.getPicSmallLogo();
 		smallLogoFile = customization.getContPicSmallLogo();
 		if (smallLogoFile == null) {
-			home.add(new ContextImage("smallLogoPicture","image/" + smallLogoFileName));
+			home.add(new ContextImage("smallLogoPicture", "image/" + smallLogoFileName));
 		} else {
 			ext = FilenameUtils.getExtension(smallLogoFileName);
 			home.add(new NonCachingImage("smallLogoPicture", new ImageResource(smallLogoFile, ext)));
@@ -104,7 +102,7 @@ public class PublicTopBarPanel extends Panel {
 		spanishLink.setVisible(true);
 		englishLink.setVisible(true);
 
-		switch(language) {
+		switch (language) {
 		case "pt":
 			portugueseLink.setVisible(false);
 			break;
@@ -115,7 +113,11 @@ public class PublicTopBarPanel extends Panel {
 
 		case "es":
 			spanishLink.setVisible(false);
-			break;	
+			break;
+
+		default:
+			spanishLink.setVisible(false);
+			break;
 		}
 	}
 

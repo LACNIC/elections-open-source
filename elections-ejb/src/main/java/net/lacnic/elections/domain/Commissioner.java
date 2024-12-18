@@ -26,9 +26,9 @@ public class Commissioner implements Serializable {
 	@Column(nullable = false)
 	private String mail;
 
-
-	public Commissioner() { }
-
+	public Commissioner() {
+		// Default initialization
+	}
 
 	public long getCommissionerId() {
 		return commissionerId;

@@ -64,15 +64,14 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 	private static HealthCheck healthCheck;
 
-
-	public ElectionsMonitorEJBBean() { }
-
+	public ElectionsMonitorEJBBean() {
+		// Default initialization
+	}
 
 	/**
 	 * Get the health check data.
 	 * 
-	 * @return returns a health check entity containing the system's health
-	 *         information.
+	 * @return returns a health check entity containing the system's health information.
 	 */
 	@Override
 	public HealthCheck getHealthCheckData() {
@@ -84,8 +83,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	/**
 	 * Creates a updated health check report.
 	 * 
-	 * @return returns a health check entity containing the health check information
-	 *         from the system.
+	 * @return returns a health check entity containing the health check information from the system.
 	 */
 	@Override
 	public HealthCheck updateHealthCheckData() {
@@ -106,8 +104,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	/**
 	 * Gets a list of reports from all the elections on the system
 	 * 
-	 * @return returns a collection of election report entity containing the
-	 *         information
+	 * @return returns a collection of election report entity containing the information
 	 */
 	private List<ElectionReport> electionReport() {
 		ReportDao reportDao = ElectionsDaoFactory.createReportDao(em);
@@ -175,8 +172,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
-	 * Gets a list with the basic information of all the elections on the system
-	 * orderer by date in descending order.
+	 * Gets a list with the basic information of all the elections on the system orderer by date in descending order.
 	 * 
 	 * @return returns a collection of election light entity with the information.
 	 */
@@ -186,8 +182,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
-	 * Gets the authentication token to validate services invocation. It is
-	 * withdrawn from the parameter WS_AUTH_TOKEN
+	 * Gets the authentication token to validate services invocation. It is withdrawn from the parameter WS_AUTH_TOKEN
 	 * 
 	 * @return returns a string with the token.
 	 */
@@ -202,8 +197,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
-	 * Gets the authentication method used in web services. It is specified with the
-	 * WS_AUTH_METHOD parameter
+	 * Gets the authentication method used in web services. It is specified with the WS_AUTH_METHOD parameter
 	 * 
 	 * @return returns a string with the auth method.
 	 */
@@ -217,8 +211,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
-	 * Gets the authentication method used in web services. It is specified with the
-	 * WS_AUTH_METHOD parameter
+	 * Gets the authentication method used in web services. It is specified with the WS_AUTH_METHOD parameter
 	 * 
 	 * @return returns a string with the auth method.
 	 */
@@ -232,8 +225,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
-	 * Gets and parses the list of authorized ips from which the web services can be
-	 * invoked, the are withdrawn from the parameter WS_AUTHORIZED_IPS.
+	 * Gets and parses the list of authorized ips from which the web services can be invoked, the are withdrawn from the parameter WS_AUTHORIZED_IPS.
 	 * 
 	 * @return returns a ip resource set entity with the information.
 	 */
@@ -248,8 +240,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
-	 * Gets the maximum page size for services. It is specified with the
-	 * WS_MAX_PAGE_SIZE parameter
+	 * Gets the maximum page size for services. It is specified with the WS_MAX_PAGE_SIZE parameter
 	 * 
 	 * @return the max page size
 	 */
@@ -515,8 +506,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	}
 
 	/**
-	 * Returns a list with id and description for all ElectionEmailTemplates in the
-	 * system
+	 * Returns a list with id and description for all ElectionEmailTemplates in the system
 	 * 
 	 * @return List of ElectionEmailTemplates id and description
 	 */
@@ -734,9 +724,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			for (int i = 0; i < parameterDataList.size(); i++) {
 				String paramKey = parameterDataList.get(i).getKey();
-				if (paramKey.equals(Constants.EMAIL_HOST) || paramKey.equals(Constants.EMAIL_USER)
-						|| paramKey.equals(Constants.EMAIL_PASSWORD) || paramKey.equals(Constants.WS_AUTH_TOKEN)
-						|| paramKey.equals(Constants.WS_AUTHORIZED_IPS)) {
+				if (paramKey.equals(Constants.EMAIL_HOST) || paramKey.equals(Constants.EMAIL_USER) || paramKey.equals(Constants.EMAIL_PASSWORD) || paramKey.equals(Constants.WS_AUTH_TOKEN) || paramKey.equals(Constants.WS_AUTHORIZED_IPS)) {
 					parameterData.add(new TableReportDataStringId(paramKey, "**********"));
 				} else {
 					parameterData.add(new TableReportDataStringId(paramKey, parameterDataList.get(i).getValue()));
@@ -762,9 +750,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		try {
 			Parameter parameter = ElectionsDaoFactory.createParameterDao(em).getParameter(key);
 			if (parameter != null) {
-				if (parameter.getKey().equals(Constants.EMAIL_HOST) || parameter.getKey().equals(Constants.EMAIL_USER)
-						|| parameter.getKey().equals(Constants.EMAIL_PASSWORD) || parameter.getKey().equals(Constants.WS_AUTH_TOKEN)
-						|| parameter.getKey().equals(Constants.WS_AUTHORIZED_IPS)) {
+				if (parameter.getKey().equals(Constants.EMAIL_HOST) || parameter.getKey().equals(Constants.EMAIL_USER) || parameter.getKey().equals(Constants.EMAIL_PASSWORD) || parameter.getKey().equals(Constants.WS_AUTH_TOKEN) || parameter.getKey().equals(Constants.WS_AUTHORIZED_IPS)) {
 					parameter.setValue("**********");
 				}
 				return parameter;
@@ -911,7 +897,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		try {
 			List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElections(pageSize, offset);
 			List<ElectionDetailReport> electionsDetailList = new ArrayList<ElectionDetailReport>();
-			for(Election election : elections) {
+			for (Election election : elections) {
 				electionsDetailList.add(new ElectionDetailReport(election));
 			}
 
@@ -942,7 +928,6 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		return null;
 	}
 
-
 	/**
 	 * Returns detailed information about the participations of the given email in different elections
 	 * 
@@ -958,17 +943,17 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			List<Candidate> candidates = ElectionsDaoFactory.createCandidateDao(em).getCandidatesByEmail(email, pageSize, offset);
 
 			List<ElectionParticipationDetailReport> participations = new ArrayList<>();
-			for(Auditor auditor : auditors) {
+			for (Auditor auditor : auditors) {
 				participations.add(new ElectionParticipationDetailReport(auditor));
 			}
-			for(UserVoter userVoter : userVoters) {
+			for (UserVoter userVoter : userVoters) {
 				participations.add(new ElectionParticipationDetailReport(userVoter));
 			}
-			for(Candidate candidate : candidates) {
+			for (Candidate candidate : candidates) {
 				participations.add(new ElectionParticipationDetailReport(candidate));
 			}
 
-			return participations;	
+			return participations;
 		} catch (Exception e) {
 			appLogger.error(e);
 		}
@@ -983,15 +968,15 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 * @return A list of OrganizationVoterDetailReport instances containing the information
 	 */
 	@Override
-	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID, int pageSize, int offset){
+	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID, int pageSize, int offset) {
 		try {
 			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByOrganization(orgID, pageSize, offset);
 			List<OrganizationVoterDetailReport> orgVoterDetailList = new ArrayList<>();
-			for(UserVoter userVoter : userVoters) {
+			for (UserVoter userVoter : userVoters) {
 				orgVoterDetailList.add(new OrganizationVoterDetailReport(userVoter));
 			}
 
-			return orgVoterDetailList;	
+			return orgVoterDetailList;
 		} catch (Exception e) {
 			appLogger.error(e);
 		}

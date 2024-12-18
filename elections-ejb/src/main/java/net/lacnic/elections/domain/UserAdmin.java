@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-
 @Entity
 public class UserAdmin implements Serializable {
 
@@ -25,9 +24,9 @@ public class UserAdmin implements Serializable {
 	@Column(name = "authorizedelection_id")
 	private Long authorizedElectionId;
 
-
-	public UserAdmin() { }
-
+	public UserAdmin() {
+		// Default initialization
+	}
 
 	public String getUserAdminId() {
 		return userAdminId;

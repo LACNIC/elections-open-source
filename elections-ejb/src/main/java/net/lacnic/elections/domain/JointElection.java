@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-
 @Entity
 public class JointElection implements Serializable {
 
@@ -27,9 +26,9 @@ public class JointElection implements Serializable {
 	@Column(name = "electionb_id", nullable = false)
 	private long idElectionB;
 
-
-	public JointElection() { }
-
+	public JointElection() {
+		// Default initialization
+	}
 
 	public long getJointElectionId() {
 		return jointElectionId;

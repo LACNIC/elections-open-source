@@ -76,8 +76,9 @@ public class Candidate implements Serializable {
 	@Column(nullable = true)
 	private String mail;
 
-
-	public Candidate() { }
+	public Candidate() {
+		// Default initialization
+	}
 
 	public String getBio(String displayName) {
 		if (displayName.toLowerCase().contains("en") || displayName.toLowerCase().contains("english"))
@@ -116,7 +117,6 @@ public class Candidate implements Serializable {
 	public boolean isFixed() {
 		return getCandidateOrder() == Constants.MIN_ORDER || getCandidateOrder() == Constants.MAX_ORDER;
 	}
-
 
 	public long getCandidateId() {
 		return candidateId;

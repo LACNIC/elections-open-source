@@ -3,7 +3,6 @@ package net.lacnic.elections.data;
 import java.io.Serializable;
 import java.util.Date;
 
-
 public class Participation implements Serializable {
 
 	private static final long serialVersionUID = -273769493770752777L;
@@ -24,9 +23,9 @@ public class Participation implements Serializable {
 	private String voteLink;
 	boolean voted;
 
-	
-	public Participation() { }
-
+	public Participation() {
+		// Default initialization
+	}
 
 	public String getOrgId() {
 		return orgId;
