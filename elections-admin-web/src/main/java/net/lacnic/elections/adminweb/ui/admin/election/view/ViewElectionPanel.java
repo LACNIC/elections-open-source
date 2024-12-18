@@ -24,7 +24,6 @@ import net.lacnic.elections.adminweb.ui.admin.email.EmailsListPanel;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 
-
 public class ViewElectionPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
@@ -32,7 +31,6 @@ public class ViewElectionPanel extends Panel {
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
 
 	private File censusFile;
-
 
 	public ViewElectionPanel(String id, final long electionId, final boolean sent) {
 		super(id);
@@ -68,7 +66,7 @@ public class ViewElectionPanel extends Panel {
 			add(new Label("resultsLinkAvailable", election.isResultLinkAvailable() ? getString("electionDetailLinkAvailableYes") : getString("electionDetailLinkAvailableNo")));
 			add(new Label("resultsLink", AppContext.getInstance().getManagerBeanRemote().getResultsLink(election)));
 
-			BookmarkablePageLink<Void> editElection = new BookmarkablePageLink<Void>("editElection", ElectionDetailDashboard.class, UtilsParameters.getId(election.getElectionId()));
+			BookmarkablePageLink<Void> editElection = new BookmarkablePageLink<>("editElection", ElectionDetailDashboard.class, UtilsParameters.getId(election.getElectionId()));
 			editElection.setVisible(!election.isClosed());
 			add(editElection);
 
@@ -81,7 +79,7 @@ public class ViewElectionPanel extends Panel {
 				}
 			});
 
-			BookmarkablePageLink<Void> editCandidates = new BookmarkablePageLink<Void>("editCandidates", ElectionCandidatesDashboard.class, UtilsParameters.getId(election.getElectionId()));
+			BookmarkablePageLink<Void> editCandidates = new BookmarkablePageLink<>("editCandidates", ElectionCandidatesDashboard.class, UtilsParameters.getId(election.getElectionId()));
 			editCandidates.setVisible(!election.isClosed());
 			add(editCandidates);
 
@@ -93,8 +91,8 @@ public class ViewElectionPanel extends Panel {
 					return new ViewAuditorsListPanel(markupId, election.getElectionId());
 				}
 			});
-			
-			BookmarkablePageLink<Void> editAuditors = new BookmarkablePageLink<Void>("editAuditors", ElectionAuditorsDashboard.class, UtilsParameters.getId(election.getElectionId()));
+
+			BookmarkablePageLink<Void> editAuditors = new BookmarkablePageLink<>("editAuditors", ElectionAuditorsDashboard.class, UtilsParameters.getId(election.getElectionId()));
 			editAuditors.setVisible(!election.isClosed());
 			add(editAuditors);
 
@@ -107,7 +105,7 @@ public class ViewElectionPanel extends Panel {
 				}
 			});
 
-			BookmarkablePageLink<Void> editCensus = new BookmarkablePageLink<Void>("editCensus", ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
+			BookmarkablePageLink<Void> editCensus = new BookmarkablePageLink<>("editCensus", ElectionCensusDashboard.class, UtilsParameters.getId(election.getElectionId()));
 			editCensus.setVisible(!election.isClosed());
 			add(editCensus);
 
