@@ -66,7 +66,7 @@ public class WebServiceAuthentication {
 
 				// Check response
 
-				if (response == null || !response.getAuthenticated() || !response.getRoles().contains(Constants.api_elections)) {
+				if (response == null || !response.getAuthenticated() || !response.getRoles().contains(Constants.API_ELECTIONS)) {
 					appLogger.warn("Authentication failed for WS call from IP " + clientIp + ", missing or invalid Auth Token");
 					return Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access, Apikey problem").build();
 				}

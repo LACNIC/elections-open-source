@@ -26,6 +26,7 @@ public class AutomaticProcesses {
 	private static int attempts = 0;
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
+	private static final String ERROR_SENDING_EMAIL = "ERROR sending mail to ";
 
 	/**
 	 * Get the list of emails to send and tries to send them.
@@ -59,16 +60,16 @@ public class AutomaticProcesses {
 							// Sent OK, mark email as sent
 							EJBFactory.getInstance().getMailsSendingEJB().markEmailAsSent(email);
 						} else {
-							appLogger.error("ERROR sending mail to " + email.getRecipients());
+							appLogger.error(ERROR_SENDING_EMAIL + email.getRecipients());
 						}
 						if (i % 500 == 0)
 							Thread.sleep(5000);
 
 					} catch (MessagingException e) {
-						appLogger.error("ERROR sending mail to " + email.getRecipients());
+						appLogger.error(ERROR_SENDING_EMAIL + email.getRecipients());
 						appLogger.error(e);
 					} catch (Exception e) {
-						appLogger.error("ERROR sending mail to " + email.getRecipients());
+						appLogger.error(ERROR_SENDING_EMAIL + email.getRecipients());
 						appLogger.error(e);
 						throw e;
 					}

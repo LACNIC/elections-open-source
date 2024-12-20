@@ -8,11 +8,10 @@ import javax.persistence.TypedQuery;
 
 import net.lacnic.elections.domain.Vote;
 
-
 public class VoteDao {
 
 	private EntityManager em;
-
+	private static final String ELECTION_ID = "electionId";
 
 	public VoteDao(EntityManager em) {
 		this.em = em;
@@ -20,14 +19,14 @@ public class VoteDao {
 
 	public List<Vote> getElectionVotes(long electionId) {
 		TypedQuery<Vote> q = em.createQuery("SELECT v FROM Vote v WHERE v.election.electionId = :electionId ORDER BY v.voteId DESC", Vote.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 
 	public List<Vote> getElectionUserVoterVotes(long userVoterId, long electionId) {
 		TypedQuery<Vote> q = em.createQuery("SELECT v FROM Vote v WHERE v.userVoter.userVoterId = :userVoterId AND v.election.electionId = :electionId", Vote.class);
 		q.setParameter("userVoterId", userVoterId);
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 
@@ -40,7 +39,7 @@ public class VoteDao {
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getElectionVotesCandidateAndCode(long electionId) {
 		Query q = em.createQuery("SELECT v.candidate.name, v.code FROM Vote v WHERE v.election.electionId = :electionId ORDER BY v.code");
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 
@@ -52,16 +51,16 @@ public class VoteDao {
 	public List<Object[]> getElectionVotesCandidateForUserVoter(long userVoterId, long electionId) {
 		Query q = em.createQuery("SELECT v.candidate.name, v.code, v.candidate.pictureInfo FROM Vote v WHERE v.userVoter.userVoterId = :userVoterId AND v.election.electionId = :electionId");
 		q.setParameter("userVoterId", userVoterId);
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 
 	public void deleteElectionVotes(long electionId) {
 		Query q = em.createQuery("DELETE FROM Vote v WHERE v.election.electionId = :electionId");
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		q.executeUpdate();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getVotesAllIdAndDate(int pageSize, int offset) {
 		Query q = em.createQuery("SELECT v.voteId, v.candidate.candidateId FROM Vote v ORDER BY v.voteId");
@@ -69,7 +68,7 @@ public class VoteDao {
 		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
-	
+
 	public Vote getVote(long voteId) {
 		TypedQuery<Vote> q = em.createQuery("SELECT v FROM Vote v WHERE v.voteId = :voteId", Vote.class);
 		q.setParameter("voteId", voteId);

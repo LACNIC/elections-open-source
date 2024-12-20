@@ -40,26 +40,26 @@ public class Constants {
 	public static final String EJB_PREFIX = "ejb:/";
 	public static final String JAR_NAME = "elections-ejb";
 
-	public static final String SkGoogleApiReCaptcha = "SkGoogleApiReCaptcha";
-	public static final String DataSiteKeyReCaptcha = "DataSiteKeyReCaptcha";
+	public static final String SK_GOOGLE_API_RECAPTCHA = "SkGoogleApiReCaptcha";
+	public static final String DATA_SITE_KEY_RECAPTCHA = "DataSiteKeyReCaptcha";
 
 	private static final String WAR_NAME = "elections";
 	private static final String VOTE = "/vote";
 	private static final String RESULT = "/result";
 	private static final String AUDIT = "/audit";
 
-	public static final String TemplateTypeAUDITOR = "AUDITOR";
-	public static final String TemplateTypeAUDITOR_AGREEMENT = "AUDITOR_AGREEMENT";
-	public static final String TemplateTypeAUDITOR_REVISION = "AUDITOR_REVISION";
-	public static final String TemplateTypeELECTION_NOTICE = "ELECTION_NOTICE";
-	public static final String TemplateTypeELECTION_START = "ELECTION_START";
-	public static final String TemplateTypeELECTION_ABOUT_TO_END = "ELECTION_ABOUT_TO_END";
-	public static final String TemplateTypeNEW = "NEW";
-	public static final String TemplateTypeSIGNATURE = "SIGNATURE";
-	public static final String TemplateTypeVOTE_RESULT = "VOTE_RESULT";
-	public static final String TemplateTypeVOTE_CODES = "VOTE_CODES";
-	public static final String api_elections = "api-Elections";
-	public static final String elections_manager = "elections-manager";
+	public static final String TEMPLATE_TYPE_AUDITOR = "AUDITOR";
+	public static final String TEMPLATE_TYPE_AUDITOR_AGREEMENT = "AUDITOR_AGREEMENT";
+	public static final String TEMPLATE_TYPE_AUDITOR_REVISION = "AUDITOR_REVISION";
+	public static final String TEMPLATE_TYPE_ELECTION_NOTICE = "ELECTION_NOTICE";
+	public static final String TEMPLATE_TYPE_ELECTION_START = "ELECTION_START";
+	public static final String TEMPLATE_TYPE_ELECTION_ABOUT_TO_END = "ELECTION_ABOUT_TO_END";
+	public static final String TEMPLATE_TYPE_NEW = "NEW";
+	public static final String TEMPLATE_TYPE_SIGNATURE = "SIGNATURE";
+	public static final String TEMPLATE_TYPE_VOTE_RESULT = "VOTE_RESULT";
+	public static final String TEMPLATE_TYPE_VOTE_CODES = "VOTE_CODES";
+	public static final String API_ELECTIONS = "api-Elections";
+	public static final String ELECTIONS_MANAGER = "elections-manager";
 
 	private Constants() {
 		throw new IllegalStateException("Utility class");

@@ -35,7 +35,6 @@ import net.lacnic.elections.ejb.commons.MailsSendingEJB;
 import net.lacnic.elections.utils.Constants;
 import net.lacnic.elections.utils.EJBFactory;
 
-
 /**
  * Session Bean implementation class EmailerBean
  */
@@ -45,20 +44,18 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
-	private final String CODE_SUMMARY = "$user.codesSummary";
+	private static final String CODE_SUMMARY = "$user.codesSummary";
+	private static final String ELECTION = "election";
 
 	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
 	/**
-	 * Creates mails with the information required depending on the template type, from a list of voters or auditors (depending on the template type). 
-	 * If the templates contains VOTE_SuMMARY on the body, it adds  the vote summary
-	 * if the template is for auditor, it creates a mail with the auditor information; if  not, it creates a mail for the voter.
+	 * Creates mails with the information required depending on the template type, from a list of voters or auditors (depending on the template type). If the templates contains VOTE_SuMMARY on the body,
+	 * it adds the vote summary if the template is for auditor, it creates a mail with the auditor information; if not, it creates a mail for the voter.
 	 * 
-	 * @param templateEleccion
-	 * 			The email template from which to create the mail
-	 * @param users
-	 * 			A collection of either user voter entity of auditor entity with the information for each mail
+	 * @param templateEleccion The email template from which to create the mail
+	 * @param users            A collection of either user voter entity of auditor entity with the information for each mail
 	 * 
 	 */
 	@Override
@@ -82,27 +79,29 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 				String templateBody;
 
 				if (userVoter.getLanguage().equals("SP")) {
-					templateSubject = emailTemplate.getSubjectSP();  
+					templateSubject = emailTemplate.getSubjectSP();
 				} else if (userVoter.getLanguage().equals("EN")) {
-					templateSubject = emailTemplate.getSubjectEN(); 
+					templateSubject = emailTemplate.getSubjectEN();
 				} else {
 					templateSubject = emailTemplate.getSubjectPT();
-				};
+				}
+				;
 
 				if (userVoter.getLanguage().equals("SP")) {
-					templateBody = emailTemplate.getBodySP(); 
+					templateBody = emailTemplate.getBodySP();
 				} else if (userVoter.getLanguage().equals("EN")) {
 					templateBody = emailTemplate.getBodyEN();
 				} else {
 					templateBody = emailTemplate.getBodyPT();
-				};
+				}
+				;
 
 				if (templateSubject.contains(CODE_SUMMARY) || templateBody.contains(CODE_SUMMARY))
 					userVoter.setCodesSummary(addVotes(ElectionsDaoFactory.createVoteDao(em).getElectionUserVoterVotes(userVoter.getUserVoterId(), election.getElectionId())));
 
 				Map<String, Object> map = new HashMap<>();
 				map.put("user", userVoter);
-				map.put("election", election);
+				map.put(ELECTION, election);
 				String processSubject = processTemplate(templateSubject, map);
 				String processBody = processTemplate(templateBody, map);
 				email.setSubject(processSubject);
@@ -121,7 +120,7 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 				String templateBody = emailTemplate.getBodySP();
 				Map<String, Object> map = new HashMap<>();
 				map.put("auditor", auditor);
-				map.put("election", election);
+				map.put(ELECTION, election);
 				String processSubject = processTemplate(templateSubject, map);
 				String processBody = processTemplate(templateBody, map);
 				email.setSubject(processSubject);
@@ -139,19 +138,14 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 	}
 
 	/**
-	 * Creates a mail with the information required depending on the template type. If the templates contains VOTE_SuMMARY on the body, it adds  the vote summary
-	 * if the template is fopr auditor, it creates a mail with the auditor information; if  not, it creates a mail for the voter.
+	 * Creates a mail with the information required depending on the template type. If the templates contains VOTE_SuMMARY on the body, it adds the vote summary if the template is fopr auditor, it creates
+	 * a mail with the auditor information; if not, it creates a mail for the voter.
 	 * 
-	 * @param templateEleccion
-	 * 			The email template from which to create the mail
-	 * @param userVoter
-	 * 			The voter of the election
-	 * @param auditor	
-	 * 			The  auditor of the election
-	 * @param election
-	 * 			The election
-	 * @param votes
-	 * 			A collection of vote entity containing the votes
+	 * @param templateEleccion The email template from which to create the mail
+	 * @param userVoter        The voter of the election
+	 * @param auditor          The auditor of the election
+	 * @param election         The election
+	 * @param votes            A collection of vote entity containing the votes
 	 * 
 	 */
 	@Override
@@ -160,13 +154,13 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 			if (emailTemplate.getBodySP().contains(CODE_SUMMARY) || emailTemplate.getBodyEN().contains(CODE_SUMMARY) || emailTemplate.getBodyPT().contains(CODE_SUMMARY))
 				userVoter.setCodesSummary(addVotes(votes));
 
-			if (emailTemplate.getTemplateType().contains(Constants.TemplateTypeAUDITOR)) {
+			if (emailTemplate.getTemplateType().contains(Constants.TEMPLATE_TYPE_AUDITOR)) {
 				Email email = new Email();
 				String templateSubject = emailTemplate.getSubjectSP();
 				String templateBody = emailTemplate.getBodySP();
 				Map<String, Object> map = new HashMap<>();
 				map.put("auditor", auditor);
-				map.put("election", election);
+				map.put(ELECTION, election);
 				String processSubject = processTemplate(templateSubject, map);
 				String processBody = processTemplate(templateBody, map);
 				email.setSubject(processSubject);
@@ -179,28 +173,30 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 				em.persist(email);
 			} else {
 				Email email = new Email();
-				String templateSubject; 
-				String templateBody; 
+				String templateSubject;
+				String templateBody;
 
 				if (userVoter.getLanguage().equals("SP")) {
 					templateSubject = emailTemplate.getSubjectSP();
 				} else if (userVoter.getLanguage().equals("EN")) {
-					templateSubject = emailTemplate.getSubjectEN(); 
+					templateSubject = emailTemplate.getSubjectEN();
 				} else {
 					templateSubject = emailTemplate.getSubjectPT();
-				};
+				}
+				;
 
-				if (userVoter.getLanguage().equals("SP") ) {
+				if (userVoter.getLanguage().equals("SP")) {
 					templateBody = emailTemplate.getBodySP();
 				} else if (userVoter.getLanguage().equals("EN")) {
 					templateBody = emailTemplate.getBodyEN();
 				} else {
 					templateBody = emailTemplate.getBodyPT();
-				};
+				}
+				;
 
 				Map<String, Object> map = new HashMap<>();
 				map.put("user", userVoter);
-				map.put("election", election);
+				map.put(ELECTION, election);
 				String processSubject = processTemplate(templateSubject, map);
 				String processBody = processTemplate(templateBody, map);
 				email.setSubject(processSubject);
@@ -219,10 +215,10 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 
 	/**
 	 * Gets a list of votes in the form of vote code / candidate name list
-	 * @param votes
-	 * 			A collection of vote entity containing the votes
 	 * 
-	 * @return returns a string with all the vote codes and candidate names in the form of "code / name" 
+	 * @param votes A collection of vote entity containing the votes
+	 * 
+	 * @return returns a string with all the vote codes and candidate names in the form of "code / name"
 	 */
 	private String addVotes(List<Vote> votes) {
 		String aux = "";
@@ -231,14 +227,12 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		}
 		return aux;
 	}
-	
+
 	/**
 	 * Maps the variables to the template fields using velocity
-	 *  
-	 * @param template
-	 * 			Template text with variables
-	 * @param variables
-	 * 			A map of string - object with the information.
+	 * 
+	 * @param template  Template text with variables
+	 * @param variables A map of string - object with the information.
 	 * @return returns a string with the template filled.
 	 * 
 	 */
@@ -247,7 +241,7 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		velocityEngine.init();
 		VelocityContext context = new VelocityContext();
 
-		for (Map.Entry<String,Object> entry : variables.entrySet()) {
+		for (Map.Entry<String, Object> entry : variables.entrySet()) {
 			context.put(entry.getKey(), entry.getValue());
 		}
 
@@ -255,7 +249,7 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		Velocity.evaluate(context, stringWriter, "email-template", template);
 		return stringWriter.toString();
 	}
-	
+
 	/**
 	 * Gets a list of all the email pending to be sent.
 	 * 
@@ -273,12 +267,11 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 	public void markEmailsAsSent() {
 		ElectionsDaoFactory.createEmailDao(em).markAllEmailsAsSent();
 	}
-	
+
 	/**
 	 * Takes a list of unsent emails and re sends them
 	 * 
-	 *  @param problemEmails
-	 *  			A collection of email entity containing the mails that need to be re-sent.
+	 * @param problemEmails A collection of email entity containing the mails that need to be re-sent.
 	 */
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -286,8 +279,9 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		email.setSent(true);
 		em.merge(email);
 	}
+
 	/**
-	 * Moves emails with creation date older than 30 days to the table email history 
+	 * Moves emails with creation date older than 30 days to the table email history
 	 */
 	@Override
 	public void moveEmailsToHistory() {
@@ -308,19 +302,7 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 		org.hibernate.Session session = em.unwrap(Session.class);
 		org.hibernate.internal.SessionImpl sessionImpl = (SessionImpl) session;
 
-		try ( 
-			java.sql.Connection connection = sessionImpl.connection();
-			java.sql.PreparedStatement s1 = connection.prepareStatement("VACUUM email");
-			java.sql.PreparedStatement s2 = connection.prepareStatement("VACUUM FULL email");
-			java.sql.PreparedStatement s3 = connection.prepareStatement("VACUUM uservoter");
-			java.sql.PreparedStatement s4 = connection.prepareStatement("VACUUM FULL uservoter");
-			java.sql.PreparedStatement s5 = connection.prepareStatement("VACUUM candidate");
-			java.sql.PreparedStatement s6 = connection.prepareStatement("VACUUM FULL candidate");
-			java.sql.PreparedStatement s7 = connection.prepareStatement("VACUUM election");
-			java.sql.PreparedStatement s8 = connection.prepareStatement("VACUUM FULL election");
-			java.sql.PreparedStatement s9 = connection.prepareStatement("VACUUM");
-			java.sql.PreparedStatement s10 = connection.prepareStatement("VACUUM FULL");
-		){
+		try (java.sql.Connection connection = sessionImpl.connection(); java.sql.PreparedStatement s1 = connection.prepareStatement("VACUUM email"); java.sql.PreparedStatement s2 = connection.prepareStatement("VACUUM FULL email"); java.sql.PreparedStatement s3 = connection.prepareStatement("VACUUM uservoter"); java.sql.PreparedStatement s4 = connection.prepareStatement("VACUUM FULL uservoter"); java.sql.PreparedStatement s5 = connection.prepareStatement("VACUUM candidate"); java.sql.PreparedStatement s6 = connection.prepareStatement("VACUUM FULL candidate"); java.sql.PreparedStatement s7 = connection.prepareStatement("VACUUM election"); java.sql.PreparedStatement s8 = connection.prepareStatement("VACUUM FULL election"); java.sql.PreparedStatement s9 = connection.prepareStatement("VACUUM"); java.sql.PreparedStatement s10 = connection.prepareStatement("VACUUM FULL");) {
 			s1.execute();
 			s2.execute();
 
@@ -337,7 +319,7 @@ public class MailsSendingEJBBean implements MailsSendingEJB {
 			s10.execute();
 		} catch (SQLException e) {
 			appLogger.error(e);
-		} 
+		}
 
 	}
 

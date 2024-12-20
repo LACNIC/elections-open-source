@@ -34,7 +34,7 @@ public class EmailTemplatesListPanel extends Panel {
 
 			@Override
 			public int compare(ElectionEmailTemplate template1, ElectionEmailTemplate template2) {
-				return template1.getTemplateType().equals(Constants.TemplateTypeNEW) ? -1 : template2.getTemplateType().equals(Constants.TemplateTypeNEW) ? 1 : template1.getTemplateType().compareTo(template2.getTemplateType());
+				return template1.getTemplateType().equals(Constants.TEMPLATE_TYPE_NEW) ? -1 : template2.getTemplateType().equals(Constants.TEMPLATE_TYPE_NEW) ? 1 : template1.getTemplateType().compareTo(template2.getTemplateType());
 			}
 		});
 		init(emailTemplatesList, electionId);
@@ -92,7 +92,7 @@ public class EmailTemplatesListPanel extends Panel {
 				}
 
 				private boolean sendButtonVisible(ElectionEmailTemplate currentTemplate) {
-					return (!(currentTemplate.getTemplateType().equals(Constants.TemplateTypeAUDITOR_AGREEMENT) || currentTemplate.getTemplateType().equals(Constants.TemplateTypeVOTE_CODES) || currentTemplate.getTemplateType().equals(Constants.TemplateTypeAUDITOR_REVISION)));
+					return (!(currentTemplate.getTemplateType().equals(Constants.TEMPLATE_TYPE_AUDITOR_AGREEMENT) || currentTemplate.getTemplateType().equals(Constants.TEMPLATE_TYPE_VOTE_CODES) || currentTemplate.getTemplateType().equals(Constants.TEMPLATE_TYPE_AUDITOR_REVISION)));
 				}
 			};
 			add(emailTemplatesListView);

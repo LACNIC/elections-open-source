@@ -12,13 +12,12 @@ import org.apache.log4j.Logger;
 import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.utils.Constants;
 
-
 public class CandidateDao {
 
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 	private EntityManager em;
-
+	private static final String ELECTION_ID = "electionId";
 
 	public CandidateDao(EntityManager em) {
 		this.em = em;
@@ -40,21 +39,21 @@ public class CandidateDao {
 
 	public Candidate getElectionFirstCandidate(long electionId) {
 		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c WHERE c.election.electionId = :electionId ORDER BY c.candidateOrder DESC", Candidate.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		q.setMaxResults(1);
 		return q.getSingleResult();
 	}
 
 	public Candidate getElectionLastCandidate(long electionId) {
 		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c WHERE c.election.electionId = :electionId ORDER BY c.candidateOrder", Candidate.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		q.setMaxResults(1);
 		return q.getSingleResult();
 	}
 
 	public List<Candidate> getElectionCandidates(long electionId) {
 		TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c WHERE c.election.electionId = :electionId ORDER BY c.candidateOrder DESC", Candidate.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 
@@ -67,7 +66,7 @@ public class CandidateDao {
 	public int getLastNonFixedCandidateOrder(long electionId) {
 		try {
 			Query q = em.createQuery("SELECT c.candidateOrder FROM Candidate c WHERE c.election.electionId = :electionId AND c.candidateOrder != :maxorder AND c.candidateOrder != :minorder ORDER BY c.candidateOrder DESC");
-			q.setParameter("electionId", electionId);
+			q.setParameter(ELECTION_ID, electionId);
 			q.setParameter("maxorder", Constants.MAX_ORDER);
 			q.setParameter("minorder", Constants.MIN_ORDER);
 			q.setMaxResults(1);
@@ -81,7 +80,7 @@ public class CandidateDao {
 	public Candidate getNextAboveCandidate(long electionId, int candidateOrder) {
 		try {
 			TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c WHERE c.election.electionId = :electionId AND c.candidateOrder > :candidateOrder ORDER BY c.candidateOrder", Candidate.class);
-			q.setParameter("electionId", electionId);
+			q.setParameter(ELECTION_ID, electionId);
 			q.setParameter("candidateOrder", candidateOrder);
 			q.setMaxResults(1);
 			return q.getSingleResult();
@@ -94,7 +93,7 @@ public class CandidateDao {
 	public Candidate getNextBelowCandidate(long electionId, int candidateOrder) {
 		try {
 			TypedQuery<Candidate> q = em.createQuery("SELECT c FROM Candidate c WHERE c.election.electionId = :electionId AND c.candidateOrder < :candidateOrder ORDER BY c.candidateOrder DESC", Candidate.class);
-			q.setParameter("electionId", electionId);
+			q.setParameter(ELECTION_ID, electionId);
 			q.setParameter("candidateOrder", candidateOrder);
 			q.setMaxResults(1);
 			return q.getSingleResult();

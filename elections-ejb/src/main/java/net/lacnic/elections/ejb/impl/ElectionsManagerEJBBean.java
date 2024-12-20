@@ -140,7 +140,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			appLogger.info("start verifying ...");
 			appLogger.info("reCAPTCHA response value : " + reCaptchaResponse);
 
-			String skGoogleApiReCaptcha = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.SkGoogleApiReCaptcha);
+			String skGoogleApiReCaptcha = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.SK_GOOGLE_API_RECAPTCHA);
 			String checkURL = "https://www.google.com/recaptcha/api/siteverify" + "?secret=" + skGoogleApiReCaptcha + "&response=" + reCaptchaResponse;
 
 			appLogger.info("check URL : " + checkURL);
@@ -203,7 +203,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	private String getSkGoogleApiReCaptcha() {
-		return EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.SkGoogleApiReCaptcha);
+		return EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.SK_GOOGLE_API_RECAPTCHA);
 	}
 
 	/**
@@ -1442,8 +1442,8 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	 */
 	@Override
 	public void resendUserVoterElectionMail(UserVoter userVoter, Election election, String userAdminId, String ip) {
-		ElectionEmailTemplate noticeTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(Constants.TemplateTypeELECTION_NOTICE, election.getElectionId());
-		ElectionEmailTemplate startedTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(Constants.TemplateTypeELECTION_START, election.getElectionId());
+		ElectionEmailTemplate noticeTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(Constants.TEMPLATE_TYPE_ELECTION_NOTICE, election.getElectionId());
+		ElectionEmailTemplate startedTemplate = ElectionsDaoFactory.createElectionEmailTemplateDao(em).getElectionTemplateByType(Constants.TEMPLATE_TYPE_ELECTION_START, election.getElectionId());
 		if (noticeTemplate != null || startedTemplate != null) {
 			Date now = new Date();
 			if (((now.after(election.getCreationDate())) && (now.before(election.getStartDate()))))
@@ -1861,7 +1861,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 		try {
 
 			LoginData dataLDAP = UtilsLogin.login(username, password);
-			if (dataLDAP.getAuthenticated() && dataLDAP.getRoles().contains(Constants.elections_manager)) {
+			if (dataLDAP.getAuthenticated() && dataLDAP.getRoles().contains(Constants.ELECTIONS_MANAGER)) {
 				String description = username.toUpperCase() + " se ha logueado exitosamente";
 				EJBFactory.getInstance().getElectionsManagerEJB().persistActivity(username, ActivityType.LOGIN_SUCCESSFUL, description, ip, null);
 

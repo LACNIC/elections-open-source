@@ -143,7 +143,7 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	@Override
 	public String getDataSiteKey() {
 		try {
-			String dataSiteKey = getParameter(Constants.DataSiteKeyReCaptcha);
+			String dataSiteKey = getParameter(Constants.DATA_SITE_KEY_RECAPTCHA);
 			if (dataSiteKey != null)
 				return dataSiteKey;
 		} catch (Exception e) {

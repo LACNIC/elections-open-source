@@ -23,8 +23,8 @@ import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.bases.DashboardPublicBasePage;
 import net.lacnic.elections.adminweb.ui.error.Error404;
 import net.lacnic.elections.adminweb.ui.error.Error500;
-import net.lacnic.elections.adminweb.ui.error.ErrorVoteNotStarted;
 import net.lacnic.elections.adminweb.ui.error.ErrorVoteNotPublic;
+import net.lacnic.elections.adminweb.ui.error.ErrorVoteNotStarted;
 import net.lacnic.elections.adminweb.wicket.util.ImageResource;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Candidate;
@@ -35,6 +35,7 @@ public class VoteSimpleElectionDashboard extends DashboardPublicBasePage {
 	private static final long serialVersionUID = -867241975964848115L;
 
 	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final String CLASS = "class";
 
 	private UserVoter userVoter;
 	private List<Candidate> chosenCandidates;
@@ -42,7 +43,6 @@ public class VoteSimpleElectionDashboard extends DashboardPublicBasePage {
 	private WebMarkupContainer confirmVoteContainer;
 	private WebMarkupContainer candidatesContainer;
 	private FeedbackPanel feedbackPanel;
-
 
 	public VoteSimpleElectionDashboard(PageParameters params) {
 		super(params);
@@ -72,9 +72,9 @@ public class VoteSimpleElectionDashboard extends DashboardPublicBasePage {
 					final Candidate candidate = item.getModelObject();
 					WebMarkupContainer markupContainer = new WebMarkupContainer("markupContainer");
 					if (!chosenCandidates.contains(candidate)) {
-						markupContainer.add(new AttributeModifier("class", "candidate-box-white"));
+						markupContainer.add(new AttributeModifier(CLASS, "candidate-box-white"));
 					} else {
-						markupContainer.add(new AttributeModifier("class", "candidate-box-green"));
+						markupContainer.add(new AttributeModifier(CLASS, "candidate-box-green"));
 					}
 					markupContainer.setMarkupId("electionCandidate" + item.getIndex());
 					item.add(markupContainer);
@@ -85,10 +85,10 @@ public class VoteSimpleElectionDashboard extends DashboardPublicBasePage {
 						@Override
 						public void onClick(AjaxRequestTarget target) {
 							if (chosenCandidates.contains(candidate)) {
-								markupContainer.add(new AttributeModifier("class", "candidate-box-white"));
+								markupContainer.add(new AttributeModifier(CLASS, "candidate-box-white"));
 								chosenCandidates.remove(candidate);
 							} else {
-								markupContainer.add(new AttributeModifier("class", "candidate-box-green"));
+								markupContainer.add(new AttributeModifier(CLASS, "candidate-box-green"));
 								chosenCandidates.add(candidate);
 							}
 							target.add(item);

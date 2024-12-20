@@ -17,6 +17,7 @@ public class UserAdminDao {
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
 
 	private EntityManager em;
+	private static final String USER_ADMIN_ID = "userAdminId";
 
 	public UserAdminDao(EntityManager em) {
 		this.em = em;
@@ -25,7 +26,7 @@ public class UserAdminDao {
 	public UserAdmin verifyUserLogin(String userAdminId, String password) {
 		try {
 			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE a.userAdminId = :userAdminId and a.password = :password", UserAdmin.class);
-			q.setParameter("userAdminId", userAdminId.toLowerCase());
+			q.setParameter(USER_ADMIN_ID, userAdminId.toLowerCase());
 			q.setParameter("password", password.toUpperCase());
 			return q.getSingleResult();
 		} catch (Exception e) {
@@ -47,7 +48,7 @@ public class UserAdminDao {
 	public UserAdmin getUserAdmin(String userAdminId) {
 		try {
 			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE UPPER(a.userAdminId) = :userAdminId", UserAdmin.class);
-			q.setParameter("userAdminId", userAdminId.toUpperCase());
+			q.setParameter(USER_ADMIN_ID, userAdminId.toUpperCase());
 			return q.getSingleResult();
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -69,7 +70,7 @@ public class UserAdminDao {
 	public Long getUserAuthorizedElectionId(String userAdminId) {
 		try {
 			Query q = em.createQuery("SELECT a.authorizedElectionId FROM UserAdmin a WHERE UPPER(a.userAdminId) = :userAdminId");
-			q.setParameter("userAdminId", userAdminId.toUpperCase());
+			q.setParameter(USER_ADMIN_ID, userAdminId.toUpperCase());
 			return (long) q.getSingleResult();
 		} catch (Exception e) {
 			appLogger.error(e);

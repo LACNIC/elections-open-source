@@ -22,17 +22,16 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import net.lacnic.elections.utils.StringUtils;
 import net.lacnic.elections.utils.DateTimeUtils;
 import net.lacnic.elections.utils.LinksUtils;
-
+import net.lacnic.elections.utils.StringUtils;
 
 @Entity
 public class Election implements Serializable {
 
 	private static final long serialVersionUID = 574501011615594210L;
 	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
-
+	private static final String UTC = " (UTC)";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "election_seq")
@@ -158,7 +157,6 @@ public class Election implements Serializable {
 	@Transient
 	String auxEndHour = "";
 
-
 	public Election() {
 		setMigrated(false);
 		setCreationDate(new Date());
@@ -228,8 +226,8 @@ public class Election implements Serializable {
 	}
 
 	/**
-	 * This method is called always before creating or editing an election, in both cases it updates dates.
-	 * Timezone is no longer initializated here, it is calculated at creation time and can later be modified.
+	 * This method is called always before creating or editing an election, in both cases it updates dates. Timezone is no longer initializated here, it is calculated at creation time and can later be
+	 * modified.
 	 */
 	public void initDatesStartEndDates() {
 		if (!getAuxEndDate().isEmpty() && !getAuxStartDate().isEmpty() && !getAuxStartHour().isEmpty() && !getAuxEndHour().isEmpty()) {
@@ -265,7 +263,7 @@ public class Election implements Serializable {
 		}
 	}
 
-	public void copyLanguageDescriptions(String language)  {
+	public void copyLanguageDescriptions(String language) {
 		if (language.equalsIgnoreCase("EN")) {
 			setDescriptionSpanish(getDescriptionEnglish());
 			setDescriptionPortuguese(getDescriptionEnglish());
@@ -291,7 +289,7 @@ public class Election implements Serializable {
 		}
 	}
 
-	public void copyLanguageURLs(String language)  {
+	public void copyLanguageURLs(String language) {
 		if (language.equalsIgnoreCase("EN")) {
 			setLinkSpanish(getLinkEnglish());
 			setLinkPortuguese(getLinkEnglish());
@@ -309,22 +307,22 @@ public class Election implements Serializable {
 	}
 
 	public String getStartDateString() {
-		return DateTimeUtils.getElectionDateTimeString(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		return DateTimeUtils.getElectionDateTimeString(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()) + UTC;
 	}
 
 	public String getEndDateString() {
-		return DateTimeUtils.getElectionDateTimeString(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		return DateTimeUtils.getElectionDateTimeString(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + UTC;
 	}
 
 	public String getCreationDateString() {
-		return DateTimeUtils.getElectionDateTimeString(new DateTime(getCreationDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		return DateTimeUtils.getElectionDateTimeString(new DateTime(getCreationDate()).plusHours(getDiffUTC()).toDate()) + UTC;
 	}
 
 	public String getClosedDateString() {
 		if (this.getClosedDate() == null) {
 			return "";
 		} else {
-			return DateTimeUtils.getElectionDateTimeString(new DateTime(getClosedDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+			return DateTimeUtils.getElectionDateTimeString(new DateTime(getClosedDate()).plusHours(getDiffUTC()).toDate()) + UTC;
 		}
 	}
 

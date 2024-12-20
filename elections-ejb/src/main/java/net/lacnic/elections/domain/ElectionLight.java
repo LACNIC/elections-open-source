@@ -21,6 +21,7 @@ public class ElectionLight implements Serializable {
 
 	private static final long serialVersionUID = 574501011615594210L;
 	private static final String SIMPLE_DATE_FORMAT = "dd/MM/yyyy HH:mm";
+	private static final String UTC = " (UTC)";
 
 	@Id
 	@Column(name = "election_id")
@@ -192,12 +193,12 @@ public class ElectionLight implements Serializable {
 
 	public String getStartDateString() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-		return simpleDateFormat.format(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		return simpleDateFormat.format(new DateTime(getStartDate()).plusHours(getDiffUTC()).toDate()) + UTC;
 	}
 
 	public String getEndDateString() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-		return simpleDateFormat.format(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+		return simpleDateFormat.format(new DateTime(getEndDate()).plusHours(getDiffUTC()).toDate()) + UTC;
 	}
 
 	public String getClosedDateString() {
@@ -205,7 +206,7 @@ public class ElectionLight implements Serializable {
 		if (this.getClosedDate() == null) {
 			return "";
 		} else {
-			return simpleDateFormat.format(new DateTime(getClosedDate()).plusHours(getDiffUTC()).toDate()) + " (UTC)";
+			return simpleDateFormat.format(new DateTime(getClosedDate()).plusHours(getDiffUTC()).toDate()) + UTC;
 		}
 	}
 

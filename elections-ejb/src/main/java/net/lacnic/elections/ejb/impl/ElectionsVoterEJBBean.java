@@ -85,7 +85,7 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 			UserVoter userVoterDB = ElectionsDaoFactory.createUserVoterDao(em).getUserVoter(userVoter.getUserVoterId());
 			Election election = userVoterDB.getElection();
 			ArrayList<Vote> votes = EJBFactory.getInstance().getElectionsVoterEJB().doVotes(candidates, userVoter, ip);
-			ElectionEmailTemplate t = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TemplateTypeVOTE_CODES, election.getElectionId());
+			ElectionEmailTemplate t = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TEMPLATE_TYPE_VOTE_CODES, election.getElectionId());
 			EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(t, userVoterDB, null, election, votes);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -290,7 +290,7 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 			Auditor auditor = em.find(Auditor.class, auditorId);
 			auditor.setAgreedConformity(true);
 			em.persist(auditor);
-			ElectionEmailTemplate mailTemplate = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TemplateTypeAUDITOR_AGREEMENT, auditor.getElection().getElectionId());
+			ElectionEmailTemplate mailTemplate = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TEMPLATE_TYPE_AUDITOR_AGREEMENT, auditor.getElection().getElectionId());
 			EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(mailTemplate, null, auditor, auditor.getElection(), new ArrayList<>());
 		} catch (Exception e) {
 			appLogger.error(e);
@@ -311,7 +311,7 @@ public class ElectionsVoterEJBBean implements ElectionsVoterEJB {
 			Auditor auditor = em.find(Auditor.class, auditorId);
 			auditor.setRevisionAvailable(true);
 			em.persist(auditor);
-			ElectionEmailTemplate mailTemplate = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TemplateTypeAUDITOR_REVISION, auditor.getElection().getElectionId());
+			ElectionEmailTemplate mailTemplate = EJBFactory.getInstance().getElectionsManagerEJB().getEmailTemplate(Constants.TEMPLATE_TYPE_AUDITOR_REVISION, auditor.getElection().getElectionId());
 			EJBFactory.getInstance().getMailsSendingEJB().queueSingleSending(mailTemplate, null, auditor, auditor.getElection(), new ArrayList<>());
 
 			String description = auditor.getAuditorId() + " - " + auditor.getName() + " autorizó la revisión de la elección: " + auditor.getElection().getTitleSpanish();

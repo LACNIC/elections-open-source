@@ -13,19 +13,18 @@ import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.JointElection;
 
-
 public class ElectionDao {
 
 	private EntityManager em;
-
+	private static final String ELECTION_ID = "electionId";
 
 	public ElectionDao(EntityManager em) {
 		this.em = em;
 	}
-	
+
 	public Election getElection(long electionId) {
 		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e WHERE e.electionId = :electionId", Election.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		return q.getSingleResult();
 	}
 
@@ -77,14 +76,14 @@ public class ElectionDao {
 
 	public boolean electionIsSimple(long electionId) {
 		Query q = em.createQuery("SELECT e FROM JointElection e WHERE e.idElectionA = :electionId OR e.idElectionB = :electionId");
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 
 		return (q.getResultList() == null || q.getResultList().isEmpty());
 	}
 
 	public JointElection getJointElectionForElection(long electionId) {
 		TypedQuery<JointElection> q = em.createQuery("SELECT e FROM JointElection e WHERE e.idElectionA = :electionId OR e.idElectionB = :electionId", JointElection.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(ELECTION_ID, electionId);
 		return q.getSingleResult();
 	}
 
