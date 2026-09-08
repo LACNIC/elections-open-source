@@ -10,6 +10,7 @@ import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.admin.election.ElectionsDashboard;
 import net.lacnic.elections.adminweb.ui.bases.DashboardPublicBasePage;
+import net.lacnic.elections.adminweb.ui.commons.ProjectUrls;
 import net.lacnic.elections.domain.Customization;
 
 public class PublicHomeDashboard extends DashboardPublicBasePage {
@@ -27,6 +28,12 @@ public class PublicHomeDashboard extends DashboardPublicBasePage {
 		homeHtmlLabel.setEscapeModelStrings(false);
 
 		WebMarkupContainer homeContainer = new WebMarkupContainer("homeContainer");
+		homeContainer.add(new ExternalLink("configurationDocumentationLink", ProjectUrls.installationGuide()));
+		homeContainer.add(new ExternalLink("systemDocumentationLink", ProjectUrls.documentation()));
+		homeContainer.add(new ExternalLink("servicesDocumentationLink", ProjectUrls.servicesDocumentation()));
+		homeContainer.add(new ExternalLink("sourceCodeHomeLink", ProjectUrls.SOURCE_CODE));
+		homeContainer.add(new ExternalLink("releaseNotesHomeLink", ProjectUrls.releaseNotes()));
+		homeContainer.add(new ExternalLink("licenseHomeLink", ProjectUrls.license()));
 		add(homeContainer);
 
 		WebMarkupContainer homeCustom = new WebMarkupContainer("homeCustom");

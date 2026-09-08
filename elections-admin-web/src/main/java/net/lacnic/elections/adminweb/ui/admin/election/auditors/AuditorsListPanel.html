@@ -1,0 +1,37 @@
+<wicket:panel>
+	<div class="table-responsive">
+	<table class="table table-hover align-middle mb-0">
+		<thead class="table-light">
+			<tr>
+				<th><wicket:message key="auditorManagementListDel" /></th>
+				<th><wicket:message key="auditorManagementListName" /></th>
+				<th><wicket:message key="auditorManagementListMail" /></th>
+				<th><wicket:message key="auditorManagementListLink" /></th>
+				<th data-testid="auditorManagementListPreverifications"><wicket:message key="auditorManagementListPreverifications" /></th>
+				<th data-testid="auditorManagementListFinalVerifications"><wicket:message key="auditorManagementListFinalVerifications" /></th>
+				<th><wicket:message key="auditorManagementListEdit" /></th>
+				<th><wicket:message key="auditorManagementListApprove" /></th>
+				<th><wicket:message key="auditorManagementListApproved" /></th>
+				<th><wicket:message key="auditorManagementListReminder" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="auditorsList" data-testid="auditorsList">
+				<td><div wicket:id="removeAuditor" data-testid="removeAuditor"></div></td>
+				<td><span wicket:id="name" data-testid="name"></span></td>
+				<td><span wicket:id="mail" data-testid="mail"></span></td>
+				<td><span wicket:id="viewLinkButton" data-testid="viewLinkButton" type="submit" ></span></td>
+				<td><span wicket:id="preverificationSummary" data-testid="preverificationSummary"></span></td>
+				<td><span wicket:id="finalVerificationSummary" data-testid="finalVerificationSummary"></span></td>
+					<td><a wicket:message="title:auditorManagementListEdit,aria-label:auditorManagementListEdit" class="text-primary ti ti-pencil fs-28 m-r-sm" wicket:id="editAuditor" data-testid="editAuditor"></a></td>
+				<td class="text-center"><span wicket:id="isCommissioner" data-testid="isCommissioner"></span></td>
+				<td class="text-center"><span wicket:id="agreedConformity" data-testid="agreedConformity"></span></td>
+				<td>
+					<a wicket:id="sendReminder" data-testid="sendReminder" class="btn btn-light btn-sm"><wicket:message key="auditorManagementListReminderButton" /></a>
+					<a wicket:id="sendRevisionReminder" data-testid="sendRevisionReminder" class="btn btn-light btn-sm mt-1"><wicket:message key="auditorManagementListRevisionReminderButton" /></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</wicket:panel>

@@ -1,7 +1,11 @@
 package net.lacnic.elections.adminweb.ui.admin.election.auditors;
 
+import java.util.Arrays;
+
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
@@ -17,6 +21,7 @@ import net.lacnic.elections.adminweb.validators.AuditorValidator;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Auditor;
 import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ReminderFrequency;
 
 
 public class AddAuditorPanel extends Panel {
@@ -42,6 +47,15 @@ public class AddAuditorPanel extends Panel {
 			mail.add(EmailAddressValidator.getInstance());
 			form.add(mail);
 
+			DropDownChoice<ReminderFrequency> reminderFrequency = new DropDownChoice<>(
+					"reminderFrequency",
+					new PropertyModel<>(auditor, "reminderFrequency"),
+					Arrays.asList(ReminderFrequency.values()),
+					REMINDER_FREQUENCY_RENDERER);
+			reminderFrequency.setNullValid(false);
+			reminderFrequency.setRequired(true);
+			form.add(reminderFrequency);
+
 			form.add(new AuditorValidator(election.getElectionId(), name, mail));
 
 			form.add(new CheckBox("commissionerCheckbox", new PropertyModel<>(auditor, "commissioner")));
@@ -59,7 +73,7 @@ public class AddAuditorPanel extends Panel {
 			};
 			form.add(addAuditorButton);
 
-			Link<Void> finish = new Link<Void>("finish") {
+			Link<Void> markDoneNext = new Link<Void>("markDoneNext") {
 				private static final long serialVersionUID = 1073607359256986749L;
 
 				@Override
@@ -72,7 +86,7 @@ public class AddAuditorPanel extends Panel {
 					}
 				}
 			};
-			form.add(finish);
+			form.add(markDoneNext);
 
 			Link<Void> skip = new Link<Void>("skip") {
 				private static final long serialVersionUID = -5077147466274097615L;
@@ -98,5 +112,19 @@ public class AddAuditorPanel extends Panel {
 			error(getString("auditorManagementErrorAdd"));
 		}
 	}
+
+	private final IChoiceRenderer<ReminderFrequency> REMINDER_FREQUENCY_RENDERER = new IChoiceRenderer<ReminderFrequency>() {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Object getDisplayValue(ReminderFrequency object) {
+			return getString("reminderFrequency." + object.name());
+		}
+
+		@Override
+		public String getIdValue(ReminderFrequency object, int index) {
+			return object.name();
+		}
+	};
 
 }

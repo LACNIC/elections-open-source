@@ -139,7 +139,7 @@ UPDATE public.activity SET activitytype='ADD_BASE_TEMPLATE' WHERE activitytype='
 
 INSERT INTO public.parameter (key, value) VALUES
 ('WS_AUTH_METHOD', 'APP'),
-('WS_LACNIC_AUTH_URL', 'https://pai.lacnic.net/portal-ws/authorization'),
+('WS_LACNIC_AUTH_URL', 'https://auth.example.org/portal-ws/authorization'),
 ('WS_MAX_PAGE_SIZE', '50');
 
 UPDATE public.parameter SET value = REPLACE(value, '/elecciones', '/elections')

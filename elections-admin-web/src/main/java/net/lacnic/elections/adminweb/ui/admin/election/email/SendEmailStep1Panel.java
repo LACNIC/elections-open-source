@@ -1,7 +1,7 @@
 package net.lacnic.elections.adminweb.ui.admin.election.email;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import net.lacnic.elections.adminweb.app.AppContext;
@@ -21,11 +22,12 @@ public class SendEmailStep1Panel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 
-	public SendEmailStep1Panel(String id, ElectionEmailTemplate template) {
+	public SendEmailStep1Panel(String id, ElectionEmailTemplate template, PageParameters params) {
 		super(id);
+		final PageParameters returnParameters = params != null ? new PageParameters(params) : new PageParameters();
 
 		try {
 			Form<Void> form = new Form<>("form");
@@ -72,11 +74,10 @@ public class SendEmailStep1Panel extends Panel {
 				public void onSubmit() {
 					try {
 						AppContext.getInstance().getManagerBeanRemote().modifyElectionEmailTemplate(template);
-						Long electionId = template.getElection().getElectionId();
 						AppContext.getInstance().getManagerBeanRemote().modifyElectionEmailTemplate(template);
-						setResponsePage(new SendEmailStep2Dashboard(template, UtilsParameters.getId(electionId)));
+						setResponsePage(new SendEmailStep2Dashboard(template, new PageParameters(returnParameters)));
 					} catch (Exception e) {
-						appLogger.error(e);
+						appLogger.error(e.getMessage(), e);
 					}
 				}
 			});
@@ -86,12 +87,12 @@ public class SendEmailStep1Panel extends Panel {
 
 				@Override
 				public void onClick() {
-					setResponsePage(EmailTemplatesDashboard.class, UtilsParameters.getId(template.getElection().getElectionId()));
+					setResponsePage(EmailTemplatesDashboard.class, new PageParameters(returnParameters));
 				}
 			});
 
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
 	}
 

@@ -1,0 +1,205 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<div class="py-4">
+		<div class="row g-4">
+				<div class="col-xl-5">
+					<div class="card h-100">
+						<div class="card-header">
+							<h4 class="card-title mb-0" data-testid="auditPublicV2TimelineTitle"><wicket:message key="auditPublicV2TimelineTitle">Timeline del calendario</wicket:message></h4>
+						</div>
+						<div class="card-body">
+							<div wicket:id="timelinePanel" data-testid="timelinePanel"></div>
+					</div>
+				</div>
+			</div>
+
+				<div class="col-xl-7">
+					<div wicket:id="auditorRevisionPanel" data-testid="auditorRevisionPanel"></div>
+
+					<div class="card mb-4" wicket:id="candidateAuditCard" data-testid="candidateAuditCard">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<div>
+								<h4 class="card-title mb-0" data-testid="auditPublicV2BoardTitle"><wicket:message key="auditPublicV2BoardTitle">Verificación de candidaturas</wicket:message></h4>
+							</div>
+							<span class="badge border text-uppercase fw-semibold text-bg-success"><wicket:message key="auditPublicV2BoardEnabled" /></span>
+						</div>
+						<div class="card-body">
+							<p class="text-muted mb-3"><wicket:message key="auditPublicV2BoardDescription" /></p>
+							<div wicket:id="candidatesTableContainer" data-testid="candidatesTableContainer">
+								<div class="table-responsive">
+									<table class="table table-sm align-middle mb-3">
+										<thead>
+											<tr>
+												<th><wicket:message key="auditPublicV2CandidateCol" /></th>
+												<th><wicket:message key="auditPublicV2StatusCol" /></th>
+												<th class="text-end"><wicket:message key="auditPublicV2ActionCol" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr wicket:id="candidateRows" data-testid="candidateRows">
+												<td>
+													<div class="d-flex align-items-center gap-2">
+														<img wicket:id="candidatePicture" data-testid="candidatePicture" wicket:message="alt:auditPublicV2CandidateAlt" class="rounded-circle candidate-photo-sepia" />
+														<span class="fw-semibold" wicket:id="candidateName" data-testid="candidateName">Nombre candidato</span>
+													</div>
+												</td>
+												<td><span wicket:id="myDecisionBadge" data-testid="myDecisionBadge" class="badge border text-uppercase fw-semibold text-bg-warning">Pendiente</span></td>
+												<td class="text-end">
+													<div class="d-inline-flex flex-wrap gap-1 justify-content-end">
+														<a wicket:id="viewDetailLink" data-testid="viewDetailLink" class="btn btn-sm btn-secondary"><span wicket:id="viewDetailLinkLabel">Ver detalles</span></a>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div wicket:id="candidateRowsEmptyContainer" data-testid="candidateRowsEmptyContainer" class="alert alert-secondary mb-0">
+								<wicket:message key="auditPublicV2BoardNoCandidatesAvailable" />
+							</div>
+						</div>
+						<div class="card-footer bg-light-subtle text-muted">
+							<div wicket:id="candidateFirstReactionDeadlineContainer">
+								<span class="fw-semibold"><wicket:message key="auditPublicCandidateDetailFirstReactionDeadlineLabel">auditPublicCandidateDetailFirstReactionDeadlineLabel</wicket:message></span>
+								<span wicket:id="candidateFirstReactionDeadlineDate" data-testid="candidateFirstReactionDeadlineDate">-</span>
+								<span class="mx-1">·</span>
+								<span wicket:id="candidateFirstReactionDeadlineRemaining" data-testid="candidateFirstReactionDeadlineRemaining">-</span>
+							</div>
+							<div class="mt-1">
+								<span class="fw-semibold"><wicket:message key="auditPublicCandidateDetailFinalDecisionDeadlineLabel">auditPublicCandidateDetailFinalDecisionDeadlineLabel</wicket:message></span>
+								<span wicket:id="candidateFinalDecisionDeadlineDate" data-testid="candidateFinalDecisionDeadlineDate">-</span>
+								<span class="mx-1">·</span>
+								<span wicket:id="candidateFinalDecisionDeadlineRemaining" data-testid="candidateFinalDecisionDeadlineRemaining">-</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-4" wicket:id="auditResultsContainer" data-testid="auditResultsContainer">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<div>
+								<h4 class="card-title mb-0" data-testid="auditPublicV2ResultsCardTitle"><wicket:message key="auditPublicV2ResultsCardTitle">Auditoría de resultados de la votación</wicket:message></h4>
+								<p class="text-muted mb-0"><wicket:message key="auditPublicV2ResultsCardSubtitle" /></p>
+							</div>
+							<span class="badge border text-uppercase fw-semibold text-bg-success"><wicket:message key="auditPublicV2BoardEnabled" /></span>
+						</div>
+						<div class="card-body">
+							<p class="mb-3 text-muted"><wicket:message key="auditPublicV2ResultsCallout" /></p>
+							<div wicket:id="auditResultsPendingContainer" data-testid="audit-results-pending-container">
+								<a wicket:id="auditResultsLink" class="btn btn-secondary" data-testid="audit-results-link"><wicket:message key="auditPublicV2AuditResults" /></a>
+							</div>
+							<div wicket:id="auditResultsDoneContainer" class="alert alert-success mb-0" data-testid="audit-results-done-container">
+								<wicket:message key="auditPublicV2AuditResultsDone" />
+							</div>
+						</div>
+						<div class="card-footer bg-light-subtle text-muted">
+							<span class="fw-semibold"><wicket:message key="auditPublicCandidateDetailDecisionDeadlineLabel">auditPublicCandidateDetailDecisionDeadlineLabel</wicket:message></span>
+							<span wicket:id="resultsActionDeadlineDate" data-testid="resultsActionDeadlineDate">-</span>
+							<span class="mx-1">·</span>
+							<span wicket:id="resultsActionDeadlineRemaining" data-testid="resultsActionDeadlineRemaining">-</span>
+						</div>
+					</div>
+
+					<div class="card mb-4" wicket:id="candidateAvailabilityCard" data-testid="candidateAvailabilityCard">
+						<div class="card-header d-flex justify-content-between align-items-center gap-2">
+							<h4 class="card-title mb-0" data-testid="auditPublicV2AvailabilityCandidatesWindowTitle"><wicket:message key="auditPublicV2AvailabilityCandidatesWindowTitle">Verificación de candidaturas</wicket:message></h4>
+							<span wicket:id="candidateAvailabilityStatusBadge" data-testid="candidateAvailabilityStatusBadge" class="badge border text-uppercase fw-semibold text-bg-secondary">No disponible</span>
+						</div>
+						<div class="card-body">
+							<p class="mb-3 text-muted fs-15"><wicket:message key="auditPublicV2AvailabilityCandidatesCardDescription" /></p>
+						</div>
+						<div class="card-footer bg-light-subtle text-muted">
+							<span wicket:id="candidateAvailabilityPeriodNotConfigured" data-testid="candidateAvailabilityPeriodNotConfigured">-</span>
+							<span wicket:id="candidateAvailabilityPeriodContent" data-testid="candidateAvailabilityPeriodContent">
+								<span class="fw-semibold"><wicket:message key="auditPublicV2AvailabilityPeriodLabel">auditPublicV2AvailabilityPeriodLabel</wicket:message></span>
+								<span wicket:id="candidateAvailabilityStartDate" data-testid="candidateAvailabilityStartDate">-</span>
+								<span class="mx-1">·</span>
+								<span wicket:id="candidateAvailabilityEndDate" data-testid="candidateAvailabilityEndDate">-</span>
+							</span>
+						</div>
+					</div>
+
+					<div class="card mb-4" wicket:id="resultsAvailabilityCard" data-testid="resultsAvailabilityCard">
+						<div class="card-header d-flex justify-content-between align-items-center gap-2">
+							<h4 class="card-title mb-0" data-testid="auditPublicV2AvailabilityResultsWindowTitle"><wicket:message key="auditPublicV2AvailabilityResultsWindowTitle">Auditoría de la elección</wicket:message></h4>
+							<span wicket:id="resultsAvailabilityStatusBadge" data-testid="resultsAvailabilityStatusBadge" class="badge border text-uppercase fw-semibold text-bg-secondary">No disponible</span>
+						</div>
+						<div class="card-body">
+							<p class="mb-0 text-muted fs-15"><wicket:message key="auditPublicV2AvailabilityResultsCardDescription" /></p>
+						</div>
+						<div class="card-footer bg-light-subtle text-muted">
+							<span wicket:id="resultsAvailabilityPeriodNotConfigured" data-testid="resultsAvailabilityPeriodNotConfigured">-</span>
+							<span wicket:id="resultsAvailabilityPeriodContent" data-testid="resultsAvailabilityPeriodContent">
+								<span class="fw-semibold"><wicket:message key="auditPublicV2AvailabilityPeriodLabel">auditPublicV2AvailabilityPeriodLabel</wicket:message></span>
+								<span wicket:id="resultsAvailabilityStartDate" data-testid="resultsAvailabilityStartDate">-</span>
+								<span class="mx-1">-</span>
+								<span wicket:id="resultsAvailabilityEndDate" data-testid="resultsAvailabilityEndDate">-</span>
+							</span>
+						</div>
+					</div>
+
+					<div class="card mb-4" wicket:id="decisionMatrixContainer" data-testid="decisionMatrixContainer">
+						<div class="card-header">
+							<h4 class="card-title mb-0" data-testid="auditPublicV2MatrixTitle"><wicket:message key="auditPublicV2MatrixTitle">Malla de verificaciones (auditores x candidatos)</wicket:message></h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered align-middle mb-0">
+									<thead>
+										<tr>
+											<th><wicket:message key="auditPublicV2MatrixCandidateCommissionersCol">Candidato/Comisionados</wicket:message></th>
+											<th wicket:id="auditorHeaders" data-testid="auditorHeaders" class="text-center">
+												<span wicket:id="auditorName" data-testid="auditorName">Auditor</span>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr wicket:id="decisionRows" data-testid="decisionRows">
+											<td class="fw-semibold" wicket:id="matrixCandidateName" data-testid="matrixCandidateName">Candidato</td>
+											<td wicket:id="auditorCells" data-testid="auditorCells" class="text-center">
+												<div data-testid="decisionBadges" class="d-flex flex-column align-items-center gap-1">
+													<wicket:container wicket:id="decisionBadges">
+														<span wicket:id="decisionBadge" data-testid="decisionBadge" class="badge border text-uppercase fw-semibold text-bg-warning">Pendiente</span>
+													</wicket:container>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-4" wicket:id="commissionersCard" data-testid="commissionersCard">
+						<div class="card-header">
+							<h4 class="card-title mb-0" data-testid="commissionersCardTitle"><wicket:message key="publicElectionModernCommissionersTitle">Participación de los comisionados electorales en esta elección</wicket:message></h4>
+						</div>
+						<div class="card-body">
+							<p wicket:id="commissionersDescription" class="text-muted mb-3">Participación por comisionado en Primera verificación, Verificación final y auditoría de la elección.</p>
+							<div wicket:id="commissionerEmpty" data-testid="commissionerEmpty" class="alert alert-light border mb-0">
+								<wicket:message key="publicElectionModernCommissionersEmpty">No hay comisionados electorales registrados para esta elección.</wicket:message>
+							</div>
+							<div wicket:id="commissionerTable" data-testid="commissionerTable" class="table-responsive">
+								<table class="table table-hover align-middle mb-0">
+									<thead class="table-light">
+										<tr>
+											<th><wicket:message key="publicElectionModernCommissionersTableName">Comisionado electoral</wicket:message></th>
+											<th wicket:id="commissionerPreapprovalHeader" width="240"><wicket:message key="publicElectionModernCommissionersTablePreapproval">Primera verificación</wicket:message></th>
+											<th width="190"><wicket:message key="publicElectionModernCommissionersTableApproval">Verificación final</wicket:message></th>
+											<th width="190"><wicket:message key="publicElectionModernCommissionersTableAudit">Auditoría de la elección</wicket:message></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr wicket:id="commissionerRows" data-testid="commissionerRows">
+											<td wicket:id="commissionerName" data-testid="commissionerName">-</td>
+											<td wicket:id="commissionerPreapproval" data-testid="commissionerPreapproval">0/0</td>
+											<td wicket:id="commissionerApproval" data-testid="commissionerApproval">0/0</td>
+											<td><span wicket:id="commissionerElectionAudit" data-testid="commissionerElectionAudit" class="badge border text-uppercase fw-semibold text-bg-warning">-</span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+</wicket:extend>

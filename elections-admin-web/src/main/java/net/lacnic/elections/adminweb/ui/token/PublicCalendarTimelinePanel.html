@@ -1,0 +1,16 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="timeline timeline-icon-based">
+		<div wicket:id="timelineItems" data-testid="timelineItems" class="timeline-item d-flex align-items-stretch" data-status="future">
+			<div class="timeline-time pe-3 text-muted" wicket:id="timelineSchedule" data-testid="timelineSchedule">-</div>
+			<div wicket:id="timelineDot" data-testid="timelineDot" class="timeline-dot">
+				<i wicket:id="timelineIcon" data-testid="timelineIcon" class="ti ti-calendar fs-xl text-dark"></i>
+			</div>
+			<div class="timeline-content ps-3 pb-4">
+				<div wicket:id="timelineMeta" data-testid="timelineMeta" class="d-flex align-items-center gap-2 mb-1">
+					<span class="badge text-bg-light border text-uppercase fw-semibold" wicket:id="timelinePhase" data-testid="timelinePhase">Calendario</span>
+				</div>
+				<h5 class="mb-1" wicket:id="timelineTitle" data-testid="hito">Hito</h5>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

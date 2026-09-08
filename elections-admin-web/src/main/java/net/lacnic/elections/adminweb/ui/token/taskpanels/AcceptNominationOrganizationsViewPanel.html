@@ -1,0 +1,43 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+			<div class="card-header">
+				<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle">
+				<wicket:message key="acceptNominationOrganizationsTitle" />
+			</h4>
+		</div>
+		<div class="card-body">
+			<div class="mb-3">
+				<label class="form-label">
+					<wicket:message key="acceptNominationOrganizationsQuestion" />
+				</label>
+				<p class="text-muted mb-0" wicket:id="answerValue" data-testid="answerValue"></p>
+			</div>
+
+			<div wicket:id="organizationsTableContainer" class="table-responsive" data-testid="organizationsTableContainer">
+				<p wicket:id="noOrganizationsLabel" class="text-muted mb-3" data-testid="noOrganizationsLabel"></p>
+				<table class="table table-hover align-middle mb-0">
+					<thead class="bg-light align-middle bg-opacity-25 thead-sm">
+						<tr class="text-uppercase fs-xxs">
+							<th>
+								<wicket:message key="acceptNominationOrganizationsTableOrganization" />
+							</th>
+							<th>
+								<wicket:message key="acceptNominationOrganizationsTableGroup" />
+							</th>
+							<th>
+								<wicket:message key="acceptNominationOrganizationsTableType" />
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="organizationsRows" data-testid="organizationsRows">
+							<td wicket:id="organizationNameCell" data-testid="organizationNameCell"></td>
+							<td wicket:id="organizationGroupCell" data-testid="organizationGroupCell"></td>
+							<td wicket:id="organizationTypeCell" data-testid="organizationTypeCell"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

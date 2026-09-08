@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-layout="topnav" lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" data-testid="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sistema de elecciones</title>
+	<link href="image/favicon.png" rel="shortcut icon" />
+
+	<script src="v2/js/config.js"></script>
+	<link href="v2/css/vendors.min.css?v=20260330-01" rel="stylesheet" />
+	<link href="v2/css/app.min.css?v=20260330-01" rel="stylesheet" />
+	<link href="v2/plugins/animate/animate.min.css?v=20260330-01" rel="stylesheet" />
+	<link href="v2/css/custom.css?v=20260401-01" rel="stylesheet" />
+	<link href="v2/css/feedback.css?v=20260330-01" rel="stylesheet" />
+	<script src="v2/js/vendors.min.js"></script>
+	<script src="v2/js/app.js"></script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<wicket:container wicket:id="topHeader" data-testid="topHeader"></wicket:container>
+		<wicket:container wicket:id="topNavPublic" data-testid="topNavPublic"></wicket:container>
+
+		<wicket:container wicket:id="belowTopbarContent" data-testid="belowTopbarContent"></wicket:container>
+		<div class="container-fluid mt-2" wicket:id="globalFeedbackContainer" data-testid="globalFeedbackContainer">
+			<div wicket:id="globalFeedbackPanel" data-testid="globalFeedbackPanel"></div>
+		</div>
+
+		<div class="content-page">
+			<div class="container-fluid">
+				<wicket:child />
+
+				<div class="row mt-3" wicket:id="debugPanel" data-testid="debugPanel">
+					<div class="col-12">
+						<div class="card border-warning">
+							<div class="card-header bg-warning-subtle">
+								<h4 class="card-title" data-testid="no_tocar_-_debug_y_t">NO TOCAR - Debug y trazabilidad</h4>
+							</div>
+							<div class="card-body">
+								<p class="mb-2"><strong>Donde está parado:</strong> <span wicket:id="whereAmI" data-testid="whereAmI"></span></p>
+								<p class="mb-2"><strong>Clase de contexto:</strong> <span wicket:id="contextClass" data-testid="contextClass"></span></p>
+
+								<div class="mt-3">
+									<h5 class="mb-2" data-testid="datos_de_elección">Datos de elección</h5>
+									<pre class="bg-light p-3 rounded mb-0"><span wicket:id="electionData" data-testid="electionData"></span></pre>
+								</div>
+
+								<div class="mt-3">
+									<h5 class="mb-2" data-testid="datos_del_objeto_de_">Datos del objeto de contexto</h5>
+									<pre class="bg-light p-3 rounded mb-0"><span wicket:id="contextData" data-testid="contextData"></span></pre>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6 text-center text-md-start">
+							<strong>LACNIC</strong> 2026
+						</div>
+						<div class="col-md-6">
+							<div class="text-md-end d-none d-md-block">
+								<a href="https://www.lacnic.net" target="_blank">lacnic.net</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+
+</html>

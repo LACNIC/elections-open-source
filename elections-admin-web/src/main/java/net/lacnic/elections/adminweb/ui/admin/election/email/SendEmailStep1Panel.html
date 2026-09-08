@@ -1,0 +1,52 @@
+<wicket:panel>
+	<form wicket:id="form" data-testid="form" class="form form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label "><wicket:message key="sendMail1Sender" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="sender" data-testid="sender" type="text" class="form-control" name="sender"></input>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label "><wicket:message key="sendMail1SubjectEsp" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="subjectSP" data-testid="subjectSP" name="subjectSP" type="text" class="form-control"></input>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label "><wicket:message key="sendMail1SubjectEng" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="subjectEN" data-testid="subjectEN" name="subjectEN" type="text" class="form-control"></input>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label "><wicket:message key="sendMail1SubjectPor" /></label>
+			<div class="col-sm-10">
+				<input wicket:id="subjectPT" data-testid="subjectPT" name="subjectPT" type="text" class="form-control"></input>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label "><wicket:message key="sendMail1BodyEsp" /></label>
+			<div class="col-sm-10">
+				<textarea wicket:id="bodySP" data-testid="bodySP" type="text" name="bodySP" class="form-control h-150"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label "><wicket:message key="sendMail1BodyEng" /></label>
+			<div class="col-sm-10">
+				<textarea wicket:id="bodyEN" data-testid="bodyEN" type="text" name="bodyEN" class="form-control h-150"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label "><wicket:message key="sendMail1BodyPor" /></label>
+			<div class="col-sm-10">
+				<textarea wicket:id="bodyPT" data-testid="bodyPT" type="text" name="bodyPT" class="form-control h-150"></textarea>
+			</div>
+		</div>
+		<div class="hr-line-dashed"></div>
+		<div class="text-center">
+			<button wicket:id="back" data-testid="back" type="submit" class="btn btn-w-m btn-light" name="back"><wicket:message key="sendMail1BtnBack" /></button>
+			<button wicket:id="next" data-testid="next" type="submit" class="btn btn-w-m btn-primary" name="next"><wicket:message key="sendMail1BtnNext" /></button>
+		</div>
+	</form>
+</wicket:panel>
+

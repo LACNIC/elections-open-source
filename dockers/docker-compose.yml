@@ -1,0 +1,19 @@
+services:
+  app:
+    image: ${ELECTIONS_IMAGE:-elections:${VERSION:-dev}}
+    network_mode: "bridge"
+    container_name: elections
+    environment:
+      - TZ=America/Montevideo
+      WS_AUTH_METHOD: ${WS_AUTH_METHOD:?WS_AUTH_METHOD must be set in .env}
+      WS_AUTH_TOKEN: ${WS_AUTH_TOKEN:?WS_AUTH_TOKEN must be set in .env}
+      WS_AUTHORIZED_IPS: ${WS_AUTHORIZED_IPS:?WS_AUTHORIZED_IPS must be set in .env}
+      WS_LACNIC_AUTH_URL: ${WS_LACNIC_AUTH_URL:?WS_LACNIC_AUTH_URL must be set in .env}
+    env_file:
+      - ./.env
+    ports:
+      - "8098:8080"
+    user: 10000:10000
+    volumes:
+      - ./logs:/opt/jboss/wildfly/standalone/log
+    restart: always

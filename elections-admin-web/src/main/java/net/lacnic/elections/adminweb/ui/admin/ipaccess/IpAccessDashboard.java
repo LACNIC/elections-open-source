@@ -2,10 +2,10 @@ package net.lacnic.elections.adminweb.ui.admin.ipaccess;
 
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardManagerBasePage;
 
 
-public class IpAccessDashboard extends DashboardAdminBasePage {
+public class IpAccessDashboard extends DashboardManagerBasePage {
 
 	private static final long serialVersionUID = -1585312634111966702L;
 

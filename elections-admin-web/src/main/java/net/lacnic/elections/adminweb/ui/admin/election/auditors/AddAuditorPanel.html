@@ -1,0 +1,47 @@
+<wicket:panel>
+	<form id="form" wicket:id="electionAuditorForm" data-testid="electionAuditorForm" action="#" class="wizard-form" role="application">
+		<div class="card">
+			<div class="card-body">
+				<div class="row g-3" style="min-height: 220px;">
+					<div class="col-md-4">
+							<label class="form-label" for="addAuditorName"><wicket:message key="auditorManagementName">auditorManagementName</wicket:message></label>
+							<input wicket:id="name" data-testid="name" id="addAuditorName" type="text" class="form-control">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="addAuditorMail"><wicket:message key="auditorManagementMail">auditorManagementMail</wicket:message></label>
+							<input wicket:id="mail" data-testid="mail" id="addAuditorMail" type="text" class="form-control">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="addAuditorReminderFrequency"><wicket:message key="auditorManagementReminderFrequency">auditorManagementReminderFrequency</wicket:message></label>
+							<select wicket:id="reminderFrequency" data-testid="reminderFrequency" id="addAuditorReminderFrequency" class="form-select"></select>
+						</div>
+						<div class="col-12 d-flex align-items-center justify-content-between">
+							<label class="form-label mb-0" for="addAuditorCommissionerCheckbox"><wicket:message key="auditorManagementAprove">auditorManagementAprove</wicket:message></label>
+							<div class="form-check">
+								<input wicket:id="commissionerCheckbox" data-testid="commissionerCheckbox" id="addAuditorCommissionerCheckbox" name="commissionerCheckbox" type="checkbox" class="form-check-input">
+							</div>
+						</div>
+					<div class="col-12 text-end">
+						<a class="btn btn-success" wicket:id="addAuditor" data-testid="addAuditor" id="addAuditor" name="addAuditor"><wicket:message key="auditorManagementBtnAdd" /></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12">
+			<hr class="my-3">
+		</div>
+		<div class="d-flex justify-content-between mt-4">
+			<button wicket:id="back" data-testid="back" type="button" id="back" class="btn btn-light">
+				<wicket:message key="auditorManagementBack" />
+			</button>
+			<div class="d-flex gap-2">
+				<button wicket:id="skip" data-testid="skip" type="button" id="skip" class="btn btn-light">
+					<wicket:message key="auditorManagementIgnore" />
+				</button>
+				<button wicket:id="markDoneNext" data-testid="markDoneNext" type="button" id="next" class="btn btn-primary">
+					<wicket:message key="electionManagementMarkComplete" />
+				</button>
+			</div>
+		</div>
+	</form>
+</wicket:panel>

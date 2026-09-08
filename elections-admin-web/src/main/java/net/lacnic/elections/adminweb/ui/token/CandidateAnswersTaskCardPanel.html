@@ -1,0 +1,21 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+		<div class="card-header d-flex justify-content-between align-items-center gap-2">
+			<h4 class="card-title mb-0" wicket:id="cardTitle" data-testid="título">Título</h4>
+			<span wicket:id="completionBadge" data-testid="completionBadge" class="badge bg-warning-subtle text-warning">Pendiente</span>
+		</div>
+		<div class="card-body">
+			<div wicket:id="answerRows" data-testid="answerRows">
+				<div class="answer-item mb-3">
+					<div class="d-flex align-items-center gap-2 mb-1">
+						<span wicket:id="answerBadge" data-testid="answerBadge" class="badge bg-warning-subtle text-warning">Atención</span>
+						<h5 class="mb-0" wicket:id="questionLabel" data-testid="pregunta">Pregunta</h5>
+					</div>
+					<p wicket:id="answerText" data-testid="answerText" class="mb-0 text-muted">Respuesta</p>
+					<p class="mt-1 mb-0 small text-muted" wicket:id="answerDescription" data-testid="answerDescription">Detalle</p>
+					<p class="mt-2 mb-0 fs-6 text-body" wicket:id="declarationText" data-testid="declarationText">Declaración</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

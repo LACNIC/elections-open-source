@@ -3,20 +3,17 @@ package net.lacnic.elections.dao;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
 import org.joda.time.DateTimeUtils;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.Email;
 import net.lacnic.elections.domain.EmailHistory;
-
 
 public class EmailDao {
 
 	private EntityManager em;
-
 
 	public EmailDao(EntityManager em) {
 		this.em = em;
@@ -44,26 +41,33 @@ public class EmailDao {
 		return q.getResultList();
 	}
 
+	public List<Email> getPendingSendEmailsOrdered(int maxResults) {
+		TypedQuery<Email> q = em.createQuery(
+				"SELECT e FROM Email e " +
+				"WHERE e.sent = FALSE " +
+				"ORDER BY CASE WHEN e.prioritized = TRUE THEN 0 ELSE 1 END, e.createdDate ASC, e.emailId ASC",
+				Email.class);
+		if (maxResults > 0) {
+			q.setMaxResults(maxResults);
+		}
+		return q.getResultList();
+	}
+
 	public List<Email> getEmailsOlderOneMonth() {
 		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.createdDate <= :nowMinus30Days", Email.class);
 		q.setParameter("nowMinus30Days", new Timestamp(DateTimeUtils.currentTimeMillis() - 86400000L));
 		return q.getResultList();
 	}
 
-	public void markAllEmailsAsSent() {
-		Query q = em.createQuery("UPDATE Email SET sent = TRUE WHERE sent = FALSE");
-		q.executeUpdate();
-	}
-
 	public List<Email> getElectionEmails(long electionId) {
 		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.election.electionId = :electionId", Email.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 
 	public List<Email> getElectionPendingSendEmails(Long electionId) {
 		TypedQuery<Email> q = em.createQuery("SELECT e FROM Email e WHERE e.election.electionId = :electionId AND e.sent = FALSE", Email.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 

@@ -1,0 +1,87 @@
+name: elections-fresh
+
+services:
+  postgres:
+    image: postgres:16.14-alpine3.23
+    environment:
+      POSTGRES_DB: ${ELECTIONS_DB_NAME:-elections}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD:-postgres-fresh}
+      ELECTIONS_DB_USER: ${ELECTIONS_DB_USER:-elections}
+      ELECTIONS_DB_PASSWORD: ${ELECTIONS_DB_PASSWORD:-elections-fresh}
+      FRESH_ADMIN_USER: ${FRESH_ADMIN_USER:-admin}
+      FRESH_ADMIN_PASSWORD: ${FRESH_ADMIN_PASSWORD:-change-me}
+      FRESH_ADMIN_EMAIL: ${FRESH_ADMIN_EMAIL:-admin@example.test}
+      FRESH_DEFAULT_SENDER: ${FRESH_DEFAULT_SENDER:-elecciones@example.test}
+      FRESH_EMAIL_HOST: ${FRESH_EMAIL_HOST:-mailpit}
+      FRESH_EMAIL_USER: ${FRESH_EMAIL_USER:-fresh}
+      FRESH_EMAIL_PASSWORD: ${FRESH_EMAIL_PASSWORD:-fresh}
+      FRESH_ORGANIZATION_NAME: ${FRESH_ORGANIZATION_NAME:-Organizacion de prueba}
+      FRESH_PUBLIC_BASE_URL: ${FRESH_PUBLIC_BASE_URL:-http://localhost:8098/}
+      FRESH_PUBLIC_NOMINATION_ENABLED: ${FRESH_PUBLIC_NOMINATION_ENABLED:-false}
+    ports:
+      - "${POSTGRES_HOST_PORT:-54329}:5432"
+    volumes:
+      - fresh-postgres-data:/var/lib/postgresql/data
+      - ./fresh/db-init/00-create-app-user.sh:/docker-entrypoint-initdb.d/00-create-app-user.sh:ro
+      - ../release-files/ref/elections_schema_new.sql:/docker-entrypoint-initdb.d/10-elections-schema.sql:ro
+      - ../release-files/ref/parameter_NEW.sql:/docker-entrypoint-initdb.d/20-parameters.sql:ro
+      - ../release-files/ref/electionemailtemplate_NEW.sql:/docker-entrypoint-initdb.d/30-email-templates.sql:ro
+      - ./fresh/db-init/40-bootstrap-fresh.sh:/docker-entrypoint-initdb.d/40-bootstrap-fresh.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    networks:
+      - elections-internal
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit:v1.30.5
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "true"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "true"
+    ports:
+      - "${MAILPIT_WEB_PORT:-8025}:8025"
+    networks:
+      - elections-internal
+    restart: unless-stopped
+
+  app:
+    image: elections:${VERSION:-dev}
+    environment:
+      TZ: ${TZ:-America/Montevideo}
+      JAVA_OPTS: ${JAVA_OPTS:--Xms512m -Xmx1024m}
+      DB_ELECTIONS_HOST: postgres
+      DB_ELECTIONS_PORT: "5432"
+      DB_ELECTIONS_NAME: ${ELECTIONS_DB_NAME:-elections}
+      DB_ELECTIONS_USER: ${ELECTIONS_DB_USER:-elections}
+      DB_ELECTIONS_PASSWORD: ${ELECTIONS_DB_PASSWORD:-elections-fresh}
+      DB_ELECTIONS_MIN_POOL_SIZE: ${DB_ELECTIONS_MIN_POOL_SIZE:-1}
+      DB_ELECTIONS_MAX_POOL_SIZE: ${DB_ELECTIONS_MAX_POOL_SIZE:-10}
+      WS_AUTH_METHOD: ${WS_AUTH_METHOD:?WS_AUTH_METHOD must be set in .env}
+      WS_AUTH_TOKEN: ${WS_AUTH_TOKEN:?WS_AUTH_TOKEN must be set in .env}
+      WS_AUTHORIZED_IPS: ${WS_AUTHORIZED_IPS:?WS_AUTHORIZED_IPS must be set in .env}
+      WS_LACNIC_AUTH_URL: ${WS_LACNIC_AUTH_URL:?WS_LACNIC_AUTH_URL must be set in .env}
+    ports:
+      - "${APP_HOST_PORT:-8098}:8080"
+    volumes:
+      - ./logs-fresh:/opt/jboss/wildfly/standalone/log
+      - ./fresh/email.properties:/opt/jboss/wildfly/standalone/configuration/email.properties:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    networks:
+      - elections-internal
+    restart: unless-stopped
+
+volumes:
+  fresh-postgres-data:
+
+networks:
+  elections-internal:
+    name: ${ELECTIONS_INTERNAL_NETWORK:-elections-internal}
+    external: true

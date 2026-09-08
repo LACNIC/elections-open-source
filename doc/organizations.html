@@ -1,0 +1,213 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Organizaciones y sincronizacion external sync" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el modulo vigente de organizaciones en <code>v3.0</code>. El contenido fue contrastado contra la UI administrativa, las validaciones Wicket, <code>ExcelUtils</code>, la logica EJB de altas/cargas/sincronizacion y los procesos asincronos que actualizan organizaciones desde archivos o desde un servicio externo de sincronizacion.</p>
+
+				<h2>{{ "Ubicacion en el flujo" }}</h2>
+				<ul class="paragraph">
+					<li>La pantalla de organizaciones esta montada en <code>/admin/election/organizations</code>.</li>
+					<li>En el wizard de gestion vuelve a <b>Convocatoria</b> y continua hacia <b>Padron</b>.</li>
+					<li>Si la eleccion esta cerrada, la UI deriva a <b>Eleccion cerrada</b> y no permite edicion.</li>
+					<li>El comportamiento depende de <code>manageOrganizationsManual</code>. Todas las elecciones nuevas comienzan en modo manual y pueden cargar organizaciones y deudores por XLSX. Cualquier organización puede habilitar el modo automático si implementa el contrato HTTP descrito en esta guía; no se requiere MiLACNIC ni un servicio de LACNIC.</li>
+				</ul>
+
+				<h2>{{ "Reglas base del modulo" }}</h2>
+				<ul class="paragraph">
+					<li>La identidad operativa del modulo es <code>ORGID</code>. Listados, cargas masivas, sincronizaciones y borrados reconcilian organizaciones por <code>ORGID</code> normalizado a mayusculas.</li>
+					<li>La tabla de organizaciones no expone una edicion manual de filas existentes. En modo manual hoy se puede <b>agregar</b>, <b>cargar por Excel</b>, <b>eliminar</b> y <b>regenerar links</b>.</li>
+					<li>Los estados <code>member</code> y <code>deudor</code> tienen impacto real aguas abajo: el padron automatico solo toma organizaciones con <code>member=true</code>, <code>deudor=false</code> y datos de contacto completos.</li>
+					<li>Mientras exista un proceso asincrono de organizaciones para esa eleccion, la pantalla bloquea cargas y acciones operativas, muestra el progreso y luego expone cualquier error de la corrida.</li>
+				</ul>
+
+				<h2>{{ "Alta manual individual" }}</h2>
+				<p class="paragraph">La tarjeta <b>Agregar organizacion</b> solo aparece cuando la eleccion se gestiona con <code>manageOrganizationsManual=true</code> y no hay procesamiento en curso.</p>
+				<ul class="paragraph">
+					<li>El formulario actual pide <b>Nombre</b>, <b>Org ID</b>, <b>Pais</b>, <b>Categoria</b>, <b>Votos</b>, <b>ASN</b>, <b>CNPJ</b>, <b>ID contacto</b>, <b>Nombre contacto</b>, <b>Email contacto</b> e <b>Idioma contacto</b>.</li>
+					<li><b>Nombre</b>, <b>Pais</b>, <b>Categoria</b>, <b>Votos</b>, <b>ID contacto</b>, <b>Nombre contacto</b>, <b>Email contacto</b> e <b>Idioma contacto</b> son obligatorios en la UI.</li>
+					<li><b>Votos</b> debe ser entero entre <code>1</code> y <code>11</code>. <b>Pais</b> debe ser ISO-2 valido. <b>Org ID</b>, si se informa manualmente, debe comenzar con letra o numero y solo admite letras, numeros, <code>.</code>, <code>-</code> o <code>_</code>.</li>
+					<li><b>ASN</b> y <b>CNPJ</b> son opcionales y hoy se almacenan como texto; la UI solo limita largo maximo.</li>
+					<li><b>Org ID</b> es un caso especial: en la UI puede dejarse vacio. Si llega vacio al backend, el EJB genera un UUID, lo normaliza a mayusculas y ese valor pasa a ser la identidad estable de la organizacion.</li>
+					<li>Al alta manual el backend genera <code>doNominationToken</code> si falta, deja <code>member=true</code> cuando no viene informado y persiste la organizacion con <code>deudor=false</code> por defecto.</li>
+					<li>Agregar una organizacion no marca automaticamente <code>organizationsSet=true</code>. Esa bandera se maneja aparte con el boton de completitud del wizard.</li>
+				</ul>
+
+				<h2>{{ "Listado y acciones operativas" }}</h2>
+				<ul class="paragraph">
+					<li>La tabla muestra resumen de organizaciones listadas, no deudoras, miembros y miembros no deudores.</li>
+					<li>Los filtros actuales permiten buscar por <code>ORGID</code>, nombre, <code>CNPJ</code>, <code>ASN</code>, <code>membershipContactId</code> y <code>membershipContactName</code>; ademas pueden combinarse pais, votos, miembro, deudor e idioma de contacto.</li>
+					<li>La exportacion del listado genera un Excel con el mismo set de columnas de la carga <b>alta/actualizacion</b>.</li>
+					<li>Las filas de organizaciones deudoras se resaltan visualmente en rojo.</li>
+					<li>Cada fila permite ver el link de nominacion, ver los links de apoyo emitidos por esa organizacion como supporting organization y regenerar el token individual de nominacion.</li>
+					<li>El boton de eliminar por fila solo aparece en modo manual y se bloquea si la organizacion ya tiene nominaciones o apoyos asociados.</li>
+				</ul>
+
+				<h2>{{ "Cargas masivas en modo manual" }}</h2>
+				<p class="paragraph">La zona de cargas manuales aparece solo con <code>manageOrganizationsManual=true</code>. Los tres archivos usan exclusivamente <code>.xlsx</code> y se procesa solo la primera hoja.</p>
+
+				<h3>{{ "Alta y actualizacion por Excel" }}</h3>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Columna</th>
+							<th>Obligatoria</th>
+							<th>Regla efectiva</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td><code>ORGID</code></td><td>Si</td><td>Debe venir informado, ser unico dentro del archivo y respetar el patron del sistema.</td></tr>
+						<tr><td><code>NAME</code></td><td>Si</td><td>No admite vacio.</td></tr>
+						<tr><td><code>VOTES</code></td><td>Si</td><td>Debe ser entero entre <code>1</code> y <code>11</code>.</td></tr>
+						<tr><td><code>CATEGORY</code></td><td>Si</td><td>Debe ser una categoria vigente del sistema.</td></tr>
+						<tr><td><code>COUNTRY</code></td><td>Si</td><td>Debe ser un codigo ISO de 2 letras.</td></tr>
+						<tr><td><code>CNPJ</code></td><td>No</td><td>Se persiste como texto si viene informado.</td></tr>
+						<tr><td><code>ASN</code></td><td>No</td><td>Se persiste como texto si viene informado.</td></tr>
+						<tr><td><code>MEMBERSHIPCONTACTID</code></td><td>Si</td><td>No admite vacio.</td></tr>
+						<tr><td><code>MEMBERSHIPCONTACTNAME</code></td><td>Si</td><td>No admite vacio.</td></tr>
+						<tr><td><code>MEMBERSHIPCONTACTEMAIL</code></td><td>Si</td><td>Valida formato basico de email.</td></tr>
+						<tr><td><code>MEMBERSHIPCONTACTLANGUAGE</code></td><td>Si</td><td>Solo acepta <code>SP</code>/<code>ES</code>, <code>EN</code> o <code>PT</code>.</td></tr>
+					</tbody>
+				</table>
+				<ul class="paragraph">
+					<li>Sin marcar <b>Sobreescribir completamente las organizaciones</b>, la carga solo crea filas nuevas o actualiza filas existentes por <code>ORGID</code>. No elimina las organizaciones que no esten en el Excel.</li>
+					<li>Marcando ese check, la operacion pasa a ser snapshot: despues de crear/actualizar, elimina las organizaciones actuales cuyo <code>ORGID</code> no venga en el archivo.</li>
+					<li>Antes de eliminar por snapshot, el backend valida que ninguna organizacion a borrar tenga nominaciones o apoyos. Si una sola esta bloqueada, se rechaza toda la corrida.</li>
+					<li>La carga conserva los tokens de nominacion ya existentes y no modifica el estado <code>deudor</code>. Solo las filas nuevas reciben token nuevo.</li>
+					<li>Si el parser detecta errores de filas, la UI no encola la corrida y habilita la descarga de un reporte XLSX con el detalle de errores.</li>
+				</ul>
+
+				<h3>{{ "Archivo de organizaciones deudoras" }}</h3>
+				<ul class="paragraph">
+					<li>Este archivo usa una sola columna obligatoria: <code>ORGID</code>.</li>
+					<li>Sin marcar <b>Sobreescribir completamente los deudores actuales</b>, la corrida solo marca <code>deudor=true</code> para las organizaciones listadas. No limpia deudores previos.</li>
+					<li>Marcando ese check, primero limpia <code>deudor=false</code> en todas las organizaciones actualmente deudoras y luego vuelve a marcar como deudoras solo las listadas en el Excel.</li>
+					<li>La operacion valida que todos los <code>ORGID</code> existan en la eleccion. Si falta alguno, la corrida completa se rechaza.</li>
+					<li>Este proceso no crea, no elimina y no toca otros campos de la organizacion.</li>
+				</ul>
+
+				<h3>{{ "Borrado por Excel" }}</h3>
+				<ul class="paragraph">
+					<li>El archivo de borrado tambien usa una unica columna obligatoria: <code>ORGID</code>.</li>
+					<li>Antes de encolarlo, el backend valida que todos los <code>ORGID</code> existan y que ninguna de las organizaciones listadas tenga nominaciones o apoyos.</li>
+					<li>Si la validacion pasa, se eliminan exactamente las organizaciones listadas. No es snapshot ni afecta las no incluidas.</li>
+				</ul>
+
+				<h2>{{ "Modo automatico desde external sync" }}</h2>
+				<p class="paragraph">Cuando <code>manageOrganizationsManual=false</code>, la pantalla deja de mostrar alta manual y uploads. En su lugar muestra el estado de la ultima corrida automatica, el historial de sincronizaciones y los controles disponibles dentro de la ventana de calendario <code>N_23_PERIODO_PADRON_MILACNIC_SYNC</code> por compatibilidad historica.</p>
+				<ul class="paragraph">
+					<li>La alerta superior informa fecha de ultima sincronizacion, estado, metricas y mensaje. Si nunca corrio, la pantalla lo deja explicito.</li>
+					<li>El boton <b>Forzar sincronizacion de organizaciones</b> solo se habilita cuando la eleccion esta dentro de la ventana <code>N_23</code> y no hay otro proceso activo.</li>
+					<li>La corrida manual desde esta pantalla usa el sync completo de organizaciones <b>sin regenerar</b> masivamente los links de nominacion. Si una fila ya tiene token, lo conserva; solo genera token cuando falta.</li>
+					<li>El historial lista hasta 200 corridas y muestra fecha/hora, estado, metricas, duracion, datos del WS, <code>syncRunId</code> y mensaje. Al expandir una corrida se ven los cambios auditados.</li>
+				</ul>
+
+				<h2 id="backend-que-debe-implementar-el-cliente">{{ "Backend que debe implementar el cliente" }}</h2>
+				<p class="paragraph">Para usar organizaciones y padron en modo automatico, la organización operadora debe exponer un servicio HTTP de consulta que entregue el snapshot vigente de sus organizaciones. El scheduler ya esta incluido en Elecciones: el backend externo <b>no</b> debe implementar otro cron ni invocar periodicamente a Elecciones.</p>
+				<ul class="paragraph">
+					<li><b>Metodo:</b> <code>GET</code> sobre una URL absoluta <code>http://</code> o, preferentemente, <code>https://</code>.</li>
+					<li><b>URL:</b> se configura en <code>MILACNIC_SYNC_ORGANIZATIONS_ENDPOINT_TEMPLATE</code>. Puede contener <code>{electionId}</code>; Elecciones lo reemplaza por el identificador numerico de la eleccion antes de cada llamada.</li>
+					<li><b>Autenticacion:</b> si se configura <code>MILACNIC_SYNC_API_TOKEN</code>, Elecciones envia el mismo secreto en <code>Authorization: Bearer &lt;token&gt;</code> y <code>X-Auth-Token: &lt;token&gt;</code>. El backend externo debe validar el token, usar HTTPS y no registrarlo en logs. El prefijo <code>MILACNIC_SYNC_</code> se conserva únicamente por compatibilidad histórica.</li>
+					<li><b>Respuesta:</b> debe devolver HTTP <code>2xx</code>, <code>Content-Type: application/json</code> y el conjunto completo vigente, no solamente cambios incrementales.</li>
+					<li><b>Estabilidad:</b> <code>orgId</code> debe ser estable, unico y conservarse entre corridas. Una organizacion miembro que desaparece del snapshot se marca localmente como <code>member=false</code>.</li>
+				</ul>
+
+				<h3>{{ "Contrato JSON recomendado" }}</h3>
+				<pre><code>{
+  "organizations": [
+    {
+      "orgId": "ORG-001",
+      "name": "Organizacion de ejemplo",
+      "votes": 1,
+      "category": "isp-small-ipv4",
+      "country": "UY",
+      "cnpj": null,
+      "asn": "AS12345",
+      "membershipContactId": "CONTACT-001",
+      "membershipContactName": "Nombre Apellido",
+      "membershipContactEmail": "contacto@example.org",
+      "membershipContactLanguage": "SP",
+      "debtor": false
+    }
+  ]
+}</code></pre>
+				<p class="paragraph">Tambien se aceptan un array en la raiz, <code>{"data": [...]}</code>, <code>{"data":{"organizations": [...]}}</code> o <code>{"items": [...]}</code>. Se recomienda usar los nombres canonicos del ejemplo. El parser admite aliases en <code>snake_case</code>, pero no deben usarse como contrato nuevo.</p>
+				<table class="table table-striped">
+					<thead>
+						<tr><th>Campo</th><th>Requerido</th><th>Uso</th></tr>
+					</thead>
+					<tbody>
+						<tr><td><code>orgId</code></td><td>Si</td><td>Identidad de reconciliacion. Debe ser unica dentro del snapshot.</td></tr>
+						<tr><td><code>name</code></td><td>Si</td><td>Nombre visible de la organizacion.</td></tr>
+						<tr><td><code>votes</code></td><td>Para padron automatico</td><td>Cantidad de votos que tendra el representante.</td></tr>
+						<tr><td><code>membershipContactName</code></td><td>Para padron automatico</td><td>Nombre del votante generado para organizaciones elegibles.</td></tr>
+						<tr><td><code>membershipContactEmail</code></td><td>Para padron automatico</td><td>Email del votante generado.</td></tr>
+						<tr><td><code>membershipContactLanguage</code></td><td>Recomendado</td><td><code>SP</code>/<code>ES</code>, <code>EN</code> o <code>PT</code>; si falta, el padron usa <code>SP</code>.</td></tr>
+						<tr><td><code>debtor</code></td><td>Recomendado</td><td>Booleano que determina si la organizacion queda excluida del padron automatico.</td></tr>
+						<tr><td><code>category</code>, <code>country</code>, <code>cnpj</code>, <code>asn</code>, <code>membershipContactId</code></td><td>No</td><td>Datos complementarios; <code>country</code> debe ser ISO-2 cuando se informe.</td></tr>
+					</tbody>
+				</table>
+
+				<h3>{{ "Activacion y prueba de aceptacion" }}</h3>
+				<ol class="paragraph">
+					<li>Implementar el endpoint y comprobar que responde un snapshot valido con HTTP <code>2xx</code>.</li>
+					<li>Configurar <code>MILACNIC_SYNC_ORGANIZATIONS_ENDPOINT_TEMPLATE</code>, <code>MILACNIC_SYNC_API_TOKEN</code> y umbrales <code>MILACNIC_SYNC_*</code> acordes al volumen real del cliente.</li>
+					<li>Configurar la ventana <code>N_23_PERIODO_PADRON_MILACNIC_SYNC</code> en la eleccion.</li>
+					<li>Usar <code>manageOrganizationsManual=false</code>; para generar tambien el padron, usar <code>manageVotersManual=false</code>.</li>
+					<li>Ejecutar <b>Forzar sincronizacion de organizaciones</b> y verificar la corrida, sus metricas y auditoria. Luego forzar el padron y confirmar que solo entren miembros no deudores con contacto y votos completos.</li>
+				</ol>
+				<p class="paragraph">En operacion normal, Elecciones ejecuta el proceso combinado cada dos horas y solo procesa elecciones abiertas que esten dentro de la ventana <code>N_23</code>. Primero actualiza organizaciones desde el backend del cliente y despues recalcula el padron desde esas organizaciones locales.</p>
+
+				<h2>{{ "Reglas efectivas del sync completo" }}</h2>
+				<ul class="paragraph">
+					<li>Solo corre para elecciones abiertas y en gestion automatica. Si la corrida fue lanzada desde esta pantalla, ademas exige estar dentro de <code>N_23</code>.</li>
+					<li>La fuente remota se resuelve desde <code>MILACNIC_SYNC_ORGANIZATIONS_ENDPOINT_TEMPLATE</code> y el token desde <code>MILACNIC_SYNC_API_TOKEN</code>. El prefijo se conserva por compatibilidad con la configuracion previa. Si el endpoint no esta configurado, la sincronizacion se omite y no se consulta ningun servicio remoto.</li>
+					<li>Antes de aplicar cambios, el backend valida umbrales configurables: minimo de organizaciones recibidas, minimo/maximo de deudoras, minimo de organizaciones de Brasil y maximo de desactivaciones de <code>member</code>.</li>
+					<li>Si el payload remoto trae <code>ORGID</code> duplicados o queda por debajo de esos umbrales, la corrida termina en error y no aplica cambios.</li>
+					<li>Las organizaciones nuevas se crean con datos remotos, <code>member=true</code>, <code>deudor</code> segun el payload y un <code>doNominationToken</code> nuevo.</li>
+					<li>Las organizaciones existentes se actualizan en nombre, votos, categoria, pais, <code>CNPJ</code>, <code>ASN</code> y datos de contacto si el payload trae valores para esos campos. Si la fila reaparece en external sync y estaba con <code>member=false</code>, vuelve a <code>member=true</code>.</li>
+					<li>La ausencia en external sync no elimina la organizacion local. El efecto real es dejar <code>member=false</code> para las organizaciones que antes eran miembros y ya no aparecen en el payload.</li>
+					<li>El sync completo no sube automaticamente <code>deudor=true</code> en organizaciones existentes. En la implementacion actual solo limpia <code>deudor</code> cuando una organizacion ya marcada como deudora vuelve desde external sync con <code>deudor=false</code>.</li>
+				</ul>
+
+				<h2>{{ "Acciones avanzadas" }}</h2>
+				<ul class="paragraph">
+					<li><b>Actualizar estado de deudor desde external sync:</b> usa el mismo WS, pero solo sincroniza el campo <code>deudor</code> para organizaciones ya existentes. Si external sync informa <code>deudor=true</code>, lo marca; si la organizacion no aparece o viene con <code>deudor=false</code>, queda como no deudora. No crea, no elimina y no modifica otros datos. Solo esta disponible en gestion automatica, dentro de <code>N_23</code> y con organizaciones cargadas.</li>
+					<li><b>Regenerar links de nominacion:</b> genera nuevos tokens para todas las organizaciones actuales sin ejecutar una sincronizacion.</li>
+					<li><b>Regenerar links de apoyo:</b> genera nuevos tokens de apoyo para las organizaciones que hoy tienen links de apoyo emitidos.</li>
+					<li><b>Eliminar completamente las organizaciones:</b> borra todas las organizaciones actuales y deja <code>organizationsSet=false</code>. No esta disponible si ya existen nominaciones.</li>
+					<li>Todas estas acciones corren en segundo plano y quedan deshabilitadas mientras exista otro proceso activo.</li>
+				</ul>
+
+				<h2>{{ "Relacion con el padron automatico" }}</h2>
+				<ul class="paragraph">
+					<li>Si la eleccion usa padron automatico, el modulo de padron toma como fuente inmediata a las organizaciones ya guardadas localmente, no al WS directamente.</li>
+					<li>Solo generan votante automatico las organizaciones con <code>member=true</code>, <code>deudor=false</code>, <code>ORGID</code>, <code>membershipContactName</code>, <code>membershipContactEmail</code> y <code>votes</code>.</li>
+					<li>Por eso, cambios en <code>member</code>, <code>deudor</code>, votos o datos de contacto dentro de organizaciones impactan directamente en el siguiente recalculo del padron.</li>
+				</ul>
+
+				<h2>{{ "Completitud y navegacion" }}</h2>
+				<ul class="paragraph">
+					<li><b>Atras:</b> vuelve a <b>Convocatoria</b>.</li>
+					<li><b>Continuar despues:</b> navega a <b>Padron</b> sin marcar organizaciones como completadas.</li>
+					<li><b>Marcar como terminada y seguir:</b> solo deja <code>organizationsSet=true</code> y navega a <b>Padron</b>. La implementacion actual no valida que exista al menos una organizacion cargada ni que una sincronizacion automatica haya corrido.</li>
+				</ul>
+
+				<h2>{{ "Siguiente modulo" }}</h2>
+				<p class="paragraph">Despues de organizaciones, el wizard continua en padron.</p>
+				<ul class="paragraph">
+					<li><b>Padron:</b> cargue, sincronice y mantenga votantes desde <a href="{{site.baseurl}}/census.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionsManagerApp</code>, <code>ElectionOrganizationsDashboard</code>, <code>ElectionOrganizationsForm</code>, <code>AddOrganizationPanel</code>, <code>OrganizationsListPanel</code>, <code>UploadOrganizationsDebtorsFilePanel</code>, <code>AutomaticOrganizationsSyncActionsPanel</code>, <code>OrganizationsAdvancedActionsPanel</code>, <code>OrganizationDeleteActionValidator</code>, <code>OrganizationBulkDeleteActionValidator</code>, <code>OrganizationExcelFileValidator</code>, <code>OrganizationValidationRules</code>, <code>ExcelUtils.processOrganizationsDebtorsExcel</code>, <code>ExcelUtils.processOrganizationsUpsertExcel</code>, <code>ExcelUtils.exportOrganizationsUpsertToExcel</code>, <code>ElectionsManagerEJBBean.addOrganization</code>, <code>upsertOrganizationsFromExcel</code>, <code>removeOrganizationsFromExcel</code>, <code>updateOrganizationsDebtors</code>, <code>validateOrganizationsDeleteCanBeApplied</code>, <code>validateOrganizationsUpsertOverwriteCanBeApplied</code>, <code>validateOrganizationsDebtorsCanBeApplied</code>, <code>executeMilacnicSyncForElection</code>, <code>syncOrganizationsForElectionFromMilacnic</code>, <code>executeMilacnicDebtorMirrorSyncForElection</code>, <code>syncOrganizationsDebtorMirrorForElectionFromMilacnic</code> y <code>ElectionsManagerApp.properties.xml</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

@@ -25,7 +25,9 @@ public class Participation implements Serializable {
 	boolean voted;
 
 	
-	public Participation() { }
+	public Participation() {
+		// Intencionalmente vacio: requerido para serializar/deserializar via setters.
+	}
 
 
 	public String getOrgId() {

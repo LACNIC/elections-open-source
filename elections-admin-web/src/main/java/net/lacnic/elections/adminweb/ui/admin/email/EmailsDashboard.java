@@ -1,20 +1,18 @@
 package net.lacnic.elections.adminweb.ui.admin.email;
 
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardManagerBasePage;
 import net.lacnic.elections.adminweb.ui.components.DropDownElection;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 
 
-@AuthorizeInstantiation("elections-only-one")
-public class EmailsDashboard extends DashboardAdminBasePage {
+public class EmailsDashboard extends DashboardManagerBasePage {
 
 	private static final long serialVersionUID = -9012477457154755011L;
 

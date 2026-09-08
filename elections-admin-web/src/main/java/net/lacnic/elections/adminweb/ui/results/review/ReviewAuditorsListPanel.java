@@ -2,8 +2,8 @@ package net.lacnic.elections.adminweb.ui.results.review;
 
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -19,7 +19,7 @@ public class ReviewAuditorsListPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 
 	public ReviewAuditorsListPanel(String id, long electionId) {
@@ -45,7 +45,7 @@ public class ReviewAuditorsListPanel extends Panel {
 			};
 			add(auditorsListView);
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
 	}
 

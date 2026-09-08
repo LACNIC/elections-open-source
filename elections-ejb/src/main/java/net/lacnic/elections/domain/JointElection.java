@@ -2,13 +2,12 @@ package net.lacnic.elections.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class JointElection implements Serializable {
@@ -27,9 +26,9 @@ public class JointElection implements Serializable {
 	@Column(name = "electionb_id", nullable = false)
 	private long idElectionB;
 
-
-	public JointElection() { }
-
+	public JointElection() {
+		// Intencionalmente vacio: JPA lo requiere para materializar la entidad.
+	}
 
 	public long getJointElectionId() {
 		return jointElectionId;

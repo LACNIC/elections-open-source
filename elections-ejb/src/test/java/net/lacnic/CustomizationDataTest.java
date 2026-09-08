@@ -4,37 +4,33 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-//import javax.persistence.EntityManager;
-//import javax.persistence.EntityManagerFactory;
-//import javax.persistence.Persistence;
+//import jakarta.persistence.EntityManager;
+//import jakarta.persistence.EntityManagerFactory;
+//import jakarta.persistence.Persistence;
 
 //import net.lacnic.elections.dao.CustomizationDao;
 //import net.lacnic.elections.domain.Customization;
 
 
-public class CustomizationDataTest extends TestCase {
+ class CustomizationDataTest extends TestCase {
 	
 	//private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("elections-pu-test");
 	
 	//private EntityManager em;
 	
-	public CustomizationDataTest(String testName )
-    {
-        super( testName );
-        //em = emf.createEntityManager();
-        
-    }
-	
 	/**
      * @return the suite of tests being tested
      */
-    public static Test suite()
+     static Test suite()
     {
         return new TestSuite( CustomizationDataTest.class );
     }
     
     
-    public void testCustomization()
+    @org.junit.jupiter.api.Test
+    
+    
+     void testCustomization()
     {
     	assertTrue(true);
     	//assertTrue(em != null);

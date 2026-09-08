@@ -10,7 +10,9 @@ public class LinkValidator implements IValidator<String> {
 	private static final long serialVersionUID = 211536707226327476L;
 
 
-	public LinkValidator() { }
+	public LinkValidator() {
+		// Intencionalmente vacio: el validador no mantiene estado.
+	}
 
 
 	@Override

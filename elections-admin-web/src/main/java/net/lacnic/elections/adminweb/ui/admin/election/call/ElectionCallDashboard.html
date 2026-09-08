@@ -1,0 +1,43 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedback" data-testid="feedback"></div>
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="election-call-title"><wicket:message key="electionManagementCallTitle" /></h5>
+				</div>
+				<div class="card-body">
+					<div class="ins-wizard">
+						<div wicket:id="tabsPanel" data-testid="tabsPanel"></div>
+						<div class="tab-content pt-3">
+							<div class="tab-pane fade show active">
+								<form wicket:id="callForm" data-testid="callForm" class="row g-3">
+									<div class="col-12">
+											<label class="form-label" for="callDashboardCallSpanish"><wicket:message key="callSpanishLabel">callSpanishLabel</wicket:message></label>
+											<textarea wicket:id="callSpanish" id="callDashboardCallSpanish" data-testid="callSpanish" class="form-control" style="min-height: 220px"></textarea>
+										</div>
+										<div class="col-12">
+											<label class="form-label" for="callDashboardCallEnglish"><wicket:message key="callEnglishLabel">callEnglishLabel</wicket:message></label>
+											<textarea wicket:id="callEnglish" id="callDashboardCallEnglish" data-testid="callEnglish" class="form-control" style="min-height: 220px"></textarea>
+										</div>
+										<div class="col-12">
+											<label class="form-label" for="callDashboardCallPortuguese"><wicket:message key="callPortugueseLabel">callPortugueseLabel</wicket:message></label>
+											<textarea wicket:id="callPortuguese" id="callDashboardCallPortuguese" data-testid="callPortuguese" class="form-control" style="min-height: 220px"></textarea>
+										</div>
+									<div class="col-12 d-flex justify-content-between mt-4">
+										<a wicket:id="back" data-testid="back" class="btn btn-light"><wicket:message key="censusManagementBack" /></a>
+										<div class="d-flex gap-2">
+											<a wicket:id="skip" data-testid="skip" class="btn btn-light"><wicket:message key="censusManagementIgnore" /></a>
+											<button wicket:id="save" data-testid="save" type="submit" class="btn btn-secondary"><wicket:message key="electionManagementSave" /></button>
+											<button wicket:id="markDoneNext" data-testid="markDoneNext" type="submit" class="btn btn-primary"><wicket:message key="electionManagementMarkCompleteNext" /></button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

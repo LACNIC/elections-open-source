@@ -2,13 +2,13 @@ package net.lacnic.elections.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Clase utilizada para la generación de UUIDs para los códigos de votación
@@ -16,13 +16,11 @@ import org.apache.log4j.Logger;
  */
 public class StringUtils {
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
-
+	private static final Logger appLogger = LoggerFactory.getLogger("ejbAppLogger");
 
 	private StringUtils() {
 		throw new IllegalStateException("Utility class");
 	}
-
 
 	public static String createSecureToken() {
 		return UUID.randomUUID().toString().concat(UUID.randomUUID().toString());
@@ -61,17 +59,17 @@ public class StringUtils {
 		return null;
 	}
 
-	public static String md5(String input) {
+	public static String sha256(String input) {
 		String res = "";
 		try {
-			MessageDigest algorithm = MessageDigest.getInstance("MD5");
+			MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
 			algorithm.reset();
-			algorithm.update(input.getBytes());
-			byte[] md5 = algorithm.digest();
+			algorithm.update(input.getBytes(StandardCharsets.UTF_8));
+			byte[] digest = algorithm.digest();
 			String tmp = "";
 			StringBuilder tmpBld = new StringBuilder();
-			for (int i = 0; i < md5.length; i++) {
-				tmp = (Integer.toHexString(0xFF & md5[i]));
+			for (int i = 0; i < digest.length; i++) {
+				tmp = (Integer.toHexString(0xFF & digest[i]));
 				if (tmp.length() == 1) {
 					tmpBld.append("0" + tmp);
 				} else {
@@ -80,7 +78,7 @@ public class StringUtils {
 			}
 			res = tmpBld.toString();
 		} catch (NoSuchAlgorithmException ex) {
-			appLogger.error(ex);
+			appLogger.error(ex.getMessage(), ex);
 		}
 		return res;
 	}

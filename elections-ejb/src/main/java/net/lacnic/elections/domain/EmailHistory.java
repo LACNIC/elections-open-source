@@ -3,16 +3,14 @@ package net.lacnic.elections.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class EmailHistory implements Serializable {
 
 	private static final long serialVersionUID = -6954869970189933966L;
-
 
 	@Id
 	@Column(name = "emailhistory_id")
@@ -45,11 +43,14 @@ public class EmailHistory implements Serializable {
 	@Column
 	private String templateType;
 
+	@Column
+	private Boolean prioritized = false;
+
 	@Column(name = "election_id")
 	private long electionId;
 
-
-	public EmailHistory() { }
+	public EmailHistory() {
+	}
 
 	public EmailHistory(Email email) {
 		this.emailHistoryId = email.getEmailId();
@@ -62,9 +63,9 @@ public class EmailHistory implements Serializable {
 		this.sent = email.getSent();
 		this.createdDate = email.getCreatedDate();
 		this.templateType = email.getTemplateType();
+		this.prioritized = Boolean.TRUE.equals(email.getPrioritized());
 		this.electionId = email.getElection().getElectionId();
 	}
-
 
 	public Long getEmailHistoryId() {
 		return emailHistoryId;
@@ -144,6 +145,14 @@ public class EmailHistory implements Serializable {
 
 	public void setTemplateType(String templateType) {
 		this.templateType = templateType;
+	}
+
+	public Boolean getPrioritized() {
+		return prioritized;
+	}
+
+	public void setPrioritized(Boolean prioritized) {
+		this.prioritized = prioritized != null ? prioritized : false;
 	}
 
 	public long getElectionId() {

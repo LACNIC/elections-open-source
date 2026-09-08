@@ -1,0 +1,71 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="dshbStatsTitle">
+						<wicket:message key="dshbStatsTitle">Evolución votantes: </wicket:message>
+						<span class="text-success" wicket:id="electionTitle" data-testid="electionTitle"></span>
+					</h5>
+				</div>
+				<div class="card-body">
+					<span wicket:id="graphPanel" data-testid="graphPanel"></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="dshbStatsByCountryTitle">
+						<wicket:message key="dshbStatsByCountryTitle">Evolución votantes por país</wicket:message>
+					</h5>
+				</div>
+				<div class="card-body">
+					<span wicket:id="countryGraphPanel" data-testid="countryGraphPanel"></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="dshbStatsCountryReportTitle">
+						<wicket:message key="dshbStatsCountryReportTitle">Reporte de participación por países</wicket:message>
+					</h5>
+				</div>
+				<div class="card-body">
+					<div wicket:id="countryParticipationReportPanel" data-testid="countryParticipationReportPanel"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="electionResults">
+						<wicket:message key="electionResults">Resultado de la elección</wicket:message>
+					</h5>
+				</div>
+				<div class="card-body">
+					<div wicket:id="resultsPanel" data-testid="resultsPanel"></div>
+					<div class="text-center">
+						<label wicket:id="message" data-testid="message"></label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="auditPanel">
+						<wicket:message key="auditPanel">Panel de auditoría</wicket:message>
+					</h5>
+				</div>
+				<div class="card-body">
+					<div wicket:id="candidateCodesPanel" data-testid="candidateCodesPanel"></div>
+					<div class="text-center">
+						<label wicket:id="message" data-testid="message"></label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

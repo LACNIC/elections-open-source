@@ -1,0 +1,245 @@
+<wicket:panel>
+	<style>
+		.pre-election-table td {
+			white-space: nowrap;
+		}
+		.pre-election-table td.auditor-decision-stage-cell {
+			white-space: normal;
+			min-width: 130px;
+		}
+		.pre-election-table .auditor-decision-status,
+		.pre-election-table .auditor-decision-date {
+			display: block;
+		}
+		.pre-election-table .candidate-summary {
+			white-space: normal;
+		}
+		.pre-election-links-table td,
+		.pre-election-links-table th {
+			white-space: normal;
+			vertical-align: middle;
+		}
+	</style>
+
+	<div class="mt-2">
+		<h6 class="mb-2"><wicket:message key="preElectionReportsLinksTitle" /></h6>
+		<p class="text-muted small mb-3"><wicket:message key="preElectionReportsLinksHelp" /></p>
+		<div class="table-responsive">
+			<table class="table table-sm table-bordered align-middle mb-0 pre-election-links-table">
+				<thead class="table-light">
+					<tr>
+						<th><wicket:message key="preElectionReportsLinksColName" /></th>
+						<th><wicket:message key="preElectionReportsLinksColManualState" /></th>
+						<th><wicket:message key="preElectionReportsLinksColCurrentStatus" /></th>
+						<th><wicket:message key="preElectionReportsLinksColAccessibleNow" /></th>
+						<th><wicket:message key="preElectionReportsLinksColRule" /></th>
+						<th><wicket:message key="preElectionReportsLinksColFrom" /></th>
+						<th><wicket:message key="preElectionReportsLinksColUntil" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="linkAvailabilityList" data-testid="linkAvailabilityList">
+						<td>
+							<div class="fw-semibold" wicket:id="linkName" data-testid="linkName"></div>
+							<div class="text-muted small" wicket:id="linkRoute" data-testid="linkRoute"></div>
+						</td>
+						<td><span wicket:id="linkManualState" data-testid="linkManualState"></span></td>
+						<td><span wicket:id="linkCurrentStatus" data-testid="linkCurrentStatus"></span></td>
+						<td><span wicket:id="linkAccessibleNow" data-testid="linkAccessibleNow"></span></td>
+						<td wicket:id="linkRule" data-testid="linkRule"></td>
+						<td wicket:id="linkAccessibleFrom" data-testid="linkAccessibleFrom"></td>
+						<td wicket:id="linkAccessibleUntil" data-testid="linkAccessibleUntil"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="mt-4">
+		<h6 class="mb-3"><wicket:message key="preElectionReportsAcceptedTitle" /></h6>
+		<div class="table-responsive">
+			<table class="table table-sm table-hover align-middle mb-0">
+				<thead class="table-light">
+					<tr>
+						<th><wicket:message key="preElectionReportsAcceptedColNominationId" /></th>
+						<th><wicket:message key="preElectionReportsAcceptedColNominationStatus" /></th>
+						<th><wicket:message key="preElectionReportsAcceptedColOrganization" /></th>
+						<th><wicket:message key="preElectionReportsAcceptedColNominatedName" /></th>
+						<th><wicket:message key="preElectionReportsAcceptedColNominatedEmail" /></th>
+						<th><wicket:message key="preElectionReportsAcceptedColCandidate" /></th>
+						<th><wicket:message key="preElectionReportsAcceptedColCandidateStatus" /></th>
+						<th><wicket:message key="preElectionReportsAcceptedColLink" /></th>
+						<th><wicket:message key="preElectionReportsAcceptedColReminder" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="acceptedNominationsList" data-testid="acceptedNominationsList">
+						<td wicket:id="acceptedNominationId" data-testid="acceptedNominationId"></td>
+						<td wicket:id="acceptedNominationStatus" data-testid="acceptedNominationStatus"></td>
+						<td wicket:id="acceptedNominationOrganization" data-testid="acceptedNominationOrganization"></td>
+						<td wicket:id="acceptedNominationNominatedName" data-testid="acceptedNominationNominatedName"></td>
+						<td wicket:id="acceptedNominationNominatedEmail" data-testid="acceptedNominationNominatedEmail"></td>
+						<td class="candidate-summary" wicket:id="acceptedNominationCandidate" data-testid="acceptedNominationCandidate"></td>
+						<td wicket:id="acceptedNominationCandidateStatus" data-testid="acceptedNominationCandidateStatus"></td>
+						<td>
+								<a wicket:id="acceptedNominationLink" data-testid="acceptedNominationLink" class="btn btn-light btn-sm" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateManagemenCommonOpenLink"></a>
+							<span wicket:id="acceptedNominationLinkEmpty" data-testid="acceptedNominationLinkEmpty"></span>
+						</td>
+						<td>
+							<a wicket:id="acceptedNominationSendReminder" data-testid="acceptedNominationSendReminder" class="btn btn-light btn-sm"><wicket:message key="candidateManagemenListSendReminder" /></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="text-muted mt-2" wicket:id="noAcceptedNominations" data-testid="noAcceptedNominations"></div>
+	</div>
+
+	<div class="mt-4">
+		<h6 class="mb-3"><wicket:message key="candidateManagemenPendingNominationsTitle" /></h6>
+		<div class="table-responsive">
+			<table class="table table-sm table-hover align-middle mb-0">
+				<thead class="table-light">
+					<tr>
+						<th><wicket:message key="candidateManagemenPendingNominationsColId" /></th>
+						<th><wicket:message key="candidateManagemenPendingNominationsColStatus" /></th>
+						<th><wicket:message key="candidateManagemenPendingNominationsColDate" /></th>
+						<th><wicket:message key="candidateManagemenPendingNominationsColOrganization" /></th>
+						<th><wicket:message key="candidateManagemenPendingNominationsColName" /></th>
+						<th><wicket:message key="candidateManagemenPendingNominationsColEmail" /></th>
+						<th><wicket:message key="candidateManagemenPendingNominationsColLink" /></th>
+						<th><wicket:message key="candidateManagemenPendingNominationsColReminder" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="pendingNominationsList" data-testid="pendingNominationsList">
+						<td wicket:id="pendingNominationId" data-testid="pendingNominationId"></td>
+						<td wicket:id="pendingNominationStatus" data-testid="pendingNominationStatus"></td>
+						<td wicket:id="pendingNominationDate" data-testid="pendingNominationDate"></td>
+						<td wicket:id="pendingNominationOrganization" data-testid="pendingNominationOrganization"></td>
+						<td wicket:id="pendingNominationName" data-testid="pendingNominationName"></td>
+						<td wicket:id="pendingNominationEmail" data-testid="pendingNominationEmail"></td>
+						<td>
+								<a wicket:id="pendingNominationLink" data-testid="pendingNominationLink" class="btn btn-light btn-sm" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateManagemenCommonOpenLink"></a>
+							<span wicket:id="pendingNominationLinkEmpty" data-testid="pendingNominationLinkEmpty"></span>
+						</td>
+						<td>
+							<a wicket:id="pendingNominationSendReminder" data-testid="pendingNominationSendReminder" class="btn btn-light btn-sm"><wicket:message key="candidateManagemenPendingNominationsReminderButton" /></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="text-muted mt-2" wicket:id="noPendingNominations" data-testid="noPendingNominations"></div>
+	</div>
+
+	<div class="mt-4">
+		<h6 class="mb-3"><wicket:message key="candidateManagemenSupportsTitle" /></h6>
+		<div class="table-responsive">
+			<table class="table table-sm table-hover align-middle mb-0">
+				<thead class="table-light">
+					<tr>
+						<th><wicket:message key="candidateManagemenSupportsColId" /></th>
+						<th><wicket:message key="candidateManagemenSupportsColStatus" /></th>
+						<th><wicket:message key="candidateManagemenSupportsColNominationId" /></th>
+						<th><wicket:message key="candidateManagemenSupportsColCandidate" /></th>
+						<th><wicket:message key="candidateManagemenSupportsColOrganization" /></th>
+						<th><wicket:message key="candidateManagemenSupportsColContactName" /></th>
+						<th><wicket:message key="candidateManagemenSupportsColContactEmail" /></th>
+						<th><wicket:message key="candidateManagemenSupportsColLink" /></th>
+						<th><wicket:message key="candidateManagemenSupportsColReminder" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="supportNominationsList" data-testid="supportNominationsList">
+						<td wicket:id="supportNominationId" data-testid="supportNominationId"></td>
+						<td wicket:id="supportNominationStatus" data-testid="supportNominationStatus"></td>
+						<td wicket:id="supportNominationNominationId" data-testid="supportNominationNominationId"></td>
+						<td class="candidate-summary" wicket:id="supportNominationCandidate" data-testid="supportNominationCandidate"></td>
+						<td wicket:id="supportNominationOrganization" data-testid="supportNominationOrganization"></td>
+						<td wicket:id="supportNominationContactName" data-testid="supportNominationContactName"></td>
+						<td wicket:id="supportNominationContactEmail" data-testid="supportNominationContactEmail"></td>
+						<td>
+								<a wicket:id="supportNominationLink" data-testid="supportNominationLink" class="btn btn-light btn-sm" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateManagemenCommonOpenLink"></a>
+							<span wicket:id="supportNominationLinkEmpty" data-testid="supportNominationLinkEmpty"></span>
+						</td>
+						<td>
+							<a wicket:id="supportNominationSendReminder" data-testid="supportNominationSendReminder" class="btn btn-light btn-sm"><wicket:message key="candidateManagemenSupportsReminderButton" /></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="text-muted mt-2" wicket:id="noSupportNominations" data-testid="noSupportNominations"></div>
+	</div>
+
+	<div class="mt-4">
+		<h6 class="mb-3"><wicket:message key="candidateManagemenProgressTitle" /></h6>
+		<div class="table-responsive">
+			<table class="table table-sm table-bordered align-middle mb-0 pre-election-table">
+				<thead class="table-light">
+					<tr>
+						<th><wicket:message key="candidateManagemenProgressColNominationId" /></th>
+						<th><wicket:message key="candidateManagemenProgressColNominationStatus" /></th>
+						<th><wicket:message key="candidateManagemenProgressColCandidate" /></th>
+						<th><wicket:message key="candidateManagemenProgressColCandidateStatus" /></th>
+						<th wicket:id="taskProgressHeaders" data-testid="taskProgressHeaders"><span wicket:id="taskHeaderLabel" data-testid="taskHeaderLabel"></span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="nominationProgressList" data-testid="nominationProgressList">
+						<td wicket:id="progressNominationId" data-testid="progressNominationId"></td>
+						<td wicket:id="progressNominationStatus" data-testid="progressNominationStatus"></td>
+						<td class="candidate-summary" wicket:id="progressCandidateSummary" data-testid="progressCandidateSummary"></td>
+						<td wicket:id="progressCandidateStatus" data-testid="progressCandidateStatus"></td>
+						<td wicket:id="taskProgressCells" data-testid="taskProgressCells"><span wicket:id="taskProgressValue" data-testid="taskProgressValue"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="text-muted mt-2" wicket:id="noNominationProgressRows" data-testid="noNominationProgressRows"></div>
+	</div>
+
+	<div class="mt-4">
+		<h6 class="mb-3"><wicket:message key="candidateManagemenAuditorProgressTitle" /></h6>
+		<p class="text-muted small mb-2"><wicket:message key="candidateManagemenAuditorProgressHelp" /></p>
+		<div class="table-responsive">
+			<table class="table table-sm table-bordered align-middle mb-0 pre-election-table">
+				<thead class="table-light">
+					<tr>
+						<th rowspan="2"><wicket:message key="candidateManagemenAuditorProgressColNominationId" /></th>
+						<th rowspan="2"><wicket:message key="candidateManagemenAuditorProgressColNominationStatus" /></th>
+						<th rowspan="2"><wicket:message key="candidateManagemenAuditorProgressColCandidate" /></th>
+						<th rowspan="2"><wicket:message key="candidateManagemenAuditorProgressColCandidateStatus" /></th>
+						<th wicket:id="auditorDecisionHeaders" data-testid="auditorDecisionHeaders" colspan="2" class="text-center"><span wicket:id="auditorHeaderLabel" data-testid="auditorHeaderLabel"></span></th>
+					</tr>
+					<tr>
+						<wicket:container wicket:id="auditorDecisionStageHeaders">
+							<th data-testid="auditorFirstReactionHeader" class="text-center"><wicket:message key="candidateManagemenAuditorProgressFirstReactionLabel">1ra verificación</wicket:message></th>
+							<th data-testid="auditorFinalDecisionHeader" class="text-center"><wicket:message key="candidateManagemenAuditorProgressFinalDecisionLabel">Final</wicket:message></th>
+						</wicket:container>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="auditorDecisionList" data-testid="auditorDecisionList">
+						<td wicket:id="auditorProgressNominationId" data-testid="auditorProgressNominationId"></td>
+						<td wicket:id="auditorProgressNominationStatus" data-testid="auditorProgressNominationStatus"></td>
+						<td class="candidate-summary" wicket:id="auditorProgressCandidateSummary" data-testid="auditorProgressCandidateSummary"></td>
+						<td wicket:id="auditorProgressCandidateStatus" data-testid="auditorProgressCandidateStatus"></td>
+						<wicket:container wicket:id="auditorDecisionCells">
+							<td wicket:id="auditorFirstReactionCell" data-testid="auditorFirstReactionCell">
+								<span class="auditor-decision-status fw-semibold" wicket:id="auditorFirstReactionValue" data-testid="auditorFirstReactionValue"></span>
+								<span class="auditor-decision-date small mt-1" wicket:id="auditorFirstReactionDate" data-testid="auditorFirstReactionDate"></span>
+							</td>
+							<td wicket:id="auditorFinalDecisionCell" data-testid="auditorFinalDecisionCell">
+								<span class="auditor-decision-status fw-semibold" wicket:id="auditorFinalDecisionValue" data-testid="auditorFinalDecisionValue"></span>
+								<span class="auditor-decision-date small mt-1" wicket:id="auditorFinalDecisionDate" data-testid="auditorFinalDecisionDate"></span>
+							</td>
+						</wicket:container>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="text-muted mt-2" wicket:id="noAuditorDecisionRows" data-testid="noAuditorDecisionRows"></div>
+	</div>
+</wicket:panel>

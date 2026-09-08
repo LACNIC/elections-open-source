@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-layout="topnav">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" data-testid="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de elecciones</title>
+<link href="image/favicon.png" rel="shortcut icon" />
+
+
+<script src="v2/js/config.js"></script>
+<link href="v2/css/vendors.min.css?v=20260330-01" rel="stylesheet" />
+<link href="v2/css/app.min.css?v=20260330-01" rel="stylesheet" />
+<link href="v2/plugins/animate/animate.min.css?v=20260330-01" rel="stylesheet" />
+<link href="v2/css/custom.css?v=20260401-01" rel="stylesheet" />
+<link href="v2/css/feedback.css?v=20260330-01" rel="stylesheet" />
+<script src="v2/js/vendors.min.js"></script>
+<script src="v2/js/app.js"></script>
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<div wicket:id="appTopHeader" data-testid="appTopHeader"></div>
+		<div wicket:id="appTopNavPrivate" data-testid="appTopNavPrivate"></div>
+
+
+		<div class="content-page">
+			<div class="container-fluid">
+				<div wicket:id="appTopPrivateBreadcrumb" data-testid="appTopPrivateBreadcrumb"></div>
+
+				<wicket:child></wicket:child>
+			</div>
+
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6 text-center text-md-start">
+							<strong>
+								<a href="https://github.com/LACNIC/elections-open-source-v3/blob/develop/LICENSE" target="_blank" rel="noopener noreferrer">
+								<wicket:message key="copyright" />
+								</a>
+							</strong>
+							<wicket:message key="copyrightLacnicYears" />
+						</div>
+						<div class="col-md-6">
+							<div class="text-md-end d-none d-md-block">
+								<a wicket:message="href:privacyPolicyLink" target="_blank">
+									<wicket:message key="privacyPolicy"></wicket:message>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+
+</html>

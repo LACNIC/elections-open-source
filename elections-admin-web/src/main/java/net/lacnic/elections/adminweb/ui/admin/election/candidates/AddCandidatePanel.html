@@ -1,0 +1,49 @@
+<wicket:panel>
+	<div class="row g-3">
+		<div class="col-md-6">
+			<label class="form-label" for="addCandidateName"><wicket:message key="candidateManagementName">candidateManagementName</wicket:message></label>
+			<input wicket:id="name" data-testid="name" id="addCandidateName" type="text" class="form-control">
+		</div>
+		<div class="col-md-6" wicket:id="mailContainer" data-testid="mailContainer">
+			<label class="form-label" for="addCandidateMail"><wicket:message key="candidateManagementMail">candidateManagementMail</wicket:message></label>
+			<input wicket:id="mail" data-testid="mail" id="addCandidateMail" type="text" class="form-control">
+		</div>
+	</div>
+	<div class="row g-3 mt-0">
+		<div class="col-md-6" wicket:id="reminderFrequencyContainer" data-testid="reminderFrequencyContainer">
+			<label class="form-label" for="addCandidateReminderFrequency"><wicket:message key="candidateManagementReminderFrequency">candidateManagementReminderFrequency</wicket:message></label>
+			<select wicket:id="reminderFrequency" data-testid="reminderFrequency" id="addCandidateReminderFrequency" class="form-select"></select>
+		</div>
+		<div class="col-md-6">
+			<label class="form-label" for="addCandidateLinkedinUrl"><wicket:message key="candidateManagementLinkedin">candidateManagementLinkedin</wicket:message></label>
+			<input wicket:id="linkedinUrl" data-testid="linkedinUrl" id="addCandidateLinkedinUrl" type="text" class="form-control">
+		</div>
+	</div>
+	<div class="row g-3 mt-0">
+		<div class="col-12">
+			<label class="form-label" for="addCandidateBioSpanish"><wicket:message key="candidateManagementBioEsp">candidateManagementBioEsp</wicket:message></label>
+			<textarea wicket:id="bioSpanish" data-testid="bioSpanish" id="addCandidateBioSpanish" class="form-control" name="bioSpanish" rows="5" maxlength="2000"></textarea>
+		</div>
+	</div>
+	<div class="row g-3 mt-0">
+		<div class="col-12">
+			<label class="form-label" for="addCandidateLinkSpanish"><wicket:message key="candidateProfileLinkSpanishLabel">candidateProfileLinkSpanishLabel</wicket:message></label>
+			<input wicket:id="linkSpanish" data-testid="linkSpanish" id="addCandidateLinkSpanish" type="text" class="form-control">
+			<div wicket:id="linkSpanishHelp" data-testid="linkSpanishHelp" class="form-text"></div>
+		</div>
+	</div>
+	<div class="row g-3 mt-0">
+		<div class="col-12">
+			<label class="form-label" for="addCandidatePicture"><wicket:message key="candidateManagementPicture">candidateManagementPicture</wicket:message></label>
+			<input wicket:id="candidatePicture" data-testid="candidatePicture" id="addCandidatePicture" type="file" class="form-control">
+		</div>
+		<div class="col-12 d-flex justify-content-end gap-2">
+			<a class="btn btn-light" wicket:id="cancelAddCandidate" data-testid="cancelAddCandidate">
+				<wicket:message key="candidateEditBtnCanc" />
+			</a>
+			<a class="btn btn-success" wicket:id="addCandidate" data-testid="addCandidate" id="addCandidate" name="addCandidate">
+				<span wicket:id="submitLabel" data-testid="submitLabel"></span>
+			</a>
+		</div>
+	</div>
+</wicket:panel>

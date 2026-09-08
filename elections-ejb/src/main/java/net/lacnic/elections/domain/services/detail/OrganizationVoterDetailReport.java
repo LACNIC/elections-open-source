@@ -15,6 +15,7 @@ public class OrganizationVoterDetailReport implements Serializable {
 	private String name;
 	private String mail;
 	private String orgID;
+	private String orgName;
 	private String voteDate;
 	private OrganizationElectionDetailReport election;
 
@@ -27,6 +28,7 @@ public class OrganizationVoterDetailReport implements Serializable {
 		this.name = userVoter.getName();
 		this.mail = userVoter.getMail();
 		this.orgID = userVoter.getOrgID();
+		this.orgName = userVoter.getOrgName();
 		this.voteDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getVoteDate());
 		this.election = new OrganizationElectionDetailReport(userVoter.getElection());
 	}
@@ -70,6 +72,14 @@ public class OrganizationVoterDetailReport implements Serializable {
 
 	public void setOrgID(String orgID) {
 		this.orgID = orgID;
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
 
 	public String getVoteDate() {

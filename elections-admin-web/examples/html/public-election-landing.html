@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Eleccion Publica | Landing</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(15, 23, 42, 0.04) 0%, rgba(15, 23, 42, 0) 35%);
+		}
+
+		.page-wrap {
+			max-width: 1080px;
+			margin: 0 auto;
+		}
+
+		.section-card {
+			border: 1px solid rgba(15, 23, 42, 0.10);
+		}
+
+		.section-title {
+			scroll-margin-top: 100px;
+		}
+
+		.table-candidatos thead th {
+			font-size: .72rem;
+			letter-spacing: .03em;
+		}
+
+		.table-candidatos tbody tr {
+			transition: background-color .2s ease;
+		}
+
+		.table-candidatos tbody tr.status-aprobado {
+			background-color: rgba(25, 135, 84, .08);
+		}
+
+		.table-candidatos tbody tr.status-incompleto {
+			background-color: rgba(255, 193, 7, .12);
+		}
+
+		.table-candidatos tbody tr.status-rechazado {
+			background-color: rgba(220, 53, 69, .10);
+		}
+
+		.timeline-view .timeline-time {
+			min-width: 12rem;
+			font-size: .80rem;
+			font-weight: 600;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-election-landing.html" class="topbar-link fw-semibold">Eleccion Directorio 2026</a>
+					<span class="badge text-bg-light border">Portal publico</span>
+					<span class="small text-muted">10 mar 2026 - 28 jun 2026</span>
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<div class="topbar-item d-none d-sm-flex">
+						<button class="topbar-link" id="light-dark-mode" type="button" aria-label="Cambiar modo claro u oscuro">
+							<i data-lucide="moon" class="fs-xxl mode-light-moon"></i>
+							<i data-lucide="sun" class="fs-xxl mode-light-sun"></i>
+						</button>
+					</div>
+					<div class="dropdown topbar-item">
+						<button class="topbar-link fw-semibold dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">Idioma</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item active" href="#">Espanol</a>
+							<a class="dropdown-item" href="#">English</a>
+							<a class="dropdown-item" href="#">Portugues</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+			<div class="container-fluid py-4">
+					<div class="page-wrap">
+						<!-- CALENDAR MAP: mostrar desde N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED y mantener durante auditorías/reclamos hasta publicación oficial (N_20 o N_22). -->
+						<section id="resultado-eleccion" class="section-title" data-calendar-show-from="N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED" data-calendar-stage-flow="N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED,N_18_PERIODO_CE_AUDIT,N_19_PERIODO_VOTER_AUDIT,N_20_SINGLE_OFFICIAL_RESULTS_NO_CLAIMS_PUBLISHED,N_21_PERIODO_VOTER_CLAIMS_RESPONSE,N_22_SINGLE_OFFICIAL_RESULTS_WITH_CLAIMS_PUBLISHED" data-task-scope="no-task">
+							<div class="card section-card mb-4">
+								<div class="card-header">
+									<h4 class="card-title mb-0">Resultado de la elección</h4>
+								</div>
+									<div class="card-body">
+										<!--
+											Etapas posibles para implementación:
+											1) Resultados provisorios (sujetos a auditoría de C.E. y reclamos de votantes).
+											2) Período de auditoría y reclamos en curso.
+											3) Resultado oficial publicado + carta certificadora C.E.
+											Al cambiar de etapa:
+											- Actualizar este texto de estado.
+											- Ajustar la etiqueta "Actual" en la lista de etapas.
+											- Ajustar textos de ayuda/popover si aplica.
+										-->
+											<div class="alert alert-info mb-3">
+												<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+													<p class="mb-0"><strong>Estado de publicación:</strong> Resultados provisorios sujetos a auditoría.</p>
+													<button type="button" class="btn btn-light btn-sm" data-bs-toggle="popover" data-bs-trigger="focus" title="Estado de publicación" data-bs-content="Los resultados provisorios están sujetos a auditoría de la Comisión Electoral y a posibles reclamos sobre la votación en línea.">¿Qué significa?</button>
+												</div>
+											</div>
+
+									<div class="row g-3 mb-3">
+										<div class="col-lg-8">
+											<div class="table-responsive">
+												<table class="table table-hover align-middle mb-0">
+													<thead class="table-light">
+														<tr>
+															<th>Candidatos</th>
+															<th width="160">Votos recibidos</th>
+															<th width="100">%</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>Wardner Maia</td>
+															<td>2.201</td>
+															<td>70,4%</td>
+														</tr>
+														<tr>
+															<td>Edmundo Cazarez Lopez</td>
+															<td>667</td>
+															<td>21,3%</td>
+														</tr>
+														<tr>
+															<td>Abstención / Abstention / Abstenção</td>
+															<td>259</td>
+															<td>8,3%</td>
+														</tr>
+														<tr class="fw-semibold">
+															<td>Total de votos</td>
+															<td>3.127</td>
+															<td>100%</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="col-lg-4">
+											<div class="border rounded p-3 h-100">
+												<h6 class="mb-2">Etapas de publicación</h6>
+												<ul class="list-group list-group-flush">
+													<li class="list-group-item px-0 py-2">
+														<div class="d-flex justify-content-between align-items-start gap-2">
+															<div>
+																<div class="fw-semibold">Publicación de resultados provisorios</div>
+																<div class="small text-muted">30 de octubre · 18 UTC</div>
+															</div>
+																<span class="badge text-bg-secondary">Actual</span>
+														</div>
+													</li>
+													<li class="list-group-item px-0 py-2">
+														<div class="fw-semibold">Período de auditoría de votantes y reclamos</div>
+														<div class="small text-muted">4 y 5 de noviembre · 18 UTC</div>
+													</li>
+													<li class="list-group-item px-0 py-2">
+														<div class="fw-semibold">Publicación de resultado oficial + carta certificadora C.E.</div>
+														<div class="small text-muted">5 de noviembre · 18 UTC</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+
+									<div class="row g-3">
+										<div class="col-md-8">
+											<div class="border rounded p-3 h-100">
+												<h6 class="mb-3">Resumen de participación</h6>
+												<p class="mb-2"><strong>Total de habilitados a votar:</strong> 12.501</p>
+												<p class="mb-2"><strong>Total de organizaciones que votaron:</strong> 1.207</p>
+												<p class="mb-0"><strong>Porcentaje de participación:</strong> 10%</p>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="border rounded p-3 h-100 bg-light-subtle">
+												<h6 class="mb-2">Consultas o más información</h6>
+												<p class="mb-1 text-muted">Para cualquier consulta sobre estos resultados:</p>
+												<a href="mailto:elecciones@example.org">elecciones@example.org</a>
+											</div>
+										</div>
+									</div>
+
+									<p class="text-muted mt-3 mb-0">La publicación de los resultados provisorios busca evitar que se divulgue el resultado extraoficial por canales ajenos a LACNIC durante el período de auditoría por parte de los votantes.</p>
+								</div>
+							</div>
+						</section>
+						<!-- CALENDAR MAP: mostrar desde N_11_SINGLE_CANDIDATES_PUBLISHED. -->
+						<section id="candidatos" class="section-title" data-calendar-show-from="N_11_SINGLE_CANDIDATES_PUBLISHED" data-calendar-related="N_12_PERIODO_CANDIDATE_QUESTIONS,N_16_PERIODO_VOTING,N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED" data-task-keys="PROFILE,COUNTRIES,ORGANIZATIONS">
+						<div class="card section-card mb-4">
+							<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+								<h4 class="card-title mb-0">Candidatos</h4>
+								<span class="badge text-bg-light border">Vista resumen pública</span>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-6 col-xxl-4">
+										<div class="card card-h-100 candidate-contact-card">
+											<div class="card-body">
+												<div class="d-flex align-items-center mb-4">
+													<div class="me-3 position-relative">
+														<img src="assets/images/users/user-2.jpg" alt="Ana Rodríguez" class="rounded-circle" width="72" height="72">
+														<span class="position-absolute bottom-0 end-0 badge bg-success rounded-circle p-1 shadow-sm"><i class="ti ti-check text-white"></i></span>
+													</div>
+													<div>
+														<h5 class="mb-1"><a href="public-election-candidate-ana.html" class="link-reset">Ana Rodríguez</a></h5>
+													</div>
+												</div>
+												<ul class="list-unstyled text-muted mb-4">
+													<li class="mb-2"><i class="ti ti-map-pin me-2"></i>Uruguay</li>
+													<li><i class="ti ti-building me-2"></i>Empresas: RedUY Internet, NAP Montevideo</li>
+												</ul>
+												<div class="text-end">
+													<a href="public-election-candidate-ana.html" class="btn btn-soft-primary btn-sm rounded-pill">Ver perfil</a>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-xxl-4">
+										<div class="card card-h-100 candidate-contact-card">
+											<div class="card-body">
+												<div class="d-flex align-items-center mb-4">
+													<div class="me-3 position-relative">
+														<img src="assets/images/users/user-5.jpg" alt="Bruno Costa" class="rounded-circle" width="72" height="72">
+														<span class="position-absolute bottom-0 end-0 badge bg-success rounded-circle p-1 shadow-sm"><i class="ti ti-check text-white"></i></span>
+													</div>
+													<div>
+														<h5 class="mb-1"><a href="public-election-candidate-bruno.html" class="link-reset">Bruno Costa</a></h5>
+													</div>
+												</div>
+												<ul class="list-unstyled text-muted mb-4">
+													<li class="mb-2"><i class="ti ti-map-pin me-2"></i>Brasil</li>
+													<li><i class="ti ti-building me-2"></i>Empresas: No aplica</li>
+												</ul>
+												<div class="text-end">
+													<a href="public-election-candidate-bruno.html" class="btn btn-soft-primary btn-sm rounded-pill">Ver perfil</a>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-xxl-4">
+										<div class="card card-h-100 candidate-contact-card">
+											<div class="card-body">
+												<div class="d-flex align-items-center mb-4">
+													<div class="me-3 position-relative">
+														<img src="assets/images/users/user-7.jpg" alt="Carla Méndez" class="rounded-circle" width="72" height="72">
+														<span class="position-absolute bottom-0 end-0 badge bg-success rounded-circle p-1 shadow-sm"><i class="ti ti-check text-white"></i></span>
+													</div>
+													<div>
+														<h5 class="mb-1"><a href="public-election-candidate-carla.html" class="link-reset">Carla Méndez</a></h5>
+													</div>
+												</div>
+												<ul class="list-unstyled text-muted mb-4">
+													<li class="mb-2"><i class="ti ti-map-pin me-2"></i>México</li>
+													<li><i class="ti ti-building me-2"></i>Empresas: ConectaMX, Laboratorio de Innovación Digital</li>
+												</ul>
+												<div class="text-end">
+													<a href="public-election-candidate-carla.html" class="btn btn-soft-primary btn-sm rounded-pill">Ver perfil</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- CALENDAR MAP: mostrar desde N_1_SINGLE_CALL_FOR_CANDIDATES_PUBLISHED para informar todo el proceso. -->
+					<section id="calendario" class="section-title" data-calendar-show-from="N_1_SINGLE_CALL_FOR_CANDIDATES_PUBLISHED" data-task-scope="no-task">
+						<div class="card section-card mb-4">
+							<div class="card-header">
+								<h4 class="card-title mb-0">Calendario publico</h4>
+							</div>
+							<div class="card-body">
+								<div class="timeline timeline-icon-bordered timeline-view">
+<div class="timeline-item d-flex align-items-stretch" data-calendar-key="N_1_SINGLE_CALL_FOR_CANDIDATES_PUBLISHED" data-calendar-type="single">
+										<div class="timeline-time pe-3 text-muted">10 mar 2026 · 09:00</div>
+										<div class="timeline-dot"><i class="ti ti-map-pin fs-xl text-success"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<h5 class="mb-1">Publicacion de la eleccion</h5>
+											<p class="mb-1 text-muted">Habilita la pagina publica y el calendario con hitos publicables.</p>
+										</div>
+									</div>
+
+<div class="timeline-item d-flex align-items-stretch" data-calendar-key="N_2_PERIODO_CALL_FOR_CANDIDATES" data-calendar-type="period">
+										<div class="timeline-time pe-3 text-muted">15 mar 2026 · 08:00 → 22 abr 2026 · 18:00</div>
+										<div class="timeline-dot"><i class="ti ti-user-plus fs-xl text-success"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<h5 class="mb-1">Recepcion de candidaturas</h5>
+											<p class="mb-1 text-muted">Carga de perfil, documentos y validaciones iniciales.</p>
+										</div>
+									</div>
+
+<div class="timeline-item d-flex align-items-stretch" data-calendar-key="N_11_SINGLE_CANDIDATES_PUBLISHED" data-calendar-type="single">
+										<div class="timeline-time pe-3 text-muted">08 may 2026 · 12:00 → 30 may 2026 · 23:59</div>
+										<div class="timeline-dot"><i class="ti ti-message-circle fs-xl text-success"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<h5 class="mb-1">Publicacion de perfiles y respuestas</h5>
+											<p class="mb-1 text-muted">Fase activa de consulta publica sobre candidaturas.</p>
+										</div>
+									</div>
+
+<div class="timeline-item d-flex align-items-stretch" data-calendar-key="N_12_PERIODO_CANDIDATE_QUESTIONS" data-calendar-type="period">
+										<div class="timeline-time pe-3 text-muted">31 may 2026 · 09:00 → 06 jun 2026 · 18:00</div>
+										<div class="timeline-dot"><i class="ti ti-help-circle fs-xl text-primary"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<h5 class="mb-1">Periodo de preguntas a candidatos</h5>
+											<p class="mb-1 text-muted">Recepción y publicación de preguntas de asociados.</p>
+										</div>
+									</div>
+
+<div class="timeline-item d-flex align-items-stretch" data-calendar-key="N_16_PERIODO_VOTING" data-calendar-type="period">
+											<div class="timeline-time pe-3 text-muted">20 jun 2026 · 08:00 → 20 jun 2026 · 19:00</div>
+											<div class="timeline-dot"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3">
+											<h5 class="mb-1">Votacion</h5>
+											<p class="mb-1 text-muted">Apertura y cierre de votacion con publicación de resultados preliminares.</p>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>
+					</section>
+
+						<!-- CALENDAR MAP: mostrar desde N_4_SINGLE_PADRON_PUBLISHED. -->
+						<section id="padron-electoral" class="section-title mt-4" data-calendar-show-from="N_4_SINGLE_PADRON_PUBLISHED" data-task-scope="no-task">
+								<div class="card section-card">
+									<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+										<h4 class="card-title mb-0">Padrón electoral</h4>
+									<a href="public-election-electoral-roll.html" class="btn btn-secondary btn-sm">Ver padrón completo</a>
+								</div>
+								<div class="card-body">
+										<div class="row g-3 mb-3">
+											<div class="col-md-4">
+												<div class="border rounded p-3 h-100">
+													<div class="text-muted fs-xs">Organizaciones habilitadas</div>
+													<div class="fs-4 fw-semibold">8.742</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="border rounded p-3 h-100">
+													<div class="text-muted fs-xs">Países representados</div>
+												<div class="fs-4 fw-semibold">33</div>
+											</div>
+										</div>
+											<div class="col-md-4">
+												<div class="border rounded p-3 h-100">
+													<div class="text-muted fs-xs">Cantidad total de votos en esta elección</div>
+													<div class="fs-4 fw-semibold">9.184</div>
+												</div>
+											</div>
+									</div>
+										<p class="mb-0 text-muted">El detalle completo se publica en una vista dedicada con paginación para navegar los 13.000 registros. Se muestra país y organización; el nombre de la persona aparece ofuscado.</p>
+									</div>
+								</div>
+						</section>
+
+						<!-- CALENDAR MAP: mostrar desde N_11_SINGLE_CANDIDATES_PUBLISHED; puede seguir visible hasta resultados. -->
+						<section id="candidaturas-incompletas" class="section-title" data-calendar-show-from="N_11_SINGLE_CANDIDATES_PUBLISHED" data-calendar-related="N_7_PERIODO_CANDIDATE_FORMS_VERIFICATION,N_8_PERIODO_EVALUATIONS_VALIDATION,N_9_PERIODO_CANDIDATE_CLAIMS,N_10_PERIODO_CANDIDATE_CLAIMS_RESOLUTION,N_15_PERIODO_CANDIDATE_CLAIMS_BY_CE" data-task-keys="PROFILE,COUNTRIES,INCOMPATIBILITIES,ORG_SUPPORTS,USER_SUPPORTS_2,USER_SUPPORTS_5,ORGANIZATIONS,COURSE,DECLARATIONS,DECLARATIONS_NON_STATUTORY,EVALUATION">
+							<div class="card section-card">
+								<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+									<h4 class="card-title mb-0">Resumen de candidatos</h4>
+									<div class="d-flex gap-1 flex-wrap">
+										<span class="badge text-bg-success">Completada</span>
+										<span class="badge text-bg-warning">Incompleta / No aceptó</span>
+										<span class="badge text-bg-danger">Rechazada por comisión</span>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-hover align-middle mb-0 table-candidatos">
+											<thead class="table-light">
+												<tr>
+													<th width="280">Nombre completo del candidato</th>
+													<th width="90">País</th>
+													<th width="180">Estado candidatura</th>
+													<th width="140">Avance</th>
+													<th width="170">Nominación</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="status-aprobado">
+													<td><a href="public-election-candidate-ana.html" class="fw-semibold">Ana Rodríguez</a></td>
+													<td>UY</td>
+													<td><span class="badge text-bg-success">Completa</span></td>
+													<td>12 / 12</td>
+													<td>Aceptó</td>
+												</tr>
+												<tr class="status-aprobado">
+													<td><a href="public-election-candidate-bruno.html" class="fw-semibold">Bruno Costa</a></td>
+													<td>BR</td>
+													<td><span class="badge text-bg-success">Completa</span></td>
+													<td>12 / 12</td>
+													<td>Aceptó</td>
+												</tr>
+												<tr class="status-aprobado">
+													<td><a href="public-election-candidate-carla.html" class="fw-semibold">Carla Méndez</a></td>
+													<td>MX</td>
+													<td><span class="badge text-bg-success">Completa</span></td>
+													<td>12 / 12</td>
+													<td>Aceptó</td>
+												</tr>
+												<tr class="status-incompleto">
+													<td>*******************</td>
+													<td>PE</td>
+													<td><span class="badge text-bg-warning">Incompleta</span></td>
+													<td>7 / 12</td>
+													<td>Aceptó</td>
+												</tr>
+												<tr class="status-incompleto">
+													<td>*******************</td>
+													<td>CO</td>
+													<td><span class="badge text-bg-warning">Incompleta</span></td>
+													<td>4 / 12</td>
+													<td>Aceptó</td>
+												</tr>
+												<tr class="status-incompleto">
+													<td>*******************</td>
+													<td>EC</td>
+													<td><span class="badge text-bg-warning">No iniciada</span></td>
+													<td>0 / 12</td>
+													<td>No aceptó</td>
+												</tr>
+												<tr class="status-rechazado">
+													<td>*******************</td>
+													<td>VE</td>
+													<td><span class="badge text-bg-danger">Rechazada</span></td>
+													<td>9 / 12</td>
+													<td>Aceptó</td>
+												</tr>
+												<tr class="status-rechazado">
+													<td>*******************</td>
+													<td>CO</td>
+													<td><span class="badge text-bg-danger">Rechazado</span></td>
+													<td>10 / 12</td>
+													<td>Aceptó</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+
+		<script src="assets/js/vendors.min.js"></script>
+		<script src="assets/js/app.js"></script>
+		<script>
+			(function () {
+				if (!window.bootstrap) return;
+				var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+				popoverTriggerList.forEach(function (popoverTriggerEl) {
+					new bootstrap.Popover(popoverTriggerEl);
+				});
+			})();
+		</script>
+	</body>
+
+</html>

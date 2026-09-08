@@ -1,33 +1,52 @@
 package net.lacnic.elections.adminweb.ui.admin.election.detail;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.EmailTextField;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.validation.validator.RangeValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.apache.wicket.validation.validator.UrlValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import net.lacnic.elections.adminweb.wicket.util.Time24HoursValidator;
+import net.lacnic.elections.adminweb.app.SecurityUtils;
+import net.lacnic.elections.adminweb.ui.admin.election.ElectionCategoryChoiceRenderer;
+import net.lacnic.elections.adminweb.validators.AuthorizedUserEmailsValidator;
+import net.lacnic.elections.campus.CampusClient;
+import net.lacnic.elections.campus.Course;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionCategory;
-
+import net.lacnic.elections.domain.ElectionLinkRecoveryMode;
+import net.lacnic.elections.domain.ElectionType;
+import net.lacnic.elections.utils.CountryUtils;
 
 public class ElectionDetailPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
-
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 	public ElectionDetailPanel(String id, Election election) {
 		super(id);
@@ -64,9 +83,135 @@ public class ElectionDetailPanel extends Panel {
 			};
 			add(onlySp);
 
-			DropDownChoice<ElectionCategory> selectCategory = new DropDownChoice<>("selectCategory", new PropertyModel<>(election, "category"), Arrays.asList(ElectionCategory.values()));
+			DropDownChoice<ElectionCategory> selectCategory = new DropDownChoice<>("selectCategory", new PropertyModel<>(election, "category"),
+					SecurityUtils.getVisibleElectionCategories(election), new ElectionCategoryChoiceRenderer(this));
 			selectCategory.setRequired(true);
 			add(selectCategory);
+
+			CheckBox manageVotersManual = new CheckBox("manageVotersManual", new PropertyModel<>(election, "manageVotersManual"));
+			add(manageVotersManual);
+
+			CheckBox manageOrganizationsManual = new CheckBox("manageOrganizationsManual", new PropertyModel<>(election, "manageOrganizationsManual"));
+			add(manageOrganizationsManual);
+
+			boolean campusConfigured = CampusClient.isCampusIntegrationEnabled();
+			List<Course> courses = initCourse();
+			Map<Long, String> campusCourseIdToName = buildCampusCourseLabelMap(courses);
+			addCampusCourseChoice("campusCourse", election, "campusCourse", campusCourseIdToName).setVisible(campusConfigured);
+			addCampusCourseChoice("campusCourseEnglish", election, "campusCourseEnglish", campusCourseIdToName).setVisible(campusConfigured);
+			addCampusCourseChoice("campusCoursePortuguese", election, "campusCoursePortuguese", campusCourseIdToName).setVisible(campusConfigured);
+
+			String campusUrl = CampusClient.getCampusUrl();
+			campusUrl = campusUrl == null ? "" : campusUrl.trim();
+			if (campusUrl.isEmpty()) {
+				campusUrl = "-";
+			}
+			add(new Label("campusCourseHelp", new StringResourceModel("electionManagementCampusCourseHelp", this, null).setParameters(campusUrl).getString()).setVisible(campusConfigured));
+
+				DropDownChoice<ElectionType> electionType = new DropDownChoice<>("electionType", new PropertyModel<>(election, "electionType"), Arrays.asList(ElectionType.values()), new IChoiceRenderer<ElectionType>() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public Object getDisplayValue(ElectionType object) {
+					if (object == null) {
+						return "";
+					}
+					return getString("electionDeclarationsScope." + object.name());
+				}
+
+				@Override
+				public String getIdValue(ElectionType object, int index) {
+					return object == null ? null : object.name();
+				}
+			});
+				electionType.setNullValid(true);
+				electionType.setRequired(false);
+				add(electionType);
+
+				DropDownChoice<ElectionLinkRecoveryMode> publicLinkRecoveryMode = new DropDownChoice<>("publicLinkRecoveryMode",
+						new PropertyModel<>(election, "publicLinkRecoveryMode"),
+						Arrays.asList(ElectionLinkRecoveryMode.values()),
+						new IChoiceRenderer<ElectionLinkRecoveryMode>() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public Object getDisplayValue(ElectionLinkRecoveryMode object) {
+								return object == null ? "" : getString("electionLinkRecoveryMode." + object.name());
+							}
+
+							@Override
+							public String getIdValue(ElectionLinkRecoveryMode object, int index) {
+								return object == null ? null : object.name();
+							}
+						});
+				publicLinkRecoveryMode.setNullValid(false);
+				publicLinkRecoveryMode.setRequired(true);
+				add(publicLinkRecoveryMode);
+
+			WebMarkupContainer restrictedCountryContainer = new WebMarkupContainer("restrictedCountryContainer");
+			restrictedCountryContainer.setOutputMarkupId(true);
+			add(restrictedCountryContainer);
+
+			CountryUtils countryUtils = new CountryUtils();
+			DropDownChoice<String> restrictedCountry = new DropDownChoice<>("restrictedCountry", new PropertyModel<>(election, "restrictedCountrySelection"), countryUtils.getIdsListLacnicFirst(false), new IChoiceRenderer<String>() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public Object getDisplayValue(String object) {
+					if (object == null) {
+						return "";
+					}
+					return resolveCountryLabel(object, countryUtils);
+				}
+
+				@Override
+				public String getIdValue(String object, int index) {
+					return object;
+				}
+			});
+			restrictedCountry.setNullValid(true);
+			restrictedCountry.setRequired(false);
+
+			restrictedCountry.add(new AjaxFormComponentUpdatingBehavior("change") {
+				private static final long serialVersionUID = 4302080897730187800L;
+
+				@Override
+				protected void onUpdate(AjaxRequestTarget target) {
+					String selection = election.getRestrictedCountrySelection();
+
+					if (selection != null && !selection.isEmpty()) {
+						List<String> currentCodes = election.getRestrictedCountryCodes();
+						if (!currentCodes.contains(selection)) {
+							currentCodes.add(selection);
+						}
+					}
+					election.setRestrictedCountrySelection(null);
+					target.add(restrictedCountryContainer);
+				}
+			});
+			restrictedCountryContainer.add(restrictedCountry);
+
+			ListView<String> restrictedCountries = new ListView<String>("restrictedCountries", new PropertyModel<>(election, "restrictedCountryCodes")) {
+				private static final long serialVersionUID = -8307756509962801824L;
+
+				@Override
+				protected void populateItem(ListItem<String> item) {
+					String code = item.getModelObject();
+
+					AjaxLink<Void> removeLink = new AjaxLink<Void>("removeRestrictedCountry") {
+						private static final long serialVersionUID = 7295392860607396471L;
+
+						@Override
+						public void onClick(AjaxRequestTarget target) {
+							election.getRestrictedCountryCodes().remove(code);
+							target.add(restrictedCountryContainer);
+						}
+					};
+					item.add(removeLink);
+					removeLink.add(new Label("restrictedCountryLabel", resolveCountryLabel(code, countryUtils)));
+				}
+			};
+			restrictedCountryContainer.add(restrictedCountries);
 
 			TextField<String> titleSpanish = new TextField<>("titleSpanish", new PropertyModel<>(election, "titleSpanish"));
 			titleSpanish.add(StringValidator.maximumLength(1000));
@@ -116,24 +261,6 @@ public class ElectionDetailPanel extends Panel {
 			linkPortuguese.setRequired(true);
 			electionUrls.add(linkPortuguese);
 
-			TextField<String> startDate = new TextField<>("startDate", new PropertyModel<>(election, "auxStartDate"));
-			startDate.setRequired(true);
-			add(startDate);
-
-			TextField<String> endDate = new TextField<>("endDate", new PropertyModel<>(election, "auxEndDate"));
-			endDate.setRequired(true);
-			add(endDate);
-
-			TextField<String> startTime = new TextField<>("startTime", new PropertyModel<>(election, "auxStartHour"));
-			startTime.setRequired(true);
-			startTime.add(new Time24HoursValidator());
-			add(startTime);
-
-			TextField<String> endTime = new TextField<>("endTime", new PropertyModel<>(election, "auxEndHour"));
-			endTime.setRequired(true);
-			endTime.add(new Time24HoursValidator());
-			add(endTime);
-
 			TextField<Integer> maxCandidates = new TextField<>("maxCandidates", new PropertyModel<>(election, "maxCandidates"));
 			maxCandidates.setRequired(true);
 			maxCandidates.add(RangeValidator.range(1, 100));
@@ -148,9 +275,84 @@ public class ElectionDetailPanel extends Panel {
 			defaultSender.setRequired(true);
 			add(defaultSender);
 
+			EmailTextField defaultRecipient = new EmailTextField("defaultRecipient", new PropertyModel<>(election, "defaultRecipient"));
+			defaultRecipient.setRequired(true);
+			add(defaultRecipient);
+
+			TextArea<String> authorizedUserEmails = new TextArea<>("authorizedUserEmails", new PropertyModel<>(election, "authorizedUserEmails"));
+			authorizedUserEmails.add(new AuthorizedUserEmailsValidator());
+			authorizedUserEmails.setRequired(false);
+			add(authorizedUserEmails);
+
+			TextArea<String> authorizedSupportEmails = new TextArea<>("authorizedSupportEmails", new PropertyModel<>(election, "authorizedSupportEmails"));
+			authorizedSupportEmails.add(new AuthorizedUserEmailsValidator());
+			authorizedSupportEmails.setRequired(false);
+			add(authorizedSupportEmails);
+
+			TextArea<String> authorizedNominateEmails = new TextArea<>("authorizedNominateEmails", new PropertyModel<>(election, "authorizedNominateEmails"));
+			authorizedNominateEmails.add(new AuthorizedUserEmailsValidator());
+			authorizedNominateEmails.setRequired(false);
+			add(authorizedNominateEmails);
+
+			TextField<String> publicElectionToken = new TextField<>("publicElectionToken", new PropertyModel<>(election, "publicElectionToken"));
+			publicElectionToken.setRequired(false);
+			publicElectionToken.add(StringValidator.maximumLength(1000));
+			add(publicElectionToken);
+
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
+	}
+
+	private String resolveCountryLabel(String countryCode, CountryUtils countryUtils) {
+		String normalizedCode = countryUtils.normalizeCountryCode(countryCode);
+		if (normalizedCode == null) {
+			return "";
+		}
+		return countryUtils.getDisplayLabel(normalizedCode, getLocale(), true);
+	}
+
+	private DropDownChoice<Long> addCampusCourseChoice(String componentId, Election election, String propertyName, Map<Long, String> campusCourseIdToName) {
+		DropDownChoice<Long> campusCourse = new DropDownChoice<>(componentId, new PropertyModel<>(election, propertyName), new ArrayList<>(campusCourseIdToName.keySet()), new IChoiceRenderer<Long>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Object getDisplayValue(Long object) {
+				if (object == null) {
+					return "";
+				}
+				return campusCourseIdToName.getOrDefault(object, String.valueOf(object));
+			}
+
+			@Override
+			public String getIdValue(Long object, int index) {
+				return object == null ? null : String.valueOf(object);
+			}
+		});
+		campusCourse.setNullValid(true);
+		campusCourse.setRequired(false);
+		add(campusCourse);
+		return campusCourse;
+	}
+
+	private Map<Long, String> buildCampusCourseLabelMap(List<Course> courses) {
+		Map<Long, String> labels = new LinkedHashMap<>();
+		for (Course course : courses) {
+			if (course == null || course.getId() == null) {
+				continue;
+			}
+			labels.put(course.getId(), course.getFullDescription());
+		}
+		return labels;
+	}
+
+	private List<Course> initCourse() {
+		List<Course> cursos = CampusClient.getCourses();
+
+		if (cursos == null) {
+			return new ArrayList<>();
+		}
+		return cursos;
 	}
 
 }

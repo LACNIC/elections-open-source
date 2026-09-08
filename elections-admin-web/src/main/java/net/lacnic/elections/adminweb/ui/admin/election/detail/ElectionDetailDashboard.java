@@ -1,73 +1,72 @@
 package net.lacnic.elections.adminweb.ui.admin.election.detail;
 
-import java.util.Date;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.admin.election.ElectionsDashboard;
 import net.lacnic.elections.adminweb.ui.admin.election.ManageElectionTabsPanel;
-import net.lacnic.elections.adminweb.ui.admin.election.census.ElectionCensusDashboard;
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.admin.election.call.ElectionCallDashboard;
+import net.lacnic.elections.adminweb.ui.admin.election.create.ElectionCreateDashboard;
+import net.lacnic.elections.adminweb.ui.bases.DashboardElectionBasePage;
 import net.lacnic.elections.adminweb.ui.error.ErrorElectionClosed;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
+import net.lacnic.elections.adminweb.validators.ElectionManualManagementScopeValidator;
 import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ElectionType;
+import net.lacnic.elections.domain.LanguageCode;
 import net.lacnic.elections.ejb.ElectionsManagerEJB;
 
-
-@AuthorizeInstantiation("elections-only-one")
-public class ElectionDetailDashboard extends DashboardAdminBasePage {
+public class ElectionDetailDashboard extends DashboardElectionBasePage {
 
 	private static final long serialVersionUID = 2749798787618064089L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 	private Election election;
-
 
 	public ElectionDetailDashboard(PageParameters params) {
 		super(params);
 
+		long electionId = UtilsParameters.getIdAsLong(params);
+
 		// Check if election is closed (user might be using a direct link to get to this page)
-		if (UtilsParameters.isId(params)) {
-			Election election = AppContext.getInstance().getManagerBeanRemote().getElection(UtilsParameters.getIdAsLong(params));
-			if(election.isClosed()) {
+		if (UtilsParameters.isId(params) && electionId > 0) {
+			Election electionAux = reloadAndEnforceElectionAccess(electionId);
+			if (electionAux.isClosed()) {
 				setResponsePage(ErrorElectionClosed.class);
 				return;
-			} else {
-				setElection(election);
-				getElection().initStringsStartEndDates();
 			}
+			setElection(electionAux);
 		} else {
-			election = new Election();
-			election.setLinkSpanish((AppContext.getInstance().getManagerBeanRemote().getDefaultWebsite()));
-			election.setDefaultSender(AppContext.getInstance().getManagerBeanRemote().getDefaultSender());
+			setResponsePage(ElectionCreateDashboard.class);
+			return;
 		}
+
 		add(new FeedbackPanel("feedback"));
-		add(new ManageElectionTabsPanel("tabsPanel", election));
+		add(new ManageElectionTabsPanel("tabsPanel", election, "tabDetail"));
 		add(new NewElectionForm("newElectionForm"));
 	}
-
 
 	public final class NewElectionForm extends Form<Void> {
 		private static final long serialVersionUID = -5221887812611102034L;
 
-		private ElectionsManagerEJB managerBeanRemote;
+		private transient ElectionsManagerEJB managerBeanRemote;
 		ElectionDetailPanel electionDetailPanel;
 
 		public NewElectionForm(String id) {
-			super(id);
-			try {
-				electionDetailPanel = new ElectionDetailPanel("fields", election);
-				add(electionDetailPanel);
+				super(id);
+				try {
+					electionDetailPanel = new ElectionDetailPanel("fields", election);
+					add(electionDetailPanel);
+					addManualManagementScopeValidator();
 
 				Button submitButton = new Button("submit") {
 					private static final long serialVersionUID = 1073607359256986749L;
@@ -75,46 +74,24 @@ public class ElectionDetailDashboard extends DashboardAdminBasePage {
 					@Override
 					public void onSubmit() {
 						try {
-							boolean isNew = true;
-							boolean isJoint = false;
-							Election originalElection;
-							Date originalElectionStartDate = null;
-
 							managerBeanRemote = AppContext.getInstance().getManagerBeanRemote();
-
-							// Check if election is joint with another, if so, start date cannot be modified
-							if (election.getElectionId() == 0) {
-								isNew = true;
-							} else {
-								isNew = false;
-								isJoint = managerBeanRemote.isJointElection(election.getElectionId());
-								if (isJoint) {
-									originalElection = managerBeanRemote.getElection(election.getElectionId());
-									originalElectionStartDate = originalElection.getStartDate();
-								}
-							};
-
-							election.initDatesStartEndDates();
-							if (election.getStartDate().after(election.getEndDate())) {
-								error(getString("electionManagementErrorDates"));
-							} else if ((!isNew) && (isJoint) && (originalElectionStartDate.compareTo(election.getStartDate())!= 0)) {
-								error(getString("electionManagementErrorJointDates"));
-							} else {
-								copyTexts();
-								Election newElection;
-								if (election.getElectionId() == 0) {
-									getSession().info(getString("electionManagementCreateSuccess"));
-									newElection = managerBeanRemote.updateElection(election, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
-								} else {
-									getSession().info(getString("electionManagementUpdateSuccess"));
-									newElection = managerBeanRemote.updateElection(election, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
-								}
-
-								setResponsePage(ElectionCensusDashboard.class, UtilsParameters.getId(newElection.getElectionId()));
+							if (election.getElectionId() <= 0) {
+								setResponsePage(ElectionCreateDashboard.class);
+								return;
 							}
-						} catch (Exception e) {
-							error(e.getMessage());
-						}
+							Election currentElection = reloadAndEnforceElectionAccess(election.getElectionId());
+							if (currentElection.isClosed()) {
+								setResponsePage(ErrorElectionClosed.class);
+								return;
+							}
+							election.applyRestrictedCountryCodes();
+							copyTexts();
+							Election updatedElection = managerBeanRemote.updateElection(election, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
+							getSession().info(getString("electionManagementUpdateSuccess"));
+							setResponsePage(ElectionCallDashboard.class, UtilsParameters.getId(updatedElection.getElectionId()));
+							} catch (Exception e) {
+								error(e.getMessage());
+							}
 					}
 				};
 				add(submitButton);
@@ -130,20 +107,28 @@ public class ElectionDetailDashboard extends DashboardAdminBasePage {
 				add(cancelButton);
 
 			} catch (Exception e) {
-				appLogger.error(e);
+				appLogger.error(e.getMessage(), e);
 				error(e.getMessage());
 			}
 		}
 
-		public void copyTexts() throws Exception {
-			if (election.isOnlySp()) {
-				election.copyLanguageDescriptions("SP");
-				election.copyLanguageTitles("SP");
-				election.copyLanguageURLs("SP");
-			}
+		@SuppressWarnings("unchecked")
+		private void addManualManagementScopeValidator() {
+			FormComponent<ElectionType> electionType = (FormComponent<ElectionType>) electionDetailPanel.get("electionType");
+			FormComponent<Boolean> manageOrganizationsManual = (FormComponent<Boolean>) electionDetailPanel.get("manageOrganizationsManual");
+			FormComponent<Boolean> manageVotersManual = (FormComponent<Boolean>) electionDetailPanel.get("manageVotersManual");
+			add(new ElectionManualManagementScopeValidator(electionType, manageOrganizationsManual, manageVotersManual));
 		}
 
-	}
+			public void copyTexts() throws Exception {
+				if (election.isOnlySp()) {
+					election.copyLanguageDescriptions(LanguageCode.SP.getCode());
+					election.copyLanguageTitles(LanguageCode.SP.getCode());
+					election.copyLanguageURLs(LanguageCode.SP.getCode());
+				}
+			}
+
+		}
 
 	public Election getElection() {
 		return election;

@@ -11,9 +11,7 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.ui.components.DropDownElection;
 import net.lacnic.elections.adminweb.wicket.util.UtilsString;
-import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserAdmin;
 
 
@@ -22,7 +20,6 @@ public class AddUserAdminPanel extends Panel {
 	private static final long serialVersionUID = -4400633632996398779L;
 	private UserAdmin userAdmin;
 	private String password = "";
-	private Election authorizedElection;
 
 	public AddUserAdminPanel(String id) {
 		super(id);
@@ -30,8 +27,6 @@ public class AddUserAdminPanel extends Panel {
 
 		Form<Void> formUserAdmin = new Form<>("formUserAdmin");
 		add(formUserAdmin);
-
-		authorizedElection = new Election(0);
 
 		final TextField<String> usernameTextField = new TextField<>("userAdminId", new PropertyModel<>(userAdmin, "userAdminId"));
 		usernameTextField.setRequired(true);
@@ -50,9 +45,6 @@ public class AddUserAdminPanel extends Panel {
 		claveTextField.setType(String.class);
 		formUserAdmin.add(claveTextField);
 
-		DropDownElection dropDownElecciones = new DropDownElection("authorizedElection", new PropertyModel<>(AddUserAdminPanel.this, "authorizedElection"));
-		formUserAdmin.add(dropDownElecciones);
-
 		formUserAdmin.add(new Button("add") {
 
 			private static final long serialVersionUID = 6181993609698314612L;
@@ -60,7 +52,6 @@ public class AddUserAdminPanel extends Panel {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				userAdmin.setAuthorizedElectionId(getAuthorizedElection().getElectionId());
 				userAdmin.setPassword(UtilsString.wantHashMd5(getPassword()));
 
 				boolean result = AppContext.getInstance().getManagerBeanRemote().addUserAdmin(userAdmin, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
@@ -89,14 +80,6 @@ public class AddUserAdminPanel extends Panel {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Election getAuthorizedElection() {
-		return authorizedElection;
-	}
-
-	public void setAuthorizedElection(Election authorizedElection) {
-		this.authorizedElection = authorizedElection;
 	}
 
 }

@@ -10,12 +10,11 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardManagerBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Parameter;
 
-
-public class EditParameterDashboard extends DashboardAdminBasePage {
+public class EditParameterDashboard extends DashboardManagerBasePage {
 
 	private static final long serialVersionUID = -2448828548697597193L;
 

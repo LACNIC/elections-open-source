@@ -17,12 +17,28 @@ public class UtilsParameters {
 		return "candidate";
 	}
 
+	public static String getQuestionText() {
+		return "question";
+	}
+
+	public static String getNewQuestionText() {
+		return "newQuestion";
+	}
+
+	public static String getNewCandidateText() {
+		return "newCandidate";
+	}
+
 	public static String getAuditText() {
 		return "audit";
 	}
 
 	public static String getAdminText() {
 		return "admin";
+	}
+
+	public static String getCommissionerText() {
+		return "commissioner";
 	}
 
 	public static String getClaveText() {
@@ -85,12 +101,32 @@ public class UtilsParameters {
 		return getParams(getCandidateText(), id);
 	}
 
+	public static PageParameters getQuestion(String id) {
+		return getParams(getQuestionText(), id);
+	}
+
+	public static PageParameters getNewQuestion(Long electionId) {
+		PageParameters params = getId(electionId);
+		params.add(getNewQuestionText(), true);
+		return params;
+	}
+
+	public static PageParameters getNewCandidate(Long electionId) {
+		PageParameters params = getId(electionId);
+		params.add(getNewCandidateText(), true);
+		return params;
+	}
+
 	public static PageParameters getAudit(String id) {
 		return getParams(getAuditText(), id);
 	}
 
 	public static PageParameters getAdminId(String id) {
 		return getParams(getAdminText(), id);
+	}
+
+	public static PageParameters getCommissioner(String id) {
+		return getParams(getCommissionerText(), id);
 	}
 
 	public static PageParameters getClaveId(String id) {
@@ -113,8 +149,16 @@ public class UtilsParameters {
 		return getCandidate(String.valueOf(id));
 	}
 
+	public static PageParameters getQuestion(Long id) {
+		return getQuestion(String.valueOf(id));
+	}
+
 	public static PageParameters getAudit(Long id) {
 		return getAudit(String.valueOf(id));
+	}
+
+	public static PageParameters getCommissioner(Long id) {
+		return getCommissioner(String.valueOf(id));
 	}
 
 	public static String getId(PageParameters params) {
@@ -123,6 +167,10 @@ public class UtilsParameters {
 
 	public static String getAdminId(PageParameters params) {
 		return params.get(getAdminText()).toString("");
+	}
+
+	public static String getCommissioner(PageParameters params) {
+		return params.get(getCommissionerText()).toString("");
 	}
 
 	public static String getClaveId(PageParameters params) {
@@ -165,6 +213,22 @@ public class UtilsParameters {
 
 	public static long getCandidateAsLong(PageParameters params) {
 		return params.get(getCandidateText()).toLong(0);
+	}
+
+	public static long getQuestionAsLong(PageParameters params) {
+		return params.get(getQuestionText()).toLong(0);
+	}
+
+	public static boolean isNewQuestion(PageParameters params) {
+		return params.get(getNewQuestionText()).toBoolean(false);
+	}
+
+	public static boolean isNewCandidate(PageParameters params) {
+		return params.get(getNewCandidateText()).toBoolean(false);
+	}
+
+	public static long getCommissionerAsLong(PageParameters params) {
+		return params.get(getCommissionerText()).toLong(0);
 	}
 
 	public static String getToken(PageParameters pars) {

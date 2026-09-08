@@ -1,0 +1,89 @@
+<wicket:panel>
+	<div class="row g-4">
+		<div class="col-12 col-md-6">
+			<div class="border rounded p-3 h-100">
+				<div class="d-flex align-items-center gap-2 mb-1">
+					<label class="form-label mb-0"><wicket:message key="organizationsManagementUpsertFileLabel" /></label>
+					<span data-testid="upsertFieldsHelp" class="badge badge-label badge-soft-secondary rounded-pill" tabindex="0" role="button"
+						data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+						wicket:message="title:organizationsManagementUpsertPopoverTitle,data-bs-content:organizationsManagementUpsertFieldsHelpContent">
+						<i class="ti ti-help-circle"></i>
+					</span>
+				</div>
+				<div class="row g-2 align-items-center">
+					<div class="col">
+						<input wicket:id="orgUpsertFileInput" data-testid="orgUpsertFileInput" wicket:message="title:organizationsManagementUpsertFileLabel" type="file" class="form-control">
+					</div>
+					<div class="col-auto">
+						<button wicket:id="uploadUpsertOrganizationsFileButton" data-testid="uploadUpsertOrganizationsFileButton" wicket:message="title:organizationsManagementUpsertFileLabel" type="submit" class="btn btn-dark btn-lg"><i class="ti ti-upload"></i></button>
+					</div>
+				</div>
+				<div class="mt-1">
+					<a wicket:id="downloadAddOrganizationsExample" data-testid="downloadAddOrganizationsExample" wicket:message="title:organizationsManagementDownloadExample"><wicket:message key="organizationsManagementDownloadExample" /></a>
+				</div>
+				<div class="form-check mt-2">
+					<input class="form-check-input" type="checkbox" wicket:id="overwriteAllOrganizations" data-testid="overwriteAllOrganizations" wicket:message="title:organizationsManagementOverwriteAllOrganizations" id="overwriteAllOrganizations">
+					<label class="form-check-label" for="overwriteAllOrganizations"><wicket:message key="organizationsManagementOverwriteAllOrganizations" /></label>
+				</div>
+				<div wicket:id="upsertErrorsContainer" data-testid="upsertErrorsContainer" wicket:message="title:organizationsManagementDownloadErrors" class="mt-2">
+					<a wicket:id="downloadUpsertErrors" data-testid="downloadUpsertErrors" wicket:message="title:organizationsManagementDownloadErrors" class="btn btn-outline-danger btn-sm"><wicket:message key="organizationsManagementDownloadErrors" /></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-12 col-md-3">
+			<div class="border rounded p-3 h-100">
+				<div class="d-flex align-items-center gap-2 mb-1">
+					<label class="form-label mb-0"><wicket:message key="organizationsManagementFileLabel" /></label>
+					<span data-testid="debtorsFieldsHelp" class="badge badge-label badge-soft-secondary rounded-pill" tabindex="0" role="button"
+						data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+						wicket:message="title:organizationsManagementDebtorsPopoverTitle,data-bs-content:organizationsManagementDebtorsFieldsHelpContent">
+						<i class="ti ti-help-circle"></i>
+					</span>
+				</div>
+				<div class="row g-2 align-items-center">
+					<div class="col">
+						<input wicket:id="orgDebtorsFileInput" data-testid="orgDebtorsFileInput" wicket:message="title:organizationsManagementFileLabel" type="file" class="form-control">
+					</div>
+					<div class="col-auto">
+						<button wicket:id="uploadOrgDebtorsFileButton" data-testid="uploadOrgDebtorsFileButton" wicket:message="title:organizationsManagementFileLabel" type="submit" class="btn btn-dark btn-lg"><i class="ti ti-upload"></i></button>
+					</div>
+				</div>
+				<div class="mt-1">
+					<a wicket:id="downloadDebtorsOrganizationsExample" data-testid="downloadDebtorsOrganizationsExample" wicket:message="title:organizationsManagementDownloadExample"><wicket:message key="organizationsManagementDownloadExample" /></a>
+				</div>
+				<div class="form-check mt-2">
+					<input class="form-check-input" type="checkbox" wicket:id="overwriteDebtors" data-testid="overwriteDebtors" wicket:message="title:organizationsManagementOverwriteAll" id="overwriteDebtors">
+					<label class="form-check-label" for="overwriteDebtors"><wicket:message key="organizationsManagementOverwriteAll" /></label>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-12 col-md-3">
+			<div class="border rounded p-3 h-100">
+				<div class="d-flex align-items-center gap-2 mb-1">
+					<label class="form-label mb-0"><wicket:message key="organizationsManagementDeleteFileLabel" /></label>
+					<span data-testid="deleteFieldsHelp" class="badge badge-label badge-soft-secondary rounded-pill" tabindex="0" role="button"
+						data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+						wicket:message="title:organizationsManagementDeletePopoverTitle,data-bs-content:organizationsManagementDeleteFieldsHelpContent">
+						<i class="ti ti-help-circle"></i>
+					</span>
+				</div>
+				<div class="row g-2 align-items-center">
+					<div class="col">
+						<input wicket:id="orgDeleteFileInput" data-testid="orgDeleteFileInput" wicket:message="title:organizationsManagementDeleteFileLabel" type="file" class="form-control">
+					</div>
+					<div class="col-auto">
+						<button wicket:id="uploadDeleteOrganizationsFileButton" data-testid="uploadDeleteOrganizationsFileButton" wicket:message="title:organizationsManagementDeleteFileLabel" type="submit" class="btn btn-dark btn-lg"><i class="ti ti-upload"></i></button>
+					</div>
+				</div>
+				<div class="mt-1">
+					<a wicket:id="downloadDeleteOrganizationsExample" data-testid="downloadDeleteOrganizationsExample" wicket:message="title:organizationsManagementDownloadExample"><wicket:message key="organizationsManagementDownloadExample" /></a>
+				</div>
+					<div wicket:id="removeErrorsContainer" data-testid="removeErrorsContainer" wicket:message="title:organizationsManagementDownloadErrors" class="mt-2">
+						<a wicket:id="downloadRemoveErrors" data-testid="downloadRemoveErrors" wicket:message="title:organizationsManagementDownloadErrors" class="btn btn-outline-danger btn-sm"><wicket:message key="organizationsManagementDownloadErrors" /></a>
+					</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

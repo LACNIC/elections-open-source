@@ -1,0 +1,99 @@
+<wicket:extend>
+	<div wicket:id="feedback" data-testid="feedback" />
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="auditorEditTitle"><wicket:message key="auditorEditTitle">Editar un auditor</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<form role="form" class="row g-3 align-items-end" wicket:id="auditorForm" data-testid="auditorForm">
+						<div class="col-lg-3">
+							<label class="form-label" for="editAuditorName"><wicket:message key="auditorManagementName">auditorManagementName</wicket:message></label>
+							<input type="text" id="editAuditorName" class="form-control" wicket:id="name" data-testid="name" />
+						</div>
+						<div class="col-lg-3">
+							<label class="form-label" for="editAuditorMail"><wicket:message key="auditorManagementMail">auditorManagementMail</wicket:message></label>
+							<input type="email" id="editAuditorMail" class="form-control" wicket:id="mail" data-testid="mail" />
+						</div>
+						<div class="col-lg-3">
+							<label class="form-label" for="editAuditorReminderFrequency"><wicket:message key="auditorManagementReminderFrequency">auditorManagementReminderFrequency</wicket:message></label>
+							<select wicket:id="reminderFrequency" data-testid="reminderFrequency" id="editAuditorReminderFrequency" class="form-select"></select>
+						</div>
+						<div class="col-lg-3 d-flex align-items-center gap-2">
+							<label class="form-label mb-0" for="editAuditorCommissionerCheckbox"><wicket:message key="auditorEditAprobe">auditorEditAprobe</wicket:message></label>
+							<div class="form-check">
+									<input id="editAuditorCommissionerCheckbox" wicket:id="commissionerCheckbox" data-testid="commissionerCheckbox" name="commissionerCheckbox" type="checkbox" class="form-check-input">
+							</div>
+						</div>
+						<div class="col-12 d-flex justify-content-end gap-2">
+							<a class="btn btn-light" wicket:id="cancel" data-testid="cancel"><wicket:message key="auditorEditBtnCanc" /></a>
+							<button class="btn btn-primary" type="submit" wicket:id="save" data-testid="save">
+								<wicket:message key="auditorEditBtnSave" />
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3" wicket:id="auditorDecisionsCard" data-testid="auditorDecisionsCard">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="auditorEditDecisionsTitle"><wicket:message key="auditorEditDecisionsTitle">Decisiones del auditor por candidato</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<p class="text-muted mb-3"><wicket:message key="auditorEditDecisionsHelp">Permite ajustar las decisiones ya registradas por este auditor para cada candidato.</wicket:message></p>
+					<div class="alert alert-info mb-0" wicket:id="noDecisionRows" data-testid="noDecisionRows">Sin decisiones registradas.</div>
+					<div wicket:id="auditorDecisionRowsContainer" class="d-flex flex-column gap-3" data-testid="auditorDecisionRowsContainer">
+						<div wicket:id="auditorDecisionRows" class="border rounded p-3" data-testid="auditorDecisionRow">
+							<form wicket:id="decisionForm" class="row g-3" data-testid="decisionForm">
+								<div class="col-12 d-flex flex-wrap justify-content-between gap-2">
+									<div>
+										<div class="fw-semibold" wicket:id="candidateName" data-testid="decisionCandidateName">Candidato</div>
+										<div class="small text-muted">
+											<wicket:message key="auditorEditDecisionCandidateStatus">Estado del candidato</wicket:message>:
+											<span wicket:id="candidateStatus" data-testid="decisionCandidateStatus">Estado</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6" wicket:id="preDecisionContainer" data-testid="preDecisionContainer">
+									<div class="border rounded p-3 h-100">
+										<h6 class="mb-3"><wicket:message key="auditorEditPreDecisionTitle">Preverificación</wicket:message></h6>
+										<label class="form-label"><wicket:message key="auditorEditDecisionStatus">Decisión</wicket:message></label>
+										<select wicket:id="preDecisionStatus" data-testid="preDecisionStatus" class="form-select"></select>
+										<label class="form-label mt-3"><wicket:message key="auditorEditDecisionComment">Comentario</wicket:message></label>
+										<textarea wicket:id="preDecisionComment" data-testid="preDecisionComment" class="form-control" rows="3"></textarea>
+										<div class="small text-muted mt-2">
+											<wicket:message key="auditorEditDecisionDate">Fecha registrada</wicket:message>:
+											<span wicket:id="preDecisionDate" data-testid="preDecisionDate">-</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6" wicket:id="finalDecisionContainer" data-testid="finalDecisionContainer">
+									<div class="border rounded p-3 h-100">
+										<h6 class="mb-3"><wicket:message key="auditorEditFinalDecisionTitle">Verificación final</wicket:message></h6>
+										<label class="form-label"><wicket:message key="auditorEditDecisionStatus">Decisión</wicket:message></label>
+										<select wicket:id="finalDecisionStatus" data-testid="finalDecisionStatus" class="form-select"></select>
+										<label class="form-label mt-3"><wicket:message key="auditorEditDecisionComment">Comentario</wicket:message></label>
+										<textarea wicket:id="finalDecisionComment" data-testid="finalDecisionComment" class="form-control" rows="3"></textarea>
+										<div class="small text-muted mt-2">
+											<wicket:message key="auditorEditDecisionDate">Fecha registrada</wicket:message>:
+											<span wicket:id="finalDecisionDate" data-testid="finalDecisionDate">-</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 d-flex justify-content-end">
+									<button class="btn btn-primary" type="submit" wicket:id="saveDecision" data-testid="saveDecision">
+										<wicket:message key="auditorEditDecisionSave">Guardar decisión</wicket:message>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

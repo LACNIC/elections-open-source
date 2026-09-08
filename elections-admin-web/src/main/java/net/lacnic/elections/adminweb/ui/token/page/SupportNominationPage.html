@@ -1,0 +1,90 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<div class="py-4">
+		<div class="row mb-3">
+			<div class="col-12">
+				<div wicket:id="feedbackPanel" data-testid="feedbackPanel"></div>
+			</div>
+		</div>
+
+		<div class="row g-3">
+			<div class="col-xl-4">
+				<div wicket:id="profileInfoCard" data-testid="profileInfoCard"></div>
+
+				<div wicket:id="nominationCard" data-testid="nominationCard" class="card mt-3">
+					<div class="card-header">
+						<h4 class="card-title mb-0" data-testid="nominación">Nominación</h4>
+					</div>
+					<div class="card-body">
+						<p class="mb-2"><strong>Organización:</strong> <span wicket:id="nominationOrganizationName" data-testid="nominationOrganizationName">-</span></p>
+						<p class="mb-2"><strong>Org ID:</strong> <span wicket:id="nominationOrganizationId" data-testid="nominationOrganizationId">-</span></p>
+						<p class="mb-2"><strong>País:</strong> <span wicket:id="nominationOrganizationCountry" data-testid="nominationOrganizationCountry">-</span></p>
+						<p class="mb-2"><strong>Contacto:</strong> <span wicket:id="nominationContactName" data-testid="nominationContactName">-</span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-8">
+				<div wicket:id="supportDecisionCard" data-testid="supportDecisionCard" class="card mb-3 border border-warning-subtle shadow-sm">
+					<div wicket:id="supportDecisionCardHeader" data-testid="supportDecisionCardHeader" class="card-header bg-warning-subtle">
+						<div>
+							<h4 class="card-title mb-1" data-testid="confirmación_de_apoy">Confirmación de apoyo</h4>
+							<p class="mb-0" wicket:id="supportDecisionHeaderSubtitle" data-testid="supportDecisionHeaderSubtitle">Confirme o rechace el apoyo de su organización a esta candidatura.</p>
+						</div>
+					</div>
+					<div class="card-body">
+						<form wicket:id="supportDecisionForm" data-testid="support-decision-form">
+							<div class="mb-3">
+								<div class="text-uppercase text-muted small fw-semibold">Elección</div>
+								<div class="fs-5 fw-semibold lh-sm" wicket:id="decisionElectionTitle" data-testid="decisionElectionTitle">-</div>
+							</div>
+							<p class="mb-3 text-muted" wicket:id="decisionContextParagraph" data-testid="decisionContextParagraph">Este es el espacio donde su organización puede confirmar o rechazar el apoyo a esta candidatura.</p>
+							<div class="mb-2 text-body-emphasis">
+								<strong>Candidato:</strong> <span wicket:id="decisionCandidateName" data-testid="decisionCandidateName">-</span>
+							</div>
+							<div class="mb-2 text-body-emphasis">
+								<strong wicket:id="decisionSupportSubjectLabel" data-testid="decisionSupportSubjectLabel">Organización de apoyo</strong>: <span wicket:id="decisionSupportSubjectValue" data-testid="decisionSupportSubjectValue">-</span>
+							</div>
+							<div class="mb-3 text-body-emphasis">
+								<strong>Fecha:</strong> <span wicket:id="decisionCurrentDate" data-testid="decisionCurrentDate">-</span>
+							</div>
+							<div class="mb-4 text-body-emphasis">
+								<strong>Estado actual:</strong> <span wicket:id="supportStatusValue" data-testid="supportStatusValue">-</span>
+							</div>
+							<div class="mb-3">
+								<div class="form-check mb-2">
+									<input id="confirmSupportCheckbox" type="checkbox" wicket:id="confirmSupportCheckbox" data-testid="confirmSupportCheckbox" class="form-check-input">
+									<label class="form-check-label" for="confirmSupportCheckbox" wicket:id="confirmSupportQuestion" data-testid="confirmSupportQuestion">Pregunta 1</label>
+								</div>
+								<div class="form-check">
+									<input id="confirmInformationCheckbox" type="checkbox" wicket:id="confirmInformationCheckbox" data-testid="confirmInformationCheckbox" class="form-check-input">
+									<label class="form-check-label" for="confirmInformationCheckbox" wicket:id="confirmInformationQuestion" data-testid="confirmInformationQuestion">Pregunta 2</label>
+								</div>
+							</div>
+							<div class="d-flex align-items-center justify-content-between gap-2">
+								<div wicket:id="rejectSupportButton" data-testid="rejectSupportButton"></div>
+								<button type="submit" wicket:id="confirmSupportButton" data-testid="confirmSupportButton" class="btn btn-sm btn-primary ms-auto">Confirmar apoyo</button>
+							</div>
+						</form>
+
+						<div wicket:id="supportDecisionCompletedContainer" data-testid="supportDecisionCompletedContainer" class="p-3 border rounded bg-light-subtle">
+							<h5 class="mb-2" data-testid="tarea_completada">Tarea completada</h5>
+							<p class="mb-2">
+								La respuesta de apoyo ya fue registrada.
+								Estado final: <strong wicket:id="decisionCompletedStatus" data-testid="decisionCompletedStatus">Aprobado</strong>.
+							</p>
+							<p class="mb-0">
+								Si desea solicitar un cambio, contacte al staff/corredor de la elección en
+								<span wicket:id="decisionCompletedSupportMailLink" data-testid="decisionCompletedSupportMailLink"></span>
+								<span wicket:id="decisionCompletedSupportMailText" data-testid="decisionCompletedSupportMailText">correo@lacnic.net</span>.
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div wicket:id="incompatibilityCard" data-testid="incompatibilityCard"></div>
+				<div wicket:id="declarationCard" data-testid="declarationCard"></div>
+				<div wicket:id="countryCard" data-testid="countryCard"></div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

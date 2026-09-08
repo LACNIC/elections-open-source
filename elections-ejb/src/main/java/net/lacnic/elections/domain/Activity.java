@@ -3,21 +3,19 @@ package net.lacnic.elections.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Activity implements Serializable {
 
 	private static final long serialVersionUID = 574501011615594210L;
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_seq")
@@ -41,12 +39,20 @@ public class Activity implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private ActivityType activityType;
 
-	@Column(columnDefinition="TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String description;
 
+	public Activity() {
+	}
 
-	public Activity() { }
-
+	public Activity(String userName, Long electionId, String ip, ActivityType activityType, String description) {
+		this.userName = userName;
+		this.electionId = electionId;
+		this.ip = ip;
+		this.activityType = activityType;
+		this.description = description;
+		this.timestamp = new Date();
+	}
 
 	public long getActivityId() {
 		return activityId;

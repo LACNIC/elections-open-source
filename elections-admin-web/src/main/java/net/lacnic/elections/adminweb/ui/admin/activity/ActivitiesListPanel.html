@@ -1,0 +1,54 @@
+<wicket:panel>
+	<div class="card">
+		<div class="card-header">
+			<h5 data-testid="actividades">Actividades</h5>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-hover align-middle mb-0 dataTables-activitiesList">
+					<thead class="table-light">
+						<tr>
+							<th><wicket:message key="activityListName" /></th>
+							<th><wicket:message key="activityListType" /></th>
+							<th><wicket:message key="activityListElection" /></th>
+							<th><wicket:message key="activityListIP" /></th>
+							<th><wicket:message key="activityListTime" /></th>
+							<th><wicket:message key="activityListDesc" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="activitiesList" data-testid="activitiesList" name="activitiesList">
+							<td><span wicket:id="userName" data-testid="userName"></span></td>
+							<td><span wicket:id="activityType" data-testid="activityType"></span></td>
+							<td><span wicket:id="electionId" data-testid="electionId"></span></td>
+							<td><span wicket:id="ip" data-testid="ip"></span></td>
+							<td><span wicket:id="timestamp" data-testid="timestamp"></span></td>
+							<td><span wicket:id="description" data-testid="description"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.dataTables-activitiesList').dataTable({
+				"dom" : '<"top"f>rt<"bottom"p><"clear">',
+				"order": [[ 4, "desc" ]],
+				"language" : {
+					"sSearch" : "Filter:",
+					"oPaginate" : {
+						"sNext" : ">",
+						"sPrevious" : "&lt;"
+					}
+				},
+				"columnDefs": [
+					{
+						"targets": 4,
+						"render": $.fn.dataTable.moment('dd/MM/yyyy HH:mm')
+					}
+				]
+			});
+		});
+	</script>
+</wicket:panel>

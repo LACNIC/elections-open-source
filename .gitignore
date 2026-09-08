@@ -1,23 +1,100 @@
-.project
-.settings
-*.idea/*
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+#*.jar
+*.rar
+*.tar
+#*.zip
+
+# Logs and databases #
+######################
+*.log
+*.log.*
+#*.sql
+*.sqlite
+dockers/logs-fresh/
+.env
+*.zoho.env
+*.zoho.client.env
+*.zoho.config
+ai-harness/zoho/.zoho.env
+ai-harness/zoho/.zoho.client.env
+ai-harness/zoho/.zoho.config
+ai-harness-local/zoho/.zoho.env
+ai-harness-local/zoho/.zoho.client.env
+ai-harness-local/zoho/.zoho.config
+ai-harness-local/testing/.env
+ai-harness-local/testing/*.local.env
+ai-harness-local/testing/.auth/
+ai-harness-local/testing/playwright-report/
+ai-harness-local/testing/test-results/
+ai-harness-local/testing/traces/
+ai-harness-local/testing/runs/
+ai-harness-local/testing/sessions/
+ai-harness-local/testing/task-plans/
+ai-harness-local/testing/reference-blueprints/
+ai-harness-local/testing/gi-drafts/*.receipt.json
+ai-harness-local/testing/gi-drafts/*.run.json
+ai-harness-local/testing/gi-drafts/*.promotion.json
+ai-harness-local/testing/gi-drafts/*.runs/
+ai-harness-local/progress/test_*.md
+.playwright-cli/
+output/playwright/
+.DS_Store
+# IntelliJ #
+############
+*.iml
+*.ipr
+*.iws
+.idea
+
+# Maven #
+#########
+**/target/*
 target
-elections-admin-web/.settings
-elections-admin-web/.classpath
-elections-admin-web/.project
-elections-admin-web/target
-elections-ejb/.settings
-elections-ejb/.classpath
-elections-ejb/.project
-elections-ejb/target
-elections-services/.settings
-elections-services/.classpath
-elections-services/.project
-elections-services/target
-ansible/pass-vault.yaml
-ansible/*.retry
-ansible/.vagrant*
-ubuntu-xenial-16.04-cloudimg-console.log
-ubuntu-bionic-18.04-cloudimg-console.log
-.tern-project
-/bin/
+
+# Other IDE's#
+##############
+*.classpath
+*.project
+*.settings
+*.dorsync
+/nbactions.xml
+*.prefs
+
+# Binary Downloads #
+####################
+**/selenium_standalone_zips/
+**/selenium_standalone_binaries/
+
+# test-output #
+################
+**/test-output/*
+test-output
+
+# Explicitly include pai.properties, standalone.xml, and Dockerfile # 
+!pai.properties 
+!standalone.xml
+!Dockerfile
+/DOCKER.md
+
+# AI harness operational artifacts
+ai-harness-local/agents/handoffs/
+ai-harness-local/progress/session_*.md
+ai-harness-local/progress/impl_*.md
+ai-harness-local/progress/review_*.md
+ai-harness-local/progress/testplan_*.md

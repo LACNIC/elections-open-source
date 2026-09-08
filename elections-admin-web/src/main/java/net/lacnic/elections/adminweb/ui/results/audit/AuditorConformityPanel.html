@@ -1,0 +1,25 @@
+<wicket:panel>
+	<div class="col-lg-12">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h4 class="card-title mb-1" data-testid="auditPanel"><wicket:message key="auditPanel">Panel de auditoría</wicket:message></h4>
+				</div>
+				<div class="card-body text-center p-md">
+					<h2 data-testid="-"><span wicket:id="election" data-testid="election"></span> - <span wicket:id="auditor" data-testid="auditor"></span></h2>
+					<p><wicket:message key="auditorConformityText" /></p>
+					<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3">
+						<a wicket:id="backToAuditDashboard" data-testid="backToAuditDashboard" class="btn btn-light">
+							<wicket:message key="auditPublicCandidateDetailBackToBoardAction" />
+						</a>
+						<div wicket:id="auditorConformButton" data-testid="auditorConformButton"></div>
+					</div>
+				</div>
+				<div class="card-footer bg-light-subtle text-muted">
+					<span class="fw-semibold"><wicket:message key="auditPublicCandidateDetailDecisionDeadlineLabel">auditPublicCandidateDetailDecisionDeadlineLabel</wicket:message></span>
+					<span wicket:id="reactionDeadlineDate" data-testid="reactionDeadlineDate">-</span>
+					<span class="mx-1">·</span>
+					<span wicket:id="reactionDeadlineRemaining" data-testid="reactionDeadlineRemaining">-</span>
+				</div>
+			</div>
+		</div>
+</wicket:panel>

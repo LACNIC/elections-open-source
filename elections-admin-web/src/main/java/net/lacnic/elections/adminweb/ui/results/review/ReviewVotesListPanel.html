@@ -1,0 +1,65 @@
+<wicket:panel>
+	<div class="card float-e-margins">
+		<div class="card-header">
+			<h5 data-testid="electionReviewListTitle"><wicket:message key="electionReviewListTitle">Revisión de Elección</wicket:message></h5>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive m-t">
+				<table class="table dataTables">
+					<thead class="jumbotron">
+						<tr>
+							<th class="text-left"><wicket:message key="electionReviewListVote" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListIdVoter" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListIdCandidate" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListCode" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListDateVote" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListDateVoter" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListCandidate" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListVoter" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListMail" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListOrgId" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListCountry" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListLang" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListVotes" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListToken" /></th>
+							<th class="text-left"><wicket:message key="electionReviewListIP" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="votesList" data-testid="votesList" name="votesList">
+							<td class="text-left"><span wicket:id="voteId" data-testid="voteId"></span></td>
+							<td class="text-left"><span wicket:id="userVoterId" data-testid="userVoterId"></span></td>
+							<td class="text-left"><span wicket:id="candidateId" data-testid="candidateId"></span></td>
+							<td class="text-left"><span wicket:id="code" data-testid="code"></span></td>
+							<td class="text-left"><span wicket:id="voteDate" data-testid="voteDate"></span></td>
+							<td class="text-left"><span wicket:id="voteUserDate" data-testid="voteUserDate"></span></td>
+							<td class="text-left"><span wicket:id="candidate" data-testid="candidate"></span></td>
+							<td class="text-left"><span wicket:id="name" data-testid="name"></span></td>
+							<td class="text-left"><span wicket:id="email" data-testid="email"></span></td>
+							<td class="text-left"><span wicket:id="orgid" data-testid="orgid"></span></td>
+							<td class="text-left"><span wicket:id="country" data-testid="country"></span></td>
+							<td class="text-left"><span wicket:id="language" data-testid="language"></span></td>
+							<td class="text-left"><span wicket:id="voteAmount" data-testid="voteAmount"></span></td>
+							<td class="text-left"><span wicket:id="voteToken" data-testid="voteToken"></span></td>
+							<td class="text-left"><span wicket:id="ip" data-testid="ip"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.dataTables').dataTable({
+				"dom" : '<"top"f>rt<"bottom"p><"clear">',
+				"language" : {
+					"sSearch" : "Filter:",
+					"oPaginate" : {
+						"sNext" : ">",
+						"sPrevious" : "<"
+					}
+				}
+			});
+		});
+	</script>
+</wicket:panel>

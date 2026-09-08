@@ -1,0 +1,156 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Seguridad y accesos" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el bloque vigente de <code>v3.0</code> para autenticacion, autorizacion y compuertas de acceso del sistema: login administrativo, roles, acceso por categoria o por lista blanca de correos, CAPTCHA, rate limits publicos, tokens y autenticacion de servicios REST. El contenido fue contrastado contra las pantallas Wicket, los EJB de login y validacion, el scheduler que limpia caches, y la capa JAX-RS que protege los WS.</p>
+
+				<h2>{{ "Superficies cubiertas" }}</h2>
+				<ul class="paragraph">
+					<li><b>Admin web:</b> <code>/login</code> y todo <code>/admin/*</code>.</li>
+					<li><b>Publico/tokenizado:</b> <code>/token/*</code>, formularios publicos y pantallas de acceso denegado.</li>
+					<li><b>REST:</b> <code>/elections-ws/*</code>, incluyendo endpoints legacy, tablas y snapshots <code>v2</code>.</li>
+					<li><b>Monitoreo de IPs:</b> <code>/admin/ipaccess</code> y tablas WS asociadas.</li>
+				</ul>
+
+					<h2>{{ "Autenticacion administrativa" }}</h2>
+					<ul class="paragraph">
+						<li>La pantalla administrativa entra por <code>/login</code> y autentica segun <code>WS_AUTH_METHOD</code> de <code>elections.properties</code>, generado por Docker desde el <code>.env</code>.</li>
+						<li>Si <code>WS_AUTH_METHOD=APP</code>, la sesion usa autenticacion local contra <code>UserAdmin</code>. La UI calcula SHA-256 sobre la contrasena, lo representa en hexadecimal mayuscula y envia ese valor a <code>userAdminLogin()</code>. El metodo historico que hace el calculo aun se llama <code>wantHashMd5()</code>, pero su implementacion vigente ya no usa MD5.</li>
+						<li>Si <code>WS_AUTH_METHOD</code> toma otro valor, la sesion usa <code>login()</code> contra el framework externo centralizado mediante <code>UtilsLogin.login()</code>.</li>
+					<li>PAI es el servicio historico de autenticacion centralizada del portal de LACNIC. En modo externo, el login no acepta cualquier rol retornado por PAI: primero filtra a los roles soportados por Elecciones y solo deja entrar si existe al menos uno entre <code>elections-manager</code>, <code>elections-statutary-only</code> o <code>elections-non-statutary-only</code>.</li>
+					<li>El rol <code>elections-deleter</code> por si solo <b>no</b> habilita login externo.</li>
+					<li>En modo local, si el login es exitoso la sesion agrega automaticamente <code>elections-manager</code> y <code>elections-deleter</code>; en la practica, un admin local autenticado entra con perfil administrativo pleno.</li>
+					<li>La UI web toma la IP cliente desde el primer valor de <code>X-Forwarded-For</code>, luego <code>X-Real-IP</code> y, si no hay proxy headers, <code>remoteAddr</code>.</li>
+					<li>La locale de sesion cae a espanol si no habia una locale valida previa.</li>
+						<li>Todo login exitoso o fallido deja actividad persistida con IP y usuario.</li>
+					</ul>
+
+					<h2>{{ "Inicio de una organizacion sin autenticacion PAI" }}</h2>
+					<ul class="paragraph">
+						<li>Use <code>WS_AUTH_METHOD=APP</code> en el <code>.env</code>. Docker lo copia a <code>elections.properties</code>; no hace falta ni existe una variable <code>FRESH_AUTH_METHOD</code>.</li>
+						<li><code>docker-fresh.sh</code> crea el primer administrador desde <code>FRESH_ADMIN_USER</code>, <code>FRESH_ADMIN_PASSWORD</code> y <code>FRESH_ADMIN_EMAIL</code>.</li>
+						<li>En una base PostgreSQL externa, los scripts de referencia crean esquema, parametros y templates, pero no crean administradores. Debe aprovisionarse la primera fila de <code>useradmin</code> siguiendo el procedimiento parametrizado de la <a href="{{site.baseurl}}/manual.html#authentication">guia de instanciacion</a>.</li>
+						<li>El acceso local habitual es <code>http://localhost:8098/elections/login</code>; detras de un proxy es <code>https://&lt;servidor&gt;/elections/login</code>.</li>
+						<li>El campo TOTP se deja vacio con <code>APP</code>. Actualmente TOTP solo se envia al mecanismo externo.</li>
+						<li>Despues del primer ingreso, el menu <b>Administradores</b> permite crear cuentas, actualizar correos, cambiar contrasenas y eliminar cuentas.</li>
+						<li>Conserve al menos dos cuentas administrativas verificadas. No existe recuperacion autoservicio: si se pierde la unica cuenta, un operador con acceso a PostgreSQL debe restablecerla mediante el procedimiento de aprovisionamiento.</li>
+					</ul>
+
+					<h2>{{ "Autenticacion externa" }}</h2>
+					<ul class="paragraph">
+						<li>El modo externo actual usa el cliente y contrato historico de PAI, la URL <code>WS_LACNIC_AUTH_URL</code> y los roles esperados por Elecciones.</li>
+						<li>No existe una integracion generica lista para configurar con OIDC, OAuth2, SAML o LDAP. Una organizacion que quiera usar Keycloak, Microsoft Entra ID, Okta u otro proveedor debe implementar un adaptador o exponer un servicio compatible con el contrato existente.</li>
+						<li>En modo externo, las cuentas y roles se administran en el proveedor; por eso el menu local <b>Administradores</b> no se muestra.</li>
+					</ul>
+
+				<h2>{{ "Autorizacion por roles y por eleccion" }}</h2>
+				<ul class="paragraph">
+					<li>Las pantallas globales de administracion derivan de <code>DashboardManagerBasePage</code> y exigen <code>elections-manager</code>.</li>
+					<li>Las pantallas por eleccion derivan de <code>DashboardElectionBasePage</code> y admiten <code>elections-manager</code>, <code>elections-statutary-only</code> o <code>elections-non-statutary-only</code>.</li>
+					<li>Despues de la anotacion Wicket, el sistema vuelve a validar acceso con <code>SecurityUtils.canAccessElection()</code>.</li>
+					<li>Un <code>elections-manager</code> entra a cualquier eleccion. Un usuario que acumule roles estatutario y no estatutario tambien queda habilitado para todas las categorias.</li>
+					<li>Un usuario <code>statutary-only</code> solo accede a elecciones <code>STATUTORY</code>; un usuario <code>non-statutary-only</code> solo accede a categorias no estatutarias.</li>
+					<li>Si el email del usuario autenticado aparece en <code>Election.authorizedUserEmails</code>, ese usuario puede acceder a esa eleccion aunque no coincida con la categoria habitual.</li>
+					<li>Los listados administrativos de elecciones aplican ese filtro: no muestran elecciones a las que la sesion no puede entrar.</li>
+					<li>Los accesos denegados por autorizacion Wicket derivan a <code>/error401</code>.</li>
+					<li>La gestion de administradores queda visible en la barra privada solo cuando la sesion esta en autenticacion local.</li>
+				</ul>
+
+				<h2>{{ "CAPTCHA de login" }}</h2>
+				<ul class="paragraph">
+					<li>El CAPTCHA administrativo solo aparece si <code>LOGIN_CAPTCHA_ENABLED</code> vale <code>true</code> y existen las dos claves de Google: <code>DataSiteKeyReCaptcha</code> y <code>SkGoogleApiReCaptcha</code>.</li>
+					<li>Si <code>LOGIN_CAPTCHA_ENABLED</code> falta, viene vacio o contiene un valor invalido, el sistema usa <code>true</code> como valor seguro y compatible con instalaciones existentes.</li>
+					<li>La decision de mostrarlo en login es por IP, no por usuario: <code>shouldShowLoginCaptcha(userName, ip)</code> consulta la cache de intentos fallidos de esa IP.</li>
+					<li>El umbral sale de <code>LOGIN_CAPTCHA_MAX_ATTEMPTS</code> y por defecto es <code>5</code>.</li>
+					<li>La UI muestra el CAPTCHA cuando la cantidad fallida ya es <b>mayor o igual</b> al umbral.</li>
+					<li>Los intentos fallidos incrementan la cache tanto en login local como en login externo.</li>
+					<li>Un login exitoso no limpia esa cache en el acto.</li>
+					<li>La limpieza la hace el scheduler horario usando <code>LOGIN_CAPTCHA_RATE_LIMIT_CACHE_RESET_HOURS</code>; si el parametro falta o es invalido, cae a <code>6</code> horas.</li>
+				</ul>
+
+				<h2>{{ "Rate limit de accesos publicos invalidos" }}</h2>
+				<ul class="paragraph">
+					<li>Las paginas publicas y tokenizadas comparten un rate limit de accesos invalidos por IP.</li>
+					<li>El control vive en <code>DashboardPublicBasePage</code> y <code>PublicTokenBasePage</code>: si la IP ya quedo rate-limited, la respuesta corta en <code>/error429</code>.</li>
+					<li>Si el token o identificador no existe y la pagina devuelve <code>Error404</code>, el sistema registra el intento fallido en dos lugares: la tabla <code>IpAccess</code> y una cache en memoria.</li>
+					<li>El umbral sale de <code>PUBLIC_FAILED_ACCESS_MAX_ATTEMPTS</code> y por defecto es <code>50</code>.</li>
+					<li>El bloqueo efectivo recien ocurre cuando el contador queda <b>estrictamente mayor</b> al umbral. Con el default, el <code>429</code> aparece desde el intento invalido numero <code>51</code>.</li>
+					<li>La limpieza del bloqueo en memoria la hace el scheduler horario usando <code>PUBLIC_FAILED_ACCESS_RATE_LIMIT_CACHE_RESET_HOURS</code>; si falta o es invalido, cae a <code>1</code> hora.</li>
+					<li>La tabla <code>IpAccess</code> no se limpia con ese scheduler: conserva historial de primer intento, ultimo intento y acumulado.</li>
+					<li>Por eso <code>/admin/ipaccess</code> no es una blacklist activa ni una pantalla de desbloqueo: es un visor historico de intentos fallidos registrados.</li>
+					<li>La pagina <code>/public-elections</code> desactiva explicitamente este rate limit generico.</li>
+				</ul>
+
+				<h2>{{ "Tokens y compuertas publicas" }}</h2>
+				<ul class="paragraph">
+					<li>Las paginas tokenizadas trabajan en dos capas.</li>
+					<li><b>Capa 1, identidad del token:</b> cada pagina valida que el token exista y resuelva una entidad concreta. Ejemplos: <code>UserVoter.voteToken</code>, <code>Election.resultToken</code>, <code>Auditor.resultToken</code>, token de nominacion o token de apoyo.</li>
+					<li>Si esa validacion falla, la respuesta cae en <code>Error404</code> y, salvo excepciones puntuales, cuenta para el rate limit publico.</li>
+					<li><b>Capa 2, ventana de acceso:</b> una vez resuelto el token, la pagina aplica <code>TokenAccessGate</code> con switches manuales de la eleccion y ventanas de calendario publico.</li>
+					<li>Si el token existe pero la ventana aun no abrio, ya cerro o el switch manual esta apagado, no responde 404: deriva a <code>PublicAccessDeniedPage</code> con codigo funcional y countdown hacia la fecha relevante.</li>
+					<li>Esa segunda capa no se registra como acceso invalido: el contador de rate limit se incrementa por token/identificador inexistente, no por un acceso valido pero todavia cerrado.</li>
+					<li>Las compuertas publicas combinan flags como <code>votingLinkAvailable</code>, <code>resultLinkAvailable</code>, <code>auditorLinkAvailable</code>, <code>doNominationLinkAvailable</code>, <code>nominationTasksLinkAvailable</code>, <code>nominationSupportLinkAvailable</code> y <code>publicElectionLinkAvailable</code> con hitos <code>N_1</code>, <code>N_2</code>, <code>N_12</code>, <code>N_16</code>, <code>N_17</code> y <code>N_18</code> segun la ruta.</li>
+					<li>El resultado es deliberado: token invalido y acceso no habilitado son casos distintos en la implementacion y tambien en la experiencia de usuario.</li>
+				</ul>
+
+				<h2>{{ "CAPTCHA en formularios publicos" }}</h2>
+				<ul class="paragraph">
+					<li>Cuando <code>isShowCaptcha()</code> devuelve verdadero y existe <code>DataSiteKeyReCaptcha</code>, el sistema activa CAPTCHA tambien en varios formularios publicos.</li>
+					<li>Quedo verificado en al menos estos flujos: recuperacion publica de links, preguntas de comunidad desde pagina publica, formulario publico moderno de preguntas y la herramienta publica de resize de foto.</li>
+					<li>La validacion usa el mismo backend <code>isValidCaptchaResponse()</code> que el login administrativo.</li>
+				</ul>
+
+				<h2>{{ "Autenticacion de servicios REST" }}</h2>
+				<ul class="paragraph">
+					<li>La aplicacion JAX-RS registra dos recursos principales: <code>ElectionsService</code> y <code>ElectionsTablesServices</code>.</li>
+					<li>No hay endpoints REST anonimos en este bloque: el health check <code>/hc</code>, los endpoints legacy, los de tablas y tambien los snapshots <code>/v2</code> pasan por autenticacion.</li>
+					<li>En modo <code>APP</code>, la regla es doble: header <code>Authorization</code> igual a <code>WS_AUTH_TOKEN</code> y IP cliente incluida en <code>WS_AUTHORIZED_IPS</code>; los tres valores se leen desde <code>elections.properties</code>.</li>
+					<li>En modo centralizado, el sistema reenvia el header <code>Authorization</code> al servicio remoto configurado en <code>WS_LACNIC_AUTH_URL</code>.</li>
+					<li>Para los WS internos generales exige rol remoto <code>api-Elections</code>.</li>
+					<li>Para los snapshots <code>v2</code> exige rol remoto <code>api-ElectionsPublicInformation</code>.</li>
+					<li>En modo <code>APP</code>, la IP se valida contra <code>WS_AUTHORIZED_IPS</code>. En modo centralizado, se valida contra el set <code>ipAllowed</code> devuelto por el servicio remoto.</li>
+					<li>Si falla el token o la IP, responde <code>401</code>. Si el metodo de autenticacion esta mal configurado o ocurre una excepcion, responde <code>500</code>.</li>
+					<li>La capa REST toma la IP desde <code>X-FORWARDED-FOR</code> si existe; en caso contrario usa <code>request.getRemoteAddr()</code>. A diferencia de la UI web, no separa el primer hop ni consulta <code>X-Real-IP</code>.</li>
+					<li>La paginacion de tablas se recorta adicionalmente con <code>WS_MAX_PAGE_SIZE</code>.</li>
+				</ul>
+
+				<h2>{{ "Exposicion de parametros sensibles" }}</h2>
+				<ul class="paragraph">
+					<li>La pantalla administrativa de parametros muestra valores en texto plano; no enmascara secretos.</li>
+					<li>Las tablas de monitoreo via WS si enmascaran algunas claves, pero solo estas: <code>EMAIL_HOST</code>, <code>EMAIL_USER</code>, <code>EMAIL_PASSWORD</code>, <code>WS_AUTH_TOKEN</code> y <code>WS_AUTHORIZED_IPS</code>.</li>
+					<li>Los reportes del monitor enmascaran las credenciales de correo, PAI, WS, Campus, MiLACNIC, OpenAI y reCAPTCHA; las claves públicas como <code>DataSiteKeyReCaptcha</code> no son secretos.</li>
+				</ul>
+
+					<h2>{{ "Que no existe hoy como control de acceso" }}</h2>
+					<ul class="paragraph">
+						<li>Las contrasenas locales se almacenan como SHA-256 sin salt individual. Para un despliegue expuesto a Internet se recomienda planificar una migracion a Argon2id, bcrypt o PBKDF2.</li>
+						<li>No existe segundo factor para cuentas locales ni recuperacion autoservicio de contrasena.</li>
+						<li>No existe separacion de roles entre administradores locales: todos reciben <code>elections-manager</code> y <code>elections-deleter</code>.</li>
+						<li>No existe soporte generico configurable para OIDC, OAuth2, SAML o LDAP.</li>
+						<li>No existe desbloqueo manual desde la UI para limpiar el rate limit publico o el historial <code>IpAccess</code>.</li>
+					<li>No existe invalidacion inmediata del contador de CAPTCHA tras un login exitoso.</li>
+					<li>No existe autenticacion anonima para los snapshots REST <code>v2</code>, aunque su nombre refiera a informacion publica.</li>
+					<li>No existe en la pantalla de parametros una politica de ocultamiento por tipo de secreto.</li>
+				</ul>
+
+				<h2>{{ "Bloques relacionados" }}</h2>
+				<ul class="paragraph">
+					<li><b>Parametros, templates e i18n:</b> la configuracion base de claves y personalizacion quedo documentada en <a href="{{site.baseurl}}/parameters-templates-i18n.html">esta guia</a>.</li>
+					<li><b>Votacion y links publicos:</b> el detalle funcional de cada ruta tokenizada quedo documentado en <a href="{{site.baseurl}}/voting-public-links.html">esta guia</a>.</li>
+					<li><b>Servicios REST:</b> el catalogo de endpoints vigentes quedo documentado en <a href="{{site.baseurl}}/services.html">esta guia</a>.</li>
+					<li><b>Siguiente bloque recomendado:</b> cerrar release notes <code>v3.0</code> cuando termine el relevamiento integral.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionsManagerApp</code>, <code>ElectionsWebAdminSession</code>, <code>SecurityUtils</code>, <code>DashboardAdminBasePage</code>, <code>DashboardManagerBasePage</code>, <code>DashboardElectionBasePage</code>, <code>LoginDashboard</code>, <code>LoginPanel</code>, <code>AdminNavBarPanel</code>, <code>IpAccessDashboard</code>, <code>IpAccessListPanel</code>, <code>DashboardPublicBasePage</code>, <code>PublicTokenBasePage</code>, <code>PublicAccessDeniedPage</code>, <code>PublicElectionRecoverLinkPanel</code>, <code>PublicPhotoResizeDashboard</code>, <code>VotePublicPage</code>, <code>ResultPublicPage</code>, <code>AskCandidateQuestionPage</code>, <code>AuditPublicDashboardPage</code>, <code>ElectionsManagerEJBBean</code>, <code>ElectionsVoterEJBBean</code>, <code>ElectionsPreNominationEJBBean</code>, <code>ElectionsMonitorEJBBean</code>, <code>ElectionScheduler</code>, <code>ElectionsCaches</code>, <code>IpAccess</code>, <code>IpAccessDao</code>, <code>ElectionsRoles</code>, <code>WebServiceAuthentication</code>, <code>ElectionsService</code>, <code>ElectionsTablesServices</code>, <code>ElectionsServicesApplication</code> y los tests <code>WebServiceAuthenticationTest</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

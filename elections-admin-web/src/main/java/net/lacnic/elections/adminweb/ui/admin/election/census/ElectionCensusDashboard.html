@@ -1,0 +1,149 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="feedback" wicket:message="title:censusManagementTitle" />
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="censusManagementTitle"><wicket:message key="censusManagementTitle" /></h5>
+				</div>
+				<div class="card-body">
+					<div class="ins-wizard">
+						<div wicket:id="tabsPanel" data-testid="tabsPanel" wicket:message="title:censusManagementTitle"></div>
+						<div class="tab-content pt-3">
+							<div class="tab-pane fade show active">
+								<div wicket:id="autoVotersInfo" data-testid="autoVotersInfo">
+									<div wicket:id="autoVotersAlert" data-testid="autoVotersAlert" role="alert">
+										<div class="fw-semibold"><span wicket:id="autoVotersInfoText" data-testid="autoVotersInfoText"></span></div>
+										<div class="mt-2">
+											<div><strong><wicket:message key="organizationsSyncInfoLastSyncAtLabel" /></strong> <span wicket:id="syncInfoLastSyncAt" data-testid="syncInfoLastSyncAt"></span></div>
+											<div><strong><wicket:message key="organizationsSyncInfoStatusLabel" /></strong> <span wicket:id="syncInfoStatus" data-testid="syncInfoStatus"></span></div>
+											<div><strong><wicket:message key="organizationsSyncInfoMetricsLabel" /></strong> <span wicket:id="syncInfoMetrics" data-testid="syncInfoMetrics"></span></div>
+											<div><strong><wicket:message key="organizationsSyncInfoMessageLabel" /></strong> <span wicket:id="syncInfoMessage" data-testid="syncInfoMessage"></span></div>
+										</div>
+									</div>
+								</div>
+									<div id="form" wicket:id="electionCensusForm" data-testid="electionCensusForm" wicket:message="title:censusManagementTitle" class="wizard-form" role="application">
+										<div class="row g-3">
+											<div class="col-12 col-md-6" wicket:id="uploadSection" data-testid="uploadSection">
+												<form wicket:id="uploadCensusForm" data-testid="uploadCensusForm" action="#" class="h-100" role="application">
+													<span wicket:id="uploadCensusFilePanel" data-testid="uploadCensusFilePanel" wicket:message="title:censusManagementBulkTitle" name="uploadCensusFilePanel"></span>
+												</form>
+											</div>
+											<div class="col-12 col-md-6" wicket:id="userVoterCard" data-testid="userVoterCard">
+												<form wicket:id="addUserVoterForm" data-testid="addUserVoterForm" action="#" class="card h-100" role="application">
+													<div class="card-header">
+														<h5 class="card-title mb-0" data-testid="censusManagementAddUserTitle"><wicket:message key="censusManagementAddUserTitle" /></h5>
+													</div>
+												<div class="card-body">
+													<div wicket:id="addUserVoterPanel" data-testid="addUserVoterPanel" wicket:message="title:censusManagementAddUserTitle"></div>
+													<div class="d-flex justify-content-end mt-3">
+														<button class="btn btn-dark" type="submit" id="addUserVoter" wicket:id="addUserVoter" data-testid="addUserVoter" wicket:message="title:censusManagementAddUserBtn">
+															<wicket:message key="censusManagementAddUserBtn" />
+															</button>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+										<div class="d-flex justify-content-between mt-4">
+										<button wicket:id="back" type="button" id="back" data-testid="back" wicket:message="title:censusManagementBack" class="btn btn-light">
+											<wicket:message key="censusManagementBack" />
+										</button>
+										<div class="d-flex gap-2">
+											<button wicket:id="skip" type="button" id="skip" data-testid="skip" wicket:message="title:censusManagementIgnore" class="btn btn-light">
+												<wicket:message key="censusManagementIgnore" />
+											</button>
+											<button wicket:id="markDoneNext" type="button" data-testid="markDoneNext" wicket:message="title:electionManagementMarkCompleteNext" class="btn btn-primary">
+												<wicket:message key="electionManagementMarkCompleteNext" />
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12" wicket:id="censusListPanel" data-testid="censusListPanel" wicket:message="title:censusManagementUserListTitle"></div>
+		<div class="col-lg-12" wicket:id="censusSyncRunsSection" data-testid="censusSyncRunsSection">
+			<div class="card mb-3">
+				<div class="card-header d-flex align-items-center justify-content-between gap-2 flex-wrap">
+					<div class="d-flex align-items-center gap-2 flex-wrap">
+						<h6 class="card-title mb-0" data-testid="censusSyncControlRunsTitle"><wicket:message key="censusSyncControlRunsTitle" /></h6>
+						<span wicket:id="syncWindowStatus" data-testid="syncWindowStatus"></span>
+					</div>
+					<span wicket:id="automaticCensusSyncActionsPanel" data-testid="automaticCensusSyncActionsPanel"></span>
+				</div>
+				<div class="card-body">
+					<div wicket:id="censusSyncRunsEmpty" data-testid="censusSyncRunsEmpty" class="text-muted small"><wicket:message key="censusSyncControlRunsEmpty" /></div>
+					<div class="table-responsive">
+						<table class="table table-sm table-hover align-middle mb-0">
+							<thead class="table-light">
+								<tr>
+									<th><wicket:message key="censusSyncControlRunsColSyncAt" /></th>
+									<th><wicket:message key="censusSyncControlRunsColStatus" /></th>
+									<th><wicket:message key="censusSyncControlRunsColMetrics" /></th>
+									<th><wicket:message key="censusSyncControlRunsColDuration" /></th>
+									<th><wicket:message key="censusSyncControlRunsColRunId" /></th>
+									<th><wicket:message key="censusSyncControlRunsColMessage" /></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<wicket:container wicket:id="censusSyncRunsRows" data-testid="censusSyncRunsRows">
+									<tr>
+										<td wicket:id="censusSyncRunsTimestamp" data-testid="censusSyncRunsTimestamp"></td>
+										<td wicket:id="censusSyncRunsStatus" data-testid="censusSyncRunsStatus"></td>
+										<td wicket:id="censusSyncRunsMetrics" data-testid="censusSyncRunsMetrics"></td>
+										<td wicket:id="censusSyncRunsDuration" data-testid="censusSyncRunsDuration"></td>
+										<td wicket:id="censusSyncRunsRunId" data-testid="censusSyncRunsRunId"></td>
+										<td wicket:id="censusSyncRunsMessage" data-testid="censusSyncRunsMessage"></td>
+										<td>
+											<a href="#" wicket:id="censusSyncRunsToggleDetail" data-testid="censusSyncRunsToggleDetail" class="btn btn-link btn-sm p-0">
+												<span wicket:id="censusSyncRunsToggleDetailLabel" data-testid="censusSyncRunsToggleDetailLabel"></span>
+											</a>
+										</td>
+									</tr>
+									<tr wicket:id="censusSyncRunsDetailRow" data-testid="censusSyncRunsDetailRow">
+										<td colspan="7" class="bg-light">
+											<div wicket:id="censusSyncRunsDetailEmpty" data-testid="censusSyncRunsDetailEmpty" class="text-muted small py-2"><wicket:message key="censusSyncAuditEmpty" /></div>
+											<div class="table-responsive" style="max-height:260px;">
+												<table class="table table-xs table-sm table-bordered align-middle mb-0">
+													<thead class="table-light">
+														<tr>
+															<th><wicket:message key="censusSyncAuditColTimestamp" /></th>
+															<th><wicket:message key="censusSyncAuditColOrgId" /></th>
+															<th><wicket:message key="censusSyncAuditColField" /></th>
+															<th colspan="3"><wicket:message key="censusSyncAuditColOldValue" /></th>
+															<th colspan="3"><wicket:message key="censusSyncAuditColNewValue" /></th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr wicket:id="censusSyncRunsDetailRows" data-testid="censusSyncRunsDetailRows">
+															<td wicket:id="censusSyncRunsDetailTimestamp" data-testid="censusSyncRunsDetailTimestamp"></td>
+															<td wicket:id="censusSyncRunsDetailOrgId" data-testid="censusSyncRunsDetailOrgId"></td>
+															<td wicket:id="censusSyncRunsDetailField" data-testid="censusSyncRunsDetailField"></td>
+															<td wicket:id="censusSyncRunsDetailOldValue" data-testid="censusSyncRunsDetailOldValue" colspan="3"></td>
+															<td wicket:id="censusSyncRunsDetailNewValue" data-testid="censusSyncRunsDetailNewValue" colspan="3"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</td>
+									</tr>
+								</wicket:container>
+							</tbody>
+						</table>
+					</div>
+					<div class="d-flex justify-content-center mt-3">
+						<div wicket:id="censusSyncRunsPager" data-testid="censusSyncRunsPager"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<span wicket:id="censusAdvancedActionsPanel" data-testid="censusAdvancedActionsPanel"></span>
+		</div>
+	</div>
+</wicket:extend>

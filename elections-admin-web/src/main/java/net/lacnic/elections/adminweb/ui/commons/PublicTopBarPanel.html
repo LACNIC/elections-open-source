@@ -1,0 +1,30 @@
+<wicket:panel>
+	<div class="d-flex align-items-center gap-2 w-100">
+		<div class="d-flex align-items-center gap-2">
+			<a wicket:id="home" data-testid="home" class="logo-topbar d-flex align-items-center gap-2 text-decoration-none">
+				<span class="fw-semibold text-body" wicket:id="siteTitle" data-testid="siteTitle"></span>
+			</a>
+
+			<div class="topbar-item d-none d-md-flex">
+				<span class="topbar-link btn fw-medium btn-link">Sistema de Elecciones</span>
+			</div>
+		</div>
+
+		<div class="d-flex align-items-center gap-2">
+			<div class="topbar-item">
+				<button class="topbar-link" id="light-dark-mode" data-testid="light-dark-mode" type="button">
+					<i class="ti ti-moon fs-xxl mode-light-moon"></i>
+					<i class="ti ti-sun fs-xxl mode-light-sun"></i>
+				</button>
+			</div>
+			<div class="topbar-item">
+				<a href="#" wicket:id="loginLink" data-testid="loginLink" id="loginLink" class="topbar-link dropdown-toggle drop-arrow-none px-2">
+					<div class="d-lg-flex align-items-center gap-1 d-none">
+						<h5 class="my-0" data-testid="loginText"><wicket:message key="loginText">Login</wicket:message></h5>
+					</div>
+					<i class="ti ti-login fs-28"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

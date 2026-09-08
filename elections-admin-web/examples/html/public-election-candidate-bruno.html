@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Elección Pública | Perfil de Bruno Costa</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(15, 23, 42, 0.04) 0%, rgba(15, 23, 42, 0) 40%);
+		}
+
+		.profile-main-card,
+		.profile-side-card {
+			border: 1px solid rgba(15, 23, 42, .10);
+		}
+
+		.info-label {
+			font-size: .72rem;
+			text-transform: uppercase;
+			color: #6b7280;
+			font-weight: 700;
+			margin-bottom: .2rem;
+		}
+
+		.info-value {
+			font-weight: 600;
+			margin-bottom: 1rem;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-election-landing.html#candidatos" class="topbar-link fw-semibold">Elección Pública LACNIC</a>
+					<span class="badge text-bg-light border">Versión ES</span>
+				</div>
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-election-landing.html#candidatos" class="topbar-link fw-semibold">Home</a>
+					<div class="dropdown topbar-item">
+						<button class="topbar-link fw-semibold dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">Idioma</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item active" href="#">Español</a>
+							<a class="dropdown-item" href="#">English</a>
+							<a class="dropdown-item" href="#">Português</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid py-4">
+			<div class="row justify-content-center">
+				<div class="col-xxl-10">
+						<div class="row g-0">
+							<!-- CALENDAR MAP: perfil público visible desde N_11_SINGLE_CANDIDATES_PUBLISHED. -->
+							<div class="col-xl-9" data-calendar-show-from="N_11_SINGLE_CANDIDATES_PUBLISHED" data-calendar-related="N_16_PERIODO_VOTING,N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED" data-task-keys="PROFILE,OTHER_STATUTORY_QUESTIONS">
+							<div class="card card-h-100 rounded-0 rounded-start profile-main-card">
+								<div class="card-header align-items-start p-4">
+									<div class="avatar-xxl me-3">
+										<img src="assets/images/users/user-5.jpg" class="img-fluid rounded-circle" alt="Bruno Costa">
+									</div>
+										<div>
+											<h3 class="mb-1 d-flex fs-xl align-items-center">Bruno Costa</h3>
+											<p class="text-muted mb-2 fs-xxs">Candidato público</p>
+											<p class="text-muted mb-2 fs-xxs"><i class="ti ti-building me-1"></i>DataGov Brasil / Instituto GovDigital</p>
+											<a href="https://www.linkedin.com/in/bruno-costa" target="_blank" class="btn btn-sm btn-light">
+												<i class="ti ti-brand-linkedin me-1"></i> LinkedIn
+											</a>
+									</div>
+									<div class="ms-auto">
+										<a href="public-election-landing.html#candidatos" class="btn btn-light"><i class="ti ti-arrow-left me-1"></i> Volver</a>
+									</div>
+								</div>
+
+									<div class="card-body px-4">
+										<div class="mb-4" data-task-key="PROFILE">
+											<h5 class="fs-base mb-2">Bio</h5>
+											<p class="text-muted mb-0">Economista especializado en transformación digital y gestión institucional. Ha liderado proyectos de modernización y diseño de métricas para iniciativas regionales con foco en sostenibilidad y transparencia.</p>
+										</div>
+
+										<div class="mb-4" data-task-key="PROFILE">
+											<h5 class="fs-base mb-2">Organización que nomina</h5>
+											<p class="text-muted mb-0">DataGov Brasil Ltda.</p>
+										</div>
+
+										<div class="mb-4" data-task-key="PROFILE">
+											<h5 class="fs-base mb-2">Motivo de la nominación</h5>
+											<p class="text-muted mb-0">Fortalecer la trazabilidad de decisiones y la gestión basada en indicadores públicos para sostener una gobernanza transparente.</p>
+										</div>
+
+										<hr class="my-4">
+
+											<!-- CALENDAR MAP: formulario activo durante N_12_PERIODO_CANDIDATE_QUESTIONS. -->
+											<div id="bruno-qa" data-calendar-show-during="N_12_PERIODO_CANDIDATE_QUESTIONS" data-task-scope="no-task" data-question-logic="calendar-only">
+											<h5 class="fs-base mb-3">Hacer preguntas</h5>
+											<form action="#" class="mb-4">
+												<div class="row g-3">
+													<div class="col-md-6">
+														<label class="form-label">Nombre completo</label>
+														<input type="text" class="form-control" placeholder="Tu nombre y apellido">
+													</div>
+													<div class="col-md-6">
+														<label class="form-label">E-mail</label>
+														<input type="email" class="form-control" placeholder="tu-correo@dominio.com">
+													</div>
+													<div class="col-12">
+														<label class="form-label">Pregunta</label>
+														<textarea class="form-control" rows="4" placeholder="Redacta aquí tu pregunta formal para el candidato..."></textarea>
+													</div>
+													<div class="col-12">
+														<div class="form-check">
+															<input class="form-check-input" type="checkbox" id="bruno-all-candidates">
+															<label class="form-check-label" for="bruno-all-candidates">Enviar esta misma pregunta a todos los candidatos.</label>
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="form-check">
+															<input class="form-check-input" type="checkbox" id="bruno-rules">
+															<label class="form-check-label" for="bruno-rules">Acepto los términos y confirmo que la pregunta será pública una vez aprobada por la comisión electoral.</label>
+														</div>
+													</div>
+													<div class="col-12 text-end">
+														<button type="submit" class="btn btn-secondary btn-sm">Enviar pregunta <i class="ti ti-send-2 align-baseline ms-1"></i></button>
+													</div>
+												</div>
+											</form>
+
+											<hr class="my-4">
+											<h4 class="mb-3 fs-md" data-calendar-show-from="N_11_SINGLE_CANDIDATES_PUBLISHED" data-task-key="OTHER_STATUTORY_QUESTIONS">Preguntas</h4>
+											<div class="d-flex mb-2 border border-dashed rounded p-3">
+												<div class="flex-grow-1">
+													<h5 class="mb-1">Pregunta estatutaria</h5>
+													<p class="mb-2">¿Podría describir brevemente su perfil personal y sus intereses?</p>
+													<div class="bg-light rounded p-2">
+														<strong>Respuesta de Bruno Costa:</strong> Soy economista con foco en transformación digital y gestión institucional. Me interesa la transparencia en la toma de decisiones y la gestión por indicadores.
+													</div>
+												</div>
+											</div>
+											<div class="d-flex mb-2 border border-dashed rounded p-3">
+												<div class="flex-grow-1">
+													<h5 class="mb-1">Pregunta estatutaria</h5>
+													<p class="mb-2">¿Cuál es su visión sobre LACNIC y su contribución a la región?</p>
+													<div class="bg-light rounded p-2">
+														<strong>Respuesta de Bruno Costa:</strong> LACNIC cumple un rol clave para sostener cooperación técnica regional, desarrollo de capacidades y gobernanza basada en consensos.
+													</div>
+												</div>
+											</div>
+											<div class="d-flex mb-2 border border-dashed rounded p-3">
+												<div class="flex-grow-1">
+													<h5 class="mb-1">Pregunta estatutaria</h5>
+													<p class="mb-2">¿Cuáles son sus principales motivaciones para esta nominación?</p>
+													<div class="bg-light rounded p-2">
+														<strong>Respuesta de Bruno Costa:</strong> Contribuir a una gestión más trazable, con objetivos medibles y comunicación pública clara sobre avances y decisiones estratégicas.
+													</div>
+												</div>
+											</div>
+
+											<hr class="my-4">
+											<h4 class="mb-3 fs-md" data-calendar-show-from="N_12_PERIODO_CANDIDATE_QUESTIONS" data-task-scope="no-task" data-question-logic="calendar-only">Otras preguntas hechas por la comunidad</h4>
+											<div class="d-flex mb-2 border border-dashed rounded p-3">
+												<div class="flex-grow-1">
+													<h5 class="mb-1">Pregunta · 26 may 2026</h5>
+													<p class="mb-2">¿Qué mecanismo propone para priorizar inversiones regionales?</p>
+													<div class="bg-light rounded p-2">
+														<strong>Respuesta de Bruno Costa:</strong> Un marco de priorización con criterios públicos de impacto, urgencia y sostenibilidad financiera.
+													</div>
+												</div>
+											</div>
+											<div class="d-flex mb-2 border border-dashed rounded p-3">
+												<div class="flex-grow-1">
+													<h5 class="mb-1">Pregunta · 23 may 2026</h5>
+													<p class="mb-2">¿Cómo mejoraría la trazabilidad de decisiones del Directorio?</p>
+													<div class="bg-light rounded p-2">
+														<strong>Respuesta de Bruno Costa:</strong> Con actas estructuradas, indicadores de seguimiento y un tablero de estado de compromisos accesible públicamente.
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+						</div>
+
+								<div class="col-xl-3" data-calendar-show-from="N_11_SINGLE_CANDIDATES_PUBLISHED" data-task-keys="COUNTRIES,ORG_SUPPORTS,USER_SUPPORTS_2,USER_SUPPORTS_5,ORGANIZATIONS,PROFILE">
+								<div class="card card-h-100 rounded-0 rounded-end profile-side-card">
+									<div class="card-body p-3">
+										<h5 class="mb-3">Resumen público</h5>
+										<div class="mb-3"><span class="text-muted d-block">País que representa</span><span class="fw-semibold">Brasil</span></div>
+										<div class="mb-3"><span class="text-muted d-block">Otros países vinculados</span><span class="fw-semibold">Argentina / Uruguay</span></div>
+										<div class="mb-3">
+											<span class="text-muted d-block mb-1">Organizaciones de apoyo</span>
+											<ul class="list-unstyled mb-0">
+												<li class="fw-semibold">Asociación NOG Brasil</li>
+												<li class="fw-semibold">Telecomunicaciones Argentina</li>
+											</ul>
+										</div>
+										<div class="mb-2">
+											<span class="text-muted d-block mb-1">Organizaciones vinculadas</span>
+											<ul class="list-unstyled mb-0">
+												<li class="fw-semibold">DataGov Brasil</li>
+												<li class="fw-semibold">Instituto GovDigital</li>
+											</ul>
+										</div>
+										<hr>
+										<a href="https://www.linkedin.com/in/bruno-costa" target="_blank" class="btn btn-light w-100 mb-2">
+											<i class="ti ti-brand-linkedin me-1"></i> Ver LinkedIn
+										</a>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
+
+</html>

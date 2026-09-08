@@ -2,6 +2,8 @@ package net.lacnic.elections.domain.services.dbtables;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.lacnic.elections.domain.UserAdmin;
 
 
@@ -11,8 +13,8 @@ public class UserAdminTableReport implements Serializable {
 
 	private String userAdminId;
 	private String email;
+	@JsonIgnore
 	private String password;
-	private Long authorizedElectionId;
 
 
 	public UserAdminTableReport() { }
@@ -20,8 +22,6 @@ public class UserAdminTableReport implements Serializable {
 	public UserAdminTableReport(UserAdmin userAdmin) {
 		this.userAdminId = userAdmin.getUserAdminId();
 		this.email = userAdmin.getEmail();
-		this.authorizedElectionId = userAdmin.getAuthorizedElectionId();
-		this.password = "**********";
 	}
 
 
@@ -39,14 +39,6 @@ public class UserAdminTableReport implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Long getAuthorizedElectionId() {
-		return authorizedElectionId;
-	}
-
-	public void setAuthorizedElectionId(Long authorizedElectionId) {
-		this.authorizedElectionId = authorizedElectionId;
 	}
 
 	public String getPassword() {

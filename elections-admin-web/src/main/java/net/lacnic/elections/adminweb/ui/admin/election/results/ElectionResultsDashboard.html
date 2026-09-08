@@ -1,0 +1,106 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedback" data-testid="feedback"></div>
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<div>
+						<h5 class="card-title mb-1" data-testid="electionResultsTitle"><wicket:message key="electionResultsTitle">Resultados oficiales</wicket:message></h5>
+						<p class="text-muted mb-0" data-testid="electionResultsElectionTitle"><span wicket:id="electionTitle">-</span></p>
+					</div>
+				</div>
+				<div class="card-body">
+					<form wicket:id="resultsForm" data-testid="resultsForm" class="row g-4">
+						<div class="col-12">
+							<div class="card border">
+								<div class="card-header">
+									<h6 class="mb-0"><wicket:message key="candidateProfileLanguageSpanish">Español</wicket:message></h6>
+								</div>
+								<div class="card-body row g-3">
+									<div class="col-12">
+										<label class="form-label" for="resultSpanishEditor"><wicket:message key="resultSpanishLabel">Resultado en español</wicket:message></label>
+										<textarea wicket:id="resultSpanish" id="resultSpanishEditor" data-testid="resultSpanish" class="form-control" style="min-height: 220px"></textarea>
+									</div>
+									<div class="col-12">
+										<label class="form-label" for="resultLetterSpanish"><wicket:message key="resultLetterSpanishLabel">Carta de resultados en español</wicket:message></label>
+										<input wicket:id="resultLetterSpanish" id="resultLetterSpanish" data-testid="resultLetterSpanish" type="file" class="form-control" />
+									</div>
+									<div class="col-12 d-flex align-items-center gap-2 flex-wrap">
+										<a wicket:id="resultLetterSpanishDownload" data-testid="resultLetterSpanishDownload" class="btn btn-light btn-sm"><wicket:message key="electionResultsDownloadCurrentFile">Descargar archivo actual</wicket:message></a>
+										<span wicket:id="resultLetterSpanishUnavailable" data-testid="resultLetterSpanishUnavailable">No hay archivo cargado</span>
+									</div>
+									<div class="col-12">
+										<div class="form-check">
+											<input wicket:id="removeResultLetterSpanish" id="removeResultLetterSpanish" data-testid="removeResultLetterSpanish" type="checkbox" class="form-check-input" />
+											<label class="form-check-label" for="removeResultLetterSpanish"><wicket:message key="electionResultsRemoveLetter">Eliminar archivo actual</wicket:message></label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<div class="card border">
+								<div class="card-header">
+									<h6 class="mb-0"><wicket:message key="candidateProfileLanguageEnglish">Inglés</wicket:message></h6>
+								</div>
+								<div class="card-body row g-3">
+									<div class="col-12">
+										<label class="form-label" for="resultEnglishEditor"><wicket:message key="resultEnglishLabel">Resultado en inglés</wicket:message></label>
+										<textarea wicket:id="resultEnglish" id="resultEnglishEditor" data-testid="resultEnglish" class="form-control" style="min-height: 220px"></textarea>
+									</div>
+									<div class="col-12">
+										<label class="form-label" for="resultLetterEnglish"><wicket:message key="resultLetterEnglishLabel">Carta de resultados en inglés</wicket:message></label>
+										<input wicket:id="resultLetterEnglish" id="resultLetterEnglish" data-testid="resultLetterEnglish" type="file" class="form-control" />
+									</div>
+									<div class="col-12 d-flex align-items-center gap-2 flex-wrap">
+										<a wicket:id="resultLetterEnglishDownload" data-testid="resultLetterEnglishDownload" class="btn btn-light btn-sm"><wicket:message key="electionResultsDownloadCurrentFile">Descargar archivo actual</wicket:message></a>
+										<span wicket:id="resultLetterEnglishUnavailable" data-testid="resultLetterEnglishUnavailable">No hay archivo cargado</span>
+									</div>
+									<div class="col-12">
+										<div class="form-check">
+											<input wicket:id="removeResultLetterEnglish" id="removeResultLetterEnglish" data-testid="removeResultLetterEnglish" type="checkbox" class="form-check-input" />
+											<label class="form-check-label" for="removeResultLetterEnglish"><wicket:message key="electionResultsRemoveLetter">Eliminar archivo actual</wicket:message></label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<div class="card border">
+								<div class="card-header">
+									<h6 class="mb-0"><wicket:message key="candidateProfileLanguagePortuguese">Portugués</wicket:message></h6>
+								</div>
+								<div class="card-body row g-3">
+									<div class="col-12">
+										<label class="form-label" for="resultPortugueseEditor"><wicket:message key="resultPortugueseLabel">Resultado en portugués</wicket:message></label>
+										<textarea wicket:id="resultPortuguese" id="resultPortugueseEditor" data-testid="resultPortuguese" class="form-control" style="min-height: 220px"></textarea>
+									</div>
+									<div class="col-12">
+										<label class="form-label" for="resultLetterPortuguese"><wicket:message key="resultLetterPortugueseLabel">Carta de resultados en portugués</wicket:message></label>
+										<input wicket:id="resultLetterPortuguese" id="resultLetterPortuguese" data-testid="resultLetterPortuguese" type="file" class="form-control" />
+									</div>
+									<div class="col-12 d-flex align-items-center gap-2 flex-wrap">
+										<a wicket:id="resultLetterPortugueseDownload" data-testid="resultLetterPortugueseDownload" class="btn btn-light btn-sm"><wicket:message key="electionResultsDownloadCurrentFile">Descargar archivo actual</wicket:message></a>
+										<span wicket:id="resultLetterPortugueseUnavailable" data-testid="resultLetterPortugueseUnavailable">No hay archivo cargado</span>
+									</div>
+									<div class="col-12">
+										<div class="form-check">
+											<input wicket:id="removeResultLetterPortuguese" id="removeResultLetterPortuguese" data-testid="removeResultLetterPortuguese" type="checkbox" class="form-check-input" />
+											<label class="form-check-label" for="removeResultLetterPortuguese"><wicket:message key="electionResultsRemoveLetter">Eliminar archivo actual</wicket:message></label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12 d-flex justify-content-end">
+							<button wicket:id="save" data-testid="save" type="submit" class="btn btn-primary"><wicket:message key="electionManagementSave">Guardar</wicket:message></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

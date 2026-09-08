@@ -1,0 +1,95 @@
+<wicket:panel>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 data-testid="advCustomizationTitle"><wicket:message key="advCustomizationTitle">Personalización</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<form method="post" wicket:id="customizationForm" data-testid="customizationForm">
+						<div class="row g-3 align-items-center">
+							<div class="col-md-3">
+								<label class="form-label" for="advCustomizationPicSmallLogoUpload"><wicket:message key="advCustomizationPicSmallLogo">advCustomizationPicSmallLogo</wicket:message></label>
+							</div>
+							<div class="col-md-6">
+								<input id="advCustomizationPicSmallLogoUpload" wicket:id="picSmallLogoUpload" data-testid="picSmallLogoUpload" type="file" class="form-control"></input>
+							</div>
+							<div class="col-md-3">
+								<img alt="image" class="img-fluid" style="background-color: #1ab394; width: 20%" wicket:id="picSmallLogo" data-testid="picSmallLogo">
+							</div>
+
+							<div class="col-md-3">
+								<label class="form-label" for="advCustomizationPicBigLogoUpload"><wicket:message key="advCustomizationPicBiglLogo">advCustomizationPicBiglLogo</wicket:message></label>
+							</div>
+							<div class="col-md-6">
+								<input id="advCustomizationPicBigLogoUpload" wicket:id="picBigLogoUpload" data-testid="picBigLogoUpload" type="file" class="form-control"></input>
+							</div>
+							<div class="col-md-3">
+								<img alt="image" class="img-fluid" style="width: 80%" wicket:id="picBigLogo" data-testid="picBigLogo">
+							</div>
+
+							<div class="col-md-3">
+								<label class="form-label" for="advCustomizationPicSymbolUpload"><wicket:message key="advCustomizationPicSymbol">advCustomizationPicSymbol</wicket:message></label>
+							</div>
+							<div class="col-md-6">
+								<input id="advCustomizationPicSymbolUpload" wicket:id="picSymbolUpload" data-testid="picSymbolUpload" type="file" class="form-control"></input>
+							</div>
+							<div class="col-md-3">
+								<img alt="image" class="img-fluid" style="width: 30%" wicket:id="picSymbol" data-testid="picSymbol">
+							</div>
+						</div>
+
+						<hr class="my-3">
+
+						<div class="row g-3 align-items-center">
+							<div class="col-md-3">
+								<label class="form-label" for="advCustomizationSiteTitle"><wicket:message key="advCustomizationSiteTitle">advCustomizationSiteTitle</wicket:message></label>
+							</div>
+							<div class="col-md-6">
+								<input wicket:message="placeholder:advCustomizationDefaultSiteTitle" id="advCustomizationSiteTitle" class="form-control" wicket:id="siteTitle" data-testid="siteTitle">
+							</div>
+
+							<div class="col-md-3"></div>
+
+							<div class="col-md-3">
+								<label class="form-label" for="advCustomizationLoginTitle"><wicket:message key="advCustomizationLoginTitle">advCustomizationLoginTitle</wicket:message></label>
+							</div>
+							<div class="col-md-6">
+								<input wicket:message="placeholder:advCustomizationDefaultLoginTitle" id="advCustomizationLoginTitle" class="form-control" wicket:id="loginTitle" data-testid="loginTitle">
+							</div>
+						</div>
+
+						<hr class="my-3">
+
+						<div class="row g-3 align-items-center">
+							<div class="col-md-3">
+								<label class="form-label" for="advCustomizationShowHome"><wicket:message key="advCustomizationShowHome">advCustomizationShowHome</wicket:message></label>
+							</div>
+							<div class="col-md-6" wicket:id="advCustomizationShowHome" data-testid="showHome"></div>
+						</div>
+
+						<div class="row g-3 mt-1">
+							<div class="col-md-3">
+								<label class="form-label" for="advCustomizationHomeHtml"><wicket:message key="advCustomizationHomeHtml">advCustomizationHomeHtml</wicket:message></label>
+							</div>
+							<div class="col-md-9">
+								<textarea id="advCustomizationHomeHtml" wicket:id="homeHtml" data-testid="homeHtml" type="text" class="form-control h-300"></textarea>
+							</div>
+						</div>
+
+						<div class="text-center mt-3">
+							<button class="btn btn-primary" type="submit" wicket:id="save" data-testid="save">
+								<wicket:message key="advEditParamBtnSave" />
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('#advCustomizationHomeHtml').summernote({height: 300});
+		});
+	</script>
+</wicket:panel>

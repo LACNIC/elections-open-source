@@ -1,0 +1,34 @@
+services:
+  app:
+    image: ${ELECTIONS_IMAGE:-elections:${VERSION:-dev}}
+    container_name: elections
+    environment:
+      TZ: ${TZ:-America/Montevideo}
+      JAVA_OPTS: ${JAVA_OPTS:--Xms512m -Xmx1024m}
+      DB_ELECTIONS_HOST: postgres
+      DB_ELECTIONS_PORT: "5432"
+      DB_ELECTIONS_NAME: ${ELECTIONS_DB_NAME:-elections}
+      DB_ELECTIONS_USER: ${ELECTIONS_DB_USER:-elections}
+      DB_ELECTIONS_PASSWORD: ${ELECTIONS_DB_PASSWORD:-elections-fresh}
+      DB_ELECTIONS_MIN_POOL_SIZE: ${DB_ELECTIONS_MIN_POOL_SIZE:-1}
+      DB_ELECTIONS_MAX_POOL_SIZE: ${DB_ELECTIONS_MAX_POOL_SIZE:-10}
+      WS_AUTH_METHOD: ${WS_AUTH_METHOD:?WS_AUTH_METHOD must be set in .env}
+      WS_AUTH_TOKEN: ${WS_AUTH_TOKEN:?WS_AUTH_TOKEN must be set in .env}
+      WS_AUTHORIZED_IPS: ${WS_AUTHORIZED_IPS:?WS_AUTHORIZED_IPS must be set in .env}
+      WS_LACNIC_AUTH_URL: ${WS_LACNIC_AUTH_URL:?WS_LACNIC_AUTH_URL must be set in .env}
+    env_file:
+      - ./.env
+    ports:
+      - "${APP_HOST_PORT:-8098}:8080"
+    user: "1000:1000"
+    volumes:
+      - ./logs:/opt/jboss/wildfly/standalone/log
+      - ./fresh/email.properties:/opt/jboss/wildfly/standalone/configuration/email.properties:ro
+    networks:
+      - elections-internal
+    restart: always
+
+networks:
+  elections-internal:
+    name: ${ELECTIONS_INTERNAL_NETWORK:-elections-internal}
+    external: true

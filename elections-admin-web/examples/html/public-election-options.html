@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Elección Pública | Opciones</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(17, 24, 39, 0.04) 0%, rgba(17, 24, 39, 0) 35%);
+		}
+
+		.section-nav .nav-link {
+			border-radius: 999px;
+		}
+
+		.section-nav .nav-link.active {
+			background: #111827;
+			color: #fff;
+		}
+
+		.option-card {
+			border: 1px solid rgba(17, 24, 39, .08);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-election-home.html" class="topbar-link fw-semibold">Elección Pública LACNIC</a>
+					<span class="badge text-bg-light border">Versión ES</span>
+				</div>
+				<div class="dropdown topbar-item">
+					<button class="topbar-link fw-semibold dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">Idioma</button>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item active" href="#">Español</a>
+						<a class="dropdown-item" href="#">English</a>
+						<a class="dropdown-item" href="#">Português</a>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid py-4">
+			<ul class="nav nav-pills gap-2 section-nav mb-4">
+				<li class="nav-item"><a class="nav-link" href="public-election-home.html">Inicio</a></li>
+				<li class="nav-item"><a class="nav-link active" href="public-election-options.html">Opciones de la elección</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-candidates.html">Candidatos</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-calendar.html">Calendario</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-authorities.html">Comisionados y auditores</a></li>
+			</ul>
+
+			<div class="row g-4">
+				<div class="col-xl-8">
+					<div class="card option-card mb-4">
+						<div class="card-header">
+							<h4 class="card-title mb-0">Información general de la elección</h4>
+						</div>
+						<div class="card-body">
+							<p class="text-muted">La elección del Directorio 2026 se desarrolla en etapas públicas y privadas. En este portal se presentan únicamente los contenidos etiquetados como públicos para consulta de la comunidad.</p>
+							<div class="row g-3">
+								<div class="col-md-6">
+									<div class="border rounded p-3 bg-light-subtle h-100">
+										<h6>Objetivo</h6>
+										<p class="mb-0 text-muted">Elegir representantes para el Directorio con criterios de transparencia y participación regional.</p>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="border rounded p-3 bg-light-subtle h-100">
+										<h6>Alcance público</h6>
+										<p class="mb-0 text-muted">Perfiles, respuestas públicas, calendario, autoridades y documentación oficial de referencia.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card option-card mb-4">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<h4 class="card-title mb-0">Reglamento y documentos</h4>
+							<span class="badge text-bg-light border">Enlaces demostrativos</span>
+						</div>
+						<div class="card-body">
+							<div class="list-group">
+								<a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+									<span>Reglamento electoral 2026 (público)</span>
+									<i class="ti ti-download"></i>
+								</a>
+								<a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+									<span>Guía para revisión de perfiles de candidatos</span>
+									<i class="ti ti-download"></i>
+								</a>
+								<a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+									<span>Criterios de publicación de respuestas públicas</span>
+									<i class="ti ti-download"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="card option-card">
+						<div class="card-header">
+							<h4 class="card-title mb-0">Preguntas frecuentes</h4>
+						</div>
+						<div class="card-body">
+							<div class="accordion" id="faqAccordion">
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="q1"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1">¿Qué información de candidatos se publica?</button></h2>
+									<div id="a1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+										<div class="accordion-body">Se publican perfil básico, trayectoria resumida y respuestas correspondientes a tareas marcadas como públicas.</div>
+									</div>
+								</div>
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="q2"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2">¿Cómo se interpreta el calendario?</button></h2>
+									<div id="a2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+										<div class="accordion-body">Cada hito indica fecha/hora de inicio y, cuando aplica, fecha/hora de cierre para ventanas de actividad.</div>
+									</div>
+								</div>
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="q3"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3">¿Dónde veo comisionados y auditores?</button></h2>
+									<div id="a3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+										<div class="accordion-body">En la sección de autoridades, con rol y alcance de cada participante del proceso electoral.</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-4">
+					<div class="card option-card mb-4">
+						<div class="card-header"><h4 class="card-title mb-0">Navegación pública</h4></div>
+						<div class="card-body">
+							<div class="list-group">
+								<a href="public-election-home.html" class="list-group-item list-group-item-action">Inicio</a>
+								<a href="public-election-candidates.html" class="list-group-item list-group-item-action">Perfiles de candidatos</a>
+								<a href="public-election-calendar.html" class="list-group-item list-group-item-action">Calendario público</a>
+								<a href="public-election-authorities.html" class="list-group-item list-group-item-action">Comisionados y auditores</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="card option-card">
+						<div class="card-header"><h4 class="card-title mb-0">Estado del proceso</h4></div>
+						<div class="card-body">
+							<p class="text-muted mb-2">Etapa actual</p>
+							<h5 class="mb-3">Publicación de perfiles de candidatos</h5>
+							<p class="text-muted mb-2">Próximo hito público</p>
+							<p class="mb-3">Inicio de votación - 20 junio 2026, 08:00</p>
+							<a class="btn btn-secondary" href="public-election-calendar.html">Ver fechas completas</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Auditoria - Home v1 (Cierre)</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(17, 24, 39, 0.03) 0%, rgba(17, 24, 39, 0) 35%);
+		}
+
+		.audit-hero {
+			background: linear-gradient(135deg, rgba(17, 24, 39, 0.08), rgba(17, 24, 39, 0.02));
+		}
+
+		.module-card {
+			transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+			border: 1px solid rgba(17, 24, 39, 0.08);
+		}
+
+		.module-card:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 0.5rem 1.2rem rgba(17, 24, 39, 0.12);
+		}
+
+		.module-card.is-disabled {
+			opacity: 0.6;
+			filter: grayscale(0.2);
+		}
+
+		.audit-timeline-scroll {
+			max-height: none;
+			overflow: visible;
+			padding-right: 0;
+		}
+
+		.audit-timeline-scroll .timeline-time {
+			min-width: 8.5rem;
+			font-size: 0.78rem;
+			font-weight: 600;
+		}
+
+		.timeline-tag {
+			font-size: 0.72rem;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+		}
+
+		.timeline-item[data-status="future"] {
+			opacity: 0.58;
+		}
+
+		.timeline-item[data-status="current"] .timeline-content {
+			background: rgba(17, 24, 39, 0.12);
+			border: 1px solid rgba(17, 24, 39, 0.35);
+			border-radius: 0.6rem;
+		}
+
+		.timeline-item[data-status="current"] .timeline-time {
+			color: #111827 !important;
+			font-weight: 700;
+		}
+
+		.timeline-item[data-status="done"] .timeline-content h5 {
+			color: #4b5563;
+		}
+
+		.task-chip {
+			border: 1px dashed rgba(17, 24, 39, 0.2);
+			border-radius: 999px;
+			padding: 0.35rem 0.75rem;
+			font-size: 0.78rem;
+			font-weight: 600;
+			background: rgba(17, 24, 39, 0.02);
+		}
+
+		.alt-panel {
+			border: 1px dashed rgba(17, 24, 39, 0.15);
+			border-radius: 0.8rem;
+			background: rgba(255, 255, 255, 0.7);
+		}
+
+		.right-layout-label {
+			font-size: 0.78rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+			color: #6c757d;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-2">
+					<a href="#" class="topbar-link fw-semibold">Auditoria de Elecciones</a>
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<div class="topbar-item">
+						<span class="topbar-link fw-semibold">Auditor Demo</span>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div>
+			<div class="container-fluid py-4">
+				<div class="card mb-4 audit-hero">
+					<div class="card-body">
+						<div class="row g-3 align-items-center">
+							<div class="col-lg-8">
+								<div class="d-flex align-items-center gap-2 mb-2">
+									<span class="badge badge-soft-primary">Diseno 1</span>
+									<span class="badge badge-soft-secondary">Home Auditor</span>
+								</div>
+								<h3 class="mb-1">Eleccion Directorio 2026</h3>
+								<p class="text-muted mb-0">Timeline basado en pages-timeline + tareas reales del ElectionCalendarKey.</p>
+							</div>
+								<div class="col-lg-4">
+									<div class="text-lg-end">
+										<span class="badge text-bg-light border">Plantilla: Cierre</span>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row g-4">
+					<div class="col-xl-5">
+						<div class="card h-100">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<div>
+									<h4 class="card-title mb-0">Timeline del calendario</h4>
+									<p class="text-muted mb-0">22 hitos reales del proceso</p>
+								</div>
+								<div class="text-end">
+									<div class="badge text-bg-light mb-1" id="phase-v1">Resultados</div>
+									<div class="small text-muted" id="milestone-v1">Resultados - Resultado oficial con reclamos</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="timeline timeline-icon-bordered audit-timeline-scroll" id="calendar-timeline-v1">
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="1" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Convocatoria</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">SINGLE</span>
+											</div>
+											<h5 class="mb-1">Publicacion de la eleccion</h5>
+											<p class="mb-0 text-muted">Habilita la pagina publica y el calendario con hitos publicables.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="2" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Convocatoria</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Inicio del llamado a candidatos</h5>
+											<p class="mb-0 text-muted">Periodo operativo de convocatoria (duracion referencial: 2 semanas).</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="3" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Padron</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">SINGLE</span>
+											</div>
+											<h5 class="mb-1">Cierre del padron electoral</h5>
+											<p class="mb-0 text-muted">Definicion interna de socios habilitados para el proceso.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="4" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Padron</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">SINGLE</span>
+											</div>
+											<h5 class="mb-1">Publicacion del padron electoral</h5>
+											<p class="mb-0 text-muted">Publicacion estatutaria del padron segun ventana establecida.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="5" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Padron</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Reclamos y ajustes de padron</h5>
+											<p class="mb-0 text-muted">Recepcion de reclamos/aclaraciones sobre el padron.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="6" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Candidaturas</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Semana adicional de evaluacion</h5>
+											<p class="mb-0 text-muted">Semana operativa adicional para rendir evaluacion.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="7" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Candidaturas</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Verificacion de formularios</h5>
+											<p class="mb-0 text-muted">Observaciones internas CE/staff sobre formularios de candidatos.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="8" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Candidaturas</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Validacion de evaluaciones</h5>
+											<p class="mb-0 text-muted">Observaciones internas CE/staff sobre evaluaciones.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="9" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Candidaturas</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Recepcion de reclamos de candidatos</h5>
+											<p class="mb-0 text-muted">Recepcion de reclamos y comunicacion de validacion/no validacion.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="10" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Candidaturas</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Resolucion de reclamos de candidatos</h5>
+											<p class="mb-0 text-muted">Fecha limite interna para resolver reclamos de candidatura.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="11" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Candidaturas</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">SINGLE</span>
+											</div>
+											<h5 class="mb-1">Publicacion de candidatos</h5>
+											<p class="mb-0 text-muted">Publicacion final de candidatos y materiales asociados.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="12" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Candidaturas</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Envio de preguntas a candidatos</h5>
+											<p class="mb-0 text-muted">Ventana para canalizar preguntas a candidaturas publicadas.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="13" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Padron</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Resolucion de reclamos de padron</h5>
+											<p class="mb-0 text-muted">Cierre de resoluciones de reclamos y ajustes de padron.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="14" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Padron</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">SINGLE</span>
+											</div>
+											<h5 class="mb-1">Actualizacion final de padron</h5>
+											<p class="mb-0 text-muted">Inclusion operativa de organizaciones al dia antes de votar.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="15" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Candidaturas</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Respuesta CE a reclamos sobre candidatos</h5>
+											<p class="mb-0 text-muted">Cierre de respuestas CE ante reclamos de asociados sobre candidatos.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="16" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Votacion</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Inicio de votacion online</h5>
+											<p class="mb-0 text-muted">Apertura oficial del periodo de votacion.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="17" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Resultados</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">SINGLE</span>
+											</div>
+											<h5 class="mb-1">Resultados provisorios</h5>
+											<p class="mb-0 text-muted">Publicacion inicial sujeta a auditorias CE y de votantes.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="18" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Auditoria</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Auditoria de Comision Electoral</h5>
+											<p class="mb-0 text-muted">Ventana de auditoria interna de la CE luego del cierre de votacion.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="19" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Auditoria</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Auditoria de votantes y reclamos</h5>
+											<p class="mb-0 text-muted">Recepcion de posibles reclamos de votantes sobre la votacion.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="20" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Resultados</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">SINGLE</span>
+											</div>
+											<h5 class="mb-1">Resultado oficial sin reclamos</h5>
+											<p class="mb-0 text-muted">Publicacion oficial cuando no hay reclamos de votacion.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="21" data-status="done">
+										<div class="timeline-time pe-3 text-muted">Auditoria</div>
+										<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+										<div class="timeline-content ps-3 pb-4">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">PERIODO</span>
+											</div>
+											<h5 class="mb-1">Respuesta CE a reclamos de votantes</h5>
+											<p class="mb-0 text-muted">Periodo de respuestas CE a reclamos de votantes.</p>
+										</div>
+									</div>
+									<div class="timeline-item d-flex align-items-stretch" data-calendar-step="22" data-status="current">
+										<div class="timeline-time pe-3 text-muted">Resultados</div>
+										<div class="timeline-dot text-bg-dark"><i class="ti ti-clock-hour-4 fs-xl text-white"></i></div>
+										<div class="timeline-content ps-3">
+											<div class="d-flex align-items-center gap-2 mb-1">
+												<span class="badge text-bg-light border timeline-tag">SINGLE</span>
+											</div>
+											<h5 class="mb-1">Resultado oficial con reclamos</h5>
+											<p class="mb-0 text-muted">Publicacion oficial cuando existieron reclamos y ya fueron respondidos.</p>
+										</div>
+									</div>
+									</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-7">
+
+							<div class="right-layout" id="layout-right-c">
+								<div class="row g-4">
+									<div class="col-12">
+										<div class="card module-card h-100 is-disabled" id="module-panel-v1c">
+											<div class="card-header">
+												<div class="right-layout-label">Panel principal · Board KPI</div>
+												<h4 class="card-title mb-0">Modulo candidatos y resultados</h4>
+											</div>
+											<div class="card-body">
+												<p class="text-muted mb-2">Revisa los perfiles de los candidatos y su documentacion para tomar una decision informada de aprobacion o rechazo.</p>
+												<div class="table-responsive">
+													<table class="table table-sm align-middle mb-2">
+														<thead>
+															<tr>
+																<th>Candidato</th>
+																<th>Estado</th>
+																<th class="text-end">Votos</th>
+																<th class="text-end">Detalle</th>
+															</tr>
+															</thead>
+															<tbody>
+															<tr data-candidate-status="pending" data-approve-count="1" data-reject-count="0" data-votes="742">
+																<td>
+																		<div class="d-flex align-items-center gap-2">
+																			<img src="assets/images/users/user-1.jpg" alt="Maria Perez" class="rounded-circle" width="32" height="32">
+																			<span>Maria Perez</span>
+																		</div>
+																	</td>
+																	<td><span class="badge text-bg-warning">Pendiente</span></td>
+																	<td class="text-end candidate-votes-v1c">742</td>
+																	<td class="text-end"><button class="btn btn-sm btn-secondary candidate-detail-v1c" disabled>Ver detalle</button></td>
+																</tr>
+															<tr data-candidate-status="approved" data-approve-count="3" data-reject-count="0" data-votes="690">
+																<td>
+																		<div class="d-flex align-items-center gap-2">
+																			<img src="assets/images/users/user-2.jpg" alt="Jose Silva" class="rounded-circle" width="32" height="32">
+																			<span>Jose Silva</span>
+																		</div>
+																	</td>
+																	<td><span class="badge text-bg-success">Aprobado</span></td>
+																	<td class="text-end candidate-votes-v1c">690</td>
+																	<td class="text-end"><button class="btn btn-sm btn-secondary candidate-detail-v1c" disabled>Ver detalle</button></td>
+																</tr>
+															<tr data-candidate-status="observed" data-approve-count="1" data-reject-count="1" data-votes="506">
+																<td>
+																		<div class="d-flex align-items-center gap-2">
+																			<img src="assets/images/users/user-3.jpg" alt="Ana Costa" class="rounded-circle" width="32" height="32">
+																			<span>Ana Costa</span>
+																		</div>
+																	</td>
+																	<td><span class="badge text-bg-warning">Con observaciones</span></td>
+																	<td class="text-end candidate-votes-v1c">506</td>
+																	<td class="text-end"><button class="btn btn-sm btn-secondary candidate-detail-v1c" disabled>Ver detalle</button></td>
+																</tr>
+															<tr data-candidate-status="pending" data-approve-count="0" data-reject-count="0" data-votes="194">
+																<td>
+																		<div class="d-flex align-items-center gap-2">
+																			<img src="assets/images/users/user-4.jpg" alt="Ricardo Gomez" class="rounded-circle" width="32" height="32">
+																			<span>Ricardo Gomez</span>
+																		</div>
+																	</td>
+																	<td><span class="badge text-bg-warning">Pendiente</span></td>
+																	<td class="text-end candidate-votes-v1c">194</td>
+																	<td class="text-end"><button class="btn btn-sm btn-secondary candidate-detail-v1c" disabled>Ver detalle</button></td>
+																</tr>
+															<tr data-candidate-status="rejected" data-approve-count="0" data-reject-count="2" data-votes="138">
+																<td>
+																		<div class="d-flex align-items-center gap-2">
+																			<img src="assets/images/users/user-5.jpg" alt="Lucia Nunes" class="rounded-circle" width="32" height="32">
+																			<span>Lucia Nunes</span>
+																		</div>
+																	</td>
+																	<td><span class="badge text-bg-danger">Rechazado</span></td>
+																	<td class="text-end candidate-votes-v1c">138</td>
+																	<td class="text-end"><button class="btn btn-sm btn-secondary candidate-detail-v1c" disabled>Ver detalle</button></td>
+																</tr>
+														</tbody>
+													</table>
+												</div>
+												<div class="border rounded p-3 bg-light-subtle" id="results-callout-v1c">
+													<p class="mb-2 text-muted">Resultados disponibles. Puedes iniciar la auditoria final y validar la publicacion oficial.</p>
+													<button class="btn btn-secondary" id="btn-auditar-v1c" disabled>Auditar resultados</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-12">
+										<div class="card">
+											<div class="card-header">
+												<h4 class="card-title mb-0">Malla de decisiones (auditores x candidatos)</h4>
+											</div>
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table table-sm align-middle mb-0">
+														<thead>
+															<tr>
+																<th>Candidato</th>
+																<th class="text-center">Ava Brooks</th>
+																<th class="text-center">Liam Carter</th>
+																<th class="text-end">Estado final</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Maria Perez</td>
+																<td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
+																<td class="text-center"><span class="badge text-bg-warning">Pendiente</span></td>
+																<td class="text-end"><span class="badge text-bg-warning">Pendiente</span></td>
+															</tr>
+															<tr>
+																<td>Jose Silva</td>
+																<td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
+																<td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
+																<td class="text-end"><span class="badge text-bg-success">Aprobado</span></td>
+															</tr>
+															<tr>
+																<td>Ana Costa</td>
+																<td class="text-center"><span class="badge text-bg-warning">Pendiente</span></td>
+																<td class="text-center"><span class="badge text-bg-warning">Pendiente</span></td>
+																<td class="text-end"><span class="badge text-bg-warning">Pendiente</span></td>
+															</tr>
+															<tr>
+																<td>Ricardo Gomez</td>
+																<td class="text-center"><span class="badge text-bg-danger">Rechazado</span></td>
+																<td class="text-center"><span class="badge text-bg-warning">Pendiente</span></td>
+																<td class="text-end"><span class="badge text-bg-danger">Con rechazo</span></td>
+															</tr>
+															<tr>
+																<td>Lucia Nunes</td>
+																<td class="text-center"><span class="badge text-bg-danger">Rechazado</span></td>
+																<td class="text-center"><span class="badge text-bg-danger">Rechazado</span></td>
+																<td class="text-end"><span class="badge text-bg-danger">Rechazado</span></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

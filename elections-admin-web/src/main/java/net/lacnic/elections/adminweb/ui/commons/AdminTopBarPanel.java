@@ -1,11 +1,16 @@
 package net.lacnic.elections.adminweb.ui.commons;
 
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.resource.ContextRelativeResource;
 
 import net.lacnic.elections.adminweb.app.SecurityUtils;
+import net.lacnic.elections.domain.LanguageCode;
 
 
 public class AdminTopBarPanel extends Panel {
@@ -15,10 +20,14 @@ public class AdminTopBarPanel extends Panel {
 	Link<Void> spanishLink;
 	Link<Void> portugueseLink;
 	Link<Void> englishLink;
+	Image selectedLanguageImage;
+	Label selectedLanguageCode;
 
 
 	public AdminTopBarPanel(String id) {
 		super(id);
+
+		LanguageCode resolvedLanguage = resolveLanguage(SecurityUtils.getLanguageCode());
 
 		add(new Link<Void>("logoutLink") {
 			private static final long serialVersionUID = -7660363462781298321L;
@@ -37,11 +46,7 @@ public class AdminTopBarPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				SecurityUtils.setLocale("ES");
-				setResponsePage(getWebPage());
-				portugueseLink.setVisible(true);
-				spanishLink.setVisible(false);
-				englishLink.setVisible(true);
+				changeLanguage(LanguageCode.SP);
 			}
 		};
 		add(spanishLink);
@@ -51,11 +56,7 @@ public class AdminTopBarPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				SecurityUtils.setLocale("EN");
-				setResponsePage(getWebPage());
-				portugueseLink.setVisible(true);
-				spanishLink.setVisible(true);
-				englishLink.setVisible(false);
+				changeLanguage(LanguageCode.EN);
 			}
 		};
 		add(englishLink);
@@ -65,36 +66,69 @@ public class AdminTopBarPanel extends Panel {
 
 			@Override
 			public void onClick() {
-				SecurityUtils.setLocale("PT");
-				setResponsePage(getWebPage());
-				portugueseLink.setVisible(false);
-				spanishLink.setVisible(true);
-				englishLink.setVisible(true);
+				changeLanguage(LanguageCode.PT);
 			}
 		};
 		add(portugueseLink);
 
-		initLocaleVisibilityLinks(SecurityUtils.getLocale().getLanguage());
+		selectedLanguageImage = new Image("selectedLanguageImage", new ContextRelativeResource(resolveFlagPath(resolvedLanguage)));
+		selectedLanguageImage.add(new AttributeModifier("alt", resolvedLanguage.name()));
+		selectedLanguageImage.setOutputMarkupId(true);
+		add(selectedLanguageImage);
+
+		selectedLanguageCode = new Label("selectedLanguageCode", resolvedLanguage.name());
+		selectedLanguageCode.setOutputMarkupId(true);
+		add(selectedLanguageCode);
 	}
 
-	private void initLocaleVisibilityLinks(String language) {
+	@Override
+	protected void onConfigure() {
+		super.onConfigure();
+		initLocaleVisibilityLinks(SecurityUtils.getLanguageCode());
+	}
+
+	private void initLocaleVisibilityLinks(LanguageCode language) {
+		LanguageCode resolvedLanguage = language != null ? language : LanguageCode.SP;
 		portugueseLink.setVisible(true);
 		spanishLink.setVisible(true);
 		englishLink.setVisible(true);
 
-		switch(language) {
-		case "pt":
+		switch(resolvedLanguage) {
+		case PT:
 			portugueseLink.setVisible(false);
 			break;
 
-		case "en":
+		case EN:
 			englishLink.setVisible(false);
 			break;
 
-		case "es":
+		case SP:
+		default:
 			spanishLink.setVisible(false);
-			break;	
+			break;
 		}
+	}
+
+	private LanguageCode resolveLanguage(LanguageCode language) {
+		return language != null ? language : LanguageCode.SP;
+	}
+
+	private String resolveFlagPath(LanguageCode language) {
+		LanguageCode resolved = resolveLanguage(language);
+		switch (resolved) {
+		case EN:
+			return "v2/images/flags/us.svg";
+		case PT:
+			return "v2/images/flags/pt.svg";
+		case SP:
+		default:
+			return "v2/images/flags/es.svg";
+		}
+	}
+
+	private void changeLanguage(LanguageCode language) {
+		SecurityUtils.setLocale(language);
+		setResponsePage(getWebPage());
 	}
 
 }

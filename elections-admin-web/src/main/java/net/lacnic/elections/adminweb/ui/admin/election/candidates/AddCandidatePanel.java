@@ -1,12 +1,11 @@
 package net.lacnic.elections.adminweb.ui.admin.election.candidates;
 
-import javax.servlet.ServletContext;
+import java.util.Arrays;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -14,30 +13,35 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.apache.wicket.validation.validator.UrlValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import jakarta.servlet.ServletContext;
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
+import net.lacnic.elections.adminweb.ui.token.page.PublicElectionPage;
+import net.lacnic.elections.adminweb.validators.CandidatePictureUploadValidator;
 import net.lacnic.elections.adminweb.validators.LinkValidator;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ReminderFrequency;
 import net.lacnic.elections.utils.FilesUtils;
-
+import net.lacnic.elections.utils.LinksUtils;
 
 public class AddCandidatePanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
-	private byte[] pictureFile;
-	private String fileName;
 	private Candidate candidate;
-
 
 	public AddCandidatePanel(String id, Election election) {
 		super(id);
@@ -51,68 +55,95 @@ public class AddCandidatePanel extends Panel {
 			nameTextField.add(StringValidator.maximumLength(255));
 			add(nameTextField);
 
+			WebMarkupContainer mailContainer = new WebMarkupContainer("mailContainer");
+			add(mailContainer);
 			TextField<String> mail = new TextField<>("mail", new PropertyModel<>(candidate, "mail"));
 			mail.setRequired(true);
 			mail.add(EmailAddressValidator.getInstance());
-			add(mail);
+			mailContainer.add(mail);
+
+			WebMarkupContainer reminderFrequencyContainer = new WebMarkupContainer("reminderFrequencyContainer");
+			add(reminderFrequencyContainer);
+			DropDownChoice<ReminderFrequency> reminderFrequency = new DropDownChoice<>(
+					"reminderFrequency",
+					new PropertyModel<>(candidate, "reminderFrequency"),
+					Arrays.asList(ReminderFrequency.values()),
+					REMINDER_FREQUENCY_RENDERER);
+			reminderFrequency.setNullValid(false);
+			reminderFrequency.setRequired(true);
+			reminderFrequencyContainer.add(reminderFrequency);
 
 			addBios();
 
 			final FileUploadField candidatePictureUploadField = new FileUploadField("candidatePicture");
 			add(candidatePictureUploadField);
 
-			SubmitLink addCandidateButton = new SubmitLink("addCandidate") {
-				private static final long serialVersionUID = -8747001950049912880L;
+		SubmitLink addCandidateButton = new SubmitLink("addCandidate") {
+			private static final long serialVersionUID = -8747001950049912880L;
 
 				@Override
 				public void onSubmit() {
 					try {
-						ServletContext context = ((WebApplication) WebApplication.get()).getServletContext();
-						String filePath = context.getRealPath("/");
-
-						Object[] defaultPhoto = FilesUtils.getDefaultPhoto(filePath);
 						FileUpload fileUpload = candidatePictureUploadField.getFileUpload();
-						if (fileUpload != null && !(fileUpload.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
-							getSession().error(getString("candidateManagementErrorForm"));
+						if (fileUpload != null) {
+							CandidatePictureUploadValidator.PictureUploadResult pictureUploadResult = CandidatePictureUploadValidator.validateAndBuildForCandidate(fileUpload);
+							if (!pictureUploadResult.isValid()) {
+								handlePictureUploadError(pictureUploadResult.getFailureReason());
+								return;
+							}
+							candidate.setPictureInfo(pictureUploadResult.getPictureInfo());
+							candidate.setPictureName(pictureUploadResult.getPictureName());
+							candidate.setPictureExtension(pictureUploadResult.getPictureExtension());
 						} else {
-							candidate.setPictureInfo(fileUpload != null ? fileUpload.getBytes() : (byte[]) defaultPhoto[0]);
-							candidate.setPictureName(fileUpload != null ? fileUpload.getClientFileName() : (String) defaultPhoto[1]);
-							candidate.setPictureExtension(fileUpload != null ? fileUpload.getClientFileName().split("\\.")[1] : (String) defaultPhoto[2]);
-							if (candidate.isOnlySp())
-								candidate.copyBioToOtherLanguages();
-							AppContext.getInstance().getManagerBeanRemote().addCandidate(election.getElectionId(), candidate, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
-							getSession().info(getString("candidateManagemenSuccessAdd"));
-							setResponsePage(ElectionCandidatesDashboard.class, UtilsParameters.getId(election.getElectionId()));
+							applyDefaultCandidatePicture();
 						}
+						candidate.copyBioToOtherLanguages();
+						AppContext.getInstance().getManagerBeanRemote().addCandidate(election.getElectionId(), candidate, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
+						getSession().info(getString("candidateManagemenSuccessAdd"));
+						setResponsePage(ElectionCandidatesDashboard.class, UtilsParameters.getId(election.getElectionId()));
 					} catch (Exception e) {
 						getSession().error(getString("candidateManagemenErrorProc"));
 					}
 				}
-			};
-			add(addCandidateButton);
+		};
+		addCandidateButton.add(new Label("submitLabel", getString("candidateEditBtnSave")));
+		add(addCandidateButton);
+		add(new org.apache.wicket.markup.html.link.Link<Void>("cancelAddCandidate") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick() {
+				setResponsePage(ElectionCandidatesDashboard.class, UtilsParameters.getId(election.getElectionId()));
+			}
+		});
 
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
 	}
 
+	private void handlePictureUploadError(CandidatePictureUploadValidator.FailureReason failureReason) {
+		if (failureReason == CandidatePictureUploadValidator.FailureReason.INVALID_SIZE) {
+			getSession().error(getString("candidateProfilePhotoSizeError"));
+			return;
+		}
+		if (failureReason == CandidatePictureUploadValidator.FailureReason.INVALID_FORMAT) {
+			getSession().error(getString("candidateManagementErrorForm"));
+			return;
+		}
+		getSession().error(getString("candidateProfileProcessingError"));
+	}
+
+	private void applyDefaultCandidatePicture() throws Exception {
+		ServletContext context = ((WebApplication) WebApplication.get()).getServletContext();
+		String filePath = context.getRealPath("/");
+		Object[] defaultPhoto = FilesUtils.getDefaultPhoto(filePath);
+		candidate.setPictureInfo((byte[]) defaultPhoto[0]);
+		candidate.setPictureName((String) defaultPhoto[1]);
+		candidate.setPictureExtension((String) defaultPhoto[2]);
+	}
+
 	private void addBios() {
-		WebMarkupContainer candidateEnPtBios = new WebMarkupContainer("candidateEnPtBios");
-		candidateEnPtBios.setOutputMarkupPlaceholderTag(true);
-		candidateEnPtBios.setVisible(!candidate.isOnlySp());
-		add(candidateEnPtBios);
-
-		AjaxCheckBox onlySpCheckbox = new AjaxCheckBox("checkboxBios", new PropertyModel<>(candidate, "onlySp")) {
-			private static final long serialVersionUID = -1529631212868674173L;
-
-			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
-				candidateEnPtBios.setVisible(!candidate.isOnlySp());
-				target.add(candidateEnPtBios);
-			}
-		};
-		add(onlySpCheckbox);
-
 		TextArea<String> bioSpanish = new TextArea<>("bioSpanish", new PropertyModel<>(candidate, "bioSpanish"));
 		bioSpanish.add(StringValidator.maximumLength(2000));
 		bioSpanish.add(new LinkValidator());
@@ -123,45 +154,46 @@ public class AddCandidatePanel extends Panel {
 		linkSpanish.add(StringValidator.maximumLength(1000));
 		linkSpanish.add(new UrlValidator());
 		add(linkSpanish);
+		add(new Label("linkSpanishHelp", buildCandidateProfileLinkHelp(buildPublicCandidateProfileLink(candidate))));
 
-		TextArea<String> bioEnglish = new TextArea<>("bioEnglish", new PropertyModel<>(candidate, "bioEnglish"));
-		bioEnglish.add(StringValidator.maximumLength(2000));
-		bioEnglish.add(new LinkValidator());
-		bioEnglish.setRequired(true);
-		candidateEnPtBios.add(bioEnglish);
-
-		TextField<String> linkEnglish = new TextField<>("linkEnglish", new PropertyModel<>(candidate, "linkEnglish"));
-		linkEnglish.add(StringValidator.maximumLength(1000));
-		linkEnglish.add(new UrlValidator());
-		candidateEnPtBios.add(linkEnglish);
-
-		TextArea<String> bioPortuguese = new TextArea<>("bioPortuguese", new PropertyModel<>(candidate, "bioPortuguese"));
-		bioPortuguese.add(StringValidator.maximumLength(2000));
-		bioPortuguese.add(new LinkValidator());
-		bioPortuguese.setRequired(true);
-		candidateEnPtBios.add(bioPortuguese);
-
-		TextField<String> linkPortuguese = new TextField<>("linkPortuguese", new PropertyModel<>(candidate, "linkPortuguese"));
-		linkPortuguese.add(StringValidator.maximumLength(1000));
-		linkPortuguese.add(new UrlValidator());
-		candidateEnPtBios.add(linkPortuguese);
+		TextField<String> linkedinUrl = new TextField<>("linkedinUrl", new PropertyModel<>(candidate, "linkedinUrl"));
+		linkedinUrl.add(StringValidator.maximumLength(1000));
+		linkedinUrl.add(new UrlValidator());
+		add(linkedinUrl);
 	}
 
-
-	public String getFileName() {
-		return fileName;
+	private String buildCandidateProfileLinkHelp(String defaultProfileLink) {
+		String resourceKey = hasText(defaultProfileLink) ? "candidateProfileLinkHelp" : "candidateProfileLinkHelpNoUrl";
+		return new StringResourceModel(resourceKey, this, null).setParameters(defaultProfileLink).getString();
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	private String buildPublicCandidateProfileLink(Candidate currentCandidate) {
+		if (currentCandidate == null || currentCandidate.getElection() == null || currentCandidate.getCandidateId() <= 0L) {
+			return "";
+		}
+		String publicElectionToken = currentCandidate.getElection().getPublicElectionToken();
+		if (!hasText(publicElectionToken)) {
+			return "";
+		}
+		return LinksUtils.buildPublicCandidateProfileLink(publicElectionToken, currentCandidate.getCandidateId());
 	}
 
-	public byte[] getPictureFile() {
-		return pictureFile;
+	private boolean hasText(String value) {
+		return value != null && !value.trim().isEmpty();
 	}
 
-	public void setPictureFile(byte[] pictureFile) {
-		this.pictureFile = pictureFile;
-	}
+	private final IChoiceRenderer<ReminderFrequency> REMINDER_FREQUENCY_RENDERER = new IChoiceRenderer<ReminderFrequency>() {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Object getDisplayValue(ReminderFrequency object) {
+			return getString("reminderFrequency." + object.name());
+		}
+
+		@Override
+		public String getIdValue(ReminderFrequency object, int index) {
+			return object.name();
+		}
+	};
 
 }

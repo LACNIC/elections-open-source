@@ -1,0 +1,153 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="feedback" wicket:message="title:electionManagementOrganizationsTitle"></div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="electionManagementOrganizationsTitle"><wicket:message key="electionManagementOrganizationsTitle">Organizaciones</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="ins-wizard">
+						<div wicket:id="tabsPanel" data-testid="tabsPanel" wicket:message="title:electionManagementOrganizationsTitle"></div>
+						<div class="tab-content pt-3">
+							<div class="tab-pane fade show active">
+								<div wicket:id="autoOrganizationsInfo" data-testid="autoOrganizationsInfo">
+									<div wicket:id="autoOrganizationsAlert" data-testid="autoOrganizationsAlert" role="alert">
+										<div class="fw-semibold"><span wicket:id="autoOrganizationsInfoText" data-testid="autoOrganizationsInfoText"></span></div>
+										<div class="mt-2">
+											<div><strong><wicket:message key="organizationsSyncInfoLastSyncAtLabel" /></strong> <span wicket:id="syncInfoLastSyncAt" data-testid="syncInfoLastSyncAt"></span></div>
+											<div><strong><wicket:message key="organizationsSyncInfoStatusLabel" /></strong> <span wicket:id="syncInfoStatus" data-testid="syncInfoStatus"></span></div>
+											<div><strong><wicket:message key="organizationsSyncInfoMetricsLabel" /></strong> <span wicket:id="syncInfoMetrics" data-testid="syncInfoMetrics"></span></div>
+											<div><strong><wicket:message key="organizationsSyncInfoMessageLabel" /></strong> <span wicket:id="syncInfoMessage" data-testid="syncInfoMessage"></span></div>
+										</div>
+									</div>
+								</div>
+								<form wicket:id="electionOrganizationsForm" data-testid="electionOrganizationsForm" wicket:message="title:electionManagementOrganizationsTitle" class="wizard-form" role="application">
+									<div wicket:id="uploadSection" data-testid="uploadSection" class="card mb-3">
+										<div class="card-body">
+											<div wicket:id="uploadOrganizationsDebtorsFilePanel" data-testid="uploadOrganizationsDebtorsFilePanel" wicket:message="title:organizationsManagementFileUploadCommonTitle"></div>
+										</div>
+									</div>
+									<div class="d-flex justify-content-between mt-4">
+										<button wicket:id="back" data-testid="back" wicket:message="title:censusManagementBack" type="button" class="btn btn-light"><wicket:message key="censusManagementBack" /></button>
+										<div class="d-flex gap-2">
+											<button wicket:id="skip" data-testid="skip" wicket:message="title:censusManagementIgnore" type="button" class="btn btn-light"><wicket:message key="censusManagementIgnore" /></button>
+											<button wicket:id="markDoneNext" data-testid="markDoneNext" wicket:message="title:electionManagementMarkCompleteNext" type="button" class="btn btn-primary"><wicket:message key="electionManagementMarkCompleteNext" /></button>
+										</div>
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-12" wicket:id="addOrganizationCard" data-testid="addOrganizationCard">
+			<div class="card card-collapse">
+				<div class="card-header d-flex align-items-center justify-content-between">
+					<h5 class="card-title mb-0" data-testid="organizationsManagementAddTitle"><wicket:message key="organizationsManagementAddTitle">Agregar organización</wicket:message></h5>
+					<div class="card-action">
+						<a href="#!" class="card-action-item" data-action="card-toggle"><i class="ti ti-chevron-down"></i></a>
+					</div>
+				</div>
+				<div class="card-body" style="display:none;">
+					<form class="row g-3" wicket:id="addOrganizationsForm" data-testid="addOrganizationsForm" wicket:message="title:organizationsManagementAddTitle">
+						<div class="col-12" wicket:id="addOrganizationPanel" data-testid="addOrganizationPanel" wicket:message="title:organizationsManagementAddTitle"></div>
+						<div class="col-12 col-lg-3 ms-lg-auto"><button class="btn btn-dark w-100" type="submit" wicket:id="addOrganization" data-testid="addOrganization" wicket:message="title:organizationsManagementAddBtn"><wicket:message key="organizationsManagementAddBtn" /></button></div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+			<div class="col-lg-12">
+				<div class="row g-3">
+					<div wicket:id="organizationsColumn" data-testid="organizationsColumn">
+						<div wicket:id="organizationsListPanel" data-testid="organizationsListPanel" wicket:message="title:organizationsManagementListTitle"></div>
+					</div>
+				<div wicket:id="syncRunsColumn" data-testid="syncRunsColumn" class="col-lg-12">
+						<div wicket:id="syncRunsCard" data-testid="syncRunsCard" class="card mb-3">
+							<div class="card-header d-flex align-items-center justify-content-between gap-2 flex-wrap">
+								<div class="d-flex align-items-center gap-2 flex-wrap">
+									<h6 class="card-title mb-0"><wicket:message key="organizationsSyncControlRunsTitle">Historial por corrida</wicket:message></h6>
+									<span wicket:id="syncWindowStatus" data-testid="syncWindowStatus"></span>
+								</div>
+								<span wicket:id="automaticOrganizationsSyncActionsPanel" data-testid="automaticOrganizationsSyncActionsPanel"></span>
+							</div>
+						<div class="card-body">
+							<div wicket:id="syncRunsEmpty" data-testid="syncRunsEmpty" class="text-muted small"><wicket:message key="organizationsSyncControlRunsEmpty" /></div>
+							<div class="table-responsive">
+								<table class="table table-sm table-hover align-middle mb-0">
+									<thead class="table-light">
+										<tr>
+											<th><wicket:message key="organizationsSyncControlRunsColSyncAt" /></th>
+											<th><wicket:message key="organizationsSyncControlRunsColStatus" /></th>
+											<th><wicket:message key="organizationsSyncControlRunsColMetrics" /></th>
+											<th><wicket:message key="organizationsSyncControlRunsColDuration" /></th>
+											<th><wicket:message key="organizationsSyncControlRunsColWs" /></th>
+											<th><wicket:message key="organizationsSyncControlRunsColRunId" /></th>
+											<th><wicket:message key="organizationsSyncControlRunsColMessage" /></th>
+											<th><wicket:message key="organizationsSyncControlColAction" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<wicket:container wicket:id="syncRunsRows" data-testid="syncRunsRows">
+											<tr data-testid="syncRunsRows">
+												<td wicket:id="syncRunsTimestamp" data-testid="syncRunsTimestamp"></td>
+												<td wicket:id="syncRunsStatus" data-testid="syncRunsStatus"></td>
+												<td wicket:id="syncRunsMetrics" data-testid="syncRunsMetrics"></td>
+												<td wicket:id="syncRunsDuration" data-testid="syncRunsDuration"></td>
+												<td wicket:id="syncRunsWs" data-testid="syncRunsWs"></td>
+												<td wicket:id="syncRunsRunId" data-testid="syncRunsRunId"></td>
+												<td wicket:id="syncRunsMessage" data-testid="syncRunsMessage"></td>
+												<td>
+													<a href="#" wicket:id="syncRunsToggleDetail" data-testid="syncRunsToggleDetail" class="btn btn-link btn-sm p-0">
+														<span wicket:id="syncRunsToggleDetailLabel" data-testid="syncRunsToggleDetailLabel"></span>
+													</a>
+												</td>
+											</tr>
+											<tr wicket:id="syncRunsDetailRow" data-testid="syncRunsDetailRow">
+												<td colspan="8" class="bg-light">
+													<div wicket:id="syncRunsDetailEmpty" data-testid="syncRunsDetailEmpty" class="text-muted small py-2"><wicket:message key="organizationsSyncAuditEmpty" /></div>
+													<div class="table-responsive" style="max-height:260px;">
+														<table class="table table-xs table-sm table-bordered align-middle mb-0">
+															<thead class="table-light">
+																<tr>
+																	<th><wicket:message key="organizationsSyncAuditColTimestamp" /></th>
+																	<th><wicket:message key="organizationsSyncAuditColOrg" /></th>
+																	<th><wicket:message key="organizationsSyncAuditColField" /></th>
+																	<th colspan="3"><wicket:message key="organizationsSyncAuditColOldValue" /></th>
+																	<th colspan="3"><wicket:message key="organizationsSyncAuditColNewValue" /></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr wicket:id="syncRunsDetailRows" data-testid="syncRunsDetailRows">
+																	<td wicket:id="syncRunsDetailTimestamp" data-testid="syncRunsDetailTimestamp"></td>
+																	<td wicket:id="syncRunsDetailOrgId" data-testid="syncRunsDetailOrgId"></td>
+																	<td wicket:id="syncRunsDetailField" data-testid="syncRunsDetailField"></td>
+																	<td wicket:id="syncRunsDetailOldValue" data-testid="syncRunsDetailOldValue" colspan="3"></td>
+																	<td wicket:id="syncRunsDetailNewValue" data-testid="syncRunsDetailNewValue" colspan="3"></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</td>
+											</tr>
+										</wicket:container>
+									</tbody>
+								</table>
+							</div>
+								<div class="d-flex justify-content-center mt-3">
+									<div wicket:id="syncRunsPager" data-testid="syncRunsPager"></div>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<span wicket:id="organizationsAdvancedActionsPanel" data-testid="organizationsAdvancedActionsPanel"></span>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

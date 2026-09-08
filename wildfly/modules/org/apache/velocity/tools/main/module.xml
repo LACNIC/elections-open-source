@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ JBoss, Home of Professional Open Source.
+  ~ Copyright Red Hat
+  -->
+<module xmlns="urn:jboss:module:1.3" name="org.apache.velocity.tools">
+    <properties>
+        <property name="jboss.api" value="private"/>
+    </properties>
+
+    <resources>
+        <resource-root path="velocity-tools-generic-3.1.jar"/>
+    </resources>
+
+    <dependencies>
+        <module name="org.apache.velocity"/>
+        <module name="org.apache.commons.collections4"/>
+        <module name="org.apache.commons.lang3"/>
+    </dependencies>
+</module>

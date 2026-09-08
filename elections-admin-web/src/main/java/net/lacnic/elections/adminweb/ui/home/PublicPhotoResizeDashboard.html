@@ -1,0 +1,38 @@
+<wicket:extend>
+	<div class="row justify-content-center">
+		<div class="col-12 col-xl-8">
+			<div wicket:id="feedbackPanel" data-testid="feedbackPanel"></div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="publicPhotoResizeCardTitle"><wicket:message key="publicPhotoResizeCardTitle">Convertir foto a 200x200 y menos de 400 KB</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<p class="text-muted"><wicket:message key="publicPhotoResizeDescription" /></p>
+					<form wicket:id="resizeForm" data-testid="resizeForm" class="row g-3">
+						<div class="col-12">
+							<label for="sourcePhoto" class="form-label"><wicket:message key="publicPhotoResizeInputLabel" /></label>
+							<input wicket:id="sourcePhoto" data-testid="sourcePhoto" id="sourcePhoto" type="file" class="form-control" accept="image/jpeg,image/png,.jpg,.jpeg,.png">
+						</div>
+						<div class="col-12">
+							<div class="g-recaptcha" data-sitekey="" wicket:id="reCaptcha" data-testid="reCaptcha"></div>
+						</div>
+						<div class="col-12 d-flex justify-content-end">
+							<button wicket:id="processPhotoButton" data-testid="processPhotoButton" type="submit" class="btn btn-primary">
+								<wicket:message key="publicPhotoResizeProcessButton" />
+							</button>
+						</div>
+					</form>
+					<hr class="my-4">
+					<h6><wicket:message key="publicPhotoResizeResultTitle">Resultado</wicket:message></h6>
+					<p wicket:id="previewPlaceholder" data-testid="previewPlaceholder" class="text-muted"></p>
+					<img wicket:id="previewImage" data-testid="previewImage" width="400" height="400">
+					<p wicket:id="outputInfo" data-testid="outputInfo" class="mt-3 mb-2"></p>
+					<a wicket:id="downloadLink" data-testid="downloadLink" class="btn btn-dark">
+						<wicket:message key="publicPhotoResizeDownloadButton" />
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
+</wicket:extend>

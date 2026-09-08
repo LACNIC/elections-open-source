@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Elección Pública | Comisionados y Auditores</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(17, 24, 39, 0.04) 0%, rgba(17, 24, 39, 0) 35%);
+		}
+
+		.section-nav .nav-link {
+			border-radius: 999px;
+		}
+
+		.section-nav .nav-link.active {
+			background: #111827;
+			color: #fff;
+		}
+
+		.person-card {
+			border: 1px solid rgba(17, 24, 39, .08);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-election-home.html" class="topbar-link fw-semibold">Elección Pública LACNIC</a>
+					<span class="badge text-bg-light border">Versión ES</span>
+				</div>
+				<div class="dropdown topbar-item">
+					<button class="topbar-link fw-semibold dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">Idioma</button>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item active" href="#">Español</a>
+						<a class="dropdown-item" href="#">English</a>
+						<a class="dropdown-item" href="#">Português</a>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid py-4">
+			<ul class="nav nav-pills gap-2 section-nav mb-4">
+				<li class="nav-item"><a class="nav-link" href="public-election-home.html">Inicio</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-options.html">Opciones de la elección</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-candidates.html">Candidatos</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-calendar.html">Calendario</a></li>
+				<li class="nav-item"><a class="nav-link active" href="public-election-authorities.html">Comisionados y auditores</a></li>
+			</ul>
+
+			<div class="card mb-4">
+				<div class="card-body">
+					<h3 class="mb-1">Equipo del proceso electoral</h3>
+					<p class="text-muted mb-0">Listado público de autoridades del proceso: comisión electoral y equipo auditor.</p>
+				</div>
+			</div>
+
+			<div class="row g-4 mb-4">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<h4 class="card-title mb-0">Comisionados electorales</h4>
+							<span class="badge text-bg-light border">4 integrantes</span>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+								<div class="col-md-6 col-xl-3">
+									<div class="card person-card h-100">
+										<div class="card-body text-center">
+											<img src="assets/images/users/user-1.jpg" class="rounded-circle mb-2" width="72" height="72" alt="Comisionada 1">
+											<h6 class="mb-1">María Torres</h6>
+											<p class="text-muted small mb-2">Presidencia de comisión</p>
+											<span class="badge text-bg-light border">Comisionada</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-xl-3">
+									<div class="card person-card h-100">
+										<div class="card-body text-center">
+											<img src="assets/images/users/user-3.jpg" class="rounded-circle mb-2" width="72" height="72" alt="Comisionado 2">
+											<h6 class="mb-1">José Lima</h6>
+											<p class="text-muted small mb-2">Coordinación normativa</p>
+											<span class="badge text-bg-light border">Comisionado</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-xl-3">
+									<div class="card person-card h-100">
+										<div class="card-body text-center">
+											<img src="assets/images/users/user-4.jpg" class="rounded-circle mb-2" width="72" height="72" alt="Comisionada 3">
+											<h6 class="mb-1">Sofía Campos</h6>
+											<p class="text-muted small mb-2">Monitoreo de proceso</p>
+											<span class="badge text-bg-light border">Comisionada</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-xl-3">
+									<div class="card person-card h-100">
+										<div class="card-body text-center">
+											<img src="assets/images/users/user-6.jpg" class="rounded-circle mb-2" width="72" height="72" alt="Comisionado 4">
+											<h6 class="mb-1">Pedro Acuña</h6>
+											<p class="text-muted small mb-2">Seguimiento de cumplimiento</p>
+											<span class="badge text-bg-light border">Comisionado</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row g-4">
+				<div class="col-xl-8">
+					<div class="card">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<h4 class="card-title mb-0">Auditores</h4>
+							<span class="badge text-bg-light border">5 integrantes</span>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-sm align-middle">
+									<thead>
+										<tr>
+											<th>Nombre</th>
+											<th>Rol</th>
+											<th>País</th>
+											<th>Estado</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>Laura Pérez</td><td>Auditoría técnica</td><td>UY</td><td><span class="badge text-bg-light border">Activo</span></td></tr>
+										<tr><td>Ricardo Alves</td><td>Auditoría de procedimiento</td><td>BR</td><td><span class="badge text-bg-light border">Activo</span></td></tr>
+										<tr><td>Natalia Gómez</td><td>Auditoría de resultados</td><td>AR</td><td><span class="badge text-bg-light border">Activo</span></td></tr>
+										<tr><td>Carlos Díaz</td><td>Auditoría documental</td><td>CO</td><td><span class="badge text-bg-light border">Activo</span></td></tr>
+										<tr><td>Helena Reis</td><td>Auditoría de control</td><td>CL</td><td><span class="badge text-bg-light border">Activo</span></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-4">
+					<div class="card mb-4">
+						<div class="card-header"><h4 class="card-title mb-0">Transparencia del proceso</h4></div>
+						<div class="card-body">
+							<p class="text-muted">Las autoridades publicadas corresponden al equipo habilitado para supervisión y auditoría del proceso.</p>
+							<div class="d-grid gap-2">
+								<a href="public-election-calendar.html" class="btn btn-secondary">Ver calendario</a>
+								<a href="public-election-candidates.html" class="btn btn-outline-secondary">Ver candidatos</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-header"><h4 class="card-title mb-0">Contacto público</h4></div>
+						<div class="card-body">
+							<p class="mb-2"><strong>Canal informativo:</strong> election-info@lacnic.net</p>
+							<p class="text-muted mb-0">Este buzón es exclusivamente para consultas públicas sobre información publicada.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
+
+</html>

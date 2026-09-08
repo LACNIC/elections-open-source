@@ -1,18 +1,15 @@
 package net.lacnic.elections.adminweb.ui.admin.emailtemplate;
 
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.AppContext;
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardManagerBasePage;
 import net.lacnic.elections.adminweb.ui.error.ErrorElectionClosed;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 
-
-@AuthorizeInstantiation("elections-only-one")
-public class EmailTemplatesDashboard extends DashboardAdminBasePage {
+public class EmailTemplatesDashboard extends DashboardManagerBasePage {
 
 	private static final long serialVersionUID = -3810171188976111337L;
 
@@ -35,7 +32,7 @@ public class EmailTemplatesDashboard extends DashboardAdminBasePage {
 		AddEmailTemplatePanel addEmailTemplatePanel = new AddEmailTemplatePanel("addEmailTemplatePanel");
 		addEmailTemplatePanel.setVisible(electionId == 0);
 		add(addEmailTemplatePanel);
-		add(new EmailTemplatesListPanel("emailTemplatesList", electionId));
+		add(new EmailTemplatesListPanel("emailTemplatesList", electionId, params));
 	}
 
 }

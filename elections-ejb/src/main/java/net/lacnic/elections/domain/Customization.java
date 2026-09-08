@@ -2,13 +2,12 @@ package net.lacnic.elections.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Customization implements Serializable {
@@ -27,7 +26,7 @@ public class Customization implements Serializable {
 	@Column(name = "pic_big_logo", nullable = false, length = 255)
 	private String picBigLogo;
 
-	@Column(name = "pic_symbol",nullable = false, length = 255)
+	@Column(name = "pic_symbol", nullable = false, length = 255)
 	private String picSymbol;
 
 	@Column(name = "cont_pic_small_logo", nullable = true)
@@ -51,9 +50,9 @@ public class Customization implements Serializable {
 	@Column(name = "home_html", nullable = true, columnDefinition = "TEXT")
 	private String homeHtml;
 
-
-	public Customization() { }
-
+	public Customization() {
+		// Intencionalmente vacio: JPA lo requiere para materializar la entidad.
+	}
 
 	public long getCustomizationId() {
 		return customizationId;

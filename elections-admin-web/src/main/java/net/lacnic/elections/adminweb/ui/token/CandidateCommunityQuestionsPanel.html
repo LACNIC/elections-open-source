@@ -1,0 +1,62 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3" data-testid="candidateCommunityQuestionsCard">
+		<div class="card-header">
+			<h4 class="card-title mb-0" data-testid="candidateCommunityQuestionsPanelTitle"><wicket:message key="candidateCommunityQuestionsPanelTitle" /></h4>
+		</div>
+		<div class="card-body">
+			<div wicket:id="feedbackPanel" data-testid="candidateCommunityQuestionsFeedback"></div>
+
+			<div wicket:id="pendingSection" data-testid="candidateCommunityQuestionsPendingSection">
+				<h5 class="mb-3" data-testid="candidateCommunityQuestionsPendingTitle"><wicket:message key="candidateCommunityQuestionsPendingTitle" /></h5>
+				<div wicket:id="pendingRows" class="d-flex mb-2 border border-dashed rounded p-3">
+					<div class="flex-shrink-0 me-3">
+						<div wicket:id="askedByInitials" class="rounded-circle border d-flex align-items-center justify-content-center fw-semibold bg-light text-body" style="width:40px;height:40px;">--</div>
+					</div>
+						<div class="flex-grow-1">
+							<div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-1">
+								<h5 class="mb-1" wicket:id="questionText">-</h5>
+								<span wicket:id="statusLabel" class="badge text-bg-dark"></span>
+						</div>
+							<div class="text-muted mb-2">
+								<wicket:message key="candidateCommunityQuestionsQuestionDateLabel" />:
+								<span wicket:id="questionDate"></span>
+							</div>
+							<form wicket:id="answerForm" class="mb-0">
+								<div wicket:id="answerEditor"></div>
+								<div class="text-end d-flex justify-content-end gap-2">
+									<button wicket:id="submitAnswerButton" type="submit" class="btn btn-primary btn-sm">
+										<wicket:message key="candidateCommunityQuestionsAnswerSubmitButton" />
+									</button>
+								</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<p wicket:id="pendingEmpty" class="text-muted mb-3" data-testid="candidateCommunityQuestionsPendingEmpty"></p>
+
+			<hr class="my-4">
+
+			<div wicket:id="answeredSection" data-testid="candidateCommunityQuestionsAnsweredSection">
+				<h5 class="mb-3" data-testid="candidateCommunityQuestionsAnsweredTitle"><wicket:message key="candidateCommunityQuestionsAnsweredTitle" /></h5>
+				<div wicket:id="answeredRows" class="d-flex mb-2 border border-dashed rounded p-3">
+					<div class="flex-shrink-0 me-3">
+						<div wicket:id="askedByInitials" class="rounded-circle border d-flex align-items-center justify-content-center fw-semibold bg-light text-body" style="width:40px;height:40px;">--</div>
+					</div>
+					<div class="flex-grow-1">
+						<div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-1">
+							<h5 class="mb-1" wicket:id="questionText">-</h5>
+							<span wicket:id="statusLabel" class="badge text-bg-dark"></span>
+						</div>
+						<div class="text-muted mb-2">
+							<span><wicket:message key="candidateCommunityQuestionsQuestionDateLabel" />: <span wicket:id="questionDate"></span></span>
+							<span class="mx-2">|</span>
+							<span><wicket:message key="candidateCommunityQuestionsAnswerDateLabel" />: <span wicket:id="answerDate"></span></span>
+						</div>
+						<div class="bg-light rounded p-2" wicket:id="answerText">-</div>
+					</div>
+				</div>
+			</div>
+			<p wicket:id="answeredEmpty" class="text-muted mb-0" data-testid="candidateCommunityQuestionsAnsweredEmpty"></p>
+		</div>
+	</div>
+</wicket:panel>

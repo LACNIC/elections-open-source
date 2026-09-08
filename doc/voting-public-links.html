@@ -1,0 +1,133 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Votacion y links publicos" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el bloque vigente de <code>v3.0</code> para experiencia publica y links tokenizados: landing publica de la eleccion, recuperacion de links, nominacion desde organizaciones, apoyos, aceptacion/completitud de candidatura, votacion y resultados publicos. El contenido fue contrastado contra las rutas montadas, las paginas tokenizadas, <code>PublicTokenBasePage</code>, <code>ElectionLinkRecoveryMode</code>, <code>PublicElectionRecoverLinkPanel</code>, <code>PublicElectionVisibilityResolver</code>, <code>PreElectionReportsPanel</code> y los EJB/DAO que validan tokens y buscan coincidencias para recovery.</p>
+
+				<h2>{{ "Inventario real de rutas tokenizadas" }}</h2>
+				<ul class="paragraph">
+					<li><code>/token/public-election</code>: landing publica principal de la eleccion usando <code>Election.publicElectionToken</code>.</li>
+					<li><code>/token/public-election-v2</code>: variante alternativa montada en paralelo con el mismo token, pero hoy los links generados por dominio y utilitarios siguen apuntando a <code>/token/public-election</code>.</li>
+					<li><code>/token/organization/do-nomination</code>: nominacion desde organizacion usando <code>Organization.doNominationToken</code>.</li>
+					<li><code>/token/nomination/support</code>: confirmacion o rechazo de apoyo usando <code>SupportNomination.token</code>.</li>
+					<li><code>/token/nomination/tasks</code>: link de aceptacion y luego completitud de candidatura usando <code>Nomination.acceptNominationToken</code>.</li>
+					<li><code>/token/vote</code>: votacion usando <code>UserVoter.voteToken</code>.</li>
+					<li><code>/token/result</code>: resultados publicos usando <code>Election.resultToken</code>.</li>
+					<li><code>/token/access-denied</code>: pagina generica usada por todas las paginas tokenizadas cuando el token es valido pero la ventana aun no abrio, ya cerro o el switch manual esta bloqueado.</li>
+					<li>Los links de auditoria <code>/token/audit*</code> siguen vigentes, pero su detalle funcional ya quedo separado en <a href="{{site.baseurl}}/auditors.html">la guia de auditoria</a>.</li>
+				</ul>
+
+				<h2>{{ "Modelo comun de acceso" }}</h2>
+				<ul class="paragraph">
+					<li>Todas las paginas tokenizadas pasan por <code>PublicTokenBasePage</code>: primero validan el token, despues aplican la compuerta de calendario/flags y, si corresponde, redirigen a <code>/token/access-denied</code>.</li>
+					<li>Los bloqueos no responden 404 cuando el token existe pero la ventana no aplica: muestran countdown contra una fecha/calendario concreto con errores como <code>VOTE_NOT_OPEN</code>, <code>VOTE_CLOSED</code>, <code>RESULTS_NOT_PUBLIC</code> o <code>ACCESS_NOT_AVAILABLE</code>.</li>
+					<li>Los intentos fallidos de acceso publico por token invalidado se rate-limitean por IP. El default actual es <code>50</code> intentos fallidos antes de responder <code>429</code>, y la cache de ese rate limit se limpia por scheduler.</li>
+				</ul>
+
+				<h2>{{ "Landing publica de la eleccion" }}</h2>
+				<ul class="paragraph">
+					<li>La landing publica valida <code>Election.publicElectionToken</code> y exige <code>publicElectionLinkAvailable=true</code>.</li>
+					<li>Su ventana de acceso abre en <code>N_1_SINGLE_CALL_FOR_CANDIDATES_PUBLISHED</code> y no tiene fecha de cierre propia.</li>
+					<li>La misma ruta soporta modos por parametro <code>action</code>: <code>landing</code>, <code>candidate</code> y <code>roll</code>. Tambien acepta aliases <code>electoral-roll</code> y <code>padron</code> para el modo de padron publico.</li>
+					<li>El detalle de candidato usa <code>action=candidate&amp;candidateId=...</code>; el padron usa <code>action=roll&amp;page=...</code> y admite filtros <code>country</code> y <code>orgname</code>.</li>
+					<li>La landing puede mostrar calendario, candidatos, resumen de candidaturas incompletas, resumen de padron publico, resultados y recovery, pero cada seccion tiene su propia regla de visibilidad.</li>
+				</ul>
+
+				<p class="paragraph">Para consultar al ganador desde la navegacion publica: cierre la sesion administrativa, entre en <b>Elecciones publicas</b> y abra la eleccion. Tambien puede acceder directamente a <code>/public-elections</code> o usar una ventana privada; cerrar sesion no es un requisito de publicacion. Las condiciones de visibilidad y la diferencia entre tarjetas de ganadores y texto oficial se explican en <a href="{{site.baseurl}}/results-reports.html">Resultados y reportes</a>.</p>
+
+				<h2>{{ "Que se publica realmente en la landing" }}</h2>
+				<ul class="paragraph">
+					<li><b>Calendario:</b> aparece desde <code>N_1</code>.</li>
+					<li><b>Candidatos y resumen de nominaciones:</b> aparecen desde <code>N_11_SINGLE_CANDIDATES_PUBLISHED</code>.</li>
+					<li><b>Padron publico:</b> solo aplica a elecciones estatutarias y aparece desde <code>N_4_SINGLE_PADRON_PUBLISHED</code>.</li>
+					<li><b>Resultados en landing:</b> solo aparecen si <code>resultLinkAvailable=true</code> y ya se alcanzo <code>N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED</code>.</li>
+					<li><b>Sidebar de candidato:</b> depende de <code>N_11</code> y de que al menos una tarea lateral siga marcada como publica (<code>PROFILE</code>, <code>COUNTRIES</code>, <code>ORG_SUPPORTS</code>, <code>USER_SUPPORTS_2</code>, <code>USER_SUPPORTS_5</code>, <code>ORGANIZATIONS</code>).</li>
+					<li><b>Preguntas estatutarias/no estatutarias:</b> dependen de <code>N_11</code> mas la bandera <code>publicable</code> de cada tarea. Ese detalle ya esta documentado en <a href="{{site.baseurl}}/questions-declarations.html">la guia de preguntas y declaraciones</a>.</li>
+				</ul>
+
+				<h2>{{ "Recuperacion publica de links" }}</h2>
+				<ul class="paragraph">
+					<li>La recuperacion publica se muestra dentro de la landing; no tiene ruta separada.</li>
+					<li>Para que se vea, la eleccion debe seguir abierta y <code>publicLinkRecoveryMode</code> debe ser distinto de <code>NONE</code>.</li>
+					<li>La landing sigue necesitando <code>publicElectionLinkAvailable=true</code> y haber alcanzado <code>N_1</code>; el recovery no agrega un calendario propio adicional.</li>
+					<li>Los modos posibles son <code>NONE</code>, <code>ONLY_BR</code> y <code>ALL</code>.</li>
+					<li>En alta de eleccion, el default se recalcula por tipo: <code>BOARD</code>, <code>ELECTORAL_COMMISSION</code> y <code>FISCAL_COMMISSION</code> arrancan en <code>ONLY_BR</code>; <code>IANA</code>, <code>MODERATORS</code>, <code>ASO</code> y <code>OTHER</code> arrancan en <code>ALL</code>; el resto cae en <code>NONE</code>.</li>
+					<li>Si el modo es <code>ONLY_BR</code>, la UI muestra una advertencia para participantes que puedan recuperar enlaces desde el portal historico de la organizacion.</li>
+					<li>Si CAPTCHA esta habilitado globalmente y existe <code>dataSiteKey</code>, el formulario exige reCAPTCHA antes de procesar el envio.</li>
+				</ul>
+
+				<h2>{{ "Que links reenvia el recovery" }}</h2>
+				<ul class="paragraph">
+					<li>El formulario normaliza el email a minusculas y busca coincidencias en tres universos separados: <code>UserVoter.mail</code>, <code>Organization.membershipContactEmail</code> y <code>SupportNomination.supportingContactEmail</code>.</li>
+					<li><b>Votacion:</b> reenvia <code>UserVoter.getTokenVoteLink()</code> para cada coincidencia de la eleccion.</li>
+					<li><b>Nominacion:</b> reenvia <code>Organization.getDoNominationLink()</code>, pero solo para organizaciones que todavia tengan <code>doNominationToken</code> no vacio.</li>
+					<li><b>Apoyos:</b> reenvia <code>SupportNomination.getSupportNominationLink()</code>.</li>
+					<li>El modo <code>ONLY_BR</code> aplica filtro por pais: en votantes usa <code>UserVoter.country</code>, en organizaciones usa <code>Organization.country</code> y en apoyos usa el pais de la organizacion que emitio la nominacion.</li>
+					<li>El backend corta en <code>10</code> coincidencias por tipo de link. Si un email aparece mas veces, el recovery no sigue mas alla de ese tope por categoria.</li>
+					<li>El sistema responde siempre con el mismo mensaje de aceptacion si no hubo error operativo, incluso cuando el email no coincide con ningun acceso. No expone al usuario si encontro o no registros.</li>
+					<li>Si falta template <code>LINK_RECOVERY</code>, el backend usa un fallback trilingue armado en codigo.</li>
+				</ul>
+
+				<h2>{{ "Links de nominacion y apoyo" }}</h2>
+				<ul class="paragraph">
+					<li><b>Nominacion desde organizacion:</b> <code>/token/organization/do-nomination</code> usa <code>Organization.doNominationToken</code>, depende de <code>doNominationLinkAvailable=true</code> y de la ventana <code>N_2_PERIODO_CALL_FOR_CANDIDATES</code>.</li>
+					<li>Si la organizacion ya tiene una nominacion en <code>PROPOSED</code>, <code>ACCEPTED_BY_CANDIDATE</code> o <code>APPROVED</code>, la pagina sigue mostrando el estado historico pero bloquea una nueva nominacion.</li>
+					<li><b>Apoyo de nominacion:</b> <code>/token/nomination/support</code> usa <code>SupportNomination.token</code>, depende de <code>nominationSupportLinkAvailable=true</code> y tambien de <code>N_2</code>.</li>
+					<li>La pagina de apoyo permite aceptar o rechazar mientras el apoyo siga pendiente; cuando el estado ya es <code>ACCEPTED</code>, <code>REJECTED</code>, <code>APPROVED</code> o <code>INVALID</code>, la decision queda bloqueada y la pagina pasa a modo informativo.</li>
+				</ul>
+
+				<h2>{{ "Link de aceptacion y tareas de candidatura" }}</h2>
+				<ul class="paragraph">
+					<li>El link que recibe la persona nominada se construye hoy sobre <code>/token/nomination/tasks</code> con <code>Nomination.acceptNominationToken</code>.</li>
+					<li>No existe una ruta publica separada y estable para condiciones iniciales: si la nominacion todavia no fue aceptada, la misma ruta redirige internamente a <code>AcceptNominationConditionsPage</code>.</li>
+					<li>La fase de aceptacion inicial depende de <code>nominationTasksLinkAvailable=true</code> y de <code>N_2_PERIODO_CALL_FOR_CANDIDATES</code>.</li>
+					<li>La fase posterior de tareas ya no depende de un solo calendario: la ventana efectiva va desde el inicio mas temprano hasta el cierre mas tardio entre las tareas configuradas para el candidato.</li>
+					<li>Si el checklist no tiene progresos o no hay calendarios efectivos, la pagina de tareas cae en acceso denegado aunque el token siga siendo valido.</li>
+					<li>Las preguntas de comunidad que el candidato responde desde ese flujo usan ademas la ventana <code>N_12_PERIODO_CANDIDATE_QUESTIONS</code>.</li>
+				</ul>
+
+				<h2>{{ "Votacion" }}</h2>
+				<ul class="paragraph">
+					<li><code>/token/vote</code> usa <code>UserVoter.voteToken</code>, depende de <code>votingLinkAvailable=true</code> y de la ventana <code>N_16_PERIODO_VOTING</code>.</li>
+					<li>Antes de <code>N_16</code> responde acceso denegado con cuenta regresiva al inicio; despues del cierre responde acceso denegado al fin de la ventana.</li>
+					<li>Si el votante ya emitio voto, la pagina no vuelve al formulario: muestra <code>AlreadyVotedPanel</code>.</li>
+					<li>Para elecciones conjuntas, si la eleccion no es simple y no llegan subtokens explicitos, la pagina arma una vista conjunta buscando el segundo votante por <code>ORGID</code> en la otra eleccion del par.</li>
+					<li>Cuando se usan los parametros <code>token1</code> o <code>token2</code>, la misma ruta entra directo al voto de la boleta seleccionada y evita la vista conjunta inicial.</li>
+					<li>La locale de la pagina intenta tomar el idioma preferido del votante salvo que el usuario ya haya forzado idioma por URL o por la topbar.</li>
+				</ul>
+
+				<h2>{{ "Resultados publicos" }}</h2>
+				<ul class="paragraph">
+					<li><code>/token/result</code> usa <code>Election.resultToken</code>, depende de <code>resultLinkAvailable=true</code> y se abre cuando arranca <code>N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED</code>.</li>
+					<li>No tiene fecha de cierre en la compuerta publica actual: una vez publicado <code>N_17</code>, el acceso sigue disponible mientras no se corte manualmente el switch.</li>
+					<li>La pagina carga <code>PublicResultsPanel</code> con idioma resuelto desde locale actual, y la landing publica puede ademas mostrar una tarjeta/resumen de resultados cuando ya se alcanzo esa misma etapa.</li>
+				</ul>
+
+				<h2>{{ "Notas operativas" }}</h2>
+				<ul class="paragraph">
+					<li>El pre-reporte administrativo ya consolida el estado de disponibilidad de todos estos links y los cruza contra su calendario o ventana efectiva.</li>
+					<li>La bandera manual de cada link funciona como corte operacional; el calendario sigue siendo quien define la apertura temporal real de cada flujo.</li>
+					<li>Los utilitarios de dominio siguen generando los links publicos a partir de <code>Constants.URL</code>, concatenando el contexto web y el segmento tokenizado correspondiente.</li>
+				</ul>
+
+				<h2>{{ "Bloques relacionados" }}</h2>
+				<ul class="paragraph">
+					<li><b>Candidaturas y nominaciones:</b> estados, aceptacion y apoyos ya quedaron detallados en <a href="{{site.baseurl}}/candidates.html">esta guia</a>.</li>
+					<li><b>Preguntas, declaraciones y comunidad:</b> la experiencia publica de preguntas a candidatos esta detallada en <a href="{{site.baseurl}}/questions-declarations.html">esta guia</a>.</li>
+					<li><b>Auditoria previa y final:</b> los links publicos de auditoria quedaron separados en <a href="{{site.baseurl}}/auditors.html">esta guia</a>.</li>
+					<li><b>Resultados y reportes:</b> el consumo administrativo y publico de la informacion que sale de estos links quedo documentado en <a href="{{site.baseurl}}/results-reports.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionsManagerApp</code>, <code>PublicTokenBasePage</code>, <code>PublicAccessDeniedPage</code>, <code>PublicElectionPage</code>, <code>PublicElectionPageV2</code>, <code>PublicElectionPageParameters</code>, <code>PublicElectionRecoverLinkPanel</code>, <code>DoNominationPage</code>, <code>SupportNominationPage</code>, <code>AcceptNominationConditionsPage</code>, <code>GenericAcceptNominationTasksPage</code>, <code>VotePublicPage</code>, <code>ResultPublicPage</code>, <code>PreElectionReportsPanel</code>, <code>PublicElectionVisibilityResolver</code>, <code>PublicElectionSnapshotBuilder</code>, <code>ElectionLinkRecoveryMode</code>, <code>PublicLinkRecoveryType</code>, <code>LinksUtils</code>, <code>Constants</code>, <code>UserVoterDao</code>, <code>OrganizationDao</code>, <code>SupportNominationDao</code>, <code>ElectionsManagerEJBBean</code>, <code>ElectionsVoterEJBBean</code>, <code>MailsSendingEJBBean</code> y <code>ElectionsManagerApp.properties.xml</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

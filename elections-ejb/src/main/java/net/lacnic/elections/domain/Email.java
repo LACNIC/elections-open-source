@@ -3,21 +3,19 @@ package net.lacnic.elections.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Email implements Serializable {
 
 	private static final long serialVersionUID = -6954869970189933966L;
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_seq")
@@ -52,15 +50,32 @@ public class Email implements Serializable {
 	@Column(nullable = false)
 	private String templateType;
 
+	@Column
+	private Boolean prioritized = false;
+
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "election_id")
 	private Election election;
-
 
 	public Email() {
 		this.createdDate = new Date();
 	}
 
+	public Email(String recipients, String sender, String subject, String body, String templateType, Election election) {
+		this(recipients, sender, subject, body, templateType, election, false);
+	}
+
+	public Email(String recipients, String sender, String subject, String body, String templateType, Election election, Boolean prioritized) {
+		this();
+		this.recipients = recipients;
+		this.sender = sender;
+		this.subject = subject;
+		this.body = body;
+		this.templateType = templateType;
+		this.election = election;
+		this.sent = false;
+		this.prioritized = prioritized != null ? prioritized : false;
+	}
 
 	public Long getEmailId() {
 		return emailId;
@@ -140,6 +155,14 @@ public class Email implements Serializable {
 
 	public void setTemplateType(String templateType) {
 		this.templateType = templateType;
+	}
+
+	public Boolean getPrioritized() {
+		return prioritized;
+	}
+
+	public void setPrioritized(Boolean prioritized) {
+		this.prioritized = prioritized != null ? prioritized : false;
 	}
 
 	public Election getElection() {

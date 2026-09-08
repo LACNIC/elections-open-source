@@ -1,0 +1,57 @@
+<wicket:panel>
+	<form wicket:id="form" data-testid="form">
+		<div class="row g-3">
+			<div class="col-md-2">
+				<label class="form-label"><wicket:message key="mailTemplEditSubjectEsp" /></label>
+			</div>
+			<div class="col-md-10">
+				<input wicket:id="subjectSP" data-testid="subjectSP" type="text" class="form-control" name="subjectSP"></input>
+			</div>
+
+			<div class="col-md-2">
+				<label class="form-label"><wicket:message key="mailTemplEditSubjectEng" /></label>
+			</div>
+			<div class="col-md-10">
+				<input wicket:id="subjectEN" data-testid="subjectEN" name="subjectEN" type="text" class="form-control"></input>
+			</div>
+
+			<div class="col-md-2">
+				<label class="form-label"><wicket:message key="mailTemplEditSubjectPor" /></label>
+			</div>
+			<div class="col-md-10">
+				<input wicket:id="subjectPT" data-testid="subjectPT" name="subjectPT" type="text" class="form-control"></input>
+			</div>
+
+			<div class="col-md-2">
+				<label class="form-label"><wicket:message key="mailTemplEditBodyEsp" /></label>
+			</div>
+			<div class="col-md-10">
+				<textarea wicket:id="bodySP" data-testid="bodySP" type="text" name="bodySP" class="form-control h-150"></textarea>
+			</div>
+
+			<div class="col-md-2">
+				<label class="form-label"><wicket:message key="mailTemplEditBodyEng" /></label>
+			</div>
+			<div class="col-md-10">
+				<textarea wicket:id="bodyEN" data-testid="bodyEN" type="text" name="bodyEN" class="form-control h-150"></textarea>
+			</div>
+
+			<div class="col-md-2">
+				<label class="form-label"><wicket:message key="mailTemplEditBodyPor" /></label>
+			</div>
+			<div class="col-md-10">
+				<textarea wicket:id="bodyPT" data-testid="bodyPT" type="text" name="bodyPT" class="form-control h-150"></textarea>
+			</div>
+		</div>
+
+		<hr class="my-3">
+		<div class="text-center">
+			<button wicket:id="back" data-testid="back" class="btn btn-light" name="back">
+				<wicket:message key="mailTemplEditBtnBack" />
+			</button>
+			<button wicket:id="save" data-testid="save" type="submit" class="btn btn-primary" name="save">
+				<wicket:message key="mailTemplEditBtnSave" />
+			</button>
+		</div>
+	</form>
+</wicket:panel>

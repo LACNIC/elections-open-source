@@ -3,30 +3,28 @@ package net.lacnic.elections.adminweb.ui.admin.activity;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.domain.Activity;
-
 
 public class ActivitiesListPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
-	private List<Activity> activitiesList; 
-
+	private List<Activity> activitiesList;
 
 	public ActivitiesListPanel(String id, long electionId) {
 		super(id);
-		if(electionId == -1)
+		if (electionId == -1)
 			activitiesList = AppContext.getInstance().getManagerBeanRemote().getActivitiesAll();
 		else
 			activitiesList = AppContext.getInstance().getManagerBeanRemote().getElectionActivities(electionId);
@@ -51,14 +49,14 @@ public class ActivitiesListPanel extends Panel {
 						item.add(new Label("timestamp", sdf.format(current.getTimestamp())));
 						item.add(new MultiLineLabel("description", current.getDescription()));
 					} catch (Exception e) {
-						appLogger.error(e);
+						appLogger.error(e.getMessage(), e);
 						error(e.getMessage());
 					}
 				}
 			};
 			add(activitiesListView);
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			error(e.getMessage());
 		}
 	}

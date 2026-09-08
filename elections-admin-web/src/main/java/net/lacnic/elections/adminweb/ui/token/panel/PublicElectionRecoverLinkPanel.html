@@ -1,0 +1,63 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div wicket:id="feedback" data-testid="public-recover-link-feedback"></div>
+	<div class="row g-4 align-items-start" data-testid="public-recover-link-layout">
+		<div class="col-12 col-lg-6 border-end border-dashed">
+			<div class="pe-lg-4" data-testid="public-recover-link-info-wrapper">
+				<p wicket:id="recoverLinkPanelIntro" class="text-muted mb-2" data-testid="public-recover-link-panel-intro">Este panel permite recuperar los enlaces de participación asociados a esta elección: el enlace de votación para emitir el voto, el enlace de nominación para postular candidatos y el enlace de apoyo para confirmar apoyos solicitados.</p>
+				<p wicket:id="recoverLinkPanelHelp" class="text-muted mb-0" data-testid="public-recover-link-panel-help">Al ingresar una dirección de correo electrónico, el sistema busca coincidencias del correo con los distintos tipos de participación, de encontrarlas, envía un correo por cada enlace encontrado (hasta 10 enlaces).</p>
+				<p wicket:id="recoverLinkOnlyBrMilacnicNotice" class="alert alert-warning py-2 mt-3 mb-0" data-testid="public-recover-link-only-br-notice">Si usted es asociado de LACNIC y tiene acceso a MiLACNIC, puede encontrar sus enlaces de participación en esa plataforma. En estos casos, no se envían enlaces de participación desde este formulario</p>
+			</div>
+		</div>
+		<div class="col-12 col-lg-6">
+			<div class="ps-lg-3" data-testid="public-recover-link-form-wrapper">
+				<form wicket:id="recoverLinkForm" data-testid="public-recover-link-form">
+					<div class="mb-3" data-testid="public-recover-link-email-group">
+						<label wicket:id="recoverLinkEmailLabel" class="form-label fw-semibold" for="recoverLinkEmail">Correo electrónico</label>
+						<input wicket:id="recoverLinkEmail" id="recoverLinkEmail" type="email" class="form-control" data-testid="public-recover-link-email-input" />
+					</div>
+					<div class="mb-3" data-testid="public-recover-link-captcha-group">
+						<div class="d-flex justify-content-center">
+							<div class="g-recaptcha" data-sitekey="" wicket:id="recoverReCaptcha" data-testid="public-recover-link-captcha"></div>
+						</div>
+					</div>
+					<div class="d-flex justify-content-center" data-testid="public-recover-link-submit-group">
+						<button wicket:id="recoverLinkSend" type="submit" class="btn btn-secondary btn-sm" data-testid="public-recover-link-submit-button">Enviar enlace</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script wicket:message="src:jsrecaptcha"></script>
+	<script>
+		(function () {
+			function renderPublicCaptchas() {
+				if (!window.grecaptcha || typeof window.grecaptcha.render !== 'function') {
+					return false;
+				}
+				document.querySelectorAll('.g-recaptcha').forEach(function (element) {
+					if (!element || element.querySelector('iframe') || element.dataset.widgetId) {
+						return;
+					}
+					var siteKey = element.getAttribute('data-sitekey');
+					if (!siteKey) {
+						return;
+					}
+					try {
+						element.dataset.widgetId = String(window.grecaptcha.render(element, { sitekey: siteKey }));
+					} catch (error) {
+						console.warn('Unable to render reCAPTCHA widget', error);
+					}
+				});
+				return true;
+			}
+
+			var attempts = 0;
+			var intervalId = window.setInterval(function () {
+				attempts += 1;
+				if (renderPublicCaptchas() || attempts >= 20) {
+					window.clearInterval(intervalId);
+				}
+			}, 500);
+		})();
+	</script>
+</wicket:panel>

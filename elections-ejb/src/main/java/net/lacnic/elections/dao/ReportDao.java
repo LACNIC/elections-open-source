@@ -1,20 +1,20 @@
 package net.lacnic.elections.dao;
 
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 public class ReportDao {
 
 	private EntityManager em;
 
-
 	public ReportDao(EntityManager em) {
 		this.em = em;
 	}
 
-	public ReportDao() { }
+	public ReportDao() {
+	}
 
 	/**
 	 * Gets the amount of emails in the system
@@ -70,7 +70,6 @@ public class ReportDao {
 		return (long) q.getSingleResult();
 	}
 
-
 	/***
 	 * Election Querys
 	 */
@@ -78,37 +77,33 @@ public class ReportDao {
 	/**
 	 * Gets the amount of pending emails for a particular election
 	 * 
-	 * @param electionId
-	 * 			election identifier
+	 * @param electionId election identifier
 	 * 
 	 * @return returns the amount of pending emails for a particular election
 	 * 
 	 */
 	public long getElectionPendingSendEmailsAmount(long electionId) {
 		Query q = em.createQuery("SELECT COUNT(e.emailId) FROM Email e WHERE e.election.electionId = :electionId AND e.sent = FALSE");
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return (long) q.getSingleResult();
 	}
 
 	/**
 	 * Obtiene una lista con los id y nombres de la tabla Eleccion
 	 * 
-	 * @return Retorna un Lista de Objetos conteniendo todos los id y nombres de la tabla
-	 *         Eleccion
+	 * @return Retorna un Lista de Objetos conteniendo todos los id y nombres de la tabla Eleccion
 	 * 
 	 */
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getElectionsAllIdName() {
 		return em.createQuery("SELECT e.electionId, e.titleSpanish FROM Election e").getResultList();
 	}
-	
 
 	/**
 	 * Gets the amount of voter who actually vote on the election.
 	 * 
-	 * @param electionId
-	 *            election identifier
+	 * @param electionId election identifier
 	 *
 	 * 
 	 * @return returns the amount of voters who actually vote on the election.
@@ -116,15 +111,14 @@ public class ReportDao {
 	 */
 	public long getElectionAlreadyVotedAmount(long electionId) {
 		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId AND u.voted = TRUE");
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return (long) q.getSingleResult();
 	}
 
 	/**
 	 * Gets the amount of voters who did not vote on the election.
 	 * 
-	 * @param electionId
-	 *            election identifier
+	 * @param electionId election identifier
 	 *
 	 * 
 	 * @return returns the amount of voters who did not vote on the election.
@@ -132,22 +126,21 @@ public class ReportDao {
 	 */
 	public long getElectionNotVotedYetAmount(long electionId) {
 		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId AND u.voted = FALSE");
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return (long) q.getSingleResult();
 	}
 
 	/**
 	 * Get the amount of voters of a particular election
 	 * 
-	 * @param electionId
-	 *            election identifier
+	 * @param electionId election identifier
 	 * 
 	 * @return returns the amount of voters of a particular election
 	 * 
 	 */
 	public long getElectionCensusSize(long electionId) {
 		Query q = em.createQuery("SELECT COUNT(u.userVoterId) FROM UserVoter u WHERE u.election.electionId =: electionId");
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return (long) q.getSingleResult();
 	}
 

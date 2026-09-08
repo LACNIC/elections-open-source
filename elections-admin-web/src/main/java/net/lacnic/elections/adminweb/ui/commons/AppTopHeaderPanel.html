@@ -1,0 +1,89 @@
+<wicket:panel>
+	<header class="app-topbar">
+		<div class="container-fluid topbar-menu">
+			<div class="d-flex align-items-center gap-2">
+				<!-- Sidebar Menu Toggle Button -->
+				<button class="sidenav-toggle-button btn btn-primary btn-icon">
+					<i class="ti ti-menu-4 fs-22"></i>
+				</button>
+
+				<!-- Horizontal Menu Toggle Button -->
+				<button class="topnav-toggle-button px-2" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+					<i class="ti ti-menu-4 fs-22"></i>
+				</button>
+
+				<div class="topbar-item">
+					<a wicket:id="homeLink" data-testid="homeLink" class="topbar-link" wicket:message="title:appTopHeaderHomeTooltip">
+						<i data-lucide="home" class="fs-xxl"></i>
+					</a>
+				</div>
+
+				<div class="topbar-item d-none d-md-flex">
+					<span class="topbar-link text-muted px-1">|</span>
+				</div>
+
+				<div class="topbar-item d-none d-md-flex">
+					<a wicket:id="siteTitleLink" data-testid="siteTitleLink" class="topbar-link fw-semibold text-decoration-none">
+						<span wicket:id="siteTitle" data-testid="siteTitle"></span>
+					</a>
+				</div>
+
+				<div class="topbar-item d-none d-lg-flex">
+					<span class="topbar-link text-muted px-1">|</span>
+				</div>
+
+				<div class="topbar-item d-none d-lg-flex">
+					<span class="topbar-link fw-semibold" wicket:id="headerSectionLabel" data-testid="headerSectionLabel"></span>
+				</div>
+			</div>
+
+			<div class="d-flex align-items-center gap-2">
+				<div class="topbar-item d-none d-sm-flex">
+					<span class="topbar-link fw-semibold" wicket:id="username" data-testid="username"></span>
+				</div>
+				<div class="topbar-item d-none d-sm-flex" wicket:id="userLanguageSeparator" data-testid="userLanguageSeparator">
+					<span class="topbar-link text-muted px-1">|</span>
+				</div>
+				<div class="topbar-item" wicket:id="languageSelector" data-testid="languageSelector">
+					<div class="dropdown">
+						<button class="topbar-link fw-bold" data-bs-toggle="dropdown" data-bs-offset="0,21" type="button" aria-haspopup="false"
+							aria-expanded="false">
+							<i data-lucide="languages" class="fs-xxl"></i>
+						</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a href="#" class="dropdown-item" wicket:id="es" data-testid="es" id="es" title="Spanish">
+								<span class="align-middle"><wicket:message key="publicMenuLanguageSpanish" /></span>
+							</a>
+							<a href="#" class="dropdown-item" wicket:id="en" data-testid="en" id="en" title="English">
+								<span class="align-middle"><wicket:message key="publicMenuLanguageEnglish" /></span>
+							</a>
+							<a href="#" class="dropdown-item" wicket:id="pt" data-testid="pt" id="pt" title="Portuguese">
+								<span class="align-middle"><wicket:message key="publicMenuLanguagePortuguese" /></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- Light/Dark Mode Button -->
+				<div class="topbar-item nav-user">
+					<button class="topbar-link" id="light-dark-mode" data-testid="light-dark-mode" type="button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="moon" class="lucide lucide-moon fs-xxl mode-light-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="sun" class="lucide lucide-sun fs-xxl mode-light-sun"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+					</button>
+				</div>
+
+			
+
+				<div class="topbar-item nav-user">
+					<a class="topbar-link px-2 d-flex align-items-center gap-2" href="#" wicket:id="logoutLink" data-testid="logoutLink" id="logoutLink">
+						<i class="ti ti-logout fs-28"></i>
+						<span class="d-none d-lg-inline"><wicket:message key="logout" /></span>
+					</a>
+					<a class="topbar-link px-2 d-flex align-items-center gap-2" href="#" wicket:id="loginLink" data-testid="loginLink" id="loginLink">
+						<i class="ti ti-login fs-28"></i>
+						<span class="d-none d-lg-inline"><wicket:message key="login" /></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+</wicket:panel>

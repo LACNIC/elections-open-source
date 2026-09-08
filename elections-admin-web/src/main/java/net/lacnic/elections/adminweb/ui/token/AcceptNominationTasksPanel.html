@@ -1,0 +1,55 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="row justify-content-center mt-3">
+		<div class="col-xl-10">
+			<div class="card" data-testid="accept-nomination-tasks-card">
+				<div class="card-header">
+					<h4 class="card-title" data-testid="acceptNominationTasksTitle"><wicket:message key="acceptNominationTasksTitle">Tareas de postulación</wicket:message></h4>
+				</div>
+				<div class="card-body">
+					<div wicket:id="tasksTableContainer" data-testid="tasksTableContainer" class="table-responsive">
+						<table class="table table-hover align-middle mb-0">
+							<thead class="bg-light align-middle bg-opacity-25 thead-sm">
+								<tr class="text-uppercase fs-xxs">
+									<th><wicket:message key="acceptNominationTasksColumnTask" /></th>
+									<th><wicket:message key="acceptNominationTasksColumnStatus" /></th>
+									<th><wicket:message key="acceptNominationTasksColumnStartDate" /></th>
+									<th><wicket:message key="acceptNominationTasksColumnEndDate" /></th>
+									<th><wicket:message key="acceptNominationTasksColumnDeadline" /></th>
+									<th><wicket:message key="acceptNominationTasksColumnProgress" /></th>
+									<th style="width: 1%;"><wicket:message key="acceptNominationTasksColumnActions" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr wicket:id="tasksRows" data-testid="tasksRows">
+									<td wicket:id="taskName" data-testid="taskName"></td>
+									<td>
+										<span wicket:id="taskStatus" data-testid="taskStatus"></span>
+										<span wicket:id="taskLockedBadge" data-testid="taskLockedBadge" class="badge badge-label badge-soft-secondary ms-1" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="">
+											<i class="ti ti-lock"></i>
+										</span>
+									</td>
+									<td wicket:id="taskStartDate" data-testid="taskStartDate"></td>
+									<td wicket:id="taskEndDate" data-testid="taskEndDate"></td>
+									<td wicket:id="taskDeadlineDate" data-testid="taskDeadlineDate"></td>
+									<td wicket:id="taskProgress" data-testid="taskProgress"></td>
+									<td class="text-center">
+										<div wicket:id="taskActions" data-testid="taskActions" class="dropdown text-muted">
+											<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+												<i class="ti ti-dots-vertical"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-end">
+												<a wicket:id="actionView" data-testid="actionView" href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> <wicket:message key="acceptNominationTasksActionView" /></a>
+												<a wicket:id="actionEdit" data-testid="actionEdit" href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> <wicket:message key="acceptNominationTasksActionEdit" /></a>
+												<a wicket:id="actionComplete" data-testid="actionComplete" href="javascript:void(0);" class="dropdown-item"><i class="ti ti-check me-1"></i> <wicket:message key="acceptNominationTasksActionComplete" /></a>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

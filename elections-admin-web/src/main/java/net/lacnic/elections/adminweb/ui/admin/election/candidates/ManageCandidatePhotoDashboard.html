@@ -1,0 +1,37 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="feedback"></div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0"><wicket:message key="candidatePhotoTitle" /></h5>
+				</div>
+				<div class="card-body">
+					<div class="border rounded p-3 mb-4">
+						<h6 class="mb-3"><wicket:message key="candidateBiographySummaryTitle" /></h6>
+						<div><strong><wicket:message key="candidateStatusCandidateName" />:</strong> <span wicket:id="candidateName" data-testid="candidateName"></span></div>
+						<div><strong><wicket:message key="candidateStatusCandidateId" />:</strong> <span wicket:id="candidateId" data-testid="candidateId"></span></div>
+						<div><strong><wicket:message key="candidateStatusCandidateMail" />:</strong> <span wicket:id="candidateMail" data-testid="candidateMail"></span></div>
+					</div>
+
+					<form wicket:id="photoForm" data-testid="photoForm" class="row g-3">
+						<div class="col-12">
+							<label class="form-label" for="manageCandidatePhotoPicture"><wicket:message key="candidateManagementPicture">candidateManagementPicture</wicket:message></label>
+							<input wicket:id="candidatePicture" id="manageCandidatePhotoPicture" data-testid="candidatePicture" type="file" class="form-control">
+						</div>
+						<div class="col-12">
+							<div class="form-check">
+								<input wicket:id="restoreDefaultPicture" id="manageCandidateRestoreDefaultPicture" data-testid="restoreDefaultPicture" type="checkbox" class="form-check-input">
+								<label class="form-check-label" for="manageCandidateRestoreDefaultPicture"><wicket:message key="candidateManagementRestoreDefaultPicture">candidateManagementRestoreDefaultPicture</wicket:message></label>
+							</div>
+						</div>
+						<div class="col-12 d-flex justify-content-end gap-2">
+							<a wicket:id="cancel" data-testid="cancel" class="btn btn-light"><wicket:message key="candidatePhotoCancel" /></a>
+							<button wicket:id="save" data-testid="save" type="submit" class="btn btn-primary"><wicket:message key="candidatePhotoSave" /></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

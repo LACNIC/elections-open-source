@@ -1,0 +1,97 @@
+<wicket:panel>
+	<div class="card">
+		<div class="card-body">
+			<div wicket:id="addTaskContainer" data-testid="addTaskContainer">
+				<form wicket:id="addTaskForm" data-testid="addTaskForm" class="d-flex flex-column gap-3">
+					<div class="d-flex flex-wrap align-items-end gap-3">
+						<div class="flex-grow-1" style="min-width: 260px;">
+							<label class="form-label"><wicket:message key="electionTasksManagementTaskLabel" /></label>
+							<select wicket:id="addTaskKey" data-testid="addTaskKey" class="form-select"></select>
+						</div>
+						<div class="flex-grow-1" style="min-width: 180px;">
+							<label class="form-label"><wicket:message key="electionTasksManagementDependencyLevelLabel" /></label>
+							<select wicket:id="addTaskDependencyLevel" data-testid="addTaskDependencyLevel" class="form-select"></select>
+						</div>
+					</div>
+					<div class="d-flex flex-wrap align-items-end gap-3">
+						<div class="flex-grow-1" style="min-width: 260px;">
+							<label class="form-label"><wicket:message key="electionTasksManagementCalendarLabel" /></label>
+							<select wicket:id="addTaskCalendar" data-testid="addTaskCalendar" class="form-select"></select>
+						</div>
+						<div style="width: 140px;">
+							<label class="form-label"><wicket:message key="electionTasksManagementDisplayOrderLabel" /></label>
+							<input wicket:id="addTaskDisplayOrder" data-testid="addTaskDisplayOrder" class="form-control" type="number" />
+						</div>
+						<div class="form-check mb-2">
+							<input wicket:id="addTaskPublicable" data-testid="addTaskPublicable" class="form-check-input" type="checkbox" />
+							<label class="form-check-label"><wicket:message key="electionTasksManagementPublicableLabel" /></label>
+						</div>
+					</div>
+					<div class="d-flex justify-content-end">
+						<button wicket:id="addTaskButton" data-testid="addTaskButton" type="submit" class="btn btn-primary">
+							<wicket:message key="electionTasksManagementAddButton" />
+						</button>
+					</div>
+				</form>
+			</div>
+
+			<hr class="my-4">
+
+			<div wicket:id="currentTasksContainer" data-testid="currentTasksContainer">
+				<h6 class="mb-3"><wicket:message key="electionTasksManagementCurrentTitle" /></h6>
+				<form wicket:id="currentTasksForm" data-testid="currentTasksForm">
+					<div class="table-responsive">
+						<table class="table table-hover align-middle mb-0">
+							<thead class="table-light">
+								<tr>
+									<th><wicket:message key="electionTasksManagementRemoveButton" /></th>
+									<th><wicket:message key="electionTasksManagementTaskLabel" /></th>
+									<th><wicket:message key="electionTasksManagementCalendarLabel" /></th>
+									<th><wicket:message key="electionTasksManagementDependencyLevelLabel" /></th>
+									<th class="text-center"><wicket:message key="electionTasksManagementSortLabel" /></th>
+									<th><wicket:message key="electionTasksManagementDisplayOrderLabel" /></th>
+									<th><wicket:message key="electionTasksManagementPublicableLabel" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr wicket:id="currentTasksRows" data-testid="currentTasksRows">
+									<td class="text-nowrap">
+										<span wicket:id="removeTaskButton" data-testid="removeTaskButton"></span>
+									</td>
+									<td>
+										<strong wicket:id="taskKeyLabel" data-testid="taskKeyLabel"></strong>
+									</td>
+									<td>
+										<select wicket:id="rowCalendar" data-testid="rowCalendar" class="form-select form-select-sm"></select>
+									</td>
+									<td>
+										<select wicket:id="rowDependencyLevel" data-testid="rowDependencyLevel" class="form-select form-select-sm"></select>
+									</td>
+									<td class="text-center">
+										<div class="d-inline-flex flex-column align-items-center">
+											<a wicket:id="moveUp" data-testid="moveUp"><i class="ti ti-chevron-up fs-2"></i></a>
+											<a wicket:id="moveDown" data-testid="moveDown"><i class="ti ti-chevron-down fs-2"></i></a>
+										</div>
+									</td>
+									<td>
+										<input wicket:id="rowDisplayOrder" data-testid="rowDisplayOrder" class="form-control form-control-sm" type="number" />
+									</td>
+									<td>
+										<div class="form-check">
+											<input wicket:id="rowPublicable" data-testid="rowPublicable" class="form-check-input" type="checkbox" />
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="d-flex justify-content-end mt-3">
+						<button wicket:id="saveAllTasksButton" data-testid="saveAllTasksButton" type="submit" class="btn btn-primary">
+							<wicket:message key="electionTasksManagementSaveButton" />
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

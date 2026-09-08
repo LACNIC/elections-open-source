@@ -1,6 +1,6 @@
 package net.lacnic.elections.adminweb.ui.admin.useradmin;
 
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.EmailTextField;
 import org.apache.wicket.markup.html.form.Form;
@@ -13,32 +13,26 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
-import net.lacnic.elections.adminweb.ui.components.DropDownElection;
-import net.lacnic.elections.adminweb.ui.error.Error401;
-import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
-import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.UserAdmin;
+import net.lacnic.elections.adminweb.ui.bases.DashboardManagerBasePage;
+import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 
 
-@AuthorizeInstantiation("elections-only-one")
-public class EditUserAdminDashboard extends DashboardAdminBasePage {
+public class EditUserAdminDashboard extends DashboardManagerBasePage {
 
 	private static final long serialVersionUID = -4584362258132685785L;
 
 	private String email;
-	private Election authorizedElection;
 
 	public EditUserAdminDashboard(PageParameters params) {
 		super(params);
-		if (SecurityUtils.getAuthorizedElectionId() != 0 && !UtilsParameters.getAdminId(params).equalsIgnoreCase(SecurityUtils.getUserAdminId()))
-			setResponsePage(Error401.class);
+		if (!SecurityUtils.isLocalAuthentication()) {
+			SecurityUtils.error(getString("userAdminLocalAccessDenied"));
+			throw new RestartResponseException(SecurityUtils.getHomePage());
+		}
 		UserAdmin userAdmin = AppContext.getInstance().getManagerBeanRemote().getUserAdmin(UtilsParameters.getAdminId(params));
 
 		email = userAdmin.getEmail();
-		authorizedElection = new Election(userAdmin.getAuthorizedElectionId());
-		if (userAdmin.getAuthorizedElectionId() != 0)
-			authorizedElection.setTitleSpanish(AppContext.getInstance().getManagerBeanRemote().getElection(userAdmin.getAuthorizedElectionId()).getTitleSpanish());
 
 		Form<Void> formUserAdmin = new Form<>("formUserAdmin");
 		add(formUserAdmin);
@@ -53,17 +47,14 @@ public class EditUserAdminDashboard extends DashboardAdminBasePage {
 		emailTextField.add(StringValidator.maximumLength(40));
 		formUserAdmin.add(emailTextField);
 
-		DropDownElection dropDownElecciones = new DropDownElection("authorizedElection", new PropertyModel<>(EditUserAdminDashboard.this, "authorizedElection"));
-		formUserAdmin.add(dropDownElecciones);
-
 		formUserAdmin.add(new Button("edit") {
 			private static final long serialVersionUID = -3530314990745212166L;
 
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				if (!(email.equalsIgnoreCase(userAdmin.getEmail()) && getAuthorizedElection().getElectionId() == userAdmin.getAuthorizedElectionId().longValue())) {
-					AppContext.getInstance().getManagerBeanRemote().editUserAdmin(userAdmin, email, getAuthorizedElection().getElectionId(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
+				if (!email.equalsIgnoreCase(userAdmin.getEmail())) {
+					AppContext.getInstance().getManagerBeanRemote().editUserAdmin(userAdmin, email, SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
 					getSession().info(getString("adminUserEditUsrSuccess"));
 				}
 				setResponsePage(UserAdminsDashboard.class);
@@ -78,14 +69,6 @@ public class EditUserAdminDashboard extends DashboardAdminBasePage {
 				setResponsePage(UserAdminsDashboard.class);
 			}
 		});
-	}
-
-	public Election getAuthorizedElection() {
-		return authorizedElection;
-	}
-
-	public void setAuthorizedElection(Election authorizedElection) {
-		this.authorizedElection = authorizedElection;
 	}
 
 }

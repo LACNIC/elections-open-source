@@ -24,7 +24,7 @@ $(document).ready(function () {
         var button = $(this).find('i');
         var content = ibox.children('.ibox-content');
         content.slideToggle(200);
-        button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+        button.toggleClass('ti-chevron-up').toggleClass('ti-chevron-down');
         ibox.toggleClass('').toggleClass('border-bottom');
         setTimeout(function () {
             ibox.resize();
@@ -43,7 +43,7 @@ $(document).ready(function () {
         var ibox = $(this).closest('div.ibox');
         var button = $(this).find('i');
         $('body').toggleClass('fullscreen-ibox-mode');
-        button.toggleClass('fa-expand').toggleClass('fa-compress');
+        button.toggleClass('ti-arrows-maximize').toggleClass('ti-arrows-minimize');
         ibox.toggleClass('fullscreen');
         setTimeout(function () {
             $(window).trigger('resize');
@@ -76,7 +76,7 @@ $(document).ready(function () {
 
     // Open close small chat
     $('.open-small-chat').on('click', function () {
-        $(this).children().toggleClass('fa-comments').toggleClass('fa-remove');
+        $(this).children().toggleClass('ti-message-circle').toggleClass('ti-x');
         $('.small-chat-box').toggleClass('active');
     });
 
@@ -90,7 +90,7 @@ $(document).ready(function () {
     $('.check-link').on('click', function () {
         var button = $(this).find('i');
         var label = $(this).next('span');
-        button.toggleClass('fa-check-square').toggleClass('fa-square-o');
+        button.toggleClass('ti-square-check').toggleClass('ti-square');
         label.toggleClass('todo-completed');
         return false;
     });

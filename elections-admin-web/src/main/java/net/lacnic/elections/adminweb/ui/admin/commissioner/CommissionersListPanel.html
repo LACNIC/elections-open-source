@@ -1,0 +1,31 @@
+<wicket:panel>
+	<div class="card" data-testid="commissioners-list-card">
+		<div class="card-header" data-testid="commissioners-list-card-header">
+			<h5 data-testid="commissioners-list-title"><wicket:message key="commissionerListTitle" /></h5>
+		</div>
+		<div class="card-body" data-testid="commissioners-list-card-body">
+			<div class="table-responsive" data-testid="commissioners-table-responsive">
+				<table id="commissionersTable" class="table table-hover align-middle mb-0 dataTables" data-testid="commissioners-table">
+					<thead class="table-light" data-testid="commissioners-table-head">
+						<tr>
+							<th data-testid="commissioners-table-delete-header"></th>
+							<th data-testid="commissioners-table-name-header"><wicket:message key="commissionerListName" /></th>
+							<th data-testid="commissioners-table-mail-header"><wicket:message key="commissionerListMail" /></th>
+							<th data-testid="commissioners-table-edit-header"><wicket:message key="commissionerListEdit" /></th>
+						</tr>
+					</thead>
+					<tbody data-testid="commissioners-table-body">
+						<tr wicket:id="commissionersList" name="commissionersList" data-testid="commissioner-row">
+							<td data-testid="commissioner-remove-cell"><div wicket:id="remove" name="remove" data-testid="commissioner-remove-action"></div></td>
+							<td data-testid="commissioner-name-cell"><span wicket:id="name" data-testid="commissioner-name"></span></td>
+							<td data-testid="commissioner-mail-cell"><span wicket:id="mail" data-testid="commissioner-mail"></span></td>
+								<td data-testid="commissioner-edit-cell"><a wicket:message="title:edit,aria-label:edit" class="text-primary ti ti-pencil fs-28 m-r-sm" wicket:id="editCommissioner" data-testid="commissioner-edit-link"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<hr class="my-3" data-testid="commissioners-list-divider">
+			<div class="text-center" data-testid="commissioners-list-footer"></div>
+		</div>
+	</div>
+</wicket:panel>

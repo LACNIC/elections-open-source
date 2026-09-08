@@ -1,28 +1,74 @@
-# Sistema de Elecciones LACNIC
+# Sistema de Elecciones
 
-El Sistema de Elecciones es un proyecto open source desarrollado por [LACNIC](https://www.lacnic.net) que permite implementar y gestionar elecciones en modo completamente remoto y seguro.
+El Sistema de Elecciones es un proyecto open source para implementar y operar procesos electorales de forma remota.
 
-## Ambiente de ejecución
+PAI es el portal/servicio externo de autenticación de LACNIC. La instalación
+`fresh` usa autenticación local de la aplicación (`APP`) y no depende de PAI.
 
-El sistema está desarrollado en Java usando el framework Wicket de Apache.
+## Tecnologías
 
-A continuación un detalle de las tecnologías utilizadas:
-- Plataforma: Java 8
-- Servidor de aplicaciones: Wildfly 20.0.1
-- Base de datos: PostgreSQL 12
-- Framework Web: Apache Wicket 8.10.0
+- Java 17
+- Apache Wicket
+- WildFly 34
+- PostgreSQL
+- Docker como forma vigente de instanciación
 
+## Arranque rápido
 
-## Instalación y Configuración
+Para evaluar el sistema desde una base vacía, sin depender de PAI (el servicio
+histórico de autenticación del portal de LACNIC) ni de un servidor SMTP
+externo:
 
-Puede consultar la guía de Instalación y Configuración [aquí](https://lacnic.github.io/elections-open-source-doc).
+Requisitos: Git (o descargar el ZIP de la rama), Docker en ejecución con
+Docker Compose v2 y Bash. No es necesario instalar Java, Maven, Ruby ni Python
+en el equipo; la primera compilación requiere acceso a Internet.
 
-Documento de post-instalación [aquí](postinst.md).
+```bash
+git clone --branch develop-v3-snapshot --single-branch https://github.com/LACNIC/elections-open-source.git
+cd elections-open-source
+cp dockers/.env.example dockers/.env
+```
+
+1. Preparar [`dockers/.env`](dockers/.env.example) con la copia del ejemplo anterior.
+2. Cambiar las contraseñas, el usuario y correo del administrador inicial, el
+   nombre de la organización y la URL pública.
+3. Ejecutar `./dockers/docker-fresh.sh up`.
+4. Abrir `http://localhost:8098/elections/login` e ingresar con
+   `FRESH_ADMIN_USER` y `FRESH_ADMIN_PASSWORD`.
+5. Consultar la documentación incluida en
+   `http://localhost:8098/elections/documentacion/`.
+
+Los puertos predeterminados son 8098 (aplicación), 8025 (Mailpit) y 54329
+(PostgreSQL). Si están ocupados, cambie los puertos en `dockers/.env` y
+ajuste `FRESH_PUBLIC_BASE_URL` al puerto o dominio elegido.
+Mailpit captura los correos localmente; no los entrega a destinatarios externos.
+El perfil fresh es para evaluación. Para producción configure TLS, SMTP real y
+credenciales propias siguiendo la guía Docker.
+
+`./dockers/docker-fresh.sh down` detiene la instancia y conserva los datos.
+El administrador y los datos iniciales se crean solo cuando el volumen está vacío:
+cambiar `FRESH_ADMIN_*` después no modifica una cuenta existente.
+
+Este flujo crea PostgreSQL, carga el esquema y datos base, crea el primer
+administrador local y captura los correos en Mailpit. Para un despliegue con
+base externa, TLS, SMTP real y persistencia administrada, siga la
+[`guía Docker completa`](dockers/DOCKER.md).
+
+## Documentación
+
+- [`doc/ReleaseNotes.md`](doc/ReleaseNotes.md)
+- [`doc/compatibilidad-historica.md`](doc/compatibilidad-historica.md)
+- [`postinst.md`](postinst.md)
+- [`dockers/DOCKER.md`](dockers/DOCKER.md)
+- [`doc/manual.html`](doc/manual.html)
+- [`doc/security-access.html`](doc/security-access.html)
+- [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- [`SECURITY.md`](SECURITY.md)
+
+Los esquemas de referencia y las migraciones versionadas se mantienen en
+[`release-files`](release-files/); el perfil Docker autocontenido consume esos
+archivos para inicializar una base nueva.
 
 ## Licencia
 
-El sistema está licenciado bajo [Licencia MIT](LICENSE).
-
-## Release notes
-
-Consulte las Release notes [aquí](doc/ReleaseNotes.md)
+Este repositorio se publica bajo [Licencia MIT](LICENSE).

@@ -1,0 +1,77 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="feedback"></div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="candidateSupportsTitle"><wicket:message key="candidateSupportsTitle">Apoyos del candidato</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="border rounded p-3 mb-4">
+						<h6 class="mb-3"><wicket:message key="candidateSupportsCandidateSummary">Detalle del candidato</wicket:message></h6>
+						<div><strong><wicket:message key="candidateSupportsCandidateName" />:</strong> <span wicket:id="candidateName" data-testid="candidateName"></span></div>
+						<div><strong><wicket:message key="candidateSupportsCandidateId" />:</strong> <span wicket:id="candidateId" data-testid="candidateId"></span></div>
+						<div><strong><wicket:message key="candidateSupportsCandidateMail" />:</strong> <span wicket:id="candidateMail" data-testid="candidateMail"></span></div>
+						<div><strong><wicket:message key="candidateSupportsCandidateStatus" />:</strong> <span wicket:id="candidateStatus" data-testid="candidateStatus"></span></div>
+						<div><strong><wicket:message key="candidateSupportsOrganizationTask" />:</strong> <span wicket:id="organizationSupportTaskStatus" data-testid="organizationSupportTaskStatus"></span></div>
+						<div><strong><wicket:message key="candidateSupportsUserTwoTask" />:</strong> <span wicket:id="userSupportTwoTaskStatus" data-testid="userSupportTwoTaskStatus"></span></div>
+						<div><strong><wicket:message key="candidateSupportsUserFiveTask" />:</strong> <span wicket:id="userSupportFiveTaskStatus" data-testid="userSupportFiveTaskStatus"></span></div>
+					</div>
+
+					<div class="table-responsive mb-4">
+						<table class="table table-hover align-middle mb-0">
+							<thead class="table-light">
+								<tr>
+									<th><wicket:message key="candidateSupportsColumnId" /></th>
+									<th><wicket:message key="candidateSupportsColumnType" /></th>
+									<th><wicket:message key="candidateSupportsColumnParty" /></th>
+									<th><wicket:message key="candidateSupportsColumnStatus" /></th>
+									<th><wicket:message key="candidateSupportsColumnResponseDate" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr wicket:id="supports" data-testid="candidateSupportRow">
+									<td wicket:id="supportId" data-testid="supportId"></td>
+									<td wicket:id="supportType" data-testid="supportType"></td>
+									<td wicket:id="supportParty" data-testid="supportParty"></td>
+									<td wicket:id="supportStatus" data-testid="supportStatus"></td>
+									<td wicket:id="supportResponseDate" data-testid="supportResponseDate"></td>
+								</tr>
+							</tbody>
+						</table>
+						<div wicket:id="noSupports" data-testid="noSupports" class="text-muted p-3"></div>
+					</div>
+
+					<div wicket:id="rejectionUnavailable" data-testid="rejectionUnavailable" class="alert alert-info"></div>
+					<form wicket:id="correctionForm" data-testid="supportCorrectionForm" class="border rounded p-3 row g-3">
+						<div class="col-12">
+							<h6><wicket:message key="candidateSupportsCorrectionTitle">Administrar apoyo</wicket:message></h6>
+							<div class="form-text"><wicket:message key="candidateSupportsCorrectionHelp" /></div>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="candidateSupportSelection"><wicket:message key="candidateSupportsSelectionLabel" /></label>
+							<select wicket:id="selectedSupport" id="candidateSupportSelection" data-testid="selectedSupport" class="form-select"></select>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="candidateSupportComment"><wicket:message key="candidateSupportsCommentLabel" /></label>
+							<textarea wicket:id="correctionComment" id="candidateSupportComment" data-testid="correctionComment" class="form-control" rows="5"></textarea>
+						</div>
+						<div class="col-12 form-check ms-2">
+							<input wicket:id="correctionConfirmed" id="candidateSupportConfirmation" data-testid="correctionConfirmed" class="form-check-input" type="checkbox">
+							<label class="form-check-label" for="candidateSupportConfirmation"><wicket:message key="candidateSupportsConfirmationLabel" /></label>
+						</div>
+						<div class="col-12 d-flex flex-wrap gap-2 justify-content-end">
+							<button wicket:id="rejectSupport" data-testid="rejectSupport" type="submit" class="btn btn-danger"><wicket:message key="candidateSupportsRejectButton" /></button>
+							<button wicket:id="approveSupport" data-testid="approveSupport" type="submit" class="btn btn-success"><wicket:message key="candidateSupportsApproveButton" /></button>
+							<button wicket:id="returnToProposal" data-testid="returnToProposal" type="submit" class="btn btn-outline-primary"><wicket:message key="candidateSupportsReturnButton" /></button>
+						</div>
+					</form>
+
+					<div class="d-flex justify-content-end mt-3">
+						<a wicket:id="back" data-testid="back" class="btn btn-light"><wicket:message key="candidateSupportsBack" /></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

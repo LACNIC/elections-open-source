@@ -4,10 +4,19 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 import net.lacnic.elections.utils.LinksUtils;
-
 
 @Entity
 public class UserVoter implements Serializable {
@@ -21,7 +30,7 @@ public class UserVoter implements Serializable {
 	private long userVoterId;
 
 	@Column(nullable = true, name = "migration_id")
-	private Long  migrationId;
+	private Long migrationId;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "election_id")
@@ -51,6 +60,9 @@ public class UserVoter implements Serializable {
 	@Column(nullable = true)
 	private String orgID;
 
+	@Column(nullable = true, name = "orgname", length = 1000)
+	private String orgName;
+
 	@Column(nullable = true)
 	private Date voteDate;
 
@@ -64,23 +76,27 @@ public class UserVoter implements Serializable {
 	@Transient
 	private String codesSummary;
 
-
-	public UserVoter() { }
-
+	public UserVoter() {
+		// Intencionalmente vacio: JPA lo requiere para materializar la entidad.
+	}
 
 	public String getVoterInformation() {
 		return getName().concat((getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "");
 	}
 
 	public String getCompleteVoterInformation() {
-		String email= (getMail() != null && !getMail().isEmpty()) ? " (" + getMail() + ") " : "";
-		String orgid= (getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "";
-		String country= (getCountry() != null && !getCountry().isEmpty()) ? " - " + getCountry() : "";
+		String email = (getMail() != null && !getMail().isEmpty()) ? " (" + getMail() + ") " : "";
+		String orgid = (getOrgID() != null && !getOrgID().isEmpty()) ? " - " + getOrgID() : "";
+		String country = (getCountry() != null && !getCountry().isEmpty()) ? " - " + getCountry() : "";
 		return getName().concat(email + orgid + country);
 	}
 
 	public String getVoteLink() {
 		return LinksUtils.buildVoteLink(voteToken);
+	}
+
+	public String getTokenVoteLink() {
+		return LinksUtils.buildTokenVoteLink(voteToken);
 	}
 
 	public void setCodesSummary(List<Vote> votes) {
@@ -90,7 +106,6 @@ public class UserVoter implements Serializable {
 		}
 		this.codesSummary = aux;
 	}
-
 
 	public long getUserVoterId() {
 		return userVoterId;
@@ -165,11 +180,24 @@ public class UserVoter implements Serializable {
 	}
 
 	public String getLanguage() {
-		return language;
+		LanguageCode languageCode = getLanguageEnum();
+		return languageCode != null ? languageCode.getCode() : null;
 	}
 
 	public void setLanguage(String language) {
-		this.language = language;
+		if (language == null || language.trim().isEmpty()) {
+			this.language = null;
+			return;
+		}
+		this.language = LanguageCode.fromValueOrDefault(language, LanguageCode.SP).getCode();
+	}
+
+	public LanguageCode getLanguageEnum() {
+		return LanguageCode.fromValue(language);
+	}
+
+	public void setLanguageEnum(LanguageCode languageCode) {
+		this.language = languageCode != null ? languageCode.getCode() : null;
 	}
 
 	public String getOrgID() {
@@ -180,6 +208,14 @@ public class UserVoter implements Serializable {
 
 	public void setOrgID(String orgID) {
 		this.orgID = orgID;
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
 
 	public Date getVoteDate() {

@@ -10,6 +10,7 @@ public class DateTimeUtils {
 	public static final String ELECTION_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm";
 	public static final String ELECTION_DATE_FORMAT = "dd/MM/yyyy";
 	public static final String ELECTION_TIME_FORMAT = "HH:mm";
+	public static final String UTC_SUFFIX = " (UTC)";
 
 
 	public static String getTableServicesDateTimeString(Date dateTime) {

@@ -1,0 +1,75 @@
+<wicket:panel>
+	<div class="col-lg-12">
+		<div class="card">
+			<div class="card-header">
+				<h5 data-testid="mailTemplListTitle"><wicket:message key="mailTemplListTitle">Lista de Plantillas Base para E-mails</wicket:message></h5>
+			</div>
+			<div class="card-body">
+				<form wicket:id="filterForm" class="row g-3 align-items-end mb-4">
+					<div class="col-lg-3 col-md-6">
+						<label class="form-label" for="recipientFilterInput"><wicket:message key="mailTemplFilterRecipientLabel">Tipo de destinatario</wicket:message></label>
+						<select wicket:id="recipientFilterInput" id="recipientFilterInput" class="form-select" data-testid="recipientFilterInput"></select>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<label class="form-label" for="electionScopeFilterInput"><wicket:message key="mailTemplFilterElectionScopeLabel">Tipo de elección</wicket:message></label>
+						<select wicket:id="electionScopeFilterInput" id="electionScopeFilterInput" class="form-select" data-testid="electionScopeFilterInput"></select>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<label class="form-label" for="languageModeFilterInput"><wicket:message key="mailTemplFilterLanguageModeLabel">Idiomas</wicket:message></label>
+						<select wicket:id="languageModeFilterInput" id="languageModeFilterInput" class="form-select" data-testid="languageModeFilterInput"></select>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<label class="form-label" for="sendModeFilterInput"><wicket:message key="mailTemplFilterSendModeLabel">Modo de envío</wicket:message></label>
+						<select wicket:id="sendModeFilterInput" id="sendModeFilterInput" class="form-select" data-testid="sendModeFilterInput"></select>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<label class="form-label" for="templateTypeFilterInput"><wicket:message key="mailTemplFilterTemplateTypeLabel">Template</wicket:message></label>
+						<input wicket:id="templateTypeFilterInput" id="templateTypeFilterInput" type="text" class="form-control" data-testid="templateTypeFilterInput"/>
+					</div>
+					<div class="col-lg-3 col-md-6 d-flex gap-2">
+						<button wicket:id="applyFilterButton" type="submit" class="btn btn-primary" data-testid="applyFilterButton"><wicket:message key="mailTemplFilterButton">Filtrar</wicket:message></button>
+						<button wicket:id="clearFilterButton" type="submit" class="btn btn-light" data-testid="clearFilterButton"><wicket:message key="mailTemplFilterClearButton">Limpiar</wicket:message></button>
+					</div>
+				</form>
+				<div wicket:id="emailTemplatesEmpty" class="alert alert-info" data-testid="emailTemplatesEmpty">
+					<wicket:message key="mailTemplFilterEmpty">No hay templates que coincidan con los filtros.</wicket:message>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-striped align-middle mb-0">
+						<thead class="table-light">
+							<tr>
+								<th class="text-center"><wicket:message key="mailTemplListType" /></th>
+								<th class="text-center"><wicket:message key="mailTemplListMailEsp" /></th>
+								<th class="text-center"><wicket:message key="mailTemplListMailEng" /></th>
+								<th class="text-center"><wicket:message key="mailTemplListMailPor" /></th>
+								<th class="text-center"><wicket:message key="mailTemplListActions" /></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="emailTemplatesList" data-testid="emailTemplatesList" name="emailTemplatesList">
+								<td class="text-center"><span wicket:id="templateType" data-testid="templateType"></span></td>
+								<td class="text-left">
+									<p><b><wicket:message key="mailTemplListSubject" />&nbsp;</b><span wicket:id="subjectSP" data-testid="subjectSP"></span></p>
+									<p><b><wicket:message key="mailTemplListBody" />&nbsp;</b><span wicket:id="bodySP" data-testid="bodySP"></span></p>
+								</td>
+								<td class="text-left">
+									<p><b><wicket:message key="mailTemplListSubject" />&nbsp;</b><span wicket:id="subjectEN" data-testid="subjectEN"></span></p>
+									<p><b><wicket:message key="mailTemplListBody" />&nbsp;</b><span wicket:id="bodyEN" data-testid="bodyEN"></span></p>
+								</td>
+								<td class="text-left">
+									<p><b><wicket:message key="mailTemplListSubject" />&nbsp;</b><span wicket:id="subjectPT" data-testid="subjectPT"></span></p>
+									<p><wicket:message key="mailTemplListBody" />&nbsp;<span wicket:id="bodyPT" data-testid="bodyPT"></span></p>
+								</td>
+								<td class="text-center vcenter">
+										<a wicket:id="editTemplate" data-testid="editTemplate" wicket:message="title:mailTemplListEdit,aria-label:mailTemplListEdit" class="text-primary ti ti-pencil fs-28 m-r-sm"></a>
+										<a wicket:id="forceTemplate" data-testid="forceTemplate" wicket:message="title:mailTemplListForce,aria-label:mailTemplListForce" class="text-warning ti ti-refresh fs-28 m-r-sm"></a>
+										<a wicket:id="sendEmail" data-testid="sendEmail" wicket:message="title:mailTemplListSendMail,aria-label:mailTemplListSendMail" class="text-success ti ti-send fs-28 m-r-sm"></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

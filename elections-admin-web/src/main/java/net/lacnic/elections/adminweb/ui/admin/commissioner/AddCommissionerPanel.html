@@ -1,0 +1,24 @@
+<wicket:panel>
+	<div class="card" data-testid="add-commissioner-card">
+		<div class="card-header" data-testid="add-commissioner-card-header">
+			<h5 id="commissionerAddTitle" data-testid="add-commissioner-title"><wicket:message key="commissionerAddTitle" /></h5>
+		</div>
+		<div class="card-body" data-testid="add-commissioner-card-body">
+			<form wicket:id="formCommissioner" data-testid="add-commissioner-form">
+				<div class="row g-3 align-items-end" data-testid="add-commissioner-form-row">
+					<div class="col-md-3" data-testid="add-commissioner-name-field-group">
+						<label class="form-label" for="addCommissionerName" data-testid="add-commissioner-name-label"><wicket:message key="commissionerAddName">commissionerAddName</wicket:message></label>
+						<input type="text" id="addCommissionerName" class="form-control" wicket:id="name" data-testid="add-commissioner-name-input" />
+					</div>
+					<div class="col-md-5" data-testid="add-commissioner-mail-field-group">
+						<label class="form-label" for="addCommissionerMail" data-testid="add-commissioner-mail-label"><wicket:message key="commissionerAddMail">commissionerAddMail</wicket:message></label>
+						<input type="email" id="addCommissionerMail" class="form-control" wicket:id="mail" data-testid="add-commissioner-mail-input" />
+					</div>
+					<div class="col-md-3 d-grid" data-testid="add-commissioner-submit-group">
+						<button class="btn btn-primary" id="addCommissioner" type="submit" wicket:id="add" data-testid="add-commissioner-submit-button"><wicket:message key="commissionerAddBtnAdd" /></button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>

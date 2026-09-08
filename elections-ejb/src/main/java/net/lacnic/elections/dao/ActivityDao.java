@@ -1,13 +1,13 @@
 package net.lacnic.elections.dao;
 
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.Activity;
-
+import net.lacnic.elections.domain.ActivityType;
 
 public class ActivityDao {
 
@@ -30,7 +30,7 @@ public class ActivityDao {
 
 	public List<Activity> getElectionActivities(long electionId) {
 		TypedQuery<Activity> q = em.createQuery("SELECT a FROM Activity a WHERE a.electionId = :electionId ORDER BY a.timestamp DESC", Activity.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 
@@ -40,6 +40,20 @@ public class ActivityDao {
 		q.setMaxResults(pageSize);
 		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
+	}
+
+	public long countCandidateTextImprovementAttemptsSince(long candidateId, Date sinceDate) {
+		TypedQuery<Long> query = em.createQuery(
+				"SELECT COUNT(a) FROM Activity a "
+						+ "WHERE a.activityType = :activityType "
+						+ "AND a.timestamp >= :sinceDate "
+						+ "AND a.description LIKE :descriptionMarker",
+				Long.class);
+		query.setParameter("activityType", ActivityType.EDIT_CANDIDATES);
+		query.setParameter("sinceDate", sinceDate);
+		query.setParameter("descriptionMarker", "%candidateId=" + candidateId + ", aiTextImprovementAttempt=true%");
+		Long result = query.getSingleResult();
+		return result == null ? 0L : result.longValue();
 	}
 
 }

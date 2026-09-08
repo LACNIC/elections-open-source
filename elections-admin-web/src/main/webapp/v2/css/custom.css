@@ -1,0 +1,174 @@
+@font-face {
+	font-family: "tabler-icons";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/elections/v2/css/fonts/tabler-icons.woff2?v3.33.0") format("woff2"),
+		url("/elections/v2/css/fonts/tabler-icons.woff?v3.33.0") format("woff"),
+		url("/elections/v2/css/fonts/tabler-icons.ttf?v3.33.0") format("truetype");
+}
+
+html {
+	font-size: 110%;
+}
+
+.summary-card .card-body {
+	display: flex;
+	flex-direction: column;
+	min-height: 190px;
+}
+
+.summary-card-desc {
+	margin-top: auto;
+}
+
+.candidate-photo-sepia {
+	filter: sepia(0.95);
+}
+
+.vote-candidate-photo {
+	width: 72px;
+	height: 72px;
+	object-fit: cover;
+	object-position: center;
+}
+
+.vote-candidate-card {
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.vote-candidate-card:hover {
+	border-color: rgba(var(--bs-primary-rgb), 0.45);
+	box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+}
+
+.vote-candidate-card > a.card-body {
+	color: inherit;
+}
+
+.text-assistance-btn {
+	font-size: 0.75rem;
+	position: relative;
+}
+
+.text-assistance-btn.is-loading {
+	pointer-events: none;
+	opacity: 0.85;
+	padding-right: 1.8rem;
+}
+
+.text-assistance-btn.is-loading::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 0.6rem;
+	width: 0.85rem;
+	height: 0.85rem;
+	border: 0.12rem solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	transform: translateY(-50%);
+	animation: text-assistance-btn-spin 0.7s linear infinite;
+}
+
+@keyframes text-assistance-btn-spin {
+	to {
+		transform: translateY(-50%) rotate(360deg);
+	}
+}
+
+/* Legacy on/off switch used in admin forms. */
+.onoffswitch {
+	position: relative;
+	display: inline-block;
+	width: 54px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	flex-shrink: 0;
+}
+
+.onoffswitch-checkbox {
+	display: none;
+}
+
+.onoffswitch-label {
+	display: block;
+	overflow: hidden;
+	cursor: pointer;
+	border: 2px solid #1ab394;
+	border-radius: 3px;
+	margin-bottom: 0;
+}
+
+.onoffswitch-inner {
+	display: block;
+	width: 200%;
+	margin-left: -100%;
+	-moz-transition: margin 0.3s ease-in 0s;
+	-webkit-transition: margin 0.3s ease-in 0s;
+	-o-transition: margin 0.3s ease-in 0s;
+	transition: margin 0.3s ease-in 0s;
+}
+
+.onoffswitch-inner:before,
+.onoffswitch-inner:after {
+	display: block;
+	float: left;
+	width: 50%;
+	height: 16px;
+	padding: 0;
+	line-height: 16px;
+	font-size: 10px;
+	color: #fff;
+	font-family: Trebuchet, Arial, sans-serif;
+	font-weight: bold;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.onoffswitch-inner:before {
+	content: "ON";
+	padding-left: 7px;
+	background-color: #1ab394;
+	color: #fff;
+}
+
+.onoffswitch-inner:after {
+	content: "OFF";
+	padding-right: 7px;
+	background-color: #fff;
+	color: #919191;
+	text-align: right;
+}
+
+.onoffswitch-switch {
+	display: block;
+	width: 18px;
+	margin: 0;
+	background: #fff;
+	border: 2px solid #1ab394;
+	border-radius: 3px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 36px;
+	-moz-transition: all 0.3s ease-in 0s;
+	-webkit-transition: all 0.3s ease-in 0s;
+	-o-transition: all 0.3s ease-in 0s;
+	transition: all 0.3s ease-in 0s;
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+	margin-left: 0;
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+	right: 0;
+}
+
+/* App topbar must never render a bottom border. */
+.app-topbar .topbar-menu {
+	border-bottom: 0 !important;
+}

@@ -2,10 +2,9 @@ package net.lacnic.elections.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class Parameter implements Serializable {
@@ -15,12 +14,12 @@ public class Parameter implements Serializable {
 	@Id
 	private String key;
 
-	@Column(columnDefinition="TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String value;
 
-
-	public Parameter() { }
-
+	public Parameter() {
+		// Intencionalmente vacio: JPA lo requiere para materializar la entidad.
+	}
 
 	public String getKey() {
 		return key;

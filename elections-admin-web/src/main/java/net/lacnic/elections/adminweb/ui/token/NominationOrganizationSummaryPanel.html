@@ -1,0 +1,73 @@
+<wicket:panel>
+	<div data-testid="nomination-org-summary-topbar-slot">
+		<div class="row">
+			<div class="col-12">
+				<article class="card card-out-of-container border-top-0" data-testid="nomination-org-card">
+						<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+									<div class="d-flex justify-content-start align-items-center flex-grow-1" data-testid="nominationOrganizationNameContainer">
+										<div class="ms-2">
+											<h2 class="text-muted fw-bold mb-1" data-testid="nominationOrganizationNameTitle"><span wicket:id="orgId" data-testid="orgId">ORG-ID</span> - <span wicket:id="orgName" data-testid="orgName">Nombre de la organización</span></h2>
+											<p class="text-muted mb-1" data-testid="nominationOrganizationDataLabel">
+												<wicket:message key="nominationOrgIdInlineLabel" />
+											</p>
+											<span wicket:id="restrictedCountriesLinkContainer" data-testid="restrictedCountriesLinkContainer" class="d-inline-block">
+												<a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#restricted-countries-modal"
+													data-testid="restricciones">
+													<i class="ti ti-alert-hexagon me-1"></i>
+													<wicket:message key="nominationRestrictedCountriesOpenButton">Restricciones en esta elección</wicket:message>
+												</a>
+											</span>
+										</div>
+									</div>
+									<div class="text-muted text-end me-2" data-testid="membershipContactContainer">
+										<div class="fw-semibold mb-1"><wicket:message key="nominationMembershipIdLabel" /> <span wicket:id="membershipContactId" data-testid="membershipContactId"></span></div>
+										<div><span wicket:id="membershipContactName" data-testid="membershipContactName"></span></div>
+										<div><span wicket:id="membershipContactEmail" data-testid="membershipContactEmail"></span></div>
+									</div>
+								</div>
+					</div>
+				</article>
+			</div>
+		</div>
+
+		<div wicket:id="restrictedCountriesModalContainer" data-testid="restrictedCountriesModalContainer">
+			<div id="restricted-countries-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="restricted-countries-modal-label" aria-hidden="true"
+				data-testid="restricted-countries-modal">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title text-danger" id="restricted-countries-modal-label" data-testid="nominationRestrictedCountriesModalTitle">
+								<wicket:message key="nominationRestrictedCountriesModalTitle">Restricciones por país</wicket:message>
+							</h4>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-testid="nominationRestrictedCountriesModalCloseIcon"></button>
+						</div>
+							<div class="modal-body">
+								<p class="mb-4">
+									<span wicket:id="restrictedCountriesSummary" data-testid="restrictedCountriesSummary"></span>
+								</p>
+
+							<div class="row g-3 justify-content-center">
+								<div wicket:id="restrictedCountries" data-testid="restrictedCountries" class="col-6 col-md-4 col-lg-3">
+									<div class="text-center">
+										<div class="d-flex align-items-center justify-content-center bg-light rounded border border-danger-subtle p-2" style="min-height: 132px;">
+											<img wicket:id="countryFlag" data-testid="countryFlag" class="img-fluid rounded shadow-sm border border-danger border-3" style="max-height: 116px;">
+											<div wicket:id="countryFallbackName" data-testid="countryFallbackName"
+												class="d-none d-flex align-items-center justify-content-center text-center fw-semibold text-danger w-100 h-100 p-2"></div>
+										</div>
+										<div class="mt-2 fw-semibold" wicket:id="countryName" data-testid="countryName" data-country-label="true"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light" data-bs-dismiss="modal" data-testid="nominationRestrictedCountriesModalAcknowledgeButton">
+								<wicket:message key="nominationRestrictedCountriesModalCloseButton" />
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

@@ -1,0 +1,137 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Gestion de elecciones: alta y configuracion base" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia resume el flujo vigente para crear una eleccion, completar su detalle base y ajustar la configuracion operativa disponible en la pantalla de configuracion. El contenido fue contrastado contra la UI administrativa Wicket, el dominio <code>Election</code>, los presets por tipo y la logica EJB que persiste la eleccion en <code>v3.0</code>.</p>
+
+				<h2>{{ "Flujo general" }}</h2>
+				<ul class="paragraph">
+					<li>La alta se inicia desde la opcion <b>Nueva eleccion</b> del menu administrativo, montada en <code>/admin/election/create</code>.</li>
+					<li>Al guardar una eleccion nueva, el sistema persiste la entidad, crea templates de email, agrega como auditores a todos los commissioners existentes y aplica el preset asociado al tipo de eleccion.</li>
+					<li>Despues del alta, la navegacion continua en <b>Convocatoria</b>. Desde las tabs de gestion tambien quedan disponibles <b>Detalle</b>, <b>Organizaciones</b>, <b>Padron</b>, <b>Calendario</b>, <b>Tareas</b>, <b>Candidatos</b> y <b>Auditores</b>.</li>
+					<li>La edicion de detalle solo se habilita para elecciones existentes y no cerradas. Si la eleccion ya esta cerrada, la UI deriva a la pantalla de error de eleccion cerrada.</li>
+				</ul>
+
+				<h2>{{ "Alta inicial de la eleccion" }}</h2>
+				<ul class="paragraph">
+					<li><b>Categoria:</b> las opciones visibles dependen de los roles del usuario. Un manager o un usuario con roles estatutarios y no estatutarios ve todas las categorias; un usuario solo estatutario ve solo <code>STATUTORY</code>; un usuario solo no estatutario ve <code>MODERATORS</code>, <code>OTHER</code> y <code>TEST</code>.</li>
+					<li><b>Tipo de eleccion:</b> la entidad nueva arranca en <code>BOARD</code>. Este campo define el preset inicial de calendario, tareas y banderas manuales.</li>
+					<li><b>Recuperacion de enlaces:</b> es obligatoria. En el alta, al cambiar el tipo la UI recalcula automaticamente el valor por defecto: <code>ONLY_BR</code> para <code>BOARD</code>, <code>ELECTORAL_COMMISSION</code> y <code>FISCAL_COMMISSION</code>; <code>ALL</code> para <code>IANA</code>, <code>MODERATORS</code>, <code>ASO</code> y <code>OTHER</code>.</li>
+					<li><b>Curso de Campus:</b> es opcional. Con autenticacion local <code>WS_AUTH_METHOD=APP</code>, la integracion queda deshabilitada: no se realizan solicitudes, el selector queda sin opciones y no se muestra un error de conexion. Solo el modo de autenticacion externa intenta cargar cursos mediante <code>CampusClient.getCourses()</code>.</li>
+					<li><b>Paises restringidos:</b> se agregan uno por uno y quedan listados como chips removibles. Antes de guardar, la eleccion normaliza esos codigos hacia <code>ElectionRestrictedCountry</code>.</li>
+					<li><b>Modo solo espanol:</b> una eleccion nueva arranca con <code>onlySp=true</code>. En ese modo se ocultan los campos EN/PT y, al guardar, el sistema copia titulo, descripcion y link de espanol hacia ingles y portugues.</li>
+					<li><b>Titulos:</b> el titulo en espanol es obligatorio; ingles y portugues tambien lo son cuando la eleccion no esta en modo solo espanol. Todos tienen maximo de 1000 caracteres.</li>
+					<li><b>Descripciones:</b> la descripcion en espanol es obligatoria; ingles y portugues tambien lo son cuando se trabaja en modo multilenguaje. Todas tienen maximo de 2000 caracteres.</li>
+					<li><b>Links informativos:</b> el link en espanol es obligatorio y la pantalla lo precarga con el website por defecto del sistema. Ingles y portugues se exigen cuando la eleccion no esta en modo solo espanol. Todos validan formato URL.</li>
+					<li><b>Diferencia UTC:</b> es obligatoria y la UI solo acepta valores entre <code>0</code> y <code>12</code>. Una eleccion nueva arranca con <code>3</code>.</li>
+					<li><b>Vacantes:</b> es obligatorio informar <code>maxCandidates</code>; el rango admitido es <code>1..100</code>.</li>
+					<li><b>Remitente y receptor por defecto:</b> ambos son obligatorios en la UI. En la alta se precargan con los defaults del manager bean y, si igualmente llegan vacios al EJB, el backend vuelve a completar esos defaults antes de persistir.</li>
+					<li><b>Correos autorizados:</b> <code>authorizedUserEmails</code>, <code>authorizedSupportEmails</code> y <code>authorizedNominateEmails</code> son opcionales. Deben ingresarse separados por coma, sin valores vacios y con formato de email valido.</li>
+				</ul>
+
+				<h2>{{ "Preset aplicado por tipo" }}</h2>
+				<p class="paragraph">El preset se aplica solo en la creacion. Si la eleccion ya tiene calendario o tareas, el backend no vuelve a regenerarlos. Ademas, las etapas con fecha por defecto se crean a las <code>18:00 UTC</code>, dos dias despues de la creacion; las tareas se ubican por defecto en <code>N_2</code>, salvo <b>Evaluacion</b>, que se crea en <code>N_6</code>.</p>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Tipo</th>
+							<th>Organizaciones</th>
+							<th>Padron</th>
+							<th>Tareas base</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>BOARD</code></td>
+							<td>Automaticas</td>
+							<td>Automatico</td>
+							<td>Perfil, Paises, Incompatibilidades, Capacitacion, Apoyos por organizacion, Organizaciones, Preguntas estatutarias, Declaraciones y Evaluacion.</td>
+						</tr>
+						<tr>
+							<td><code>ELECTORAL_COMMISSION</code></td>
+							<td>Automaticas</td>
+							<td>Automatico</td>
+							<td>Igual a Board, pero sin Capacitacion ni Evaluacion.</td>
+						</tr>
+						<tr>
+							<td><code>FISCAL_COMMISSION</code></td>
+							<td>Automaticas</td>
+							<td>Automatico</td>
+							<td>Igual a Electoral Commission.</td>
+						</tr>
+						<tr>
+							<td><code>MODERATORS</code></td>
+							<td>Automaticas</td>
+							<td>Manual</td>
+							<td>Perfil, Paises, Incompatibilidades, Apoyos por contacto (2), Preguntas no estatutarias, Organizaciones y Declaraciones (n.e).</td>
+						</tr>
+						<tr>
+							<td><code>IANA</code></td>
+							<td>Automaticas</td>
+							<td>Manual</td>
+							<td>Igual a Moderators; las declaraciones (n.e) agregan el bloque especifico de IANA.</td>
+						</tr>
+						<tr>
+							<td><code>ASO</code></td>
+							<td>Automaticas</td>
+							<td>Manual</td>
+							<td>Igual a IANA, pero con apoyos por contacto (5) y el bloque especifico de ASO.</td>
+						</tr>
+						<tr>
+							<td><code>OTHER</code></td>
+							<td>Manual</td>
+							<td>Manual</td>
+							<td>Perfil, Paises, Incompatibilidades, Preguntas no estatutarias, Organizaciones y Declaraciones.</td>
+						</tr>
+					</tbody>
+				</table>
+				<p class="paragraph">El formulario publico de nominacion se controla globalmente con <code>PUBLIC_NOMINATION_ENABLED</code>. Con <code>true</code> queda disponible para cualquier tipo, incluido <code>OTHER</code>; con <code>false</code> se deshabilita. Si el parametro falta o queda vacio, se conserva la compatibilidad anterior y solo se permite para <code>IANA</code> y <code>ASO</code>. En todos los casos, el periodo <code>N_2_PERIODO_CALL_FOR_CANDIDATES</code> debe estar abierto.</p>
+
+				<h2>{{ "Edicion de detalle" }}</h2>
+				<ul class="paragraph">
+					<li>La pantalla de detalle reutiliza casi todos los campos del alta y agrega <b>Gestionar votantes manualmente</b>, <b>Gestionar organizaciones manualmente</b> y <b>Token publico de la eleccion</b>.</li>
+					<li>Las banderas <code>manageVotersManual</code> y <code>manageOrganizationsManual</code> son consumidas por las pantallas de padron y organizaciones para mostrar o esconder acciones manuales de alta, edicion y borrado.</li>
+					<li><code>publicElectionToken</code> se usa como token publico generico para enlaces e integraciones. La entidad nueva lo genera automaticamente, pero en detalle puede editarse.</li>
+					<li>En edicion, la categoria visible sigue dependiendo del rol del usuario. Si el usuario actual esta incluido en <code>authorizedUserEmails</code>, la UI le permite ver todas las categorias para esa eleccion puntual.</li>
+					<li><b>Importante:</b> cambiar el tipo en esta pantalla no reaplica el preset de creacion. El backend solo hace <code>merge</code> de la eleccion existente: no regenera calendario, no recrea tareas y la UI tampoco recalcula automaticamente <code>publicLinkRecoveryMode</code>. Si cambia el tipo, ajuste manualmente la configuracion derivada.</li>
+					<li><code>authorizedUserEmails</code> permite acceso a la eleccion aunque el usuario no tenga el rol de categoria correspondiente.</li>
+					<li><code>authorizedSupportEmails</code> se usa en el flujo de apoyos a nominacion para restringir los correos de contacto autorizados.</li>
+					<li><code>authorizedNominateEmails</code> se usa en el formulario de nominacion para restringir los correos de las personas que pueden ser nominadas.</li>
+				</ul>
+
+				<h2>{{ "Pantalla de configuracion" }}</h2>
+				<p class="paragraph">La configuracion operativa esta en <code>/admin/election/config</code>. Una eleccion nueva arranca con todos los links publicos y operativos en estado habilitado. En la implementacion actual, estos switches se usan como <b>corte manual</b>: el calendario electoral sigue siendo quien define la ventana real de acceso.</p>
+				<ul class="paragraph">
+					<li><b>Link de votacion:</b> permite bloquear manualmente el acceso aunque el periodo de votacion este abierto.</li>
+					<li><b>Link de resultado:</b> permite cerrar manualmente el acceso a resultados aunque el calendario los publique.</li>
+					<li><b>Link de auditoria:</b> permite bloquear manualmente el acceso de auditoria.</li>
+					<li><b>Link de nominar candidatos:</b> corta manualmente el acceso de nominacion de organizaciones.</li>
+					<li><b>Link de tareas de nominacion:</b> corta manualmente el acceso al flujo de tareas del candidato.</li>
+					<li><b>Link de apoyo a nominacion:</b> corta manualmente el acceso al soporte de nominaciones.</li>
+					<li><b>Link de portal publico:</b> corta manualmente el acceso al portal publico de la eleccion.</li>
+					<li><b>Solicitud de revision:</b> habilita a los auditores de esa eleccion a permitir que administradores de la organizacion visualicen el detalle de votos.</li>
+					<li><b>Cierre de la eleccion:</b> es irreversible. El cierre elimina el vinculo entre votante y candidato elegido, pero conserva los resultados agregados y el registro de votantes. El boton solo aparece cuando el backend indica que la eleccion puede cerrarse.</li>
+				</ul>
+
+				<h2>{{ "Modulos siguientes" }}</h2>
+				<p class="paragraph">Despues del detalle base, la gestion operativa continua por organizaciones, padron, calendario, tareas y candidaturas. Estas guias ya cubren los modulos relevados en detalle hasta ahora.</p>
+				<ul class="paragraph">
+					<li><b>Organizaciones:</b> cargue, sincronice y mantenga organizaciones desde <a href="{{site.baseurl}}/organizations.html">esta guia</a>.</li>
+					<li><b>Padron:</b> cargue, sincronice y mantenga votantes desde <a href="{{site.baseurl}}/census.html">esta guia</a>.</li>
+					<li><b>Calendario y tareas:</b> configure etapas, hitos publicables, dependencias y orden de tareas desde <a href="{{site.baseurl}}/calendar-tasks.html">esta guia</a>.</li>
+					<li><b>Candidaturas y nominaciones:</b> gestione altas manuales, nominaciones desde organizaciones, apoyos y publicacion desde <a href="{{site.baseurl}}/candidates.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionCreateDashboard</code>, <code>ElectionCreatePanel</code>, <code>ElectionDetailDashboard</code>, <code>ElectionDetailPanel</code>, <code>ElectionConfigurationDashboard</code>, <code>ManageElectionTabsPanel</code>, <code>ElectionsListPanel</code>, <code>SecurityUtils</code>, <code>AuthorizedUserEmailsValidator</code>, <code>AuthorizedSupportContactEmailValidator</code>, <code>Election</code>, <code>ElectionLinkRecoveryMode</code>, <code>ElectionPresetConfigurations</code> y <code>ElectionsManagerEJBBean.updateElection</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

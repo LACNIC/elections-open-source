@@ -1,0 +1,30 @@
+<wicket:panel>
+	<div class="card">
+		<div class="card-header">
+			<h5 data-testid="uniteElecEditTitle"><wicket:message key="uniteElecEditTitle">Unir Elecciones</wicket:message></h5>
+		</div>
+		<div class="card-body">
+			<form wicket:id="editJointElectionsForm" data-testid="editJointElectionsForm">
+				<div class="row g-3 align-items-end">
+					<div class="col-md-2">
+						<label class="form-label"><wicket:message key="uniteElecEditElec1" /></label>
+					</div>
+					<div class="col-md-4">
+						<select class="form-select" id="electionA" wicket:id="electionA" data-testid="electionA"></select>
+					</div>
+					<div class="col-md-2">
+						<label class="form-label"><wicket:message key="uniteElecEditElec2" /></label>
+					</div>
+					<div class="col-md-4">
+						<select class="form-select" id="electionB" wicket:id="electionB" data-testid="electionB"></select>
+					</div>
+					<div class="col-12 text-center">
+						<button class="btn btn-primary" id="addButton" type="submit" wicket:id="add" data-testid="add">
+							<wicket:message key="uniteElecEditBtnAdd" />
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>

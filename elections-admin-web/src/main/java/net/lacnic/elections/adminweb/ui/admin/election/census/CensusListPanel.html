@@ -1,0 +1,92 @@
+<wicket:panel>
+	<div class="card">
+		<div class="card-header">
+			<div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-2">
+				<h5 class="card-title mb-0" data-testid="censusManagementUserListTitle"><wicket:message key="censusManagementUserListTitle" /></h5>
+				<a wicket:id="exportCensus" data-testid="exportCensus" class="btn btn-outline-primary btn-sm" wicket:message="title:censusManagementUserListBtnExp">
+					<i class="ti ti-download me-1"></i><wicket:message key="censusManagementUserListBtnExp" />
+				</a>
+			</div>
+		</div>
+		<div class="card-body">
+			<p class="text-muted fs-5 mb-3">
+				<wicket:message key="censusManagementSummaryListedLabel" />: <strong wicket:id="summaryListedCount" data-testid="summaryListedCount"></strong> |
+				<wicket:message key="censusManagementSummaryVotedLabel" />: <strong wicket:id="summaryVotedCount" data-testid="summaryVotedCount"></strong> |
+				<wicket:message key="censusManagementSummaryPendingLabel" />: <strong wicket:id="summaryPendingCount" data-testid="summaryPendingCount"></strong> |
+				<wicket:message key="censusManagementSummaryVoteAmountLabel" />: <strong wicket:id="summaryVoteAmountCount" data-testid="summaryVoteAmountCount"></strong>
+			</p>
+			<form wicket:id="filterForm" data-testid="filterForm" class="row g-2 mb-3 align-items-end">
+					<div class="col-12 col-xl-4">
+						<label class="form-label mb-1 fw-semibold" for="censusFilterInput"><wicket:message key="censusManagementListFilterSearchLabel">censusManagementListFilterSearchLabel</wicket:message></label>
+						<input type="text" id="censusFilterInput" wicket:id="censusFilterInput" data-testid="censusFilterInput" class="form-control" wicket:message="placeholder:censusManagementListFilterPlaceholder" />
+					</div>
+					<div class="col-6 col-md-4 col-xl-2">
+						<label class="form-label mb-1 fw-semibold" for="countryFilterInput"><wicket:message key="organizationsManagementCountryLabel">organizationsManagementCountryLabel</wicket:message></label>
+						<select wicket:id="countryFilterInput" id="countryFilterInput" data-testid="countryFilterInput" class="form-select"></select>
+					</div>
+					<div class="col-6 col-md-4 col-xl-1">
+						<label class="form-label mb-1 fw-semibold" for="votesFilterInput"><wicket:message key="organizationsManagementVotesLabel">organizationsManagementVotesLabel</wicket:message></label>
+						<select wicket:id="votesFilterInput" id="votesFilterInput" data-testid="votesFilterInput" class="form-select"></select>
+					</div>
+					<div class="col-6 col-md-4 col-xl-1">
+						<label class="form-label mb-1 fw-semibold" for="languageFilterInput"><wicket:message key="organizationsManagementListFilterLanguageLabel">organizationsManagementListFilterLanguageLabel</wicket:message></label>
+						<select wicket:id="languageFilterInput" id="languageFilterInput" data-testid="languageFilterInput" class="form-select"></select>
+					</div>
+					<div class="col-6 col-md-4 col-xl-1">
+						<label class="form-label mb-1 fw-semibold" for="votedFilterInput"><wicket:message key="censusManagementUserListColVoted">censusManagementUserListColVoted</wicket:message></label>
+						<select wicket:id="votedFilterInput" id="votedFilterInput" data-testid="votedFilterInput" class="form-select"></select>
+					</div>
+				<div class="col-12 col-lg-auto">
+					<div class="d-flex gap-2 flex-nowrap">
+						<button type="submit" wicket:id="applyFilterButton" data-testid="applyFilterButton" class="btn btn-primary"><wicket:message key="organizationsManagementListFilterBtnApply" /></button>
+						<button type="submit" wicket:id="clearFilterButton" data-testid="clearFilterButton" class="btn btn-light" wicket:message="title:organizationsManagementListFilterBtnClear">
+							<wicket:message key="organizationsManagementListFilterBtnClear" />
+						</button>
+					</div>
+				</div>
+			</form>
+			<div wicket:id="censusEmpty" data-testid="censusEmpty" class="alert alert-light border text-muted py-2 mb-3">
+				<wicket:message key="censusManagementListEmpty" />
+			</div>
+			<div class="table-responsive">
+				<table class="table table-hover align-middle mb-0">
+						<thead class="table-light">
+							<tr>
+								<th wicket:id="deleteHeader" data-testid="deleteHeader"><wicket:message key="organizationsManagementDeleteLabel" /></th>
+								<th><wicket:message key="censusManagementUserListColOrgId" /></th>
+								<th><wicket:message key="censusManagementUserListColOrgName" /></th>
+								<th><wicket:message key="censusManagementUserListColName" /></th>
+								<th><wicket:message key="censusManagementUserListColVotAm" /></th>
+								<th><wicket:message key="censusManagementUserListColCoun" /></th>
+								<th><wicket:message key="censusManagementUserListColLang" /></th>
+								<th><wicket:message key="censusManagementUserListColVoted" /></th>
+								<th wicket:id="editHeader" data-testid="editHeader"><wicket:message key="censusManagementUserListColEdit" /></th>
+								<th><wicket:message key="censusManagementUserListColRen" /></th>
+								<th><wicket:message key="censusManagementUserListColLink" /></th>
+								<th><wicket:message key="censusManagementUserListColMail" /></th>
+						</tr>
+					</thead>
+						<tbody>
+							<tr wicket:id="userVotersList" data-testid="userVotersList" id="userVotersList">
+								<td wicket:id="removeUserCell" data-testid="removeUserCell"><div wicket:id="removeUser" data-testid="removeUser"></div></td>
+								<td wicket:id="orgId" data-testid="orgId">[orgId]</td>
+								<td wicket:id="orgName" data-testid="orgName">[orgName]</td>
+								<td><span wicket:id="name" data-testid="name"></span> <span wicket:id="mail" data-testid="mail"></span></td>
+								<td wicket:id="voteAmount" data-testid="voteAmount">[voteAmount]</td>
+								<td wicket:id="country" data-testid="country">[country]</td>
+								<td wicket:id="language" data-testid="language">[language]</td>
+								<td wicket:id="voted" data-testid="voted">[voted]</td>
+									<td wicket:id="editUserVoterCell" data-testid="editUserVoterCell"><a wicket:message="title:censusManagementUserListColEdit,aria-label:censusManagementUserListColEdit" class="text-primary ti ti-pencil fs-28 m-r-sm" wicket:id="editUserVoter" data-testid="editUserVoter"></a></td>
+								<td><div wicket:id="updateToken" data-testid="updateToken"></div></td>
+								<td><span wicket:id="viewLinkButton" data-testid="viewLinkButton"></span></td>
+								<td><span wicket:id="resendLink" data-testid="resendLink"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="d-flex justify-content-center mt-3">
+				<div wicket:id="censusPagerBottom" data-testid="censusPagerBottom"></div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

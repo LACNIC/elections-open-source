@@ -1,0 +1,61 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+		<div class="card-header d-flex justify-content-between align-items-center gap-2">
+			<h4 class="card-title mb-0" data-testid="países_vinculados">Países vinculados</h4>
+			<span wicket:id="completionBadge" data-testid="completionBadge" class="badge bg-warning-subtle text-warning">Pendiente</span>
+		</div>
+		<div class="card-body">
+			<div wicket:id="primaryCountrySection" data-testid="primaryCountrySection">
+				<h5 class="text-uppercase text-muted fw-semibold mb-2" data-testid="país_principal">País que representa en esta elección</h5>
+				<div class="border rounded p-3 mb-3" wicket:id="primaryCountryRows" data-testid="primaryCountryRows">
+					<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+						<div class="d-flex align-items-center flex-wrap gap-2">
+							<h5 class="mb-0" wicket:id="countryLabel" data-testid="país">País</h5>
+							<span wicket:id="restrictedCountryBadge" data-testid="restrictedCountryBadge" class="badge bg-danger-subtle text-danger border border-danger-subtle">Este país tiene limitaciones en esta elección.</span>
+						</div>
+						<span wicket:id="primaryBadge" data-testid="primaryBadge" class="badge bg-light-subtle text-muted border">Tipo</span>
+					</div>
+					<div class="row mt-2 gy-2">
+						<div class="col-md-6">
+							<p class="mb-1"><span class="fw-semibold">Ciudadano:</span> <span wicket:id="qCitizen" data-testid="qCitizen">-</span></p>
+							<p class="mb-1"><span class="fw-semibold">Residencia +5 años:</span> <span wicket:id="qResidenceOver5y" data-testid="qResidenceOver5y">-</span></p>
+							<p class="mb-1"><span class="fw-semibold">Trabajo/asesoría +5 años:</span> <span wicket:id="qLongEmploymentOrAdvisory5y" data-testid="qLongEmploymentOrAdvisory5y">-</span></p>
+						</div>
+						<div class="col-md-6">
+							<p class="mb-1"><span class="fw-semibold">Familia +5 años:</span> <span wicket:id="qFamilyResidenceOver5y" data-testid="qFamilyResidenceOver5y">-</span></p>
+							<p class="mb-1"><span class="fw-semibold">Participación comunidad Internet:</span> <span wicket:id="qInternetCommunityOrgParticipation" data-testid="qInternetCommunityOrgParticipation">-</span></p>
+							<p class="mb-1"><span class="fw-semibold">Elegible ciudadanía:</span> <span wicket:id="qEligibleForCitizenship" data-testid="qEligibleForCitizenship">-</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div wicket:id="secondaryCountrySection" data-testid="secondaryCountrySection">
+				<h5 class="text-uppercase text-muted fw-semibold mb-2" data-testid="otros_países_vincula">Otros países vinculados</h5>
+				<div class="border rounded p-3 mb-3" wicket:id="secondaryCountryRows" data-testid="secondaryCountryRows">
+					<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+						<div class="d-flex align-items-center flex-wrap gap-2">
+							<h5 class="mb-0" wicket:id="countryLabel" data-testid="país">País</h5>
+							<span wicket:id="restrictedCountryBadge" data-testid="restrictedCountryBadge" class="badge bg-danger-subtle text-danger border border-danger-subtle">Este país tiene limitaciones en esta elección.</span>
+						</div>
+						<span wicket:id="primaryBadge" data-testid="primaryBadge" class="badge bg-light-subtle text-muted border">Tipo</span>
+					</div>
+					<div class="row mt-2 gy-2">
+						<div class="col-md-6">
+							<p class="mb-1"><span class="fw-semibold">Ciudadano:</span> <span wicket:id="qCitizen" data-testid="qCitizen">-</span></p>
+							<p class="mb-1"><span class="fw-semibold">Residencia +5 años:</span> <span wicket:id="qResidenceOver5y" data-testid="qResidenceOver5y">-</span></p>
+							<p class="mb-1"><span class="fw-semibold">Trabajo/asesoría +5 años:</span> <span wicket:id="qLongEmploymentOrAdvisory5y" data-testid="qLongEmploymentOrAdvisory5y">-</span></p>
+						</div>
+						<div class="col-md-6">
+							<p class="mb-1"><span class="fw-semibold">Familia +5 años:</span> <span wicket:id="qFamilyResidenceOver5y" data-testid="qFamilyResidenceOver5y">-</span></p>
+							<p class="mb-1"><span class="fw-semibold">Participación comunidad Internet:</span> <span wicket:id="qInternetCommunityOrgParticipation" data-testid="qInternetCommunityOrgParticipation">-</span></p>
+							<p class="mb-1"><span class="fw-semibold">Elegible ciudadanía:</span> <span wicket:id="qEligibleForCitizenship" data-testid="qEligibleForCitizenship">-</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div wicket:id="noRegionalCitizenshipWarning" data-testid="noRegionalCitizenshipWarning" class="alert alert-warning py-2 px-3 mb-3">No es ciudadano de ningún país de la región.</div>
+			<p class="text-muted mb-0">Si no hay países visibles, la candidatura no reportó vínculos.</p>
+		</div>
+	</div>
+</wicket:panel>

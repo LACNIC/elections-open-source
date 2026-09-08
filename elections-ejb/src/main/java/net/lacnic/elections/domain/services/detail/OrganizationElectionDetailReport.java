@@ -3,7 +3,6 @@ package net.lacnic.elections.domain.services.detail;
 import java.io.Serializable;
 
 import net.lacnic.elections.domain.Election;
-import net.lacnic.elections.utils.DateTimeUtils;
 
 
 public class OrganizationElectionDetailReport implements Serializable {
@@ -25,8 +24,8 @@ public class OrganizationElectionDetailReport implements Serializable {
 		this.electionTitleEN = election.getTitleEnglish();
 		this.electionTitleES = election.getTitleSpanish();
 		this.electionTitleSP = election.getTitlePortuguese();
-		this.startDate = DateTimeUtils.getTableServicesDateTimeString(election.getStartDate());
-		this.endDate = DateTimeUtils.getTableServicesDateTimeString(election.getEndDate());
+		this.startDate = election.getVotingPeriodStartDateString();
+		this.endDate = election.getVotingPeriodEndDateString();
 	}
 
 

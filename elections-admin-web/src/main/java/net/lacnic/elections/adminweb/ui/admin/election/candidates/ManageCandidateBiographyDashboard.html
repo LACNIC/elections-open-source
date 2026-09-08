@@ -1,0 +1,57 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="feedback"></div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0"><wicket:message key="candidateBiographyTitle" /></h5>
+				</div>
+				<div class="card-body">
+					<div class="border rounded p-3 mb-4">
+						<h6 class="mb-3"><wicket:message key="candidateBiographySummaryTitle" /></h6>
+						<div><strong><wicket:message key="candidateStatusCandidateName" />:</strong> <span wicket:id="candidateName" data-testid="candidateName"></span></div>
+						<div><strong><wicket:message key="candidateStatusCandidateId" />:</strong> <span wicket:id="candidateId" data-testid="candidateId"></span></div>
+						<div><strong><wicket:message key="candidateStatusCandidateMail" />:</strong> <span wicket:id="candidateMail" data-testid="candidateMail"></span></div>
+					</div>
+					<p class="text-muted mb-4"><wicket:message key="candidateBiographyHelp" /></p>
+
+					<form wicket:id="biographyForm" data-testid="biographyForm" class="row g-3">
+						<div class="col-md-4">
+							<label class="form-label" for="candidateBiographyCandidateName"><wicket:message key="candidateManagementName">candidateManagementName</wicket:message></label>
+							<input wicket:id="editableCandidateName" id="candidateBiographyCandidateName" data-testid="editableCandidateName" type="text" class="form-control" maxlength="255">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="candidateBiographyCandidateMail"><wicket:message key="candidateManagementMail">candidateManagementMail</wicket:message></label>
+							<input wicket:id="editableCandidateMail" id="candidateBiographyCandidateMail" data-testid="editableCandidateMail" type="email" class="form-control" maxlength="255">
+						</div>
+						<div class="col-md-4">
+							<label class="form-label" for="candidateBiographyCandidateLinkedinUrl"><wicket:message key="candidateManagementLinkedin">candidateManagementLinkedin</wicket:message></label>
+							<input wicket:id="editableCandidateLinkedinUrl" id="candidateBiographyCandidateLinkedinUrl" data-testid="editableCandidateLinkedinUrl" type="text" class="form-control" maxlength="1000">
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="candidateBiographyBioSpanish"><wicket:message key="candidateManagementBioEsp">candidateManagementBioEsp</wicket:message></label>
+							<textarea wicket:id="bioSpanish" id="candidateBiographyBioSpanish" data-testid="bioSpanish" class="form-control" style="min-height: 200px" maxlength="3000"></textarea>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="candidateBiographyBioEnglish"><wicket:message key="candidateManagementBioEng">candidateManagementBioEng</wicket:message></label>
+							<textarea wicket:id="bioEnglish" id="candidateBiographyBioEnglish" data-testid="bioEnglish" class="form-control" style="min-height: 200px" maxlength="3000"></textarea>
+						</div>
+						<div class="col-12">
+							<label class="form-label" for="candidateBiographyBioPortuguese"><wicket:message key="candidateManagementBioPor">candidateManagementBioPor</wicket:message></label>
+							<textarea wicket:id="bioPortuguese" id="candidateBiographyBioPortuguese" data-testid="bioPortuguese" class="form-control" style="min-height: 200px" maxlength="3000"></textarea>
+						</div>
+						<div class="col-12 d-flex flex-wrap justify-content-end gap-2">
+							<a wicket:id="cancel" data-testid="cancel" class="btn btn-light"><wicket:message key="candidateBiographyCancel" /></a>
+							<div wicket:id="aiActionsContainer" class="d-flex flex-wrap gap-2">
+								<button wicket:id="spellcheckBiographies" data-testid="spellcheckBiographies" type="submit" class="btn btn-light"><wicket:message key="textAssistanceSpellingButton" /></button>
+								<button wicket:id="translateToPortugueseFromSpanish" data-testid="translateToPortugueseFromSpanish" type="submit" class="btn btn-light"><wicket:message key="candidateBiographyTranslateToPortugueseFromSpanishButton" /></button>
+								<button wicket:id="translateToEnglishFromSpanish" data-testid="translateToEnglishFromSpanish" type="submit" class="btn btn-light"><wicket:message key="candidateBiographyTranslateToEnglishFromSpanishButton" /></button>
+							</div>
+							<button wicket:id="save" data-testid="save" type="submit" class="btn btn-primary"><wicket:message key="candidateBiographySave" /></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

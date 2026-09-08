@@ -1,0 +1,31 @@
+<wicket:panel>
+	<form wicket:id="form" data-testid="form">
+		<div class="mb-3">
+			<label for="username" class="form-label"><wicket:message key="username" /></label>
+			<div class="input-group">
+				<input wicket:id="username" data-testid="username" id="username" type="text" class="form-control" wicket:message="placeholder:username">
+			</div>
+		</div>
+		<div class="mb-3">
+			<label for="password" class="form-label"><wicket:message key="password" /></label>
+			<div class="input-group">
+				<input wicket:id="password" data-testid="password" id="password" type="password" class="form-control" wicket:message="placeholder:password">
+			</div>
+		</div>
+		<div class="mb-3">
+			<label for="totp" class="form-label"><wicket:message key="twoFactorCode" /></label>
+			<div class="input-group">
+				<input wicket:id="totp" data-testid="totp" id="totp" type="text" inputmode="numeric" autocomplete="one-time-code" class="form-control" wicket:message="placeholder:twoFactorCode">
+			</div>
+		</div>
+		<div class="mb-3">
+			<div class="g-recaptcha" data-sitekey="" wicket:id="reCaptcha" data-testid="reCaptcha"></div>
+		</div>
+		<div class="d-grid">
+			<button wicket:id="submit" data-testid="submit" id="loginButton" type="submit" class="btn btn-primary fw-semibold py-2">
+				<wicket:message key="login" />
+			</button>
+		</div>
+	</form>
+	<script wicket:message="src:jsrecaptcha"></script>
+</wicket:panel>

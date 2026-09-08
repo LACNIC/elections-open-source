@@ -1015,29 +1015,29 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 	color: #cacaca;
 }
 
-.btn-grey {
+.btn-light {
 	background-color: #c2c2c2;
 	border-color: #c2c2c2;
 	color: #FFFFFF;
 }
 
-.btn-grey:hover, .btn-grey:focus, .btn-grey:active, .btn-grey.active,
-	.open .dropdown-toggle.btn-grey {
+.btn-light:hover, .btn-light:focus, .btn-light:active, .btn-light.active,
+	.open .dropdown-toggle.btn-light {
 	background-color: #b9b9b9;
 	border-color: #b9b9b9;
 	color: #FFFFFF;
 }
 
-.btn-grey:active, .btn-grey.active, .open .dropdown-toggle.btn-grey {
+.btn-light:active, .btn-light.active, .open .dropdown-toggle.btn-light {
 	background-image: none;
 }
 
-.btn-grey.disabled, .btn-grey.disabled:hover, .btn-grey.disabled:focus,
-	.btn-grey.disabled:active, .btn-grey.disabled.active, .btn-grey[disabled],
-	.btn-grey[disabled]:hover, .btn-grey[disabled]:focus, .btn-grey[disabled]:active,
-	.btn-grey.active[disabled], fieldset[disabled] .btn-grey, fieldset[disabled] .btn-grey:hover,
-	fieldset[disabled] .btn-grey:focus, fieldset[disabled] .btn-grey:active,
-	fieldset[disabled] .btn-grey.active {
+.btn-light.disabled, .btn-light.disabled:hover, .btn-light.disabled:focus,
+	.btn-light.disabled:active, .btn-light.disabled.active, .btn-light[disabled],
+	.btn-light[disabled]:hover, .btn-light[disabled]:focus, .btn-light[disabled]:active,
+	.btn-light.active[disabled], fieldset[disabled] .btn-light, fieldset[disabled] .btn-light:hover,
+	fieldset[disabled] .btn-light:focus, fieldset[disabled] .btn-light:active,
+	fieldset[disabled] .btn-light.active {
 	background-color: #c2c2c2;
 	border-color: #c2c2c2;
 }

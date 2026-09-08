@@ -1,0 +1,106 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedback" data-testid="feedback" class="col-md-12"></div>
+		<div class="col-md-12">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="prevDestTitle"><wicket:message key="prevDestTitle">Preview de destinatarios</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<div wicket:id="auditorsContainer" data-testid="auditorsContainer">
+							<label><wicket:message key="prevDestCant" /></label><span wicket:id="quantity" data-testid="quantity"></span>
+							<table class="table dataTables">
+								<thead class="jumbotron">
+									<tr>
+										<th><wicket:message key="prevDestDel" /></th>
+										<th><wicket:message key="prevDestName" /></th>
+										<th><wicket:message key="prevDestMail" /></th>
+										<th><wicket:message key="prevDestLang" /></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr wicket:id="auditorsRecipientList" data-testid="auditorsRecipientList">
+											<td><a wicket:id="remove" data-testid="remove" class="ti ti-x fs-2 text-danger" wicket:message="title:prevDestDelTit,aria-label:prevDestDelTit"></a></td>
+										<td wicket:id="name" data-testid="name"></td>
+										<td wicket:id="email" data-testid="email"></td>
+										<td><span><wicket:message key="prevDestSP" /></span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div wicket:id="votersContainer" data-testid="votersContainer">
+							<label><wicket:message key="prevDestCant" /></label> <span wicket:id="quantity" data-testid="quantity"></span>
+							<table class="table dataTables">
+								<thead class="jumbotron">
+									<tr>
+										<th><wicket:message key="prevDestDel" /></th>
+										<th><wicket:message key="prevDestName" /></th>
+										<th><wicket:message key="prevDestMail" /></th>
+										<th><wicket:message key="prevDestCountry" /></th>
+										<th><wicket:message key="prevDestLang" /></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr wicket:id="votersRecipientList" data-testid="votersRecipientList">
+											<td><a wicket:id="remove" data-testid="remove" class="ti ti-x fs-2 text-danger" wicket:message="title:prevDestDelTit,aria-label:prevDestDelTit"></a></td>
+										<td wicket:id="name" data-testid="name"></td>
+										<td wicket:id="email" data-testid="email"></td>
+										<td wicket:id="country" data-testid="country"></td>
+										<td wicket:id="language" data-testid="language"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div wicket:id="organizationsContainer" data-testid="organizationsContainer">
+							<label><wicket:message key="prevDestCant" /></label> <span wicket:id="quantity" data-testid="quantity"></span>
+							<table class="table dataTables">
+								<thead class="jumbotron">
+									<tr>
+										<th><wicket:message key="prevDestDel" /></th>
+										<th><wicket:message key="prevDestName" /></th>
+										<th><wicket:message key="prevDestOrgId" /></th>
+										<th><wicket:message key="prevDestMail" /></th>
+										<th><wicket:message key="prevDestCountry" /></th>
+										<th><wicket:message key="prevDestLang" /></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr wicket:id="organizationsRecipientList" data-testid="organizationsRecipientList">
+											<td><a wicket:id="remove" data-testid="remove" class="ti ti-x fs-2 text-danger" wicket:message="title:prevDestDelTit,aria-label:prevDestDelTit"></a></td>
+										<td wicket:id="name" data-testid="name"></td>
+										<td wicket:id="orgId" data-testid="orgId"></td>
+										<td wicket:id="email" data-testid="email"></td>
+										<td wicket:id="country" data-testid="country"></td>
+										<td wicket:id="language" data-testid="language"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<div class="text-center">
+						<button class="btn btn-light " wicket:id="cancel" data-testid="cancel" name="cancel"><wicket:message key="prevDestBtnCanc" /></button>
+						<button class="btn btn-primary btn-2x" wicket:id="send" data-testid="send" name="send"><wicket:message key="prevDestBtnEnv" /></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.dataTables').dataTable({
+				"pageLength" : 15,
+				"responsive" : 'true',
+				"dom" : '<"top"f>rt<"bottom"p><"clear">',
+				"language" : {
+					"sSearch" : "Filter:",
+					"oPaginate" : {
+						"sNext" : ">",
+						"sPrevious" : "<"
+					}
+				}
+			});
+		});
+	</script>
+</wicket:extend>

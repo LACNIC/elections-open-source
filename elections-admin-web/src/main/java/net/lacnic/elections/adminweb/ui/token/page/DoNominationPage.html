@@ -1,0 +1,55 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<div class="row mt-3">
+		<div class="col-12">
+			<div wicket:id="feedbackPanel" data-testid="nomination-feedback-panel"></div>
+		</div>
+	</div>
+	<div wicket:id="nominationFormPanel" data-testid="nominationFormPanel"></div>
+
+	<div class="row justify-content-center" data-testid="do-nomination-state-card">
+		<div class="col-xl-8">
+			<div wicket:id="nominationStateCard" data-testid="nominationStateCard" class="card mb-3">
+				<div class="card-header" wicket:id="nominationStateHeader" data-testid="nominationStateHeader">
+					<h4 class="card-title mb-0" wicket:id="nominationStateTitle" data-testid="nominationStateTitle">Estado de la nominación</h4>
+				</div>
+				<div class="card-body">
+					<p class="mb-0" wicket:id="nominationStateBody" data-testid="nominationStateBody"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row justify-content-center" wicket:id="nominationTableCard" data-testid="do-nomination-table-card">
+		<div class="col-xl-8">
+			<div class="card mb-3">
+				<div class="card-header">
+					<h4 class="card-title mb-0" data-testid="doNominationTableTitle"><wicket:message key="doNominationTableTitle">Nominación registrada</wicket:message></h4>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-hover align-middle mb-0">
+							<thead class="bg-light bg-opacity-25 thead-sm">
+								<tr class="text-uppercase fs-xxs">
+									<th><wicket:message key="doNominationTableColId" /></th>
+									<th><wicket:message key="doNominationTableColDate" /></th>
+									<th><wicket:message key="doNominationTableColName" /></th>
+									<th><wicket:message key="doNominationTableColEmail" /></th>
+									<th><wicket:message key="doNominationTableColStatus" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td wicket:id="nominationTableId" data-testid="nominationTableId"></td>
+									<td wicket:id="nominationTableDate" data-testid="nominationTableDate"></td>
+									<td wicket:id="nominationTableName" data-testid="nominationTableName"></td>
+									<td wicket:id="nominationTableEmail" data-testid="nominationTableEmail"></td>
+									<td wicket:id="nominationTableStatus" data-testid="nominationTableStatus"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

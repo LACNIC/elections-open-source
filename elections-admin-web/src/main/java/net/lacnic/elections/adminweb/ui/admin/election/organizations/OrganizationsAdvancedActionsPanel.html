@@ -1,0 +1,101 @@
+<wicket:panel>
+	<div class="mt-4">
+		<div class="card border border-danger mb-3">
+			<div class="card-header bg-danger-subtle border-danger">
+				<h6 class="card-title mb-0 text-danger">
+					<wicket:message key="advancedOptionsTitle" /> - <wicket:message key="organizationsManagementAdvancedZoneTitle" />
+				</h6>
+			</div>
+			<div class="card-body">
+				<p class="text-muted mb-3"><wicket:message key="organizationsManagementAdvancedDescription" /></p>
+				<div wicket:id="blockedReasonContainer" data-testid="blockedReasonContainer" class="alert alert-warning py-2 px-3 mb-3">
+					<span wicket:id="blockedReasonText" data-testid="blockedReasonText"></span>
+				</div>
+				<div class="row g-3 align-items-start">
+					<div class="col-12 col-lg-10">
+						<p class="mb-1 fw-semibold"><wicket:message key="organizationsManagementAdvancedDebtorMirrorTitle" /></p>
+						<p class="mb-1 text-muted small"><wicket:message key="organizationsManagementAdvancedDebtorMirrorSubtitle" /></p>
+						<p class="mb-0 text-muted"><wicket:message key="organizationsManagementAdvancedDebtorMirrorDescription" /></p>
+					</div>
+					<div class="col-12 col-lg-2 d-grid">
+						<span wicket:id="debtorMirrorAction" data-testid="debtorMirrorAction" class="d-grid gap-2">
+							<a wicket:id="debtorMirrorAskLink" data-testid="debtorMirrorAskLink" class="btn btn-outline-danger btn-sm" wicket:message="title:organizationsManagementAdvancedDebtorMirrorDescription">
+								<wicket:message key="organizationsManagementAdvancedDebtorMirrorButton" />
+							</a>
+							<span wicket:id="debtorMirrorConfirmContainer" data-testid="debtorMirrorConfirmContainer" class="d-grid gap-2">
+								<a wicket:id="debtorMirrorConfirmLink" data-testid="debtorMirrorConfirmLink" class="btn btn-success btn-sm"><wicket:message key="confirmButton" /></a>
+								<a wicket:id="debtorMirrorCancelLink" data-testid="debtorMirrorCancelLink" class="btn btn-light btn-sm"><wicket:message key="cancelButton" /></a>
+							</span>
+						</span>
+						<button wicket:id="debtorMirrorDisabledButton" data-testid="debtorMirrorDisabledButton" type="button" class="btn btn-outline-secondary btn-sm" disabled wicket:message="title:organizationsManagementAdvancedDebtorMirrorDescription">
+							<wicket:message key="organizationsManagementAdvancedDebtorMirrorButton" />
+						</button>
+					</div>
+				</div>
+				<hr class="my-3">
+				<div class="row g-3 align-items-start">
+					<div class="col-12 col-lg-10">
+						<p class="mb-1 fw-semibold"><wicket:message key="organizationsManagementAdvancedRegenerateNominationTitle" /></p>
+						<p class="mb-0 text-muted"><wicket:message key="organizationsManagementAdvancedRegenerateNominationDescription" /></p>
+					</div>
+					<div class="col-12 col-lg-2 d-grid">
+						<span wicket:id="regenerateNominationAction" data-testid="regenerateNominationAction" class="d-grid gap-2">
+							<a wicket:id="regenerateNominationAskLink" data-testid="regenerateNominationAskLink" class="btn btn-outline-danger btn-sm" wicket:message="title:organizationsManagementAdvancedRegenerateNominationDescription">
+								<wicket:message key="organizationsManagementAdvancedRegenerateNominationButton" />
+							</a>
+							<span wicket:id="regenerateNominationConfirmContainer" data-testid="regenerateNominationConfirmContainer" class="d-grid gap-2">
+								<a wicket:id="regenerateNominationConfirmLink" data-testid="regenerateNominationConfirmLink" class="btn btn-success btn-sm"><wicket:message key="confirmButton" /></a>
+								<a wicket:id="regenerateNominationCancelLink" data-testid="regenerateNominationCancelLink" class="btn btn-light btn-sm"><wicket:message key="cancelButton" /></a>
+							</span>
+						</span>
+						<button wicket:id="regenerateNominationDisabledButton" data-testid="regenerateNominationDisabledButton" type="button" class="btn btn-outline-secondary btn-sm" disabled wicket:message="title:organizationsManagementAdvancedRegenerateNominationDescription">
+							<wicket:message key="organizationsManagementAdvancedRegenerateNominationButton" />
+						</button>
+					</div>
+				</div>
+				<hr class="my-3">
+				<div class="row g-3 align-items-start">
+					<div class="col-12 col-lg-10">
+						<p class="mb-1 fw-semibold"><wicket:message key="organizationsManagementAdvancedRegenerateSupportTitle" /></p>
+						<p class="mb-0 text-muted"><wicket:message key="organizationsManagementAdvancedRegenerateSupportDescription" /></p>
+					</div>
+					<div class="col-12 col-lg-2 d-grid">
+						<span wicket:id="regenerateSupportAction" data-testid="regenerateSupportAction" class="d-grid gap-2">
+							<a wicket:id="regenerateSupportAskLink" data-testid="regenerateSupportAskLink" class="btn btn-outline-danger btn-sm" wicket:message="title:organizationsManagementAdvancedRegenerateSupportDescription">
+								<wicket:message key="organizationsManagementAdvancedRegenerateSupportButton" />
+							</a>
+							<span wicket:id="regenerateSupportConfirmContainer" data-testid="regenerateSupportConfirmContainer" class="d-grid gap-2">
+								<a wicket:id="regenerateSupportConfirmLink" data-testid="regenerateSupportConfirmLink" class="btn btn-success btn-sm"><wicket:message key="confirmButton" /></a>
+								<a wicket:id="regenerateSupportCancelLink" data-testid="regenerateSupportCancelLink" class="btn btn-light btn-sm"><wicket:message key="cancelButton" /></a>
+							</span>
+						</span>
+						<button wicket:id="regenerateSupportDisabledButton" data-testid="regenerateSupportDisabledButton" type="button" class="btn btn-outline-secondary btn-sm" disabled wicket:message="title:organizationsManagementAdvancedRegenerateSupportDescription">
+							<wicket:message key="organizationsManagementAdvancedRegenerateSupportButton" />
+						</button>
+					</div>
+				</div>
+				<hr class="my-3">
+				<div class="row g-3 align-items-start">
+					<div class="col-12 col-lg-10">
+						<p class="mb-1 fw-semibold"><wicket:message key="organizationsManagementAdvancedDeleteTitle" /></p>
+						<p class="mb-0 text-muted"><wicket:message key="organizationsManagementAdvancedDeleteDescription" /></p>
+					</div>
+					<div class="col-12 col-lg-2 d-grid">
+						<span wicket:id="deleteAllAction" data-testid="deleteAllAction" class="d-grid gap-2">
+							<a wicket:id="deleteAllAskLink" data-testid="deleteAllAskLink" class="btn btn-outline-danger btn-sm" wicket:message="title:organizationsManagementAdvancedDeleteDescription">
+								<wicket:message key="organizationsManagementAdvancedDeleteButton" />
+							</a>
+							<span wicket:id="deleteAllConfirmContainer" data-testid="deleteAllConfirmContainer" class="d-grid gap-2">
+								<a wicket:id="deleteAllConfirmLink" data-testid="deleteAllConfirmLink" class="btn btn-success btn-sm"><wicket:message key="confirmButton" /></a>
+								<a wicket:id="deleteAllCancelLink" data-testid="deleteAllCancelLink" class="btn btn-light btn-sm"><wicket:message key="cancelButton" /></a>
+							</span>
+						</span>
+						<button wicket:id="deleteAllDisabledButton" data-testid="deleteAllDisabledButton" type="button" class="btn btn-outline-secondary btn-sm" disabled wicket:message="title:organizationsManagementAdvancedDeleteDescription">
+							<wicket:message key="organizationsManagementAdvancedDeleteButton" />
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

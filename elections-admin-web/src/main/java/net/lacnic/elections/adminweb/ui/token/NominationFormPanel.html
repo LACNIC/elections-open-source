@@ -1,0 +1,72 @@
+<wicket:panel>
+	<div class="row justify-content-center mt-3">
+		<div class="col-xl-8">
+			<div class="card" data-testid="nomination-form-card">
+				<div class="card-header">
+					<h4 class="card-title" data-testid="nominationFormTitlePrefix"><wicket:message key="nominationFormTitlePrefix">Formulario de postulación de candidatos a:</wicket:message> <span wicket:id="electionTitle" data-testid="electionTitle"></span></h4>
+				</div>
+				<div class="card-body">
+					<form wicket:id="nominationForm" data-testid="nomination-form">
+						<div class="row g-4 align-items-center">
+							<div class="col-sm-7 border-end border-dashed">
+								<div class="p-2">
+									<h4 class="mb-1 fw-bold text-uppercase" data-testid="nominationCandidateSectionTitle"><wicket:message key="nominationCandidateSectionTitle">Datos del candidato que se postula</wicket:message></h4>
+									<p class="text-muted mb-3"><wicket:message key="nominationCandidateSectionSubtitle" /></p>
+
+									<div class="mb-3">
+										<label for="candidateFullName" class="form-label"><wicket:message key="nominationCandidateFullNameLabel" /> <span class="text-danger">*</span></label>
+										<input wicket:id="candidateFullName" id="candidateFullName" type="text" class="form-control"
+											wicket:message="placeholder:nominationCandidateFullNamePlaceholder" data-testid="nomination-candidate-full-name-input">
+									</div>
+
+									<div class="mb-3">
+										<label for="candidateEmail" class="form-label"><wicket:message key="nominationCandidateEmailLabel" /> <span class="text-danger">*</span></label>
+										<input wicket:id="candidateEmail" id="candidateEmail" type="email" class="form-control"
+											wicket:message="placeholder:nominationCandidateEmailPlaceholder" data-testid="nomination-candidate-email-input">
+									</div>
+
+									<div class="mb-3">
+										<label class="form-label"><wicket:message key="nominationCandidatePhoneLabel" /> <span class="text-danger">*</span></label>
+										<div class="row g-2">
+											<div class="col-4">
+												<input wicket:id="candidatePhoneCountry" type="text" class="form-control"
+													wicket:message="placeholder:nominationCandidatePhoneCountryPlaceholder" data-testid="nomination-candidate-phone-country-input">
+											</div>
+											<div class="col-8">
+												<input wicket:id="candidatePhone" type="text" class="form-control"
+													wicket:message="placeholder:nominationCandidatePhonePlaceholder" data-testid="nomination-candidate-phone-input">
+											</div>
+										</div>
+									</div>
+
+									<div class="mb-4">
+										<label class="form-label"><wicket:message key="nominationCandidateReasonLabel" /> <span class="text-danger">*</span></label>
+										<div wicket:id="candidateReasonEditor"></div>
+									</div>
+
+									<div class="d-flex justify-content-end align-items-center">
+										<button wicket:id="submitNomination" class="btn btn-primary" type="submit" data-testid="nomination-submit-button">
+											<strong><wicket:message key="nominationSubmitButton" /></strong>
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-5">
+								<div class="text-center" data-testid="nomination-process-card">
+									<div class="avatar avatar-xl mx-auto">
+										<span class="avatar-title bg-primary-subtle text-primary rounded-circle fw-bold">
+											<i data-lucide="award" class="text-primary fs-28 fill-primary"></i>
+										</span>
+									</div>
+									<h4 class="mt-3" data-testid="nominationProcessTitle"><wicket:message key="nominationProcessTitle">Proceso de postulación</wicket:message></h4>
+									<p class="text-muted mb-3"><wicket:message key="nominationProcessSubtitle" /></p>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

@@ -2,10 +2,9 @@ package net.lacnic.elections.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class UserAdmin implements Serializable {
@@ -22,12 +21,14 @@ public class UserAdmin implements Serializable {
 	@Column(name = "email", columnDefinition = "text")
 	private String email;
 
-	@Column(name = "authorizedelection_id")
-	private Long authorizedElectionId;
+	public UserAdmin() {
+	}
 
-
-	public UserAdmin() { }
-
+	public UserAdmin(String userAdminId, String password, String email) {
+		setUserAdminId(userAdminId);
+		setPassword(password);
+		setEmail(email);
+	}
 
 	public String getUserAdminId() {
 		return userAdminId;
@@ -51,14 +52,6 @@ public class UserAdmin implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email.toLowerCase();
-	}
-
-	public Long getAuthorizedElectionId() {
-		return authorizedElectionId;
-	}
-
-	public void setAuthorizedElectionId(Long authorizedElectionId) {
-		this.authorizedElectionId = authorizedElectionId;
 	}
 
 }

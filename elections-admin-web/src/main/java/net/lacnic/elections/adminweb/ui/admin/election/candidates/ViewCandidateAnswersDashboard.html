@@ -1,0 +1,102 @@
+<wicket:extend>
+	<style>
+		.candidate-answers-compact {
+			font-size: 0.92rem;
+			line-height: 1.35;
+		}
+	</style>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="feedback"></div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="candidateAnswersTitle"><wicket:message key="candidateAnswersTitle">Ver respuestas del candidato</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="d-flex align-items-center mb-3">
+						<div class="me-3">
+							<img alt="image" class="rounded-circle candidate-photo-sepia" width="72" height="72" wicket:id="picture" data-testid="picture">
+						</div>
+						<div>
+							<h5 class="mb-1" wicket:id="candidateName" data-testid="candidateName">Nombre del candidato</h5>
+							<div class="text-muted candidate-answers-compact" wicket:id="candidateMail" data-testid="candidateMail"></div>
+							<div class="mt-1 candidate-answers-compact">
+								<strong><wicket:message key="candidateManagemenListViewCompletionLink" />:</strong>
+									<a wicket:id="nominationLink" data-testid="nominationLink" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateManagemenListViewCompletionLink"></a>
+								<span wicket:id="nominationLinkUnavailable" data-testid="nominationLinkUnavailable"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row g-3 mb-3">
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100 candidate-answers-compact">
+								<h6><wicket:message key="candidateAnswersLinksTitle">Links del candidato</wicket:message></h6>
+									<div><strong><wicket:message key="candidateProfileLinkSpanishLabel" />:</strong> <a wicket:id="candidateLinkSpanishLink" data-testid="candidateLinkSpanishLink" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateProfileLinkSpanishLabel"></a><span wicket:id="candidateLinkSpanishEmpty" data-testid="candidateLinkSpanishEmpty"></span></div>
+									<div><strong><wicket:message key="candidateProfileLinkEnglishLabel" />:</strong> <a wicket:id="candidateLinkEnglishLink" data-testid="candidateLinkEnglishLink" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateProfileLinkEnglishLabel"></a><span wicket:id="candidateLinkEnglishEmpty" data-testid="candidateLinkEnglishEmpty"></span></div>
+									<div><strong><wicket:message key="candidateProfileLinkPortugueseLabel" />:</strong> <a wicket:id="candidateLinkPortugueseLink" data-testid="candidateLinkPortugueseLink" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateProfileLinkPortugueseLabel"></a><span wicket:id="candidateLinkPortugueseEmpty" data-testid="candidateLinkPortugueseEmpty"></span></div>
+									<div><strong><wicket:message key="candidateAnswersLinkLinkedin" />:</strong> <a wicket:id="candidateLinkedinLink" data-testid="candidateLinkedinLink" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateAnswersLinkLinkedin"></a><span wicket:id="candidateLinkedinEmpty" data-testid="candidateLinkedinEmpty"></span></div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100 candidate-answers-compact">
+								<h6><wicket:message key="candidateAnswersProctorioTitle">Archivo Proctorio</wicket:message></h6>
+								<a wicket:id="proctorioDownload" data-testid="proctorioDownload" class="btn btn-light btn-sm"><wicket:message key="candidateAnswersProctorioDownload" /></a>
+								<span wicket:id="proctorioDownloadUnavailable" data-testid="proctorioDownloadUnavailable"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row g-3">
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100">
+								<h6><wicket:message key="candidateAnswersCandidateDetails">Detalle del candidato</wicket:message></h6>
+								<pre class="mb-0 text-wrap candidate-answers-compact" wicket:id="candidateDetails" data-testid="candidateDetails"></pre>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100">
+								<h6><wicket:message key="candidateAnswersNominationDetails">Detalle de la nominación</wicket:message></h6>
+								<pre class="mb-0 text-wrap candidate-answers-compact" wicket:id="nominationDetails" data-testid="nominationDetails"></pre>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100">
+								<h6><wicket:message key="candidateAnswersWorkOrganizations">Organizaciones</wicket:message></h6>
+								<pre class="mb-0 text-wrap candidate-answers-compact" wicket:id="workOrganizationsDetails" data-testid="workOrganizationsDetails"></pre>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100">
+								<h6><wicket:message key="candidateAnswersCountryLinks">Vínculos con países</wicket:message></h6>
+								<pre class="mb-0 text-wrap candidate-answers-compact" wicket:id="countryLinksDetails" data-testid="countryLinksDetails"></pre>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100">
+								<h6><wicket:message key="candidateAnswersTaskProgress">Progreso de tareas</wicket:message></h6>
+								<pre class="mb-0 text-wrap candidate-answers-compact" wicket:id="taskProgressDetails" data-testid="taskProgressDetails"></pre>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100">
+								<h6><wicket:message key="candidateAnswersAuditorDecisions">Verificaciones de auditoría</wicket:message></h6>
+								<pre class="mb-0 text-wrap candidate-answers-compact" wicket:id="auditorDecisionsDetails" data-testid="auditorDecisionsDetails"></pre>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="border rounded p-3 h-100">
+								<h6><wicket:message key="candidateAnswersSupports">Apoyos de nominación</wicket:message></h6>
+								<pre class="mb-0 text-wrap candidate-answers-compact" wicket:id="supportsDetails" data-testid="supportsDetails"></pre>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-flex justify-content-end mt-3">
+						<a wicket:id="back" data-testid="back" class="btn btn-light"><wicket:message key="candidateAnswersBack" /></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

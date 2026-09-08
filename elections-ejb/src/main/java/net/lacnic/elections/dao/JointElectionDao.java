@@ -2,16 +2,13 @@ package net.lacnic.elections.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.JointElection;
-
 
 public class JointElectionDao {
 
 	private EntityManager em;
-
 
 	public JointElectionDao(EntityManager em) {
 		this.em = em;

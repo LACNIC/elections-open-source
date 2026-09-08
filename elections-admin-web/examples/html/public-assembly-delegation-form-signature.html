@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Asamblea Publica | Delegacion de Representacion con Firma</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background:
+				radial-gradient(circle at top left, rgba(22, 163, 74, 0.10), transparent 28%),
+				linear-gradient(180deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0) 40%);
+		}
+
+		.app-topbar {
+			background: rgba(255, 255, 255, 0.96);
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
+			border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+			position: sticky;
+			top: 0;
+			z-index: 1030;
+		}
+
+		.page-wrap {
+			max-width: 1120px;
+			margin: 0 auto;
+		}
+
+		.section-card {
+			border: 1px solid rgba(15, 23, 42, 0.10);
+			box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+			border-radius: .9rem;
+			overflow: hidden;
+			background: #fff;
+		}
+
+		.section-card .card-header {
+			background: rgba(255, 255, 255, 0.96);
+			border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+			padding: 1.1rem 1.35rem;
+		}
+
+		.section-card .card-body {
+			padding: 1.35rem;
+		}
+
+		.form-section-title {
+			font-size: .78rem;
+			font-weight: 700;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			color: #64748b;
+			margin-bottom: 1rem;
+		}
+
+		.section-kicker {
+			font-size: .8rem;
+			color: #64748b;
+		}
+
+		.form-subsection {
+			border: 1px solid rgba(148, 163, 184, 0.24);
+			background: rgba(248, 250, 252, 0.62);
+		}
+
+		.form-subsection-title {
+			font-size: .76rem;
+			font-weight: 700;
+			letter-spacing: .05em;
+			text-transform: uppercase;
+			color: #475569;
+			margin-bottom: 1rem;
+		}
+
+		.form-subgroup + .form-subgroup {
+			margin-top: 1.25rem;
+			padding-top: 1.25rem;
+			border-top: 1px solid rgba(148, 163, 184, 0.18);
+		}
+
+		.form-control[readonly] {
+			background-color: #f8fafc;
+			border-color: rgba(148, 163, 184, 0.3);
+			color: #334155;
+		}
+
+		.sticky-panel {
+			position: sticky;
+			top: 92px;
+		}
+
+		.document-preview {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+			border: 1px solid rgba(148, 163, 184, 0.35);
+		}
+
+		.document-title {
+			font-size: .78rem;
+			text-transform: uppercase;
+			letter-spacing: .08em;
+			font-weight: 700;
+			color: #475569;
+		}
+
+		.document-meta {
+			font-size: .82rem;
+			color: #64748b;
+		}
+
+		.document-signature {
+			border-top: 1px dashed rgba(100, 116, 139, 0.45);
+			padding-top: 1rem;
+		}
+
+		.document-body {
+			border-top: 1px solid rgba(148, 163, 184, 0.16);
+			padding-top: 1.15rem;
+		}
+
+		.document-paragraph {
+			font-size: .9rem;
+			line-height: 1.65;
+			color: #334155;
+		}
+
+		.preview-summary {
+			background: rgba(255, 255, 255, 0.78);
+			border: 1px solid rgba(148, 163, 184, 0.24);
+		}
+
+		.preview-summary-label {
+			font-size: .72rem;
+			font-weight: 700;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			color: #64748b;
+			margin-bottom: .25rem;
+		}
+
+		.preview-legal-note {
+			background: rgba(226, 232, 240, 0.35);
+			border-left: 3px solid #94a3b8;
+		}
+
+		.form-actions {
+			margin-top: 1.75rem;
+			padding-top: 1.1rem;
+			border-top: 1px solid rgba(148, 163, 184, 0.18);
+		}
+
+		.form-status {
+			margin-top: 1rem;
+			display: none;
+		}
+
+		.confirmation-meta {
+			text-align: right;
+		}
+
+		.confirmation-meta-value {
+			font-size: .98rem;
+			color: #334155;
+			font-weight: 600;
+		}
+
+		.confirmation-meta-value + .confirmation-meta-value {
+			margin-top: .35rem;
+			font-weight: 500;
+			color: #64748b;
+		}
+
+		.hidden-field {
+			display: none;
+		}
+
+		.signature-intro {
+			background: linear-gradient(180deg, rgba(240, 253, 244, 0.95), rgba(248, 250, 252, 0.95));
+			border: 1px solid rgba(34, 197, 94, 0.18);
+		}
+
+		.signature-canvas-wrap {
+			border: 1px solid rgba(148, 163, 184, 0.45);
+			border-radius: .85rem;
+			background:
+				linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98)),
+				repeating-linear-gradient(0deg, transparent, transparent 38px, rgba(226, 232, 240, 0.85) 39px);
+			overflow: hidden;
+		}
+
+		.signature-canvas {
+			display: block;
+			width: 100%;
+			height: 220px;
+			cursor: crosshair;
+			touch-action: none;
+		}
+
+		.signature-toolbar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+			flex-wrap: wrap;
+		}
+
+		.signature-toolbar .btn {
+			min-width: 140px;
+		}
+
+		.signature-hint {
+			font-size: .82rem;
+			color: #64748b;
+		}
+
+		.signature-preview-image {
+			display: block;
+			max-width: 100%;
+			height: auto;
+			max-height: 120px;
+			margin-top: 1rem;
+			padding: .5rem;
+			border: 1px solid rgba(148, 163, 184, 0.3);
+			border-radius: .75rem;
+			background: #fff;
+		}
+
+		.signature-preview-empty {
+			margin-top: .85rem;
+			padding: .85rem 1rem;
+			border: 1px dashed rgba(148, 163, 184, 0.45);
+			border-radius: .75rem;
+			background: rgba(248, 250, 252, 0.85);
+		}
+
+		.wizard-steps {
+			display: flex;
+			flex-wrap: wrap;
+			gap: .75rem;
+			margin-bottom: 1.25rem;
+		}
+
+		.wizard-step {
+			padding: .6rem 1rem;
+			border-radius: 999px;
+			border: 1px solid rgba(148, 163, 184, 0.35);
+			background: rgba(255, 255, 255, 0.72);
+			color: #475569;
+			font-size: .82rem;
+			font-weight: 600;
+		}
+
+		.wizard-step.active {
+			background: rgba(22, 163, 74, 0.12);
+			border-color: rgba(22, 163, 74, 0.3);
+			color: #166534;
+		}
+
+		.helper-list-item + .helper-list-item {
+			margin-top: .85rem;
+			padding-top: .85rem;
+			border-top: 1px solid rgba(148, 163, 184, 0.18);
+		}
+
+		.review-card {
+			background:
+				radial-gradient(circle at top right, rgba(22, 163, 74, 0.08), transparent 35%),
+				linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+		}
+
+		@media (max-width: 991.98px) {
+			.sticky-panel {
+				position: static;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-assembly-delegation-form-signature.html" class="topbar-link fw-semibold">Asamblea de Asociados 2026</a>
+					<span class="badge text-bg-light border">Portal publico</span>
+					<span class="small text-muted">Delegacion de representacion y voto con firma manuscrita</span>
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<div class="topbar-item d-none d-sm-flex">
+						<button class="topbar-link" id="light-dark-mode" type="button" aria-label="Cambiar modo claro u oscuro">
+							<i data-lucide="moon" class="fs-xxl mode-light-moon"></i>
+							<i data-lucide="sun" class="fs-xxl mode-light-sun"></i>
+						</button>
+					</div>
+					<div class="dropdown topbar-item">
+						<button class="topbar-link fw-semibold dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">Idioma</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item active" href="#">Espanol</a>
+							<a class="dropdown-item" href="#">English</a>
+							<a class="dropdown-item" href="#">Portugues</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid py-4">
+			<div class="page-wrap">
+				<div class="wizard-steps">
+					<div class="wizard-step active" data-step-badge="1">Paso 1 · Completar formulario</div>
+					<div class="wizard-step" data-step-badge="2">Paso 2 · Revisar y confirmar</div>
+				</div>
+
+				<div class="row g-4" data-step-panel="1">
+					<div class="col-lg-7">
+						<div class="card section-card">
+							<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+								<div>
+									<h4 class="card-title mb-1">Autorizacion de representacion</h4>
+									<p class="text-muted mb-0 small">Asamblea Ordinaria de socios LACNIC · 8 de mayo de 2024 · Panama</p>
+								</div>
+								<span class="badge text-bg-light border">Paso 1</span>
+							</div>
+							<div class="card-body">
+								<form action="#" id="delegation-form">
+									<div class="mb-3">
+										<div>
+											<div class="form-section-title mb-1">1. Datos de la organizacion</div>
+											<p class="section-kicker mb-0">Identificacion de la organizacion miembro y del contacto de membresia que emite la autorizacion.</p>
+										</div>
+									</div>
+									<div class="row g-3">
+										<div class="col-12">
+											<div class="form-subsection rounded p-3 p-md-4">
+												<div class="d-flex justify-content-end mb-3">
+													<span class="badge text-bg-light border">No editable</span>
+												</div>
+												<div class="form-subgroup">
+													<div class="form-subsection-title">Organizacion miembro</div>
+													<div class="row g-3">
+														<div class="col-12">
+															<label class="form-label">Organizacion miembro</label>
+															<input type="text" class="form-control" id="org-name" value="COMCEL GUATEMALA, S.A." placeholder="Nombre legal de la organizacion" readonly>
+														</div>
+														<div class="col-md-4">
+															<label class="form-label">Pais</label>
+															<input type="text" class="form-control" id="org-country" value="Guatemala" placeholder="Pais" readonly>
+														</div>
+														<div class="col-md-4">
+															<label class="form-label">Votos</label>
+															<input type="text" class="form-control" id="org-votes" value="1" placeholder="Cantidad de votos" readonly>
+														</div>
+														<div class="col-md-4">
+															<label class="form-label">ID de organizacion</label>
+															<input type="text" class="form-control" id="org-id" value="GT-CGSA1-LACNIC" placeholder="Codigo interno o handle" readonly>
+														</div>
+													</div>
+												</div>
+												<div class="form-subgroup">
+													<div class="form-subsection-title">Contacto de membresia</div>
+													<div class="row g-3">
+														<div class="col-12">
+															<label class="form-label">Nombre completo</label>
+															<input type="text" class="form-control" id="member-contact-name" value="Jhonatan Morales" placeholder="Nombre completo" readonly>
+														</div>
+														<div class="col-md-3">
+															<label class="form-label">ID</label>
+															<input type="text" class="form-control" id="member-contact-id" value="JMOR" placeholder="Identificador interno" readonly>
+														</div>
+														<div class="col-md-9">
+															<label class="form-label">Correo de contacto de membresia</label>
+															<input type="email" class="form-control" id="member-contact-email" value="jhonatan.morales@comcel.com.gt" placeholder="correo@dominio.com" readonly>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<hr class="my-4">
+
+									<div class="form-section-title">2. Persona delegada</div>
+									<div class="row g-3">
+										<div class="col-md-7">
+											<label class="form-label">Nombre completo</label>
+											<input type="text" class="form-control" id="delegate-name" value="Jeysson Jhonattan Reyes Luna" placeholder="Persona autorizada">
+										</div>
+										<div class="col-md-5">
+											<label class="form-label">Correo del delegado</label>
+											<input type="email" class="form-control" id="delegate-email" value="jeysson.reyes@comcel.com.gt" placeholder="correo@dominio.com">
+										</div>
+									</div>
+
+									<hr class="my-4">
+
+									<div class="form-section-title">3. Autorizacion y firma</div>
+									<div class="row g-3">
+										<div class="col-12">
+											<div class="form-check mb-3">
+												<input class="form-check-input" type="checkbox" id="decl-1" checked>
+												<label class="form-check-label" for="decl-1">Declaro que actuo como contacto de membresia autorizado de la organizacion y que los datos ingresados del autorizante, de la organizacion y de la persona delegada son correctos.</label>
+											</div>
+											<div class="form-check mb-0">
+												<input class="form-check-input" type="checkbox" id="decl-2" checked>
+												<label class="form-check-label" for="decl-2">Otorgo carta poder a la persona delegada para comparecer en representacion de la organizacion en la asamblea, con facultades de voz y voto, y acepto que esta declaracion electronica sustituya la carta firmada y pueda ser validada por LACNIC.</label>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="signature-intro rounded p-3 p-md-4">
+												<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+													<div>
+														<div class="form-subsection-title mb-2">Firma manuscrita</div>
+														<p class="small text-muted mb-0">Al firmar, usted acepta que esta accion equivale a su firma electronica para esta delegacion.</p>
+													</div>
+													<span class="badge text-bg-light border">Mouse / touch</span>
+												</div>
+												<div class="signature-canvas-wrap mb-3">
+													<canvas id="signatureCanvas" class="signature-canvas" width="400" height="220" aria-label="Area para firmar"></canvas>
+												</div>
+												<div class="signature-toolbar">
+													<div class="signature-hint">Dibuje su firma con el mouse o con el dedo. Se enviara en formato PNG base64 dentro del campo oculto <code>signatureImage</code>.</div>
+													<button type="button" id="clearSignature" class="btn btn-outline-secondary btn-sm">Borrar firma</button>
+												</div>
+												<input type="hidden" name="signatureImage" id="signatureImage">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" id="acceptTerms" name="acceptTerms">
+												<label class="form-check-label" for="acceptTerms">Acepto que esta firma representa mi conformidad con la delegacion y con el texto a registrar.</label>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="confirmation-meta">
+												<div class="confirmation-meta-value" id="signature-name-display">Jhonatan Morales</div>
+												<div class="confirmation-meta-value" id="authorization-date-display">08/05/2024 · 18:00 UTC</div>
+											</div>
+											<input type="hidden" id="authorization-date" value="08/05/2024" class="hidden-field">
+											<input type="hidden" id="signature-name" value="Jhonatan Morales" class="hidden-field">
+										</div>
+									</div>
+
+									<div class="d-flex flex-wrap justify-content-end gap-2 form-actions">
+										<button type="submit" class="btn btn-success">Siguiente</button>
+									</div>
+									<div class="alert alert-warning form-status mb-0" id="form-status" role="status">
+										Para avanzar, complete el delegado, dibuje la firma y acepte las validaciones requeridas.
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-5">
+						<div class="sticky-panel">
+							<div class="card section-card">
+								<div class="card-header">
+									<h4 class="card-title mb-0">Siguiente</h4>
+								</div>
+								<div class="card-body">
+									<p class="text-muted small">Al avanzar se mostrara una segunda pantalla con la carta poder digital ya compuesta y la firma manuscrita incrustada en el comprobante.</p>
+									<div class="preview-summary rounded p-3">
+										<div class="preview-summary-label">Se revisara antes de confirmar</div>
+										<div class="helper-list-item">
+											<div class="fw-semibold text-dark">Datos del delegado</div>
+											<div class="small text-muted">Nombre y correo aplicados al texto legal.</div>
+										</div>
+										<div class="helper-list-item">
+											<div class="fw-semibold text-dark">Carta poder digital</div>
+											<div class="small text-muted">Texto final listo para registro o envio al backend.</div>
+										</div>
+										<div class="helper-list-item">
+											<div class="fw-semibold text-dark">Firma manuscrita</div>
+											<div class="small text-muted">La firma tomada en el canvas se adjuntara como PNG base64.</div>
+										</div>
+									</div>
+									<div class="preview-legal-note rounded p-3 small text-muted mt-3">
+										Este flujo queda mas cerca de una implementacion estilo wizard: primero se captura la informacion y luego se valida visualmente el comprobante final antes de confirmarlo.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row g-4 d-none" data-step-panel="2">
+					<div class="col-lg-4">
+						<div class="card section-card review-card" id="review-card">
+							<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+								<div>
+									<h4 class="card-title mb-1">Confirmacion final</h4>
+									<p class="text-muted mb-0 small">Revise la carta poder digital antes de enviar la autorizacion.</p>
+								</div>
+								<span class="badge text-bg-light border">Paso 2</span>
+							</div>
+							<div class="card-body">
+								<div class="preview-summary rounded p-3 mb-3">
+									<div class="preview-summary-label">Delegado</div>
+									<div class="fw-semibold text-dark" id="review-delegate-name">Jeysson Jhonattan Reyes Luna</div>
+									<div class="small text-muted" id="review-delegate-email">jeysson.reyes@comcel.com.gt</div>
+								</div>
+								<div class="preview-summary rounded p-3 mb-3">
+									<div class="preview-summary-label">Firma incluida</div>
+									<div class="fw-semibold text-dark" id="review-signature-state">Firma manuscrita adjunta</div>
+									<div class="small text-muted">El comprobante queda listo para enviarse al backend con <code>signatureImage</code> y <code>acceptTerms</code>.</div>
+								</div>
+								<div class="preview-legal-note rounded p-3 small text-muted mb-3">
+									La segunda pantalla simula el ultimo paso: el usuario ve el texto completo, la firma ya aplicada y desde ahi confirma la carta poder digital.
+								</div>
+								<div class="d-flex flex-wrap gap-2">
+									<button type="button" id="edit-form-button" class="btn btn-outline-secondary">Volver a editar</button>
+									<button type="button" id="final-confirm-button" class="btn btn-success">Confirmar autorizacion</button>
+								</div>
+								<div class="alert alert-success form-status mb-0 mt-3" id="review-status" role="status">
+									Autorizacion confirmada en este ejemplo HTML. En la implementacion real, desde aqui se enviaria el comprobante final al backend.
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-8">
+						<div class="sticky-panel">
+							<div class="card section-card">
+								<div class="card-header">
+									<h4 class="card-title mb-0">Carta poder digital</h4>
+								</div>
+								<div class="card-body">
+									<div class="document-preview rounded p-4" id="preview-card">
+										<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+											<div>
+												<div class="document-title">Carta poder digital</div>
+												<div class="document-meta">Asamblea Ordinaria de socios del Registro de Direcciones de Internet para America Latina y Caribe (LACNIC)</div>
+											</div>
+											<div class="text-end document-meta" id="preview-date">08 de mayo de 2024</div>
+										</div>
+
+										<div class="row g-3 mb-4">
+											<div class="col-12">
+												<div class="preview-summary rounded p-3">
+													<div class="preview-summary-label">Organizacion autoriza</div>
+													<div class="fw-semibold text-dark" id="preview-org-name">COMCEL GUATEMALA, S.A.</div>
+													<div class="small text-muted mb-3" id="preview-org-id">GT-CGSA1-LACNIC</div>
+													<div class="small text-muted text-uppercase fw-semibold mb-1">Contacto de membresia</div>
+													<div class="fw-semibold text-dark" id="preview-member-contact-name">Jhonatan Morales</div>
+													<div class="small text-muted" id="preview-member-contact-meta">jhonatan.morales@comcel.com.gt · ID contacto: JMOR</div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="preview-summary rounded p-3">
+													<div class="preview-summary-label">Persona delegada</div>
+													<div class="fw-semibold text-dark" id="preview-delegate-name">Jeysson Jhonattan Reyes Luna</div>
+													<div class="small text-muted" id="preview-delegate-email">jeysson.reyes@comcel.com.gt</div>
+													<div class="small text-muted mt-2"><strong>Alcance:</strong> representacion en asamblea con facultades de voz y voto.</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="document-body">
+											<p class="document-paragraph mb-3" id="preview-paragraph-1">Por la presente, yo, <strong>Jhonatan Morales</strong>, en mi caracter de contacto de membresia de <strong>COMCEL GUATEMALA, S.A.</strong> (<strong>GT-CGSA1-LACNIC</strong>), otorgo carta poder a <strong>Jeysson Jhonattan Reyes Luna</strong>, a los efectos de que, en representacion de la organizacion, comparezca con facultades de voz y voto a la Asamblea Ordinaria de socios del Registro de Direcciones de Internet para America Latina y Caribe (LACNIC), a celebrarse el <strong>8 de mayo de 2024</strong> en la Ciudad de Panama, Panama.</p>
+											<p class="document-paragraph mb-3" id="preview-paragraph-2">Declaro que esta autorizacion electronica sustituye la carta firmada para esta asamblea, que los datos registrados son correctos y que LACNIC podra utilizar este registro como constancia operativa de representacion. El delegado designado podra ser contactado en <strong>jeysson.reyes@comcel.com.gt</strong>.</p>
+											<div class="preview-legal-note rounded p-3 small text-muted">
+												Este texto refleja el registro que quedaria asociado a la autorizacion digital enviada por el contacto de membresia. La firma se asocia a este contenido y puede enviarse al backend junto con un hash del formulario.
+											</div>
+										</div>
+
+										<div class="document-signature mt-4">
+											<div class="fw-semibold" id="preview-signature-name">Jhonatan Morales</div>
+											<div class="small text-muted">Firma electronica sustitutiva del contacto de membresia</div>
+											<div class="small text-muted mt-2" id="preview-signature-meta">jhonatan.morales@comcel.com.gt</div>
+											<div class="signature-preview-empty small text-muted" id="preview-signature-empty">La firma manuscrita aparecera aqui al dibujar en el canvas.</div>
+											<img id="preview-signature-image" class="signature-preview-image d-none" alt="Firma manuscrita del contacto de membresia">
+										</div>
+									</div>
+									<p class="small text-muted mb-0 mt-3">En esta segunda pantalla se visualiza el comprobante final con la firma ya aplicada, simulando el paso de revision previo a la confirmacion definitiva.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/signature_pad@5.1.3/dist/signature_pad.umd.min.js"></script>
+	<script>
+		(function () {
+			var fieldIds = {
+				orgName: "org-name",
+				orgId: "org-id",
+				memberContactName: "member-contact-name",
+				memberContactId: "member-contact-id",
+				memberContactEmail: "member-contact-email",
+				delegateName: "delegate-name",
+				delegateEmail: "delegate-email",
+				authorizationDate: "authorization-date",
+				signatureName: "signature-name",
+				signatureImage: "signatureImage"
+			};
+			var canvas = document.getElementById("signatureCanvas");
+			var signaturePad = null;
+			var currentStep = 1;
+
+			function byId(id) {
+				return document.getElementById(id);
+			}
+
+			function valueOrFallback(id, fallback) {
+				var element = byId(id);
+				return element && element.value.trim() ? element.value.trim() : fallback;
+			}
+
+			function formatDisplayDate(raw) {
+				var match = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+				if (!match) {
+					return raw;
+				}
+
+				var months = [
+					"enero", "febrero", "marzo", "abril", "mayo", "junio",
+					"julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+				];
+
+				var day = String(parseInt(match[1], 10));
+				var monthIndex = parseInt(match[2], 10) - 1;
+				var year = match[3];
+				return day + " de " + months[monthIndex] + " de " + year;
+			}
+
+			function escapeHtml(value) {
+				return String(value)
+					.replace(/&/g, "&amp;")
+					.replace(/</g, "&lt;")
+					.replace(/>/g, "&gt;")
+					.replace(/\"/g, "&quot;")
+					.replace(/'/g, "&#39;");
+			}
+
+			function setStatus(statusId, message, variant) {
+				var status = byId(statusId);
+				if (!status) {
+					return;
+				}
+
+				status.textContent = message;
+				status.classList.remove("alert-success", "alert-danger", "alert-warning");
+				status.classList.add("alert-" + variant);
+				status.style.display = "block";
+			}
+
+			function hideStatus(statusId) {
+				var status = byId(statusId);
+				if (!status) {
+					return;
+				}
+
+				status.style.display = "none";
+			}
+
+			function setStep(step) {
+				currentStep = step;
+
+				Array.prototype.forEach.call(document.querySelectorAll("[data-step-panel]"), function (panel) {
+					panel.classList.toggle("d-none", panel.getAttribute("data-step-panel") !== String(step));
+				});
+
+				Array.prototype.forEach.call(document.querySelectorAll("[data-step-badge]"), function (badge) {
+					badge.classList.toggle("active", badge.getAttribute("data-step-badge") === String(step));
+				});
+			}
+
+			function syncSignaturePreview() {
+				var previewImage = byId("preview-signature-image");
+				var previewEmpty = byId("preview-signature-empty");
+				var signatureInput = byId(fieldIds.signatureImage);
+
+				if (!previewImage || !previewEmpty || !signaturePad) {
+					return;
+				}
+
+				if (signaturePad.isEmpty()) {
+					previewImage.classList.add("d-none");
+					previewImage.removeAttribute("src");
+					previewEmpty.classList.remove("d-none");
+					if (signatureInput) {
+						signatureInput.value = "";
+					}
+					return;
+				}
+
+				var signatureDataUrl = signaturePad.toDataURL("image/png");
+				previewImage.src = signatureDataUrl;
+				previewImage.classList.remove("d-none");
+				previewEmpty.classList.add("d-none");
+				if (signatureInput) {
+					signatureInput.value = signatureDataUrl;
+				}
+			}
+
+			function resizeSignatureCanvas() {
+				if (!canvas || !signaturePad) {
+					return;
+				}
+
+				var ratio = Math.max(window.devicePixelRatio || 1, 1);
+				var storedData = signaturePad.isEmpty() ? null : signaturePad.toData();
+				var width = canvas.offsetWidth || 400;
+				var height = canvas.offsetHeight || 220;
+				var context = canvas.getContext("2d");
+
+				canvas.width = width * ratio;
+				canvas.height = height * ratio;
+				context.setTransform(1, 0, 0, 1, 0, 0);
+				context.scale(ratio, ratio);
+				signaturePad.clear();
+
+				if (storedData && storedData.length) {
+					signaturePad.fromData(storedData);
+				}
+
+				syncSignaturePreview();
+			}
+
+			function updatePreview() {
+				var orgName = valueOrFallback(fieldIds.orgName, "Organizacion");
+				var orgId = valueOrFallback(fieldIds.orgId, "ID-ORG");
+				var memberContactName = valueOrFallback(fieldIds.memberContactName, "Contacto de membresia");
+				var memberContactId = valueOrFallback(fieldIds.memberContactId, "ID-CONTACTO");
+				var memberContactEmail = valueOrFallback(fieldIds.memberContactEmail, "correo@dominio.com");
+				var delegateName = valueOrFallback(fieldIds.delegateName, "Delegado");
+				var delegateEmail = valueOrFallback(fieldIds.delegateEmail, "correo@dominio.com");
+				var authorizationDate = valueOrFallback(fieldIds.authorizationDate, "08/05/2024");
+				var signatureName = valueOrFallback(fieldIds.signatureName, memberContactName);
+				var displayDate = formatDisplayDate(authorizationDate);
+
+				byId("preview-date").textContent = displayDate;
+				byId("preview-member-contact-name").textContent = memberContactName;
+				byId("preview-org-name").textContent = orgName;
+				byId("preview-org-id").textContent = orgId;
+				byId("preview-delegate-name").textContent = delegateName;
+				byId("preview-delegate-email").textContent = delegateEmail;
+				byId("preview-signature-name").textContent = signatureName;
+				byId("preview-member-contact-meta").textContent = memberContactEmail + " · ID contacto: " + memberContactId;
+				byId("preview-signature-meta").textContent = memberContactEmail;
+				byId("signature-name-display").textContent = signatureName;
+				byId("review-delegate-name").textContent = delegateName;
+				byId("review-delegate-email").textContent = delegateEmail;
+				byId("review-signature-state").textContent = signaturePad && !signaturePad.isEmpty() ? "Firma manuscrita adjunta" : "Firma pendiente";
+
+				byId("preview-paragraph-1").innerHTML =
+					"Por la presente, yo, <strong>" + escapeHtml(memberContactName) + "</strong>, en mi caracter de contacto de membresia de <strong>" +
+					escapeHtml(orgName) + "</strong> (<strong>" + escapeHtml(orgId) + "</strong>), otorgo carta poder a <strong>" + escapeHtml(delegateName) +
+					"</strong>, a los efectos de que, en representacion de la organizacion, comparezca con facultades de voz y voto a la Asamblea Ordinaria de socios del Registro de Direcciones de Internet para America Latina y Caribe (LACNIC), a celebrarse el <strong>" +
+					escapeHtml(displayDate) + "</strong> en la Ciudad de Panama, Panama.";
+
+				byId("preview-paragraph-2").innerHTML =
+					"Declaro que esta autorizacion electronica sustituye la carta firmada para esta asamblea, que los datos registrados son correctos y que LACNIC podra utilizar este registro como constancia operativa de representacion. El delegado designado podra ser contactado en <strong>" + escapeHtml(delegateEmail) + "</strong>.";
+
+				syncSignaturePreview();
+			}
+
+			function initSignaturePad() {
+				if (!canvas || typeof SignaturePad === "undefined") {
+					setStatus("form-status", "No fue posible inicializar la firma manuscrita porque la libreria SignaturePad no esta disponible.", "warning");
+					return;
+				}
+
+				signaturePad = new SignaturePad(canvas, {
+					backgroundColor: "rgb(255, 255, 255)",
+					penColor: "rgb(15, 23, 42)",
+					minWidth: 1,
+					maxWidth: 2.25
+				});
+
+				resizeSignatureCanvas();
+				window.addEventListener("resize", resizeSignatureCanvas);
+
+				if (typeof signaturePad.addEventListener === "function") {
+					signaturePad.addEventListener("endStroke", syncSignaturePreview);
+				}
+
+				byId("clearSignature").addEventListener("click", function () {
+					signaturePad.clear();
+					syncSignaturePreview();
+				});
+			}
+
+			function validateBeforeSubmit() {
+				if (!byId("decl-1").checked || !byId("decl-2").checked) {
+					alert("Debe aceptar las declaraciones de autorizacion.");
+					return false;
+				}
+
+				if (!signaturePad || signaturePad.isEmpty()) {
+					alert("Debe ingresar una firma manuscrita.");
+					return false;
+				}
+
+				if (!byId("acceptTerms").checked) {
+					alert("Debe aceptar los terminos.");
+					return false;
+				}
+
+				byId(fieldIds.signatureImage).value = signaturePad.toDataURL("image/png");
+				return true;
+			}
+
+			function bindFieldUpdates() {
+				["delegate-name", "delegate-email"].forEach(function (id) {
+					var element = byId(id);
+					if (element) {
+						element.addEventListener("input", updatePreview);
+					}
+				});
+			}
+
+			var delegationForm = byId("delegation-form");
+			var editFormButton = byId("edit-form-button");
+			var finalConfirmButton = byId("final-confirm-button");
+			byId(fieldIds.signatureName).value = valueOrFallback(fieldIds.memberContactName, "Contacto de membresia");
+
+			initSignaturePad();
+			bindFieldUpdates();
+			setStep(1);
+
+			if (delegationForm) {
+				delegationForm.addEventListener("submit", function (event) {
+					event.preventDefault();
+
+					if (!validateBeforeSubmit()) {
+						return;
+					}
+
+					updatePreview();
+					hideStatus("review-status");
+					setStep(2);
+					byId("review-card").scrollIntoView({ behavior: "smooth", block: "start" });
+				});
+			}
+
+			if (editFormButton) {
+				editFormButton.addEventListener("click", function () {
+					setStep(1);
+					hideStatus("review-status");
+					delegationForm.scrollIntoView({ behavior: "smooth", block: "start" });
+				});
+			}
+
+			if (finalConfirmButton) {
+				finalConfirmButton.addEventListener("click", function () {
+					updatePreview();
+					setStatus("review-status", "Autorizacion confirmada en este ejemplo HTML. La carta poder digital queda visible con la firma incrustada y lista para enviarse al backend.", "success");
+					byId("preview-card").scrollIntoView({ behavior: "smooth", block: "start" });
+				});
+			}
+
+			updatePreview();
+		})();
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<wicket:panel>
+	<div class="col-lg-12">
+		<div class="card">
+			<div class="card-header">
+				<h5 data-testid="baseMailTemplAddTitle"><wicket:message key="baseMailTemplAddTitle">Agregar template base</wicket:message></h5>
+			</div>
+			<div class="card-body">
+				<form wicket:id="form" data-testid="form">
+					<div class="row g-3">
+						<div class="col-md-2">
+							<label class="form-label"><wicket:message key="baseMailTemplAddType" /></label>
+						</div>
+						<div class="col-md-10">
+							<input wicket:id="templateType" data-testid="templateType" type="text" class="form-control" name="templateType"></input>
+						</div>
+
+						<div class="col-md-2">
+							<label class="form-label"><wicket:message key="baseMailTemplAddSubjectEsp" /></label>
+						</div>
+						<div class="col-md-10">
+							<input wicket:id="subjectSP" data-testid="subjectSP" type="text" class="form-control" name="subjectSP"></input>
+						</div>
+
+						<div class="col-md-2">
+							<label class="form-label"><wicket:message key="baseMailTemplAddSubjectEng" /></label>
+						</div>
+						<div class="col-md-10">
+							<input wicket:id="subjectEN" data-testid="subjectEN" name="subjectEN" type="text" class="form-control"></input>
+						</div>
+
+						<div class="col-md-2">
+							<label class="form-label"><wicket:message key="baseMailTemplAddSubjectPor" /></label>
+						</div>
+						<div class="col-md-10">
+							<input wicket:id="subjectPT" data-testid="subjectPT" name="subjectPT" type="text" class="form-control"></input>
+						</div>
+
+						<div class="col-md-2">
+							<label class="form-label"><wicket:message key="baseMailTemplAddBodyEsp" /></label>
+						</div>
+						<div class="col-md-10">
+							<textarea wicket:id="bodySP" data-testid="bodySP" type="text" name="bodySP" class="form-control h-150"></textarea>
+						</div>
+
+						<div class="col-md-2">
+							<label class="form-label"><wicket:message key="baseMailTemplAddBodyEng" /></label>
+						</div>
+						<div class="col-md-10">
+							<textarea wicket:id="bodyEN" data-testid="bodyEN" type="text" name="bodyEN" class="form-control h-150"></textarea>
+						</div>
+
+						<div class="col-md-2">
+							<label class="form-label"><wicket:message key="baseMailTemplAddBodyPor" /></label>
+						</div>
+						<div class="col-md-10">
+							<textarea wicket:id="bodyPT" data-testid="bodyPT" type="text" name="bodyPT" class="form-control h-150"></textarea>
+						</div>
+					</div>
+
+					<hr class="my-3">
+					<div class="text-center">
+						<button wicket:id="back" data-testid="back" type="submit" class="btn btn-light" name="back">
+							<wicket:message key="baseMailTemplAddBtnBack" />
+						</button>
+						<button wicket:id="save" data-testid="save" type="submit" class="btn btn-primary" name="save">
+							<wicket:message key="baseMailTemplAddBtnSave" />
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

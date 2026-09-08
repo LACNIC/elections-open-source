@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Declaración jurada | INSPINIA - Responsive Bootstrap 5 Admin Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Inspinia is the #1 best-selling admin dashboard template on WrapBootstrap. Perfect for building CRM, CMS, project management tools, and custom web apps with clean UI, responsive design, and powerful features.">
+	<meta name="keywords"
+		content="Inspinia, admin dashboard, WrapBootstrap, HTML template, Bootstrap admin, CRM template, CMS template, responsive admin, web app UI, admin theme, best admin template">
+	<meta name="author" content="WebAppLayers">
+
+	<!-- App favicon -->
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+
+	<!-- Theme Config Js -->
+	<script src="assets/js/config.js"></script>
+
+	<!-- Vendor css -->
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+
+	<!-- App css -->
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<!-- Begin page -->
+	<div class="wrapper">
+
+
+
+		<!-- Topbar Start -->
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-2">
+
+
+
+				</div> <!-- .d-flex-->
+
+				<div class="d-flex align-items-center gap-2">
+					<!-- Language Dropdown -->
+					<div class="topbar-item">
+						<div class="dropdown">
+							<button class="topbar-link fw-bold" data-bs-toggle="dropdown" data-bs-offset="0,21"
+								type="button" aria-haspopup="false" aria-expanded="false">
+								<img src="assets/images/flags/us.svg" alt="user-image" class="w-100 rounded me-2"
+									height="18" id="selected-language-image">
+								<span id="selected-language-code"> EN </span>
+							</button>
+							<div class="dropdown-menu dropdown-menu-end">
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="en"
+									title="English">
+									<img src="assets/images/flags/us.svg" alt="English" class="me-1 rounded" height="18"
+										data-translator-image>
+									<span class="align-middle">English</span>
+								</a>
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="de"
+									title="German">
+									<img src="assets/images/flags/de.svg" alt="German" class="me-1 rounded" height="18"
+										data-translator-image>
+									<span class="align-middle">Deutsch</span>
+								</a>
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="it"
+									title="Italian">
+									<img src="assets/images/flags/it.svg" alt="Italian" class="me-1 rounded" height="18"
+										data-translator-image>
+									<span class="align-middle">Italiano</span>
+								</a>
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="es"
+									title="Spanish">
+									<img src="assets/images/flags/es.svg" alt="Spanish" class="me-1 rounded" height="18"
+										data-translator-image>
+									<span class="align-middle">Español</span>
+								</a>
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="ru"
+									title="Russian">
+									<img src="assets/images/flags/ru.svg" alt="Russian" class="me-1 rounded" height="18"
+										data-translator-image>
+									<span class="align-middle">Русский</span>
+								</a>
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="hi"
+									title="Hindi">
+									<img src="assets/images/flags/in.svg" alt="Hindi" class="me-1 rounded" height="18"
+										data-translator-image>
+									<span class="align-middle">हिन्दी</span>
+								</a>
+							</div> <!-- end dropdown-menu-->
+						</div> <!-- end dropdown-->
+					</div> <!-- end topbar item-->
+
+					<!-- Messages Dropdown -->
+					<div class="topbar-item">
+						<div class="dropdown">
+							<button class="topbar-link dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown"
+								data-bs-offset="0,22" type="button" data-bs-auto-close="outside" aria-haspopup="false"
+								aria-expanded="false">
+								<i data-lucide="mails" class="fs-xxl"></i>
+								<span class="badge text-bg-success badge-circle topbar-badge">7</span>
+							</button>
+
+							<div class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg">
+								<div class="px-3 py-2 border-bottom">
+									<div class="row align-items-center">
+										<div class="col">
+											<h6 class="m-0 fs-md fw-semibold">Messages</h6>
+										</div>
+										<div class="col text-end">
+											<a href="#!" class="badge badge-soft-success badge-label py-1">09
+												Notifications</a>
+										</div>
+									</div>
+								</div>
+
+								<div style="max-height: 300px;" data-simplebar>
+									<!-- item 1 -->
+									<div class="dropdown-item notification-item py-2 text-wrap active" id="message-1">
+										<span class="d-flex gap-3">
+											<span class="flex-shrink-0">
+												<img src="assets/images/users/user-1.jpg"
+													class="avatar-md rounded-circle" alt="User Avatar">
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Liam Carter</span> uploaded a new
+												document to <span class="fw-medium text-body">Project Phoenix</span>
+												<br>
+												<span class="fs-xs">5 minutes ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#message-1">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 2 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="message-2">
+										<span class="d-flex gap-3">
+											<span class="flex-shrink-0">
+												<img src="assets/images/users/user-2.jpg"
+													class="avatar-md rounded-circle" alt="User Avatar">
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Ava Mitchell</span> commented on <span
+													class="fw-medium text-body">Marketing Campaign Q3</span>
+												<br>
+												<span class="fs-xs">12 minutes ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#message-2">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 3 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="message-3">
+										<span class="d-flex gap-3">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title text-bg-info rounded-circle fs-22">
+													<i data-lucide="shield-user" class="fs-22 fill-white"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Noah Blake</span> updated the status
+												of <span class="fw-medium text-body">Client Onboarding</span>
+												<br>
+												<span class="fs-xs">30 minutes ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#message-3">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 4 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="message-4">
+										<span class="d-flex gap-3">
+											<span class="flex-shrink-0">
+												<img src="assets/images/users/user-4.jpg"
+													class="avatar-md rounded-circle" alt="User Avatar">
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Sophia Taylor</span> sent an invoice
+												for <span class="fw-medium text-body">Service Renewal</span>
+												<br>
+												<span class="fs-xs">1 hour ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#message-4">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 5 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="message-5">
+										<span class="d-flex gap-3">
+											<span class="flex-shrink-0">
+												<img src="assets/images/users/user-5.jpg"
+													class="avatar-md rounded-circle" alt="User Avatar">
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Ethan Moore</span> completed the task
+												<span class="fw-medium text-body">UI Review</span>
+												<br>
+												<span class="fs-xs">2 hours ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#message-5">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 6 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="message-6">
+										<span class="d-flex gap-3">
+											<span class="flex-shrink-0">
+												<img src="assets/images/users/user-6.jpg"
+													class="avatar-md rounded-circle" alt="User Avatar">
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Olivia White</span> assigned you a
+												task in <span class="fw-medium text-body">Sales Pipeline</span>
+												<br>
+												<span class="fs-xs">Yesterday</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#message-6">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+								</div>
+
+								<!-- All-->
+								<a href="javascript:void(0);"
+									class="dropdown-item text-center text-reset text-decoration-underline link-offset-2 fw-bold notify-item border-top border-light py-2">
+									Read All Messages
+								</a>
+
+							</div> <!-- End dropdown-menu -->
+						</div> <!-- end dropdown-->
+					</div> <!-- end topbar item-->
+
+					<!-- Notification Dropdown -->
+					<div class="topbar-item">
+						<div class="dropdown">
+							<button class="topbar-link dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown"
+								data-bs-offset="0,22" type="button" data-bs-auto-close="outside" aria-haspopup="false"
+								aria-expanded="false">
+								<i data-lucide="bell" class="fs-xxl"></i>
+								<span class="badge badge-square text-bg-warning topbar-badge">14</span>
+							</button>
+
+							<div class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg">
+								<div class="px-3 py-2 border-bottom">
+									<div class="row align-items-center">
+										<div class="col">
+											<h6 class="m-0 fs-md fw-semibold">Notifications</h6>
+										</div>
+										<div class="col text-end">
+											<a href="#!" class="badge text-bg-light badge-label py-1">14 Alerts</a>
+										</div>
+									</div>
+								</div>
+
+								<div style="max-height: 300px;" data-simplebar>
+									<!-- item 1 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-1">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-danger-subtle text-danger rounded fs-22">
+													<i data-lucide="server-crash" class="fs-xl fill-danger"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Critical alert: Server crash
+													detected</span>
+												<br>
+												<span class="fs-xs">30 minutes ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-1">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 2 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-2">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-warning-subtle text-warning rounded fs-22">
+													<i data-lucide="alert-triangle" class="fs-xl fill-warning"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">High memory usage on Node A</span>
+												<br>
+												<span class="fs-xs">10 minutes ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-2">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 3 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-3">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-success-subtle text-success rounded fs-22">
+													<i data-lucide="check-circle" class="fs-xl fill-success"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Backup completed successfully</span>
+												<br>
+												<span class="fs-xs">1 hour ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-3">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 4 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-4">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-primary-subtle text-primary rounded fs-22">
+													<i data-lucide="user-plus" class="fs-xl fill-primary"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">New user registration: Sarah
+													Miles</span>
+												<br>
+												<span class="fs-xs">Just now</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-4">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 5 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-5">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-danger-subtle text-danger rounded fs-22">
+													<i data-lucide="bug" class="fs-xl fill-danger"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Bug reported in payment module</span>
+												<br>
+												<span class="fs-xs">20 minutes ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-5">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 6 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-6">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-info-subtle text-info rounded fs-22">
+													<i data-lucide="message-circle" class="fs-xl fill-info"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">New comment on Task #142</span>
+												<br>
+												<span class="fs-xs">15 minutes ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-6">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 7 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-7">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-warning-subtle text-warning rounded fs-22">
+													<i data-lucide="battery-warning" class="fs-xl fill-warning"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Low battery on Device X</span>
+												<br>
+												<span class="fs-xs">45 minutes ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-7">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 8 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-8">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-success-subtle text-success rounded fs-22">
+													<i data-lucide="cloud-upload" class="fs-xl fill-success"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">File upload completed</span>
+												<br>
+												<span class="fs-xs">1 hour ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-8">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 9 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-9">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-primary-subtle text-primary rounded fs-22">
+													<i data-lucide="calendar" class="fs-xl fill-primary"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Team meeting scheduled at 3 PM</span>
+												<br>
+												<span class="fs-xs">2 hours ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-9">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 10 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-10">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span
+													class="avatar-title bg-secondary-subtle text-secondary rounded fs-22">
+													<i data-lucide="download" class="fs-xl fill-secondary"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Report ready for download</span>
+												<br>
+												<span class="fs-xs">3 hours ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-10">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 11 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-11">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-danger-subtle text-danger rounded fs-22">
+													<i data-lucide="lock" class="fs-xl fill-danger"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Multiple failed login attempts</span>
+												<br>
+												<span class="fs-xs">5 hours ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-11">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 12 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-12">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-info-subtle text-info rounded fs-22">
+													<i data-lucide="bell-ring" class="fs-xl fill-info"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Reminder: Submit your timesheet</span>
+												<br>
+												<span class="fs-xs">Today, 9:00 AM</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-12">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 13 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-13">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-warning-subtle text-warning rounded fs-22">
+													<i data-lucide="database-zap" class="fs-xl fill-warning"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">Database nearing capacity</span>
+												<br>
+												<span class="fs-xs">Yesterday</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-13">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+
+									<!-- item 14 -->
+									<div class="dropdown-item notification-item py-2 text-wrap" id="notification-14">
+										<span class="d-flex gap-2">
+											<span class="avatar-md flex-shrink-0">
+												<span class="avatar-title bg-success-subtle text-success rounded fs-22">
+													<i data-lucide="check-square" class="fs-xl fill-success"></i>
+												</span>
+											</span>
+											<span class="flex-grow-1 text-muted">
+												<span class="fw-medium text-body">System check completed</span>
+												<br>
+												<span class="fs-xs">2 days ago</span>
+											</span>
+											<button type="button" class="flex-shrink-0 text-muted btn btn-link p-0"
+												data-dismissible="#notification-14">
+												<i class="ti ti-xbox-x-filled fs-xxl"></i>
+											</button>
+										</span>
+									</div>
+								</div> <!-- end dropdown-->
+
+								<!-- All-->
+								<a href="javascript:void(0);"
+									class="dropdown-item text-center text-reset text-decoration-underline link-offset-2 fw-bold notify-item border-top border-light py-2">
+									View All Alerts
+								</a>
+
+							</div>
+						</div>
+					</div>
+
+					<!-- Button Trigger Customizer Offcanvas -->
+					<div class="topbar-item d-none d-sm-flex">
+						<button class="topbar-link" data-bs-toggle="offcanvas"
+							data-bs-target="#theme-settings-offcanvas" type="button">
+							<i data-lucide="settings" class="fs-xxl"></i>
+						</button>
+					</div>
+
+					<!-- Light/Dark Mode Button -->
+					<div class="topbar-item d-none d-sm-flex">
+						<button class="topbar-link" id="light-dark-mode" type="button">
+							<i data-lucide="moon" class="fs-xxl mode-light-moon"></i>
+							<i data-lucide="sun" class="fs-xxl mode-light-sun"></i>
+						</button>
+					</div>
+
+					<!-- User Dropdown -->
+					<div class="topbar-item nav-user">
+						<div class="dropdown">
+							<a class="topbar-link dropdown-toggle drop-arrow-none px-2" data-bs-toggle="dropdown"
+								data-bs-offset="0,16" href="#!" aria-haspopup="false" aria-expanded="false">
+								<img src="assets/images/users/user-2.jpg" width="32"
+									class="rounded-circle me-lg-2 d-flex" alt="user-image">
+								<div class="d-lg-flex align-items-center gap-1 d-none">
+									<h5 class="my-0">Damian D.</h5>
+									<i class="ti ti-chevron-down align-middle"></i>
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end">
+								<!-- Header -->
+								<div class="dropdown-header noti-title">
+									<h6 class="text-overflow m-0">Welcome back!</h6>
+								</div>
+
+								<!-- My Profile -->
+								<a href="pages-profile.html" class="dropdown-item">
+									<i class="ti ti-user-circle me-2 fs-17 align-middle"></i>
+									<span class="align-middle">Profile</span>
+								</a>
+
+								<!-- Notifications -->
+								<a href="javascript:void(0);" class="dropdown-item">
+									<i class="ti ti-bell-ringing me-2 fs-17 align-middle"></i>
+									<span class="align-middle">Notifications</span>
+								</a>
+
+								<!-- Wallet -->
+								<a href="javascript:void(0);" class="dropdown-item">
+									<i class="ti ti-credit-card me-2 fs-17 align-middle"></i>
+									<span class="align-middle">Balance: <span class="fw-semibold">$985.25</span></span>
+								</a>
+
+								<!-- Settings -->
+								<a href="javascript:void(0);" class="dropdown-item">
+									<i class="ti ti-settings-2 me-2 fs-17 align-middle"></i>
+									<span class="align-middle">Account Settings</span>
+								</a>
+
+								<!-- Support -->
+								<a href="javascript:void(0);" class="dropdown-item">
+									<i class="ti ti-headset me-2 fs-17 align-middle"></i>
+									<span class="align-middle">Support Center</span>
+								</a>
+
+								<!-- Divider -->
+								<div class="dropdown-divider"></div>
+
+								<!-- Lock -->
+								<a href="auth-lock-screen.html" class="dropdown-item">
+									<i class="ti ti-lock me-2 fs-17 align-middle"></i>
+									<span class="align-middle">Lock Screen</span>
+								</a>
+
+								<!-- Logout -->
+								<a href="javascript:void(0);" class="dropdown-item text-danger fw-semibold">
+									<i class="ti ti-logout-2 me-2 fs-17 align-middle"></i>
+									<span class="align-middle">Log Out</span>
+								</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- Topbar End -->
+
+
+
+		<!-- ============================================================== -->
+		<!-- Start Main Content -->
+		<!-- ============================================================== -->
+
+		<div>
+
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-12">
+						<article class="card card-out-of-container border-top-0 bg-warning">
+							<div class="position-relative overflow-hidden" style="height: 100px;">
+								<div
+									class="p-4 card-img-overlay2 rounded-start-0 auth-overlay d-flex align-items-center justify-content-center">
+									<h3 class="text-white mb-0 fst-italic">"María Pérez, tu postulación está en proceso: revisa lo pendiente"</h3>
+								</div>
+							</div>
+
+						</article>
+					</div> <!-- end col-->
+				</div> <!-- end row-->
+
+												<div class="row">
+					<div class="col-xl-7">
+						<div class="card position-relative">
+							<div class="card-header">
+								<h4 class="card-title">Declaración Jurada y Aceptación de Términos del Proceso Electoral de LACNIC</h4>
+							</div>
+							<div class="position-absolute top-0 end-0">
+								<svg style="opacity: 0.05;" width="600" height="560" viewBox="0 0 600 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<circle cx="550" cy="80" r="40" fill="#ed5565" />
+									<path d="M460 120 C470 90, 500 90, 510 120 S550 150, 560 120" stroke="#1c84c6" stroke-width="2" fill="none"/>
+									<path d="M400 200 L450 150 L500 200 Z" fill="#f8ac59" />
+									<ellipse cx="520" cy="280" rx="30" ry="50" fill="#6b5eae" />
+									<path d="M360 320 Q370 300 390 310 Q410 320 400 340 Q390 360 370 350 Q350 340 360 320 Z" fill="#1ab394" />
+									<path d="M470 400 C460 380, 490 370, 510 380 C530 390, 540 410, 520 430 C500 450, 480 440, 470 400 Z" fill="#ff679b"/>
+									<path d="M380 80 L388 100 H410 L392 115 L400 135 L380 123 L360 135 L368 115 L350 100 H372 Z" fill="#0acf97" />
+									<path d="M290 100 C300 90, 310 110, 300 120 C290 130, 270 130, 260 120 C250 110, 250 90, 260 80" stroke="#23c6c8" stroke-width="2" fill="none"/>
+									<path d="M320 200 L330 210 L320 230 L300 230 L290 210 Z" fill="#fd7e14" />
+									<circle cx="460" cy="250" r="20" stroke="#1c84c6" stroke-width="3" fill="none" />
+								</svg>
+							</div>
+							<div class="position-absolute bottom-0 start-0">
+								<svg style="opacity: 0.05;" width="600" height="560" viewBox="0 0 600 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<circle cx="50" cy="480" r="40" fill="#FF4C3E" />
+									<path d="M140 440 C130 470, 100 470, 90 440 S50 410, 40 440" stroke="#089df1" stroke-width="2" fill="none"/>
+									<path d="M100 360 L50 410 L0 360 Z" fill="#f9bf59" />
+									<ellipse cx="80" cy="280" rx="30" ry="50" fill="#7b70ef" />
+									<path d="M140 240 Q130 260 110 250 Q90 240 100 220 Q110 200 130 210 Q150 220 140 240 Z" fill="#089df1" />
+									<path d="M130 150 C140 170, 110 180, 90 170 C70 160, 60 140, 80 120 C100 100, 120 110, 130 150 Z" fill="#f7577e"/>
+									<path d="M220 480 L212 460 H190 L208 445 L200 425 L220 437 L240 425 L232 445 L250 460 H228 Z" fill="#7b70ef" />
+									<path d="M310 460 C300 470, 290 450, 300 440 C310 430, 330 430, 340 440 C350 450, 350 470, 340 480" stroke="#089df1" stroke-width="2" fill="none"/>
+									<path d="M280 360 L270 350 L280 330 L300 330 L310 350 Z" fill="#f7577e" />
+									<circle cx="140" cy="310" r="20" stroke="#089df1" stroke-width="3" fill="none" />
+								  </svg>
+							</div>
+
+							<div class="card-body position-relative">
+								<h4 class="fw-bold mt-3">1. Veracidad de la información</h4>
+								<p>Declaro bajo juramento que toda la información proporcionada en este formulario, así como la documentación y respuestas asociadas, es completa, veraz, actualizada y correcta. Asimismo, me comprometo a informar oportunamente a LACNIC cualquier modificación relevante que pudiera producirse durante el proceso electoral.</p>
+
+								<h4 class="fw-bold mt-4">2. Declaración sobre Persona Políticamente Expuesta (PEP)</h4>
+								<p>Declaro no tener la condición de Persona Políticamente Expuesta (PEP), conforme a las definiciones y normativas vigentes aplicables en materia de prevención de lavado de activos, financiamiento del terrorismo u otras regulaciones relacionadas.</p>
+
+								<h4 class="fw-bold mt-4">3. Uso adecuado del proceso y de las comunicaciones</h4>
+								<p>Me comprometo a no realizar prácticas de spam electoral, ni a utilizar los datos, canales de comunicación o instancias del proceso electoral de LACNIC para fines distintos a los expresamente previstos, respetando en todo momento los principios de buena fe, transparencia y equidad del proceso.</p>
+
+								<h4 class="fw-bold mt-4">4. Tratamiento y uso de la información</h4>
+								<p>Autorizo expresamente a LACNIC a recopilar, almacenar, tratar, utilizar y compartir la información suministrada en el marco del proceso electoral, de conformidad con sus políticas institucionales, estatutos y normativas aplicables, y exclusivamente para los fines relacionados con dicho proceso.</p>
+
+								<h4 class="fw-bold mt-4">5. Publicación de información y respuestas</h4>
+								<p>Autorizo a LACNIC a publicar, total o parcialmente, la información y las respuestas provistas en este formulario, cuando así lo requiera el proceso electoral, a través de sus medios institucionales, plataformas digitales u otros canales de comunicación oficiales.</p>
+
+								<div class="border-top border-dashed my-4"></div>
+
+								<h4 class="fw-bold">Aceptación</h4>
+								<p class="mb-3">He leído, comprendido y acepto íntegramente la Declaración Jurada y los Términos del Proceso Electoral de LACNIC.</p>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="acceptTerms">
+									<label class="form-check-label" for="acceptTerms">Acepto</label>
+								</div>
+							</div>
+						</div>
+
+					</div> <!-- end col-->
+
+					<div class="col-xl-5">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Formularios de postulación — Variante 1</h4>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-hover align-middle mb-0">
+										<thead class="bg-light align-middle bg-opacity-25 thead-sm">
+											<tr class="text-uppercase fs-xxs">
+												<th>Tarea</th>
+												<th>Estado</th>
+												<th>Fecha inicio</th>
+												<th>Fecha límite</th>
+												<th>Progreso</th>
+												<th>Tiempo total</th>
+												<th style="width: 1%;">Acciones</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Países vinculados (ciudadanías y residencia)</td>
+												<td><span class="badge badge-label badge-soft-warning">En proceso</span></td>
+												<td>Apr 05, 2025</td>
+												<td>Apr 08, 2025</td>
+												<td>50%</td>
+												<td>2h 05min</td>
+												<td class="text-center">
+													<div class="dropdown text-muted">
+														<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="ti ti-dots-vertical"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> Ver</a>
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> Editar</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+										<tr>
+											<td>Organizaciones relacionadas (Rentado/Honorario)</td>
+											<td><span class="badge badge-label badge-soft-warning">En proceso</span></td>
+											<td>Apr 06, 2025</td>
+											<td>Apr 09, 2025</td>
+											<td>40%</td>
+											<td>1h 10min</td>
+											<td class="text-center">
+												<div class="dropdown text-muted">
+													<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+														<i class="ti ti-dots-vertical"></i>
+													</a>
+													<div class="dropdown-menu dropdown-menu-end">
+														<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> Ver</a>
+														<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> Editar</a>
+													</div>
+												</div>
+											</td>
+										</tr>
+
+											<tr>
+												<td>Completar perfil público (foto y biografía)</td>
+												<td><span class="badge badge-label badge-soft-success">Completado</span></td>
+												<td>Apr 15, 2025</td>
+												<td>Apr 20, 2025</td>
+												<td>100%</td>
+												<td>45min</td>
+												<td class="text-center">
+													<div class="dropdown text-muted">
+														<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="ti ti-dots-vertical"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> Ver</a>
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> Editar</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>Proctorio</td>
+												<td><span class="badge badge-label badge-soft-warning">En proceso</span></td>
+												<td>Apr 18, 2025</td>
+												<td>Apr 22, 2025</td>
+												<td>30%</td>
+												<td>50min</td>
+												<td class="text-center">
+													<div class="dropdown text-muted">
+														<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="ti ti-dots-vertical"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> Ver</a>
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> Editar</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>Apoyos</td>
+												<td><span class="badge badge-label badge-soft-danger">Pendiente</span></td>
+												<td>Apr 20, 2025</td>
+												<td>Apr 25, 2025</td>
+												<td>0%</td>
+												<td>0min</td>
+												<td class="text-center">
+													<div class="dropdown text-muted">
+														<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="ti ti-dots-vertical"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> Ver</a>
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> Editar</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>Otras preguntas y aceptación de condiciones de la elección</td>
+												<td><span class="badge badge-label badge-soft-danger">Pendiente</span></td>
+												<td>Mar 10, 2025</td>
+												<td>Mar 12, 2025</td>
+												<td>0%</td>
+												<td>0min</td>
+												<td class="text-center">
+													<div class="dropdown text-muted">
+														<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="ti ti-dots-vertical"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> Ver</a>
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> Editar</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr class="opacity-50">
+												<td>Limitantes e incompatibilidades</td>
+												<td><span class="badge badge-label badge-soft-success">Completado</span></td>
+												<td>Mar 20, 2025</td>
+												<td>Mar 21, 2025</td>
+												<td>Mar 22, 2025</td>
+												<td>20min</td>
+												<td class="text-center">
+													<div class="dropdown text-muted">
+														<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="ti ti-dots-vertical"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> Ver</a>
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> Editar</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr class="opacity-50">
+												<td>Completar perfil público (foto y biografía)</td>
+												<td><span class="badge badge-label badge-soft-success">Completado</span></td>
+												<td>Apr 15, 2025</td>
+												<td>Apr 19, 2025</td>
+												<td>Apr 20, 2025</td>
+												<td>45min</td>
+												<td class="text-center">
+													<div class="dropdown text-muted">
+														<a href="#" class="dropdown-toggle drop-arrow-none fs-xxl link-reset p-0" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="ti ti-dots-vertical"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-eye me-1"></i> Ver</a>
+															<a href="javascript:void(0);" class="dropdown-item"><i class="ti ti-edit me-1"></i> Editar</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div> <!-- end card-body-->
+						</div> <!-- end card-->
+
+					</div> <!-- end col-->
+				</div> <!-- end row-->
+
+			</div>
+			<!-- container -->
+
+			<!-- Footer Start -->
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6 text-center text-md-start">
+							© 2014 -
+							<script>document.write(new Date().getFullYear())</script> Inspinia By <span
+								class="fw-semibold">WebAppLayers</span>
+						</div>
+						<div class="col-md-6">
+							<div class="text-md-end d-none d-md-block">
+								10GB of <span class="fw-bold">250GB</span> Free.
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+			<!-- end Footer -->
+
+		</div>
+
+		<!-- ============================================================== -->
+		<!-- End of Main Content -->
+		<!-- ============================================================== -->
+
+	</div>
+	<!-- END wrapper -->
+
+	<!-- Theme Settings -->
+	<div class="offcanvas offcanvas-end overflow-hidden" tabindex="-1" id="theme-settings-offcanvas">
+		<div class="d-flex justify-content-between text-bg-primary gap-2 p-3"
+			style="background-image: url(assets/images/user-bg-pattern.png);">
+			<div>
+				<h5 class="mb-1 fw-bold text-white text-uppercase">Admin Customizer</h5>
+				<p class="text-white text-opacity-75 fst-italic fw-medium mb-0">Easily configure layout, styles, and
+					preferences for your admin interface.</p>
+			</div>
+
+			<div class="flex-grow-0">
+				<button type="button"
+					class="d-block btn btn-sm bg-white bg-opacity-25 text-white rounded-circle btn-icon"
+					data-bs-dismiss="offcanvas"><i class="ti ti-x fs-lg"></i></button>
+			</div>
+		</div>
+
+		<div class="offcanvas-body p-0 h-100" data-simplebar>
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Select Theme</h5>
+				<div class="row g-3">
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-classic"
+								value="classic">
+							<label class="form-check-label p-0 w-100" for="demo-skin-classic">
+								<img src="assets/images/layouts/themes/theme-classic.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Classic</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-material"
+								value="material">
+							<label class="form-check-label p-0 w-100" for="demo-skin-material">
+								<img src="assets/images/layouts/themes/theme-material.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Material</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-modern"
+								value="modern">
+							<label class="form-check-label p-0 w-100" for="demo-skin-modern">
+								<img src="assets/images/layouts/themes/theme-modern.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Modern</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-saas"
+								value="saas">
+							<label class="form-check-label p-0 w-100" for="demo-skin-saas">
+								<img src="assets/images/layouts/themes/theme-saas.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">SaaS</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-flat"
+								value="flat">
+							<label class="form-check-label p-0 w-100" for="demo-skin-flat">
+								<img src="assets/images/layouts/themes/theme-flat.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Flat</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-minimal"
+								value="minimal">
+							<label class="form-check-label p-0 w-100" for="demo-skin-minimal">
+								<img src="assets/images/layouts/themes/theme-minimal.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Minimal</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio pe-none">
+							<input class="form-check-input" disabled type="radio" name="data-skin" id="demo-skin-galaxy"
+								value="galaxy">
+							<label class="form-check-label p-0 w-100" for="demo-skin-galaxy">
+								<img src="assets/images/layouts/themes/theme-galaxy.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Galaxy</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Color Scheme</h5>
+				<div class="row">
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-light"
+								value="light">
+							<label class="form-check-label p-0 w-100" for="layout-color-light">
+								<img src="assets/images/layouts/light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Light</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-dark"
+								value="dark">
+							<label class="form-check-label p-0 w-100" for="layout-color-dark">
+								<img src="assets/images/layouts/dark.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Dark</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-system"
+								value="system">
+							<label class="form-check-label p-0 w-100" for="layout-color-system">
+								<img src="assets/images/layouts/system.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">System</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Topbar Color</h5>
+
+				<div class="row g-3">
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-topbar-color"
+								id="topbar-color-light" value="light">
+							<label class="form-check-label p-0 w-100" for="topbar-color-light">
+								<img src="assets/images/layouts/topbar-light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Light</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-dark"
+								value="dark">
+							<label class="form-check-label p-0 w-100" for="topbar-color-dark">
+								<img src="assets/images/layouts/topbar-dark.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Dark</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-gray"
+								value="gray">
+							<label class="form-check-label p-0 w-100" for="topbar-color-gray">
+								<img src="assets/images/layouts/topbar-gray.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Gray</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-topbar-color"
+								id="topbar-color-gradient" value="gradient">
+							<label class="form-check-label p-0 w-100" for="topbar-color-gradient">
+								<img src="assets/images/layouts/topbar-gradient.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Gradient</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Sidenav Color</h5>
+
+				<div class="row g-3">
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color" id="sidenav-color-light"
+								value="light">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-light">
+								<img src="assets/images/layouts/light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Light</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color" id="sidenav-color-dark"
+								value="dark">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-dark">
+								<img src="assets/images/layouts/side-dark.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Dark</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color" id="sidenav-color-gray"
+								value="gray">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-gray">
+								<img src="assets/images/layouts/side-gray.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Gray</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color"
+								id="sidenav-color-gradient" value="gradient">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-gradient">
+								<img src="assets/images/layouts/side-gradient.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Gradient</h5>
+					</div>
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color" id="sidenav-color-image"
+								value="image">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-image">
+								<img src="assets/images/layouts/side-image.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Image</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Sidebar Size</h5>
+
+				<div class="row g-3">
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-default" value="default">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-default">
+								<img src="assets/images/layouts/light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">Default</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-compact" value="compact">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-compact">
+								<img src="assets/images/layouts/sidebar-compact.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">Compact</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-small" value="condensed">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-small">
+								<img src="assets/images/layouts/sidebar-sm.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">Condensed</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-small-hover" value="on-hover">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-small-hover">
+								<img src="assets/images/layouts/sidebar-sm.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">On Hover</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-small-hover-active" value="on-hover-active">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-small-hover-active">
+								<img src="assets/images/layouts/light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 fs-base text-center text-muted mt-2">On Hover - Show</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-offcanvas" value="offcanvas">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-offcanvas">
+								<img src="assets/images/layouts/sidebar-full.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">Offcanvas</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<div class="d-flex justify-content-between align-items-center">
+					<h5 class="fw-bold mb-0">Layout Position</h5>
+
+					<div class="btn-group radio" role="group">
+						<input type="radio" class="btn-check" name="data-layout-position" id="layout-position-fixed"
+							value="fixed">
+						<label class="btn btn-sm btn-soft-warning w-sm" for="layout-position-fixed">Fixed</label>
+
+						<input type="radio" class="btn-check" name="data-layout-position"
+							id="layout-position-scrollable" value="scrollable">
+						<label class="btn btn-sm btn-soft-warning w-sm ms-0"
+							for="layout-position-scrollable">Scrollable</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3">
+				<div class="d-flex justify-content-between align-items-center">
+					<h5 class="mb-0"><label class="fw-bold m-0" for="sidebaruser-check">Sidebar User Info</label></h5>
+
+					<div class="form-check form-switch fs-lg">
+						<input type="checkbox" class="form-check-input" name="sidebar-user" id="sidebaruser-check">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="offcanvas-footer border-top p-3 text-center">
+			<div class="row">
+				<div class="col-6">
+					<button type="button" class="btn btn-light fw-semibold py-2 w-100" id="reset-layout">Reset</button>
+				</div>
+				<div class="col-6">
+					<a href="https://wrapbootstrap.com/theme/inspinia-multipurpose-admin-dashboard-template-WB0R5L90S?ref=inspinia"
+						target="_blank" class="btn btn-danger bg-gradient py-2 fw-semibold w-100">Buy Now</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Vendor js -->
+	<script src="assets/js/vendors.min.js"></script>
+
+	<!-- App js -->
+	<script src="assets/js/app.js"></script>
+
+</body>
+
+</html>

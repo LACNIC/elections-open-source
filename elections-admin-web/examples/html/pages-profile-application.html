@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Postulación | INSPINIA - Responsive Bootstrap 5 Admin Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Inspinia is the #1 best-selling admin dashboard template on WrapBootstrap. Perfect for building CRM, CMS, project management tools, and custom web apps with clean UI, responsive design, and powerful features.">
+	<meta name="keywords"
+		content="Inspinia, admin dashboard, WrapBootstrap, HTML template, Bootstrap admin, CRM template, CMS template, responsive admin, web app UI, admin theme, best admin template">
+	<meta name="author" content="WebAppLayers">
+
+	<!-- App favicon -->
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+
+	<!-- Theme Config Js -->
+	<script src="assets/js/config.js"></script>
+
+	<!-- Vendor css -->
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+
+	<!-- App css -->
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<!-- Begin page -->
+	<div class="wrapper">
+
+
+
+		<!-- Topbar Start -->
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-2">
+					<a href="https://milacnic.lacnic.net" class="topbar-link fw-semibold" target="_blank" rel="noreferrer">MiLACNIC</a>
+				</div> <!-- .d-flex-->
+
+				<div class="d-flex align-items-center gap-2">
+					<div class="topbar-item">
+						<a href="index.html" class="topbar-link" title="Home">
+							<i data-lucide="home" class="fs-xxl"></i>
+						</a>
+					</div>
+
+					<!-- Language Dropdown -->
+					<div class="topbar-item">
+						<div class="dropdown">
+							<button class="topbar-link fw-bold" data-bs-toggle="dropdown" data-bs-offset="0,21"
+								type="button" aria-haspopup="false" aria-expanded="false">
+								<i data-lucide="languages" class="fs-xxl"></i>
+							</button>
+							<div class="dropdown-menu dropdown-menu-end">
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="es"
+									title="Spanish">
+									<span class="align-middle">Español</span>
+								</a>
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="en"
+									title="English">
+									<span class="align-middle">English</span>
+								</a>
+								<a href="javascript:void(0);" class="dropdown-item" data-translator-lang="pt"
+									title="Português">
+									<span class="align-middle">Portugués</span>
+								</a>
+							</div> <!-- end dropdown-menu-->
+						</div> <!-- end dropdown-->
+					</div> <!-- end topbar item-->
+
+					<!-- Notification Dropdown -->
+					<div class="topbar-item">
+						<div class="dropdown">
+							<button class="topbar-link dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown"
+								data-bs-offset="0,22" type="button" aria-haspopup="false" aria-expanded="false">
+								<i data-lucide="bell" class="fs-xxl"></i>
+							</button>
+							<div class="dropdown-menu dropdown-menu-end">
+								<span class="dropdown-item-text text-muted small">Estado: activadas</span>
+								<a href="javascript:void(0);" class="dropdown-item">Activar notificaciones</a>
+								<a href="javascript:void(0);" class="dropdown-item">Desactivar notificaciones</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Light/Dark Mode Button -->
+					<div class="topbar-item d-none d-sm-flex">
+						<button class="topbar-link" id="light-dark-mode" type="button">
+							<i data-lucide="moon" class="fs-xxl mode-light-moon"></i>
+							<i data-lucide="sun" class="fs-xxl mode-light-sun"></i>
+						</button>
+					</div>
+
+										<div class="topbar-item d-none d-md-flex">
+						<span class="topbar-link fw-semibold">Damian D.</span>
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- Topbar End -->
+
+
+
+		<!-- ============================================================== -->
+		<!-- Start Main Content -->
+		<!-- ============================================================== -->
+
+		<div>
+
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-12">
+						<article class="card card-out-of-container border-top-0">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+									<div class="d-flex justify-content-start align-items-center gap-3">
+										<div class="ms-2">
+											<h4 class="text-nowrap fw-bold mb-1">Red Regional Networks</h4>
+											<p class="text-muted mb-1">Organización postulante</p>
+											<span class="badge badge-soft-primary fw-medium fs-xs">Org-ID: ORG-1234</span>
+										</div>
+									</div>
+									<div class="text-muted text-end me-2">
+										<div class="fw-semibold mb-1">ID membresía: MBR-9012</div>
+										<div>Contacto de membresía: Mariana López</div>
+										<div>membresia@example.org</div>
+									</div>
+								</div>
+							</div>
+						</article>
+					</div> <!-- end col-->
+				</div> <!-- end row-->
+
+				<div class="row justify-content-center">
+					<div class="col-xl-8">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Formulario de postulación de cadidatos a: Elección de directores 2025</h4>
+							</div>
+							<div class="card-body">
+								<div class="row g-4 align-items-center">
+									<div class="col-sm-7 border-end border-dashed">
+										<div class="p-2">
+											<h4 class="mb-1 fw-bold text-uppercase">Datos del candidato que se postula</h4>
+											<p class="text-muted mb-3">Completa los datos de la persona que se postula.</p>
+
+											<form>
+												<div class="mb-3">
+													<label for="candidateFullName" class="form-label">Nombre completo <span class="text-danger">*</span></label>
+													<input type="text" class="form-control" id="candidateFullName" placeholder="Ej.: María Pérez" required>
+												</div>
+
+												<div class="mb-3">
+													<label for="candidateEmail" class="form-label">Email <span class="text-danger">*</span></label>
+													<input type="email" class="form-control" id="candidateEmail" placeholder="maria@example.org" required>
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Teléfono <span class="text-danger">*</span></label>
+													<div class="row g-2">
+														<div class="col-4">
+															<input type="text" class="form-control" id="candidatePhoneCountry" placeholder="+598" required>
+														</div>
+														<div class="col-8">
+															<input type="text" class="form-control" id="candidatePhone" placeholder="99 123 456" required>
+														</div>
+													</div>
+												</div>
+
+												<div class="mb-4">
+													<label for="candidateReason" class="form-label">Motivo de la postulación <span class="text-danger">*</span></label>
+													<textarea class="form-control" id="candidateReason" rows="4" placeholder="Comparte brevemente tu motivación." required></textarea>
+												</div>
+
+												<div class="d-flex justify-content-between align-items-center">
+													<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#restricted-countries-modal">
+														Ver restricciones
+													</button>
+													<button class="btn btn-primary" type="submit"><strong>Enviar postulación</strong></button>
+												</div>
+											</form>
+										</div>
+									</div>
+
+									<div class="col-sm-5">
+										<div class="text-center">
+										<div class="avatar avatar-xl mx-auto">
+											<span class="avatar-title bg-primary-subtle text-primary rounded-circle fw-bold">
+												<i data-lucide="award" class="text-primary fs-28 fill-primary"></i>
+											</span>
+										</div>
+										<h4 class="mt-3">Elección LACNIC 2025</h4>
+										<p class="text-muted mb-3">Cargos a elegir: 2 miembros del Directorio, 1 Comisión Electoral y 1 Comisión Fiscal.</p>
+										<div class="text-start text-muted mx-auto" style="max-width: 260px;">
+											<p class="mb-1"><strong>Países restringidos:</strong> Brasil, México, Argentina.</p>
+											<p class="mb-1"><strong>Fecha límite:</strong> 30 de abril de 2025.</p>
+											<p class="mb-1">Asegúrate de contar con el aval de tus organizaciones de apoyo.</p>
+											<p class="fw-semibold text-end mb-0 mt-3">Consultas: <a href="mailto:elecciones@lacnic.net" class="link-primary">elecciones@lacnic.net</a></p>
+										</div>
+										</div>
+									</div>
+								</div> <!-- end row-->
+							</div> <!-- end card-body-->
+						</div> <!-- end card-->
+					</div> <!-- end col-->
+				</div> <!-- end row-->
+
+				<!-- Standard modal -->
+				<div id="restricted-countries-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="restricted-countries-modalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title text-danger" id="restricted-countries-modalLabel">Restricciones por país</h4>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p class="mb-3">
+									Esta elección no permite postular personas que representen a Brasil y Argentina,
+									en cumplimiento del Artículo 24 y las reglas interpretativas del proceso electoral de LACNIC.
+								</p>
+								<div class="d-flex align-items-center justify-content-center gap-4">
+									<div class="text-center">
+										<img src="assets/images/flags/br.svg" alt="Brasil" height="150" class="rounded shadow-sm border border-danger border-4">
+										<div class="mt-2 fw-semibold">Brasil</div>
+									</div>
+									<div class="text-center">
+										<img src="assets/images/flags/ar.svg" alt="Argentina" height="150" class="rounded shadow-sm border border-danger border-4">
+										<div class="mt-2 fw-semibold">Argentina</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light" data-bs-dismiss="modal">Entendido</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- container -->
+
+			<!-- Footer Start -->
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6 text-center text-md-start">
+							© 2014 -
+							<script>document.write(new Date().getFullYear())</script> Inspinia By <span
+								class="fw-semibold">WebAppLayers</span>
+						</div>
+						<div class="col-md-6">
+							<div class="text-md-end d-none d-md-block">
+								10GB of <span class="fw-bold">250GB</span> Free.
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+			<!-- end Footer -->
+
+		</div>
+
+		<!-- ============================================================== -->
+		<!-- End of Main Content -->
+		<!-- ============================================================== -->
+
+	</div>
+	<!-- END wrapper -->
+
+	<!-- Theme Settings -->
+	<div class="offcanvas offcanvas-end overflow-hidden" tabindex="-1" id="theme-settings-offcanvas">
+		<div class="d-flex justify-content-between text-bg-primary gap-2 p-3"
+			style="background-image: url(assets/images/user-bg-pattern.png);">
+			<div>
+				<h5 class="mb-1 fw-bold text-white text-uppercase">Admin Customizer</h5>
+				<p class="text-white text-opacity-75 fst-italic fw-medium mb-0">Easily configure layout, styles, and
+					preferences for your admin interface.</p>
+			</div>
+
+			<div class="flex-grow-0">
+				<button type="button"
+					class="d-block btn btn-sm bg-white bg-opacity-25 text-white rounded-circle btn-icon"
+					data-bs-dismiss="offcanvas"><i class="ti ti-x fs-lg"></i></button>
+			</div>
+		</div>
+
+		<div class="offcanvas-body p-0 h-100" data-simplebar>
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Select Theme</h5>
+				<div class="row g-3">
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-classic"
+								value="classic">
+							<label class="form-check-label p-0 w-100" for="demo-skin-classic">
+								<img src="assets/images/layouts/themes/theme-classic.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Classic</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-material"
+								value="material">
+							<label class="form-check-label p-0 w-100" for="demo-skin-material">
+								<img src="assets/images/layouts/themes/theme-material.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Material</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-modern"
+								value="modern">
+							<label class="form-check-label p-0 w-100" for="demo-skin-modern">
+								<img src="assets/images/layouts/themes/theme-modern.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Modern</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-saas"
+								value="saas">
+							<label class="form-check-label p-0 w-100" for="demo-skin-saas">
+								<img src="assets/images/layouts/themes/theme-saas.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">SaaS</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-flat"
+								value="flat">
+							<label class="form-check-label p-0 w-100" for="demo-skin-flat">
+								<img src="assets/images/layouts/themes/theme-flat.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Flat</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-skin" id="demo-skin-minimal"
+								value="minimal">
+							<label class="form-check-label p-0 w-100" for="demo-skin-minimal">
+								<img src="assets/images/layouts/themes/theme-minimal.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Minimal</h5>
+					</div>
+
+					<div class="col-6">
+						<div class="form-check card-radio pe-none">
+							<input class="form-check-input" disabled type="radio" name="data-skin" id="demo-skin-galaxy"
+								value="galaxy">
+							<label class="form-check-label p-0 w-100" for="demo-skin-galaxy">
+								<img src="assets/images/layouts/themes/theme-galaxy.png" alt="layout-img"
+									class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Galaxy</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Color Scheme</h5>
+				<div class="row">
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-light"
+								value="light">
+							<label class="form-check-label p-0 w-100" for="layout-color-light">
+								<img src="assets/images/layouts/light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Light</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-dark"
+								value="dark">
+							<label class="form-check-label p-0 w-100" for="layout-color-dark">
+								<img src="assets/images/layouts/dark.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Dark</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-system"
+								value="system">
+							<label class="form-check-label p-0 w-100" for="layout-color-system">
+								<img src="assets/images/layouts/system.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">System</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Topbar Color</h5>
+
+				<div class="row g-3">
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-topbar-color"
+								id="topbar-color-light" value="light">
+							<label class="form-check-label p-0 w-100" for="topbar-color-light">
+								<img src="assets/images/layouts/topbar-light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="text-center text-muted mt-2 mb-0">Light</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-dark"
+								value="dark">
+							<label class="form-check-label p-0 w-100" for="topbar-color-dark">
+								<img src="assets/images/layouts/topbar-dark.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Dark</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-gray"
+								value="gray">
+							<label class="form-check-label p-0 w-100" for="topbar-color-gray">
+								<img src="assets/images/layouts/topbar-gray.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Gray</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check card-radio">
+							<input class="form-check-input" type="radio" name="data-topbar-color"
+								id="topbar-color-gradient" value="gradient">
+							<label class="form-check-label p-0 w-100" for="topbar-color-gradient">
+								<img src="assets/images/layouts/topbar-gradient.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Gradient</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Sidenav Color</h5>
+
+				<div class="row g-3">
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color" id="sidenav-color-light"
+								value="light">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-light">
+								<img src="assets/images/layouts/light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Light</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color" id="sidenav-color-dark"
+								value="dark">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-dark">
+								<img src="assets/images/layouts/side-dark.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Dark</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color" id="sidenav-color-gray"
+								value="gray">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-gray">
+								<img src="assets/images/layouts/side-gray.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Gray</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color"
+								id="sidenav-color-gradient" value="gradient">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-gradient">
+								<img src="assets/images/layouts/side-gradient.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Gradient</h5>
+					</div>
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-menu-color" id="sidenav-color-image"
+								value="image">
+							<label class="form-check-label p-0 w-100" for="sidenav-color-image">
+								<img src="assets/images/layouts/side-image.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="fs-sm text-center text-muted mt-2 mb-0">Image</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<h5 class="mb-3 fw-bold">Sidebar Size</h5>
+
+				<div class="row g-3">
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-default" value="default">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-default">
+								<img src="assets/images/layouts/light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">Default</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-compact" value="compact">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-compact">
+								<img src="assets/images/layouts/sidebar-compact.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">Compact</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-small" value="condensed">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-small">
+								<img src="assets/images/layouts/sidebar-sm.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">Condensed</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-small-hover" value="on-hover">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-small-hover">
+								<img src="assets/images/layouts/sidebar-sm.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">On Hover</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-small-hover-active" value="on-hover-active">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-small-hover-active">
+								<img src="assets/images/layouts/light.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 fs-base text-center text-muted mt-2">On Hover - Show</h5>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check sidebar-setting card-radio">
+							<input class="form-check-input" type="radio" name="data-sidenav-size"
+								id="sidenav-size-offcanvas" value="offcanvas">
+							<label class="form-check-label p-0 w-100" for="sidenav-size-offcanvas">
+								<img src="assets/images/layouts/sidebar-full.svg" alt="layout-img" class="img-fluid">
+							</label>
+						</div>
+						<h5 class="mb-0 text-center text-muted mt-2">Offcanvas</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3 border-bottom border-dashed">
+				<div class="d-flex justify-content-between align-items-center">
+					<h5 class="fw-bold mb-0">Layout Position</h5>
+
+					<div class="btn-group radio" role="group">
+						<input type="radio" class="btn-check" name="data-layout-position" id="layout-position-fixed"
+							value="fixed">
+						<label class="btn btn-sm btn-soft-warning w-sm" for="layout-position-fixed">Fixed</label>
+
+						<input type="radio" class="btn-check" name="data-layout-position"
+							id="layout-position-scrollable" value="scrollable">
+						<label class="btn btn-sm btn-soft-warning w-sm ms-0"
+							for="layout-position-scrollable">Scrollable</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-3">
+				<div class="d-flex justify-content-between align-items-center">
+					<h5 class="mb-0"><label class="fw-bold m-0" for="sidebaruser-check">Sidebar User Info</label></h5>
+
+					<div class="form-check form-switch fs-lg">
+						<input type="checkbox" class="form-check-input" name="sidebar-user" id="sidebaruser-check">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="offcanvas-footer border-top p-3 text-center">
+			<div class="row">
+				<div class="col-6">
+					<button type="button" class="btn btn-light fw-semibold py-2 w-100" id="reset-layout">Reset</button>
+				</div>
+				<div class="col-6">
+					<a href="https://wrapbootstrap.com/theme/inspinia-multipurpose-admin-dashboard-template-WB0R5L90S?ref=inspinia"
+						target="_blank" class="btn btn-danger bg-gradient py-2 fw-semibold w-100">Buy Now</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Vendor js -->
+	<script src="assets/js/vendors.min.js"></script>
+
+	<!-- App js -->
+	<script src="assets/js/app.js"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var modalEl = document.getElementById("restricted-countries-modal");
+			if (modalEl && window.bootstrap) {
+				var modal = new bootstrap.Modal(modalEl);
+				modal.show();
+			}
+		});
+	</script>
+
+</body>
+
+</html>

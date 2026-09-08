@@ -1,0 +1,28 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedback" data-testid="feedback"></div>
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 data-testid="dshbMessageTitle"><wicket:message key="dshbMessageTitle">Filtrar mensajes por elección</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<form wicket:id="electionFilterForm" data-testid="electionFilterForm">
+						<div class="row g-3 align-items-end">
+							<div class="col-md-4">
+								<label class="form-label"><wicket:message key="dshbMessageElec" /></label>
+								<select class="form-select" wicket:id="election" data-testid="election"></select>
+							</div>
+							<div class="col-md-4 d-grid">
+								<button class="btn btn-primary" type="submit" wicket:id="filter" data-testid="filter">
+									<wicket:message key="dshbMessageBtnFilter" />
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div wicket:id="emailsList" data-testid="emailsList" class="col-md-12"></div>
+	</div>
+</wicket:extend>

@@ -1,0 +1,18 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+		<div class="card-header">
+			<h5 class="card-title mb-0" wicket:id="cardHeaderTitle" data-testid="cardHeaderTitle">Estado de la tarea</h5>
+		</div>
+		<div class="card-body">
+			<h5 class="mb-2" wicket:id="messageTitle" data-testid="messageTitle">Esta tarea ya fue completada</h5>
+			<p class="text-muted mb-2" wicket:id="messageBody" data-testid="messageBody"></p>
+			<p class="text-muted mb-3" wicket:id="contactInstructions" data-testid="contactInstructions"></p>
+				<a wicket:id="contactEmailLink" data-testid="contactEmailLink" class="link-primary"></a>
+			<div class="d-flex justify-content-end mt-4">
+				<a wicket:id="backToTasks" data-testid="backToTasks" class="btn btn-outline-light btn-md">
+					<wicket:message key="volver" />
+				</a>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

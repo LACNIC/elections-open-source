@@ -1,0 +1,20 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mt-4">
+		<div class="card-header d-flex justify-content-between align-items-center gap-2">
+			<h4 class="card-title mb-0" data-testid="organizaciones">Organizaciones</h4>
+			<span wicket:id="completionBadge" data-testid="completionBadge" class="badge bg-warning-subtle text-warning">Pendiente</span>
+		</div>
+		<div class="card-body">
+			<p class="mb-1 fs-6"><strong wicket:id="organizationQuestionLabel" data-testid="organizationQuestionLabel">¿Se encuentra vinculado o mantiene una relación laboral con alguna organización?</strong></p>
+			<p class="mb-1 fs-6"><strong>Respuesta:</strong> <span wicket:id="organizationAnswerValue" data-testid="organizationAnswerValue">-</span></p>
+			<p class="text-muted mb-3 small" wicket:id="organizationInfoText" data-testid="organizationInfoText">-</p>
+			<div class="d-flex justify-content-between align-items-start mb-3" wicket:id="organizationRows" data-testid="organizationRows">
+				<div class="pe-3">
+					<h5 class="mb-1" wicket:id="organizationName" data-testid="organización">Organización</h5>
+					<p class="text-muted mb-1" wicket:id="organizationGroup" data-testid="organizationGroup">Org ID: 102 · Categoría: Fundación</p>
+				</div>
+				<span wicket:id="organizationTypeBadge" data-testid="organizationTypeBadge" class="badge bg-secondary-subtle text-secondary">Rentado</span>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

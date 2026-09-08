@@ -3,16 +3,16 @@ package net.lacnic.elections.ws.services;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import net.lacnic.elections.data.TableReportDataStringId;
 import net.lacnic.elections.data.TablesReportDataLongId;
@@ -40,7 +40,7 @@ public class ElectionsTablesServices implements Serializable {
 
 	private static final long serialVersionUID = 1494739698166288624L;
 
-	private static final Logger appLogger = LogManager.getLogger("servicesAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("servicesAppLogger");
 
 
 
@@ -75,7 +75,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/activities")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -101,7 +101,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -138,7 +138,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/auditors")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -164,7 +164,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -201,7 +201,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/candidates")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -227,7 +227,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -264,7 +264,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/commissioners")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -290,7 +290,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -315,7 +315,7 @@ public class ElectionsTablesServices implements Serializable {
 			List<TablesReportDataLongId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getCustomizationsBasicData();
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -341,7 +341,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -378,7 +378,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/elections")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -404,7 +404,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -441,7 +441,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/electionemailtemplates")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -467,7 +467,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -504,7 +504,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/emails")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -530,7 +530,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -567,7 +567,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/emailshistory")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -593,7 +593,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -630,7 +630,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/ipaccesses")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -656,7 +656,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -692,7 +692,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/jointelections")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -718,7 +718,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -740,7 +740,7 @@ public class ElectionsTablesServices implements Serializable {
 			List<TableReportDataStringId> listTablesReportData = AppContext.getInstance().getMonitorBeanRemote().getParametersBasicData();
 			return Response.ok(listTablesReportData).build();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -766,7 +766,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -803,7 +803,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/useradmins")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -829,7 +829,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -866,7 +866,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/uservoters")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -891,7 +891,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -928,7 +928,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/tables/votes")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -954,7 +954,7 @@ public class ElectionsTablesServices implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}

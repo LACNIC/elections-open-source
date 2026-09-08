@@ -1,0 +1,158 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+			<div class="card-header">
+				<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle">
+				<wicket:message key="acceptNominationIncompatibilitiesTitle" />
+			</h4>
+		</div>
+		<div class="card-body">
+			<p wicket:id="restrictionMessage" data-testid="restrictionMessage"></p>
+			<p class="text-muted mb-4">
+				<wicket:message key="acceptNominationIncompatibilitiesIntro" />
+			</p>
+
+			<form wicket:id="incompatibilitiesForm" class="row g-3" data-testid="incompatibilitiesForm">
+					<div class="col-12">
+						<label class="form-label fw-semibold mb-1" data-testid="accept_nomination_incompatibilities_section_legal">
+							<wicket:message key="acceptNominationIncompatibilitiesSectionLegal" />
+						</label>
+					</div>
+
+				<div class="col-12">
+					<label class="form-label">
+						<wicket:message key="acceptNominationIncompatibilitiesQuestionAdultInCountry" />
+					</label>
+					<div wicket:id="qAdultInCountryGroup" class="d-flex gap-3" data-testid="qAdultInCountryGroup">
+						<div class="form-check">
+							<input wicket:id="yes" class="form-check-input" type="radio" data-testid="1yes">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionYes" />
+							</label>
+						</div>
+						<div class="form-check">
+							<input wicket:id="no" class="form-check-input" type="radio" data-testid="1no">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionNo" />
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<label class="form-label">
+						<wicket:message key="acceptNominationIncompatibilitiesQuestionCanSpeakSpanish" />
+					</label>
+					<div wicket:id="qCanSpeakSpanishGroup" class="d-flex gap-3" data-testid="qCanSpeakSpanishGroup">
+						<div class="form-check">
+							<input wicket:id="yes" class="form-check-input" type="radio" data-testid="2yes">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionYes" />
+							</label>
+						</div>
+						<div class="form-check">
+							<input wicket:id="no" class="form-check-input" type="radio" data-testid="2no">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionNo" />
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<label class="form-label">
+						<wicket:message key="acceptNominationIncompatibilitiesQuestionCivilRightsLimitation" />
+					</label>
+					<div wicket:id="qCivilRightsLimitationGroup" class="d-flex gap-3" data-testid="qCivilRightsLimitationGroup">
+						<div class="form-check">
+							<input wicket:id="yes" class="form-check-input" type="radio" data-testid="3yes">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionYes" />
+							</label>
+						</div>
+						<div class="form-check">
+							<input wicket:id="no" class="form-check-input" type="radio" data-testid="3no">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionNo" />
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12 mt-4">
+					<label class="form-label">
+						<wicket:message key="acceptNominationIncompatibilitiesQuestionLegalLimitationAnyCountry" />
+					</label>
+					<div wicket:id="qLegalLimitationAnyCountryGroup" class="d-flex gap-3" data-testid="qLegalLimitationAnyCountryGroup">
+						<div class="form-check">
+							<input wicket:id="yes" class="form-check-input" type="radio" data-testid="4yes">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionYes" />
+							</label>
+						</div>
+						<div class="form-check">
+							<input wicket:id="no" class="form-check-input" type="radio" data-testid="4no">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionNo" />
+							</label>
+						</div>
+					</div>
+				</div>
+
+					<div class="col-12 mt-4">
+						<label class="form-label fw-semibold mb-1" data-testid="accept_nomination_incompatibilities_section_health">
+							<wicket:message key="acceptNominationIncompatibilitiesSectionHealth" />
+						</label>
+					</div>
+
+				<div class="col-12">
+					<label class="form-label">
+						<wicket:message key="acceptNominationIncompatibilitiesQuestionHealthTravelLimitation" />
+					</label>
+					<div wicket:id="qHealthTravelLimitationGroup" class="d-flex gap-3" data-testid="qHealthTravelLimitationGroup">
+						<div class="form-check">
+							<input wicket:id="yes" class="form-check-input" type="radio" data-testid="5yes">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionYes" />
+							</label>
+						</div>
+						<div class="form-check">
+							<input wicket:id="no" class="form-check-input" type="radio" data-testid="5no">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionNo" />
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<label class="form-label">
+						<wicket:message key="acceptNominationIncompatibilitiesQuestionHealthMentalLimitation" />
+					</label>
+					<div wicket:id="qHealthMentalLimitationGroup" class="d-flex gap-3" data-testid="qHealthMentalLimitationGroup">
+						<div class="form-check">
+							<input wicket:id="yes" class="form-check-input" type="radio" data-testid="6yes">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionYes" />
+							</label>
+						</div>
+						<div class="form-check">
+							<input wicket:id="no" class="form-check-input" type="radio" data-testid="6no">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationIncompatibilitiesOptionNo" />
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12 d-flex mt-4 justify-content-end gap-2">
+					<button wicket:id="backButton" class="btn btn-outline-light btn-md" type="submit" data-testid="backButton">
+						<wicket:message key="volver" />
+					</button>
+					<button wicket:id="finishAndSendButton" class="btn btn-success btn-md" type="submit" data-testid="finishAndSendButton">
+						<wicket:message key="candidateProfileFinishAndSendButton" />
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>

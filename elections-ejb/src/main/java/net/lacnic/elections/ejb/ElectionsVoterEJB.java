@@ -5,18 +5,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.lacnic.elections.data.ElectionsResultsData;
-import net.lacnic.elections.domain.*;
+import net.lacnic.elections.domain.Auditor;
+import net.lacnic.elections.domain.Candidate;
+import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.JointElection;
+import net.lacnic.elections.domain.ReminderFrequency;
+import net.lacnic.elections.domain.UserVoter;
+import net.lacnic.elections.domain.Vote;
 import net.lacnic.elections.exception.OperationNotPermittedException;
-
-import javax.persistence.OptimisticLockException;
 
 public interface ElectionsVoterEJB {
 
 	public List<Object[]> getElectionVotesCandidateAndCode(long electionId);
 
 	public void saveFailedAccessIp(String remoteAddress);
+	public boolean registerPublicFailedAccessAttempt(String remoteAddress);
+	public boolean isPublicFailedAccessRateLimited(String remoteAddress);
 
 	public List<Candidate> getElectionCandidatesOrdered(long electionId) throws Exception;
+
+	public List<Candidate> getElectionBallotCandidates(long electionId) throws Exception;
 
 	public List<Candidate> getElectionCandidates(long electionId) throws Exception;
 
@@ -39,6 +47,8 @@ public interface ElectionsVoterEJB {
 	public UserVoter verifyUserVoterAccess(String voteToken);
 
 	public Auditor verifyAuditorResultAccess(String resultToken);
+
+	public boolean updateAuditorReminderFrequency(String resultToken, ReminderFrequency reminderFrequency, String ip);
 
 	public Election verifyResultAccess(String resultToken);
 

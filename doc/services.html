@@ -1,53 +1,27 @@
 ---
 layout: default
 title: Sistema Elecciones
-link_logo: http://elecciones-demo.lacnic.net.uy/elections
-link_title: http://elecciones-demo.lacnic.net.uy/elections
-link_repo: https://github.com/LACNIC/elections-open-source
 ---
 <div class="row">
-	<div class="col-lg-12">
-		<div class="ibox">
-			<div class="ibox-title">
-				<h1>{{ "Servicios Disponibles en el Sistema de Elecciones" }}</h1>
+  <div class="col-lg-12">
+    <div class="ibox">
+      <div class="ibox-title">
+        <h1>{{ "Servicios REST del Sistema de Elecciones" }}</h1>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El Sistema de Elecciones cuenta con un set de servicios REST, desarrollados en el módulo <code>elections-services</code> disponible en el <a href="{{ page.link_repo }}/tree/main/elecciones-services" target="_blank">repositorio</a>. Estos servicios quedan accesibles en la URL base <code>http://&lt;IP&gt;:&lt;puerto&gt;/elections-ws</code>.</p>
-        <p class="paragraph">Para usar los servicios son necesarias configuraciones de seguridad, consistentes en token de autenticación y filtrado IP:</p>
+        <p class="paragraph">El módulo <code>elections-services</code> genera el artefacto <code>elections-ws.war</code> y expone servicios REST bajo la URL base <code>http://&lt;host&gt;:&lt;puerto&gt;/elections-ws</code>. En la ejecución Docker local documentada para <code>v3.0</code>, la base es <code>http://localhost:8098/elections-ws</code>.</p>
+        <p class="paragraph">La aplicación JAX-RS está declarada con <code>@ApplicationPath("/")</code> y registra dos recursos: <code>ElectionsService</code> para servicios funcionales y <code>ElectionsTablesServices</code> para reportes de tablas.</p>
+        <p class="paragraph">Fuentes contrastadas: <a href="{{ site.repository_url }}/tree/main/elections-services" target="_blank"><code>elections-services</code></a>, <code>ElectionsService.java</code>, <code>ElectionsTablesServices.java</code>, <code>WebServiceAuthentication.java</code>, <code>PagingUtil.java</code>, DTOs de <code>elections-ejb</code> y tests del módulo.</p>
         <ul class="paragraph vertical-space">
-					<li><a href="#seguridad">Configuración de Seguridad</a></li>
+          <li><a href="#seguridad">Seguridad</a></li>
+          <li><a href="#paginacion">Paginación</a></li>
+          <li><a href="#servicios-funcionales">Servicios funcionales</a></li>
+          <li><a href="#servicios-v2">Snapshots públicos v2</a></li>
+          <li><a href="#servicios-tablas">Servicios de tablas</a></li>
+          <li><a href="#respuestas">Respuestas y errores</a></li>
         </ul>
-        <p class="paragraph">El aplicativo cuenta con dos grupos de servicios. Por un lado se tienen los servicios de tablas, los cuales devuelven información de cada una de las tablas del aplicativo y la data de cada fila.</p>
-        <p class="paragraph">El otro grupo cuenta con servicios enfocados en las funcionalidades del sistema y brinda información mas </p>
-        <p class="paragraph"><a href="#getTablas">Servicios de tablas:</a></p>
-        <ol class="paragraph vertical-space">
-					<li>activity</li>
-          <li>auditor</li>
-          <li>candidate</li> 
-          <li>commissioner</li> 
-          <li>elections</li> 
-          <li>email</li> 
-          <li>emailhistory</li> 
-          <li>ipaccess</li> 
-          <li>customization</li> 
-          <li>vote</li> 
-          <li>uservoter</li> 
-          <li>useradmin</li>   
-          <li>parameter</li>  
-          <li>electionemailtemplate</li>  
-          <li>jointelection</li>         
-        </ol>
-        <p class="paragraph">Servicios de especificos:</p>
-        <ol class="paragraph vertical-space">
-					<li><a href="#getHC">Health Check</a></li>
-          <li><a href="#getParticipaciones">Participaciones</a></li>
-          <li><a href="#getElecciones">Elecciones</a></li>    
-          <li><a href="#getInfoElecciones">Detalle de elecciones</a></li> 
-          <li><a href="#getOrganizaciones">Organizaciones</a></li> 
-          <li><a href="#getCorreos">Correos</a></li>       
-        </ol>
       </div>
-		</div>
+    </div>
   </div>
 </div>
 
@@ -55,335 +29,210 @@ link_repo: https://github.com/LACNIC/elections-open-source
   <div class="col-lg-12">
     <div class="ibox">
       <div class="ibox-title">
-        <h2>{{ "Configuración de Seguridad" }}</h2>
+        <h2>{{ "Seguridad" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">Existen dos formas de autenticación para el módulo de servicios. Una de ellas es utilizar un servicio externo centralizado y otra es utilizar la autenticación local del sistema de elecciones.</p>
-        <p class="paragraph">Los parámetros <code>WS_AUTH_METHOD</code>, <code>WS_LACNIC_AUTH_URL</code>, <code>WS_AUTH_TOKEN</code> y <code>WS_AUTHORIZED_IPS</code> son los encargados de controlar y configrar la autenticación.</p>
-        <p class="paragraph">El parámetro <code>WS_AUTH_METHOD</code> nos permite indicar si se utilizará un servicio centralizado o no. Si el mismo toma el valor <b>LACNIC</b>, se utilizará la autenticación centralizada. En caso de tomar el valor <b>APP</b>, se tomará la autenticación local del propio sistema. Este último valor sirve cuando NO se tiene acceso a un sistema centralizado de autenticación y aún así se quiere controlar quienes tienen acceso a la información proporcionada por los servicios.</p>
-        <p class="paragraph">El parámetro <code>WS_LACNIC_AUTH_URL</code> contiene la URL donde se aloja el servicio de autenticación centralizada. En caso, se utilice una autenticación local el valor de este no es relevante.</p>
-        <p class="paragraph">En caso se define utilizar una autorización local, es cuando toman relevancia los parámetros <code>WS_AUTH_TOKEN</code> y <code>WS_AUTHORIZED_IPS</code>. En ellos es donde se parametriza el token a ser incluido en el cabezal del request y la lista direcciones IP autorizadas para utilizar los servicios respectivamente.</p>
-        <p class="paragraph">El funcionamiento de la autenticación es la siguiente, se obtiene el valor del campo <b>Authorization</b> del cabezal del request y se valida que coincida con el valor del parámetro <code>WS_AUTH_TOKEN</code>, en caso NO coincida se inválida el acceso al servicio.</p>
-        <p class="paragraph">En caso el valor del token de autorización coincida, se pasa a validar la dirección IP de origen. Para esto, se obtiene la IP del request y se valida que esté contenida en la lista de direcciones IP habilitadas la cual está contenida en el valor del parámetro <code>WS_AUTHORIZED_IPS</code>. En caso la dirección IP no esté en la lista tampoco autoriza el acceso.</p>
-        <p class="paragraph">En el caso en que se utilice el servicio centralizado de autenticación, el valor de estos parámetros es irrelevante ya que el token y la dirección IP serán autenticadas contra los valores estalecidos en el servicio central.</p>
-        <p class="paragraph">Para obtener un detalle de estos parámetros y donde se ingresan los mismos en el aplicativo referirse al siguiente <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documento</a>.</p>
+        <p class="paragraph">Todos los servicios documentados requieren el header HTTP <code>Authorization</code>. La validación se controla con los parámetros <code>WS_AUTH_METHOD</code>, <code>WS_LACNIC_AUTH_URL</code>, <code>WS_AUTH_TOKEN</code> y <code>WS_AUTHORIZED_IPS</code>. El nombre del endpoint de autenticacion centralizada se conserva por compatibilidad con configuraciones existentes.</p>
+        <p class="paragraph">Con <code>WS_AUTH_METHOD=APP</code>, el valor de <code>Authorization</code> debe coincidir con <code>WS_AUTH_TOKEN</code>. Si el token es válido, se valida la IP del cliente contra <code>WS_AUTHORIZED_IPS</code>. La IP se toma primero del header <code>X-FORWARDED-FOR</code> y, si no está presente, de la dirección remota del request.</p>
+        <p class="paragraph">Con <code>WS_AUTH_METHOD</code> en modo centralizado, el servicio reenvía el header <code>Authorization</code> a <code>WS_LACNIC_AUTH_URL</code> y valida la respuesta del servicio centralizado. Los servicios funcionales y de tablas requieren el rol <code>api-Elections</code>; los endpoints de snapshot público <code>v2</code> requieren el rol <code>api-ElectionsPublicInformation</code>.</p>
+        <p class="paragraph">Si el token falta o no es válido, el servicio responde <code>401</code> con el texto <code>Unauthorized access, Apikey problem</code>. Si la IP no está autorizada, responde <code>401</code> con <code>Unauthorized access, IP problem</code>. Si el método de autenticación está mal configurado o ocurre un error interno durante la autenticación, responde <code>500</code>.</p>
       </div>
     </div>
   </div>
 </div>
 
-<div id="getTablas" class="row">
+<div id="paginacion" class="row">
   <div class="col-lg-12">
     <div class="ibox">
       <div class="ibox-title">
-        <h2>{{ "Servicios de Tablas" }}</h2>
+        <h2>{{ "Paginación" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">Los servicios de tablas son los encargados de devolver la información de las tablas de la base de datos. Por cada tabla se definen dos servicios, un listado y un detalle.</p>
-        <p class="paragraph">El primer servicio, de listado, retorna un resumen de toda la tabla retornando el identificador de la misma y una descripción.</p>
-        <p class="paragraph">El segundo servicio, de detalle, toma el identificador de una fila y devuelve la información de todas las columnas, sin incluir información sensible. </p>
-        <p class="paragraph">La invocación de los servicios se realiza mediante <code>GET</code> al endpoint <code>URL_BASE/elections-ws/tables/{ tabla }</code>.</p>
-        <p class="paragraph">Las tablas inlcuidas son:</p>
-        <ul class="paragraph vertical-space">
-					<li>activity
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/activities</code></li>
-              <li>Detalle: <code>tables/activity/{id}</code></li>
-            </ul>
-          </li>
-          <li>auditor
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/auditors</code></li>
-              <li>Detalle: <code>tables/auditor/{id}</code></li>
-            </ul>
-          </li>
-          <li>candidate
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/candidates</code></li>
-              <li>Detalle: <code>tables/candidate/{id}</code></li>
-            </ul>
-          </li>
-          <li>commissioner
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/commissioners</code></li>
-              <li>Detalle: <code>tables/commissioner/{id}</code></li>
-            </ul>
-          </li>
-          <li>elections
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/elections</code></li>
-              <li>Detalle: <code>tables/election/{id}</code></li>
-            </ul>
-          </li>
-          <li>email
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/emails</code></li>
-              <li>Detalle: <code>tables/email/{id}</code></li>
-            </ul>
-          </li> 
-          <li>emailhistory
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/emailshistory</code></li>
-              <li>Detalle: <code>tables/emailhistory/{id}</code></li>
-            </ul>
-          </li> 
-          <li>ipaccess
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/ipaccesses</code></li>
-              <li>Detalle: <code>tables/ipaccess/{id}</code></li>
-            </ul>
-          </li> 
-          <li>customization
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/customizations</code></li>
-              <li>Detalle: <code>tables/customization/{id}</code></li>
-            </ul>
-          </li> 
-          <li>vote
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/votes</code></li>
-              <li>Detalle: <code>tables/vote/{id}</code></li>
-            </ul>
-          </li> 
-          <li>uservoter
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/uservoters</code></li>
-              <li>Detalle: <code>tables/uservoter/{id}</code></li>
-            </ul>
-          </li> 
-          <li>useradmin
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/useradmins</code></li>
-              <li>Detalle: <code>tables/useradmin/{id}</code></li>
-            </ul>
-          </li> 
-          <li>parameter
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/parameters</code></li>
-              <li>Detalle: <code>tables/parameter/{id}</code></li>
-            </ul>
-          </li> 
-          <li>electionemailtemplate
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/electionemailtemplates</code></li>
-              <li>Detalle: <code>tables/electionemailtemplate/{id}</code></li>
-            </ul>
-          </li> 
-          <li>jointelection
-            <ul class="paragraph vertical-space">
-              <li>Listado: <code>tables/jointelections</code></li>
-              <li>Detalle: <code>tables/jointelection/{id}</code></li>
-            </ul>
-          </li>           
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-        
-<div id="getHC" class="row">
-  <div class="col-lg-12">
-    <div class="ibox">
-      <div class="ibox-title">
-        <h2>{{ "1. Health Check" }}</h2>
-      </div>
-      <div class="ibox-content">
-        <p class="paragraph">El servicio HealthCheck se encarga de obtener diversos indicadores del funcionamiento del sistema. Se invoca con <code>GET</code> al endpoint <code>URL_BASE/elections-ws/hc</code>.</p>
-        <p class="paragraph">Incluye la siguiente información:</p>
-        <ul class="paragraph vertical-space">
-					<li>Intentos de envío de correo electrónico.</li>
-          <li>Cantidad diferente de IPs que tuvieron un intento fallido de ingreso.</li>
-          <li>Cantidad total de intentos fallidos de ingreso.</li>
-          <li>Cantidad total de correos generados.</li>
-          <li>Cantidad total de correos pendientes de enviar.</li>
-          <li>Cantidad total de correos enviados.</li>
-        </ul>
+        <p class="paragraph">Los listados paginados usan el formato <code>/{pageSize}/{offset}</code>. <code>pageSize</code> debe ser mayor a cero y no puede superar el parámetro <code>WS_MAX_PAGE_SIZE</code>. <code>offset</code> debe ser cero o positivo y representa número de página, no cantidad de filas a saltear.</p>
+        <p class="paragraph">Si un endpoint paginado se invoca sin esos parámetros o con valores inválidos, responde <code>200</code> con un mensaje de ayuda que incluye ejemplos. En la base de referencia de <code>v3.0</code>, <code>WS_MAX_PAGE_SIZE</code> queda cargado con valor <code>50</code>, aunque cada ambiente debe tomar como vigente el valor configurado en su tabla <code>parameter</code>.</p>
+        <pre><code>GET /elections-ws/tables/activities/10/0
+GET /elections-ws/electionsDetail/10/1
+GET /elections-ws/electionsParticipationsByEmail/persona@example.net/10/0</code></pre>
       </div>
     </div>
   </div>
 </div>
 
-<div id="getParticipaciones" class="row">
+<div id="servicios-funcionales" class="row">
   <div class="col-lg-12">
     <div class="ibox">
       <div class="ibox-title">
-        <h2>{{ "2. Participaciones" }}</h2>
+        <h2>{{ "Servicios funcionales" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El servicio de Participaciones obtiene el detalle de integrantes de una organizaciónen el contexto de las elecciones del sistema (este dato se especifica, opcionalmente, para cada votante en el padrón de una elección). Recibe como parámetro el id de la organización a buscar. Se invoca con <code>GET</code> al endpoint <code>URL_BASE/elections-ws/participations/{ org }</code>.</p>
-        <p class="paragraph">La información que obtiene, para cada elección del sistema, es:</p>
-        <ul class="paragraph vertical-space">
-					<li>Si la organización buscada pertenece al padrón de la elección, se obtiene el nombre, mail, país, link de votación y si ya votó.</li>
-          <li>Fechas de inicio y fin de la elección.</li>
-          <li>Título de la elección en los tres idiomas.</li>
-          <li>Link de la elección en los tres idiomas</li>
-          <li>Organización buscada.</li>
-          <li>Categoría de la elección.</li>
-        </ul>
+        <p class="paragraph">Estos endpoints usan la autenticación general del WS. En modo centralizado, requieren el rol <code>api-Elections</code>.</p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Método</th>
+              <th>Endpoint</th>
+              <th>Respuesta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/hc</code></td>
+              <td><code>HealthCheck</code>: intentos de envío, IPs con accesos fallidos, total de accesos fallidos, correos totales, pendientes, enviados y resumen por elección.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/elections</code> y <code>/elecciones</code></td>
+              <td>Listado liviano de elecciones ordenado por fecha de inicio descendente.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/participations/{org}</code> y <code>/participaciones/{org}</code></td>
+              <td><code>ParticipationV2</code>: datos de la organización, persona, elección, link, tipo de participación y estado.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/old/participations/{org}</code> y <code>/old/participaciones/{org}</code></td>
+              <td><code>Participation</code> legacy. Se conserva en código para compatibilidad.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/electionsDetail/{pageSize}/{offset}</code></td>
+              <td>Lista paginada de <code>ElectionDetailReport</code>, con datos de elección, links, flags, candidatos, padrón, auditores y comisionados.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/electionDetail/{id}</code></td>
+              <td><code>ElectionDetailReport</code> de una elección. Responde <code>404</code> si no existe.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/electionsParticipationsByEmail/{email}/{pageSize}/{offset}</code></td>
+              <td>Lista paginada de <code>ElectionParticipationDetailReport</code> para el correo indicado. Incluye elección, rol y datos asociados según corresponda.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/electionsParticipationsByOrg/{orgID}/{pageSize}/{offset}</code></td>
+              <td>Lista paginada de <code>OrganizationVoterDetailReport</code> para el <code>orgID</code> indicado. Incluye votante, organización y datos básicos de la elección.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
-<div id="getElecciones" class="row">
+<div id="servicios-v2" class="row">
   <div class="col-lg-12">
     <div class="ibox">
       <div class="ibox-title">
-        <h2>{{ "3. Elecciones" }}</h2>
+        <h2>{{ "Snapshots públicos v2" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El servicio de elecciones devuelve información sobre todas las elecciones del sistema. Se invoca con <code>GET</code> al endpoint <code>URL_BASE/elections-ws/elections</code>.</p>
-        <p class="paragraph">La información que obtiene, para cada elección del sistema es:</p>
-        <ul class="paragraph vertical-space">
-					<li>Identificador de la elección.</li>
-          <li>Categoría de la elección.</li>
-          <li>Fechas de creación, inicio y fin.</li>
-          <li>Diferencia de tiempo con horario UTC.</li>
-          <li>Título de la elección en los tres idiomas.</li>
-          <li>Link de la elección en los tres idiomas</li>
-          <li>Descripción de la elección en los tres idiomas</li>
-          <li>Cantidad máxima de candidatos.</li>
-          <li>Información sobre el estado: si tiene padŕon seteado, candidatos, auditories, si esta habilitado el link de votación, el de resultados, el de auditoría y si se solicitó revisión.</li>
-          <li>Si los candidatos están ordenados aleatoriamente.</li>
-          <li>Remitente por defecto.</li>
-          <li>Token de resultado.</li>
-          <li>Si se marcó el check para copiar la información de español al resto de los idiomas.</li>
-        </ul>
+        <p class="paragraph">Los endpoints <code>v2</code> usan la validación <code>authenticatePublicInformation</code>. En modo centralizado, requieren el rol <code>api-ElectionsPublicInformation</code>. Si el snapshot solicitado no existe, responden <code>404</code>.</p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Método</th>
+              <th>Endpoint</th>
+              <th>Respuesta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/v2/elections</code></td>
+              <td><code>PublicElectionsSnapshot</code>: metadatos y listado público liviano de elecciones.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/v2/elections/{id}/public-snapshot/core</code></td>
+              <td><code>PublicElectionCoreSnapshot</code>: metadatos, datos principales de elección, visibilidad, calendario público, etapas de resultados, resumen de padrón, recuperación pública, catálogo de preguntas, candidatos y resúmenes de nominación.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/v2/elections/{id}/public-snapshot/roll</code></td>
+              <td><code>PublicElectionRollSnapshot</code>: metadatos, elección y filas de padrón público con país, organización y representante enmascarado.</td>
+            </tr>
+            <tr>
+              <td><code>GET</code></td>
+              <td><code>/v2/elections/{id}/public-snapshot/photos</code></td>
+              <td><code>PublicElectionPhotoSnapshot</code>: metadatos, elección y datos de fotos de candidatos.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
-<div id="getInfoElecciones" class="row">
+<div id="servicios-tablas" class="row">
   <div class="col-lg-12">
     <div class="ibox">
       <div class="ibox-title">
-        <h2>{{ "4. Detalle de elecciones" }}</h2>
+        <h2>{{ "Servicios de tablas" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El servicio de detalle de elecciones, en realidad, consta de dos servicios, en ambos se obtiene toda la información relacionada a una o varias elecciones. Uno de los servicios no recibe parámetros y retorna una colección con todas las elecciones del sistema. El servicio que recibe parámetros, toma un identificador de elección y retorna la información de esa elección.</p> 
-        <p class="paragraph">La invocación se realiza mediante el método <code>GET</code>, a los  endpoints <code>URL_BASE/elections-ws/electionsDetail</code> y de>URL_BASE/elections-ws/electionDetail/{ id }</code>.</p>
-        <p class="paragraph">La información que obtiene, para cada elección, es:</p>
-        <ul class="paragraph vertical-space">
-					<li>Identificador de la elección.</li>
-          <li>Categoría de la elección.</li>
-          <li>Fechas de creación, inicio y fin.</li>
-          <li>Diferencia de tiempo con horario UTC.</li>
-          <li>Título de la elección en los tres idiomas.</li>
-          <li>Link de la elección en los tres idiomas</li>
-          <li>Descripción de la elección en los tres idiomas</li>
-          <li>Cantidad máxima de candidatos.</li>
-          <li>Información sobre el estado: si tiene padŕon seteado, candidatos, auditories, si esta habilitado el link de votación, el de resultados, el de auditoría y si se solicitó revisión.</li>
-          <li>Si los candidatos están ordenados aleatoriamente.</li>
-          <li>Remitente por defecto.</li>          
-          <li>Si se marcó el check para copiar la información de español al resto de los idiomas.</li>
-          <li>Candidatos:
-            <ul class="paragraph vertical-space">
-              <li>Identificador del candidato.</li>
-              <li>Nombre del candidato.</li>
-              <li>Biografía en los tres idiomas.</li>
-              <li>Imágen del candidato.</li>
-              <li>Link en los tres idiomas.</li>
-              <li>Orden del candidato.</li>
-              <li>Email del candidato.</li>
-            </ul>
-          </li>
-          <li>Padrón:
-            <ul class="paragraph vertical-space">
-              <li>Identificador del votante.</li>
-              <li>Nombre del votante.</li>
-              <li>Email del votante.</li>
-              <li>País del votante.</li>
-              <li>Organización del votante.</li>
-              <li>Lenguage del votante.</li>
-              <li>Cantidad de votos.</li>
-            </ul>
-          </li>
-          <li>Auditores:
-            <ul class="paragraph vertical-space">
-              <li>Identificador del auditor.</li>
-              <li>Nombre del auditor.</li>
-              <li>Email del auditor.</li>
-              <li>Si brinda conformidad.</li>
-              <li>Si esta habilitado.</li>              
-            </ul>
-          </li>
-          <li>Comisionados:
-            <ul class="paragraph vertical-space">
-              <li>Identificador del comisionado.</li>
-              <li>Nombre del comisionado.</li>
-              <li>Email del comisionado.</li>
-              <li>Si brinda conformidad.</li>
-              <li>Si esta habilitado.</li>              
-            </ul>
-          </li>
-        </ul>
+        <p class="paragraph">Los servicios de tablas exponen listados resumidos y detalles de entidades internas. Los listados devuelven identificador y descripción mediante <code>TablesReportDataLongId</code> o <code>TableReportDataStringId</code>. Los detalles devuelven el report o entidad correspondiente y responden <code>404</code> cuando no existe el registro.</p>
+        <p class="paragraph">Estos endpoints también usan la autenticación general del WS. En modo centralizado, requieren el rol <code>api-Elections</code>. Los endpoints <code>/tables/parameters</code> y <code>/tables/parameter/{id}</code> enmascaran credenciales y tokens como <code>**********</code>; las claves públicas y URLs de configuración pueden permanecer visibles.</p>
+
+        <h3>{{ "Listados paginados" }}</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Tabla</th>
+              <th>Listado</th>
+              <th>Detalle</th>
+              <th>Tipo de id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>activities</td><td><code>/tables/activities/{pageSize}/{offset}</code></td><td><code>/tables/activity/{id}</code></td><td>numérico</td></tr>
+            <tr><td>auditors</td><td><code>/tables/auditors/{pageSize}/{offset}</code></td><td><code>/tables/auditor/{id}</code></td><td>numérico</td></tr>
+            <tr><td>candidates</td><td><code>/tables/candidates/{pageSize}/{offset}</code></td><td><code>/tables/candidate/{id}</code></td><td>numérico</td></tr>
+            <tr><td>commissioners</td><td><code>/tables/commissioners/{pageSize}/{offset}</code></td><td><code>/tables/commissioner/{id}</code></td><td>numérico</td></tr>
+            <tr><td>elections</td><td><code>/tables/elections/{pageSize}/{offset}</code></td><td><code>/tables/election/{id}</code></td><td>numérico</td></tr>
+            <tr><td>electionemailtemplates</td><td><code>/tables/electionemailtemplates/{pageSize}/{offset}</code></td><td><code>/tables/electionemailtemplate/{id}</code></td><td>numérico</td></tr>
+            <tr><td>emails</td><td><code>/tables/emails/{pageSize}/{offset}</code></td><td><code>/tables/email/{id}</code></td><td>numérico</td></tr>
+            <tr><td>emailshistory</td><td><code>/tables/emailshistory/{pageSize}/{offset}</code></td><td><code>/tables/emailhistory/{id}</code></td><td>numérico</td></tr>
+            <tr><td>ipaccesses</td><td><code>/tables/ipaccesses/{pageSize}/{offset}</code></td><td><code>/tables/ipaccess/{id}</code></td><td>numérico</td></tr>
+            <tr><td>jointelections</td><td><code>/tables/jointelections/{pageSize}/{offset}</code></td><td><code>/tables/jointelection/{id}</code></td><td>numérico</td></tr>
+            <tr><td>useradmins</td><td><code>/tables/useradmins/{pageSize}/{offset}</code></td><td><code>/tables/useradmin/{id}</code></td><td>texto</td></tr>
+            <tr><td>uservoters</td><td><code>/tables/uservoters/{pageSize}/{offset}</code></td><td><code>/tables/uservoter/{id}</code></td><td>numérico</td></tr>
+            <tr><td>votes</td><td><code>/tables/votes/{pageSize}/{offset}</code></td><td><code>/tables/vote/{id}</code></td><td>numérico</td></tr>
+          </tbody>
+        </table>
+
+        <h3>{{ "Listados sin paginación" }}</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Tabla</th>
+              <th>Listado</th>
+              <th>Detalle</th>
+              <th>Tipo de id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>customizations</td><td><code>/tables/customizations</code></td><td><code>/tables/customization/{id}</code></td><td>numérico</td></tr>
+            <tr><td>parameters</td><td><code>/tables/parameters</code></td><td><code>/tables/parameter/{id}</code></td><td>texto</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
-<div id="getOrganizaciones" class="row">
+<div id="respuestas" class="row">
   <div class="col-lg-12">
     <div class="ibox">
       <div class="ibox-title">
-        <h2>{{ "5. Organizaciones" }}</h2>
+        <h2>{{ "Respuestas y errores" }}</h2>
       </div>
       <div class="ibox-content">
-        <p class="paragraph">El servicio de organizaciones es el responsable de obtener la informacion de votantes y elecciones donde ha participado una organización, enviada como parámetro.</p>
-        <p class="paragraph">Se invoca con <code>GET</code> al endpoint <code>URL_BASE/elections-ws/electionsParticipationsByOrg/{ ord }</code>.</p>
-        <p class="paragraph">La información que obtiene, para la organización, es colección donde cada elemento contiene:</p>
-        <ul class="paragraph vertical-space">
-					<li>Elección:
-            <ul class="paragraph vertical-space">
-              <li>Identificador de la elección.</li>
-              <li>Categoría de la elección.</li>
-              <li>Fechas de creación, inicio y fin.</li>
-              <li>Diferencia de tiempo con horario UTC.</li>
-              <li>Título de la elección en los tres idiomas.</li>
-              <li>Link de la elección en los tres idiomas</li>
-              <li>Descripción de la elección en los tres idiomas</li>
-              <li>Cantidad máxima de candidatos.</li>
-              <li>Información sobre el estado: si tiene padŕon seteado, candidatos, auditories, si esta habilitado el link de votación, el de resultados, el de auditoría y si se solicitó revisión.</li>
-              <li>Si los candidatos están ordenados aleatoriamente.</li>
-              <li>Remitente por defecto.</li>          
-              <li>Si se marcó el check para copiar la información de español al resto de los idiomas.</li>           
-            </ul>
-          </li>
-          <li>Votante:
-            <ul class="paragraph vertical-space">
-              <li>Identificador del votante.</li>
-              <li>Nombre del votante.</li>
-              <li>Email del votante.</li>
-              <li>País del votante.</li>
-              <li>Organización del votante.</li>
-              <li>Lenguage del votante.</li>
-              <li>Cantidad de votos.</li>
-              <li>Identificador de la elección.</li>
-            </ul>
-          </li>
-        </ul>
+        <p class="paragraph">Las respuestas exitosas se publican como <code>application/json; charset=UTF-8</code>, salvo el handler de métodos inválidos, que responde texto JSON simple. Los detalles que no encuentran entidad responden <code>404</code>. Las excepciones no controladas responden <code>500</code> y se registran en <code>servicesAppLogger</code>.</p>
+        <p class="paragraph">Los métodos <code>HEAD</code>, <code>PUT</code>, <code>POST</code> y <code>DELETE</code> sobre cualquier ruta del recurso principal no ejecutan operaciones de negocio; responden <code>200</code> con el texto <code>Not a valid operation.</code>. Los servicios documentados son de consulta y se invocan con <code>GET</code>.</p>
       </div>
-    </div>
-  </div>
-</div>
-
-<div id="getCorreos" class="row">
-  <div class="col-lg-12">
-    <div class="ibox">
-      <div class="ibox-title">
-        <h2>{{ "6. Correo Electrónico" }}</h2>
-      </div>
-      <div class="ibox-content">
-        <p class="paragraph">El servicio de correo electrónico obtiene, para el correo electrónico enviado como paráemtro, todas las elecciones donde ha participado la persona y cual fue su rol, votante, candidato, comisionado o auditor.</p>
-        <p class="paragraph">Se invoca con <code>GET</code> al endpoint <code>URL_BASE/elections-ws/electionsParticipationsByEmail/{ email }</code>.</p>
-        <p class="paragraph">La información que obtiene es una colección donde cada elemento contiene:</p>
-        <ul class="paragraph vertical-space">
-					<li>Identificador de la elección.</li>          
-          <li>Fechas de creación, inicio y fin.</li>          
-          <li>Título de la elección en los tres idiomas.</li>          
-          <li>Rol de la persona en la elección: votante, candidato, auditor o comisionado.</li>          
-        </div>
     </div>
   </div>
 </div>

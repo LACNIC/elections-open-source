@@ -1,0 +1,130 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Candidaturas, nominaciones y apoyos" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el bloque vigente de candidaturas en <code>v3.0</code>: alta manual desde admin, nominacion desde organizaciones, aceptacion o rechazo por la persona nominada, flujo de apoyos y publicacion final de candidaturas. El contenido fue contrastado contra la UI administrativa y publica, el dominio <code>Candidate</code>/<code>Nomination</code>/<code>SupportNomination</code>, la logica EJB y las restricciones reales del flujo tokenizado.</p>
+
+				<h2>{{ "Ubicacion en el flujo" }}</h2>
+				<ul class="paragraph">
+					<li>La pantalla administrativa de candidatos esta montada en <code>/admin/election/candidates</code>.</li>
+					<li>En el wizard de gestion vuelve a <b>Tareas</b> y continua hacia <b>Auditores</b>.</li>
+					<li>El flujo publico asociado usa tres familias de links: <code>/token/organization/do-nomination</code> para nominar, una pantalla de condiciones/aceptacion resuelta por <code>acceptNominationToken</code> junto con <code>/token/nomination/tasks</code> para completar la candidatura, y <code>/token/nomination/support</code> para responder apoyos.</li>
+					<li>Si la eleccion esta cerrada, la UI administrativa deriva a <b>Eleccion cerrada</b> y no permite edicion.</li>
+				</ul>
+
+				<h2>{{ "Modelo operativo del bloque" }}</h2>
+				<ul class="paragraph">
+					<li>Una <code>Nomination</code> pertenece a una eleccion y a una organizacion. Puede o no tener un <code>Candidate</code> asociado. Cuando la persona nominada acepta, el backend crea ese candidato y lo vincula en relacion uno a uno.</li>
+					<li>Los apoyos se modelan como <code>SupportNomination</code> asociados a una nominacion. Pueden venir de otra organizacion o de un contacto manual sin organizacion asociada.</li>
+					<li>El sistema maneja dos tipos de candidato: <code>NORMAL</code> y <code>ABSTENTION</code>. La abstencion no nace desde una nominacion: se agrega manualmente desde admin.</li>
+					<li>Los estados de nominacion que hoy existen en el modelo son <code>PROPOSED</code>, <code>ACCEPTED_BY_CANDIDATE</code>, <code>REJECTED_BY_CANDIDATE</code>, <code>INVALID</code> y <code>APPROVED</code>. El flujo publico actual genera directamente <code>PROPOSED</code>, <code>ACCEPTED_BY_CANDIDATE</code> y <code>REJECTED_BY_CANDIDATE</code>; <code>INVALID</code> y <code>APPROVED</code> quedan para tratamientos posteriores del proceso.</li>
+					<li>Los estados de apoyo son <code>PROPOSED</code>, <code>ACCEPTED</code>, <code>REJECTED</code>, <code>APPROVED</code> e <code>INVALID</code>. La pagina publica de apoyo solo permite decidir <code>ACCEPTED</code> o <code>REJECTED</code>.</li>
+					<li>Los estados de candidato son <code>INCOMPLETE</code>, <code>PRECOMPLETE</code>, <code>COMPLETE</code>, <code>CONFIRMED_AND_PUBLISHED</code> y <code>REJECTED</code>. La pantalla administrativa de estado expone todos los enums y el backend no valida transiciones de negocio entre estados: acepta cualquier cambio directo mientras el valor nuevo sea distinto del actual.</li>
+					<li>Solo los candidatos en <code>CONFIRMED_AND_PUBLISHED</code> entran en la boleta publica y en los listados publicos de candidatos. La opcion de abstencion creada desde admin nace directamente en ese estado.</li>
+				</ul>
+
+				<h2>{{ "Alta manual y edicion administrativa" }}</h2>
+				<ul class="paragraph">
+					<li>El alta manual inline permite cargar <b>Nombre</b>, <b>Email</b>, <b>Frecuencia de recordatorio</b>, <b>Biografia en espanol</b>, <b>Link publico en espanol</b>, <b>LinkedIn</b> y <b>Foto</b>.</li>
+					<li><b>Nombre</b> es obligatorio y tiene maximo de <code>255</code> caracteres. <b>Email</b> es obligatorio para candidatos normales y valida formato. <b>Frecuencia de recordatorio</b> tambien es obligatoria para candidatos normales.</li>
+					<li><b>Biografia en espanol</b> es obligatoria, admite hasta <code>2000</code> caracteres y pasa por <code>LinkValidator</code>. <b>Link publico</b> y <b>LinkedIn</b> son opcionales, con validacion de URL y maximo de <code>1000</code> caracteres.</li>
+					<li>En alta manual, si no se adjunta foto, el backend asigna la foto default del sistema. En edicion existe ademas la opcion <b>Restaurar foto default</b>.</li>
+					<li>Los candidatos agregados manualmente quedan con tipo <code>NORMAL</code>, toman el siguiente orden no fijo disponible y reciben filas de progreso <code>NOT_STARTED</code> para todas las tareas hoy configuradas en la eleccion.</li>
+					<li>La UI inline fuerza <code>onlySp=true</code> al crear un candidato manual nuevo. Ademas, cada guardado del formulario inline ejecuta <code>copyBioToOtherLanguages()</code>: replica siempre <code>bioSpanish</code> y <code>linkSpanish</code> hacia EN/PT y tambien copia respuestas abiertas desde espanol. Si ya existian traducciones diferenciadas, quedan sobrescritas y deben corregirse luego desde <b>Traducciones</b>.</li>
+					<li>La pantalla historica <code>/admin/election/candidates/edit</code> sigue montada, pero hoy la operacion normal del modulo se hace desde el formulario inline del dashboard principal.</li>
+				</ul>
+
+				<h2>{{ "Opcion de abstencion y orden de candidatos" }}</h2>
+				<ul class="paragraph">
+					<li>Desde la cabecera del modulo puede agregarse una unica opcion de abstencion. Si ya existe, el boton desaparece.</li>
+					<li>La abstencion se crea con nombre trilingue fijo, bio default configurable por parametro, foto default especifica, <code>ReminderFrequency.DISABLED</code> y estado <code>CONFIRMED_AND_PUBLISHED</code>.</li>
+					<li>Al crearse, la abstencion toma <code>candidateOrder = MAX_ORDER</code>. Si ya habia un primer candidato fijo, el backend lo mueve al ultimo orden no fijo para dejar a la abstencion arriba.</li>
+					<li>La cabecera tambien permite activar <code>randomOrderCandidates</code>. Ese switch afecta la presentacion final de candidaturas publicadas; no elimina los ordenes persistidos ni las posiciones fijas.</li>
+					<li>En modo no aleatorio, cada candidato normal puede moverse arriba/abajo, fijarse primero, fijarse ultimo o volver al bloque no fijo. Las posiciones fijas usan internamente <code>MAX_ORDER</code> y <code>MIN_ORDER</code>.</li>
+					<li>La lista administrativa siempre muestra la posicion resultante segun el estado actual: <b>Fijo primero</b>, <b>Fijo ultimo</b>, <b>Aleatorio</b> o la posicion secuencial visible.</li>
+				</ul>
+
+				<h2>{{ "Nominacion desde organizaciones" }}</h2>
+				<ul class="paragraph">
+					<li>La nominacion desde organizaciones se hace con el token <code>doNominationToken</code> de cada organizacion, usando la pagina <code>/token/organization/do-nomination</code>.</li>
+					<li>El acceso real requiere dos condiciones simultaneas: que el switch manual <code>doNominationLinkAvailable</code> este habilitado y que la eleccion este dentro de la ventana de calendario <code>N_2_PERIODO_CALL_FOR_CANDIDATES</code>.</li>
+					<li>La organizacion no puede volver a nominar mientras tenga alguna nominacion propia en estado <code>PROPOSED</code>, <code>ACCEPTED_BY_CANDIDATE</code> o <code>APPROVED</code>. Si la nominacion previa fue rechazada por la persona nominada o quedo invalida, el sistema vuelve a permitir una nueva nominacion.</li>
+					<li>El formulario exige <b>Nombre completo</b>, <b>Email</b>, <b>Codigo de pais del telefono</b>, <b>Telefono</b> y <b>Motivo</b>. El nombre requiere al menos <code>3</code> caracteres y valida un patron de nombre completo; el motivo exige entre <code>20</code> y <code>2000</code> caracteres.</li>
+					<li>La UI normaliza espacios y arma el telefono como <code>&lt;codigoPais&gt; &lt;telefono&gt;</code>. El backend vuelve a validar largos y formato minimo antes de persistir.</li>
+					<li>Al guardar, el backend crea la nominacion en estado <code>PROPOSED</code>, genera <code>acceptNominationToken</code> y encola el email de nominacion para la persona nominada.</li>
+					<li>Si la eleccion tiene paises restringidos configurados, la pagina de nominacion los muestra en un modal informativo antes de completar el envio.</li>
+				</ul>
+
+				<h2>{{ "Aceptacion o rechazo por la persona nominada" }}</h2>
+				<ul class="paragraph">
+					<li>La aceptacion se inicia con el <code>acceptNominationToken</code> de la nominacion. Si la nominacion ya fue aceptada, la pantalla de condiciones redirige automaticamente al panel de tareas.</li>
+					<li>La aceptacion solo se permite cuando la nominacion sigue en <code>PROPOSED</code>, el switch manual <code>nominationTasksLinkAvailable</code> esta habilitado y la eleccion continua dentro de <code>N_2_PERIODO_CALL_FOR_CANDIDATES</code>.</li>
+					<li>Ademas, el backend bloquea la aceptacion si ya existe otra nominacion de la misma eleccion en estado <code>ACCEPTED_BY_CANDIDATE</code> para el mismo email normalizado.</li>
+					<li>Cuando la aceptacion prospera, el sistema crea un candidato nuevo con nombre y email tomados de la nominacion, <code>onlySp=true</code>, foto default, estado <code>INCOMPLETE</code>, estados de capacitacion/evaluacion en <code>PENDING</code> y el siguiente orden no fijo disponible.</li>
+					<li>En ese mismo paso se generan filas de progreso <code>NOT_STARTED</code> para todas las tareas hoy configuradas en la eleccion y la nominacion pasa a <code>ACCEPTED_BY_CANDIDATE</code>.</li>
+					<li>Si la persona nominada rechaza, la nominacion pasa a <code>REJECTED_BY_CANDIDATE</code>. Ademas, cualquier apoyo todavia pendiente en estado <code>PROPOSED</code> se fuerza a <code>REJECTED</code>.</li>
+				</ul>
+
+				<h2>{{ "Tareas de candidatura y apoyos" }}</h2>
+				<p class="paragraph">La pagina <code>/token/nomination/tasks</code> solo existe para nominaciones aceptadas. El detalle de preguntas, declaraciones y preguntas de comunidad ya quedo separado en <a href="{{site.baseurl}}/questions-declarations.html">esta guia</a>; aqui se mantienen las reglas operativas generales del bloque de apoyos y acceso.</p>
+				<ul class="paragraph">
+					<li>El acceso a tareas requiere nominacion aceptada y respeta tanto el switch manual <code>nominationTasksLinkAvailable</code> como las ventanas de calendario asociadas. Cuando una tarea ya vencio o tiene dependencias previas pendientes, la pagina la deja solo en los modos permitidos por su estado real.</li>
+					<li>Las tareas <b>Capacitacion</b> y <b>Evaluacion</b> tambien sincronizan estados operativos del candidato: al marcarse <code>STARTED</code> o <code>COMPLETED</code> pueden mover <code>campusCourseStatus</code> y <code>evaluationStatus</code>.</li>
+					<li>El bloque de preguntas a candidatos de comunidad se muestra solo dentro de <code>N_12_PERIODO_CANDIDATE_QUESTIONS</code>.</li>
+					<li>Los apoyos de organizaciones solo pueden pedirse para organizaciones de la misma eleccion, con <code>membershipContactEmail</code> cargado, distintas de la organizacion que nomino y cuyo email de contacto no coincida con el email del candidato.</li>
+					<li>Ademas, una organizacion no puede volver a ser pedida dos veces para la misma nominacion ni puede haber otorgado ya apoyo a otra nominacion de esa misma eleccion. El sistema admite como maximo <code>2</code> apoyos activos de organizacion por nominacion, contando <code>PROPOSED</code>, <code>ACCEPTED</code> y <code>APPROVED</code>.</li>
+					<li>Los apoyos por contacto manual solo aplican a las tareas <code>USER_SUPPORTS_2</code> y <code>USER_SUPPORTS_5</code>. El contacto no puede ser el propio email del candidato ni repetirse dentro de la misma nominacion.</li>
+					<li>Si la eleccion tiene <code>authorizedNominateEmails</code> configurado, el formulario de nominacion solo acepta correos de candidato incluidos en esa lista. Si la lista esta vacia, no se aplica esa restriccion adicional.</li>
+					<li>Si la eleccion tiene <code>authorizedSupportEmails</code> configurado, la UI del candidato solo permite cargar contactos manuales incluidos en esa lista. Si la lista esta vacia, no se aplica esa restriccion adicional.</li>
+					<li>El sistema no deja solicitar mas apoyos manuales de los requeridos por la tarea. Para ese conteo considera activos los estados <code>PROPOSED</code>, <code>ACCEPTED</code> y <code>APPROVED</code>.</li>
+					<li>La pagina publica de apoyo permite aceptar o rechazar. Al responder, encola un email informando el cambio al candidato.</li>
+					<li>Cuando una nominacion alcanza <code>2</code> apoyos de usuario aceptados/aprobados, el backend intenta completar automaticamente la tarea <code>USER_SUPPORTS_2</code>. Cuando alcanza <code>5</code>, hace lo mismo con <code>USER_SUPPORTS_5</code>. Para apoyos de organizacion, la tarea <code>ORG_SUPPORTS</code> se completa automaticamente al llegar a <code>2</code> apoyos aceptados/aprobados.</li>
+				</ul>
+
+				<h2>{{ "Gestion administrativa posterior" }}</h2>
+				<ul class="paragraph">
+					<li>La lista administrativa muestra para cada candidato foto, resumen de nominacion vinculada, nombre, id, email, biografia, link publico visible, LinkedIn, estado de Campus y estado de candidatura.</li>
+					<li>Si el candidato no tiene <code>linkSpanish</code>, la UI muestra como fallback el perfil publico del candidato construido con <code>publicElectionToken</code> y <code>action=candidate</code>.</li>
+					<li>La accion <b>Estado</b> permite cambiar el estado del candidato, agregar comentario y guardar con o sin envio del correo <code>CANDIDATE_CONFIRMED_AND_PUBLISHED</code> cuando se pasa a <code>CONFIRMED_AND_PUBLISHED</code>.</li>
+					<li>La advertencia sobre aprobacion de auditores en esa pantalla es solo informativa: si no todos los commissioners aprobaron, la UI muestra el resumen, pero el backend igual acepta el cambio de estado.</li>
+					<li>La accion <b>Capacitacion</b> permite editar <code>campusCourseStatus</code>, <code>evaluationStatus</code>, calificacion y archivo Proctorio. Si el admin deja capacitacion o evaluacion en <code>COMPLETED</code> o <code>NOT_APPLICABLE</code>, la pantalla intenta marcar como completada la tarea correspondiente usando el token de nominacion.</li>
+					<li>La accion <b>Traducciones</b> permite editar links EN/PT y las traducciones de respuestas abiertas. Esa pantalla integra asistencia de IA para mejorar texto, pero el detalle funcional de prompts, limites y uso transversal queda documentado aparte.</li>
+					<li>La accion <b>Ver respuestas</b> abre una vista tecnica consolidada con datos del candidato, nominacion, apoyos, progreso de tareas, paises, organizaciones y decisiones de auditoria ya asociadas.</li>
+					<li>Los recordatorios manuales para nominaciones pendientes, candidatos aceptados y apoyos pendientes existen, pero hoy viven en los pre-reportes de la eleccion, no en la lista principal de candidatos.</li>
+				</ul>
+
+				<h2>{{ "Publicacion y efecto en boleta" }}</h2>
+				<ul class="paragraph">
+					<li>La boleta publica toma solamente candidatos en <code>CONFIRMED_AND_PUBLISHED</code>.</li>
+					<li>Si <code>randomOrderCandidates=false</code>, la boleta respeta el orden persistido por <code>candidateOrder</code> en forma descendente, incluyendo las posiciones fijas.</li>
+					<li>Si <code>randomOrderCandidates=true</code>, el backend mezcla solo las candidaturas normales publicadas y luego reinyecta la abstencion segun la posicion relativa derivada de su orden persistido.</li>
+					<li>Que una candidatura quede en <code>COMPLETE</code> o que todas sus tareas esten completas no la publica por si sola: la inclusion publica sigue dependiendo del cambio administrativo a <code>CONFIRMED_AND_PUBLISHED</code>.</li>
+				</ul>
+
+				<h2>{{ "Completitud y navegacion" }}</h2>
+				<ul class="paragraph">
+					<li><b>Atras:</b> vuelve a <b>Tareas</b>.</li>
+					<li><b>Continuar despues:</b> navega a <b>Auditores</b> sin marcar candidaturas como completadas.</li>
+					<li><b>Marcar como terminada y seguir:</b> solo deja <code>candidatesSet=true</code> y navega a <b>Auditores</b>. La implementacion actual no valida que exista al menos un candidato regular cargado ni que haya nominaciones aceptadas.</li>
+				</ul>
+
+				<h2>{{ "Bloques relacionados" }}</h2>
+				<ul class="paragraph">
+					<li><b>Calendario y tareas:</b> la configuracion de ventanas, dependencias y catalogo de tareas esta documentada en <a href="{{site.baseurl}}/calendar-tasks.html">esta guia</a>.</li>
+					<li><b>Organizaciones:</b> el origen de los links de nominacion y de muchos apoyos por organizacion esta documentado en <a href="{{site.baseurl}}/organizations.html">esta guia</a>.</li>
+					<li><b>Preguntas y declaraciones:</b> el detalle funcional de preguntas estatutarias/no estatutarias, declaraciones y preguntas de comunidad esta documentado en <a href="{{site.baseurl}}/questions-declarations.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionsManagerApp</code>, <code>ElectionCandidatesDashboard</code>, <code>CandidatesListPanel</code>, <code>CandidatesHeaderActionsPanel</code>, <code>AddCandidatePanel</code>, <code>EditCandidateDashboard</code>, <code>ManageCandidateStatusDashboard</code>, <code>ManageCandidateTrainingDashboard</code>, <code>ManageCandidateTranslationsDashboard</code>, <code>ManageCandidateBiographyDashboard</code>, <code>ViewCandidateAnswersDashboard</code>, <code>DoNominationPage</code>, <code>NominationFormPanel</code>, <code>AcceptNominationConditionsPage</code>, <code>GenericAcceptNominationTasksPage</code>, <code>SupportNominationPage</code>, <code>GenericNominationOrgSupportsManagementPanel</code>, <code>GenericNominationUserSupportsManagementPanel</code>, <code>AuthorizedSupportContactEmailValidator</code>, <code>Candidate</code>, <code>CandidateType</code>, <code>CandidateStatus</code>, <code>Nomination</code>, <code>NominationStatus</code>, <code>SupportNomination</code>, <code>SupportStatus</code>, <code>CandidateDao</code>, <code>ElectionsManagerEJBBean</code>, <code>ElectionsPreNominationEJBBean</code> y <code>ElectionsManagerApp.properties.xml</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

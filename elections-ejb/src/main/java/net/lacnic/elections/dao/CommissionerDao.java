@@ -2,19 +2,17 @@ package net.lacnic.elections.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.Commissioner;
-
 
 public class CommissionerDao {
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("ejbAppLogger");
 
 	private EntityManager em;
 
@@ -24,7 +22,7 @@ public class CommissionerDao {
 
 	public Commissioner getCommissioner(long commissionerId) {
 		TypedQuery<Commissioner> q = em.createQuery("SELECT c FROM Commissioner c WHERE c.commissionerId =:commissionerId", Commissioner.class);
-		q.setParameter("commissionerId", commissionerId);		
+		q.setParameter("commissionerId", commissionerId);
 		return q.getSingleResult();
 	}
 
@@ -39,7 +37,7 @@ public class CommissionerDao {
 			q.setParameter("mail", mail.toUpperCase().trim());
 			return q.getSingleResult();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return null;
 		}
 	}

@@ -1,0 +1,52 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+			<div class="card-header">
+				<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle">
+				<wicket:message key="acceptNominationDeclarationsNonStatutoryTitle" />
+			</h4>
+		</div>
+		<div class="card-body">
+			<p wicket:id="restrictionMessage" data-testid="restrictionMessage"></p>
+
+			<form wicket:id="declarationsForm" data-testid="declarationsForm">
+				<div wicket:id="declarationRows" data-testid="declarationRows">
+					<div class="mb-4">
+						<p class="fw-semibold mb-2" wicket:id="declarationTitle" data-testid="declarationTitle"></p>
+
+						<div class="text-muted mb-2" wicket:id="descriptionHtml" data-testid="descriptionHtml"></div>
+
+						<p wicket:id="regulationLinkContainer" class="mb-2" data-testid="regulationLinkContainer">
+							<a wicket:id="regulationLink" class="link-primary" target="_blank" rel="noopener" data-testid="regulationLink">
+								<span wicket:id="regulationLinkLabel" data-testid="regulationLinkLabel"></span>
+							</a>
+						</p>
+
+						<div wicket:id="checkboxContainer" class="form-check mt-2" data-testid="checkboxContainer">
+							<input wicket:id="acceptCheck" class="form-check-input" type="checkbox" data-testid="acceptCheck">
+							<label class="form-check-label fst-italic" wicket:id="acceptLabel" data-testid="acceptLabel"></label>
+						</div>
+
+						<div wicket:id="radioContainer" class="mt-2" data-testid="radioContainer">
+							<div wicket:id="pepGroup" data-testid="pepGroup">
+								<div wicket:id="pepOptions" class="form-check mb-2" data-testid="pepOptions">
+									<input wicket:id="pepOptionInput" class="form-check-input" type="radio" data-testid="pepOptionInput">
+									<label class="form-check-label fst-italic" wicket:id="pepOptionLabel" data-testid="pepOptionLabel"></label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="border-top border-dashed my-3"></div>
+				<div class="d-flex mt-4 justify-content-end gap-2">
+					<a wicket:id="backButton" class="btn btn-outline-light btn-md" data-testid="backButton">
+						<wicket:message key="volver" />
+					</a>
+					<button wicket:id="finishAndSendButton" class="btn btn-success btn-md" type="submit" data-testid="finishAndSendButton">
+						<wicket:message key="candidateProfileFinishAndSendButton" />
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>

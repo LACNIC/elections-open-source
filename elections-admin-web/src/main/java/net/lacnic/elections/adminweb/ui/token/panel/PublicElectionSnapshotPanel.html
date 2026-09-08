@@ -1,0 +1,685 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="row mt-3">
+		<div class="col-12">
+			<div wicket:id="feedbackPanel" data-testid="feedbackPanel"></div>
+		</div>
+	</div>
+
+	<div wicket:id="landingContainer" data-testid="landingContainer" class="py-3">
+		<section wicket:id="officialResultsSection" data-testid="officialResultsSection" class="mb-4">
+			<div class="card border-success shadow-sm">
+				<div class="card-header">
+					<h4 class="card-title mb-0" data-testid="publicElectionOfficialResultsTitle"><span wicket:id="officialResultsTitle">Resultados oficiales de la elección</span></h4>
+				</div>
+				<div class="card-body">
+					<div wicket:id="officialResultsContent" data-testid="officialResultsContent" class="text-body"></div>
+					<div class="mt-3">
+						<a wicket:id="officialResultsLetterLink" data-testid="officialResultsLetterLink" class="btn btn-primary btn-sm">
+							<wicket:message key="publicElectionOfficialResultsDownloadLetter">Descargar carta de la comisión electoral</wicket:message>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section wicket:id="candidateCallBannerSection" data-testid="candidateCallBannerSection" class="mb-4 d-flex flex-column gap-3">
+			<div wicket:id="candidateCallInfoCard" data-testid="candidateCallInfoCard" class="card border-primary shadow-sm">
+				<div class="card-header">
+					<h4 class="card-title mb-0" data-testid="publicElectionModernCandidateCallTitle"><span wicket:id="candidateCallTitle">Convocatoria abierta</span></h4>
+				</div>
+				<div class="card-body">
+					<div wicket:id="candidateCallInfoAlert" class="alert alert-primary mb-0" data-testid="candidateCallInfoAlert">-</div>
+				</div>
+			</div>
+			<div wicket:id="candidateNominationCard" data-testid="candidateNominationCard" class="card border-primary shadow-sm">
+				<div class="card-header">
+					<div wicket:id="candidateCallBannerHeader">
+						<h4 class="card-title mb-0" data-testid="publicElectionModernNominateTitle"><span wicket:id="nominateTitle">Formulario para postular candidatos a la elección</span></h4>
+					</div>
+				</div>
+				<div class="card-body">
+					<p class="text-muted mb-3" data-testid="publicElectionModernNominateDescription"><wicket:message key="publicElectionModernNominateDescription">Durante este período podés presentar una postulación pública y completar los datos de la organización que nomina y de la persona postulada.</wicket:message></p>
+					<div class="d-flex align-items-center">
+						<a wicket:id="nominateLink" data-testid="nominateLink" class="btn btn-primary"><wicket:message key="publicElectionModernNominateButton">Postular candidato</wicket:message></a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="resultado-eleccion" wicket:id="resultSection" data-testid="resultSection" class="section-title"
+				data-calendar-show-from="N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED"
+				data-calendar-stage-flow="N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED,N_18_PERIODO_CE_AUDIT,N_19_PERIODO_VOTER_AUDIT,N_20_SINGLE_OFFICIAL_RESULTS_NO_CLAIMS_PUBLISHED,N_21_PERIODO_VOTER_CLAIMS_RESPONSE,N_22_SINGLE_OFFICIAL_RESULTS_WITH_CLAIMS_PUBLISHED"
+				data-task-scope="no-task">
+			<div class="card section-card mb-4">
+				<div class="card-header">
+					<h4 class="card-title mb-0" data-testid="resultado_de_la_elec"><wicket:message key="publicElectionModernResultTitle">Resultado de la elección</wicket:message></h4>
+				</div>
+				<div class="card-body">
+					<div class="alert alert-primary mb-3">
+						<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+							<p class="mb-0"><strong><wicket:message key="publicElectionModernResultStatusLabel">Estado de publicación:</wicket:message></strong> <span wicket:id="resultPublicationStatus" data-testid="resultPublicationStatus">Resultados provisorios sujetos a auditoría.</span></p>
+							<button wicket:id="resultPublicationHelpButton" data-testid="resultPublicationHelpButton" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="popover" data-bs-trigger="focus" wicket:message="title:publicElectionModernResultStatusPopoverTitle"><wicket:message key="publicElectionModernResultStatusPopoverButton">¿Qué significa?</wicket:message></button>
+						</div>
+						<div wicket:id="resultStatusDebugFooter" data-testid="resultStatusDebugFooter"></div>
+					</div>
+
+					<div class="row g-3 mb-3">
+						<div class="col-lg-8">
+							<div wicket:id="winnerCardsSection" data-testid="winnerCardsSection" class="border rounded border-primary p-3 mb-3">
+								<h4 class="mb-3 text-muted"><wicket:message key="publicElectionModernWinnerSectionTitle">Finalizado el período de votación, los candidatos electos son:</wicket:message></h4>
+								<div class="table-responsive">
+									<table class="table table-sm align-middle mb-0">
+										<tbody>
+											<tr wicket:id="winnerCards" data-testid="winnerCards">
+												<td>
+													<div class="d-flex justify-content-start align-items-center gap-2">
+														<div class="avatar avatar-sm">
+															<img wicket:id="winnerPicture" data-testid="winnerPicture" wicket:message="alt:publicElectionModernCandidateImageAlt">
+														</div>
+														<div>
+															<h5 class="text-nowrap mb-0 lh-base fs-base">
+																<span wicket:id="winnerName" data-testid="winnerName">-</span>
+																<span wicket:id="winnerWinnerBadge" data-testid="winnerWinnerBadge"></span>
+															</h5>
+														</div>
+													</div>
+												</td>
+												<td class="text-nowrap">
+													<div class="d-flex align-items-center gap-2">
+														<span wicket:id="winnerCountryBlock" class="badge p-1 text-bg-light fs-sm">
+															<img wicket:id="winnerCountryFlag" data-testid="winnerCountryFlag" class="rounded-circle me-1" wicket:message="alt:publicElectionModernCandidateCountryFlagAlt">
+															<span wicket:id="winnerCountry" data-testid="winnerCountry">-</span>
+														</span>
+														<span wicket:id="winnerYearBadge" data-testid="winnerYearBadge" class="badge p-1 text-bg-light fs-sm">
+															<span wicket:id="winnerYear" data-testid="winnerYear">2025</span>
+														</span>
+													</div>
+												</td>
+												<td class="text-nowrap" wicket:id="winnerVotes" data-testid="winnerVotes">0</td>
+												<td class="text-nowrap" wicket:id="winnerPercentage" data-testid="winnerPercentage">0%</td>
+												<td class="text-nowrap">
+													<div class="d-flex align-items-center justify-content-center gap-1">
+														<a wicket:id="winnerProfileLink"
+															data-testid="winnerProfileLink"
+															class="btn btn-light btn-icon btn-sm rounded-circle"
+															wicket:message="title:publicElectionModernWinnerViewProfile,aria-label:publicElectionModernWinnerViewProfile"><i class="ti ti-eye fs-lg"></i></a>
+														<a wicket:id="winnerLinkedinLink"
+															data-testid="winnerLinkedinLink"
+															class="btn btn-light btn-icon btn-sm rounded-circle"
+															target="_blank"
+															rel="noopener"
+															wicket:message="title:publicElectionModernDetailLinkedin,aria-label:publicElectionModernDetailLinkedin"><i class="ti ti-brand-linkedin fs-lg"></i></a>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="border rounded">
+								<div class="table-responsive">
+									<table class="table table-hover align-middle mb-0">
+									<thead class="table-light">
+										<tr>
+											<th><wicket:message key="publicElectionModernResultTableCandidate">Candidatos</wicket:message></th>
+											<th width="160"><wicket:message key="publicElectionModernResultTableVotes">Votos recibidos</wicket:message></th>
+											<th width="100">%</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr wicket:id="resultRows" data-testid="resultRows">
+											<td data-testid="resultCandidateCell">
+												<span wicket:id="resultCandidate" data-testid="resultCandidate">-</span>
+												<span wicket:id="resultWinnerBadge" data-testid="resultWinnerBadge"></span>
+											</td>
+											<td wicket:id="resultVotes" data-testid="resultVotes">0</td>
+											<td wicket:id="resultPercentage" data-testid="resultPercentage">0%</td>
+										</tr>
+										<tr class="fw-semibold">
+											<td><wicket:message key="publicElectionModernResultTableTotalVotes">Total de votos</wicket:message></td>
+											<td wicket:id="resultTotalVotes" data-testid="resultTotalVotes">0</td>
+											<td wicket:id="resultTotalPercentage" data-testid="resultTotalPercentage">0%</td>
+										</tr>
+									</tbody>
+									</table>
+								</div>
+							</div>
+							<div wicket:id="resultTableDebugFooter" data-testid="resultTableDebugFooter"></div>
+						</div>
+						<div class="col-lg-4">
+							<div class="border rounded p-3 mb-3">
+								<h6 class="mb-2"><wicket:message key="publicElectionModernResultStagesTitle">Etapas de publicación</wicket:message></h6>
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item px-0 py-2" wicket:id="resultStageRows" data-testid="resultStageRows">
+										<div class="d-flex justify-content-between align-items-start gap-2">
+											<div>
+												<div class="fw-semibold" wicket:id="stageTitle" data-testid="stageTitle">Etapa</div>
+												<div class="small text-muted" wicket:id="stageSchedule" data-testid="stageSchedule">-</div>
+											</div>
+											<span class="badge text-bg-secondary" wicket:id="stageCurrentBadge" data-testid="stageCurrentBadge"><wicket:message key="publicElectionModernResultStageCurrent">Actual</wicket:message></span>
+										</div>
+									</li>
+								</ul>
+								<div wicket:id="resultStagesDebugFooter" data-testid="resultStagesDebugFooter"></div>
+							</div>
+							<div class="border rounded p-3 mb-3">
+								<h6 class="mb-3"><wicket:message key="publicElectionModernResultSummaryTitle">Resumen de participación</wicket:message></h6>
+								<p class="mb-2"><strong><wicket:message key="publicElectionModernResultSummaryEnabledVoters">Total de habilitados a votar:</wicket:message></strong> <span wicket:id="summaryEnabledVoters" data-testid="summaryEnabledVoters">0</span></p>
+								<p class="mb-2"><strong><wicket:message key="publicElectionModernResultSummaryOrganizationsVoted">Total de organizaciones que votaron:</wicket:message></strong> <span wicket:id="summaryOrganizationsVoted" data-testid="summaryOrganizationsVoted">0</span></p>
+								<p class="mb-0"><strong><wicket:message key="publicElectionModernResultSummaryParticipation">Porcentaje de participación:</wicket:message></strong> <span wicket:id="summaryParticipation" data-testid="summaryParticipation">0%</span></p>
+								<div wicket:id="resultSummaryDebugFooter" data-testid="resultSummaryDebugFooter"></div>
+							</div>
+							<div class="border rounded p-3 bg-light-subtle">
+								<h6 class="mb-2"><wicket:message key="publicElectionModernResultContactTitle">Consultas o más información</wicket:message></h6>
+								<p class="mb-1 text-muted"><wicket:message key="publicElectionModernResultContactText">Para cualquier consulta sobre estos resultados:</wicket:message></p>
+								<a wicket:id="resultContactEmailLink" data-testid="resultContactEmailLink">elecciones@example.org</a>
+								<div wicket:id="resultContactDebugFooter" data-testid="resultContactDebugFooter"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="mt-2 bg-light bg-opacity-50 rounded px-3 py-2">
+						<p class="mb-0 text-muted" wicket:id="resultFootnote" data-testid="resultFootnote">La publicación de los resultados provisorios busca evitar que se divulgue el resultado extraoficial por canales ajenos a la organización durante el período de auditoría por parte de los votantes.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section wicket:id="callSection" data-testid="callSection" class="mb-4">
+			<div class="card">
+				<div class="card-body">
+					<div wicket:id="callContent" data-testid="callContent" class="text-body">-</div>
+				</div>
+			</div>
+		</section>
+
+		<section wicket:id="candidatesSection" data-testid="candidatesSection" class="mb-4">
+			<div class="card">
+				<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+					<h4 class="card-title mb-0" data-testid="candidatos"><wicket:message key="publicElectionModernCandidatesTitle">Candidatos</wicket:message></h4>
+					<span class="badge text-bg-light border"><wicket:message key="publicElectionModernCandidatesBadge">Perfiles públicos</wicket:message></span>
+				</div>
+				<div class="card-body">
+					<div wicket:id="candidateCardsGrid" data-testid="candidateCardsGrid" class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+						<div class="col" wicket:id="candidateCards" data-testid="candidateCards">
+							<div class="card h-100 border">
+								<div class="card-body">
+									<div class="d-flex align-items-center gap-3 mb-3">
+										<img wicket:id="candidatePicture" data-testid="candidatePicture" wicket:message="alt:publicElectionModernCandidateImageAlt">
+										<div>
+											<h5 class="mb-1">
+												<span wicket:id="candidateName" data-testid="-">-</span>
+												<span wicket:id="candidateWinnerBadge" data-testid="candidateWinnerBadge"></span>
+											</h5>
+											<p class="text-muted mb-1 small" wicket:id="candidateOrganizations" data-testid="candidateOrganizations">-</p>
+											<p class="text-muted mb-0 d-flex align-items-center gap-2">
+												<img wicket:id="candidateCountryFlag" data-testid="candidateCountryFlag" wicket:message="alt:publicElectionModernCandidateCountryFlagAlt">
+												<span wicket:id="candidateCountry" data-testid="candidateCountry">-</span>
+											</p>
+										</div>
+									</div>
+									<p class="text-muted mb-3" wicket:id="candidateBioSnippet" data-testid="candidateBioSnippet">-</p>
+									<div class="text-end">
+										<a wicket:id="candidateLink" data-testid="candidateLink" class="btn btn-soft-primary btn-sm"><wicket:message key="publicElectionModernCandidatesViewProfile">Ver perfil</wicket:message></a>
+									</div>
+								</div>
+								<div wicket:id="candidateCardDebugFooter" data-testid="candidateCardDebugFooter"></div>
+							</div>
+						</div>
+					</div>
+					<div wicket:id="candidateCardsEmpty" data-testid="candidateCardsEmpty" class="alert alert-light border mb-0">
+						<wicket:message key="publicElectionNoPublicCandidates" />
+					</div>
+					<div wicket:id="abstentionNotice" class="mt-3 bg-light bg-opacity-50 rounded px-3 py-2" data-testid="abstention-notice">
+						<p class="mb-0 text-muted"><strong><wicket:message key="publicElectionAbstentionTitle" />:</strong> <wicket:message key="publicElectionAbstentionText" /></p>
+					</div>
+					<div wicket:id="randomOrderNotice" class="mt-2 bg-light bg-opacity-50 rounded px-3 py-2" data-testid="random-order-notice">
+						<p class="mb-0 text-muted"><strong><wicket:message key="publicElectionRandomOrderTitle" />:</strong> <wicket:message key="publicElectionRandomOrderText" /></p>
+					</div>
+				</div>
+				<div wicket:id="candidatesCardDebugFooter" data-testid="candidatesCardDebugFooter"></div>
+			</div>
+		</section>
+
+		<div class="row g-4 mb-4">
+			<div class="col-4">
+				<section wicket:id="calendarSection" data-testid="calendarSection" class="mb-0">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title mb-0" data-testid="calendario_público"><wicket:message key="publicElectionModernCalendarTitle">Calendario público</wicket:message></h4>
+						</div>
+						<div class="card-body">
+							<div wicket:id="timelinePanel" data-testid="timelinePanel"></div>
+							<div wicket:id="calendarCardDebugFooter" data-testid="calendarCardDebugFooter"></div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div class="col-8">
+				<section wicket:id="recoverLinksSection" class="mb-4" data-testid="public-election-recover-links-section">
+					<div class="card" data-testid="public-election-recover-links-card">
+						<div class="card-header" data-testid="public-election-recover-links-card-header">
+							<div class="d-flex align-items-center gap-2">
+								<button wicket:id="recoverLinkModeHelp"
+										type="button"
+										class="btn btn-warning btn-sm text-dark"
+										data-bs-toggle="popover"
+										data-bs-trigger="hover focus"
+										data-bs-placement="left"
+										data-testid="public-election-recover-links-mode-help">
+									<i class="ti ti-help-circle"></i>
+								</button>
+								<h4 class="card-title mb-0" wicket:id="recoverLinkCardTitle" data-testid="recuperar_enlaces_de">Recuperar enlaces de participación</h4>
+							</div>
+						</div>
+						<div class="card-body" data-testid="public-election-recover-links-card-body">
+							<div wicket:id="recoverLinkPanel" data-testid="public-election-recover-links-panel"></div>
+							<div wicket:id="recoverLinksCardDebugFooter" data-testid="recoverLinksCardDebugFooter"></div>
+						</div>
+					</div>
+				</section>
+
+				<section wicket:id="rollSection" data-testid="rollSection" class="mb-4">
+					<div class="card">
+						<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+							<h4 class="card-title mb-0" data-testid="padrón_electoral"><wicket:message key="publicElectionModernRollTitle">Padrón electoral</wicket:message></h4>
+							<a wicket:id="rollLink" data-testid="rollLink" class="btn btn-secondary btn-sm"><wicket:message key="publicElectionModernRollViewFull">Ver padrón completo</wicket:message></a>
+						</div>
+						<div class="card-body">
+							<div class="row g-3">
+								<div class="col-md-3">
+									<div class="border rounded p-3 h-100">
+										<div class="text-muted fs-xs"><wicket:message key="publicElectionModernRollSummaryOrganizations">Organizaciones habilitadas</wicket:message></div>
+										<div class="fs-4 fw-semibold" wicket:id="rollSummaryOrganizations" data-testid="rollSummaryOrganizations">0</div>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="border rounded p-3 h-100">
+										<div class="text-muted fs-xs"><wicket:message key="publicElectionModernRollSummaryCountries">Países representados</wicket:message></div>
+										<div class="fs-4 fw-semibold" wicket:id="rollSummaryCountries" data-testid="rollSummaryCountries">0</div>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="border rounded p-3 h-100">
+										<div class="text-muted fs-xs"><wicket:message key="publicElectionModernRollLanguageSpanish">Español</wicket:message></div>
+										<div class="fs-4 fw-semibold" wicket:id="rollSummarySpanish" data-testid="rollSummarySpanish">0</div>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="border rounded p-3 h-100">
+										<div class="text-muted fs-xs"><wicket:message key="publicElectionModernRollLanguageEnglish">Inglés</wicket:message></div>
+										<div class="fs-4 fw-semibold" wicket:id="rollSummaryEnglish" data-testid="rollSummaryEnglish">0</div>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="border rounded p-3 h-100">
+										<div class="text-muted fs-xs"><wicket:message key="publicElectionModernRollLanguagePortuguese">Portugués</wicket:message></div>
+										<div class="fs-4 fw-semibold" wicket:id="rollSummaryPortuguese" data-testid="rollSummaryPortuguese">0</div>
+									</div>
+								</div>
+							</div>
+							<div wicket:id="rollSummaryCardDebugFooter" data-testid="rollSummaryCardDebugFooter"></div>
+						</div>
+					</div>
+				</section>
+
+				<section wicket:id="incompleteSection" data-testid="incompleteSection" class="mb-0">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title mb-0" data-testid="resumen_de_candidato"><wicket:message key="publicElectionModernIncompleteTitle">Resumen de candidatos</wicket:message></h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-hover align-middle mb-0">
+									<thead class="table-light">
+										<tr>
+											<th width="300"><wicket:message key="publicElectionModernIncompleteName">Nombre completo del candidato</wicket:message></th>
+											<th width="90"><wicket:message key="publicElectionModernIncompleteCountry">País</wicket:message></th>
+											<th width="170"><wicket:message key="publicElectionModernIncompleteStatus">Estado candidatura</wicket:message></th>
+											<th width="140"><wicket:message key="publicElectionModernIncompleteTasks">Avance</wicket:message></th>
+											<th width="170"><wicket:message key="publicElectionModernIncompleteNomination">Nominación</wicket:message></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr wicket:id="incompleteRows" data-testid="incompleteRows">
+											<td>
+												<span wicket:id="summaryCandidateName" data-testid="summaryCandidateName">*******************</span>
+												<a wicket:id="summaryCandidateLink" data-testid="summaryCandidateLink" class="fw-semibold"><span wicket:id="summaryCandidateLinkLabel" data-testid="summaryCandidateLinkLabel">-</span></a>
+											</td>
+											<td wicket:id="summaryCountry" data-testid="summaryCountry">-</td>
+											<td><span wicket:id="summaryCandidateStatus" data-testid="summaryCandidateStatus" class="badge text-bg-secondary">-</span></td>
+											<td wicket:id="summaryTasks" data-testid="summaryTasks">-</td>
+											<td wicket:id="summaryNomination" data-testid="summaryNomination">-</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div wicket:id="nominationSummaryCardDebugFooter" data-testid="nominationSummaryCardDebugFooter"></div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+
+	<div wicket:id="nominateContainer" data-testid="nominateContainer" class="py-3">
+		<div class="row justify-content-center">
+			<div class="col-xl-10">
+				<div class="card mb-4">
+					<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+						<h4 class="card-title mb-0" data-testid="publicElectionModernNominatePageTitle"><span wicket:id="nominatePageTitle">Formulario de postulación pública</span></h4>
+						<a wicket:id="nominateBackLink" data-testid="nominateBackLink" class="btn btn-light btn-sm"><i class="ti ti-arrow-left me-1"></i> <wicket:message key="publicElectionModernBack">Volver</wicket:message></a>
+					</div>
+					<div class="card-body">
+						<p wicket:id="nominateDescription" data-testid="nominateDescription" class="text-muted mb-4">-</p>
+						<div wicket:id="publicNominationFormPanel" data-testid="publicNominationFormPanel"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div wicket:id="candidateContainer" data-testid="candidateContainer" class="py-3">
+		<div class="row g-0">
+			<div class="col-xl-9">
+				<div class="card h-100 rounded-0 rounded-start border">
+					<div class="card-header p-4 d-flex align-items-center gap-3 flex-wrap">
+						<div>
+							<img wicket:id="detailCandidatePicture" data-testid="detailCandidatePicture" wicket:message="alt:publicElectionModernDetailCandidateAlt">
+						</div>
+						<div class="flex-grow-1">
+							<h3 class="mb-1">
+								<span wicket:id="detailCandidateName" data-testid="-">-</span>
+								<span wicket:id="detailCandidateWinnerBadge" data-testid="detailCandidateWinnerBadge"></span>
+							</h3>
+							<p class="text-muted mb-1" wicket:id="detailCandidateOrganization" data-testid="detailCandidateOrganization">-</p>
+							<a wicket:id="detailCandidateLinkedin" data-testid="detailCandidateLinkedin" target="_blank" rel="noopener" class="btn btn-light btn-sm">LinkedIn</a>
+						</div>
+						<div>
+							<a wicket:id="detailBackLink" data-testid="detailBackLink" class="btn btn-light"><i class="ti ti-arrow-left me-1"></i> <wicket:message key="publicElectionModernBack">Volver</wicket:message></a>
+						</div>
+					</div>
+					<div class="card-body px-4">
+						<div wicket:id="profileBlock" data-testid="profileBlock" class="mb-4">
+							<div class="mb-4">
+								<h4 class="mb-2" data-testid="biografia"><wicket:message key="publicElectionModernProfileBio">Biografia</wicket:message></h4>
+								<div wicket:id="profileBio" data-testid="profileBio">-</div>
+							</div>
+							<div wicket:id="profileBlockDebugFooter" data-testid="profileBlockDebugFooter"></div>
+						</div>
+
+						<div wicket:id="statutoryBlock" data-testid="statutoryBlock" class="mb-4">
+							<hr class="my-3">
+							<h4 class="mb-3 fs-md" data-testid="preguntas_definidas_"><wicket:message key="publicElectionModernStatutoryTitle">Preguntas definidas por la comisión electoral</wicket:message></h4>
+						<div wicket:id="statutoryEmpty" data-testid="statutoryEmpty" class="alert alert-light border mb-3"><wicket:message key="publicElectionModernStatutoryEmpty">Aún no hay respuestas públicas para preguntas de la comisión electoral (e).</wicket:message></div>
+							<div wicket:id="statutoryRows" data-testid="statutoryRows" class="d-flex mb-2 border border-dashed rounded p-3">
+								<div class="flex-shrink-0 me-3">
+									<div wicket:id="statutoryAskedByInitials" data-testid="statutoryAskedByInitials" class="rounded-circle border d-flex align-items-center justify-content-center fw-semibold bg-light text-body" style="width:40px;height:40px;">CE</div>
+								</div>
+								<div class="flex-grow-1">
+									<h5 class="mb-1" wicket:id="statutoryQuestion" data-testid="pregunta_estatutaria">Pregunta estatutaria</h5>
+									<div class="small text-muted mb-2" wicket:id="statutoryDate" data-testid="statutoryDate">-</div>
+									<div class="bg-light rounded p-2" wicket:id="statutoryAnswer" data-testid="statutoryAnswer">-</div>
+								</div>
+							</div>
+							<div wicket:id="statutoryBlockDebugFooter" data-testid="statutoryBlockDebugFooter"></div>
+						</div>
+
+						<div wicket:id="nonStatutoryBlock" data-testid="nonStatutoryBlock" class="mb-4">
+							<h4 class="mb-3 fs-md" data-testid="otras_preguntas_(no_"><wicket:message key="publicElectionModernNonStatutoryTitle">Preguntas de la comisión electoral (ne)</wicket:message></h4>
+						<div wicket:id="nonStatutoryEmpty" data-testid="nonStatutoryEmpty" class="alert alert-light border mb-3"><wicket:message key="publicElectionModernNonStatutoryEmpty">Aún no hay respuestas públicas para preguntas de la comisión electoral (ne).</wicket:message></div>
+							<div wicket:id="nonStatutoryRows" data-testid="nonStatutoryRows" class="d-flex mb-2 border border-dashed rounded p-3">
+								<div class="flex-shrink-0 me-3">
+									<div wicket:id="nonStatutoryAskedByInitials" data-testid="nonStatutoryAskedByInitials" class="rounded-circle border d-flex align-items-center justify-content-center fw-semibold bg-light text-body" style="width:40px;height:40px;">CE</div>
+								</div>
+								<div class="flex-grow-1">
+									<h5 class="mb-1" wicket:id="nonStatutoryQuestion" data-testid="pregunta_no_estatuta">Pregunta estatutaria</h5>
+									<div class="small text-muted mb-2" wicket:id="nonStatutoryDate" data-testid="nonStatutoryDate">-</div>
+									<div class="bg-light rounded p-2" wicket:id="nonStatutoryAnswer" data-testid="nonStatutoryAnswer">-</div>
+								</div>
+							</div>
+							<div wicket:id="nonStatutoryBlockDebugFooter" data-testid="nonStatutoryBlockDebugFooter"></div>
+						</div>
+
+						<div wicket:id="communityBlock" data-testid="communityBlock" class="mb-2">
+							<h4 class="mb-3 fs-md" data-testid="preguntas_hechas_por"><wicket:message key="publicElectionModernCommunityTitle">Preguntas hechas por la comunidad</wicket:message></h4>
+							<div wicket:id="communityEmpty" data-testid="communityEmpty" class="alert alert-light border mb-3"><wicket:message key="publicElectionModernCommunityEmpty">No hay preguntas a este candidato.</wicket:message></div>
+							<div wicket:id="communityRows" data-testid="communityRows" class="d-flex mb-2 border border-dashed rounded p-3">
+								<div class="flex-shrink-0 me-3">
+									<div wicket:id="communityAskedByInitials" data-testid="communityAskedByInitials" class="rounded-circle border d-flex align-items-center justify-content-center fw-semibold bg-light text-body" style="width:40px;height:40px;">--</div>
+								</div>
+								<div class="flex-grow-1">
+									<h5 class="mb-1" wicket:id="communityQuestion" data-testid="-">-</h5>
+									<div class="small text-muted mb-2" data-testid="communityDate">
+										<span><wicket:message key="candidateCommunityQuestionsQuestionDateLabel">Fecha de pregunta</wicket:message>: </span>
+										<span wicket:id="communityQuestionDate" data-testid="communityQuestionDate">-</span>
+										<span wicket:id="communityAnswerDateBlock" data-testid="communityAnswerDateBlock">
+											<span class="mx-1">|</span>
+											<span><wicket:message key="candidateCommunityQuestionsAnswerDateLabel">Fecha de respuesta</wicket:message>: </span>
+											<span wicket:id="communityAnswerDate" data-testid="communityAnswerDate">-</span>
+										</span>
+									</div>
+									<div class="bg-light rounded p-2" wicket:id="communityAnswer" data-testid="communityAnswer">-</div>
+								</div>
+							</div>
+							<div wicket:id="communityBlockDebugFooter" data-testid="communityBlockDebugFooter"></div>
+						</div>
+
+						<div wicket:id="askQuestionsBlock" data-testid="askQuestionsBlock" class="mb-4">
+							<hr class="my-3">
+							<h4 class="mb-3 fs-md" data-testid="hacer_preguntas_al_c"><wicket:message key="publicElectionModernAskTitle">Hacer preguntas al candidato</wicket:message></h4>
+							<form wicket:id="askQuestionForm" data-testid="askQuestionForm" class="mb-4">
+								<div class="row g-3">
+									<div class="col-md-6">
+										<label class="form-label"><wicket:message key="publicElectionModernAskNameLabel">Nombre completo</wicket:message></label>
+										<input wicket:id="askedByName" data-testid="askedByName" type="text" class="form-control" maxlength="500" wicket:message="placeholder:publicElectionModernAskNamePlaceholder">
+									</div>
+									<div class="col-md-6">
+										<label class="form-label"><wicket:message key="publicElectionModernAskEmailLabel">E-mail</wicket:message></label>
+										<input wicket:id="askedByEmail" data-testid="askedByEmail" type="email" class="form-control" maxlength="320" wicket:message="placeholder:publicElectionModernAskEmailPlaceholder">
+									</div>
+									<div class="col-12">
+										<label class="form-label"><wicket:message key="publicElectionModernAskQuestionLabel">Pregunta</wicket:message></label>
+										<div wicket:id="questionTextEditor"></div>
+									</div>
+									<div class="col-12">
+										<div class="form-check">
+											<input wicket:id="askSameQuestionToAllCandidates" data-testid="askSameQuestionToAllCandidates" type="checkbox" class="form-check-input">
+											<label class="form-check-label"><wicket:message key="publicElectionModernAskAllCandidatesLabel">Hacer la misma pregunta a todos los candidatos</wicket:message></label>
+										</div>
+									</div>
+									<div class="col-12 d-flex justify-content-center">
+										<div class="g-recaptcha" data-sitekey="" wicket:id="reCaptcha" data-testid="reCaptcha"></div>
+									</div>
+									<div class="col-12 text-end">
+										<button type="submit" class="btn btn-secondary btn-sm"><wicket:message key="publicElectionModernAskSubmit">Enviar pregunta</wicket:message> <i class="ti ti-send-2 align-baseline ms-1"></i></button>
+									</div>
+								</div>
+							</form>
+							<div wicket:id="askQuestionsBlockDebugFooter" data-testid="askQuestionsBlockDebugFooter"></div>
+						</div>
+
+					</div>
+					<div wicket:id="candidateDetailCardDebugFooter" data-testid="candidateDetailCardDebugFooter"></div>
+				</div>
+			</div>
+
+			<div class="col-xl-3">
+				<div wicket:id="sidebarBlock" data-testid="sidebarBlock" class="card h-100 rounded-0 rounded-end border">
+					<div class="card-body p-3">
+						<h5 class="mb-3" data-testid="información_compleme"><wicket:message key="publicElectionModernSidebarTitle">Información complementaria</wicket:message></h5>
+						<div class="mb-3">
+							<span class="text-muted d-block mb-1"><wicket:message key="publicElectionModernSidebarPrimaryCountry">País que representa</wicket:message></span>
+							<div class="fw-semibold d-flex align-items-center gap-2">
+								<img wicket:id="sidebarPrimaryCountryFlag" data-testid="sidebarPrimaryCountryFlag" wicket:message="alt:publicElectionModernOtherCountryFlagAlt">
+								<span wicket:id="sidebarPrimaryCountry" data-testid="sidebarPrimaryCountry">-</span>
+							</div>
+						</div>
+						<div class="mb-3">
+							<span class="text-muted d-block mb-1"><wicket:message key="publicElectionModernSidebarOtherCountries">Otros países vinculados</wicket:message></span>
+							<ul class="list-unstyled mb-0" wicket:id="sidebarOtherCountries" data-testid="sidebarOtherCountries">
+								<li class="fw-semibold d-flex align-items-center gap-2">
+									<img wicket:id="otherCountryFlag" data-testid="otherCountryFlag" wicket:message="alt:publicElectionModernOtherCountryFlagAlt">
+									<span wicket:id="otherCountryName" data-testid="otherCountryName">-</span>
+								</li>
+							</ul>
+							<span class="fw-semibold d-block" wicket:id="sidebarOtherCountriesEmpty" data-testid="sidebarOtherCountriesEmpty">No aplica</span>
+						</div>
+						<hr class="my-3">
+						<div class="mb-3">
+							<span class="text-muted d-block mb-1"><wicket:message key="publicElectionModernSidebarOrganizations">Organizaciones vinculadas</wicket:message></span>
+							<ul class="list-unstyled mb-0" wicket:id="sidebarOrganizations" data-testid="sidebarOrganizations">
+								<li class="fw-semibold d-flex align-items-center gap-1">
+									<i class="ti ti-building text-primary me-2 fs-5"></i>
+									<span wicket:id="organizationName" data-testid="organizationName">-</span>
+								</li>
+							</ul>
+							<span class="fw-semibold d-block" wicket:id="sidebarOrganizationsEmpty" data-testid="sidebarOrganizationsEmpty">No aplica</span>
+						</div>
+						<hr class="my-3">
+						<div class="mb-3">
+							<span class="text-muted d-block mb-1"><wicket:message key="publicElectionModernSidebarSupports">Organizaciones de apoyo</wicket:message></span>
+							<ul class="list-unstyled mb-0" wicket:id="sidebarSupports" data-testid="sidebarSupports">
+								<li class="fw-semibold d-flex align-items-center gap-1">
+									<i class="ti ti-check text-success me-2 fs-5"></i>
+									<span wicket:id="supportName" data-testid="supportName">-</span>
+								</li>
+							</ul>
+						</div>
+						<hr class="my-3">
+						<div wicket:id="sidebarNominationBlock" data-testid="sidebarNominationBlock" class="mb-3">
+							<span class="text-muted d-block mb-1"><wicket:message key="publicElectionModernProfileNominationOrg">Organización que nomina</wicket:message></span>
+							<p class="fw-semibold mb-3" wicket:id="sidebarNominationOrg" data-testid="sidebarNominationOrg">-</p>
+							<span class="text-muted d-block mb-1"><wicket:message key="publicElectionModernProfileNominationReason">Motivo de la nominación</wicket:message></span>
+							<p class="fw-semibold mb-0" wicket:id="sidebarNominationReason" data-testid="sidebarNominationReason">-</p>
+						</div>
+					</div>
+					<div wicket:id="candidateSidebarCardDebugFooter" data-testid="candidateSidebarCardDebugFooter"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div wicket:id="rollContainer" data-testid="rollContainer" class="py-3">
+		<div class="card mb-4">
+			<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+				<h4 class="card-title mb-0" data-testid="padrón_electoral"><wicket:message key="publicElectionModernRollContainerTitle">Padrón electoral</wicket:message></h4>
+				<div class="d-flex align-items-center gap-2">
+					<span class="badge text-bg-light border" wicket:id="rollTotalRows" data-testid="rollTotalRows">0</span>
+					<a wicket:id="rollBackLink" data-testid="rollBackLink" class="btn btn-light btn-sm"><i class="ti ti-arrow-left me-1"></i> <wicket:message key="publicElectionModernBack">Volver</wicket:message></a>
+				</div>
+			</div>
+			<div class="card-body">
+				<form wicket:id="rollFilterForm" data-testid="rollFilterForm" class="row g-3 mb-3">
+					<div class="col-md-3">
+						<label class="form-label mb-1"><wicket:message key="publicElectionModernRollFilterCountry">Filtro por país</wicket:message></label>
+						<select wicket:id="rollCountryInput" data-testid="rollCountryInput" class="form-select form-select-sm"></select>
+					</div>
+					<div class="col-md-7">
+						<label class="form-label mb-1"><wicket:message key="publicElectionModernRollFilterOrganization">Filtro por organización</wicket:message></label>
+						<input wicket:id="rollOrgInput" data-testid="rollOrgInput" type="text" class="form-control form-control-sm" maxlength="1000" wicket:message="placeholder:publicElectionModernRollFilterOrganizationFallback">
+					</div>
+					<div class="col-md-2 d-flex align-items-end gap-2">
+						<button type="submit" data-testid="rollFilterApply" class="btn btn-secondary btn-sm w-100"><wicket:message key="publicElectionModernRollFilterApply">Aplicar</wicket:message></button>
+						<a wicket:id="rollClearButton" data-testid="rollClearButton" class="btn btn-light btn-sm w-100"><wicket:message key="publicElectionModernRollFilterClear">Limpiar</wicket:message></a>
+					</div>
+				</form>
+
+				<div class="table-responsive">
+					<table class="table table-hover align-middle mb-0">
+						<thead class="table-light">
+							<tr>
+								<th width="100"><wicket:message key="publicElectionModernRollTableCountry">País</wicket:message></th>
+								<th><wicket:message key="publicElectionModernRollTableOrganization">Organización</wicket:message></th>
+								<th width="230"><wicket:message key="publicElectionModernRollTableRepresentative">Representante</wicket:message></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="rollRows" data-testid="rollRows">
+								<td wicket:id="rollCountry" data-testid="rollCountry">-</td>
+								<td wicket:id="rollOrganization" data-testid="rollOrganization">-</td>
+								<td wicket:id="rollRepresentative" data-testid="rollRepresentative">********</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+					<p class="text-muted mb-0" wicket:id="rollPageRange" data-testid="rollPageRange">Mostrando 0 registros</p>
+					<div class="d-flex align-items-center gap-2">
+						<a wicket:id="rollPrevPage" data-testid="rollPrevPage" class="btn btn-light btn-sm"><wicket:message key="publicElectionModernRollPrev">Anterior</wicket:message></a>
+						<span class="small text-muted"><wicket:message key="publicElectionModernRollPageWord">Página</wicket:message> <span wicket:id="rollPageNumber" data-testid="rollPageNumber">1</span> <wicket:message key="publicElectionModernRollOfWord">de</wicket:message> <span wicket:id="rollPageCount" data-testid="rollPageCount">1</span></span>
+						<a wicket:id="rollNextPage" data-testid="rollNextPage" class="btn btn-light btn-sm"><wicket:message key="publicElectionModernRollNext">Siguiente</wicket:message></a>
+					</div>
+				</div>
+			</div>
+			<div wicket:id="rollDetailCardDebugFooter" data-testid="rollDetailCardDebugFooter"></div>
+		</div>
+	</div>
+
+	<div wicket:id="snapshotStatus" data-testid="snapshotStatus" class="alert mt-4 mb-3">
+		<div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+			<div>
+				<div class="fw-semibold mb-1">
+					<wicket:message key="publicElectionSnapshotStatusTitle">Información cacheada</wicket:message>
+					<span wicket:id="snapshotContext" data-testid="snapshotContext" class="fw-normal text-muted small ms-1">(id elección: -, token: -)</span>
+				</div>
+				<div class="small text-muted" wicket:id="snapshotRefreshMessage" data-testid="snapshotRefreshMessage">-</div>
+			</div>
+			<span wicket:id="snapshotFreshnessBadge" data-testid="snapshotFreshnessBadge" class="badge text-bg-secondary">Vigente</span>
+		</div>
+		<div class="row g-3 mt-1">
+			<div class="col-md-3">
+				<div class="small text-muted"><wicket:message key="publicElectionSnapshotStatusLastUpdated">Última actualización</wicket:message></div>
+				<div wicket:id="snapshotLastUpdated" data-testid="snapshotLastUpdated">-</div>
+			</div>
+			<div class="col-md-3">
+				<div class="small text-muted"><wicket:message key="publicElectionSnapshotStatusNextRefresh">Próxima actualización</wicket:message></div>
+				<div wicket:id="snapshotNextRefresh" data-testid="snapshotNextRefresh">-</div>
+			</div>
+			<div class="col-md-3">
+				<div class="small text-muted"><wicket:message key="publicElectionSnapshotStatusNextTransition">Próxima transición de calendario</wicket:message></div>
+				<div wicket:id="snapshotNextBusinessTransition" data-testid="snapshotNextBusinessTransition">-</div>
+			</div>
+			<div class="col-md-3">
+				<div class="small text-muted"><wicket:message key="publicElectionSnapshotStatusState">Estado de refresh</wicket:message></div>
+				<div wicket:id="snapshotRefreshStatus" data-testid="snapshotRefreshStatus">-</div>
+			</div>
+		</div>
+	</div>
+
+	<script wicket:message="src:jsrecaptcha"></script>
+	<script>
+		(function () {
+			function renderPublicCaptchas() {
+				if (!window.grecaptcha || typeof window.grecaptcha.render !== 'function') {
+					return false;
+				}
+				document.querySelectorAll('.g-recaptcha').forEach(function (element) {
+					if (!element || element.querySelector('iframe') || element.dataset.widgetId) {
+						return;
+					}
+					var siteKey = element.getAttribute('data-sitekey');
+					if (!siteKey) {
+						return;
+					}
+					try {
+						element.dataset.widgetId = String(window.grecaptcha.render(element, { sitekey: siteKey }));
+					} catch (error) {
+						console.warn('Unable to render reCAPTCHA widget', error);
+					}
+				});
+				return true;
+			}
+
+			var attempts = 0;
+			var intervalId = window.setInterval(function () {
+				attempts += 1;
+				if (renderPublicCaptchas() || attempts >= 20) {
+					window.clearInterval(intervalId);
+				}
+			}, 500);
+		})();
+
+	</script>
+</wicket:panel>

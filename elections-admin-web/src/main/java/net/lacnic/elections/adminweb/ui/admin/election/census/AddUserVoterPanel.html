@@ -1,0 +1,33 @@
+<wicket:panel>
+	<div class="row g-3">
+		<div class="col-md-4">
+			<label class="form-label" for="addUserVoterName"><wicket:message key="censusManagementPhName">censusManagementPhName</wicket:message></label>
+			<input type="text" id="addUserVoterName" class="form-control" wicket:id="name" data-testid="name" wicket:message="placeholder:censusManagementPhName,title:censusManagementPhName">
+		</div>
+		<div class="col-md-4">
+			<label class="form-label" for="addUserVoterMail"><wicket:message key="censusManagementPhEmail">censusManagementPhEmail</wicket:message></label>
+			<input type="email" id="addUserVoterMail" class="form-control" wicket:id="mail" data-testid="mail" wicket:message="placeholder:censusManagementPhEmail,title:censusManagementPhEmail">
+		</div>
+		<div class="col-md-4">
+			<label class="form-label" for="orgName"><wicket:message key="censusManagementPhOrgName">censusManagementPhOrgName</wicket:message></label>
+			<input type="text" id="orgName" class="form-control" wicket:id="orgName" data-testid="orgName" wicket:message="placeholder:censusManagementPhOrgName,title:censusManagementPhOrgName">
+		</div>
+		<div class="col-md-4">
+			<label class="form-label" for="language"><wicket:message key="censusManagementUserColLang">censusManagementUserColLang</wicket:message></label>
+			<select class="form-select" id="language" name="language" wicket:id="language" data-testid="language" wicket:message="title:censusManagementUserColLang"></select>
+		</div>
+
+		<div class="col-md-4">
+			<label class="form-label" for="voteAmount"><wicket:message key="censusManagementPhVotos">censusManagementPhVotos</wicket:message></label>
+			<input type="text" id="voteAmount" class="form-control" wicket:id="voteAmount" data-testid="voteAmount" wicket:message="placeholder:censusManagementPhVotos,title:censusManagementPhVotos">
+		</div>
+		<div class="col-md-4">
+			<label class="form-label" for="country"><wicket:message key="censusManagementUserColPais">censusManagementUserColPais</wicket:message></label>
+			<select class="form-select" id="country" name="country" wicket:id="country" data-testid="country" wicket:message="title:censusManagementUserColPais"></select>
+		</div>
+		<div class="col-md-4">
+			<label class="form-label" for="orgID"><wicket:message key="censusManagementPhOrgId">censusManagementPhOrgId</wicket:message></label>
+			<input type="text" id="orgID" class="form-control" wicket:id="orgID" data-testid="orgID" wicket:message="placeholder:censusManagementPhOrgId,title:censusManagementPhOrgId">
+		</div>
+	</div>
+</wicket:panel>

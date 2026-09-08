@@ -1,0 +1,104 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="sync-runs-feedback"></div>
+		</div>
+
+		<div class="col-lg-12">
+			<div class="card mb-3">
+					<div class="card-header d-flex align-items-center justify-content-between">
+						<div>
+							<h5 class="card-title mb-1" data-testid="organizationsSyncControlByElectionTitle"><wicket:message key="organizationsSyncControlByElectionTitle">Control por elección</wicket:message></h5>
+							<div class="text-muted small"><wicket:message key="organizationsSyncControlSubtitle" /></div>
+						</div>
+						<a class="btn btn-primary" wicket:id="forceAllSyncLink" data-testid="force-all-sync-link"><wicket:message key="organizationsSyncControlForceAll" /></a>
+					</div>
+				<div class="card-body">
+					<div wicket:id="byElectionEmpty" data-testid="byElectionEmpty" class="text-muted"><wicket:message key="organizationsSyncControlByElectionEmpty" /></div>
+					<div class="table-responsive">
+						<table class="table table-sm table-hover align-middle mb-0">
+							<thead class="table-light">
+								<tr>
+									<th><wicket:message key="organizationsSyncControlColElectionId" /></th>
+									<th><wicket:message key="organizationsSyncControlColElectionTitle" /></th>
+									<th><wicket:message key="organizationsSyncControlColMode" /></th>
+									<th><wicket:message key="organizationsSyncControlColSyncWindow" /></th>
+									<th><wicket:message key="organizationsSyncControlColWindowState" /></th>
+									<th><wicket:message key="organizationsSyncControlColLatestSyncAt" /></th>
+									<th><wicket:message key="organizationsSyncControlColLatestStatus" /></th>
+									<th><wicket:message key="organizationsSyncControlColLatestMetrics" /></th>
+									<th><wicket:message key="organizationsSyncControlColAction" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr wicket:id="byElectionRows" data-testid="sync-by-election-row">
+									<td wicket:id="colElectionId" data-testid="colElectionId"></td>
+									<td wicket:id="colElectionTitle" data-testid="colElectionTitle"></td>
+									<td wicket:id="colMode" data-testid="colMode"></td>
+									<td wicket:id="colSyncWindow" data-testid="colSyncWindow"></td>
+									<td wicket:id="colWindowState" data-testid="colWindowState"></td>
+									<td wicket:id="colLatestSyncAt" data-testid="colLatestSyncAt"></td>
+									<td wicket:id="colLatestStatus" data-testid="colLatestStatus"></td>
+									<td wicket:id="colLatestMetrics" data-testid="colLatestMetrics"></td>
+									<td>
+										<div class="d-flex flex-column gap-1">
+											<div>
+												<a wicket:id="runSyncElectionInWindowLink" data-testid="runSyncElectionInWindowLink" class="btn btn-sm btn-outline-secondary"><wicket:message key="organizationsSyncControlForceInWindow" /></a>
+												<span wicket:id="colActionInWindowDisabled" data-testid="colActionInWindowDisabled" class="text-muted small"></span>
+											</div>
+											<div>
+												<a wicket:id="runSyncElectionOutOfWindowLink" data-testid="runSyncElectionOutOfWindowLink" class="btn btn-sm btn-outline-primary"><wicket:message key="organizationsSyncControlForceOutOfWindow" /></a>
+												<span wicket:id="colActionOutOfWindowDisabled" data-testid="colActionOutOfWindowDisabled" class="text-muted small"></span>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="organizationsSyncControlRunsTitle"><wicket:message key="organizationsSyncControlRunsTitle">Historial por corrida</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div wicket:id="runsEmpty" data-testid="runsEmpty" class="text-muted"><wicket:message key="organizationsSyncControlRunsEmpty" /></div>
+					<div class="table-responsive">
+						<table class="table table-sm table-hover align-middle mb-0">
+							<thead class="table-light">
+								<tr>
+									<th><wicket:message key="organizationsSyncControlRunsColSyncAt" /></th>
+									<th><wicket:message key="organizationsSyncControlRunsColElection" /></th>
+									<th><wicket:message key="organizationsSyncControlRunsColStatus" /></th>
+									<th><wicket:message key="organizationsSyncControlRunsColMetrics" /></th>
+									<th><wicket:message key="organizationsSyncControlRunsColDuration" /></th>
+									<th><wicket:message key="organizationsSyncControlRunsColWs" /></th>
+									<th><wicket:message key="organizationsSyncControlRunsColHealth" /></th>
+									<th><wicket:message key="organizationsSyncControlRunsColMessage" /></th>
+									<th><wicket:message key="organizationsSyncControlRunsColRunId" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr wicket:id="runsRows" data-testid="sync-run-row">
+									<td wicket:id="runSyncAt" data-testid="runSyncAt"></td>
+									<td wicket:id="runElection" data-testid="runElection"></td>
+									<td wicket:id="runStatus" data-testid="runStatus"></td>
+									<td wicket:id="runMetrics" data-testid="runMetrics"></td>
+									<td wicket:id="runDuration" data-testid="runDuration"></td>
+									<td wicket:id="runWs" data-testid="runWs"></td>
+									<td wicket:id="runHealth" data-testid="runHealth"></td>
+									<td wicket:id="runMessage" data-testid="runMessage"></td>
+									<td wicket:id="runSyncRunId" data-testid="runSyncRunId"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

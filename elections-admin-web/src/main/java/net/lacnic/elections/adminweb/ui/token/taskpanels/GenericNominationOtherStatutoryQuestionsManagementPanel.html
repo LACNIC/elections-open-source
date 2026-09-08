@@ -1,0 +1,49 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+			<div class="card-header">
+				<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle">
+				<wicket:message key="acceptNominationOtherStatutoryQuestionsTitle" />
+			</h4>
+		</div>
+		<div class="card-body">
+			<p wicket:id="restrictionMessage" data-testid="restrictionMessage"></p>
+			<p class="text-muted mb-4">
+				<wicket:message key="acceptNominationOtherStatutoryQuestionsIntro" />
+			</p>
+
+				<form wicket:id="questionsForm" class="row g-3" data-testid="questionsForm">
+					<div class="col-12">
+						<label class="form-label" wicket:id="question1Label" data-testid="question1Label"></label>
+						<div wicket:id="question1Editor"></div>
+					</div>
+
+					<div class="col-12">
+						<label class="form-label" wicket:id="question2Label" data-testid="question2Label"></label>
+						<div wicket:id="question2Editor"></div>
+					</div>
+
+					<div class="col-12">
+						<label class="form-label" wicket:id="question3Label" data-testid="question3Label"></label>
+						<div wicket:id="question3Editor"></div>
+					</div>
+
+					<div class="col-12">
+						<label class="form-label" wicket:id="question4Label" data-testid="question4Label"></label>
+						<div wicket:id="question4Editor"></div>
+					</div>
+
+				<div class="col-12 d-flex mt-4 justify-content-end gap-2">
+					<a wicket:id="backButton" class="btn btn-outline-light btn-md" data-testid="backButton">
+						<wicket:message key="volver" />
+					</a>
+					<button wicket:id="continueLaterButton" class="btn btn-outline-light btn-md" type="submit" data-testid="continueLaterButton">
+						<wicket:message key="candidateProfileContinueLaterButton" />
+					</button>
+					<button wicket:id="finishAndSendButton" class="btn btn-success btn-md" type="submit" data-testid="finishAndSendButton">
+						<wicket:message key="candidateProfileFinishAndSendButton" />
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>

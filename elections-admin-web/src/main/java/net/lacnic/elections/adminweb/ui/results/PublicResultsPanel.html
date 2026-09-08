@@ -1,0 +1,28 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="electionResults"><wicket:message key="electionResults">Resultado de la elección</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-12" id="electionDescription" data-testid="electionDescription">
+							<strong wicket:id="title" data-testid="title" id="electionTitle" />
+							<p wicket:id="description" data-testid="description"></p>
+						</div>
+						<div class="col-lg-12" wicket:id="resultsPanel" data-testid="resultsPanel"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="auditPanel"><wicket:message key="auditPanel">Panel de auditoría</wicket:message></h5>
+				</div>
+				<div class="card-body" wicket:id="candidateCodesPanel" data-testid="candidateCodesPanel"></div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

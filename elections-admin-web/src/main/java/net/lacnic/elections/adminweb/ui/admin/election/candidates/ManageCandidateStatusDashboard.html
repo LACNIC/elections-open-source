@@ -1,0 +1,47 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="feedback"></div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="candidateStatusTitle"><wicket:message key="candidateStatusTitle">Gestionar estado del candidato</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="border rounded p-3 mb-4">
+						<h6 class="mb-3"><wicket:message key="candidateStatusCandidateSummary">Detalle del candidato</wicket:message></h6>
+						<div><strong><wicket:message key="candidateStatusCandidateName" />:</strong> <span wicket:id="candidateName" data-testid="candidateName"></span></div>
+						<div><strong><wicket:message key="candidateStatusCandidateId" />:</strong> <span wicket:id="candidateId" data-testid="candidateId"></span></div>
+						<div><strong><wicket:message key="candidateStatusCandidateMail" />:</strong> <span wicket:id="candidateMail" data-testid="candidateMail"></span></div>
+						<div><strong><wicket:message key="candidateStatusCurrentStatus" />:</strong> <span wicket:id="currentStatus" data-testid="currentStatus"></span></div>
+					</div>
+
+					<form wicket:id="candidateStatusForm" data-testid="candidateStatusForm" class="row g-3">
+							<div class="col-md-5">
+								<label class="form-label" for="manageCandidateStatusStatus"><wicket:message key="candidateStatusNewStatus">candidateStatusNewStatus</wicket:message></label>
+								<select wicket:id="candidateStatus" id="manageCandidateStatusStatus" data-testid="candidateStatus" class="form-select"></select>
+							<div class="mt-2">
+								<a wicket:id="candidateConfirmedTemplateLink" data-testid="candidateConfirmedTemplateLink"><wicket:message key="candidateStatusViewCandidateConfirmedTemplate" /></a>
+							</div>
+							<div wicket:id="confirmedAndPublishedWarning" data-testid="confirmedAndPublishedWarning" class="alert alert-warning mt-2 mb-0">
+								<div><wicket:message key="candidateStatusConfirmedAndPublishedWarning">candidateStatusConfirmedAndPublishedWarning</wicket:message></div>
+								<div wicket:id="confirmedAndPublishedWarningMessageWrapper" data-testid="confirmedAndPublishedWarningMessageWrapper" class="mt-2">
+									<span wicket:id="confirmedAndPublishedWarningMessage" data-testid="confirmedAndPublishedWarningMessage">Advertencia de auditoría.</span>
+								</div>
+							</div>
+						</div>
+							<div class="col-12">
+								<label class="form-label" for="manageCandidateStatusComment"><wicket:message key="candidateStatusComment">candidateStatusComment</wicket:message></label>
+								<textarea wicket:id="comment" id="manageCandidateStatusComment" data-testid="comment" class="form-control" rows="8"></textarea>
+							<div class="form-text"><wicket:message key="candidateStatusCommentHelp" /></div>
+						</div>
+						<div class="col-12 d-flex justify-content-end gap-2">
+							<a wicket:id="cancel" data-testid="cancel" class="btn btn-light"><wicket:message key="candidateStatusCancel" /></a>
+							<button wicket:id="saveWithEmail" data-testid="saveWithEmail" type="submit" class="btn btn-primary"><wicket:message key="candidateStatusSaveWithEmail" /></button>
+							<button wicket:id="saveWithoutEmail" data-testid="saveWithoutEmail" type="submit" class="btn btn-primary"><wicket:message key="candidateStatusSaveWithoutEmail" /></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

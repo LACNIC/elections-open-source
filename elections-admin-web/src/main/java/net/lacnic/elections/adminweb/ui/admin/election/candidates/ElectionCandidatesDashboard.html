@@ -1,0 +1,88 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedback" data-testid="feedback"></div>
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="candidateManagementTitle"><wicket:message key="candidateManagementTitle">Gestión de candidatos</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="ins-wizard">
+						<div wicket:id="tabsPanel" data-testid="tabsPanel"></div>
+						<div class="tab-content pt-3">
+							<div class="tab-pane fade show active">
+								<form id="form" wicket:id="electionCandidateForm" data-testid="electionCandidateForm" class="wizard-form" role="application">
+									<div wicket:id="candidateCreateContainer" data-testid="candidateCreateContainer">
+										<div class="card">
+											<div class="card-body">
+												<span wicket:id="addCandidatePanel" data-testid="addCandidatePanel"></span>
+											</div>
+										</div>
+										<div class="col-12">
+											<hr class="my-3">
+										</div>
+									</div>
+									<div wicket:id="candidateSummaryContainer" data-testid="candidateSummaryContainer">
+										<div wicket:id="candidateSummaryTableContainer" data-testid="candidateSummaryTableContainer" class="table-responsive">
+											<table class="table table-sm align-middle mb-0">
+												<thead class="table-light">
+													<tr>
+														<th><wicket:message key="candidateManagementSummaryTitle">Resumen de candidatos</wicket:message></th>
+														<th><wicket:message key="candidateManagementMail">Email</wicket:message></th>
+														<th><wicket:message key="candidateManagementSummaryPublicProfile">Perfil público</wicket:message></th>
+														<th><wicket:message key="candidateManagemenProgressColCandidateStatus">Estado candidato</wicket:message></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr wicket:id="candidateSummaryRows" data-testid="candidateSummaryRows">
+														<td wicket:id="candidateSummaryName" data-testid="candidateSummaryName"></td>
+														<td wicket:id="candidateSummaryMail" data-testid="candidateSummaryMail"></td>
+														<td class="text-break">
+															<a wicket:id="candidateSummaryPublicProfileLink" data-testid="candidateSummaryPublicProfileLink" class="text-break" target="_blank" rel="noopener noreferrer">
+																<span wicket:id="candidateSummaryPublicProfileText" data-testid="candidateSummaryPublicProfileText"></span>
+															</a>
+															<span wicket:id="candidateSummaryPublicProfileEmpty" data-testid="candidateSummaryPublicProfileEmpty"></span>
+														</td>
+														<td wicket:id="candidateSummaryStatus" data-testid="candidateSummaryStatus"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div wicket:id="candidateSummaryEmpty" data-testid="candidateSummaryEmpty" class="text-muted small"></div>
+										<div class="col-12">
+											<hr class="my-3">
+										</div>
+									</div>
+									<div class="d-flex justify-content-between mt-4">
+										<button wicket:id="back" data-testid="back" type="button" id="back" class="btn btn-light">
+											<wicket:message key="candidateManagementBack" />
+										</button>
+										<div class="d-flex gap-2">
+											<button wicket:id="skip" data-testid="skip" type="button" id="skip" class="btn btn-light">
+												<wicket:message key="candidateManagementIgnore" />
+											</button>
+											<button wicket:id="markDoneNext" data-testid="markDoneNext" type="button" class="btn btn-primary">
+												<wicket:message key="electionManagementMarkCompleteNext" />
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header d-flex justify-content-between align-items-center gap-3 flex-wrap">
+					<h5 class="card-title mb-0" data-testid="candidateManagementDetails"><wicket:message key="candidateManagementDetails">Candidatos</wicket:message></h5>
+					<div wicket:id="candidatesHeaderActions" data-testid="candidatesHeaderActions"></div>
+				</div>
+				<div class="card-body">
+					<div wicket:id="candidatesListPanel" data-testid="candidatesListPanel"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

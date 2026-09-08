@@ -1,0 +1,347 @@
+<wicket:extend>
+	<wicket:head>
+		<link href="v2/css/election-calendar-module.css?v=20260330-01" rel="stylesheet" />
+		<script>
+			(function () {
+				var highlightTimeoutId = null;
+				var EVENT_SELECTOR = '.calendar-week-event[data-stage-key]';
+				var ROW_SELECTOR = '.calendar-timeline-row[data-stage-key]';
+				var HIGHLIGHT_CLASSES = ['calendar-stage-card-highlight', 'animate__animated', 'animate__pulse'];
+
+				function escapeSelectorValue(value) {
+					if (window.CSS && typeof window.CSS.escape === 'function') {
+						return window.CSS.escape(value);
+					}
+					return String(value).replace(/["\\]/g, '\\$&');
+				}
+
+				function findTimelineRow(stageKey) {
+					var timelineBody = document.querySelector('.calendar-timeline-body');
+					if (!timelineBody) {
+						return null;
+					}
+					var escapedKey = escapeSelectorValue(stageKey);
+					return timelineBody.querySelector(ROW_SELECTOR + '[data-stage-key="' + escapedKey + '"]');
+				}
+
+				function highlightStageCard(timelineRow) {
+					if (!timelineRow) {
+						return;
+					}
+					var stageCard = timelineRow.querySelector('.calendar-stage-card');
+					if (!stageCard) {
+						return;
+					}
+					stageCard.classList.remove.apply(stageCard.classList, HIGHLIGHT_CLASSES);
+					void stageCard.offsetWidth;
+					stageCard.classList.add.apply(stageCard.classList, HIGHLIGHT_CLASSES);
+					window.clearTimeout(highlightTimeoutId);
+					highlightTimeoutId = window.setTimeout(function () {
+						stageCard.classList.remove.apply(stageCard.classList, HIGHLIGHT_CLASSES);
+					}, 3000);
+				}
+
+				function focusStageFromCalendarItem(stageKey) {
+					if (!stageKey) {
+						return;
+					}
+					var timelineRow = findTimelineRow(stageKey);
+					if (!timelineRow) {
+						return;
+					}
+					timelineRow.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+					highlightStageCard(timelineRow);
+				}
+
+				document.addEventListener('click', function (event) {
+					var calendarEvent = event.target.closest(EVENT_SELECTOR);
+					if (!calendarEvent) {
+						return;
+					}
+					event.preventDefault();
+					focusStageFromCalendarItem(calendarEvent.getAttribute('data-stage-key'));
+				});
+
+				document.addEventListener('keydown', function (event) {
+					if (event.key !== 'Enter' && event.key !== ' ') {
+						return;
+					}
+					var calendarEvent = event.target.closest(EVENT_SELECTOR);
+					if (!calendarEvent) {
+						return;
+					}
+					event.preventDefault();
+					focusStageFromCalendarItem(calendarEvent.getAttribute('data-stage-key'));
+				});
+
+				function buildStageSummary(stageCard) {
+					var summary = stageCard.querySelector('[data-role="stage-summary"]');
+					if (!summary) {
+						return;
+					}
+
+					var noDateLabel = stageCard.getAttribute('data-no-date-label') || 'Sin fecha configurada';
+					var undefinedDateToggle = stageCard.querySelector('[data-role="undefined-date-toggle"]');
+					if (undefinedDateToggle && undefinedDateToggle.checked) {
+						summary.textContent = noDateLabel;
+						return;
+					}
+
+					var startDate = stageCard.querySelector('[data-stage-field="start-date"]');
+					var startTime = stageCard.querySelector('[data-stage-field="start-time"]');
+					var endDate = stageCard.querySelector('[data-stage-field="end-date"]');
+					var endTime = stageCard.querySelector('[data-stage-field="end-time"]');
+					var isPeriod = stageCard.getAttribute('data-period') === 'true';
+
+					var startDateValue = startDate ? startDate.value.trim() : '';
+					var startTimeValue = startTime ? startTime.value.trim() : '';
+					var endDateValue = endDate ? endDate.value.trim() : '';
+					var endTimeValue = endTime ? endTime.value.trim() : '';
+
+					if (!startDateValue) {
+						summary.textContent = noDateLabel;
+						return;
+					}
+
+					var startSummary = startDateValue + (startTimeValue ? ' ' + startTimeValue : '');
+					if (isPeriod && endDateValue) {
+						var endSummary = endDateValue + (endTimeValue ? ' ' + endTimeValue : '');
+						summary.textContent = startSummary + ' - ' + endSummary;
+						return;
+					}
+
+					summary.textContent = startSummary;
+				}
+
+				function syncUndefinedDateStage(stageCard) {
+					if (!stageCard) {
+						return;
+					}
+
+					var undefinedDateToggle = stageCard.querySelector('[data-role="undefined-date-toggle"]');
+					if (!undefinedDateToggle) {
+						return;
+					}
+
+					var undefinedDateSelected = undefinedDateToggle.checked;
+					var isPeriod = stageCard.getAttribute('data-period') === 'true';
+					var startDate = stageCard.querySelector('[data-stage-field="start-date"]');
+					var startTime = stageCard.querySelector('[data-stage-field="start-time"]');
+					var endDate = stageCard.querySelector('[data-stage-field="end-date"]');
+					var endTime = stageCard.querySelector('[data-stage-field="end-time"]');
+					var publicableToggle = stageCard.querySelector('[data-role="publicable-toggle"]');
+
+					if (startDate) {
+						startDate.disabled = undefinedDateSelected;
+					}
+					if (startTime) {
+						startTime.disabled = undefinedDateSelected;
+					}
+					if (endDate) {
+						endDate.disabled = !isPeriod || undefinedDateSelected;
+					}
+					if (endTime) {
+						endTime.disabled = !isPeriod || undefinedDateSelected;
+					}
+					if (publicableToggle) {
+						if (undefinedDateSelected) {
+							publicableToggle.checked = false;
+						}
+						publicableToggle.disabled = undefinedDateSelected;
+					}
+
+					stageCard.classList.toggle('calendar-stage-disabled', undefinedDateSelected);
+					stageCard.classList.toggle('calendar-stage-no-date', undefinedDateSelected);
+					buildStageSummary(stageCard);
+				}
+
+				function initializeCalendarStageCards() {
+					document.querySelectorAll('.calendar-stage-card[data-stage-key]').forEach(function (stageCard) {
+						syncUndefinedDateStage(stageCard);
+					});
+				}
+
+				document.addEventListener('change', function (event) {
+					var undefinedDateToggle = event.target.closest('[data-role="undefined-date-toggle"]');
+					if (undefinedDateToggle) {
+						syncUndefinedDateStage(undefinedDateToggle.closest('.calendar-stage-card'));
+						return;
+					}
+
+					var dateField = event.target.closest('[data-stage-field]');
+					if (dateField) {
+						buildStageSummary(dateField.closest('.calendar-stage-card'));
+					}
+				});
+
+				document.addEventListener('input', function (event) {
+					var dateField = event.target.closest('[data-stage-field]');
+					if (dateField) {
+						buildStageSummary(dateField.closest('.calendar-stage-card'));
+					}
+				});
+
+				document.addEventListener('DOMContentLoaded', initializeCalendarStageCards);
+			})();
+		</script>
+	</wicket:head>
+
+	<div class="row">
+		<div wicket:id="feedback" data-testid="feedback"></div>
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="electionManagementCalendarTitle"><wicket:message key="electionManagementCalendarTitle">Calendario</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="ins-wizard">
+						<div wicket:id="tabsPanel" data-testid="tabsPanel"></div>
+						<div class="tab-content pt-3">
+							<div class="tab-pane fade show active">
+								<form wicket:id="calendarForm" data-testid="calendarForm" class="wizard-form" role="application">
+									<p class="mb-3 text-muted"><wicket:message key="electionCalendarModuleIntro" /></p>
+									<div class="calendar-layout">
+										<div class="calendar-timeline-panel">
+											<div class="calendar-timeline-header">
+												<h5 class="mb-0" data-testid="electionCalendarModuleSelectionTitle"><wicket:message key="electionCalendarModuleSelectionTitle">Selección de Fechas</wicket:message></h5>
+											</div>
+											<div class="calendar-timeline-body">
+												<div wicket:id="calendarRows" data-testid="calendarRows" class="calendar-timeline-row">
+													<div class="calendar-timeline-rail">
+														<div wicket:id="timelineConnector" data-testid="timelineConnector" class="calendar-timeline-line"></div>
+														<div wicket:id="statusDot" data-testid="statusDot" class="calendar-status-dot">
+															<i wicket:id="statusIcon" data-testid="statusIcon"></i>
+														</div>
+													</div>
+														<div wicket:id="stageCard" data-testid="stageCard" class="calendar-stage-card">
+															<div class="calendar-stage-head">
+																<div class="calendar-stage-title-wrap">
+																	<h6 class="calendar-stage-name" wicket:id="eventName" data-testid="eventName">Etapa del calendario</h6>
+																</div>
+																<span wicket:id="eventColorDot" data-testid="eventColorDot" class="calendar-event-dot"></span>
+															</div>
+														<div class="calendar-stage-date" wicket:id="eventDateSummary" data-testid="eventDateSummary" data-role="stage-summary"></div>
+														<div class="mb-2 text-muted small" wicket:id="description" data-testid="description"></div>
+														<div class="calendar-stage-inputs">
+															<div class="row g-2">
+																<div class="col-sm-6">
+																	<div class="input-group input-group-sm">
+																		<span class="input-group-text"><i class="ti ti-calendar"></i></span>
+																		<input wicket:id="startDate" data-testid="startDate" data-stage-field="start-date" type="text" class="form-control" data-provider="flatpickr" data-date-format="d/m/Y"
+																			wicket:message="placeholder:electionManagementFecIniPlaceholder">
+																	</div>
+																</div>
+																<div class="col-sm-6">
+																	<div class="input-group input-group-sm">
+																		<span class="input-group-text"><i class="ti ti-clock"></i></span>
+																		<input wicket:id="startTime" data-testid="startTime" data-stage-field="start-time" type="text" class="form-control" data-provider="timepickr" data-time-hrs="true"
+																			wicket:message="placeholder:electionManagementHorIniPlaceholder">
+																		<span class="input-group-text">UTC</span>
+																	</div>
+																</div>
+																<wicket:container wicket:id="periodFields" data-testid="periodFields">
+																	<div class="col-sm-6">
+																		<div class="input-group input-group-sm">
+																			<span class="input-group-text"><i class="ti ti-calendar-event"></i></span>
+																			<input wicket:id="endDate" data-testid="endDate" data-stage-field="end-date" type="text" class="form-control" data-provider="flatpickr" data-date-format="d/m/Y"
+																				wicket:message="placeholder:electionManagementFecFinPlaceholder">
+																		</div>
+																	</div>
+																	<div class="col-sm-6">
+																		<div class="input-group input-group-sm">
+																			<span class="input-group-text"><i class="ti ti-clock-hour-4"></i></span>
+																			<input wicket:id="endTime" data-testid="endTime" data-stage-field="end-time" type="text" class="form-control" data-provider="timepickr" data-time-hrs="true"
+																				wicket:message="placeholder:electionManagementHorFinPlaceholder">
+																			<span class="input-group-text">UTC</span>
+																		</div>
+																	</div>
+																</wicket:container>
+															</div>
+														</div>
+															<div class="mt-2">
+																<div class="calendar-stage-switches">
+																	<div wicket:id="undefinedDateGroup" data-testid="undefinedDateGroup">
+																		<label class="form-check form-switch m-0">
+																			<input wicket:id="undefinedDate" data-testid="undefinedDate" data-role="undefined-date-toggle" type="checkbox" class="form-check-input">
+																			<span class="form-check-label small ms-1"><wicket:message key="electionCalendarUndefinedLabel">electionCalendarUndefinedLabel</wicket:message></span>
+																		</label>
+																	</div>
+																	<label class="form-check form-switch m-0">
+																		<input wicket:id="publicable" data-testid="publicable" data-role="publicable-toggle" type="checkbox" class="form-check-input">
+																			<span class="form-check-label small ms-1"><wicket:message key="electionCalendarPublishLabel">electionCalendarPublishLabel</wicket:message></span>
+																		</label>
+																</div>
+																<div class="calendar-stage-status">
+																<span wicket:id="stageCodeText" data-testid="stageCodeText" class="badge me-2 bg-info-subtle text-info-emphasis border border-info-subtle"></span>
+																<span wicket:id="statusText" data-testid="statusText" class="badge"></span>
+																</div>
+															</div>
+													</div>
+												</div>
+											</div>
+											<div class="calendar-timeline-footer">
+												<button wicket:id="saveTimeline" data-testid="saveTimeline" type="submit" class="btn btn-success btn-sm">
+													<wicket:message key="electionManagementSave" />
+												</button>
+											</div>
+										</div>
+											<div class="calendar-preview-panel">
+												<div class="calendar-preview-header">
+													<div class="btn-group btn-group-sm">
+														<a wicket:id="prevMonth" data-testid="prevMonth" href="#" class="btn btn-light">
+															<i class="ti ti-chevron-left"></i>
+														</a>
+														<a wicket:id="nextMonth" data-testid="nextMonth" href="#" class="btn btn-light">
+															<i class="ti ti-chevron-right"></i>
+														</a>
+													</div>
+													<h6 wicket:id="calendarMonthTitle" data-testid="calendarMonthTitle">Mes del calendario</h6>
+													<div></div>
+												</div>
+											<div class="calendar-preview-grid">
+												<div class="calendar-week-header">
+													<div wicket:id="calendarWeekHeaders" data-testid="calendarWeekHeaders" class="calendar-week-header-item">
+														<span wicket:id="weekHeader" data-testid="weekHeader"></span>
+													</div>
+												</div>
+												<div class="calendar-weeks">
+													<div wicket:id="calendarWeeks" data-testid="calendarWeeks" class="calendar-week">
+														<div wicket:id="days" data-testid="days" class="calendar-day">
+															<div class="calendar-day-number" wicket:id="dayNumber" data-testid="dayNumber"></div>
+														</div>
+														<div class="calendar-week-events-layer">
+															<div wicket:id="weekEvents" data-testid="weekEvents" class="calendar-week-event">
+																<span wicket:id="weekEventText" data-testid="weekEventText"></span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-12">
+										<hr class="my-3">
+									</div>
+									<div class="d-flex justify-content-between mt-4">
+										<button wicket:id="back" data-testid="back" type="button" class="btn btn-light">
+											<wicket:message key="censusManagementBack" />
+										</button>
+										<div class="d-flex gap-2">
+											<button wicket:id="skip" data-testid="skip" type="button" id="skip" class="btn btn-light">
+												<wicket:message key="censusManagementIgnore" />
+											</button>
+											<button wicket:id="markDoneNext" data-testid="markDoneNext" type="submit" class="btn btn-primary">
+												<wicket:message key="electionManagementMarkCompleteNext" />
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

@@ -6,8 +6,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.lacnic.elections.ejb.ElectionsManagerEJB;
 import net.lacnic.elections.ejb.ElectionsMonitorEJB;
@@ -15,14 +15,14 @@ import net.lacnic.elections.ejb.ElectionsVoterEJB;
 import net.lacnic.elections.ejb.commons.ElectionsParametersEJB;
 import net.lacnic.elections.ejb.commons.MailsSendingEJB;
 
-
 public class EJBFactory {
 
 	private static final String EBJ = "ejb:/";
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("ejbAppLogger");
 
 	private static String JBOSSTEMPURI = System.getProperty("jboss.server.temp.dir");
+	private static String JBOSSCONFURI = System.getProperty("jboss.server.config.dir");
 
 	private ElectionsManagerEJB electionsManagerEJB;
 	private ElectionsMonitorEJB electionsMonitorEJB;
@@ -32,12 +32,11 @@ public class EJBFactory {
 
 	private static EJBFactory instance;
 
-
 	private EJBFactory() {
 
 		try {
 
-			final Hashtable<String,String> jndiProperties = new Hashtable<>();
+			final Hashtable<String, String> jndiProperties = new Hashtable<>();
 			jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 			final Context context = new InitialContext(jndiProperties);
 
@@ -57,7 +56,7 @@ public class EJBFactory {
 			setMailsSendingEJB((MailsSendingEJB) context.lookup(mailsSendingEjb));
 
 		} catch (NamingException e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
 	}
 
@@ -70,6 +69,10 @@ public class EJBFactory {
 
 	public static String getJbossTempUri() {
 		return JBOSSTEMPURI.concat("/");
+	}
+
+	public static String getJbossConfUri() {
+		return JBOSSCONFURI == null ? "" : JBOSSCONFURI.concat("/");
 	}
 
 	public ElectionsManagerEJB getElectionsManagerEJB() {

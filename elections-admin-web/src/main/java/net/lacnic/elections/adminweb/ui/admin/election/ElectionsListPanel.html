@@ -1,0 +1,118 @@
+<wicket:panel>
+	<input type="hidden" wicket:id="defaultOrderColumn" id="electionsListDefaultOrderColumn" data-testid="electionsListDefaultOrderColumn" value="3" />
+	<div class="card float-e-margins">
+		<div class="card-header">
+			<h5 data-testid="electionsList"><wicket:message key="electionsList">Listado Elecciones</wicket:message></h5>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive m-t">
+				<table id="electionsListTable" data-testid="electionsListTable" class="table dataTables">
+					<thead class="jumbotron">
+						<tr>
+							<th></th>
+							<th class="text-center"><wicket:message key="electionId" /></th>
+							<th><wicket:message key="title" /></th>
+							<th><wicket:message key="createDate" /></th>
+							<th><wicket:message key="startDate" /></th>
+							<th><wicket:message key="endDate" /></th>
+							<th class="text-center" style="max-width: 250px"><wicket:message key="status" /></th>
+							<th class="text-center" style="max-width: 200px"><wicket:message key="options" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="electionsList" data-testid="electionsList" name="electionsList">
+							<td class="text-center">
+								<span wicket:id="removeElection" data-testid="removeElection" name="remove"></span>
+							</td>
+							<td class="text-center">
+								<span wicket:id="electionId" data-testid="electionId"></span>
+							</td>
+							<td>
+								<a wicket:id="electionDetail" data-testid="electionDetail">
+									<span wicket:id="titles" data-testid="titles"></span>
+								</a>
+								<span wicket:id="closedTag" data-testid="closedTag" class="badge text-bg-secondary ms-2 align-middle"></span>
+							</td>
+							<td>
+								<span wicket:id="creationDate" data-testid="creationDate"></span>
+							</td>
+							<td>
+								<span wicket:id="startDate" data-testid="startDate"></span>
+							</td>
+							<td>
+								<span wicket:id="endDate" data-testid="endDate"></span>
+							</td>
+							<td class="text-center" style="max-width: 250px">
+								<button wicket:id="call" data-testid="call" wicket:message="title:electionManagementCallTab" type="button" class="btn btn-soft-warning btn-sm rounded-pill text-body opacity-100">
+									<i class="ti ti-phone fs-16"></i>
+								</button>
+								<button wicket:id="organizations" data-testid="organizations" wicket:message="title:organizations" type="button" class="btn btn-soft-warning btn-sm rounded-pill text-body opacity-100">
+									<i class="ti ti-building fs-16"></i>
+								</button>
+								<button wicket:id="manageCensus" data-testid="manageCensus" wicket:message="title:census" type="button" class="btn btn-soft-primary btn-sm rounded-pill text-body opacity-100">
+									<i class="ti ti-users fs-16"></i>
+								</button>
+								<button wicket:id="calendar" data-testid="calendar" wicket:message="title:calendar" type="button" class="btn btn-soft-warning btn-sm rounded-pill text-body opacity-100">
+									<i class="ti ti-calendar fs-16"></i>
+								</button>
+								<button wicket:id="tasks" data-testid="tasks" wicket:message="title:tasks" type="button" class="btn btn-soft-warning btn-sm rounded-pill text-body opacity-100">
+									<i class="ti ti-list-check fs-16"></i>
+								</button>
+								<button wicket:id="candidates" data-testid="candidates" wicket:message="title:candidates" type="button" class="btn btn-soft-primary btn-sm rounded-pill text-body opacity-100">
+									<i class="ti ti-user-star fs-16"></i>
+								</button>
+								<button wicket:id="auditors" data-testid="auditors" wicket:message="title:auditors" type="button" class="btn btn-soft-primary btn-sm rounded-pill text-body opacity-100">
+									<i class="ti ti-shield-check fs-16"></i>
+								</button>
+							</td>
+							<td class="text-right" style="max-width: 200px">
+								<a wicket:id="editElection" data-testid="editElection" wicket:message="title:edit,aria-label:edit" class="text-primary ti ti-pencil fs-2 m-r-xs"></a>
+								<a wicket:id="revision" data-testid="revision" wicket:message="title:revision,aria-label:revision" class="text-danger ti ti-zoom-in fs-2 m-r-xs" ></a>
+								<a wicket:id="manageEmails" data-testid="manageEmails" wicket:message="title:mails,aria-label:mails" class="text-warning ti ti-mail fs-2 m-r-xs" ></a>
+								<a wicket:id="seeStats" data-testid="seeStats" wicket:message="title:electionResults,aria-label:electionResults" class="text-success ti ti-chart-bar fs-2 m-r-xs"></a>
+								<a wicket:id="seeOfficialResults" data-testid="seeOfficialResults" wicket:message="title:electionResultsTitle,aria-label:electionResultsTitle" class="text-primary ti ti-file-check fs-2 m-r-xs"></a>
+								<a wicket:id="questions" data-testid="questions" wicket:message="title:candidateQuestionsManagementTitle,aria-label:candidateQuestionsManagementTitle" class="text-info ti ti-message-circle-question fs-2 m-r-xs" ></a>
+								<a wicket:id="preReports" data-testid="preReports" wicket:message="title:preElectionReportsTitle,aria-label:preElectionReportsTitle" class="text-primary ti ti-report-analytics fs-2 m-r-xs" ></a>
+								<a wicket:id="configuration" data-testid="configuration" wicket:message="title:settings,aria-label:settings" class="text-muted ti ti-settings fs-2 m-r-xs" ></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="hr-line-dashed"></div>
+			<div class="text-center"></div>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			if ($.fn.dataTable.moment) {
+				$.fn.dataTable.moment('DD/MM/YYYY');
+				$.fn.dataTable.moment('DD/MM/YYYY HH:mm [(UTC)]');
+			}
+			var defaultOrderColumn = parseInt($('#electionsListDefaultOrderColumn').val(), 10);
+			if (isNaN(defaultOrderColumn)) {
+				defaultOrderColumn = 3;
+			}
+			$('.dataTables').dataTable({
+				"dom": '<"top"f>rt<"bottom"p><"clear">',
+				"order": [[ defaultOrderColumn, "desc" ]],
+				"columnDefs": [
+					{
+						"orderable": false,
+						"targets": [ 0, 6, 7 ],
+					}
+				],
+				"language" : {
+					"sSearch": "Filter:",
+					"oPaginate": {
+						"sNext": ">",
+						"sPrevious" : "<"
+					}
+				}
+			});
+		});
+	</script>
+
+</wicket:panel>

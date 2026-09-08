@@ -1,0 +1,30 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedback" data-testid="feedback">[Feedback Panel]</div>
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 id="userAdminEditTitle" data-testid="adminUserEditUsrTitle"><wicket:message key="adminUserEditUsrTitle">Editar un administrador del sistema</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<form wicket:id="formUserAdmin" data-testid="formUserAdmin">
+						<div class="row g-3 align-items-end">
+							<div class="col-md-4">
+								<label class="form-label"><wicket:message key="adminUserListUser" /></label>
+								<input type="text" id="userAdminId" class="form-control" wicket:id="userAdminId" data-testid="userAdminId" />
+							</div>
+						<div class="col-md-4">
+							<label class="form-label"><wicket:message key="adminUserListMail" /></label>
+							<input type="email" id="email" class="form-control" wicket:id="email" data-testid="email" />
+						</div>
+						<div class="col-12 text-center">
+							<button class="btn btn-light" id="cancel" wicket:id="cancelEdit" data-testid="cancelEdit" type="button"><wicket:message key="adminUserEditBtnCanc" /></button>
+							<button class="btn btn-primary" id="save" type="submit" wicket:id="edit" data-testid="edit"><wicket:message key="adminUserEditBtnSave" /></button>
+						</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

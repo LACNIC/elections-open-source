@@ -2,8 +2,8 @@ package net.lacnic.elections.adminweb.ui.admin.useradmin;
 
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -21,7 +21,7 @@ public class UserAdminsListPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 	private long userAdminId;
 
@@ -41,13 +41,12 @@ public class UserAdminsListPanel extends Panel {
 
 				@Override
 				protected void populateItem(ListItem<UserAdmin> item) {
-					final UserAdmin currentUserAdmin = item.getModelObject();
-					try {
-						item.add(new Label("userAdminId", currentUserAdmin.getUserAdminId()));
-						item.add(new Label("email", currentUserAdmin.getEmail()));
-						item.add(new Label("authorizedElection", currentUserAdmin.getAuthorizedElectionId() == 0 ? "TODAS" : AppContext.getInstance().getManagerBeanRemote().getElection(currentUserAdmin.getAuthorizedElectionId()).getTitleSpanish()));
+						final UserAdmin currentUserAdmin = item.getModelObject();
+						try {
+							item.add(new Label("userAdminId", currentUserAdmin.getUserAdminId()));
+							item.add(new Label("email", currentUserAdmin.getEmail()));
 
-						BookmarkablePageLink<Void> editUserAdmin = new BookmarkablePageLink<>("editUserAdmin", EditUserAdminDashboard.class, UtilsParameters.getAdminId(currentUserAdmin.getUserAdminId()));
+							BookmarkablePageLink<Void> editUserAdmin = new BookmarkablePageLink<>("editUserAdmin", EditUserAdminDashboard.class, UtilsParameters.getAdminId(currentUserAdmin.getUserAdminId()));
 						editUserAdmin.setMarkupId("editUserAdmin" + currentUserAdmin.getUserAdminId());
 						item.add(editUserAdmin);
 
@@ -70,13 +69,13 @@ public class UserAdminsListPanel extends Panel {
 										setResponsePage(UserAdminsDashboard.class);
 									}
 								} catch (Exception e) {
-									appLogger.error(e);
+									appLogger.error(e.getMessage(), e);
 								}
 							}
 						};
 						item.add(buttonDeleteWithConfirmation);
 					} catch (Exception e) {
-						appLogger.error(e);
+						appLogger.error(e.getMessage(), e);
 					}
 				}
 			};

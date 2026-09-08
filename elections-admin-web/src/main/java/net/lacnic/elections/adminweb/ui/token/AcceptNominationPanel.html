@@ -1,0 +1,48 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="row justify-content-center mt-3">
+		<div class="col-xl-10">
+			<div wicket:id="conditionsCard" class="card" data-testid="accept-nomination-conditions-card">
+				<div class="card-header">
+					<h4 class="card-title" data-testid="acceptNominationConditionsTitlePrefix"><wicket:message key="acceptNominationConditionsTitlePrefix">Aceptación de nominación para la elección:</wicket:message> <span wicket:id="electionTitle" data-testid="electionTitle"></span></h4>
+				</div>
+				<div class="card-body">
+					<form wicket:id="acceptNominationForm" data-testid="accept-nomination-form">
+						<p class="text-muted mb-3"><wicket:message key="acceptNominationConditionsIntro" /></p>
+						<div class="bg-light border rounded p-3" data-testid="accept-nomination-conditions-text">
+							<div class="mb-0" wicket:id="acceptNominationConditionsHtml" data-testid="acceptNominationConditionsHtml"></div>
+						</div>
+						<div class="form-check mt-4">
+							<input wicket:id="acceptNominationCheck" data-testid="acceptNominationCheck" class="form-check-input" type="checkbox" id="accept-nomination-conditions-check">
+							<label class="form-check-label" for="accept-nomination-conditions-check">
+								<span wicket:id="acceptNominationClauseText" data-testid="acceptNominationClauseText"></span>
+							</label>
+						</div>
+						<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-4">
+							<div wicket:id="rejectNominationButton" data-testid="rejectNominationButton"></div>
+							<button wicket:id="confirmAcceptNomination" class="btn btn-primary" type="submit" data-testid="accept-nomination-confirm-button">
+								<wicket:message key="acceptNominationConfirmButton" />
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div wicket:id="rejectedCard" class="card border-danger" data-testid="accept-nomination-rejected-card">
+				<div class="card-header bg-danger-subtle">
+					<h4 class="card-title mb-0" data-testid="acceptNominationRejectedCardTitle"><wicket:message key="acceptNominationRejectedCardTitle">Nominación rechazada</wicket:message></h4>
+				</div>
+				<div class="card-body">
+					<p class="mb-0"><wicket:message key="acceptNominationRejectedCardBody" /></p>
+				</div>
+			</div>
+			<div wicket:id="alreadyAcceptedCard" class="card border-danger" data-testid="accept-nomination-already-accepted-card">
+				<div class="card-header bg-danger-subtle">
+					<h4 class="card-title mb-0" data-testid="acceptNominationAlreadyAcceptedCardTitle"><wicket:message key="acceptNominationAlreadyAcceptedCardTitle">Ya aceptaste otra nominación</wicket:message></h4>
+				</div>
+				<div class="card-body">
+					<p class="mb-3"><wicket:message key="acceptNominationAlreadyAcceptedCardBody" /></p>
+					<a wicket:id="goAcceptedNominationButton" data-testid="goAcceptedNominationButton" class="btn btn-danger"><wicket:message key="acceptNominationAlreadyAcceptedGoButton" /></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

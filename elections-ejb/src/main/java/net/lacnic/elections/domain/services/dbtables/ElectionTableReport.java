@@ -18,6 +18,10 @@ public class ElectionTableReport implements Serializable {
 	private String startDate;
 	private Boolean resultLinkAvailable;
 	private Boolean votingLinkAvailable;
+	private Boolean doNominationLinkAvailable;
+	private Boolean nominationTasksLinkAvailable;
+	private Boolean nominationSupportLinkAvailable;
+	private Boolean publicElectionLinkAvailable;
 	private String linkSpanish;
 	private String linkEnglish;
 	private String linkPortuguese;
@@ -49,10 +53,14 @@ public class ElectionTableReport implements Serializable {
 		this.descriptionEnglish = election.getDescriptionEnglish();
 		this.descriptionPortuguese = election.getDescriptionPortuguese();
 		this.creationDate = election.getCreationDateString();
-		this.endDate = election.getEndDateString();
-		this.startDate = election.getStartDateString();
+		this.endDate = election.getVotingPeriodEndDateString();
+		this.startDate = election.getVotingPeriodStartDateString();
 		this.resultLinkAvailable = election.isResultLinkAvailable();
 		this.votingLinkAvailable = election.isVotingLinkAvailable();
+		this.doNominationLinkAvailable = election.isDoNominationLinkAvailable();
+		this.nominationTasksLinkAvailable = election.isNominationTasksLinkAvailable();
+		this.nominationSupportLinkAvailable = election.isNominationSupportLinkAvailable();
+		this.publicElectionLinkAvailable = election.isPublicElectionLinkAvailable();
 		this.linkSpanish = election.getLinkSpanish();
 		this.linkEnglish = election.getLinkEnglish();
 		this.linkPortuguese = election.getLinkPortuguese();
@@ -147,6 +155,38 @@ public class ElectionTableReport implements Serializable {
 
 	public void setVotingLinkAvailable(Boolean votingLinkAvailable) {
 		this.votingLinkAvailable = votingLinkAvailable;
+	}
+
+	public Boolean getDoNominationLinkAvailable() {
+		return doNominationLinkAvailable;
+	}
+
+	public void setDoNominationLinkAvailable(Boolean doNominationLinkAvailable) {
+		this.doNominationLinkAvailable = doNominationLinkAvailable;
+	}
+
+	public Boolean getNominationTasksLinkAvailable() {
+		return nominationTasksLinkAvailable;
+	}
+
+	public void setNominationTasksLinkAvailable(Boolean nominationTasksLinkAvailable) {
+		this.nominationTasksLinkAvailable = nominationTasksLinkAvailable;
+	}
+
+	public Boolean getNominationSupportLinkAvailable() {
+		return nominationSupportLinkAvailable;
+	}
+
+	public void setNominationSupportLinkAvailable(Boolean nominationSupportLinkAvailable) {
+		this.nominationSupportLinkAvailable = nominationSupportLinkAvailable;
+	}
+
+	public Boolean getPublicElectionLinkAvailable() {
+		return publicElectionLinkAvailable;
+	}
+
+	public void setPublicElectionLinkAvailable(Boolean publicElectionLinkAvailable) {
+		this.publicElectionLinkAvailable = publicElectionLinkAvailable;
 	}
 
 	public String getLinkSpanish() {

@@ -8,11 +8,14 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
+import net.lacnic.elections.adminweb.ui.token.page.VotePublicPage;
 import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.LanguageCode;
 import net.lacnic.elections.domain.UserVoter;
 
 
@@ -24,6 +27,14 @@ public class VoteJointElectionDetailPanel extends Panel {
 
 
 	public VoteJointElectionDetailPanel(String id, PageParameters params, Election election, UserVoter userVoter, boolean leftPanel) {
+		this(id, params, userVoter, leftPanel, VotePublicPage.class);
+	}
+
+	public VoteJointElectionDetailPanel(String id, PageParameters params, UserVoter userVoter, boolean leftPanel, Class<? extends IRequestablePage> votePageClass) {
+		this(id, params, userVoter != null ? userVoter.getElection() : null, userVoter, leftPanel, votePageClass);
+	}
+
+	public VoteJointElectionDetailPanel(String id, PageParameters params, Election election, UserVoter userVoter, boolean leftPanel, Class<? extends IRequestablePage> votePageClass) {
 		super(id);
 
 		WebMarkupContainer alreadyVoted = new WebMarkupContainer("alreadyVoted");
@@ -53,14 +64,15 @@ public class VoteJointElectionDetailPanel extends Panel {
 			private static final long serialVersionUID = 4499783887456801848L;
 
 			public void onClick() {
+				PageParameters nextParams = new PageParameters(params);
 				if (leftPanel) {
-					params.add("token1", userVoter.getVoteToken());
-					params.add("token2", "");
+					nextParams.set("token1", userVoter.getVoteToken());
+					nextParams.set("token2", "");
 				} else {
-					params.add("token2", userVoter.getVoteToken());
-					params.add("token1", "");
+					nextParams.set("token2", userVoter.getVoteToken());
+					nextParams.set("token1", "");
 				}
-				setResponsePage(VoteSimpleElectionDashboard.class, params);
+				setResponsePage(votePageClass, nextParams);
 			}
 		};
 		vote.setVisible(!alreadyVoted.isVisible());
@@ -83,10 +95,10 @@ public class VoteJointElectionDetailPanel extends Panel {
 	}
 
 	public String getLanguage(UserVoter userVoter) {
-		if (userVoter != null)
-			return userVoter.getLanguage();
-		else
-			return SecurityUtils.getLocale().getDisplayName();
+		if (userVoter != null && userVoter.getLanguageEnum() != null) {
+			return userVoter.getLanguageEnum().getCode();
+		}
+		return LanguageCode.fromValueOrDefault(SecurityUtils.getLocale() != null ? SecurityUtils.getLocale().getLanguage() : null, LanguageCode.SP).getCode();
 	}
 
 }

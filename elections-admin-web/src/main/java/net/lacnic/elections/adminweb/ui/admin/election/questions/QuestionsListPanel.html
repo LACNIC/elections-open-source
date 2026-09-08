@@ -1,0 +1,29 @@
+<wicket:panel>
+	<div class="table-responsive">
+		<table class="table table-hover align-middle mb-0">
+			<thead class="table-light">
+				<tr>
+					<th>#</th>
+					<th><wicket:message key="candidateQuestionsListCandidateCol" /></th>
+					<th><wicket:message key="candidateQuestionsListStatusCol" /></th>
+					<th><wicket:message key="candidateQuestionsListOwnerCol" /></th>
+					<th><wicket:message key="candidateQuestionsListQuestionCol" /></th>
+					<th><wicket:message key="candidateQuestionsListActionsCol" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr wicket:id="questionsList" data-testid="questionsList">
+					<td wicket:id="questionId" data-testid="questionId"></td>
+					<td wicket:id="candidateName" data-testid="candidateName"></td>
+					<td wicket:id="status" data-testid="status"></td>
+					<td wicket:id="owner" data-testid="owner"></td>
+					<td wicket:id="questionPreview" data-testid="questionPreview"></td>
+					<td>
+						<a wicket:id="editQuestion" data-testid="editQuestion" class="btn btn-light btn-sm"><wicket:message key="candidateQuestionsListTranslateButton" /></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="text-muted mt-3" wicket:id="emptyQuestionsMessage" data-testid="emptyQuestionsMessage"></div>
+</wicket:panel>

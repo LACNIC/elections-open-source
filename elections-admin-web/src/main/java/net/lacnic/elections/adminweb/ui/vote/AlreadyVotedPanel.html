@@ -1,0 +1,61 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div wicket:id="feedbackPanel" data-testid="feedbackPanel"></div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="electionDetailTitle"><wicket:message key="electionDetailTitle">Detalle elección</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-12 m-b-sm">
+							<b wicket:id="title" data-testid="title" id="electionTitle"></b>
+						</div>
+						<div class="col-lg-12">
+							<p id="electionDescription" wicket:id="description" data-testid="description"></p>
+						</div>
+						<div class="col-lg-12 hr-line-dashed"></div>
+						<div class="col-lg-12">
+							<div class="col-lg-2">
+								<strong><wicket:message key="voterLabel" /></strong>
+							</div>
+							<div class="col-lg-5">
+								<span wicket:id="voter" data-testid="voter"></span>
+							</div>
+							<div class="col-lg-3">
+								<strong><wicket:message key="maxCandidatesLabel" /></strong>
+							</div>
+							<div class="col-lg-2">
+								<span wicket:id="maxCandidates" data-testid="maxCandidates"></span>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="col-lg-2">
+								<strong><wicket:message key="voteAmountLabel" /></strong>
+							</div>
+							<div class="col-lg-2">
+								<span wicket:id="voteAmount" data-testid="voteAmount"></span>
+							</div>
+						</div>
+						<div class="col-lg-12 mt-3">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th><wicket:message key="verificationCode" /></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr wicket:id="codes" data-testid="codes">
+										<td wicket:id="number" data-testid="number"></td>
+										<td wicket:id="code" data-testid="code"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

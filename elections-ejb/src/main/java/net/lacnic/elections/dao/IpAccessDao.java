@@ -2,35 +2,34 @@ package net.lacnic.elections.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.IpAccess;
-
 
 public class IpAccessDao {
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("ejbAppLogger");
 
 	private EntityManager em;
-
 
 	public IpAccessDao(EntityManager em) {
 		this.em = em;
 	}
-
 
 	public IpAccess getIP(String ip) {
 		try {
 			TypedQuery<IpAccess> q = em.createQuery("SELECT i FROM IpAccess i WHERE i.ip =:ip", IpAccess.class);
 			q.setParameter("ip", ip);
 			return q.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return null;
 		}
 	}

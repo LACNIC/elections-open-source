@@ -3,11 +3,13 @@ package net.lacnic.elections.data;
 import java.io.Serializable;
 import java.util.List;
 
-
 public class HealthCheck implements Serializable {
 
 	private static final long serialVersionUID = -8887832519452826861L;
 
+	private int status;
+	private boolean baseOk;
+	private String errorMessage;
 	private int sendAttempts;
 	private long failedAccessIps;
 	private long failedAccessSum;
@@ -16,8 +18,10 @@ public class HealthCheck implements Serializable {
 	private long mailsSent;
 	private List<ElectionReport> elections;
 
-
 	public HealthCheck(int sendAttempts, long failedAccessIps, long failedAccessSum, long mailsTotal, long mailsPending, long mailsSent, List<ElectionReport> elections) {
+		this.status = 1;
+		this.baseOk = true;
+		this.errorMessage = null;
 		this.sendAttempts = sendAttempts;
 		this.failedAccessIps = failedAccessIps;
 		this.failedAccessSum = failedAccessSum;
@@ -27,6 +31,20 @@ public class HealthCheck implements Serializable {
 		this.elections = elections;
 	}
 
+	public HealthCheck(String errorMessage) {
+		this.status = 0;
+		this.baseOk = false;
+		this.setErrorMessage(errorMessage);
+
+	}
+
+	public boolean isBaseOk() {
+		return baseOk;
+	}
+
+	public void setBaseOk(boolean baseOk) {
+		this.baseOk = baseOk;
+	}
 
 	public int getSendAttempts() {
 		return sendAttempts;
@@ -82,6 +100,22 @@ public class HealthCheck implements Serializable {
 
 	public void setElections(List<ElectionReport> elections) {
 		this.elections = elections;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 
 }

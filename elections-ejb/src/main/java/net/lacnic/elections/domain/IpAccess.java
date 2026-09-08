@@ -3,13 +3,12 @@ package net.lacnic.elections.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class IpAccess implements Serializable {
@@ -34,9 +33,9 @@ public class IpAccess implements Serializable {
 	@Column(nullable = false)
 	private Date firstAttemptDate;
 
-
-	public IpAccess() { }
-
+	public IpAccess() {
+		// Intencionalmente vacio: JPA lo requiere para materializar la entidad.
+	}
 
 	public long getIpAccessId() {
 		return ipAccessId;

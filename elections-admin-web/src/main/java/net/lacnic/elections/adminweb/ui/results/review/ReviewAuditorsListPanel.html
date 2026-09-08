@@ -1,0 +1,27 @@
+<wicket:panel>
+	<div class="card float-e-margins">
+		<div class="card-header">
+			<h5 data-testid="auditorRevListTitle"><wicket:message key="auditorRevListTitle">Auditores</wicket:message></h5>
+		</div>
+		<div class="card-body">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th><wicket:message key="auditorRevListName" /></th>
+						<th><wicket:message key="auditorRevListMail" /></th>
+						<th><wicket:message key="auditorRevListLink" /></th>
+						<th><wicket:message key="auditorRevListHabRev" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="auditorsList" data-testid="auditorsList">
+						<td><span wicket:id="name" data-testid="name"></span></td>
+						<td><span wicket:id="mail" data-testid="mail"></span></td>
+						<td><a wicket:id="link" data-testid="link" target="_blank"><span wicket:id="linkText" data-testid="linkText"></span></a></td>
+						<td class="text-center"><span wicket:id="revision" data-testid="revision"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</wicket:panel>

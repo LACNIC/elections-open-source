@@ -2,8 +2,8 @@ package net.lacnic.elections.adminweb.ui.admin.parameter;
 
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -15,13 +15,14 @@ import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.components.ButtonDeleteWithConfirmation;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Parameter;
+import net.lacnic.elections.utils.ElectionsRoles;
 
 
 public class ParametersListPanel extends Panel {
 
 	private static final long serialVersionUID = -8554113800494186242L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 	private List<Parameter> parametersList;
 
@@ -52,16 +53,22 @@ public class ParametersListPanel extends Panel {
 
 						@Override
 						public void onConfirm() {					
+							if (!SecurityUtils.hasRole(ElectionsRoles.ELECTIONS_DELETER)) {
+								SecurityUtils.error(getString("deleteAccessDenied"));
+								setResponsePage(ParametersDashboard.class);
+								return;
+							}
 							AppContext.getInstance().getManagerBeanRemote().removeParameter(parameter.getKey(), SecurityUtils.getUserAdminId(), SecurityUtils.getClientIp());
 							getSession().info(getString("advParameterExito"));
 							setResponsePage(ParametersDashboard.class); 
 						}
 					};
 					remove.setMarkupId("removeParameter" + item.getIndex());
+					remove.setVisible(SecurityUtils.hasRole(ElectionsRoles.ELECTIONS_DELETER));
 					item.add(remove);
 
 				} catch (Exception e) {
-					appLogger.error(e);
+					appLogger.error(e.getMessage(), e);
 				}
 			}
 		};

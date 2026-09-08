@@ -1,0 +1,19 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div wicket:id="feedbackPanel" data-testid="feedbackPanel"></div>
+	<div class="row">
+		<div class="col-lg-10 offset-lg-1">
+			<div class="card">
+				<div class="card-body text-center p-md">
+					<h2 wicket:id="voteNotComplete" data-testid="voteNotComplete">
+						<strong><wicket:message key="userVoteNoComplete">IMPORTANTE: RECUERDE VOTAR EN AMBAS ELECCIONES</wicket:message></strong>
+					</h2>
+					<h2 wicket:id="voter" data-testid="voter">Información del votante</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-5 offset-lg-1" wicket:id="election1Detail" data-testid="election1Detail"></div>
+		<div class="col-lg-5" wicket:id="election2Detail" data-testid="election2Detail"></div>
+	</div>
+</wicket:panel>

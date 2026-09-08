@@ -1,0 +1,78 @@
+<wicket:panel>
+	<article class="card rounded-3 mb-3">
+		<div class="card-header">
+			<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle">
+				<wicket:message key="candidateProfileTitle">Información del candidato</wicket:message>
+			</h4>
+		</div>
+		<div class="card-body">
+			<div class="d-flex gap-3 align-items-center mb-3">
+				<img wicket:id="candidateImage" data-testid="candidateImage" class="img-fluid rounded-circle img-thumbnail candidate-photo-sepia" width="140" height="140" wicket:message="alt:candidateProfileTitle">
+				<div class="w-100">
+					<h5 class="mb-1" wicket:id="candidateNameHeading" data-testid="candidateNameHeading">Nombre del candidato</h5>
+					<div data-testid="mailContainer">
+						<p class="text-muted mb-2" data-testid="candidateMailParagraph">
+							<span wicket:id="candidateMail" data-testid="candidateMail"></span>
+						</p>
+					</div>
+					<p class="text-muted mb-2" data-testid="candidateProfilePhotoDescriptionText">
+						<wicket:message key="candidateProfilePhotoDescription" />
+					</p>
+					<a wicket:id="editProfile" data-testid="editProfile" href="#" class="btn btn-sm btn-primary">
+						<i class="ti ti-edit me-1"></i>
+						<wicket:message key="candidateProfilePhotoButton" />
+					</a>
+				</div>
+			</div>
+			<div wicket:id="defaultPhotoRecommendation" data-testid="defaultPhotoRecommendation"></div>
+			<div class="mb-3">
+				<h6 class="mb-1" data-testid="perfil_de_linkedin">
+					<wicket:message key="candidateProfileLinkedInTitle">Perfil de LinkedIn</wicket:message>
+				</h6>
+				<p class="mb-0">
+						<a wicket:id="linkedinLink" data-testid="linkedinLink" class="link-primary" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateManagementLinkedin"></a>
+					<span wicket:id="linkedinNotAvailable" data-testid="linkedinNotAvailable" class="text-muted"></span>
+				</p>
+			</div>
+			<div class="mb-3" wicket:id="bioSpanishSection" data-testid="bioSpanishSection">
+				<div class="d-flex align-items-center gap-2">
+					<h6 class="mb-1" data-testid="biografia_en_espanol">
+						<wicket:message key="candidateProfileSectionSpanishTitle">Biografía en español</wicket:message>
+					</h6>
+					<span class="badge badge-soft-dark" data-testid="bioOriginalBadge">
+						<wicket:message key="candidateProfileBadgeOriginal" />
+					</span>
+				</div>
+				<div class="text-muted mb-0" wicket:id="bioSpanishText" data-testid="bioSpanishText"></div>
+			</div>
+			<div class="mb-3" wicket:id="bioEnglishSection" data-testid="bioEnglishSection">
+				<div class="d-flex align-items-center gap-2">
+					<button type="button" id="bioEnglishInfoButton" data-testid="bioEnglishInfoButton" class="btn btn-soft-info rounded-circle btn-icon">
+						<i class="ti ti-info-circle fs-xxl"></i>
+					</button>
+					<h6 class="mb-1" data-testid="biografia_en_ingles">
+						<wicket:message key="candidateProfileSectionEnglishTitle">Biografía en inglés</wicket:message>
+					</h6>
+					<span class="badge badge-soft-dark" data-testid="bioTranslatedBadge">
+						<wicket:message key="candidateProfileBadgeTranslated" />
+					</span>
+				</div>
+				<div class="text-muted mb-0" wicket:id="bioEnglishText" data-testid="bioEnglishText"></div>
+			</div>
+			<div wicket:id="bioPortugueseSection" data-testid="bioPortugueseSection">
+				<div class="d-flex align-items-center gap-2">
+					<button type="button" id="bioPortugueseInfoButton" data-testid="bioPortugueseInfoButton" class="btn btn-soft-info rounded-circle btn-icon">
+						<i class="ti ti-info-circle fs-xxl"></i>
+					</button>
+					<h6 class="mb-1" data-testid="biografia_en_portugues">
+						<wicket:message key="candidateProfileSectionPortugueseTitle">Biografía en portugués</wicket:message>
+					</h6>
+					<span class="badge badge-soft-dark" data-testid="bioTranslatedPtBadge">
+						<wicket:message key="candidateProfileBadgeTranslated" />
+					</span>
+				</div>
+				<div class="text-muted mb-0" wicket:id="bioPortugueseText" data-testid="bioPortugueseText"></div>
+			</div>
+		</div>
+	</article>
+</wicket:panel>

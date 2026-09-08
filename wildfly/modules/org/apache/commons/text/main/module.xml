@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="org.apache.commons.text" xmlns="urn:jboss:module:1.9">
+    
+
+    <resources>
+        <resource-root path="commons-text-1.13.1.jar"/>
+    </resources>
+
+    <dependencies>
+        <module name="org.apache.commons.lang3"/>
+    </dependencies>
+</module>

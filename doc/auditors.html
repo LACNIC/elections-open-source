@@ -1,0 +1,125 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Auditoria previa y final" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el bloque vigente de <code>v3.0</code> para auditoria de candidatos y auditoria final de resultados. El contenido fue contrastado contra la UI administrativa de auditores y pre-reportes, las paginas tokenizadas <code>/token/audit*</code>, el dashboard interno de revision <code>/review</code>, el dominio <code>Auditor</code>/<code>AuditorCandidateDecision</code> y la logica EJB que persiste decisiones, notifica y habilita revision.</p>
+
+				<h2>{{ "Ubicacion en el flujo" }}</h2>
+				<ul class="paragraph">
+					<li>La gestion administrativa de auditores vive en <code>/admin/election/auditors</code> y la edicion puntual en <code>/admin/election/auditors/edit</code>.</li>
+					<li>El seguimiento interno previo usa tambien <code>/admin/election/pre-reports</code>, donde existe una matriz de verificaciones por nominacion/candidato y por auditor.</li>
+					<li>La experiencia tokenizada del auditor se divide en tres paginas: <code>/token/audit</code> (dashboard), <code>/token/audit/candidate</code> (detalle del candidato) y <code>/token/audit/result</code> (auditoria final de resultados).</li>
+					<li>La revision interna de votos para administracion usa <code>/review</code> y depende del switch de eleccion <code>revisionRequest</code> mas la habilitacion explicita de todos los auditores comisionados.</li>
+				</ul>
+
+				<h2>{{ "Actores y modelo operativo" }}</h2>
+				<ul class="paragraph">
+					<li>El sistema distingue entre <b>auditor</b> y <b>auditor comisionado</b>. Ambos pueden existir en la eleccion, pero las decisiones tokenizadas de auditoria las cargan solo los comisionados.</li>
+					<li>Cada auditor guarda <code>name</code>, <code>mail</code>, <code>reminderFrequency</code>, flag <code>commissioner</code>, flag <code>agreedConformity</code>, flag <code>revisionAvailable</code> y un <code>resultToken</code> propio.</li>
+					<li>Las decisiones por candidato viven en <code>AuditorCandidateDecision</code> y hoy se separan en dos etapas: <code>PRE_VERIFICATION</code> y <code>FINAL_VERIFICATION</code>.</li>
+					<li>El modelo sigue manteniendo columnas legacy (<code>decisionStatus</code>, <code>decisionDate</code>, <code>preapprovedDate</code>, <code>approvedDate</code>) para compatibilidad, pero la operativa nueva consume primero los campos separados de predecision y decision final.</li>
+				</ul>
+
+				<h2>{{ "Alta y mantenimiento de auditores" }}</h2>
+				<ul class="paragraph">
+					<li>La pantalla administrativa de auditores solo opera sobre elecciones abiertas. Si la eleccion ya esta cerrada, el dashboard redirige a error de eleccion cerrada.</li>
+					<li>El alta exige <b>nombre</b>, <b>email valido</b> y <b>frecuencia de recordatorio</b>. El checkbox <b>Commissioner</b> define si ese auditor podra decidir y confirmar revision/conformidad.</li>
+					<li>La validacion remota bloquea duplicados de auditor para la eleccion actual.</li>
+					<li>El listado administrativo muestra nombre, email, si es comisionado, si ya dio conformidad final y un resumen de cantidad de verificaciones previas/finales cargadas por cada comisionado.</li>
+					<li>Desde esa lista se puede abrir el link tokenizado del auditor, editarlo, eliminarlo y enviar recordatorio manual. El boton de recordatorio solo se expone para auditores comisionados.</li>
+					<li><b>Marcar como terminada y seguir</b> persiste <code>auditorsSet=true</code>. <b>Skip</b> y <b>Back</b> vuelven a los modulos previos sin marcar completitud.</li>
+				</ul>
+
+				<h2>{{ "Seguimiento interno previo" }}</h2>
+				<ul class="paragraph">
+					<li>El pre-reporte administrativo incluye una matriz de auditoria por nominacion/candidato y por auditor.</li>
+					<li>Cada auditor se desdobla en dos columnas: <b>1ra verificacion</b> y <b>Final</b>.</li>
+					<li>La matriz muestra estado y fecha cuando existe; si no hay reaccion, deja <code>Sin primera verificacion</code> o <code>Sin verificacion final</code>.</li>
+					<li>El armado de esa matriz ya contempla compatibilidad hacia atras: si una decision vieja no tiene el split nuevo, intenta reconstruir la etapa correcta desde <code>decisionStatus</code> y las fechas milestone heredadas.</li>
+					<li>En el mismo pre-reporte tambien se expone el estado operativo del link <code>/token/audit/result</code> segun la bandera manual de auditoria y el calendario <code>N_18_PERIODO_CE_AUDIT</code>.</li>
+				</ul>
+
+				<h2>{{ "Acceso tokenizado a auditoria de candidatos" }}</h2>
+				<ul class="paragraph">
+					<li>El acceso del auditor se valida con <code>resultToken</code>. Si el token no corresponde a un auditor valido, la pagina responde 404.</li>
+					<li>El dashboard <code>/token/audit</code> requiere ademas que la eleccion tenga <code>auditorLinkAvailable=true</code>.</li>
+					<li>La auditoria de candidatos queda habilitada desde <code>N_1_SINGLE_CALL_FOR_CANDIDATES_PUBLISHED</code> en adelante, sin fecha de cierre propia.</li>
+					<li>Las fichas de candidato visibles para auditoria tokenizada se limitan a candidatos en <code>PRECOMPLETE</code>, <code>COMPLETE</code>, <code>CONFIRMED_AND_PUBLISHED</code> o <code>REJECTED</code>.</li>
+					<li>El dashboard decide la accion principal segun estado y reaccion previa del auditor actual: primera verificacion para <code>PRECOMPLETE</code> sin reaccion previa, verificacion final para <code>COMPLETE</code> sin reaccion final, o solo ver detalle en el resto de los casos.</li>
+				</ul>
+
+				<h2>{{ "Que ve el auditor al revisar un candidato" }}</h2>
+				<ul class="paragraph">
+					<li>La pagina <code>/token/audit/candidate</code> muestra datos de nominacion, resumen de tareas y tarjetas de completitud para perfil, paises, incompatibilidades, declaraciones, preguntas estatutarias/no estatutarias, apoyos, organizaciones, training y evaluacion.</li>
+					<li>Ese detalle ya consume directamente las respuestas y declaraciones documentadas en <a href="{{site.baseurl}}/questions-declarations.html">la guia anterior</a>, por lo que la auditoria usa informacion real del checklist del candidato y no una vista paralela inventada.</li>
+					<li>Las decisiones solo pueden cargarlas auditores comisionados. Un auditor no comisionado puede entrar con token, pero no obtiene formularios editables para decidir.</li>
+					<li>Los comentarios de auditoria son opcionales, usan asistencia de IA en la UI y el backend los sanea/normaliza con limite efectivo de <code>4000</code> caracteres.</li>
+				</ul>
+
+				<h2>{{ "Decision previa y decision final" }}</h2>
+				<ul class="paragraph">
+					<li>La <b>decision previa</b> aplica cuando el candidato esta en <code>PRECOMPLETE</code>. Las unicas opciones validas son <code>PREAPPROVED</code> y <code>REJECTED</code>.</li>
+					<li>La <b>decision final</b> aplica cuando el candidato esta en <code>COMPLETE</code>. Las unicas opciones validas son <code>APPROVED</code> y <code>REJECTED</code>.</li>
+					<li>El backend deriva automaticamente la etapa desde el estado actual del candidato cuando la decision entra por la pagina tokenizada. No acepta usar estados fuera de etapa.</li>
+					<li>La ventana operativa de decision previa/final es la union de <code>N_7_PERIODO_CANDIDATE_FORMS_VERIFICATION</code> y <code>N_8_PERIODO_EVALUATIONS_VALIDATION</code>.</li>
+					<li>La UI muestra como fecha limite de primera reaccion el fin de <code>N_7</code> (o <code>N_6</code> como fallback si falta ese fin) y como fecha limite final el maximo entre los cierres de <code>N_7</code> y <code>N_8</code>.</li>
+					<li>Si el candidato ya quedo en <code>CONFIRMED_AND_PUBLISHED</code> o <code>REJECTED</code>, la tarjeta de decision final puede seguir visible para consulta, pero deja de ser editable.</li>
+					<li>Cuando la decision entra por token y no existia fila previa para ese auditor/candidato, el backend crea el registro faltante.</li>
+					<li>Una decision tokenizada <code>REJECTED</code> o <code>APPROVED</code> dispara correo al remitente de la eleccion; <code>PREAPPROVED</code> no dispara ese correo de aprobacion.</li>
+				</ul>
+
+				<h2>{{ "Edicion administrativa de decisiones" }}</h2>
+				<ul class="paragraph">
+					<li>La edicion administrativa del auditor agrega una tarjeta de <b>auditor decisions</b> solo para comisionados.</li>
+					<li>Esa pantalla permite corregir manualmente estados y comentarios por candidato, pero solo sobre etapas que ya tengan decision existente. No crea filas nuevas de decision.</li>
+					<li>La edicion administrativa respeta las mismas combinaciones validas por etapa: <code>PREAPPROVED/REJECTED</code> para pre-verificacion y <code>APPROVED/REJECTED</code> para verificacion final.</li>
+					<li>Ese ajuste manual es mas quirurgico que la carga tokenizada: actualiza el estado de etapa seleccionado, pero no notifica al remitente de la eleccion.</li>
+				</ul>
+
+				<h2>{{ "Auditoria final de resultados" }}</h2>
+				<ul class="paragraph">
+					<li>La pagina <code>/token/audit/result</code> usa el mismo <code>resultToken</code>, pero su acceso esta restringido a la ventana <code>N_18_PERIODO_CE_AUDIT</code>.</li>
+					<li>Si <code>N_18</code> todavia no empezo, si ya termino o si <code>auditorLinkAvailable=false</code>, el acceso queda bloqueado.</li>
+					<li>Cuando la revision interna no fue solicitada, la pagina final muestra tres bloques: resultados publicos, codigos de candidatos e informacion adicional para auditoria.</li>
+					<li>La informacion adicional expone el maximo de votos posibles y el detalle agregado de porcentajes, habilitados, participantes, peso y total por fila de resultados.</li>
+					<li>Solo un auditor comisionado que todavia no haya confirmado conformidad ve el panel de <b>Agree Conformity</b>. Al confirmar, el sistema marca <code>agreedConformity=true</code> y encola el template <code>AUDITOR_AGREEMENT</code>.</li>
+				</ul>
+
+				<h2>{{ "Solicitud de revision y acceso interno a votos" }}</h2>
+				<ul class="paragraph">
+					<li>La eleccion puede habilitar administrativamente <code>revisionRequest</code> desde configuracion. Ese switch no abre por si solo la revision: solo habilita el circuito para que los comisionados la autoricen.</li>
+					<li>Cuando <code>revisionRequest=true</code>, el dashboard tokenizado del auditor muestra un panel para habilitar revision si el auditor es comisionado y todavia no la autorizo.</li>
+					<li>Al confirmar esa accion, el sistema marca <code>revisionAvailable=true</code>, encola el template <code>AUDITOR_REVISION</code> y registra actividad <code>ELECTION_REVISION_YES</code>.</li>
+					<li>Con <code>revisionRequest=true</code>, la pagina <code>/token/audit/result</code> deja de mostrar el bloque normal de resultados/conformidad y el proceso pasa al dashboard interno <code>/review</code>.</li>
+					<li>El link administrativo a <code>/review</code> aparece cuando la eleccion tiene <code>revisionRequest=true</code>, pero la tabla de votos solo se habilita cuando <b>todos</b> los auditores comisionados tienen <code>revisionAvailable=true</code>.</li>
+					<li>Si todavia falta algun comisionado, <code>/review</code> muestra el listado de auditores y avisa <code>Faltan auditores por permitir acceso a esta seccion</code>, sin exponer el detalle de votos.</li>
+					<li>Cuando la revision queda activa, <code>/review</code> expone el listado completo de votos con identificadores de voto, candidato, codigo, fecha, IP y, cuando existe, el detalle del <code>UserVoter</code> asociado.</li>
+				</ul>
+
+				<h2>{{ "Recordatorios y trazabilidad" }}</h2>
+				<ul class="paragraph">
+					<li>Cada auditor guarda <code>reminderFrequency</code>, que se usa en el encabezado tokenizado y en la infraestructura de recordatorios.</li>
+					<li>Administracion puede enviar un recordatorio manual a un auditor comisionado; la accion encola un mail <code>AUDITOR_REMINDER</code> y deja actividad administrativa.</li>
+					<li>Las altas, ediciones, bajas, recordatorios, decisiones y habilitaciones de revision dejan trazas en actividad, por lo que el flujo no depende solo del estado visible en UI.</li>
+				</ul>
+
+				<h2>{{ "Bloques relacionados" }}</h2>
+				<ul class="paragraph">
+					<li><b>Candidaturas y nominaciones:</b> el flujo base de estados del candidato esta documentado en <a href="{{site.baseurl}}/candidates.html">esta guia</a>.</li>
+					<li><b>Preguntas, declaraciones y comunidad:</b> el contenido que luego consumen las tarjetas de auditoria del candidato esta documentado en <a href="{{site.baseurl}}/questions-declarations.html">esta guia</a>.</li>
+					<li><b>Votacion y links publicos:</b> la experiencia publica y los links tokenizados que siguen despues de auditoria y revision estan documentados en <a href="{{site.baseurl}}/voting-public-links.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionAuditorsDashboard</code>, <code>AddAuditorPanel</code>, <code>AuditorsListPanel</code>, <code>EditAuditorDashboard</code>, <code>PreElectionReportsPanel</code>, <code>AuditPublicDashboardPage</code>, <code>AuditPublicCandidateDetailPage</code>, <code>AuditPublicResultsPage</code>, <code>AuditorRevisionPanel</code>, <code>AuditorConformityPanel</code>, <code>MoreInformationForAuditPanel</code>, <code>ReviewDashboard</code>, <code>ReviewAuditorsListPanel</code>, <code>ReviewVotesListPanel</code>, <code>AuditorValidator</code>, <code>Auditor</code>, <code>AuditorCandidateDecision</code>, <code>AuditorCandidateDecisionStatus</code>, <code>AuditorCandidateDecisionStage</code>, <code>ElectionsManagerEJBBean</code>, <code>ElectionsVoterEJBBean</code>, <code>MailsSendingEJBBean</code> y <code>ElectionsManagerApp.properties.xml</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,114 @@
+<wicket:panel>
+		<div class="card">
+			<div class="card-header">
+				<div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-2">
+					<h5 class="card-title mb-0" data-testid="organizationsManagementListTitle"><wicket:message key="organizationsManagementListTitle">Listado de organizaciones</wicket:message></h5>
+					<a wicket:id="downloadOrganizationsUploadExcel" data-testid="downloadOrganizationsUploadExcel" class="btn btn-outline-primary btn-sm" wicket:message="title:organizationsManagementListBtnExpUpload">
+						<i class="ti ti-download me-1"></i><wicket:message key="organizationsManagementListBtnExpUpload" />
+					</a>
+				</div>
+			</div>
+			<div class="card-body">
+				<p class="text-muted fs-5 mb-3">
+					<wicket:message key="organizationsManagementSummaryListedLabel" />: <strong wicket:id="summaryListedCount" data-testid="summaryListedCount"></strong> |
+					<wicket:message key="organizationsManagementSummaryNonDebtorLabel" />: <strong wicket:id="summaryNonDebtorCount" data-testid="summaryNonDebtorCount"></strong> |
+					<wicket:message key="organizationsManagementSummaryMemberLabel" />: <strong wicket:id="summaryMemberCount" data-testid="summaryMemberCount"></strong> |
+					<wicket:message key="organizationsManagementSummaryMemberNonDebtorLabel" />: <strong wicket:id="summaryMemberNonDebtorCount" data-testid="summaryMemberNonDebtorCount"></strong>
+				</p>
+				<form wicket:id="filterForm" data-testid="filterForm" class="row g-2 mb-3 align-items-end">
+					<div class="col-12 col-xl-4">
+						<label class="form-label mb-1 fw-semibold"><wicket:message key="organizationsManagementListFilterSearchLabel" /></label>
+						<input type="text" wicket:id="organizationsFilterInput" data-testid="organizationsFilterInput" class="form-control" wicket:message="placeholder:organizationsManagementListFilterPlaceholder" />
+					</div>
+					<div class="col-6 col-md-4 col-xl-2">
+						<label class="form-label mb-1 fw-semibold"><wicket:message key="organizationsManagementCountryLabel" /></label>
+						<select wicket:id="countryFilterInput" data-testid="countryFilterInput" class="form-select"></select>
+					</div>
+					<div class="col-6 col-md-4 col-xl-1">
+						<label class="form-label mb-1 fw-semibold"><wicket:message key="organizationsManagementVotesLabel" /></label>
+						<select wicket:id="votesFilterInput" data-testid="votesFilterInput" class="form-select"></select>
+					</div>
+					<div class="col-6 col-md-4 col-xl-1">
+						<label class="form-label mb-1 fw-semibold"><wicket:message key="organizationsManagementMemberLabel" /></label>
+						<select wicket:id="memberFilterInput" data-testid="memberFilterInput" class="form-select"></select>
+					</div>
+					<div class="col-6 col-md-4 col-xl-1">
+						<label class="form-label mb-1 fw-semibold"><wicket:message key="organizationsManagementDebtorLabel" /></label>
+						<select wicket:id="debtorFilterInput" data-testid="debtorFilterInput" class="form-select"></select>
+					</div>
+					<div class="col-6 col-md-4 col-xl-1">
+						<label class="form-label mb-1 fw-semibold"><wicket:message key="organizationsManagementListFilterLanguageLabel" /></label>
+						<select wicket:id="languageFilterInput" data-testid="languageFilterInput" class="form-select"></select>
+					</div>
+					<div class="col-12 col-lg-auto">
+						<div class="d-flex gap-2 flex-nowrap">
+							<button type="submit" wicket:id="applyFilterButton" data-testid="applyFilterButton" class="btn btn-primary"><wicket:message key="organizationsManagementListFilterBtnApply" /></button>
+							<button type="submit" wicket:id="clearFilterButton" data-testid="clearFilterButton" class="btn btn-light" wicket:message="title:organizationsManagementListFilterBtnClear">
+								<wicket:message key="organizationsManagementListFilterBtnClear" />
+							</button>
+						</div>
+					</div>
+				</form>
+				<div wicket:id="organizationsEmpty" data-testid="organizationsEmpty" class="alert alert-light border text-muted py-2 mb-3">
+					<wicket:message key="organizationsManagementListEmpty" />
+					</div>
+				<div class="table-responsive">
+				<table class="table table-hover align-middle mb-0 dataTables">
+					<thead class="table-light">
+						<tr>
+							<th wicket:id="deleteHeader" data-testid="deleteHeader"><wicket:message key="organizationsManagementDeleteLabel" /></th>
+							<th><wicket:message key="organizationsManagementOrgIdLabel" /></th>
+							<th><wicket:message key="organizationsManagementNameLabel" /></th>
+							<th><wicket:message key="organizationsManagementVotesLabel" /></th>
+							<th><wicket:message key="organizationsManagementCategoryLabel" /></th>
+							<th><wicket:message key="organizationsManagementCountryLabel" /></th>
+							<th><wicket:message key="organizationsManagementCnpjLabel" /></th>
+							<th><wicket:message key="organizationsManagementAsnLabel" /></th>
+							<th><wicket:message key="organizationsManagementMembershipContactIdLabel" /></th>
+							<th><wicket:message key="organizationsManagementMembershipContactNameLabel" /></th>
+							<th><wicket:message key="organizationsManagementMembershipContactEmailLabel" /></th>
+							<th><wicket:message key="organizationsManagementMembershipContactLanguageLabel" /></th>
+							<th><wicket:message key="organizationsManagementDebtorLabel" /></th>
+							<th><wicket:message key="organizationsManagementMemberLabel" /></th>
+							<th><wicket:message key="organizationsManagementCreatedAtLabel" /></th>
+							<th><wicket:message key="organizationsManagementUpdatedAtLabel" /></th>
+							<th><wicket:message key="organizationsManagementNominationLinkLabel" /></th>
+							<th><wicket:message key="organizationsManagementSupportLinkLabel" /></th>
+							<th><wicket:message key="organizationsManagementRenewLabel" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="organizationsList" data-testid="organizationsList" wicket:message="title:organizationsManagementListTitle">
+							<td wicket:id="removeOrganizationCell" data-testid="removeOrganizationCell"><span wicket:id="removeOrganizationButton" data-testid="removeOrganizationButton" wicket:message="title:organizationsManagementDeleteLabel"></span></td>
+							<td wicket:id="orgId" data-testid="orgId" wicket:message="title:organizationsManagementOrgIdLabel"></td>
+							<td wicket:id="name" data-testid="name" wicket:message="title:organizationsManagementNameLabel"></td>
+							<td wicket:id="votes" data-testid="votes" wicket:message="title:organizationsManagementVotesLabel"></td>
+							<td wicket:id="category" data-testid="category" wicket:message="title:organizationsManagementCategoryLabel"></td>
+							<td wicket:id="country" data-testid="country" wicket:message="title:organizationsManagementCountryLabel"></td>
+							<td wicket:id="cnpj" data-testid="cnpj" wicket:message="title:organizationsManagementCnpjLabel"></td>
+							<td data-testid="asn" wicket:message="title:organizationsManagementAsnLabel">
+								<div wicket:id="asnRows" data-testid="asnRows" style="line-height:1.3;">
+									<span wicket:id="asnRow" data-testid="asnRow"></span>
+									</div>
+							</td>
+							<td wicket:id="membershipContactId" data-testid="membershipContactId" wicket:message="title:organizationsManagementMembershipContactIdLabel"></td>
+							<td wicket:id="membershipContactName" data-testid="membershipContactName" wicket:message="title:organizationsManagementMembershipContactNameLabel"></td>
+							<td wicket:id="membershipContactEmail" data-testid="membershipContactEmail" wicket:message="title:organizationsManagementMembershipContactEmailLabel"></td>
+							<td wicket:id="membershipContactLanguage" data-testid="membershipContactLanguage" wicket:message="title:organizationsManagementMembershipContactLanguageLabel"></td>
+							<td wicket:id="deudor" data-testid="deudor" wicket:message="title:organizationsManagementDebtorLabel"></td>
+							<td wicket:id="member" data-testid="member" wicket:message="title:organizationsManagementMemberLabel"></td>
+							<td wicket:id="createdAt" data-testid="createdAt" wicket:message="title:organizationsManagementCreatedAtLabel"></td>
+							<td wicket:id="updatedAt" data-testid="updatedAt" wicket:message="title:organizationsManagementUpdatedAtLabel"></td>
+							<td><span wicket:id="viewLinkButton" data-testid="viewLinkButton" wicket:message="title:organizationsManagementNominationLinkLabel"></span></td>
+							<td><span wicket:id="viewSupportLinksButton" data-testid="viewSupportLinksButton" wicket:message="title:organizationsManagementSupportLinkLabel"></span></td>
+							<td><span wicket:id="renewLinkButton" data-testid="renewLinkButton" wicket:message="title:organizationsManagementRenewLabel"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="d-flex justify-content-center mt-3">
+				<div wicket:id="organizationsPagerBottom" data-testid="organizationsPagerBottom"></div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

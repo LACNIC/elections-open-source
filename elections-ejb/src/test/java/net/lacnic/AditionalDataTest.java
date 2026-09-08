@@ -12,22 +12,19 @@ import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
 
 
-public class AditionalDataTest extends TestCase {
-	
-	public AditionalDataTest(String testName ) {
-		super(testName);
-	}
+ class AditionalDataTest extends TestCase {
 	
 	/**
      * @return the suite of tests being tested
      */
-    public static Test suite()
+     static Test suite()
     {
         return new TestSuite( AditionalDataTest.class );
     }
     
     @SuppressWarnings("deprecation")
-	public void testData()
+	@org.junit.jupiter.api.Test
+	 void testData()
     {
     	//Participacion Data
     	String orgId, nombre, email, tituloEleccionSP, tituloEleccionEN, tituloEleccionPT, pais, categoria, linkEleccionSP, linkEleccionEN, linkEleccionPT, linkVotar;

@@ -1,0 +1,19 @@
+<wicket:panel>
+	<div class="card card-h-100">
+		<div class="card-body">
+			<div class="d-flex align-items-center mb-3">
+				<div class="me-3">
+					<img alt="image" class="rounded-circle candidate-photo-sepia" width="72" height="72" wicket:id="picture" data-testid="picture">
+				</div>
+				<div>
+					<h5 class="mb-1 fw-semibold" wicket:id="name" data-testid="name">Nombre del candidato</h5>
+				</div>
+			</div>
+			<p class="text-muted mb-0" wicket:id="bio" data-testid="bio"></p>
+			<div class="d-flex flex-wrap gap-2 mt-3">
+				<a href="javascript:void(0);" class="btn btn-soft-primary btn-sm rounded-pill">View Profile</a>
+				<a href="javascript:void(0);" class="btn btn-soft-primary btn-sm rounded-pill">Ver Respuestas</a>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

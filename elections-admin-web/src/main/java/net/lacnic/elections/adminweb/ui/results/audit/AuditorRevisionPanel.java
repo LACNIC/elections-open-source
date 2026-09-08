@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
 import net.lacnic.elections.adminweb.ui.components.ButtonAuditorRevision;
-import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Auditor;
 
 
@@ -17,8 +16,9 @@ public class AuditorRevisionPanel extends Panel {
 
 	public AuditorRevisionPanel(String id, Auditor auditor) {
 		super(id);
+		setOutputMarkupPlaceholderTag(true);
 
-		setVisible(auditor.getElection().isRevisionRequest() && !auditor.isRevisionAvailable());
+		setVisible(isRevisionAuthorizationPending(auditor));
 
 		ButtonAuditorRevision auditorRevisionButton = new ButtonAuditorRevision("auditorRevisionButton") {
 			private static final long serialVersionUID = -4732183068550356175L;
@@ -26,13 +26,23 @@ public class AuditorRevisionPanel extends Panel {
 			@Override
 			public void onConfirm() {
 				AppContext.getInstance().getVoterBeanRemote().enableAuditorElectionRevision(auditor.getAuditorId(), SecurityUtils.getClientIp());
-				setResponsePage(AuditDashboard.class, UtilsParameters.getToken(auditor.getResultToken()));
+				auditor.setRevisionAvailable(true);
+				AuditorRevisionPanel.this.setVisible(false);
+				getSession().info(getString("revisionActive"));
 			}
 		};
 		add(auditorRevisionButton);
 
 		add(new Label("election", auditor.getElection().getTitleSpanish()));
 		add(new Label("auditor", auditor.getName()));
+	}
+
+	private boolean isRevisionAuthorizationPending(Auditor auditor) {
+		return auditor != null
+				&& auditor.isCommissioner()
+				&& auditor.getElection() != null
+				&& auditor.getElection().isRevisionRequest()
+				&& !auditor.isRevisionAvailable();
 	}
 
 }

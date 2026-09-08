@@ -1,0 +1,23 @@
+<wicket:extend>
+	<div wicket:id="feedback" data-testid="feedback" />
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="censusManagementUserEditTitle"><wicket:message key="censusManagementUserEditTitle">Editar un usuario del padrón electoral</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<form role="form" class="row g-3 align-items-end" wicket:id="userVoterForm" data-testid="userVoterForm">
+						<div class="col-lg-9" wicket:id="addUserVoterPanel" data-testid="addUserVoterPanel"></div>
+						<div class="col-lg-3 d-flex justify-content-end gap-2">
+							<a class="btn btn-light" wicket:id="cancel" data-testid="cancel"><wicket:message key="censusManagementUserEditBtnCanc" /></a>
+							<button class="btn btn-primary" type="submit" wicket:id="save" data-testid="save" id="saveUserVoter">
+								<wicket:message key="censusManagementUserEditBtnSave" />
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

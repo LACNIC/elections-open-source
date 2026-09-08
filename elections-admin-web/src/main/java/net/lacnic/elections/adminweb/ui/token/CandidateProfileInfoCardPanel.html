@@ -1,0 +1,18 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+		<div class="card-body text-center">
+			<div class="d-flex justify-content-center">
+				<img wicket:id="candidatePicture" data-testid="candidatePicture" alt="candidate-picture" class="candidate-photo-sepia" />
+			</div>
+			<h4 class="mt-3 mb-1" wicket:id="candidateName" data-testid="nombre_candidato">Nombre candidato</h4>
+			<p class="text-muted mb-2" wicket:id="candidateMail" data-testid="candidateMail">mail@example.org</p>
+			<div class="small text-muted">
+			<div class="fs-6"><strong>LinkedIn:</strong> <a wicket:id="profileLinkedinLink" data-testid="profileLinkedinLink" class="ms-1 link-primary fw-semibold" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:candidateManagementLinkedin"></a><span wicket:id="profileLinkedinNotAvailable" data-testid="profileLinkedinNotAvailable" class="ms-1">-</span></div>
+			</div>
+		</div>
+		<div class="card-body border-top">
+			<h4 class="card-title mb-3" data-testid="biografía">Biografía</h4>
+			<div class="mb-0" wicket:id="profileBio" data-testid="profileBio"></div>
+		</div>
+	</div>
+</wicket:panel>

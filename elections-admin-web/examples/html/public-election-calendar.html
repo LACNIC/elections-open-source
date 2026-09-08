@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Elección Pública | Calendario</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(17, 24, 39, 0.04) 0%, rgba(17, 24, 39, 0) 35%);
+		}
+
+		.section-nav .nav-link {
+			border-radius: 999px;
+		}
+
+		.section-nav .nav-link.active {
+			background: #111827;
+			color: #fff;
+		}
+
+		.timeline-view .timeline-time {
+			min-width: 10.5rem;
+			font-size: .78rem;
+			font-weight: 600;
+		}
+
+		.timeline-tag {
+			font-size: .72rem;
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-election-home.html" class="topbar-link fw-semibold">Elección Pública LACNIC</a>
+					<span class="badge text-bg-light border">Versión ES</span>
+				</div>
+				<div class="dropdown topbar-item">
+					<button class="topbar-link fw-semibold dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">Idioma</button>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item active" href="#">Español</a>
+						<a class="dropdown-item" href="#">English</a>
+						<a class="dropdown-item" href="#">Português</a>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid py-4">
+			<ul class="nav nav-pills gap-2 section-nav mb-4">
+				<li class="nav-item"><a class="nav-link" href="public-election-home.html">Inicio</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-options.html">Opciones de la elección</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-candidates.html">Candidatos</a></li>
+				<li class="nav-item"><a class="nav-link active" href="public-election-calendar.html">Calendario</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-authorities.html">Comisionados y auditores</a></li>
+			</ul>
+
+			<div class="card mb-4">
+				<div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-2">
+					<div>
+						<h3 class="mb-1">Calendario público de la elección</h3>
+						<p class="text-muted mb-0">Se muestran únicamente hitos y tareas marcadas como públicas.</p>
+					</div>
+					<div class="d-flex gap-2">
+						<span class="badge text-bg-light border">PERIODO: inicio y fin</span>
+						<span class="badge text-bg-light border">SINGLE: único día</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row g-4">
+				<div class="col-xl-7">
+					<div class="card h-100">
+						<div class="card-header"><h4 class="card-title mb-0">Timeline público</h4></div>
+						<div class="card-body">
+							<div class="timeline timeline-icon-bordered timeline-view">
+								<div class="timeline-item d-flex align-items-stretch">
+									<div class="timeline-time pe-3 text-muted">10 mar 2026 09:00</div>
+									<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+									<div class="timeline-content ps-3 pb-4">
+										<span class="badge text-bg-light border timeline-tag mb-2">SINGLE</span>
+										<h5 class="mb-1">Publicación de convocatoria</h5>
+										<p class="mb-0 text-muted">Difusión oficial del proceso y apertura de información pública.</p>
+									</div>
+								</div>
+								<div class="timeline-item d-flex align-items-stretch">
+									<div class="timeline-time pe-3 text-muted">15 mar 2026 08:00 - 22 abr 2026 18:00</div>
+									<div class="timeline-dot text-bg-light border"><i class="ti ti-check fs-xl text-muted"></i></div>
+									<div class="timeline-content ps-3 pb-4">
+										<span class="badge text-bg-light border timeline-tag mb-2">PERIODO</span>
+										<h5 class="mb-1">Recepción de candidaturas</h5>
+										<p class="mb-0 text-muted">Carga de información de candidatos y documentación requerida.</p>
+									</div>
+								</div>
+								<div class="timeline-item d-flex align-items-stretch">
+									<div class="timeline-time pe-3 text-muted">08 may 2026 12:00 - 30 may 2026 23:59</div>
+									<div class="timeline-dot text-bg-dark"><i class="ti ti-clock-hour-4 fs-xl text-white"></i></div>
+									<div class="timeline-content ps-3 pb-4 border rounded bg-light-subtle">
+										<span class="badge text-bg-light border timeline-tag mb-2">PERIODO</span>
+										<h5 class="mb-1">Publicación de perfiles y respuestas</h5>
+										<p class="mb-0 text-muted">Fase activa para consulta pública de candidatos.</p>
+									</div>
+								</div>
+								<div class="timeline-item d-flex align-items-stretch">
+									<div class="timeline-time pe-3 text-muted">20 jun 2026 08:00 - 20 jun 2026 19:00</div>
+									<div class="timeline-dot"><i class="ti ti-vote fs-xl text-muted"></i></div>
+									<div class="timeline-content ps-3">
+										<span class="badge text-bg-light border timeline-tag mb-2">PERIODO</span>
+										<h5 class="mb-1">Votación y cierre</h5>
+										<p class="mb-0 text-muted">Ventana oficial de voto y cierre del proceso de sufragio.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-5">
+					<div class="card mb-4">
+						<div class="card-header"><h4 class="card-title mb-0">Tabla de hitos</h4></div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-sm align-middle mb-0">
+									<thead>
+										<tr>
+											<th>Tarea pública</th>
+											<th>Tipo</th>
+											<th>Fecha/hora</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>Convocatoria</td><td><span class="badge text-bg-light border">SINGLE</span></td><td>10 mar 09:00</td></tr>
+										<tr><td>Candidaturas</td><td><span class="badge text-bg-light border">PERIODO</span></td><td>15 mar - 22 abr</td></tr>
+										<tr><td>Perfiles públicos</td><td><span class="badge text-bg-light border">PERIODO</span></td><td>08 may - 30 may</td></tr>
+										<tr><td>Votación</td><td><span class="badge text-bg-light border">PERIODO</span></td><td>20 jun 08:00 - 19:00</td></tr>
+										<tr><td>Resultados preliminares</td><td><span class="badge text-bg-light border">SINGLE</span></td><td>20 jun 20:30</td></tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-header"><h4 class="card-title mb-0">Accesos rápidos</h4></div>
+						<div class="card-body">
+							<div class="d-grid gap-2">
+								<a href="public-election-candidates.html" class="btn btn-secondary">Ver perfiles de candidatos</a>
+								<a href="public-election-authorities.html" class="btn btn-outline-secondary">Ver comisionados y auditores</a>
+								<a href="public-election-options.html" class="btn btn-outline-secondary">Ver opciones de la elección</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
+
+</html>

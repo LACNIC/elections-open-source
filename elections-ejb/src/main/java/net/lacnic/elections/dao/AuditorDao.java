@@ -2,12 +2,10 @@ package net.lacnic.elections.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.Auditor;
-
 
 public class AuditorDao {
 
@@ -20,13 +18,12 @@ public class AuditorDao {
 	/**
 	 * Gets Auditor by id.
 	 * 
-	 * @param auditorId
-	 *            Auditor id.
-	 * @return Returns the Auditor entity corresponding to the id 
+	 * @param auditorId Auditor id.
+	 * @return Returns the Auditor entity corresponding to the id
 	 */
 	public Auditor getAuditor(long auditorId) {
 		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.auditorId = :auditorId", Auditor.class);
-		q.setParameter("auditorId", auditorId);
+		q.setParameter(QueryParameterNames.AUDITOR_ID, auditorId);
 		return q.getSingleResult();
 	}
 
@@ -43,13 +40,24 @@ public class AuditorDao {
 	/**
 	 * Gets a list of Auditors related to a particular election.
 	 * 
-	 * @param electionId
-	 *            Election identifier.
+	 * @param electionId Election identifier.
 	 * @return Returns a list of auditor related to a particular election.
 	 */
 	public List<Auditor> getElectionAuditors(long electionId) {
 		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.election.electionId = :electionId", Auditor.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
+		return q.getResultList();
+	}
+
+	public long countElectionAuditors(long electionId) {
+		TypedQuery<Long> q = em.createQuery("SELECT COUNT(a) FROM Auditor a WHERE a.election.electionId = :electionId", Long.class);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
+		Long value = q.getSingleResult();
+		return value != null ? value.longValue() : 0L;
+	}
+
+	public List<Auditor> getAuditorsWithEmail() {
+		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.mail IS NOT NULL", Auditor.class);
 		return q.getResultList();
 	}
 
@@ -60,10 +68,10 @@ public class AuditorDao {
 		q.setFirstResult(offset * pageSize);
 		return q.getResultList();
 	}
-	
+
 	public boolean auditorExists(long electionId, String name, String mail) {
 		Query q = em.createQuery("SELECT a.auditorId FROM Auditor a WHERE a.election.electionId = :electionId AND a.name = :name AND a.mail = :mail");
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		q.setParameter("mail", mail);
 		q.setParameter("name", name);
 		q.setMaxResults(1);
@@ -89,13 +97,13 @@ public class AuditorDao {
 
 	public List<Auditor> getElectionAuditorsNotAgreedConformity(long electionId) {
 		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.commissioner = TRUE AND a.agreedConformity = FALSE AND a.election.electionId = :electionId", Auditor.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 
 	public List<Auditor> getElectionAuditorsAgreedConformity(long electionId) {
 		TypedQuery<Auditor> q = em.createQuery("SELECT a FROM Auditor a WHERE a.commissioner = TRUE AND a.agreedConformity = TRUE AND a.election.electionId = :electionId", Auditor.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return q.getResultList();
 	}
 

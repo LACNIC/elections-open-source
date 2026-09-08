@@ -6,19 +6,26 @@
 	<!-- This is the top level ear module, which contains all the classes in the EAR's lib folder     -->
 	<deployment>
 		<dependencies>
-			<module name="net.ipresource" />
+			<module name="deployment.pai-auth-ws-client-1.5.1.jar"/>
+			<module name="com.googlecode.owasp-java-html-sanitizer10" meta-inf="export"></module>
+
+			<module name="net.ripe.ipresource152" />
 			<module name="org.apache.velocity" />
-			<module name="org.apache.httpcomponents" />
+			<module name="org.apache.velocity.tools" />
+			<module name="org.apache.httpcomponents5" />
 			<module name="org.joda.time" />
-			<module name="javax.json.api" />
 			<module name="org.apache.commons.validator" />
 			<module name="org.apache.poi" />
 			<module name="org.apache.poi-ooxml" />
-			<module name="deployment.portal-auth-client.jar" meta-inf="export">
-				<imports>
-					<include path="META-INF" />
-				</imports>
-			</module>
+			<module name="jakarta.json.api" />
+			<module name="org.apache.commons.lang3" />
+			<module name="jakarta.enterprise.api" export="true" />
+			<module name="jakarta.inject.api" export="true" />
+			<module name="jakarta.ejb.api" export="true" />
+			<module name="jakarta.transaction.api" export="true" />
+			<module name="org.hibernate" export="true" />
+	
+			
 		</dependencies>
 	</deployment>
 

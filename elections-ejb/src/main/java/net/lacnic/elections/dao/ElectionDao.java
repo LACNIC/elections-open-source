@@ -1,32 +1,40 @@
 package net.lacnic.elections.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
 import org.joda.time.DateTime;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.JointElection;
-
+import net.lacnic.elections.domain.pre.ElectionCalendarKey;
 
 public class ElectionDao {
 
 	private EntityManager em;
 
-
 	public ElectionDao(EntityManager em) {
 		this.em = em;
 	}
-	
+
 	public Election getElection(long electionId) {
 		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e WHERE e.electionId = :electionId", Election.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return q.getSingleResult();
+	}
+
+	public List<String> getElectionRestrictedCountryCodes(long electionId) {
+		TypedQuery<String> q = em.createQuery(
+				"SELECT rc.countryCode FROM ElectionRestrictedCountry rc WHERE rc.election.electionId = :electionId",
+				String.class);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
+		List<String> values = q.getResultList();
+		return values != null ? values : new ArrayList<>();
 	}
 
 	public List<Election> getElections() {
@@ -47,18 +55,34 @@ public class ElectionDao {
 		return q.getSingleResult();
 	}
 
+	public Election getElectionByQuestionToken(String questionToken) {
+		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e WHERE e.publicElectionToken = :questionToken", Election.class);
+		q.setParameter("questionToken", questionToken);
+		return q.getSingleResult();
+	}
+
 	public List<Election> getElectionsAllOrderCreationDate() {
 		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e ORDER BY e.creationDate", Election.class);
 		return q.getResultList();
 	}
 
 	public List<Election> getElectionsAllOrderStartDateDesc() {
-		TypedQuery<Election> q = em.createQuery("SELECT e FROM Election e ORDER BY e.startDate DESC", Election.class);
+		TypedQuery<Election> q = em.createQuery(
+				"SELECT e FROM Election e ORDER BY "
+						+ "(SELECT MAX(c.startDate) FROM ElectionCalendar c WHERE c.election = e AND c.calendarKey = :calendarKey) DESC, "
+						+ "e.electionId DESC",
+				Election.class);
+		q.setParameter(QueryParameterNames.CALENDAR_KEY, ElectionCalendarKey.N_16_PERIODO_VOTING);
 		return q.getResultList();
 	}
 
 	public List<ElectionLight> getElectionsLightAllOrderStartDateDesc() {
-		TypedQuery<ElectionLight> q = em.createQuery("SELECT e FROM ElectionLight e ORDER BY e.startDate DESC", ElectionLight.class);
+		TypedQuery<ElectionLight> q = em.createQuery(
+				"SELECT e FROM ElectionLight e ORDER BY "
+						+ "(SELECT MAX(c.startDate) FROM ElectionCalendar c WHERE c.election.electionId = e.electionId AND c.calendarKey = :calendarKey) DESC, "
+						+ "e.electionId DESC",
+				ElectionLight.class);
+		q.setParameter(QueryParameterNames.CALENDAR_KEY, ElectionCalendarKey.N_16_PERIODO_VOTING);
 		return q.getResultList();
 	}
 
@@ -77,14 +101,14 @@ public class ElectionDao {
 
 	public boolean electionIsSimple(long electionId) {
 		Query q = em.createQuery("SELECT e FROM JointElection e WHERE e.idElectionA = :electionId OR e.idElectionB = :electionId");
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 
 		return (q.getResultList() == null || q.getResultList().isEmpty());
 	}
 
 	public JointElection getJointElectionForElection(long electionId) {
 		TypedQuery<JointElection> q = em.createQuery("SELECT e FROM JointElection e WHERE e.idElectionA = :electionId OR e.idElectionB = :electionId", JointElection.class);
-		q.setParameter("electionId", electionId);
+		q.setParameter(QueryParameterNames.ELECTION_ID, electionId);
 		return q.getSingleResult();
 	}
 

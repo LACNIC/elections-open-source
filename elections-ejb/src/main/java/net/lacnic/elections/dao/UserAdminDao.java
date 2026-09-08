@@ -3,18 +3,17 @@ package net.lacnic.elections.dao;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.UserAdmin;
 
 public class UserAdminDao {
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("ejbAppLogger");
 
 	private EntityManager em;
 
@@ -29,7 +28,7 @@ public class UserAdminDao {
 			q.setParameter("password", password.toUpperCase());
 			return q.getSingleResult();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -39,7 +38,7 @@ public class UserAdminDao {
 			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a", UserAdmin.class);
 			return q.getResultList();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Collections.emptyList();
 		}
 	}
@@ -50,30 +49,8 @@ public class UserAdminDao {
 			q.setParameter("userAdminId", userAdminId.toUpperCase());
 			return q.getSingleResult();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return null;
-		}
-	}
-
-	public List<UserAdmin> getElectionUserAdmins(long electionId) {
-		try {
-			TypedQuery<UserAdmin> q = em.createQuery("SELECT a FROM UserAdmin a WHERE a.authorizedElectionId = :electionId", UserAdmin.class);
-			q.setParameter("electionId", electionId);
-			return q.getResultList();
-		} catch (Exception e) {
-			appLogger.error(e);
-			return Collections.emptyList();
-		}
-	}
-
-	public Long getUserAuthorizedElectionId(String userAdminId) {
-		try {
-			Query q = em.createQuery("SELECT a.authorizedElectionId FROM UserAdmin a WHERE UPPER(a.userAdminId) = :userAdminId");
-			q.setParameter("userAdminId", userAdminId.toUpperCase());
-			return (long) q.getSingleResult();
-		} catch (Exception e) {
-			appLogger.error(e);
-			return 0L;
 		}
 	}
 
@@ -91,7 +68,7 @@ public class UserAdminDao {
 			q.setParameter("userAdminEmail", email);
 			return q.getSingleResult();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return null;
 		}
 	}

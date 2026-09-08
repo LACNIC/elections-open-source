@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Eleccion Publica | Padrón electoral</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(15, 23, 42, 0.04) 0%, rgba(15, 23, 42, 0) 35%);
+		}
+
+		.page-wrap {
+			max-width: 1080px;
+			margin: 0 auto;
+		}
+
+		.section-card {
+			border: 1px solid rgba(15, 23, 42, 0.10);
+		}
+
+		.table-roll thead th {
+			font-size: .72rem;
+			letter-spacing: .03em;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-election-landing.html" class="topbar-link fw-semibold">Eleccion Directorio 2026</a>
+					<span class="badge text-bg-light border">Portal publico</span>
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<a href="public-election-landing.html" class="topbar-link fw-semibold">Volver al home</a>
+					<div class="dropdown topbar-item">
+						<button class="topbar-link fw-semibold dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">Idioma</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item active" href="#">Espanol</a>
+							<a class="dropdown-item" href="#">English</a>
+							<a class="dropdown-item" href="#">Portugues</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid py-4">
+				<div class="page-wrap">
+						<!-- CALENDAR MAP: padrón público visible desde N_4_SINGLE_PADRON_PUBLISHED. -->
+						<div class="card section-card mb-4" data-calendar-show-from="N_4_SINGLE_PADRON_PUBLISHED" data-task-scope="no-task">
+						<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+							<h4 class="card-title mb-0">Padrón electoral</h4>
+							<div class="d-flex align-items-center gap-2">
+								<span class="badge text-bg-light border">13.000 registros</span>
+								<a href="public-election-landing.html#padron-electoral" class="btn btn-light btn-sm">
+									<i class="ti ti-arrow-left me-1"></i> Volver
+								</a>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row g-3 mb-3">
+							<div class="col-md-3">
+								<label class="form-label">País</label>
+								<select class="form-select">
+									<option selected>Todos</option>
+									<option>AR</option>
+									<option>BR</option>
+									<option>CO</option>
+									<option>MX</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Organización</label>
+								<input type="text" class="form-control" placeholder="Buscar por nombre de organización">
+							</div>
+							<div class="col-md-3 d-flex align-items-end">
+								<button class="btn btn-secondary w-100" type="button">Aplicar filtros</button>
+							</div>
+						</div>
+
+							<div class="table-responsive">
+							<table class="table table-hover align-middle mb-0 table-roll">
+									<thead class="table-light">
+										<tr>
+											<th width="100">País</th>
+											<th>Organización</th>
+											<th width="210">Representante</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>UY</td><td>RedUY Internet Association</td><td>A. R. ********</td></tr>
+										<tr><td>BR</td><td>DataGov Brasil Ltda.</td><td>B. C. ********</td></tr>
+										<tr><td>MX</td><td>Comunidad IX-MX A.C.</td><td>C. M. ********</td></tr>
+										<tr><td>AR</td><td>Telecomunicaciones Argentina S.A.</td><td>D. F. ********</td></tr>
+										<tr><td>CO</td><td>Red Andina de Internet</td><td>E. S. ********</td></tr>
+										<tr><td>PE</td><td>Nodo Regional Perú</td><td>F. L. ********</td></tr>
+										<tr><td>EC</td><td>Asociación IPv6 Ecuador</td><td>G. P. ********</td></tr>
+										<tr><td>CL</td><td>Conectividad Chile</td><td>H. T. ********</td></tr>
+										<tr><td>VE</td><td>Telecom Caribe</td><td>I. V. ********</td></tr>
+										<tr><td>BO</td><td>Infraestructura Digital Bolivia</td><td>J. Q. ********</td></tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+								<p class="text-muted mb-0">Mostrando 1 - 50 de 13.000 registros</p>
+								<nav>
+									<ul class="pagination pagination-sm mb-0">
+										<li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+										<li class="page-item active"><a class="page-link" href="#">1</a></li>
+										<li class="page-item"><a class="page-link" href="#">2</a></li>
+										<li class="page-item"><a class="page-link" href="#">3</a></li>
+										<li class="page-item"><a class="page-link" href="#">...</a></li>
+										<li class="page-item"><a class="page-link" href="#">260</a></li>
+										<li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+									</ul>
+								</nav>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
+
+</html>

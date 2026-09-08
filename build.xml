@@ -6,18 +6,18 @@
 	</target>
 
 	<target name="deploy-ws" description="deploy ws" depends="deploy-web">
-		<copy todir="${WILDFLY20}${STANDALONE-ELECCIONES}" file="elections-services/target/elections-ws.war" />
+		<copy todir="${WILDFLY34}${STANDALONE-ELECCIONES}" file="elections-services/target/elections-ws.war" />
 		<copy todir="${dist}" file="elections-services/target/elections-ws.war" />
 	</target>
 
 	<target name="deploy-web" description="deploy web" depends="deploy-ejb">
-		<copy todir="${WILDFLY20}${STANDALONE-ELECCIONES}" file="elections-admin-web/target/elections.war" />
+		<copy todir="${WILDFLY34}${STANDALONE-ELECCIONES}" file="elections-admin-web/target/elections.war" />
 		<copy todir="${dist}" file="elections-admin-web/target/elections.war" />
 	</target>
 
 	<target name="deploy-ejb" description="deploy ejb" depends="call-maven">
-		<copy todir="${WILDFLY20}${STANDALONE-ELECCIONES}" file="elections-ejb/target/elections-ejb.jar" />
-		<copy todir="${dist}" file="elections-ejb/target/elections-ejb.jar" />
+		<copy todir="${WILDFLY34}${STANDALONE-ELECCIONES}" file="elections-ejb/target/elections-ejb-1.0.jar" />
+		<copy todir="${dist}" file="elections-ejb/target/elections-ejb-1.0.jar" />
 	</target>
 	
 	<target name="call-maven">
@@ -25,7 +25,7 @@
 			<arg value="clean" />
 			<arg value="compile" />
 			<arg value="package" />
-<!--			<arg value="install" />-->
+			<arg value="-DskipTests" />
 		</exec>
 	</target>
 </project>

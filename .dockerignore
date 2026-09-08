@@ -1,0 +1,10 @@
+.git
+ai-harness
+ai-harness-local
+dockers/logs
+dockers/logs-fresh
+**/.env
+**/target
+doc/vendor
+doc/_site
+doc/.jekyll-cache

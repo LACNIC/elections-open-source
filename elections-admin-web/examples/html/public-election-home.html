@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Elección Pública | Inicio</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(17, 24, 39, 0.04) 0%, rgba(17, 24, 39, 0) 35%);
+		}
+
+		.public-hero {
+			background: linear-gradient(135deg, rgba(17, 24, 39, 0.08), rgba(17, 24, 39, 0.02));
+			border: 1px solid rgba(17, 24, 39, 0.08);
+		}
+
+		.section-nav .nav-link {
+			border-radius: 999px;
+		}
+
+		.section-nav .nav-link.active {
+			background: #111827;
+			color: #fff;
+		}
+
+		.quick-card {
+			border: 1px solid rgba(17, 24, 39, 0.08);
+			transition: transform .2s ease, box-shadow .2s ease;
+		}
+
+		.quick-card:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 .5rem 1.2rem rgba(17, 24, 39, .12);
+		}
+
+		.muted-chip {
+			font-size: .75rem;
+			padding: .3rem .6rem;
+			border-radius: 999px;
+			background: #f1f3f5;
+			border: 1px solid #dee2e6;
+			font-weight: 600;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-3">
+					<a href="public-election-home.html" class="topbar-link fw-semibold">Elección Pública LACNIC</a>
+					<span class="badge text-bg-light border">Versión ES</span>
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<div class="dropdown topbar-item">
+						<button class="topbar-link fw-semibold dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">
+							Idioma
+						</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item active" href="#">Español</a>
+							<a class="dropdown-item" href="#">English</a>
+							<a class="dropdown-item" href="#">Português</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="container-fluid py-4">
+			<ul class="nav nav-pills gap-2 section-nav mb-4">
+				<li class="nav-item"><a class="nav-link active" href="public-election-home.html">Inicio</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-options.html">Opciones de la elección</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-candidates.html">Candidatos</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-calendar.html">Calendario</a></li>
+				<li class="nav-item"><a class="nav-link" href="public-election-authorities.html">Comisionados y auditores</a></li>
+			</ul>
+
+			<div class="card public-hero mb-4">
+				<div class="card-body">
+					<div class="row g-3 align-items-center">
+						<div class="col-lg-8">
+							<div class="d-flex align-items-center gap-2 mb-2">
+								<span class="muted-chip">Elección Directorio 2026</span>
+								<span class="muted-chip">Información pública</span>
+							</div>
+							<h2 class="mb-2">Proceso electoral abierto a consulta pública</h2>
+							<p class="text-muted mb-0">Aquí puedes conocer cronograma, perfiles de candidatos, respuestas públicas y autoridades del proceso.</p>
+						</div>
+						<div class="col-lg-4 text-lg-end">
+							<div class="small text-muted">Periodo general</div>
+							<div class="fw-semibold">10 marzo 2026 - 28 junio 2026</div>
+							<div class="small text-muted mt-2">Estado actual: Publicación de perfiles</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row g-4 mb-4">
+				<div class="col-md-6 col-xl-3">
+					<div class="card quick-card h-100">
+						<div class="card-body">
+							<h5>Información de la elección</h5>
+							<p class="text-muted">Reglamento, metodología, criterios de elegibilidad y preguntas frecuentes.</p>
+							<a href="public-election-options.html" class="btn btn-sm btn-secondary">Ver opciones</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-xl-3">
+					<div class="card quick-card h-100">
+						<div class="card-body">
+							<h5>Candidatos</h5>
+							<p class="text-muted">Lista oficial, navegación por perfil y respuestas públicas por tarea.</p>
+							<a href="public-election-candidates.html" class="btn btn-sm btn-secondary">Ver candidatos</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-xl-3">
+					<div class="card quick-card h-100">
+						<div class="card-body">
+							<h5>Calendario público</h5>
+							<p class="text-muted">Hitos del proceso con inicio/fin y tareas de un único día.</p>
+							<a href="public-election-calendar.html" class="btn btn-sm btn-secondary">Ver calendario</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-xl-3">
+					<div class="card quick-card h-100">
+						<div class="card-body">
+							<h5>Comisionados y auditores</h5>
+							<p class="text-muted">Equipo a cargo del control del proceso y revisión de resultados.</p>
+							<a href="public-election-authorities.html" class="btn btn-sm btn-secondary">Ver autoridades</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row g-4">
+				<div class="col-xl-7">
+					<div class="card h-100">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<h4 class="card-title mb-0">Resumen rápido</h4>
+							<a href="public-election-calendar.html" class="btn btn-sm btn-light">Cronograma completo</a>
+						</div>
+						<div class="card-body">
+							<div class="row g-3 mb-3">
+								<div class="col-sm-6 col-lg-3">
+									<div class="border rounded p-3 bg-light-subtle">
+										<div class="text-muted small">Candidatos</div>
+										<div class="fs-3 fw-semibold">3</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-lg-3">
+									<div class="border rounded p-3 bg-light-subtle">
+										<div class="text-muted small">Tareas públicas</div>
+										<div class="fs-3 fw-semibold">12</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-lg-3">
+									<div class="border rounded p-3 bg-light-subtle">
+										<div class="text-muted small">Comisionados</div>
+										<div class="fs-3 fw-semibold">4</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-lg-3">
+									<div class="border rounded p-3 bg-light-subtle">
+										<div class="text-muted small">Auditores</div>
+										<div class="fs-3 fw-semibold">5</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline timeline-icon-bordered">
+								<div class="timeline-item d-flex align-items-stretch">
+									<div class="timeline-time pe-3 text-muted">10 mar 2026 09:00</div>
+									<div class="timeline-dot"><i class="ti ti-speakerphone fs-xl text-muted"></i></div>
+									<div class="timeline-content ps-3 pb-4">
+										<h5 class="mb-1">Publicación de convocatoria</h5>
+										<p class="mb-0 text-muted">Inicio formal del proceso y publicación de material electoral.</p>
+									</div>
+								</div>
+								<div class="timeline-item d-flex align-items-stretch">
+									<div class="timeline-time pe-3 text-muted">22 abr 2026 18:00</div>
+									<div class="timeline-dot"><i class="ti ti-user-check fs-xl text-muted"></i></div>
+									<div class="timeline-content ps-3 pb-4">
+										<h5 class="mb-1">Cierre de recepción de candidaturas</h5>
+										<p class="mb-0 text-muted">Finaliza la carga de información y documentación pública.</p>
+									</div>
+								</div>
+								<div class="timeline-item d-flex align-items-stretch">
+									<div class="timeline-time pe-3 text-muted">08 may 2026 12:00</div>
+									<div class="timeline-dot text-bg-dark"><i class="ti ti-clock-hour-4 fs-xl text-white"></i></div>
+									<div class="timeline-content ps-3 pb-4 border rounded bg-light-subtle">
+										<h5 class="mb-1">Publicación de perfiles y respuestas</h5>
+										<p class="mb-0 text-muted">Fase activa para revisión ciudadana de perfiles candidatos.</p>
+									</div>
+								</div>
+								<div class="timeline-item d-flex align-items-stretch">
+									<div class="timeline-time pe-3 text-muted">20 jun 2026 19:00</div>
+									<div class="timeline-dot"><i class="ti ti-vote fs-xl text-muted"></i></div>
+									<div class="timeline-content ps-3">
+										<h5 class="mb-1">Votación y publicación de resultados</h5>
+										<p class="mb-0 text-muted">Apertura y cierre de votación con publicación oficial de resultados.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-5">
+					<div class="card h-100">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<h4 class="card-title mb-0">Candidatos destacados</h4>
+							<a href="public-election-candidates.html" class="btn btn-sm btn-light">Ver todos</a>
+						</div>
+						<div class="card-body">
+							<div class="d-flex align-items-center gap-3 border rounded p-2 mb-3">
+								<img src="assets/images/users/user-2.jpg" class="rounded-circle" width="46" height="46" alt="Ana">
+								<div class="flex-grow-1">
+									<div class="fw-semibold">Ana Rodríguez</div>
+									<div class="text-muted small">Infraestructura y gobernanza técnica</div>
+								</div>
+								<a href="public-election-candidate-ana.html" class="btn btn-sm btn-secondary">Ver perfil</a>
+							</div>
+							<div class="d-flex align-items-center gap-3 border rounded p-2 mb-3">
+								<img src="assets/images/users/user-5.jpg" class="rounded-circle" width="46" height="46" alt="Bruno">
+								<div class="flex-grow-1">
+									<div class="fw-semibold">Bruno Costa</div>
+									<div class="text-muted small">Fortalecimiento institucional y comunidades</div>
+								</div>
+								<a href="public-election-candidate-bruno.html" class="btn btn-sm btn-secondary">Ver perfil</a>
+							</div>
+							<div class="d-flex align-items-center gap-3 border rounded p-2 mb-3">
+								<img src="assets/images/users/user-7.jpg" class="rounded-circle" width="46" height="46" alt="Carla">
+								<div class="flex-grow-1">
+									<div class="fw-semibold">Carla Méndez</div>
+									<div class="text-muted small">Estrategia regional y participación</div>
+								</div>
+								<a href="public-election-candidate-carla.html" class="btn btn-sm btn-secondary">Ver perfil</a>
+							</div>
+							<div class="border rounded p-3 bg-light-subtle">
+								<p class="mb-2 text-muted">Puedes navegar entre perfiles y revisar únicamente la información marcada como pública.</p>
+								<a href="public-election-candidates.html" class="btn btn-secondary">Explorar candidatos</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+</body>
+
+</html>

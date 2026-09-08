@@ -8,16 +8,18 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardManagerBasePage;
+import net.lacnic.elections.adminweb.ui.error.Error404;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Commissioner;
 
 
-public class EditCommissionerDashboard extends DashboardAdminBasePage {
+public class EditCommissionerDashboard extends DashboardManagerBasePage {
 
 	private static final long serialVersionUID = -4584362258132685785L;
 	private String name;
@@ -26,7 +28,10 @@ public class EditCommissionerDashboard extends DashboardAdminBasePage {
 	public EditCommissionerDashboard(PageParameters params) {
 		super(params);
 
-		Commissioner commissioner = AppContext.getInstance().getManagerBeanRemote().getCommissioner(UtilsParameters.getAuditAsLong(params));
+		Commissioner commissioner = AppContext.getInstance().getManagerBeanRemote().getCommissioner(UtilsParameters.getCommissionerAsLong(params));
+		if (commissioner == null) {
+			throw new RestartResponseException(Error404.class);
+		}
 		mail = commissioner.getMail();
 		name = commissioner.getName();
 

@@ -1,0 +1,126 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+		<div class="card-header">
+			<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle">
+				<wicket:message key="candidateProfileTitle">Información del candidato</wicket:message>
+			</h4>
+		</div>
+		<div class="card-body">
+			<p wicket:id="restrictionMessage" data-testid="restrictionMessage"></p>
+			<form wicket:id="candidateProfileForm" data-testid="candidateProfileForm" class="row g-3">
+				<div class="col-12">
+					<div class="d-flex gap-3 align-items-start">
+						<div class="d-flex flex-column align-items-center gap-2">
+							<div wicket:id="candidateImageContainer" data-testid="candidateImageContainer">
+								<img wicket:id="candidateImage" data-testid="candidateImage" class="img-fluid rounded-circle img-thumbnail candidate-photo-sepia" width="140" height="140" wicket:message="alt:candidateProfileTitle">
+							</div>
+							<button type="button" class="btn btn-link p-0 mt-1 d-inline-flex align-items-center gap-1 text-decoration-none"
+								data-bs-toggle="modal" data-bs-target="#candidate-photo-guide-modal">
+								<i class="ti ti-info-circle"></i>
+								<span>Guía de foto</span>
+							</button>
+						</div>
+						<div class="w-100">
+							<h5 class="mb-1" data-testid="perfil_de_candidato">
+								<wicket:message key="candidateProfilePhotoTitle">Foto de perfil</wicket:message>
+							</h5>
+							<p class="text-muted mb-2" data-testid="candidateProfilePhotoDescriptionText">
+								<wicket:message key="candidateProfilePhotoDescription" />
+							</p>
+							<input wicket:id="candidatePicture" data-testid="candidatePicture" type="file" class="form-control">
+						</div>
+					</div>
+					<div wicket:id="defaultPhotoRecommendation" data-testid="defaultPhotoRecommendation"></div>
+					<div class="border-top border-dashed"></div>
+				</div>
+				<div class="col-12">
+					<label class="form-label">
+						<wicket:message key="candidateManagementName" />
+					</label>
+					<input wicket:id="name" data-testid="name" type="text" class="form-control">
+				</div>
+				<div class="col-12">
+					<label class="form-label">
+						<wicket:message key="candidateProfileLinkedInOptional" />
+					</label>
+					<input wicket:id="linkedinUrl" data-testid="linkedinUrl" type="text" class="form-control">
+				</div>
+				<div class="col-12">
+					<label class="form-label">
+						<wicket:message key="candidateProfileBiographyTitle" />
+					</label>
+					<div wicket:id="biographyEditor"></div>
+				</div>
+					<div class="col-12 d-flex mt-4 justify-content-end gap-2">
+						<a wicket:id="backButton" data-testid="backButton" class="btn btn-outline-light btn-md" href="#">
+							<wicket:message key="volver" />
+						</a>
+						<button wicket:id="continueLaterButton" data-testid="continueLaterButton" class="btn btn-outline-light btn-md" type="submit">
+							<wicket:message key="candidateProfileContinueLaterButton" />
+						</button>
+					<button wicket:id="finishAndSendButton" data-testid="finishAndSendButton" class="btn btn-success btn-md" type="submit">
+						<wicket:message key="candidateProfileFinishAndSendButton" />
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="candidate-photo-guide-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="candidate-photo-guide-modal-label" aria-hidden="true"
+		data-testid="candidate-photo-guide-modal">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="candidate-photo-guide-modal-label" data-testid="candidateProfilePhotoGuideModalTitle">
+						<wicket:message key="candidateProfilePhotoGuideModalTitle">Características recomendadas para la foto de perfil</wicket:message>
+					</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-3">
+						<wicket:message key="candidateProfilePhotoGuideModalIntro" />
+					</p>
+					<div class="text-center mb-3">
+						<img wicket:id="photoGuideReferenceImage" data-testid="photoGuideReferenceImage" class="img-fluid rounded border w-100" wicket:message="alt:candidateProfilePhotoGuideReferenceAlt">
+					</div>
+					<div class="table-responsive">
+						<table class="table align-middle mb-3">
+							<thead>
+								<tr>
+									<th class="text-success"><wicket:message key="candidateProfilePhotoGuideGoodTitle" /></th>
+									<th class="text-danger"><wicket:message key="candidateProfilePhotoGuideBadTitle" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><wicket:message key="candidateProfilePhotoGuideGoodItem1" /></td>
+									<td><wicket:message key="candidateProfilePhotoGuideBadItem1" /></td>
+								</tr>
+								<tr>
+									<td><wicket:message key="candidateProfilePhotoGuideGoodItem2" /></td>
+									<td><wicket:message key="candidateProfilePhotoGuideBadItem2" /></td>
+								</tr>
+								<tr>
+									<td><wicket:message key="candidateProfilePhotoGuideGoodItem3" /></td>
+									<td><wicket:message key="candidateProfilePhotoGuideBadItem3" /></td>
+								</tr>
+								<tr>
+									<td><wicket:message key="candidateProfilePhotoGuideGoodItem4" /></td>
+									<td><wicket:message key="candidateProfilePhotoGuideBadItem4" /></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<p class="mb-0">
+						<strong><wicket:message key="candidateProfilePhotoGuideTipsTitle" /></strong>
+						<wicket:message key="candidateProfilePhotoGuideTipsBody" />
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light" data-bs-dismiss="modal">
+						<wicket:message key="candidateProfilePhotoGuideCloseButton" />
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

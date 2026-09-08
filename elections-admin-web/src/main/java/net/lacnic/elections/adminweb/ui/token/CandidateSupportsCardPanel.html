@@ -1,0 +1,19 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mt-4">
+		<div class="card-header d-flex justify-content-between align-items-center gap-2">
+			<h4 class="card-title mb-0" data-testid="apoyos">Apoyos</h4>
+			<span wicket:id="completionBadge" data-testid="completionBadge" class="badge bg-warning-subtle text-warning">Pendiente</span>
+		</div>
+		<div class="card-body">
+			<div class="d-flex justify-content-between align-items-start mb-3" wicket:id="supportRows" data-testid="supportRows">
+				<div class="pe-3">
+					<h5 class="mb-1" wicket:id="supportTitle" data-testid="organización">Organización</h5>
+					<p class="text-muted mb-1" wicket:id="supportSubtitle" data-testid="supportSubtitle">Org ID: 102 · Categoría: Fundación</p>
+					<p class="text-muted mb-0 small" wicket:id="supportDate" data-testid="supportDate">Fecha: -</p>
+				</div>
+				<span wicket:id="supportStatusBadge" data-testid="supportStatusBadge" class="badge bg-secondary-subtle text-secondary">Aprobado</span>
+			</div>
+			<p wicket:id="supportEmptyMessage" data-testid="supportEmptyMessage" class="text-muted mb-0 small">Si no hay apoyos visibles, la candidatura no recibió apoyos válidos.</p>
+		</div>
+	</div>
+</wicket:panel>

@@ -1,0 +1,118 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Padron y censo electoral" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el modulo vigente de padron electoral en <code>v3.0</code>. El contenido fue contrastado contra la UI administrativa, los validadores Wicket, <code>ExcelUtils</code>, la logica EJB de altas/cargas/sincronizacion y los procesos asincronos que actualizan votantes.</p>
+
+				<h2>{{ "Ubicacion en el flujo" }}</h2>
+				<ul class="paragraph">
+					<li>La pantalla de padron esta montada en <code>/admin/election/voters</code>.</li>
+					<li>En el wizard de gestion vuelve a <b>Organizaciones</b> y continua hacia <b>Calendario</b>.</li>
+					<li>Si la eleccion esta cerrada, la UI deriva a <b>Eleccion cerrada</b> y no permite edicion.</li>
+					<li>El comportamiento depende de <code>manageVotersManual</code>. Todas las elecciones nuevas comienzan en modo manual y no dependen de un servicio externo. Cualquier instalación que sincronice organizaciones mediante el contrato HTTP documentado puede cambiar el padrón a modo automático desde el detalle de la elección.</li>
+				</ul>
+
+				<h2>{{ "Reglas base del padron" }}</h2>
+				<ul class="paragraph">
+					<li>La identidad operativa del padron es <code>ORGID</code>, no <code>MAIL</code>. Altas manuales, ediciones, cargas masivas y sincronizaciones reconcilian votantes por <code>ORGID</code> normalizado a mayusculas.</li>
+					<li>El backend exige <code>ORGID</code> unico por eleccion. No hay una regla equivalente de unicidad por email.</li>
+					<li>Las operaciones por snapshot no solo crean y actualizan: tambien eliminan votantes existentes cuyo <code>ORGID</code> ya no venga en la fuente, o filas legacy sin <code>ORGID</code> / duplicadas en base.</li>
+					<li>Si una eliminacion implicaria remover votantes que ya emitieron voto, la operacion completa se rechaza.</li>
+					<li>Mientras exista un proceso asincrono de padron u organizaciones para esa eleccion, la pantalla bloquea acciones operativas y muestra el progreso del proceso activo.</li>
+				</ul>
+
+				<h2>{{ "Carga masiva manual" }}</h2>
+				<p class="paragraph">La carga masiva solo aparece cuando la eleccion se gestiona con <code>manageVotersManual=true</code> y no hay procesamiento asincrono activo.</p>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Columna</th>
+							<th>Obligatoria</th>
+							<th>Regla efectiva</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td><code>IDIOMA</code></td><td>Si</td><td>Solo acepta <code>SP</code>/<code>ES</code>, <code>EN</code> o <code>PT</code>.</td></tr>
+						<tr><td><code>NOMBRE</code></td><td>Si</td><td>No admite vacio.</td></tr>
+						<tr><td><code>ORGNAME</code></td><td>No</td><td>Queda como nombre visible de la organizacion del votante.</td></tr>
+						<tr><td><code>MAIL</code></td><td>Si</td><td>Debe tener formato basico valido.</td></tr>
+						<tr><td><code>CANTVOTOS</code></td><td>Si</td><td>Debe ser entero entre <code>1</code> y <code>11</code>.</td></tr>
+						<tr><td><code>PAIS</code></td><td>No</td><td>Si viene informado, debe ser un codigo ISO de 2 letras.</td></tr>
+						<tr><td><code>ORGID</code></td><td>Si</td><td>Es obligatorio en todas las filas y debe ser unico dentro del archivo.</td></tr>
+					</tbody>
+				</table>
+				<ul class="paragraph">
+					<li>El archivo debe ser <code>.xlsx</code> y el sistema procesa solo la primera hoja.</li>
+					<li>La carga es de tipo snapshot completo: crea votantes nuevos, actualiza los existentes por <code>ORGID</code> y elimina los que no esten presentes en la planilla.</li>
+					<li>El check <b>Regenerar links de votacion para votantes existentes</b> solo controla tokens: si esta apagado, mantiene el token actual y solo genera uno cuando falta; si esta encendido, regenera el token de cada votante actualizado.</li>
+					<li>Si no se dispone de otro identificador, la propia ayuda operativa del modulo admite usar el email como <code>ORGID</code>.</li>
+					<li>La operacion corre en segundo plano. Si ya existe otro proceso activo para la eleccion, la cola rechaza la nueva carga.</li>
+				</ul>
+
+				<h2>{{ "Alta, edicion y baja manual" }}</h2>
+				<p class="paragraph">La alta y edicion manual tambien solo estan disponibles cuando la eleccion gestiona el padron en modo manual.</p>
+				<ul class="paragraph">
+					<li>El formulario expone <b>Nombre</b>, <b>Email</b>, <b>Nombre organizacion</b>, <b>Idioma</b>, <b># Votos</b>, <b>Pais</b> y <b>Org ID</b>.</li>
+					<li><b>Nombre</b> y <b>Email</b> son obligatorios. <b># Votos</b> debe ser entero entre <code>1</code> y <code>11</code>. <b>Pais</b> es opcional, pero si se informa debe ser ISO-2.</li>
+					<li><b>Org ID</b> es obligatorio y valida el patron actual: debe comenzar con letra o numero, puede contener <code>.</code>, <code>-</code> o <code>_</code> y no puede superar 255 caracteres.</li>
+					<li>Al dar de alta manualmente, el backend normaliza <code>MAIL</code>, <code>PAIS</code> y <code>ORGID</code>, genera un <code>voteToken</code> nuevo y deja <code>electorsSet=true</code>.</li>
+					<li>La edicion manual reutiliza las mismas validaciones y no regenera el token del votante.</li>
+					<li>La baja manual solo se permite si el votante no voto. Si se elimina el ultimo votante del padron, el backend vuelve <code>electorsSet=false</code>.</li>
+				</ul>
+
+				<h2>{{ "Listado y acciones operativas" }}</h2>
+				<ul class="paragraph">
+					<li>La tabla muestra resumen de votantes listados, votantes que ya votaron, pendientes y total de votos representados.</li>
+					<li>Los filtros actuales permiten buscar por <code>ORGID</code>, nombre de organizacion, nombre o email, y combinar ademas pais, cantidad de votos, idioma y estado de voto.</li>
+					<li>La exportacion del padron solo se muestra cuando la eleccion tiene <code>electorsSet=true</code>.</li>
+					<li>Cada fila permite ver el link de votacion, regenerar el token individual y reenviar el mail de votacion.</li>
+					<li>Los botones de editar y eliminar solo se muestran en modo manual. En modo automatico sigue existiendo la tabla, pero sin acciones manuales de mantenimiento.</li>
+				</ul>
+
+				<h2>{{ "Sincronizacion automatica desde organizaciones" }}</h2>
+				<p class="paragraph">Cuando <code>manageVotersManual=false</code>, la pantalla no permite altas ni cargas manuales. El padron se recalcula a partir de la lista local de organizaciones de la eleccion.</p>
+				<ul class="paragraph">
+					<li>La fuente inmediata del padron automatico no es un Excel ni un WS directo desde esta pantalla: toma las organizaciones ya cargadas en la base para esa eleccion. Ese modulo esta documentado en <a href="{{site.baseurl}}/organizations.html">esta guia</a>.</li>
+					<li>Solo generan votante automatico las organizaciones con <code>member=true</code>, <code>deudor=false</code>, <code>orgId</code>, <code>membershipContactName</code>, <code>membershipContactEmail</code> y <code>votes</code>.</li>
+					<li>El idioma del votante sale de <code>membershipContactLanguage</code>; si falta o no es valido, el backend cae a <code>SP</code>.</li>
+					<li>Si la fuente local tiene <code>orgId</code> duplicado, miembros con datos obligatorios faltantes o una baja potencial por encima del umbral configurado, la corrida termina en error y no aplica cambios.</li>
+					<li>La sincronizacion automatica tambien bloquea corridas que intentarian eliminar votantes que ya emitieron voto.</li>
+					<li>El boton <b>Forzar sincronizacion del padron</b> solo se habilita dentro de la ventana de calendario <code>N_23_PERIODO_PADRON_MILACNIC_SYNC</code> y cuando no hay otro proceso activo. El nombre de la clave se conserva por compatibilidad histórica; el proceso puede consumir organizaciones de cualquier backend que implemente el contrato documentado.</li>
+					<li>Ese forzado recalcula el padron desde organizaciones locales y mantiene los links de votacion existentes; solo genera token si falta. La UI actual no ofrece una variante de forzado que regenere todos los tokens.</li>
+					<li>El cron tambien usa la ventana <code>N_23</code> y el mismo criterio de reconciliacion por <code>ORGID</code>. En el job combinado primero se sincronizan organizaciones y luego el padron.</li>
+					<li>El historial de corridas solo aparece en modo automatico. Muestra fecha/hora, estado, metricas de procesadas/creadas/actualizadas/eliminadas, duracion, <code>syncRunId</code> y mensaje. Al expandir una corrida, la UI muestra la auditoria texto anterior/nuevo del snapshot del votante por <code>ORGID</code>.</li>
+				</ul>
+
+				<h2>{{ "Acciones avanzadas" }}</h2>
+				<ul class="paragraph">
+					<li><b>Regenerar link de votacion:</b> encola una regeneracion masiva de <code>voteToken</code> para todos los votantes actuales. No ejecuta una sincronizacion y deja invalidos los links emitidos antes.</li>
+					<li><b>Eliminar completamente el padron:</b> encola el borrado total del censo actual. No esta disponible si ya existen votos emitidos.</li>
+					<li>Ambas acciones usan procesamiento asincrono y quedan deshabilitadas mientras haya otro proceso activo o no existan votantes cargados.</li>
+				</ul>
+
+				<h2>{{ "Completitud y navegacion" }}</h2>
+				<ul class="paragraph">
+					<li><b>Atras:</b> vuelve a <b>Organizaciones</b>.</li>
+					<li><b>Continuar despues:</b> navega a <b>Calendario</b> sin marcar el padron como completado.</li>
+					<li><b>Marcar como terminada y seguir:</b> solo deja <code>electorsSet=true</code> y navega a <b>Calendario</b>. La implementacion actual no valida que exista al menos un votante cargado ni que una sincronizacion automatica se haya ejecutado.</li>
+				</ul>
+
+				<h2>{{ "Siguiente modulo" }}</h2>
+				<p class="paragraph">Despues del padron, el wizard continua en calendario y luego en tareas.</p>
+				<ul class="paragraph">
+					<li><b>Calendario y tareas:</b> configure etapas, hitos publicables, dependencias y orden de tareas desde <a href="{{site.baseurl}}/calendar-tasks.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionsManagerApp</code>, <code>ElectionCensusDashboard</code>, <code>UploadCensusFilePanel</code>, <code>AddUserVoterPanel</code>, <code>EditUserVoterDashboard</code>, <code>CensusListPanel</code>, <code>AutomaticCensusSyncActionsPanel</code>, <code>CensusAdvancedActionsPanel</code>, <code>CensusExcelFileValidator</code>, <code>CensusOrgIdIdentityValidator</code>, <code>CensusDeleteActionValidator</code>, <code>CensusVotesValidator</code>, <code>OrganizationValidationRules</code>, <code>ExcelUtils.processCensusExcel</code>, <code>ExcelUtils.exportToExcel</code>, <code>FilesUtils.getJbossTempCensusExample</code>, <code>ElectionsManagerEJBBean.updateElectionCensus</code>, <code>applyElectionCensusSnapshot</code>, <code>addUserVoter</code>, <code>editUserVoter</code>, <code>removeUserVoter</code>, <code>queueElectionCensusSyncFromOrganizations</code>, <code>processAutomaticOrganizationsAndCensusSync</code>, <code>regenerateElectionCensusVoteLinks</code>, <code>deleteElectionCensus</code> y <code>ElectionsManagerApp.properties.xml</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

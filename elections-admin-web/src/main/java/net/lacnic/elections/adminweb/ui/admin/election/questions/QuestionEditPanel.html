@@ -1,0 +1,70 @@
+<wicket:panel>
+	<form wicket:id="questionForm" data-testid="questionForm" class="row g-3">
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsCandidateLabel" /></label>
+			<select wicket:id="candidateId" data-testid="candidateId" class="form-select"></select>
+		</div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsAskedByLabel" /></label>
+			<input wicket:id="askedByName" data-testid="askedByName" type="text" class="form-control">
+		</div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsAskedByEmailLabel" /></label>
+			<input wicket:id="askedByEmail" data-testid="askedByEmail" type="email" class="form-control">
+		</div>
+
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsLanguageLabel" /></label>
+			<select wicket:id="questionLanguage" data-testid="questionLanguage" class="form-select"></select>
+		</div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsStatusLabel" /></label>
+			<select wicket:id="status" data-testid="status" class="form-select"></select>
+			<div class="mt-2">
+				<a wicket:id="questionStatusTemplateLink" data-testid="questionStatusTemplateLink"><wicket:message key="candidateStatusViewCandidateConfirmedTemplate" /></a>
+			</div>
+		</div>
+
+		<div class="w-100"></div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsQuestionSpanishLabel" /></label>
+			<div wicket:id="questionSpanish"></div>
+		</div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsQuestionEnglishLabel" /></label>
+			<div wicket:id="questionEnglish"></div>
+		</div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsQuestionPortugueseLabel" /></label>
+			<div wicket:id="questionPortuguese"></div>
+		</div>
+
+		<div class="w-100"></div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsAnswerSpanishLabel" /></label>
+			<div wicket:id="answerSpanish"></div>
+		</div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsAnswerEnglishLabel" /></label>
+			<div wicket:id="answerEnglish"></div>
+		</div>
+		<div class="col-md-4">
+			<label class="form-label"><wicket:message key="candidateQuestionsAnswerPortugueseLabel" /></label>
+			<div wicket:id="answerPortuguese"></div>
+		</div>
+
+		<div class="col-12 d-flex flex-wrap align-items-center justify-content-between gap-2">
+			<span class="badge badge-label badge-soft-secondary rounded-pill" tabindex="0" role="button"
+				data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+				data-testid="candidateQuestionEmailHelp"
+				wicket:message="title:candidateQuestionsEmailHelpTitle,data-bs-content:candidateQuestionsEmailHelpContent,aria-label:candidateQuestionsEmailHelpTitle">
+				<i class="ti ti-help-circle"></i>
+			</span>
+			<div class="d-flex gap-2 justify-content-end">
+				<a wicket:id="cancelQuestion" data-testid="cancelQuestion" class="btn btn-light"><wicket:message key="cancelButton" /></a>
+				<button wicket:id="saveQuestionWithEmail" data-testid="saveQuestionWithEmail" type="submit" class="btn btn-primary"><wicket:message key="candidateStatusSaveWithEmail" /></button>
+				<button wicket:id="saveQuestionWithoutEmail" data-testid="saveQuestionWithoutEmail" type="submit" class="btn btn-primary"><wicket:message key="candidateStatusSaveWithoutEmail" /></button>
+			</div>
+		</div>
+	</form>
+</wicket:panel>

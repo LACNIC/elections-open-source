@@ -1,0 +1,34 @@
+<wicket:panel>
+	<div class="card">
+		<div class="card-header">
+			<h5 data-testid="adminUserListTitle"><wicket:message key="adminUserListTitle">Lista de Administradores</wicket:message></h5>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="userAdminsTable" data-testid="userAdminsTable" class="table table-hover align-middle mb-0 dataTables">
+						<thead class="table-light">
+							<tr>
+								<th></th>
+								<th><wicket:message key="adminUserListUser" /></th>
+								<th><wicket:message key="adminUserListMail" /></th>
+								<th class="text-center"><wicket:message key="adminUserListEdit" /></th>
+								<th class="text-center"><wicket:message key="adminUserListPwd" /></th>
+							</tr>
+						</thead>
+					<tbody>
+							<tr wicket:id="userAdminsList" data-testid="userAdminsList" name="userAdminsList">
+								<td><div wicket:id="remove" data-testid="remove" name="remove"></div></td>
+								<td><span wicket:id="userAdminId" data-testid="userAdminId" ></span></td>
+								<td><span wicket:id="email" data-testid="email"></span></td>
+									<td class="text-center"><a wicket:message="title:edit,aria-label:edit" class="text-primary ti ti-pencil fs-28 m-r-sm" wicket:id="editUserAdmin" data-testid="editUserAdmin"></a></td>
+									<td class="text-center"><a wicket:id="editUserAdminPassword" data-testid="editUserAdminPassword" wicket:message="title:adminUserListEditPwd,aria-label:adminUserListEditPwd" class="text-warning ti ti-key fs-28" name="editUserAdminPassword"></a></td>
+							</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<hr class="my-3">
+			<div class="text-center"></div>
+		</div>
+	</div>
+</wicket:panel>

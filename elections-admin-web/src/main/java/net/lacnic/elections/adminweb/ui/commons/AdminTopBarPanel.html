@@ -1,0 +1,51 @@
+<wicket:panel>
+	<div class="d-flex align-items-center gap-2">
+		<button class="sidenav-toggle-button btn btn-primary btn-icon">
+			<i class="ti ti-menu-4 fs-22"></i>
+		</button>
+
+		<button class="topnav-toggle-button px-2" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+			<i class="ti ti-menu-4 fs-22"></i>
+		</button>
+
+		<div class="topbar-item d-none d-md-flex">
+			<a href="#" wicket:id="homeLink" data-testid="homeLink" class="topbar-link fw-semibold">Sistema de elecciones</a>
+		</div>
+	</div>
+
+	<div class="d-flex align-items-center gap-2">
+		<div class="topbar-item">
+			<div class="dropdown">
+				<button class="topbar-link fw-bold" data-bs-toggle="dropdown" data-bs-offset="0,21" type="button"
+					aria-haspopup="false" aria-expanded="false">
+					<img wicket:id="selectedLanguageImage" alt="language" class="w-100 rounded me-2" height="18"
+						id="selected-language-image" data-testid="selected-language-image">
+					<span wicket:id="selectedLanguageCode" id="selected-language-code" data-testid="selected-language-code">EN</span>
+				</button>
+				<div class="dropdown-menu dropdown-menu-end">
+					<a href="#" class="dropdown-item" wicket:id="en" data-testid="en" id="en">
+						<img src="v2/images/flags/us.svg" alt="English" class="me-1 rounded" height="18">
+						<span class="align-middle"><wicket:message key="english" /></span>
+					</a>
+					<a href="#" class="dropdown-item" wicket:id="es" data-testid="es" id="es">
+						<img src="v2/images/flags/es.svg" alt="Spanish" class="me-1 rounded" height="18">
+						<span class="align-middle"><wicket:message key="spanish" /></span>
+					</a>
+					<a href="#" class="dropdown-item" wicket:id="pt" data-testid="pt" id="pt">
+						<img src="v2/images/flags/pt.svg" alt="Portuguese" class="me-1 rounded" height="18">
+						<span class="align-middle"><wicket:message key="portuguese" /></span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="topbar-item nav-user">
+			<a class="topbar-link dropdown-toggle drop-arrow-none px-2" href="#" wicket:id="logoutLink" data-testid="logoutLink" id="logout">
+				<div class="d-lg-flex align-items-center gap-1 d-none">
+					<h5 class="my-0" data-testid="logout"><wicket:message key="logout">Cerrar sesión</wicket:message></h5>
+				</div>
+				<i class="ti ti-logout align-middle"></i>
+			</a>
+		</div>
+	</div>
+</wicket:panel>

@@ -1,78 +1,150 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.lacnic</groupId>
-	<artifactId>elections-parent</artifactId>
-	<packaging>pom</packaging>
-	<version>1.0</version>
-	<name>elections-open-source</name>
+    <groupId>net.lacnic</groupId>
+    <artifactId>elections-parent</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>elections-open-source</name>
 
-	<modules>
-		<module>elections-ejb</module>
-		<module>elections-admin-web</module>
-		<module>elections-services</module>
-	</modules>
+    <modules>
+        <module>elections-ejb</module>
+        <module>elections-admin-web</module>
+        <module>elections-services</module>
+    </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
-		<sonar.organization>lacnic</sonar.organization>
+		<java.version>17</java.version>
+		<junit.version>5.10.2</junit.version>
+		<mockito.version>4.11.0</mockito.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<sonar.organization>example-org</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.exclusions>**/*.css,**/*.scss,**/*.less,**/*.js</sonar.exclusions>
+		<sonar.exclusions>**/*.css,**/*.js,**/*.xml,**/*.scss</sonar.exclusions>
+		<sonar.projectKey>example-org_elections-open-source-v3</sonar.projectKey>
 	</properties>
 
 	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
 	</repositories>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
+		<build>
+			<plugins>
+
 			<plugin>
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
-				<version>2.0.2.Final</version>
+				<version>3.0.0.Final</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.38</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.13</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/site/jacoco</outputDirectory>
+							<dataFile>${project.build.directory}/jacoco.exec</dataFile>
+							<formats>
+								<format>XML</format>
+							</formats>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 
 	<dependencyManagement>
 		<dependencies>
+
 			<dependency>
-				<groupId>org.wildfly.bom</groupId>
-				<artifactId>wildfly-jakartaee8-with-tools</artifactId>
-				<version>20.0.1.Final</version>
-				<type>pom</type>
-				<scope>import</scope>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.17.0</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.38</version>
+				<scope>provided</scope>
+			</dependency>
+			
+		    <dependency>
+		      <groupId>com.fasterxml.jackson.core</groupId>
+		      <artifactId>jackson-core</artifactId>
+		      <version>2.12.3</version>
+		    </dependency>
+
+		    <dependency>
+		      <groupId>com.fasterxml.jackson.core</groupId>
+		      <artifactId>jackson-databind</artifactId>
+		      <version>2.12.3</version>
+		    </dependency>
+		
+		    <dependency>
+		      <groupId>com.fasterxml.jackson.core</groupId>
+		      <artifactId>jackson-annotations</artifactId>
+		      <version>2.12.3</version>
+		    </dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.24.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.LACNIC</groupId>
 			<artifactId>pai-auth-ws-client</artifactId>
-			<version>1.1.0</version>
+			<version>1.5.1</version>
 		</dependency>
+
 	</dependencies>
 </project>

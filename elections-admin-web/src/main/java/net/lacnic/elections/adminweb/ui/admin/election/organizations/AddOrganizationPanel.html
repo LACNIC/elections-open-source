@@ -1,0 +1,56 @@
+<wicket:panel>
+	<div class="row g-3">
+		<div class="col-12">
+			<small class="text-muted fw-semibold">Datos de la organización</small>
+		</div>
+		<div class="col-md-6">
+			<label class="form-label" for="organizationName"><wicket:message key="organizationsManagementNameLabel" /></label>
+			<input id="organizationName" type="text" class="form-control" wicket:id="name" data-testid="name" wicket:message="placeholder:organizationsManagementNamePlaceholder">
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationOrgId"><wicket:message key="organizationsManagementOrgIdLabel" /></label>
+			<input id="organizationOrgId" type="text" class="form-control" wicket:id="orgId" data-testid="orgId" wicket:message="placeholder:organizationsManagementOrgIdPlaceholder">
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationCountry"><wicket:message key="organizationsManagementCountryLabel" /></label>
+			<select id="organizationCountry" class="form-select" wicket:id="country" data-testid="country" wicket:message="title:organizationsManagementCountryLabel"></select>
+		</div>
+
+		<div class="col-md-3">
+			<label class="form-label" for="organizationCategory"><wicket:message key="organizationsManagementCategoryLabel" /></label>
+			<select id="organizationCategory" class="form-select" wicket:id="category" data-testid="category" wicket:message="title:organizationsManagementCategoryLabel"></select>
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationVotes"><wicket:message key="organizationsManagementVotesLabel" /></label>
+			<input id="organizationVotes" type="text" class="form-control" wicket:id="votes" data-testid="votes" wicket:message="placeholder:organizationsManagementVotesPlaceholder">
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationAsn"><wicket:message key="organizationsManagementAsnLabel" /> <small class="text-muted">(opcional)</small></label>
+			<input id="organizationAsn" type="text" class="form-control" wicket:id="asn" data-testid="asn" wicket:message="placeholder:organizationsManagementAsnPlaceholder">
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationCnpj"><wicket:message key="organizationsManagementCnpjLabel" /> <small class="text-muted">(opcional)</small></label>
+			<input id="organizationCnpj" type="text" class="form-control" wicket:id="cnpj" data-testid="cnpj" wicket:message="placeholder:organizationsManagementCnpjPlaceholder">
+		</div>
+
+		<div class="col-12">
+			<small class="text-muted fw-semibold">Datos de contacto de membresía</small>
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationMembershipContactName"><wicket:message key="organizationsManagementMembershipContactNameLabel" /></label>
+			<input id="organizationMembershipContactName" type="text" class="form-control" wicket:id="membershipContactName" data-testid="membershipContactName" wicket:message="placeholder:organizationsManagementMembershipContactNamePlaceholder">
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationMembershipContactId"><wicket:message key="organizationsManagementMembershipContactIdLabel" /></label>
+			<input id="organizationMembershipContactId" type="text" class="form-control" wicket:id="membershipContactId" data-testid="membershipContactId" wicket:message="placeholder:organizationsManagementMembershipContactIdPlaceholder">
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationMembershipContactEmail"><wicket:message key="organizationsManagementMembershipContactEmailLabel" /></label>
+			<input id="organizationMembershipContactEmail" type="email" class="form-control" wicket:id="membershipContactEmail" data-testid="membershipContactEmail" wicket:message="placeholder:organizationsManagementMembershipContactEmailPlaceholder">
+		</div>
+		<div class="col-md-3">
+			<label class="form-label" for="organizationMembershipContactLanguage"><wicket:message key="organizationsManagementMembershipContactLanguageLabel" /></label>
+			<select id="organizationMembershipContactLanguage" class="form-select" wicket:id="membershipContactLanguage" data-testid="membershipContactLanguage" wicket:message="title:organizationsManagementMembershipContactLanguageLabel"></select>
+		</div>
+	</div>
+</wicket:panel>

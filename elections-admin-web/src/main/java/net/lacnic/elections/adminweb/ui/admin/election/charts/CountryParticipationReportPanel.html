@@ -1,0 +1,41 @@
+<wicket:panel>
+	<div wicket:id="tableContainer" class="table-responsive">
+		<table class="table table-sm table-bordered table-hover align-middle mb-0" data-testid="countryParticipationReportTable">
+			<thead class="table-light">
+				<tr>
+					<th scope="col" rowspan="2"><wicket:message key="dshbStatsCountryReportCountry">País</wicket:message></th>
+					<th scope="col" colspan="2" class="text-center"><wicket:message key="dshbStatsCountryReportTotal">Total</wicket:message></th>
+					<th scope="col" colspan="2" class="text-center"><wicket:message key="dshbStatsCountryReportVoted">Votó</wicket:message></th>
+					<th scope="col" colspan="2" class="text-center"><wicket:message key="dshbStatsCountryReportNotVoted">No votó</wicket:message></th>
+					<th scope="col" colspan="2" class="text-center"><wicket:message key="dshbStatsCountryReportPercentage">Porcentaje</wicket:message></th>
+					<th scope="col" rowspan="2" class="text-center"><wicket:message key="dshbStatsCountryReportGlobalVotePercentage">% del total de votos</wicket:message></th>
+				</tr>
+				<tr>
+					<th scope="col" class="text-center"><wicket:message key="dshbStatsVotersAxis">Votantes</wicket:message></th>
+					<th scope="col" class="text-center"><wicket:message key="dshbStatsCountryReportVotes">Votos</wicket:message></th>
+					<th scope="col" class="text-center"><wicket:message key="dshbStatsVotersAxis">Votantes</wicket:message></th>
+					<th scope="col" class="text-center"><wicket:message key="dshbStatsCountryReportVotes">Votos</wicket:message></th>
+					<th scope="col" class="text-center"><wicket:message key="dshbStatsVotersAxis">Votantes</wicket:message></th>
+					<th scope="col" class="text-center"><wicket:message key="dshbStatsCountryReportVotes">Votos</wicket:message></th>
+					<th scope="col" class="text-center"><wicket:message key="dshbStatsVotersAxis">Votantes</wicket:message></th>
+					<th scope="col" class="text-center"><wicket:message key="dshbStatsCountryReportVotes">Votos</wicket:message></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr wicket:id="countryRows">
+					<th scope="row" wicket:id="countryLabel"></th>
+					<td class="text-center text-nowrap fw-bold" wicket:id="totalVoters"></td>
+					<td class="text-center text-nowrap" wicket:id="totalVotes"></td>
+					<td class="text-center text-nowrap fw-bold" wicket:id="votedVoters"></td>
+					<td class="text-center text-nowrap" wicket:id="votedVotes"></td>
+					<td class="text-center text-nowrap fw-bold" wicket:id="notVotedVoters"></td>
+					<td class="text-center text-nowrap" wicket:id="notVotedVotes"></td>
+					<td class="text-center text-nowrap fw-bold" wicket:id="voterPercentage"></td>
+					<td class="text-center text-nowrap" wicket:id="votePercentage"></td>
+					<td class="text-center text-nowrap" wicket:id="globalVotePercentage"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<h4 class="text-center" wicket:id="noData" data-testid="countryParticipationReportNoData">No hay datos en este momento para mostrar.</h4>
+</wicket:panel>

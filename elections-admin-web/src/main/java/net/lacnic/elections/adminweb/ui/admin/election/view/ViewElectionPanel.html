@@ -1,0 +1,321 @@
+<wicket:panel>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card float-e-margins m-b-xs">
+				<div class="panel-body">
+					<div class="accordion" id="accordionElection" data-testid="view-election-accordion">
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingOne" data-testid="electionsDetailTitle">
+								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-testid="view-election-general-toggle">
+									<wicket:message key="electionsDetailTitle">DETALLE ELECCIÓN</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionElection" data-testid="view-election-general-section">
+								<div class="accordion-body">
+									<div class="row g-3">
+										<div class="col-12">
+											<div class="card border">
+												<div class="card-body">
+													<h6 class="text-uppercase text-muted mb-3"><wicket:message key="electionsDetailTitle">DETALLE ELECCIÓN</wicket:message></h6>
+													<div class="row g-3">
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="linkSpanishLabel" /></div>
+															<div><a wicket:id="linkSpanish" class="link-primary text-decoration-underline" target="_blank" rel="noopener" data-testid="view-election-link-spanish" wicket:message="aria-label:linkSpanishLabel"></a></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="linkEnglishLabel" /></div>
+																<div><a wicket:id="linkEnglish" class="link-primary text-decoration-underline" target="_blank" rel="noopener" data-testid="view-election-link-english" wicket:message="aria-label:linkEnglishLabel"></a></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="linkPortugueseLabel" /></div>
+																<div><a wicket:id="linkPortuguese" class="link-primary text-decoration-underline" target="_blank" rel="noopener" data-testid="view-election-link-portuguese" wicket:message="aria-label:linkPortugueseLabel"></a></div>
+														</div>
+													</div>
+													<hr class="my-3">
+													<div class="row g-3">
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="titleSpanishLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="titleSpanish" data-testid="view-election-title-spanish" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="titleEnglishLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="titleEnglish" data-testid="view-election-title-english" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="titlePortugueseLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="titlePortuguese" data-testid="view-election-title-portuguese" /></div>
+														</div>
+													</div>
+													<hr class="my-3">
+													<div class="row g-3">
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="descriptionSpanishLabel" /></div>
+															<div><span wicket:id="descriptionSpanish" data-testid="view-election-description-spanish" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="descriptionEnglishLabel" /></div>
+															<div><span wicket:id="descriptionEnglish" data-testid="view-election-description-english" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="descriptionPortugueseLabel" /></div>
+															<div><span wicket:id="descriptionPortuguese" data-testid="view-election-description-portuguese" /></div>
+														</div>
+													</div>
+													<hr class="my-3">
+													<div class="row g-3">
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="categoryDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="category" data-testid="view-election-category" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="maxCandidatesDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="maxCandidates" data-testid="view-election-max-candidates" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="createDateDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="createDate" data-testid="view-election-create-date" /></div>
+														</div>
+														<div class="w-100"></div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="voteLinkAvailableDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="voteLinkAvailable" data-testid="view-election-vote-link-enabled" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="resultsLinkAvailableDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="resultsLinkAvailable" data-testid="view-election-results-link-enabled" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="auditorLinkAvailableDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="auditorLinkAvailable" data-testid="view-election-audit-link-enabled" /></div>
+														</div>
+														<div class="w-100"></div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="manageVotersManualDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="manageVotersManual" data-testid="view-election-manage-voters-manual" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="manageOrganizationsManualDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="manageOrganizationsManual" data-testid="view-election-manage-organizations-manual" /></div>
+														</div>
+														<div class="w-100"></div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="boardElectionDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="electionType" data-testid="view-election-election-type" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="diffUTC" /></div>
+															<div class="fw-semibold"><span wicket:id="diffUTC" data-testid="view-election-diff-utc" /></div>
+														</div>
+														<div class="col-md-4">
+															<div class="text-muted small"><wicket:message key="restrictedCountriesDetailLabel" /></div>
+															<div class="fw-semibold"><span wicket:id="restrictedCountries" data-testid="view-election-restricted-countries" /></div>
+														</div>
+														<div class="w-100"></div>
+														<div class="col-md-12">
+															<div class="text-muted small"><wicket:message key="electionManagementAuthorizedUsers" /></div>
+															<div class="fw-semibold"><span wicket:id="authorizedUserEmails" data-testid="view-election-authorized-users" /></div>
+														</div>
+														<div class="col-md-12">
+															<div class="text-muted small"><wicket:message key="electionManagementAuthorizedSupportEmails" /></div>
+															<div class="fw-semibold"><span wicket:id="authorizedSupportEmails" data-testid="view-election-authorized-support-emails" /></div>
+														</div>
+														<div class="col-md-12">
+															<div class="text-muted small"><wicket:message key="electionManagementAuthorizedNominateEmails" /></div>
+															<div class="fw-semibold"><span wicket:id="authorizedNominateEmails" data-testid="view-election-authorized-nominate-emails" /></div>
+														</div>
+														<div class="col-md-6">
+															<div class="text-muted small"><wicket:message key="electionsDetailResults" /></div>
+																<div><a wicket:id="resultsLink" class="link-primary text-decoration-underline" target="_blank" rel="noopener" data-testid="view-election-public-results-link" wicket:message="aria-label:electionsDetailResults"></a></div>
+														</div>
+														<div class="col-md-6">
+															<div class="text-muted small"><wicket:message key="electionsDetailQuestions" /></div>
+																<div><a wicket:id="questionsLink" class="link-primary text-decoration-underline" target="_blank" rel="noopener" data-testid="view-election-public-questions-link" wicket:message="aria-label:electionsDetailQuestions"></a></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="d-flex justify-content-end mt-3">
+										<button wicket:id="editElection" wicket:message="title:electionsDetailEditLink" type="button" class="btn btn-success btn-sm" data-testid="view-election-edit-general-button">
+											<wicket:message key="electionsDetailEditLink" />
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingCall" data-testid="electionManagementCallTitle">
+								<button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCall" aria-expanded="false" aria-controls="collapseCall" data-testid="view-election-call-toggle">
+									<wicket:message key="electionManagementCallTitle">Convocatoria</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseCall" class="accordion-collapse collapse" aria-labelledby="headingCall" data-bs-parent="#accordionElection" data-testid="view-election-call-section">
+								<div class="accordion-body">
+									<div class="card border">
+										<div class="card-body">
+											<div class="row g-3">
+												<div class="col-md-4">
+													<div class="text-muted small"><wicket:message key="callSpanishLabel" /></div>
+													<div><span wicket:id="callSpanish" data-testid="view-election-call-spanish" /></div>
+												</div>
+												<div class="col-md-4">
+													<div class="text-muted small"><wicket:message key="callEnglishLabel" /></div>
+													<div><span wicket:id="callEnglish" data-testid="view-election-call-english" /></div>
+												</div>
+												<div class="col-md-4">
+													<div class="text-muted small"><wicket:message key="callPortugueseLabel" /></div>
+													<div><span wicket:id="callPortuguese" data-testid="view-election-call-portuguese" /></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="d-flex justify-content-end mt-3">
+										<button wicket:id="editCall" wicket:message="title:electionManagementCallTitle" type="button" class="btn btn-success btn-sm" data-testid="view-election-edit-call-button">
+											<wicket:message key="electionManagementCallTitle" />
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingTwo" data-testid="electionsDetailOrganizationsTitle">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" data-testid="view-election-organizations-toggle">
+									<wicket:message key="electionsDetailOrganizationsTitle">ORGANIZACIONES</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionElection" data-testid="view-election-organizations-section">
+								<div class="accordion-body">
+									<p class="text-muted mb-3"><wicket:message key="electionsDetailOrganizationsText" /></p>
+									<div class="text-right">
+										<button wicket:id="editOrganizations" wicket:message="title:editOrganizationsLink" type="button" class="btn btn-success btn-sm" data-testid="view-election-edit-organizations-button">
+											<wicket:message key="editOrganizationsLink" />
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingThree" data-testid="electionsDetailCensusTitle">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" data-testid="view-election-census-toggle">
+									<wicket:message key="electionsDetailCensusTitle">PADRÓN</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionElection" data-testid="view-election-census-section">
+								<div class="accordion-body">
+									<p class="text-muted mb-3">
+										<wicket:message key="electionsDetailCensusDownloadText" />
+										<a wicket:id="exportCensus" wicket:message="title:censusManagementUserListBtnExp" class="text-primary text-decoration-underline ms-1" data-testid="view-election-export-census-link"><wicket:message key="electionsDetailCensusDownloadLinkText" /></a>
+									</p>
+									<div wicket:id="votersList" data-testid="view-election-voters-list"></div>
+									<div class="text-right">
+										<button wicket:id="editCensus" wicket:message="title:editCensusLink" type="button" class="btn btn-success btn-sm" data-testid="view-election-edit-census-button">
+											<wicket:message key="editCensusLink" />
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header d-flex align-items-center" id="headingFour" data-testid="electionsDetailCalendarTitle">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" data-testid="view-election-calendar-toggle">
+									<wicket:message key="electionsDetailCalendarTitle">CALENDARIO</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionElection" data-testid="view-election-calendar-section">
+								<div class="accordion-body">
+									<p class="text-muted mb-3"><wicket:message key="electionsDetailCalendarText" /></p>
+									<div class="text-right">
+										<button wicket:id="editCalendar" wicket:message="title:editCalendarLink" type="button" class="btn btn-success btn-sm" data-testid="view-election-edit-calendar-button">
+											<wicket:message key="editCalendarLink" />
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingFive" data-testid="electionsDetailTasksTitle">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive" data-testid="view-election-tasks-toggle">
+									<wicket:message key="electionsDetailTasksTitle">TAREAS</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionElection" data-testid="view-election-tasks-section">
+								<div class="accordion-body">
+									<p class="text-muted mb-3"><wicket:message key="electionsDetailTasksText" /></p>
+									<div class="text-right">
+										<button wicket:id="editTasks" wicket:message="title:editTasksLink" type="button" class="btn btn-success btn-sm" data-testid="view-election-edit-tasks-button">
+											<wicket:message key="editTasksLink" />
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingSix" data-testid="electionsDetailCandidatesTitle">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" data-testid="view-election-candidates-toggle">
+									<wicket:message key="electionsDetailCandidatesTitle">CANDIDATOS</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionElection" data-testid="view-election-candidates-section">
+								<div class="accordion-body">
+									<div wicket:id="candidatesListPanel" data-testid="view-election-candidates-list"></div>
+									<div class="text-right">
+										<button wicket:id="editCandidates" wicket:message="title:editCandidateLink" type="button" class="btn btn-success btn-sm" data-testid="view-election-edit-candidates-button">
+											<wicket:message key="editCandidateLink" />
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingSeven" data-testid="electionsDetailAuditorsTitle">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" data-testid="view-election-auditors-toggle">
+									<wicket:message key="electionsDetailAuditorsTitle">AUDITORES</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionElection" data-testid="view-election-auditors-section">
+								<div class="accordion-body">
+									<div wicket:id="auditorsListPanel" data-testid="view-election-auditors-list"></div>
+									<div class="text-right">
+										<button wicket:id="editAuditors" wicket:message="title:editAuditorsLink" type="button" class="btn btn-success btn-sm" data-testid="view-election-edit-auditors-button">
+											<wicket:message key="editAuditorsLink" />
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingEight" data-testid="electionsDetailEmailTitle">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" data-testid="view-election-emails-toggle">
+									<wicket:message key="electionsDetailEmailTitle">E-MAILS</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionElection" data-testid="view-election-emails-section">
+								<div class="accordion-body">
+									<div wicket:id="emailsList" data-testid="view-election-emails-list"></div>
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingNine" data-testid="electionsDetailActivitiesTitle">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine" data-testid="view-election-activities-toggle">
+									<wicket:message key="electionsDetailActivitiesTitle">LISTADO ACTIVIDADES</wicket:message>
+								</button>
+							</h2>
+							<div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#accordionElection" data-testid="view-election-activities-section">
+								<div class="accordion-body">
+									<div wicket:id="activitiesList" data-testid="view-election-activities-list"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="text-center m-b-md">
+				<button id="backButton" wicket:id="back" type="button" class="btn btn-w-m btn-light" data-testid="view-election-back-button">
+					<wicket:message key="electionsDetailBack" />
+				</button>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

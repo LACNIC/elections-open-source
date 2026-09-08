@@ -1,0 +1,134 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+			<div class="card-header">
+				<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle">
+				<wicket:message key="acceptNominationOrganizationsTitle" />
+			</h4>
+		</div>
+		<div class="card-body">
+			<p wicket:id="restrictionMessage" data-testid="restrictionMessage"></p>
+
+			<form wicket:id="organizationsForm" data-testid="organizationsForm">
+				<div class="mb-3">
+					<label class="form-label">
+						<wicket:message key="acceptNominationOrganizationsQuestion" />
+					</label>
+					<div wicket:id="hasOrganizationGroup" class="d-flex gap-3" data-testid="hasOrganizationGroup">
+						<div class="form-check">
+							<input wicket:id="yes" type="radio" class="form-check-input" data-testid="yes">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationOrganizationsOptionYes" />
+							</label>
+						</div>
+						<div class="form-check">
+							<input wicket:id="no" type="radio" class="form-check-input" data-testid="no">
+							<label class="form-check-label">
+								<wicket:message key="acceptNominationOrganizationsOptionNo" />
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div wicket:id="organizationDetailsContainer" data-testid="organizationDetailsContainer">
+					<div class="border-top border-dashed my-3"></div>
+
+					<div class="mb-3">
+						<label class="form-label">
+							<wicket:message key="acceptNominationOrganizationsNameLabel" />
+						</label>
+						<input wicket:id="organizationName" type="text" class="form-control" data-testid="organizationName">
+					</div>
+
+					<div class="border-top border-dashed my-3"></div>
+
+						<div class="mb-3">
+							<label class="form-label">
+								<wicket:message key="acceptNominationOrganizationsGroupLabel" />
+							</label>
+							<div wicket:id="organizationGroupEditor"></div>
+						</div>
+
+					<div class="mb-3">
+						<label class="form-label">
+							<wicket:message key="acceptNominationOrganizationsTypeLabel" />
+						</label>
+						<div wicket:id="relationshipTypeGroup" data-testid="relationshipTypeGroup">
+							<div class="form-check mb-2">
+								<input wicket:id="paid" type="radio" class="form-check-input" data-testid="paid">
+								<label class="form-check-label">
+									<wicket:message key="acceptNominationOrganizationsTypePaid" />
+								</label>
+							</div>
+							<div class="form-check">
+								<input wicket:id="adHonorem" type="radio" class="form-check-input" data-testid="adHonorem">
+								<label class="form-check-label">
+									<wicket:message key="acceptNominationOrganizationsTypeAdHonorem" />
+								</label>
+							</div>
+						</div>
+					</div>
+
+						<div class="d-flex justify-content-end mb-3">
+							<button wicket:id="addOrganizationButton" class="btn btn-primary btn-sm" type="submit" data-testid="addOrganizationButton">
+								<wicket:message key="electionTasksManagementSaveButton" />
+							</button>
+						</div>
+
+					<div wicket:id="organizationsTableContainer" class="table-responsive" data-testid="organizationsTableContainer">
+						<p wicket:id="noOrganizationsLabel" class="text-muted mb-3" data-testid="noOrganizationsLabel"></p>
+						<table class="table table-hover align-middle mb-0">
+							<thead class="bg-light align-middle bg-opacity-25 thead-sm">
+								<tr class="text-uppercase fs-xxs">
+									<th>
+										<wicket:message key="candidateManagemenListDel" />
+									</th>
+									<th>
+										<wicket:message key="acceptNominationOrganizationsTableOrganization" />
+									</th>
+									<th>
+										<wicket:message key="acceptNominationOrganizationsTableGroup" />
+									</th>
+									<th>
+										<wicket:message key="acceptNominationOrganizationsTableType" />
+									</th>
+									<th style="width: 1%;" class="text-center">
+										<wicket:message key="candidateManagemenListEdit" />
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr wicket:id="organizationsRows" data-testid="organizationsRows">
+									<td class="text-center text-nowrap">
+										<span wicket:id="removeRowButton" data-testid="removeRowButton"></span>
+									</td>
+									<td wicket:id="organizationNameCell" data-testid="organizationNameCell"></td>
+									<td wicket:id="organizationGroupCell" data-testid="organizationGroupCell"></td>
+									<td wicket:id="organizationTypeCell" data-testid="organizationTypeCell"></td>
+									<td class="text-center">
+										<a wicket:id="editRowButton" href="#" class="text-muted" data-testid="editRowButton">
+											<i class="ti ti-edit fs-28"></i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="border-top border-dashed my-3"></div>
+
+				<div class="d-flex mt-4 justify-content-end gap-2">
+					<a wicket:id="backButton" class="btn btn-outline-light btn-md" data-testid="backButton">
+						<wicket:message key="volver" />
+					</a>
+					<button wicket:id="continueLaterButton" class="btn btn-outline-light btn-md" type="submit" data-testid="continueLaterButton">
+						<wicket:message key="candidateProfileContinueLaterButton" />
+					</button>
+					<button wicket:id="finishAndSendButton" class="btn btn-success btn-md" type="submit" data-testid="finishAndSendButton">
+						<wicket:message key="candidateProfileFinishAndSendButton" />
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>

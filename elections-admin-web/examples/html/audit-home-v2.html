@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Auditoria - Home v2</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<script src="assets/js/config.js"></script>
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(130deg, rgba(13, 110, 253, 0.07), rgba(32, 201, 151, 0.05));
+		}
+
+		.hero-v2 {
+			background:
+				linear-gradient(140deg, rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.8)),
+				url("assets/images/user-bg-pattern.png");
+			color: #fff;
+		}
+
+		.hero-v2 .text-muted {
+			color: rgba(255, 255, 255, 0.7) !important;
+		}
+
+		.timeline-track {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 0.8rem;
+		}
+
+		.timeline-block {
+			position: relative;
+			border: 1px solid rgba(17, 24, 39, 0.1);
+			border-radius: 0.8rem;
+			padding: 1rem;
+			background: #fff;
+			min-height: 140px;
+			transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+		}
+
+		.timeline-block::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			right: -12px;
+			width: 24px;
+			height: 2px;
+			background: rgba(17, 24, 39, 0.2);
+		}
+
+		.timeline-block:last-child::after {
+			display: none;
+		}
+
+		.timeline-block.is-active {
+			box-shadow: 0 0.8rem 1.4rem rgba(13, 110, 253, 0.2);
+			border-color: rgba(13, 110, 253, 0.5);
+			transform: translateY(-2px);
+		}
+
+		.timeline-block.is-done {
+			border-color: rgba(25, 135, 84, 0.45);
+			background: rgba(25, 135, 84, 0.06);
+		}
+
+		.timeline-block.is-off {
+			opacity: 0.55;
+		}
+
+		.action-panel {
+			border: 1px solid rgba(17, 24, 39, 0.08);
+			border-radius: 1rem;
+			background: #fff;
+			height: 100%;
+			transition: transform 0.2s ease, opacity 0.2s ease;
+		}
+
+		.action-panel:hover {
+			transform: translateY(-2px);
+		}
+
+		.action-panel.is-off {
+			opacity: 0.6;
+			filter: grayscale(0.15);
+		}
+
+		.metric-chip {
+			border-radius: 999px;
+			padding: 0.25rem 0.65rem;
+			background: rgba(17, 24, 39, 0.06);
+			font-size: 0.76rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+		}
+
+		@media (max-width: 991px) {
+			.timeline-track {
+				grid-template-columns: 1fr;
+			}
+
+			.timeline-block::after {
+				display: none;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-2">
+					<a href="#" class="topbar-link fw-semibold">Auditoria de Elecciones</a>
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<div class="topbar-item"><span class="topbar-link">Vista alternativa</span></div>
+				</div>
+			</div>
+		</header>
+
+		<div>
+			<div class="container-fluid py-4">
+				<div class="card hero-v2 border-0 mb-4">
+					<div class="card-body p-4 p-lg-5">
+						<div class="row g-3 align-items-center">
+							<div class="col-lg-8">
+								<span class="badge text-bg-light mb-2">Diseno 2</span>
+								<h2 class="mb-2">Home de auditor con roadmap y modulos</h2>
+								<p class="text-muted mb-0">Navegacion por etapas con foco en habilitacion/deshabilitacion de acciones.</p>
+							</div>
+							<div class="col-lg-4">
+								<label for="scenario-v2" class="form-label fw-semibold mb-1 text-white">Escenario</label>
+								<select class="form-select" id="scenario-v2">
+									<option value="inicio" selected>Inicio (solo candidatos)</option>
+									<option value="mitad">Mitad (ambos apagados)</option>
+									<option value="final">Final (solo resultados)</option>
+									<option value="off">Off (ambos apagados)</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card mb-4">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<h4 class="card-title mb-0">Calendario de eleccion</h4>
+						<span class="metric-chip">Roadmap</span>
+					</div>
+					<div class="card-body">
+						<div class="timeline-track">
+							<div class="timeline-block is-active" data-track-step="1">
+								<p class="text-muted mb-1">Semana 1</p>
+								<h5 class="mb-2">Revision candidatos</h5>
+								<p class="mb-0 text-muted">Validar y aprobar/rechazar postulaciones.</p>
+							</div>
+							<div class="timeline-block is-off" data-track-step="2">
+								<p class="text-muted mb-1">Semana 2</p>
+								<h5 class="mb-2">Votacion abierta</h5>
+								<p class="mb-0 text-muted">Periodo de votos sin acciones de aprobacion.</p>
+							</div>
+							<div class="timeline-block is-off" data-track-step="3">
+								<p class="text-muted mb-1">Semana 3</p>
+								<h5 class="mb-2">Cierre tecnico</h5>
+								<p class="mb-0 text-muted">Validacion de integridad y consolidacion.</p>
+							</div>
+							<div class="timeline-block is-off" data-track-step="4">
+								<p class="text-muted mb-1">Semana 4</p>
+								<h5 class="mb-2">Resultados auditables</h5>
+								<p class="mb-0 text-muted">Visualizar resultados finales y soportes.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row g-4">
+					<div class="col-lg-6">
+						<div class="action-panel p-4" id="module-candidatos-v2">
+							<div class="d-flex justify-content-between align-items-start mb-3">
+								<div>
+									<p class="text-muted mb-1">Modulo 1</p>
+									<h4 class="mb-0">Aprobar candidatos</h4>
+								</div>
+								<span class="badge text-bg-success" id="badge-candidatos-v2">Habilitado</span>
+							</div>
+							<p class="text-muted mb-3">Entrada principal al comienzo del proceso electoral.</p>
+							<div class="d-flex gap-2 flex-wrap mb-3">
+								<span class="metric-chip">Pendientes 8</span>
+								<span class="metric-chip">Observados 2</span>
+							</div>
+							<button class="btn btn-primary" id="btn-candidatos-v2">Ir a aprobaciones</button>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="action-panel p-4" id="module-resultados-v2">
+							<div class="d-flex justify-content-between align-items-start mb-3">
+								<div>
+									<p class="text-muted mb-1">Modulo 2</p>
+									<h4 class="mb-0">Ver resultados</h4>
+								</div>
+								<span class="badge text-bg-secondary" id="badge-resultados-v2">Deshabilitado</span>
+							</div>
+							<p class="text-muted mb-3">Se activa al finalizar la eleccion para auditoria final.</p>
+							<div class="d-flex gap-2 flex-wrap mb-3">
+								<span class="metric-chip">Actualizacion pendiente</span>
+							</div>
+							<button class="btn btn-outline-secondary" id="btn-resultados-v2" disabled>Ir a resultados</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+	<script src="assets/plugins/lucide/lucide.min.js"></script>
+	<script>
+		(function () {
+			function setPanel(panelId, badgeId, buttonId, enabled) {
+				var panel = document.getElementById(panelId);
+				var badge = document.getElementById(badgeId);
+				var button = document.getElementById(buttonId);
+				panel.classList.toggle("is-off", !enabled);
+				badge.className = enabled ? "badge text-bg-success" : "badge text-bg-secondary";
+				badge.textContent = enabled ? "Habilitado" : "Deshabilitado";
+				button.disabled = !enabled;
+				button.className = enabled ? "btn btn-primary" : "btn btn-outline-secondary";
+			}
+
+			function setTrack(step) {
+				var blocks = document.querySelectorAll("[data-track-step]");
+				blocks.forEach(function (node) {
+					var current = parseInt(node.getAttribute("data-track-step"), 10);
+					node.classList.remove("is-active", "is-done", "is-off");
+					if (current < step) {
+						node.classList.add("is-done");
+						return;
+					}
+					if (current === step) {
+						node.classList.add("is-active");
+						return;
+					}
+					node.classList.add("is-off");
+				});
+			}
+
+			function setScenario(value) {
+				var map = {
+					inicio: { c: true, r: false, step: 1 },
+					mitad: { c: false, r: false, step: 2 },
+					final: { c: false, r: true, step: 4 },
+					off: { c: false, r: false, step: 3 }
+				}[value];
+
+				setPanel("module-candidatos-v2", "badge-candidatos-v2", "btn-candidatos-v2", map.c);
+				setPanel("module-resultados-v2", "badge-resultados-v2", "btn-resultados-v2", map.r);
+				setTrack(map.step);
+			}
+
+			var scenario = document.getElementById("scenario-v2");
+			scenario.addEventListener("change", function (event) {
+				setScenario(event.target.value);
+			});
+			setScenario(scenario.value);
+
+			if (window.lucide) {
+				window.lucide.createIcons();
+			}
+		})();
+	</script>
+</body>
+
+</html>

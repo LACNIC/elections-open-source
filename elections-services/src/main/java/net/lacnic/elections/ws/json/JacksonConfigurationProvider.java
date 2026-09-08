@@ -1,22 +1,15 @@
 package net.lacnic.elections.ws.json;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.Provider;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
-
+import jakarta.ws.rs.ext.ContextResolver;
+import jakarta.ws.rs.ext.Provider;
 
 @Provider
-@Consumes({MediaType.APPLICATION_JSON, "text/json"})
-@Produces({MediaType.APPLICATION_JSON, "text/json"})
-public class JacksonConfigurationProvider extends ResteasyJackson2Provider {
+public class JacksonConfigurationProvider implements ContextResolver<ObjectMapper> {
 
-	public JacksonConfigurationProvider() {
-		super();
-		JacksonObjectMapper mapper = JacksonObjectMapper.get();
-		setMapper(mapper);
+	@Override
+	public ObjectMapper getContext(Class<?> type) {
+		return JacksonObjectMapper.get();
 	}
-
 }

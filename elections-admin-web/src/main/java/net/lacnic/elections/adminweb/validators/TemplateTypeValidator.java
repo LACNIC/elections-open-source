@@ -13,7 +13,9 @@ public class TemplateTypeValidator implements IValidator<String> {
 	private static final long serialVersionUID = 9018437443482309026L;
 
 
-	public TemplateTypeValidator() { }
+	public TemplateTypeValidator() {
+		// Intencionalmente vacio: el validador no mantiene estado.
+	}
 
 
 	@Override

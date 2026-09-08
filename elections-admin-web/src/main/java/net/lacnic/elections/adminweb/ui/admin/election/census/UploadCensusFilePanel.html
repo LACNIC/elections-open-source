@@ -1,0 +1,34 @@
+<wicket:panel>
+	<div class="card h-100" data-testid="uploadCensusCard">
+		<div class="card-header">
+			<h5 class="card-title mb-0" data-testid="censusManagementBulkTitle"><wicket:message key="censusManagementBulkTitle" /></h5>
+		</div>
+		<div class="card-body">
+				<div class="d-flex align-items-center gap-2 mb-1">
+					<label class="form-label mb-0" for="censusFileInput"><wicket:message key="censusManagementFileLabel">censusManagementFileLabel</wicket:message></label>
+					<span wicket:id="censusFieldsHelp" data-testid="censusFieldsHelp" class="badge badge-label badge-soft-secondary rounded-pill" tabindex="0" role="button"
+						data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true">
+						<i class="ti ti-help-circle"></i>
+					</span>
+				</div>
+					<div class="row g-2 align-items-center">
+						<div class="col">
+							<input wicket:id="censusFileInput" id="censusFileInput" data-testid="censusFileInput" wicket:message="title:censusManagementFileLabel" type="file" class="form-control">
+						</div>
+				<div class="col-auto">
+					<button wicket:id="uploadCensusFileButton" data-testid="uploadCensusFileButton" type="submit" class="btn btn-dark btn-lg" wicket:message="title:censusManagementFileLabel">
+						<i class="ti ti-upload"></i>
+					</button>
+				</div>
+			</div>
+			<div class="form-check mt-2">
+				<input class="form-check-input" type="checkbox" wicket:id="overwriteCensus" data-testid="overwriteCensus" wicket:message="title:censusManagementOverwriteAllVoters" id="overwriteCensus">
+				<label class="form-check-label" for="overwriteCensus"><wicket:message key="censusManagementOverwriteAllVoters">censusManagementOverwriteAllVoters</wicket:message></label>
+			</div>
+			<div class="text-muted mt-2 fs-6"><wicket:message key="censusManagementFileNote" /></div>
+			<div class="mt-1">
+				<a wicket:id="downloadExample" data-testid="downloadExample" wicket:message="title:censusManagementFileDownload"><wicket:message key="censusManagementFileDownload" /></a>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

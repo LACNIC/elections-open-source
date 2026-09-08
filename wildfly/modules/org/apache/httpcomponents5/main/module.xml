@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright The WildFly Authors
+  ~ SPDX-License-Identifier: Apache-2.0
+  -->
+<module name="org.apache.httpcomponents5" xmlns="urn:jboss:module:1.9">
+    <properties>
+        <property name="jboss.api" value="private"/>
+    </properties>
+
+    <resources>
+        <resource-root path="httpclient5-5.4.4.jar"/>
+        <resource-root path="httpcore5-5.3.4.jar"/>
+        <resource-root path="httpcore5-h2-5.3.4.jar"/>
+    </resources>
+
+
+    <dependencies>
+        <module name="org.slf4j"/>
+    </dependencies>
+</module>

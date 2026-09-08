@@ -1,17 +1,15 @@
 package net.lacnic.elections.adminweb.ui.results.review;
 
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.app.SecurityUtils;
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardElectionBasePage;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 
 
-@AuthorizeInstantiation("elections-only-one")
-public class ReviewDashboard extends DashboardAdminBasePage {
+public class ReviewDashboard extends DashboardElectionBasePage {
 
 	private static final long serialVersionUID = -1421543964237403877L;
 

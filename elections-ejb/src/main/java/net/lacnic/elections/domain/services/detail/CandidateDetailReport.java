@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Base64;
 
 import net.lacnic.elections.domain.Candidate;
+import net.lacnic.elections.domain.pre.CandidateStatus;
+import net.lacnic.elections.utils.LinksUtils;
 
 
 public class CandidateDetailReport implements Serializable {
@@ -16,6 +18,7 @@ public class CandidateDetailReport implements Serializable {
 	private String mail;
 	private Long electionId;
 	private String pictureInfo;
+	private String pictureUrl;
 	private String pictureName;
 	private String bioSpanish;
 	private String bioEnglish;
@@ -36,7 +39,10 @@ public class CandidateDetailReport implements Serializable {
 		this.name = candidate.getName();
 		this.mail = candidate.getMail();
 		this.electionId = candidate.getElection().getElectionId();
-		this.pictureInfo = Base64.getEncoder().encodeToString(candidate.getPictureInfo());
+		this.pictureInfo = candidate.getPictureInfo() != null ? Base64.getEncoder().encodeToString(candidate.getPictureInfo()) : null;
+		this.pictureUrl = isPublicCandidateStatus(candidate.getStatus())
+				? LinksUtils.buildPublicCandidatePhotoLink(candidate.getElection().getElectionId(), candidate.getCandidateId())
+				: null;
 		this.pictureName = candidate.getPictureName();
 		this.bioSpanish = candidate.getBioSpanish();
 		this.bioEnglish = candidate.getBioEnglish();
@@ -47,6 +53,10 @@ public class CandidateDetailReport implements Serializable {
 		this.linkSpanish = candidate.getLinkSpanish();
 		this.linkEnglish = candidate.getLinkEnglish();
 		this.linkPortuguese = candidate.getLinkPortuguese();
+	}
+
+	private boolean isPublicCandidateStatus(CandidateStatus status) {
+		return status == CandidateStatus.CONFIRMED_AND_PUBLISHED;
 	}
 
 
@@ -168,6 +178,14 @@ public class CandidateDetailReport implements Serializable {
 
 	public void setPictureInfo(String pictureInfo) {
 		this.pictureInfo = pictureInfo;
+	}
+
+	public String getPictureUrl() {
+		return pictureUrl;
+	}
+
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
 	}
 
 	public String getMail() {

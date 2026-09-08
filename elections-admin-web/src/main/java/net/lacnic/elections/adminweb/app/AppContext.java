@@ -6,25 +6,25 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.lacnic.elections.ejb.ElectionsManagerEJB;
 import net.lacnic.elections.ejb.ElectionsMonitorEJB;
+import net.lacnic.elections.ejb.ElectionsPreNominationEJB;
 import net.lacnic.elections.ejb.ElectionsVoterEJB;
 import net.lacnic.elections.utils.Constants;
 
-
 public class AppContext {
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 	private static AppContext instance;
 
 	private ElectionsManagerEJB managerBeanRemote;
 	private ElectionsMonitorEJB monitorBeanRemote;
 	private ElectionsVoterEJB voterBeanRemote;
-
+	private ElectionsPreNominationEJB preNominationBeanRemote;
 
 	private AppContext() {
 
@@ -37,12 +37,14 @@ public class AppContext {
 			String managerEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ElectionsManagerEJBBean!net.lacnic.elections.ejb.ElectionsManagerEJB";
 			String monitorEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ElectionsMonitorEJBBean!net.lacnic.elections.ejb.ElectionsMonitorEJB";
 			String voterEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ElectionsVoterEJBBean!net.lacnic.elections.ejb.ElectionsVoterEJB";
+			String preNominationEjb = Constants.EJB_PREFIX + Constants.JAR_NAME + "/ElectionsPreNominationEJBBean!net.lacnic.elections.ejb.ElectionsPreNominationEJB";
 			setVoterBeanRemote((ElectionsVoterEJB) context.lookup(voterEjb));
 			setMonitorBeanRemote((ElectionsMonitorEJB) context.lookup(monitorEjb));
 			setManagerBeanRemote((ElectionsManagerEJB) context.lookup(managerEjb));
+			setPreNominationBeanRemote((ElectionsPreNominationEJB) context.lookup(preNominationEjb));
 
 		} catch (NamingException e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
 	}
 
@@ -75,6 +77,14 @@ public class AppContext {
 
 	public void setVoterBeanRemote(ElectionsVoterEJB voterBeanRemote) {
 		this.voterBeanRemote = voterBeanRemote;
+	}
+
+	public ElectionsPreNominationEJB getPreNominationBeanRemote() {
+		return preNominationBeanRemote;
+	}
+
+	public void setPreNominationBeanRemote(ElectionsPreNominationEJB preNominationBeanRemote) {
+		this.preNominationBeanRemote = preNominationBeanRemote;
 	}
 
 }

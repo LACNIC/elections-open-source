@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Auditoria | Summary cards de candidato</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<script src="assets/js/config.js"></script>
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: #f5f7fb;
+		}
+
+		.audit-summary-page {
+			max-width: 1480px;
+		}
+
+		.summary-demo-surface {
+			border: 1px solid rgba(15, 23, 42, 0.08);
+			border-radius: 8px;
+			background: #fff;
+			padding: 1rem;
+		}
+
+		.summary-cards-scroll {
+			width: 100%;
+		}
+
+		.summary-cards-track {
+			display: flex;
+			flex-wrap: nowrap;
+			gap: 1rem;
+			align-items: stretch;
+			padding-bottom: 0.25rem;
+		}
+
+		.summary-card-item {
+			flex: 0 0 calc((100% - 5rem) / 6);
+			min-width: 220px;
+		}
+
+		.summary-card {
+			height: 100%;
+		}
+
+		.summary-card .card-body {
+			min-height: 154px;
+		}
+
+		.summary-card h5 {
+			min-height: 2.4rem;
+			line-height: 1.2;
+		}
+
+		.summary-card [data-testid="summaryDescription"] {
+			min-height: 2.8rem;
+		}
+
+		.summary-section-title {
+			font-size: 0.78rem;
+			font-weight: 700;
+			letter-spacing: 0;
+			text-transform: uppercase;
+			color: #6c757d;
+		}
+
+		.summary-chip {
+			display: inline-flex;
+			align-items: center;
+			border: 1px solid rgba(15, 23, 42, 0.12);
+			border-radius: 999px;
+			padding: 0.22rem 0.62rem;
+			background: #fff;
+			color: #495057;
+			font-size: 0.78rem;
+			font-weight: 600;
+		}
+
+		.summary-row-heading {
+			min-width: 15rem;
+		}
+
+		.summary-row-meta {
+			font-size: 0.78rem;
+		}
+
+		.summary-rule-list {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+			gap: 0.75rem;
+		}
+
+		.summary-rule {
+			border: 1px dashed rgba(15, 23, 42, 0.16);
+			border-radius: 8px;
+			background: rgba(255, 255, 255, 0.72);
+			padding: 0.75rem;
+		}
+
+		.summary-rule code {
+			color: #495057;
+		}
+
+		@media (max-width: 991px) {
+			.summary-card-item {
+				flex-basis: 240px;
+			}
+
+			.summary-row-heading {
+				min-width: 100%;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-2">
+					<a href="audit-home-v3.html" class="topbar-link fw-semibold">Auditoria de Elecciones</a>
+					<span class="topbar-link text-muted px-1">|</span>
+					<span class="topbar-link fw-semibold">Summary cards de candidato</span>
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<a href="index.html" class="topbar-link">Ejemplos HTML</a>
+				</div>
+			</div>
+		</header>
+
+		<main class="container-fluid audit-summary-page py-4">
+			<div class="d-flex align-items-start justify-content-between gap-3 flex-wrap mb-4">
+				<div>
+					<div class="summary-section-title mb-2">AuditPublicCandidateDetailPage</div>
+					<h2 class="mb-1">Una row por tipo de summary card</h2>
+					<p class="text-muted mb-0">Cada fila representa un tipo real de tarjeta y muestra sus combinaciones de valor, descripcion y severidad.</p>
+				</div>
+				<div class="d-flex gap-2 flex-wrap justify-content-end">
+					<span class="summary-chip"><span id="rowCount">0</span> tipos</span>
+					<span class="summary-chip"><span id="cardCount">0</span> combinaciones</span>
+					<span class="summary-chip">SimpleBar X por fila</span>
+				</div>
+			</div>
+
+			<div id="scenarioRows" class="d-flex flex-column gap-3 mb-3"></div>
+			<div id="summaryRows" class="d-flex flex-column gap-3"></div>
+
+			<section class="mt-4">
+				<div class="summary-section-title mb-2">Reglas cubiertas</div>
+				<div class="summary-rule-list">
+					<div class="summary-rule">
+						<div class="fw-semibold mb-1">Orden real</div>
+						<code>PROFILE, COUNTRIES, INCOMPATIBILITIES, COURSE, EVALUATION, SUPPORTS, OTHER_STATUTORY_QUESTIONS, OTHER_NON_STATUTORY_QUESTIONS, ORGANIZATIONS, DECLARATIONS, DECLARATIONS_NON_STATUTORY</code>
+					</div>
+					<div class="summary-rule">
+						<div class="fw-semibold mb-1">Severidades</div>
+						<code>success</code>, <code>warning</code>, <code>danger</code>
+					</div>
+					<div class="summary-rule">
+						<div class="fw-semibold mb-1">Umbrales Proctorio</div>
+						<span class="text-muted small">Mayor a 50: success. Menor o igual a 30: danger. Entre 31 y 50, vacio o invalido: warning.</span>
+					</div>
+					<div class="summary-rule">
+						<div class="fw-semibold mb-1">Overflow horizontal</div>
+						<span class="text-muted small">Cada row usa el mismo <code>summary-cards-scroll</code>, <code>summary-cards-track</code> y <code>summary-card-item</code> que la pantalla Wicket.</span>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<script>
+		const severityClass = {
+			success: {
+				card: "bg-success bg-opacity-10",
+				icon: "text-bg-success bg-opacity-90"
+			},
+			warning: {
+				card: "bg-warning bg-opacity-10",
+				icon: "text-bg-warning bg-opacity-90"
+			},
+			danger: {
+				card: "bg-danger bg-opacity-10",
+				icon: "text-bg-danger bg-opacity-90"
+			}
+		};
+
+		const rows = [
+			{
+				key: "PROFILE",
+				title: "Foto y biografia",
+				icon: "ti ti-user-circle",
+				note: "Depende de foto custom y biografia localizada.",
+				cards: [
+					["OK", "Perfil completo", "success"],
+					["Parcial", "No subio foto o usa foto por defecto", "warning"],
+					["Parcial", "Falta biografia", "warning"],
+					["Parcial", "Falta biografia y foto de perfil", "warning"]
+				]
+			},
+			{
+				key: "COUNTRIES",
+				title: "Paises",
+				icon: "ti ti-map",
+				note: "El valor es la cantidad total de paises vinculados.",
+				cards: [
+					["0", "Sin paises restringidos", "success"],
+					["1", "Sin paises restringidos", "success"],
+					["2", "1 pais restringido", "warning"],
+					["4", "3 paises restringidos", "warning"]
+				]
+			},
+			{
+				key: "INCOMPATIBILITIES",
+				title: "Limitaciones",
+				icon: "ti ti-alert-hexagon",
+				note: "El valor muestra respuestas aceptadas sobre 6 preguntas.",
+				cards: [
+					["0/6", "Incompleto: 0/6 respondidas", "warning"],
+					["4/6", "Incompleto: 4/6 respondidas", "warning"],
+					["6/6", "Todo bien", "success"],
+					["5/6", "1 limitacion declarada", "warning"],
+					["4/6", "2 limitaciones declaradas", "warning"]
+				]
+			},
+			{
+				key: "COURSE",
+				title: "Capacitacion",
+				icon: "ti ti-school",
+				note: "Si existe PDF Proctorio, manda el score. Verde: > 50. Amarillo: 31 a 50 o score no disponible. Rojo: <= 30. Si no hay PDF, manda el estado de tarea.",
+				cards: [
+					["78", "Calificacion de Proctorio", "success"],
+					["42", "Calificacion a revisar", "warning"],
+					["30", "Calificacion baja de Proctorio", "danger"],
+					["-", "Calificacion de Proctorio no disponible", "warning"],
+					["OK", "Capacitacion completada", "success"],
+					["Pendiente", "Capacitacion pendiente", "warning"],
+					["En proceso", "Capacitacion pendiente", "warning"],
+					["Omitida", "Capacitacion pendiente", "warning"]
+				]
+			},
+			{
+				key: "EVALUATION",
+				title: "Evaluacion",
+				icon: "ti ti-school",
+				note: "Misma logica de Proctorio que capacitacion. Verde: > 50. Amarillo: 31 a 50 o score no disponible. Rojo: <= 30. Si no hay PDF, muestra estado de tarea.",
+				cards: [
+					["78", "Calificacion de Proctorio", "success"],
+					["42", "Calificacion a revisar", "warning"],
+					["30", "Calificacion baja de Proctorio", "danger"],
+					["-", "Calificacion de Proctorio no disponible", "warning"],
+					["OK", "Evaluacion completada", "success"],
+					["Pendiente", "Evaluacion pendiente", "warning"],
+					["En proceso", "Evaluacion pendiente", "warning"],
+					["Omitida", "Evaluacion pendiente", "warning"]
+				]
+			},
+			{
+				key: "SUPPORTS",
+				title: "Apoyos",
+				icon: "ti ti-users",
+				note: "Cambia segun requisito: 2 o 5 apoyos de usuario, o 2 apoyos de organizacion.",
+				cards: [
+					["0/2", "Apoyos confirmados", "danger"],
+					["1/2", "Apoyos confirmados", "danger"],
+					["2/2", "Apoyos confirmados", "success"],
+					["3/5", "Apoyos confirmados", "danger"],
+					["5/5", "Apoyos confirmados", "success"],
+					["1/2", "Apoyos registrados", "danger"],
+					["2/2", "Apoyos registrados", "success"],
+					["3", "Apoyos registrados", "success"]
+				]
+			},
+			{
+				key: "OTHER_STATUTORY_QUESTIONS",
+				title: "Preguntas de la Comision Electoral",
+				icon: "ti ti-files",
+				note: "Total fijo: 4 preguntas estatutarias.",
+				cards: [
+					["0/4", "Respondidas", "warning"],
+					["2/4", "Respondidas", "warning"],
+					["4/4", "Respondidas", "success"]
+				]
+			},
+			{
+				key: "OTHER_NON_STATUTORY_QUESTIONS",
+				title: "Preguntas de la comision electoral",
+				icon: "ti ti-files",
+				note: "El total depende de la configuracion de la eleccion.",
+				cards: [
+					["0/0", "Sin preguntas configuradas", "warning"],
+					["1/3", "Respondidas", "warning"],
+					["3/3", "Respondidas", "warning"],
+					["3/3", "Respondidas", "success"]
+				]
+			},
+			{
+				key: "ORGANIZATIONS",
+				title: "Organizaciones",
+				icon: "ti ti-building",
+				note: "Siempre queda en success; 0 organizaciones se muestra como OK.",
+				cards: [
+					["OK", "Organizaciones declaradas", "success"],
+					["1", "Organizaciones declaradas", "success"],
+					["2", "Organizaciones declaradas", "success"]
+				]
+			},
+			{
+				key: "DECLARATIONS",
+				title: "Declaraciones",
+				icon: "ti ti-lock",
+				note: "Depende solo del estado de la tarea.",
+				cards: [
+					["OK", "Declaraciones completadas", "success"],
+					["Pendiente", "Declaraciones pendientes", "warning"],
+					["En proceso", "Declaraciones pendientes", "warning"],
+					["Omitida", "Declaraciones pendientes", "warning"]
+				]
+			},
+			{
+				key: "DECLARATIONS_NON_STATUTORY",
+				title: "Declaraciones (n.e)",
+				icon: "ti ti-lock",
+				note: "Solo aparece si la tarea esta habilitada y hay respuestas no estatutarias.",
+				cards: [
+					["OK", "Declaraciones completadas", "success"],
+					["Pendiente", "Declaraciones pendientes", "warning"],
+					["En proceso", "Declaraciones pendientes", "warning"],
+					["Omitida", "Declaraciones pendientes", "warning"]
+				]
+			}
+		];
+
+		const scenarioRows = [
+			{
+				key: "EJEMPLO_VALIDAS",
+				title: "Todas validas",
+				note: "Una combinacion valida por cada tipo de tarea/tarjeta.",
+				cards: [
+					{ title: "Foto y biografia", icon: "ti ti-user-circle", value: "OK", description: "Perfil completo", severity: "success" },
+					{ title: "Paises", icon: "ti ti-map", value: "1", description: "Sin paises restringidos", severity: "success" },
+					{ title: "Limitaciones", icon: "ti ti-alert-hexagon", value: "6/6", description: "Todo bien", severity: "success" },
+					{ title: "Capacitacion", icon: "ti ti-school", value: "78", description: "Calificacion de Proctorio", severity: "success" },
+					{ title: "Evaluacion", icon: "ti ti-school", value: "78", description: "Calificacion de Proctorio", severity: "success" },
+					{ title: "Apoyos", icon: "ti ti-users", value: "2/2", description: "Apoyos confirmados", severity: "success" },
+					{ title: "Preguntas de la Comision Electoral", icon: "ti ti-files", value: "4/4", description: "Respondidas", severity: "success" },
+					{ title: "Preguntas de la comision electoral", icon: "ti ti-files", value: "3/3", description: "Respondidas", severity: "success" },
+					{ title: "Organizaciones", icon: "ti ti-building", value: "OK", description: "Organizaciones declaradas", severity: "success" },
+					{ title: "Declaraciones", icon: "ti ti-lock", value: "OK", description: "Declaraciones completadas", severity: "success" },
+					{ title: "Declaraciones (n.e)", icon: "ti ti-lock", value: "OK", description: "Declaraciones completadas", severity: "success" }
+				]
+			},
+			{
+				key: "EJEMPLO_INVALIDAS",
+				title: "Todas invalidas o a revisar",
+				note: "Una combinacion no valida, pendiente o riesgosa por cada tipo. Organizaciones no tiene invalido real: siempre renderiza success en el codigo actual.",
+				cards: [
+					{ title: "Foto y biografia", icon: "ti ti-user-circle", value: "Parcial", description: "Falta biografia y foto de perfil", severity: "warning" },
+					{ title: "Paises", icon: "ti ti-map", value: "3", description: "2 paises restringidos", severity: "warning" },
+					{ title: "Limitaciones", icon: "ti ti-alert-hexagon", value: "4/6", description: "2 limitaciones declaradas", severity: "warning" },
+					{ title: "Capacitacion", icon: "ti ti-school", value: "30", description: "Calificacion baja de Proctorio", severity: "danger" },
+					{ title: "Evaluacion", icon: "ti ti-school", value: "30", description: "Calificacion baja de Proctorio", severity: "danger" },
+					{ title: "Apoyos", icon: "ti ti-users", value: "0/2", description: "Apoyos confirmados", severity: "danger" },
+					{ title: "Preguntas de la Comision Electoral", icon: "ti ti-files", value: "0/4", description: "Respondidas", severity: "warning" },
+					{ title: "Preguntas de la comision electoral", icon: "ti ti-files", value: "0/0", description: "Sin preguntas configuradas", severity: "warning" },
+					{ title: "Organizaciones", icon: "ti ti-building", value: "OK", description: "Sin estado invalido real", severity: "success" },
+					{ title: "Declaraciones", icon: "ti ti-lock", value: "Pendiente", description: "Declaraciones pendientes", severity: "warning" },
+					{ title: "Declaraciones (n.e)", icon: "ti ti-lock", value: "Pendiente", description: "Declaraciones pendientes", severity: "warning" }
+				]
+			}
+		];
+
+		function summaryCard(row, card) {
+			const normalizedCard = Array.isArray(card)
+				? { title: row.title, icon: row.icon, value: card[0], description: card[1], severity: card[2] }
+				: card;
+			const { title, icon, value, description, severity } = normalizedCard;
+			const classes = severityClass[severity];
+			return `
+				<div class="summary-card-item" data-testid="summaryCards">
+					<div data-testid="summaryCard" class="card summary-card border-0 shadow-none mb-0 ${classes.card}">
+						<div class="card-body">
+							<h5 class="mb-0" data-testid="summaryTitle">${title}</h5>
+							<div class="d-flex align-items-center gap-2 my-3">
+								<div class="avatar-md flex-shrink-0">
+									<span data-testid="summaryIconContainer" class="avatar-title rounded-circle fs-22 ${classes.icon}">
+										<i data-testid="summaryIcon" class="${icon}"></i>
+									</span>
+								</div>
+								<h3 class="mb-0" data-testid="summaryValue">${value}</h3>
+							</div>
+							<p class="mb-0 text-muted small" data-testid="summaryDescription">${description}</p>
+						</div>
+					</div>
+				</div>`;
+		}
+
+		function summaryRow(row) {
+			return `
+				<section class="summary-demo-surface">
+					<div class="d-flex align-items-start justify-content-between gap-3 flex-wrap mb-3">
+						<div class="summary-row-heading">
+							<div class="summary-section-title mb-1">${row.key}</div>
+							<h4 class="mb-1">${row.title}</h4>
+							<p class="text-muted summary-row-meta mb-0">${row.note}</p>
+						</div>
+						<span class="summary-chip">${row.cards.length} combinaciones</span>
+					</div>
+					<div class="summary-cards-scroll simplebar-scrollable-x" data-simplebar data-simplebar-auto-hide="true">
+						<div class="summary-cards-track">${row.cards.map((card) => summaryCard(row, card)).join("")}</div>
+					</div>
+				</section>`;
+		}
+
+		document.getElementById("scenarioRows").innerHTML = scenarioRows.map(summaryRow).join("");
+		document.getElementById("summaryRows").innerHTML = rows.map(summaryRow).join("");
+		document.getElementById("rowCount").textContent = rows.length;
+		document.getElementById("cardCount").textContent = rows.reduce((total, row) => total + row.cards.length, 0);
+	</script>
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+	<script src="assets/plugins/lucide/lucide.min.js"></script>
+</body>
+
+</html>

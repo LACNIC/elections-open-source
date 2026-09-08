@@ -16,7 +16,9 @@ public class LacnicAuthResponse implements Serializable {
 	private String ipAllowed;
 
 
-	public LacnicAuthResponse() { }
+	public LacnicAuthResponse() {
+		// Intencionalmente vacio: requerido para serializar/deserializar via setters.
+	}
 
 
 	public Boolean getAuthenticated() {

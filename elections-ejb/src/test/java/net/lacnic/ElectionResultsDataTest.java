@@ -9,21 +9,19 @@ import net.lacnic.elections.data.ElectionsResultsData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElectionResultsDataTest extends TestCase {
-	
-	public ElectionResultsDataTest(String testName ) {
-		super(testName);
-	}
+ class ElectionResultsDataTest extends TestCase {
 	
 	/**
      * @return the suite of tests being tested
      */
-    public static Test suite()
+     static Test suite()
     {
         return new TestSuite( ElectionResultsDataTest.class );
     }
     
-    public void testResultadoEleccionesData()
+    @org.junit.jupiter.api.Test
+    
+     void testResultadoEleccionesData()
     {
     	
     	Long availableVoters, participantVoters, percentage, total;

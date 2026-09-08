@@ -1,0 +1,68 @@
+<wicket:panel>
+	<header class="topnav">
+		<nav class="navbar navbar-expand-lg">
+			<nav class="container-fluid">
+				<div class="collapse navbar-collapse" id="topnav-menu-content" data-testid="topnav-menu-content">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" wicket:id="homeLink" data-testid="homeLink">
+								<span class="menu-icon"><i class="ti ti-home"></i></span>
+								<span class="menu-text"><wicket:message key="publicMenuHome" /></span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" wicket:id="publicElectionsLink" data-testid="publicElectionsLink">
+								<span class="menu-icon"><i class="ti ti-list-details"></i></span>
+								<span class="menu-text"><wicket:message key="publicMenuElections" /></span>
+							</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle drop-arrow-none" href="#" id="topnav-public-docs" data-testid="topnav-public-docs"
+								data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="menu-icon"><i class="ti ti-book"></i></span>
+								<span class="menu-text"><wicket:message key="publicMenuDocumentation" /></span>
+								<div class="menu-arrow"></div>
+							</a>
+							<div class="dropdown-menu" aria-labelledby="topnav-public-docs">
+								<a class="dropdown-item" wicket:id="documentationLink" data-testid="documentationLink">
+									<i class="ti ti-book-2"></i>
+									<wicket:message key="publicMenuDocumentationSystem" />
+								</a>
+								<a class="dropdown-item" wicket:id="servicesDocumentationLink" data-testid="servicesDocumentationLink">
+									<i class="ti ti-server"></i>
+									<wicket:message key="publicMenuDocumentationServices" />
+								</a>
+							</div>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle drop-arrow-none" href="#" id="topnav-public-project" data-testid="topnav-public-project"
+								data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="menu-icon"><i class="ti ti-brand-github"></i></span>
+								<span class="menu-text"><wicket:message key="publicMenuProject" /></span>
+								<div class="menu-arrow"></div>
+							</a>
+							<div class="dropdown-menu" aria-labelledby="topnav-public-project">
+								<a class="dropdown-item" wicket:id="sourceCodeLink" data-testid="sourceCodeLink" target="_blank" rel="noopener noreferrer">
+									<i class="ti ti-brand-github"></i>
+									<wicket:message key="publicMenuSourceCode" />
+								</a>
+								<a class="dropdown-item" wicket:id="releaseNotesLink" data-testid="releaseNotesLink">
+									<i class="ti ti-notes"></i>
+									<wicket:message key="publicMenuReleaseNotes" />
+								</a>
+								<a class="dropdown-item" wicket:id="licenseLink" data-testid="licenseLink">
+									<i class="ti ti-license"></i>
+									<wicket:message key="publicMenuLicense" />
+								</a>
+								<a class="dropdown-item" wicket:id="contactLink" data-testid="contactLink">
+									<i class="ti ti-mail"></i>
+									<wicket:message key="publicMenuContact" />
+								</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</nav>
+	</header>
+</wicket:panel>

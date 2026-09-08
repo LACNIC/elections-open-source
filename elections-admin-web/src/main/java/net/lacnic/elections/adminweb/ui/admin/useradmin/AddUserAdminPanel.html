@@ -1,0 +1,28 @@
+<wicket:panel>
+	<div class="card">
+		<div class="card-header">
+			<h5 id= "tituloAdministradores"  data-testid="adminUserAddTitle"><wicket:message key="adminUserAddTitle">Agregar un usuario administrador</wicket:message></h5>
+		</div>
+		<div class="card-body">
+			<form wicket:id="formUserAdmin" data-testid="formUserAdmin">
+					<div class="row g-3 align-items-end">
+						<div class="col-md-4">
+							<label class="form-label"><wicket:message key="adminUserAddUser" /></label>
+							<input type="text" id="userAdminId" class="form-control" wicket:id="userAdminId" data-testid="userAdminId" />
+						</div>
+					<div class="col-md-4">
+						<label class="form-label"><wicket:message key="adminUserAddMail" /></label>
+						<input type="email" id="email" class="form-control" wicket:id="email" data-testid="email" />
+					</div>
+						<div class="col-md-4">
+							<label class="form-label"><wicket:message key="adminUserAddPwd" /></label>
+							<input type="password" id="password" class="form-control" wicket:id="password" data-testid="password" />
+						</div>
+						<div class="col-md-4 d-grid">
+							<button class="btn btn-primary" id="addButton" type="submit" wicket:id="add" data-testid="add"><wicket:message key="adminUserAddBtnAdd" /></button>
+						</div>
+					</div>
+				</form>
+		</div>
+	</div>
+</wicket:panel>

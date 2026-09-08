@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Profile Evaluation - Mock</title>
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<script src="assets/js/config.js"></script>
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(135deg, #f6f8fb 0%, #eef3f9 100%);
+		}
+
+		.demo-pill {
+			font-size: 11px;
+			letter-spacing: .03em;
+			text-transform: uppercase;
+		}
+
+		.card-title-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: .5rem;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container py-4 py-md-5">
+		<div class="row mb-4">
+			<div class="col-12">
+				<div class="card border-0 shadow-sm">
+					<div class="card-body">
+						<h2 class="mb-1">Task: Evaluation</h2>
+						<p class="text-muted mb-3">Mock visual para definir comportamiento de vistas <strong>complete</strong>, <strong>edit</strong> y <strong>view</strong> con estados de Campus.</p>
+						<div class="d-flex flex-wrap gap-2">
+							<span class="badge bg-secondary-subtle text-secondary-emphasis demo-pill">PENDIENTE</span>
+							<span class="badge bg-info-subtle text-info-emphasis demo-pill">ENVIADO</span>
+							<span class="badge bg-warning-subtle text-warning-emphasis demo-pill">INICIADO</span>
+							<span class="badge bg-success-subtle text-success-emphasis demo-pill">COMPLETADO</span>
+							<span class="badge bg-light text-body demo-pill border">NO APLICA</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row g-4">
+			<div class="col-12 col-xl-6">
+				<div class="card h-100 shadow-sm">
+						<div class="card-header bg-white">
+							<div class="card-title-row">
+								<h5 class="card-title mb-0">Complete - Pendiente</h5>
+							</div>
+						</div>
+						<div class="card-body">
+							<p class="mb-2"><span class="fw-semibold">Estado:</span> <span class="badge bg-secondary-subtle text-secondary-emphasis">PENDIENTE</span></p>
+							<div class="alert alert-warning mb-3">Para dar por completada esta tarea debe completar el curso en el campus.</div>
+							<div class="alert alert-warning mb-3">También es necesario que complete la evaluación.</div>
+							<p class="mb-3">Solicite sus credenciales de acceso para ingresar al campus, completar el curso y dar por finalizada esta tarea. Para comenzar, haga clic en "Inscribir al curso y enviar credenciales".</p>
+							<div class="d-flex justify-content-end gap-2">
+								<button class="btn btn-outline-light">Volver</button>
+								<button class="btn btn-success">Inscribir al curso y enviar credenciales</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<div class="col-12 col-xl-6">
+				<div class="card h-100 shadow-sm">
+						<div class="card-header bg-white">
+							<div class="card-title-row">
+								<h5 class="card-title mb-0">Edit - Pendiente (con Reenviar)</h5>
+							</div>
+						</div>
+						<div class="card-body">
+							<p class="mb-2"><span class="fw-semibold">Estado:</span> <span class="badge bg-secondary-subtle text-secondary-emphasis">PENDIENTE</span></p>
+							<div class="alert alert-warning mb-3">Para dar por completada esta tarea debe completar el curso en el campus.</div>
+							<div class="alert alert-warning mb-3">También es necesario que complete la evaluación.</div>
+							<p class="mb-3">Solicite sus credenciales de acceso para ingresar al campus, completar el curso y dar por finalizada esta tarea. Para comenzar, haga clic en "Inscribir al curso y enviar credenciales".</p>
+							<div class="d-flex justify-content-end gap-2">
+								<button class="btn btn-outline-light">Volver</button>
+								<button class="btn btn-success">Reenviar solicitud</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<div class="col-12 col-xl-6">
+				<div class="card h-100 shadow-sm">
+						<div class="card-header bg-white">
+							<div class="card-title-row">
+								<h5 class="card-title mb-0">View - Enviado</h5>
+							</div>
+						</div>
+							<div class="card-body">
+								<p class="mb-2"><span class="fw-semibold">Estado:</span> <span class="badge bg-info-subtle text-info-emphasis">ENVIADO</span></p>
+								<div class="alert alert-warning mb-3">Para dar por completada esta tarea debe completar el curso en el campus.</div>
+								<div class="d-flex justify-content-end gap-2">
+									<button class="btn btn-outline-light">Volver</button>
+								</div>
+						</div>
+					</div>
+				</div>
+
+			<div class="col-12 col-xl-6">
+				<div class="card h-100 shadow-sm border-warning">
+						<div class="card-header bg-white">
+							<div class="card-title-row">
+								<h5 class="card-title mb-0">Edit - Iniciado (sin Reenviar)</h5>
+							</div>
+						</div>
+							<div class="card-body">
+								<p class="mb-2"><span class="fw-semibold">Estado:</span> <span class="badge bg-warning-subtle text-warning-emphasis">INICIADO</span></p>
+								<div class="alert alert-warning mb-3">Para dar por completada esta tarea debe completar el curso en el campus.</div>
+							<div class="alert alert-warning mb-3">También es necesario que complete la evaluación.</div>
+							<div class="d-flex justify-content-end gap-2 mt-3">
+								<button class="btn btn-outline-light">Volver</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<div class="col-12 col-xl-6">
+				<div class="card h-100 shadow-sm border-success">
+						<div class="card-header bg-white">
+							<div class="card-title-row">
+								<h5 class="card-title mb-0">View - Completado</h5>
+							</div>
+						</div>
+							<div class="card-body">
+								<p class="mb-2"><span class="fw-semibold">Estado:</span> <span class="badge bg-success-subtle text-success-emphasis">COMPLETADO</span></p>
+								<div class="alert alert-success mb-0">Requisito del curso completado correctamente.</div>
+								<div class="d-flex justify-content-end gap-2 mt-3">
+									<button class="btn btn-outline-light">Volver</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+			<div class="col-12 col-xl-6">
+				<div class="card h-100 shadow-sm border-light">
+						<div class="card-header bg-white">
+							<div class="card-title-row">
+								<h5 class="card-title mb-0">View - No aplica</h5>
+							</div>
+						</div>
+							<div class="card-body">
+								<p class="mb-2"><span class="fw-semibold">Estado:</span> <span class="badge bg-light text-body border">NO APLICA</span></p>
+								<div class="alert alert-light mb-0">Para este caso no se requiere acción adicional en campus.</div>
+								<div class="d-flex justify-content-end gap-2 mt-3">
+									<button class="btn btn-outline-light">Volver</button>
+								</div>
+							</div>
+						</div>
+				</div>
+
+			<div class="col-12 col-xl-6">
+				<div class="card h-100 shadow-sm">
+						<div class="card-header bg-white">
+							<div class="card-title-row">
+								<h5 class="card-title mb-0">Edit - Enviado (sin Reenviar)</h5>
+							</div>
+						</div>
+						<div class="card-body">
+							<p class="mb-2"><span class="fw-semibold">Estado:</span> <span class="badge bg-info-subtle text-info-emphasis">ENVIADO</span></p>
+							<div class="alert alert-warning mb-3">Para dar por completada esta tarea debe completar el curso en el campus.</div>
+						<div class="alert alert-light mb-3">Estado actual: <strong>ENVIADO</strong>. No se muestra botón de reenvío (solo aplica en pendiente).</div>
+						<div class="d-flex justify-content-end gap-2">
+							<button class="btn btn-outline-light">Volver</button>
+							<button class="btn btn-success">valdiar estado del curso</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.min.js"></script>
+</body>
+
+</html>

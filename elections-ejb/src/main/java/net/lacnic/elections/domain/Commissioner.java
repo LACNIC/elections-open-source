@@ -2,12 +2,12 @@ package net.lacnic.elections.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Commissioner implements Serializable {
@@ -26,9 +26,9 @@ public class Commissioner implements Serializable {
 	@Column(nullable = false)
 	private String mail;
 
-
-	public Commissioner() { }
-
+	public Commissioner() {
+		// Intencionalmente vacio: JPA lo requiere para materializar la entidad.
+	}
 
 	public long getCommissionerId() {
 		return commissionerId;

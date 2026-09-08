@@ -1,30 +1,32 @@
 ---
 layout: default
 title: Sistema Elecciones
-link_logo: http://elecciones-demo.lacnic.net.uy/elections
-link_title: http://elecciones-demo.lacnic.net.uy/elections
-link_repo: https://github.com/LACNIC/elections-open-source
 ---
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox">
             <div class="ibox-title">
-                <h1>{{ "Armado manual del ambiente" }}</h1>
+                <h1>{{ "Instanciación del Sistema de Elecciones" }}</h1>
             </div>
             <div class="ibox-content">
-                <p class="paragraph vertical-space">En esta sección se detallan los pasos para la instalación manual del sistema de elecciones. Se detallan instrucciones para los sistemas operativos <b>Ubuntu Server 18</b>, <b>Debian 10</b> y <b>CentOS/RedHat 7</b>. En los tres casos se asume que partimos de una instalación limpia del sistema operativo. Para ejecutar los pasos se necesario un usuario del sistema con permiso sudo.</p>
+                <p class="paragraph vertical-space">La forma vigente de instanciar el Sistema de Elecciones es mediante Docker, usando los archivos disponibles en la carpeta <code>dockers</code>. El contenedor ejecuta WildFly 34 con JDK 17, copia los artefactos generados por Maven y toma la configuración operativa desde variables de ambiente y parámetros persistidos en PostgreSQL.</p>
+                <p class="paragraph">El repositorio ofrece dos perfiles. <b>Fresh</b> construye la aplicación y levanta PostgreSQL y Mailpit para evaluación, desarrollo o como referencia de una instalación nueva. El <b>Compose tradicional</b> ejecuta una imagen ya publicada y se conecta a servicios externos; es una base para producción, pero cada organización debe endurecerla con PostgreSQL y SMTP productivos, gestión de secretos, backups, monitoreo y un reverse proxy con TLS.</p>
+                <p class="paragraph">Una organización independiente puede operar con autenticación local, carga manual de organizaciones y padrón, sin Campus y sin asistencia de IA. Las integraciones históricas PAI, Campus y external sync son opcionales.</p>
+                <p class="paragraph">La instalación manual de WildFly queda como alternativa avanzada para ambientes puntuales. Docker es el mecanismo soportado de instanciación y los scripts de base versionados se mantienen en <code>release-files/</code>.</p>
                 <p class="paragraph">Los pasos a ejecutar son los siguientes:</p>
                 <ol class="paragraph">
                     <li><a href="#cloneRepo">Clonar repositorio</a></li>
-                    <li><a href="#auxiliares">Instalación de prerrequisitos</a></li>
-                    <li><a href="#java">Instalación de Java 8</a></li>
-                    <li><a href="#wildfly">Instalación de WildFly 20</a></li>
-                    <li><a href="#postgres">Instalación de PostgreSQL 12</a></li>
-                    <li><a href="#setupDB">Creación de la base de datos</a></li>
-                    <li><a href="#setupDBWildfly">Configuración de acceso a base de datos en Wildfly</a></li>
-                    <li><a href="#deploy">Empaquetado y publicación</a></li>
-                    <li><a href="#configuracion">Configuración inicial</a></li>
-                    <li><a href="#proxy">Reverse Proxy</a></li>
+                    <li><a href="#prerreq">Prerrequisitos</a></li>
+                    <li><a href="#fresh">Arranque autocontenido</a></li>
+                    <li><a href="#database">Preparar una base de datos externa</a></li>
+                    <li><a href="#authentication">Configurar el primer login administrativo</a></li>
+                    <li><a href="#environment">Configurar variables de ambiente</a></li>
+                    <li><a href="#buildImage">Compilar y construir imagen</a></li>
+                    <li><a href="#dockerRun">Levantar con Docker Compose</a></li>
+                    <li><a href="#remoteDeploy">Despliegue remoto</a></li>
+                    <li><a href="#manualWildfly">Alternativa manual con WildFly</a></li>
+                    <li><a href="#validacion">Validación inicial</a></li>
+                    <li><a href="#proxy">Reverse proxy</a></li>
                 </ol>
             </div>
         </div>
@@ -38,315 +40,249 @@ link_repo: https://github.com/LACNIC/elections-open-source
                 <h2>{{ "1. Clonar repositorio" }}</h2>
             </div>
             <div class="ibox-content">
-                <p class="paragraph">Antes de comenzar, si ya no lo hizo, clone el repositorio git del Sistema de Elecciones:</p>
-                <ul class="paragraph vertical-space">
-                    <li>Ubuntu / Debian: <code>sudo apt-get install git</code></li>
-                    <li>CentOS / RedHat: <code>sudo yum install git</code></li>
-                </ul>
-                <p class="paragraph">Luego cree un directorio y desde ahí clone el repositorio:</p>
-                <ul class="paragraph vertical-space">
-                    <li><code>git clone https://github.com/LACNIC/elections-open-source</code></li>
-                </ul>
-                <p class="paragraph">A lo largo de esta guía se hará referencia a muchos recursos (librerías, archivos de configuración, etc) disponibles en el repositorio.</p>
+                <p class="paragraph">Clone el repositorio original o el fork mantenido por su organización en el servidor o workspace desde donde va a construir la imagen:</p>
+                <pre><code>git clone --branch develop-v3-snapshot --single-branch https://github.com/LACNIC/elections-open-source.git
+cd elections-open-source</code></pre>
+                <p class="paragraph">Todos los comandos de esta guía se ejecutan desde la raíz del repositorio, salvo que se indique otro directorio.</p>
             </div>
         </div>
     </div>
 </div>
 
-<div id="auxiliares" class="row">
+<div id="prerreq" class="row">
     <div class="col-lg-12">
         <div class="ibox">
             <div class="ibox-title">
-                <h2>{{ "2. Instalación de prerrequisitos" }}</h2>
+                <h2>{{ "2. Prerrequisitos" }}</h2>
             </div>
             <div class="ibox-content">
-                <p class="paragraph vertical-space">Para el empaquetado y ejecución del sistema es necesario instalar algunos paquetes de software requeridos.</p>
-                <h3>Ubuntu / Debian:</h3>
-                <ol class="paragraph vertical-space">
-                    <li>Actualizar paquetes a la última versión: <code>sudo apt-get update && sudo apt-get upgrade</code></li>
-                    <li>Instalar paquetes: <code>sudo apt-get install unzip maven curl</code></li>
-                </ol>
-
-                <h3>CentOS / RedHat:</h3>
-                <ol class="paragraph">
-                    <li>Actualizar paquetes a la última versión: <code>sudo yum update</code></li>
-                    <li>Instalar paquetes: <code>sudo yum install unzip curl wget nano</code></li>
-                    <li>En este caso, para Maven realizamos la instalación manual de la versión 3.6.3 debido a que la instalación con <code>yum</code> instala la versión 3.0 y no es posible compilar el proyecto.
-                        <ol class="paragraph" type="i">
-                            <li>Descargar los binarios: <code>sudo wget https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp</code></li>
-                            <li>Descomprimirlos: <code>sudo tar xf /tmp/apache-maven-3.6.3-bin.tar.gz -C /opt</code></li>
-                            <li>Crear symlink en <code>/opt/maven</code>: <code>sudo ln -s /opt/apache-maven-3.6.3 /opt/maven</code></li>
-                            <li>Crear el archivo <code>maven.sh</code> (<code>sudo nano /etc/profile.d/maven.sh</code>) y agregar las líneas:<br>
-                                <code>export JAVA_HOME=/usr/lib/jvm/jre-openjdk</code><br>
-                                <code>export M2_HOME=/opt/maven</code><br>
-                                <code>export MAVEN_HOME=/opt/maven</code><br>
-                                <code>export PATH=${M2_HOME}/bin:${PATH}</code>
-                            </li>
-                            <li>Dar permisos de ejecución: <code>sudo chmod +x /etc/profile.d/maven.sh</code></li>
-                            <li>Ejecutar: <code>source /etc/profile.d/maven.sh</code></li>
-                        </ol>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="java" class="row">
-    <div class="col-lg-12">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h2>{{ "3. Instalación de Java 8" }}</h2>
-            </div>
-            <div class="ibox-content">
-                <p class="paragraph vertical-space">Es importante recalcar que la versión de Java debe ser 8, en versiones posteriores se requiere revisar las dependencias y versiones del compilador de Maven.</p>
-                <h3>Ubuntu:</h3>
-                <ol class="paragraph vertical-space">
-                    <li>Instalar Java 8: <code>sudo apt-get install openjdk-8-jdk</code></li>
-                </ol>
-                <h3>Debian:</h3>
-                <ol class="paragraph vertical-space">
-                    <li>Instalar GNU Privacy Guard y Software Properties Common: <code>sudo apt-get install gnupg software-properties-common</code></li>
-                    <li>Importar llave del repositorio AdoptOpenJDK: <code>wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -</code></li>
-                    <li>Instalar el repositorio: <code>sudo add-apt-repository "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb buster main"</code></li>
-                    <li>Actualizar el índice de paquetes: <code>sudo apt-get update</code></li>
-                    <li>Instalar Java 8: <code>sudo apt-get install adoptopenjdk-8-hotspot</code></li>
-                </ol>
-                <h3>CentOS / RedHat:</h3>
-                <ol class="paragraph">
-                    <li>Instalar Java 8: <code>sudo yum install openjdk-8-jdk</code></li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="wildfly" class="row">
-    <div class="col-lg-12">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h2>{{ "4. Instalación de WildFly 20" }}</h2>
-            </div>
-            <div class="ibox-content">
-                <p class="paragraph vertical-space">Como servidor de aplicación se utilizará WildFly 20.0.1. El proceso de instalación es el mismo en todos los casos:</p>
-                <ol class="paragraph vertical-space">
-                    <li>Crear grupo y usuario:
-                        <ul>
-                            <li><code>sudo groupadd jboss</code></li>
-                            <li><code>sudo useradd -g jboss jboss</code></li>
-                        </ul>
-                    </li>
-                    <li>Descargar WildFly 20: <code>wget https://download.jboss.org/wildfly/20.0.1.Final/wildfly-20.0.1.Final.zip -P /tmp</code></li>
-                    <li>Descromprimirlo en <code>/opt</code>: <code>sudo unzip  /tmp/wildfly-20.0.1.Final.zip -d /opt/</code></li>
-                    <li>Crear symlink en <code>/opt/wildfly</code>: <code>sudo ln -s /opt/wildfly-20.0.1.Final /opt/wildfly</code></li>
-                    <li>Hacer a <code>jboss</code> dueño de la instalación de WildFly: <code>sudo chown -R jboss:jboss /opt/wildfly</code></li>
-                    <li>Respaldar la configuración inicial: <code>sudo cp /opt/wildfly/standalone/configuration/standalone.xml /opt/wildfly/standalone/configuration/standalone.xml.original</code></li>
-                    <li>Crear servicio
-                        <ol class="paragraph" type="i">
-                            <li>Crear archivo de servicio: <code>sudo nano /etc/systemd/system/jboss.service</code></li>
-                            En el directorio <code>ansible/roles/elections/templates</code> del repositorio se encuentran los templates <code>systemd_jboss_debian.j2</code>, <code>systemd_jboss_ubuntu.j2</code> y <code>systemd_jboss_rh-centos.j2</code>, a los que sólo hay que modificar los valores de mínimo y máximo para el tamaño del heap. Use el que corresponda según su sistema operativo.
-                            </li>
-                            <li>Iniciar el servicio: <code>sudo systemctl start jboss</code></li>
-                            <li>Activar el inicio automático del servicio: <code>sudo systemctl enable jboss</code></li>
-                        </ol>
-                    </li>
-                    <li id="wildflyadminuser">
-                        Si planea utilizar Maven para la publicación de los artefactos (ver sección <a href="#publish">Publicación</a>), deberá crear un usuario de administración WildFly. Para esto, ejecutar el siguiente comando y seguir los pasos: <code>sudo /opt/wildfly/bin/add-user.sh</code>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="postgres" class="row">
-    <div class="col-lg-12">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h2>{{ "5. Instalación de PostgreSQL 12" }}</h2>
-            </div>
-            <div class="ibox-content">
-                <p class="paragraph vertical-space">Como servidor de base de datos utilizaremos PostgreSQL 12. A continuación se detallan las actividades para la instalación y configuración.</p>
-                <h3>Ubuntu:</h3>
-                <ol class="paragraph vertical-space">
-                    <li>Crear grupo y usuario:
-                        <ol class="paragraph" type="i">
-                            <li><code>sudo groupadd postgres</code></li>
-                            <li><code>sudo useradd -g postgres postgres</code></li>
-                        </ol>
-                    </li>
-                    <li>Importar llave del repositorio: <code>wget -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -</code></li>
-                    <li>Instalar repositorio: <code>sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main"</code></li>
-                    <li>Actualizar el índice de paquetes: <code>sudo apt-get update</code></li>
-                    <li>Instalar PostgreSQL 12 y requisitos: <code>sudo apt-get install postgresql-12 postgresql-client-12 libpq-dev python-psycopg2</code></li>
-                    <li>Crear un usuario de base de datos para la aplicación:
-                        <ol class="paragraph" type="i">
-                            <li>Cambiar a usuario postgres:<code>sudo su - postgres</code></li>
-                            <li>Crear el usuario: <code>createuser &lt;usuario&gt; --password</code></li>
-                            <li>Setear contraseña para el usuario: <code>psql -c "alter user &lt;usuario&gt; with password '&lt;contraseña&gt;'"</code></li>
-                        </ol>
-                    </li>
-                </ol>
-
-                <h3>Debian:</h3>
-                <ol class="paragraph vertical-space">
-                    <li>Crear grupo y usuario:
-                        <ol class="paragraph" type="i">
-                            <li><code>sudo groupadd postgres</code></li>
-                            <li><code>sudo useradd -g postgres postgres</code></li>
-                        </ol>
-                    </li>
-                    <li>Importar llave del repositorio: <code>wget -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -</code></li>
-                    <li>Instalar repositorio: <code>sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main"</code></li>
-                    <li>Actualizar el índice de paquetes: <code>sudo apt-get update</code></li>
-                    <li>Instalar PostgreSQL 12 y requisitos: <code>sudo apt-get install postgresql-12 postgresql-client-12 libpq-dev python-psycopg2</code></li>
-                    <li>Crear un usuario de base de datos para la aplicación:
-                        <ol class="paragraph" type="i">
-                            <li>Cambiar a usuario postgres:<code>sudo su - postgres</code></li>
-                            <li>Crear el usuario: <code>createuser &lt;usuario&gt; --password</code></li>
-                            <li>Setear contraseña para el usuario: <code>psql -c "alter user &lt;usuario&gt; with password '&lt;contraseña&gt;'"</code></li>
-                        </ol>
-                    </li>
-                </ol>
-
-                <h3>CentOS / RedHat:</h3>
-                <ol class="paragraph vertical-space">
-                    <li>Crear grupo y usuario:
-                        <ol class="paragraph" type="i">
-                            <li><code>sudo groupadd postgres</code></li>
-                            <li><code>sudo useradd -g postgres postgres</code></li>
-                        </ol>
-                    </li>
-                    <li>Instalar repositorio: <code>sudo yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm</code></li>
-                    <li>Instalar PostgreSQL 12 y requisitos: <code>sudo yum install postgresql-12 postgresql12-server postgresql12-libs python-psycopg2</code></li>
-                    <li>Configuración inicial del servidor: <code>sudo /usr/pgsql-12/bin/postgresql-12-setup initdb</code></li>
-                    <li>Configurar PostgreSQL para acceso con usuario y contraseña para conexiones locales:
-                        <ol class="paragraph" type="i">
-                            <li>Respaldar la configuración inicial de acceso: <code>sudo cp /var/lib/pgsql/12/data/pg_hba.conf /var/lib/pgsql/12/data/pg_hba.conf.original</code></li>
-                            <li>Tomar el archivo <code>ansible/roles/elections/files/db/pg_hba.conf</code> del repositorio y copiarlo en <code>/var/lib/pgsql/12/data/pg_hba.conf</code></li>
-                        </ol>
-                    </li>
-                    <li>Iniciar el servicio: <code>sudo systemctl start postgresql-12</code></li>
-                    <li>Activar el inicio automático del servicio: <code>sudo systemctl enable postgresql-12</code></li>
-                    <li>Crear un usuario de base de datos para la aplicación:
-                        <ol class="paragraph" type="i">
-                            <li>Cambiar a usuario postgres:<code>sudo su - postgres</code></li>
-                            <li>Crear el usuario: <code>createuser &lt;usuario&gt; --password</code></li>
-                            <li>Setear contraseña para el usuario: <code>psql -c "alter user &lt;usuario&gt; with password '&lt;contraseña&gt;'"</code></li>
-                        </ol>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="setupDB" class="row">
-    <div class="col-lg-12">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h2>{{ "6. Creación de la base de datos" }}</h2>
-            </div>
-            <div class="ibox-content">
-                <p class="paragraph">A continuación se detallan las tareas para levantar un dump inicial de la base de datos del sistema. El proceso es el mismo en todos los casos:</p>
-                <ol class="paragraph vertical-space">
-                    <li>Copiar el dump del repositorio (<code>ansible/roles/elections/files/db/elections.zip</code>) a <code>/opt/dumps/</code></li>
-                    <li>Descromprimirlo: <code>sudo unzip elections.zip</code></li>
-                    <li>Cambiar a usuario postgres: <code>sudo su - postgres</code></li>
-                    <li>Crear la base de datos <code>elections</code> con el usuario <code>&lt;usuario&gt;</code> como dueño: <code>createdb elections -O &lt;usuario&gt;</code></li>
-                    <li>Restaurar el dump inicial: <code>psql -U postgres -d elections /opt/dumps/elections.sql</code></li>
-                    <li>Configurar permisos sobre la base de datos:
-                        <ol class="paragraph" type="i">
-                            <li>Conectarse a la base con el usuario <code>postgres</code>: <code>psql -d elections</code>. Ejecutar las siguientes sentencias:</li>
-                            <li><code>GRANT USAGE ON SCHEMA public TO &lt;usuario&gt;;</code></li>
-                            <li><code>GRANT ALL PRIVILEGES ON DATABASE elections TO &lt;usuario&gt;;</code></li>
-                            <li><code>GRANT SELECT, USAGE ON ALL SEQUENCES IN SCHEMA public TO &lt;usuario&gt;;</code></li>
-                            <li><code>GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO &lt;usuario&gt;;</code></li>
-                        </ol>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="setupDBWildfly" class="row">
-    <div class="col-lg-12">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h2>{{ "7. Configuración de acceso a base de datos en Wildfly" }}</h2>
-            </div>
-            <div class="ibox-content">
-                <p class="paragraph">Para que la aplicación se pueda conectar a la base de datos, es necesario instalar el driver de PostgreSQL y crear el datasource en WildFly. El procedimiento es el mismo en todos los casos:</p>
-                <ol class="paragraph">
-                    <li>Detener el servicio del WildFly: <code>sudo service jboss stop</code>.</li>
-                    <li>Copiar el driver de PostgreSQL del repositorio (<code>ansible/roles/elections/files/postgresql-42.2.16.jar</code>) a <code>/opt/wildfly/standalone/deployments/</code>.</li>
-                    <li>Copiar los módulos <code>jxl</code>, <code>ipresource</code> y <code>commons-validator</code> del repositorio (<code>ansible/roles/elections/files/modules/</code>) a <code>/opt/wildfly/modules/system/layers/base/</code> (copiar la estructura de directorios tal cual está en el repositorio).</li>
-                    <li>Agregar el datasource en <code>/opt/wildfly/standalone/configuration/standalone.xml</code>, puede basarse en el archivo <code>ansible/roles/elections/templates/standalone.xml.j2</code> del repositorio.</li>
-                    <li>Levantar el servicio del WildFly: <code>sudo service jboss start</code></li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="deploy" class="row">
-    <div class="col-lg-12">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h2>{{ "8. Empaquetado y publicación" }}</h2>
-            </div>
-            <div class="ibox-content">
-                <p class="paragraph">El Sistema de Elecciones consiste de 3 artefactos a publicar en el servidor WildFly:</p>
+                <p class="paragraph">Para instanciar el sistema con Docker se requiere:</p>
                 <ul class="paragraph">
-                    <li><code>elections-ejb.jar</code></li>
-                    <li><code>elections-ws.war</code></li>
-                    <li><code>elections.war</code></li>
+                    <li>Docker con soporte para <code>docker build</code> y <code>docker compose</code>.</li>
+                    <li>Para el perfil tradicional, acceso al registry usado por la instalación o una imagen cargada localmente.</li>
+                    <li>Para el perfil tradicional, una base PostgreSQL accesible desde el contenedor.</li>
+                    <li>Variables de ambiente completas para el datasource. La integración PAI es opcional: una organización independiente puede usar autenticación local.</li>
                 </ul>
-                <p class="paragraph vertical-space">Los procedimientos para empaquetado y publicación son los mismos en todos los casos.</p>
-
-                <h3>Empaquetado:</h3>
-                <p class="paragraph">En el directorio <code>ansible/roles/elections/files/deployments</code> del repositorio se encuentran los artefactos ya generados.</p>
-                <p class="paragraph">También puede generarlos a partir del código fuente. Para esto, desde el directorio raíz del repositorio ejecute el siguiente comando Maven: <code>sudo mvn clean package</code></p>
-                <p class="paragraph vertical-space">Esto generará los 3 artefactos en los directorios <code>&lt;artefacto&gt;/target</code>.</p>
-
-                <h3 id="publish">Publicación:</h3>
-                <p class="paragraph">Para publicarlos, alcanza con copiarlos al directorio <code>/opt/wildfly/standalone/deployments/</code> y WildFly hace el despliegue automáticamente.</p>
-                <p class="paragraph">También puede usar Maven para la publicación. Para eso el procedimiento es el siguiente:</p>
-                <ol class="paragraph vertical-space">
-                    <li>
-                        Editar el archivo <code>sudo nano /etc/maven/settings.xml</code> y agregar el servidor WildFly. Para esto, dentro del tag <code>&lt;servers&gt;</code> agregar:<br>
-                        <code>
-                        &lt;server&gt;<br>
-                        &nbsp;&nbsp;&lt;id&gt;wildfly-elections&lt;/id&gt;<br>
-                        &nbsp;&nbsp;&lt;username&gt;usuario&lt;/username&gt;<br>
-                        &nbsp;&nbsp;&lt;password&gt;contraseña&lt;/password&gt;<br>
-                        &lt;/server&gt;
-                        </code>
-                        <br>
-                        Los valores de usuario y contraseña corresponden al usuario de administración de WildFly <a href="#wildflyadminuser">creado anteriormente</a>.
-                    </li>
-                    <li>
-                        Ejecutar el siguiente comando Maven para publicar los artefactos:<br>
-                        <code>sudo mvn wildfly:deploy-only -Dwildfly.id=wildfly-elections -Dwildfly.hostname=localhost -Dwildfly.port=9990</code><br>
-                        El parámetro <code>wildfly.id</code> se corresponde con el <code>&lt;id&gt;</code> del paso anterior.
-                    </li>
-                </ol>
-                <p class="paragraph">Luego de publicados los artefactos, el sistema ya está operativo y accesible en <code>http://&lt;ip-servidor&gt;:8080/elections</code>.</p>
+                <p class="paragraph"><code>docker-fresh.sh</code> compila con Maven dentro de Docker, por lo que el host no necesita Java ni Maven. Para compilar directamente en el host se requieren Java 17 y Maven 3.9 o compatible.</p>
             </div>
         </div>
     </div>
 </div>
 
-<div id="configuracion" class="row">
+<div id="fresh" class="row">
     <div class="col-lg-12">
         <div class="ibox">
             <div class="ibox-title">
-                <h2>{{ "9. Configuración inicial" }}</h2>
+                <h2>{{ "3. Arranque autocontenido" }}</h2>
             </div>
             <div class="ibox-content">
-                <p class="paragraph">Antes de comenzar a usar el sistema, son necesarias algunas tareas iniciales de configuación.</p>
-                <p class="paragraph">Estas tareas se detallan en el siguiente <a href='assets/images/EleccionesConfiguracionInicial.pdf' target="_blank">documento</a>.</p>
+                <p class="paragraph">Este es el camino recomendado para verificar una copia nueva del proyecto. Crea una base PostgreSQL persistente, aplica los SQL de referencia, crea la personalización inicial y el primer administrador, configura autenticación local <code>APP</code> y levanta Mailpit para inspeccionar el correo saliente.</p>
+                <pre><code>cp dockers/.env.example dockers/.env
+# Edite dockers/.env y cambie, como mínimo, contraseñas, correo, nombre y URL.
+./dockers/docker-fresh.sh up</code></pre>
+                <p class="paragraph">La aplicación queda en <code>http://localhost:8098/elections</code> y Mailpit en <code>http://localhost:8025</code>, salvo que se cambien los puertos en <code>.env</code>. <code>./dockers/docker-fresh.sh down</code> detiene los servicios conservando la base; <code>reset</code> elimina el volumen y vuelve a crearla, por lo que destruye los datos de esa instancia.</p>
+                <p class="paragraph"><b>No publique este perfil directamente en Internet.</b> Expone puertos de PostgreSQL y Mailpit, usa valores de ejemplo y no incorpora TLS. Úselo para evaluación/desarrollo o como modelo que debe adaptarse antes de producción.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="database" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "4. Preparar una base de datos externa" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Esta sección corresponde al Compose tradicional o a una arquitectura productiva. En ese perfil el contenedor de aplicación no crea la base: debe existir una base PostgreSQL y el usuario configurado debe tener permisos suficientes sobre el esquema <code>public</code>. El perfil fresh sí automatiza esta inicialización.</p>
+                <p class="paragraph">Para una base nueva, los archivos versionados que representan la estructura y datos base actuales son:</p>
+                <ul class="paragraph">
+                    <li><code>release-files/ref/elections_schema_new.sql</code></li>
+                    <li><code>release-files/ref/parameter_NEW.sql</code></li>
+                    <li><code>release-files/ref/electionemailtemplate_NEW.sql</code></li>
+                </ul>
+                <p class="paragraph">Ejemplo de inicialización:</p>
+                <pre><code>createdb elections
+psql -v ON_ERROR_STOP=1 -d elections -f release-files/ref/elections_schema_new.sql
+psql -v ON_ERROR_STOP=1 -d elections -f release-files/ref/parameter_NEW.sql
+psql -v ON_ERROR_STOP=1 -d elections -f release-files/ref/electionemailtemplate_NEW.sql
+psql -v ON_ERROR_STOP=1 -d elections -c "SELECT setval('public.electionemailtemplate_seq', COALESCE((SELECT MAX(electionemailtemplate_id) FROM public.electionemailtemplate), 500), EXISTS (SELECT 1 FROM public.electionemailtemplate));"</code></pre>
+                <p class="paragraph">Revise los parámetros cargados antes de usar la instancia: los archivos base incluyen URLs, tokens y valores por defecto que pueden corresponder a ambientes de desarrollo o test.</p>
+                <p class="paragraph">Estos archivos no crean usuarios administrativos. Antes del primer login debe elegir el mecanismo de autenticación y, si usa cuentas locales, aprovisionar el primer administrador como se explica en la siguiente sección.</p>
+                <p class="paragraph">Si la base proviene de una versión anterior, no use los archivos de referencia como migración. Siga la <a href="{{site.baseurl}}/update.html">guía de actualización</a> y aplique los scripts de <code>release-files</code> en el orden correspondiente.</p>
+                <p class="paragraph">Para una base nueva use el perfil Docker autocontenido. Para actualizar una instalación existente, aplique la cadena correspondiente de <code>release-files/</code> siguiendo la guía de actualización.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="authentication" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "5. Configurar el primer login administrativo" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">El parámetro <code>WS_AUTH_METHOD</code> se guarda en la tabla <code>parameter</code> y controla el login web y la autenticación REST. Para una organización que no dispone de PAI, el valor correcto es <code>APP</code>. En este modo el login usa las cuentas de la tabla <code>useradmin</code>.</p>
+                <p class="paragraph">Confirme el modo local:</p>
+                <pre><code>psql -v ON_ERROR_STOP=1 -d elections &lt;&lt;'SQL'
+INSERT INTO public.parameter ("key", value)
+VALUES ('WS_AUTH_METHOD', 'APP')
+ON CONFLICT ("key") DO UPDATE SET value = EXCLUDED.value;
+SQL</code></pre>
+                <p class="paragraph">Luego cree el primer administrador. El login vigente compara un hash SHA-256 en mayúsculas. El siguiente ejemplo evita incluir la contraseña en el SQL o en el historial de comandos; cambie usuario, correo y parámetros de conexión:</p>
+                <pre><code>export INITIAL_ADMIN_USER='admin-organizacion'
+export INITIAL_ADMIN_EMAIL='admin@example.org'
+read -r -s -p 'Contraseña inicial: ' INITIAL_ADMIN_PASSWORD
+echo
+INITIAL_ADMIN_PASSWORD_HASH="$(printf '%s' "$INITIAL_ADMIN_PASSWORD" | sha256sum | awk '{print toupper($1)}')"
+
+psql -v ON_ERROR_STOP=1 -d elections \
+  --set=admin_user="$INITIAL_ADMIN_USER" \
+  --set=admin_email="$INITIAL_ADMIN_EMAIL" \
+  --set=admin_password_hash="$INITIAL_ADMIN_PASSWORD_HASH" &lt;&lt;'SQL'
+INSERT INTO public.useradmin (useradmin_id, email, password)
+VALUES (lower(:'admin_user'), lower(:'admin_email'), :'admin_password_hash')
+ON CONFLICT (useradmin_id) DO UPDATE
+SET email = EXCLUDED.email,
+    password = EXCLUDED.password;
+SQL
+
+unset INITIAL_ADMIN_PASSWORD INITIAL_ADMIN_PASSWORD_HASH</code></pre>
+                <p class="paragraph">Esta operación crea la cuenta o restablece la cuenta indicada si ya existía. Ejecútela únicamente desde un host administrativo y no guarde la contraseña en el repositorio. El flujo <code>docker-fresh.sh</code> realiza automáticamente el mismo aprovisionamiento usando <code>FRESH_ADMIN_USER</code>, <code>FRESH_ADMIN_PASSWORD</code> y <code>FRESH_ADMIN_EMAIL</code>.</p>
+                <p class="paragraph">Una vez desplegada la aplicación, abra <code>https://&lt;servidor&gt;/elections/login</code> o, localmente, <code>http://localhost:8098/elections/login</code>. En modo <code>APP</code> el campo TOTP se deja vacío. Después del acceso, use el menú <b>Administradores</b> para crear una segunda cuenta, actualizar correos, cambiar contraseñas y retirar la cuenta temporal cuando corresponda.</p>
+                <p class="paragraph"><b>Importante:</b> todos los administradores locales reciben actualmente permisos administrativos completos, incluidos <code>elections-manager</code> y <code>elections-deleter</code>. No existe recuperación autoservicio de contraseña; conserve al menos dos cuentas controladas. Si se pierde la única cuenta, un operador de base debe ejecutar nuevamente el procedimiento anterior.</p>
+                <p class="paragraph">El modo externo actual está acoplado al contrato de PAI y a los roles esperados por Elecciones. No hay soporte genérico listo para OIDC, OAuth2, SAML o LDAP; integrar un proveedor corporativo distinto requiere desarrollo adicional o un servicio compatible con ese contrato.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="environment" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "6. Configurar variables de ambiente" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">El archivo <code>dockers/docker-compose.yml</code> carga variables desde <code>.env</code>. Use <code>dockers/.env.example</code> como referencia, copie el archivo a <code>dockers/.env</code> y reemplace todos los valores por los del ambiente real.</p>
+                <p class="paragraph">Variables usadas por la imagen y la configuración de WildFly:</p>
+                <ul class="paragraph">
+                    <li><code>VERSION</code>: tag de la imagen Docker que va a ejecutar Compose.</li>
+                    <li><code>JAVA_OPTS</code>: opciones de memoria y runtime de Java.</li>
+                    <li><code>URL_PORTAL_WS</code> y <code>PORTAL_APIKEY</code>: configuración escrita en <code>pai.properties</code> al iniciar el contenedor. Si usa <code>WS_AUTH_METHOD=APP</code>, mantenga valores explícitamente inhabilitados como los del ejemplo; no necesita credenciales PAI.</li>
+                    <li><code>DB_ELECTIONS_HOST</code>, <code>DB_ELECTIONS_PORT</code> y <code>DB_ELECTIONS_NAME</code>: host, puerto y nombre de la base PostgreSQL del ambiente.</li>
+                    <li><code>DB_ELECTIONS_USER</code> y <code>DB_ELECTIONS_PASSWORD</code>: credenciales del datasource <code>java:jboss/datasources/elections-ds</code>.</li>
+                    <li><code>DB_ELECTIONS_MIN_POOL_SIZE</code> y <code>DB_ELECTIONS_MAX_POOL_SIZE</code>: tamaño mínimo y máximo del pool de conexiones.</li>
+                </ul>
+                <p class="paragraph">No publique credenciales reales en el repositorio. En servidores remotos, mantenga el archivo <code>.env</code> junto al <code>docker-compose.yml</code> usado para levantar el contenedor.</p>
+                <p class="paragraph"><code>WS_AUTH_METHOD</code> no es una variable consumida por el Compose normal: se lee desde la tabla <code>parameter</code>. El bootstrap fresh fija ese parámetro en <code>APP</code>; no existe una variable <code>FRESH_AUTH_METHOD</code>.</p>
+                <p class="paragraph">En fresh también se pueden definir <code>FRESH_ORGANIZATION_NAME</code>, <code>FRESH_PUBLIC_BASE_URL</code>, <code>FRESH_PUBLIC_NOMINATION_ENABLED</code>, <code>FRESH_ADMIN_*</code>, <code>FRESH_DEFAULT_SENDER</code> y <code>FRESH_EMAIL_*</code>. Consulte <code>dockers/.env.example</code>, que es la fuente vigente de variables disponibles.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="buildImage" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "7. Compilar y construir imagen" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">La imagen definida en <code>dockers/Dockerfile</code> compila el sistema y la documentación pública, parte de <code>wildfly:34.0.0.Final-jdk17</code> y copia los siguientes artefactos:</p>
+                <ul class="paragraph">
+                    <li><code>elections-ejb/target/elections-ejb-1.0.jar</code></li>
+                    <li><code>elections-admin-web/target/elections.war</code></li>
+                    <li><code>elections-services/target/elections-ws.war</code></li>
+                    <li><code>wildfly/deployments/pai-auth-ws-client-1.5.1.jar</code></li>
+                    <li><code>wildfly/modules/</code> y <code>wildfly/configuration/standalone.xml</code></li>
+                </ul>
+                <p class="paragraph">Para construir manualmente:</p>
+                <pre><code>docker build -f dockers/Dockerfile -t registry.example.org/apps/elections:&lt;tag&gt; .
+docker push registry.example.org/apps/elections:&lt;tag&gt;</code></pre>
+                <p class="paragraph">La imagen base indicada en <code>dockers/Dockerfile</code> es un placeholder que cada organización debe reemplazar por su propia imagen WildFly compatible. Para una construcción basada en imágenes públicas, consulte <code>dockers/Dockerfile.fresh</code>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dockerRun" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "8. Levantar con Docker Compose tradicional" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">El Compose actual ejecuta la imagen <code>registry.example.org/apps/elections:${VERSION}</code>, monta logs en <code>./logs</code>, ejecuta el contenedor con usuario <code>10000:10000</code> y publica <code>8098:8080</code>.</p>
+                <p class="paragraph">Ejemplo:</p>
+                <pre><code>cd dockers
+mkdir -p logs
+docker compose up -d</code></pre>
+                <p class="paragraph">El helper <code>dockers/docker-local.sh</code> existe para ambientes locales con una imagen base previamente disponible en el daemon. Construye la imagen con tag <code>dev</code>, sin hacer login, pull ni push, recrea el contenedor <code>elections</code> y abre la URL local.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="remoteDeploy" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "9. Automatización remota de referencia" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph"><code>dockers/docker-jenkins.sh</code> conserva un flujo de infraestructura específico: asume Jenkins, un registry, acceso SSH y el directorio remoto <code>/usr/local/properties</code>. No es un requisito del producto ni un mecanismo portable listo para cualquier organización. Úselo únicamente como referencia y adáptelo al CI/CD, rutas y política de despliegue propios.</p>
+                <p class="paragraph">El script espera cuatro argumentos: registry, nombre de aplicación, ambiente y servidor remoto. También espera la variable <code>WORKSPACE</code> apuntando a la raíz del repositorio.</p>
+                <pre><code>export WORKSPACE=/ruta/al/repositorio
+dockers/docker-jenkins.sh registry.example.org/apps elections prod usuario@servidor</code></pre>
+                <p class="paragraph">Antes de ejecutarlo por primera vez en un servidor remoto, prepare el directorio de propiedades y logs, y cree allí el archivo <code>.env</code> del ambiente:</p>
+                <pre><code>mkdir -p /usr/local/properties/elections/logs
+vi /usr/local/properties/elections/.env</code></pre>
+                <p class="paragraph">El script copia <code>dockers/docker-compose.yml</code> a <code>/usr/local/properties/elections/docker-compose.yml</code> y ejecuta <code>docker compose pull</code>, <code>down</code> y <code>up -d</code> sobre ese archivo.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="manualWildfly" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "10. Alternativa manual con WildFly" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">La alternativa manual no es el camino recomendado para producción. Si necesita usarla, debe replicar lo que hace el <code>Dockerfile</code>:</p>
+                <ul class="paragraph">
+                    <li>Usar Java 17 y WildFly 34.</li>
+                    <li>Copiar <code>wildfly/modules/</code> al directorio de módulos de WildFly.</li>
+                    <li>Usar <code>wildfly/configuration/standalone.xml</code> como configuración base.</li>
+                    <li>Configurar las variables <code>DB_ELECTIONS_*</code>, <code>URL_PORTAL_WS</code> y <code>PORTAL_APIKEY</code> en el entorno del proceso WildFly.</li>
+                    <li>Publicar los artefactos generados en <code>standalone/deployments</code>.</li>
+                </ul>
+                <p class="paragraph">Las instrucciones históricas para Java 8, WildFly 20, PostgreSQL 12 y playbooks de aprovisionamiento completo ya no describen el sistema actual.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="validacion" class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h2>{{ "11. Validación inicial" }}</h2>
+            </div>
+            <div class="ibox-content">
+                <p class="paragraph">Después de levantar el contenedor, revise:</p>
+                <ul class="paragraph">
+                    <li>Que el contenedor <code>elections</code> esté corriendo.</li>
+                    <li>Que los logs de WildFly no muestren errores de datasource o despliegue.</li>
+                    <li>Que la aplicación responda en <code>http://&lt;host&gt;:8098/elections</code> o en la URL publicada por el reverse proxy.</li>
+                    <li>Que <code>/elections/login</code> acepte la cuenta inicial.</li>
+                    <li>Si usa autenticación local, que aparezca el menú <b>Administradores</b> y que una segunda cuenta pueda iniciar sesión antes de retirar la cuenta de bootstrap.</li>
+                    <li>Que el listado de elecciones funcione contra la base configurada.</li>
+                    <li>Que los servicios web respondan si están habilitados en el ambiente.</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -356,11 +292,12 @@ link_repo: https://github.com/LACNIC/elections-open-source
     <div class="col-lg-12">
         <div class="ibox">
             <div class="ibox-title">
-                <h2>{{ "10. Reverse proxy" }}</h2>
+                <h2>{{ "12. Producción y reverse proxy" }}</h2>
             </div>
             <div class="ibox-content">
-                <p class="paragraph">Luego de completar la instalación, el sistema es accesible directamente contra el servidor de aplicaciones. Para un ambiente de desarrollo o testeo esto no es un problema, pero para ambientes de producción se recomienda la instalación y configuración de un servidor web (por ej. Apache o Nginx) que actúe como <i>reverse proxy</i>.</p>
-                <p class="paragraph">Las ventajas de usar reverse proxy son, entre otras, evitar el acceso directo contra el sevidor de backend, cacheo y compresión de contenidos y logging HTTP.</p>
+                <p class="paragraph">Para producción, publique el contenedor detrás de un reverse proxy como Apache o Nginx. El contenedor expone WildFly en el puerto interno <code>8080</code>; el Compose incluido publica <code>8098</code> en el host.</p>
+                <p class="paragraph">El reverse proxy debe resolver TLS, cabeceras externas, logging HTTP y la URL pública usada por usuarios, auditores y servicios integrados.</p>
+                <p class="paragraph">Antes de producción, además: use secretos fuera del repositorio, limite la exposición de PostgreSQL, configure backups y recuperación, sustituya Mailpit por SMTP real, ajuste remitentes y dominio público, habilite sólo las integraciones necesarias y configure monitoreo de aplicación, base y correo. La configuración fresh de correo usa el puerto 1025 sin TLS; un SMTP con otro puerto o política TLS requiere proporcionar una configuración <code>email.properties</code> adecuada para el ambiente.</p>
             </div>
         </div>
     </div>

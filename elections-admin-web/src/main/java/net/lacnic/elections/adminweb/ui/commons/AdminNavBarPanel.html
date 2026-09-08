@@ -1,0 +1,317 @@
+<wicket:panel>
+	<ul class="navbar-nav">
+		<li class="nav-item" wicket:id="electionOptionsDisabledContainer" data-testid="electionOptionsDisabledContainer">
+			<span class="nav-link disabled opacity-50" id="topnav-election-options-disabled" data-testid="topnav-election-options-disabled" aria-disabled="true">
+				<span class="menu-icon"><i class="ti ti-settings-2"></i></span>
+				<span class="menu-text" id="electionOptionsDisabled" data-testid="electionOptionsDisabled"><wicket:message key="electionOptionsMenu" /></span>
+			</span>
+		</li>
+
+		<li class="nav-item dropdown" wicket:id="electionOptionsContainer" data-testid="electionOptionsContainer">
+			<a class="nav-link dropdown-toggle drop-arrow-none" href="#" wicket:id="electionOptionsToggle" id="topnav-election-options" data-testid="topnav-election-options" data-bs-toggle="dropdown"
+				role="button" aria-haspopup="true" aria-expanded="false">
+				<span class="menu-icon"><i class="ti ti-settings-2"></i></span>
+				<span class="menu-text" id="electionOptions" data-testid="electionOptions"><wicket:message key="electionOptionsMenu" /></span>
+				<div class="menu-arrow"></div>
+			</a>
+			<div class="dropdown-menu" aria-labelledby="topnav-election-options">
+				<div class="dropdown">
+					<a class="dropdown-item dropdown-toggle drop-arrow-none" href="#" id="topnav-election-administration" data-testid="topnav-election-administration"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="ti ti-tool"></i>
+						<wicket:message key="electionOptionsAdministrationGroup" />
+						<div class="menu-arrow"></div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="topnav-election-administration">
+						<a class="dropdown-item" wicket:id="electionOptionDetailsLink" data-testid="electionOptionDetailsLink" id="electionOptionDetailsLink">
+							<i class="ti ti-eye"></i>
+							<wicket:message key="electionOptionsDetails" />
+						</a>
+						<a class="dropdown-item" wicket:id="electionOptionEditLink" data-testid="electionOptionEditLink" id="electionOptionEditLink">
+							<i class="ti ti-pencil"></i>
+							<wicket:message key="electionOptionsEdit" />
+						</a>
+						<a class="dropdown-item" wicket:id="electionOptionConfigurationLink" data-testid="electionOptionConfigurationLink" id="electionOptionConfigurationLink">
+							<i class="ti ti-settings"></i>
+							<wicket:message key="electionOptionsConfiguration" />
+						</a>
+					</div>
+				</div>
+
+				<div class="dropdown">
+					<a class="dropdown-item dropdown-toggle drop-arrow-none" href="#" id="topnav-election-setup" data-testid="topnav-election-setup"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="ti ti-checkup-list"></i>
+						<wicket:message key="electionOptionsSetupGroup" />
+						<div class="menu-arrow"></div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="topnav-election-setup">
+						<a class="dropdown-item" wicket:id="electionOptionCallLink" data-testid="electionOptionCallLink" id="electionOptionCallLink">
+							<i class="ti ti-phone"></i>
+							<wicket:message key="electionOptionsCall" />
+						</a>
+						<a class="dropdown-item" wicket:id="electionOptionOrganizationsLink" data-testid="electionOptionOrganizationsLink" id="electionOptionOrganizationsLink">
+							<i class="ti ti-building"></i>
+							<wicket:message key="electionOptionsOrganizations" />
+						</a>
+						<a class="dropdown-item" wicket:id="electionOptionCensusLink" data-testid="electionOptionCensusLink" id="electionOptionCensusLink">
+							<i class="ti ti-users"></i>
+							<wicket:message key="electionOptionsCensus" />
+						</a>
+						<a class="dropdown-item" wicket:id="electionOptionCalendarLink" data-testid="electionOptionCalendarLink" id="electionOptionCalendarLink">
+							<i class="ti ti-calendar"></i>
+							<wicket:message key="electionOptionsCalendar" />
+						</a>
+						<a class="dropdown-item" wicket:id="electionOptionTasksLink" data-testid="electionOptionTasksLink" id="electionOptionTasksLink">
+							<i class="ti ti-list-check"></i>
+							<wicket:message key="electionOptionsTasks" />
+						</a>
+						<a class="dropdown-item" wicket:id="electionOptionCandidatesLink" data-testid="electionOptionCandidatesLink" id="electionOptionCandidatesLink">
+							<i class="ti ti-users"></i>
+							<wicket:message key="electionOptionsCandidates" />
+						</a>
+					</div>
+				</div>
+
+				<a class="dropdown-item" wicket:id="electionOptionAuditorsLink" data-testid="electionOptionAuditorsLink" id="electionOptionAuditorsLink">
+					<i class="ti ti-shield-check"></i>
+					<wicket:message key="electionOptionsAuditors" />
+				</a>
+
+				<a class="dropdown-item" wicket:id="electionOptionEmailsLink" data-testid="electionOptionEmailsLink" id="electionOptionEmailsLink">
+					<i class="ti ti-mail"></i>
+					<wicket:message key="electionOptionsEmails" />
+				</a>
+
+				<a class="dropdown-item" wicket:id="electionOptionQuestionsLink" data-testid="electionOptionQuestionsLink" id="electionOptionQuestionsLink">
+					<i class="ti ti-message-circle-question"></i>
+					<wicket:message key="electionOptionsQuestions" />
+				</a>
+
+				<a class="dropdown-item" wicket:id="electionOptionReportsLink" data-testid="electionOptionReportsLink" id="electionOptionReportsLink">
+					<i class="ti ti-report-analytics"></i>
+					<wicket:message key="electionOptionsReports" />
+				</a>
+
+				<div class="dropdown">
+					<a class="dropdown-item dropdown-toggle drop-arrow-none" href="#" wicket:id="electionOptionResultsToggle" id="topnav-election-results" data-testid="topnav-election-results"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="ti ti-chart-bar"></i>
+						<wicket:message key="electionOptionsResults" />
+						<div class="menu-arrow"></div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="topnav-election-results">
+						<a class="dropdown-item" wicket:id="electionOptionAuditorResultsLink" data-testid="electionOptionAuditorResultsLink" id="electionOptionAuditorResultsLink">
+							<i class="ti ti-chart-bar"></i>
+							<wicket:message key="electionResults" />
+						</a>
+						<a class="dropdown-item" wicket:id="electionOptionOfficialResultsLink" data-testid="electionOptionOfficialResultsLink" id="electionOptionOfficialResultsLink">
+							<i class="ti ti-file-check"></i>
+							<wicket:message key="electionResultsTitle" />
+						</a>
+					</div>
+				</div>
+
+				<a class="dropdown-item" wicket:id="electionOptionReviewLink" data-testid="electionOptionReviewLink" id="electionOptionReviewLink">
+					<i class="ti ti-zoom-in"></i>
+					<wicket:message key="electionOptionsReview" />
+				</a>
+			</div>
+		</li>
+
+		<li class="nav-item" wicket:id="candidateOptionsDisabledContainer" data-testid="candidateOptionsDisabledContainer">
+			<span class="nav-link disabled opacity-50" id="topnav-candidate-options-disabled" data-testid="topnav-candidate-options-disabled" aria-disabled="true">
+				<span class="menu-icon"><i class="ti ti-user-star"></i></span>
+				<span class="menu-text" id="candidateOptionsDisabled" data-testid="candidateOptionsDisabled"><wicket:message key="candidateOptionsMenu" /></span>
+			</span>
+		</li>
+
+		<li class="nav-item dropdown" wicket:id="candidateOptionsContainer" data-testid="candidateOptionsContainer">
+			<a class="nav-link dropdown-toggle drop-arrow-none" href="#" wicket:id="candidateOptionsToggle" id="topnav-candidate-options" data-testid="topnav-candidate-options" data-bs-toggle="dropdown"
+				role="button" aria-haspopup="true" aria-expanded="false">
+				<span class="menu-icon"><i class="ti ti-user-star"></i></span>
+				<span class="menu-text" id="candidateOptions" data-testid="candidateOptions"><wicket:message key="candidateOptionsMenu" /></span>
+				<div class="menu-arrow"></div>
+			</a>
+			<div class="dropdown-menu" aria-labelledby="topnav-candidate-options">
+				<div class="dropdown" wicket:id="candidateOptionsList" data-testid="candidateOptionsList">
+					<a class="dropdown-item dropdown-toggle drop-arrow-none" href="#" wicket:id="candidateOptionToggle" data-testid="candidateOptionToggle"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="ti ti-user"></i>
+						<span wicket:id="candidateOptionName" data-testid="candidateOptionName"></span>
+						<div class="menu-arrow"></div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" wicket:id="candidateOptionBiographyLink" data-testid="candidateOptionBiographyLink">
+							<i class="ti ti-id"></i>
+							<wicket:message key="candidateOptionsBiography" />
+						</a>
+						<a class="dropdown-item" wicket:id="candidateOptionPhotoLink" data-testid="candidateOptionPhotoLink">
+							<i class="ti ti-photo"></i>
+							<wicket:message key="candidateOptionsPhoto" />
+						</a>
+						<a class="dropdown-item" wicket:id="candidateOptionStatusLink" data-testid="candidateOptionStatusLink">
+							<i class="ti ti-progress-check"></i>
+							<wicket:message key="candidateOptionsStatus" />
+						</a>
+						<a class="dropdown-item" wicket:id="candidateOptionTrainingLink" data-testid="candidateOptionTrainingLink">
+							<i class="ti ti-school"></i>
+							<wicket:message key="candidateOptionsTraining" />
+						</a>
+						<a class="dropdown-item" wicket:id="candidateOptionTranslationsLink" data-testid="candidateOptionTranslationsLink">
+							<i class="ti ti-language"></i>
+							<wicket:message key="candidateOptionsTranslations" />
+						</a>
+					</div>
+				</div>
+			</div>
+		</li>
+
+		<li class="nav-item dropdown" wicket:id="electionsContainer" data-testid="electionsContainer">
+			<a class="nav-link dropdown-toggle drop-arrow-none" href="#" id="topnav-elections" data-testid="topnav-elections" data-bs-toggle="dropdown"
+				role="button" aria-haspopup="true" aria-expanded="false">
+				<span class="menu-icon"><i class="ti ti-list-details"></i></span>
+				<span class="menu-text" id="electionsList" data-testid="electionsList"><wicket:message key="electionsList" /></span>
+				<div class="menu-arrow"></div>
+			</a>
+			<div class="dropdown-menu" aria-labelledby="topnav-elections">
+				<a class="dropdown-item" wicket:id="allElectionsLink" data-testid="allElectionsLink" id="allElectionsLink">
+					<i class="ti ti-list-details"></i>
+					<wicket:message key="seeAll" />
+				</a>
+				<a class="dropdown-item" wicket:id="recentElectionsLink" data-testid="recentElectionsLink" id="recentElectionsLink">
+					<i class="ti ti-history"></i>
+					<wicket:message key="recent" />
+				</a>
+			</div>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link" wicket:id="newElectionLink" data-testid="newElectionLink">
+				<span class="menu-icon"><i class="ti ti-file-text"></i></span>
+				<span class="menu-text" id="newElection" data-testid="newElection"><wicket:message key="newElection" /></span>
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link" name="commissionersLink" wicket:id="commissionersLink" data-testid="commissionersLink">
+				<span class="menu-icon"><i class="ti ti-id-badge"></i></span>
+				<span class="menu-text" id="commissioners" data-testid="commissioners"><wicket:message key="commissioners" /></span>
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link" id="userAdminsLink" wicket:id="userAdminsLink" data-testid="userAdminsLink">
+				<span class="menu-icon"><i class="ti ti-users"></i></span>
+				<span class="menu-text"><wicket:message key="admins" /></span>
+			</a>
+		</li>
+
+		<li class="nav-item dropdown" wicket:id="advancedContainer" data-testid="advancedContainer">
+			<a class="nav-link dropdown-toggle drop-arrow-none" href="#" id="topnav-advanced" data-testid="topnav-advanced" data-bs-toggle="dropdown"
+				role="button" aria-haspopup="true" aria-expanded="false">
+				<span class="menu-icon"><i class="ti ti-settings-2"></i></span>
+				<span class="menu-text" id="advanced" data-testid="advanced"><wicket:message key="advanced" /></span>
+				<div class="menu-arrow"></div>
+			</a>
+			<div class="dropdown-menu" aria-labelledby="topnav-advanced">
+				<div class="dropdown">
+					<a class="dropdown-item dropdown-toggle drop-arrow-none" href="#" id="topnav-advanced-system" data-testid="topnav-advanced-system"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="ti ti-settings"></i>
+						<wicket:message key="advancedOptionsSystemGroup" />
+						<div class="menu-arrow"></div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="topnav-advanced-system">
+						<a class="dropdown-item" name="invalidIpsLink" wicket:id="invalidIpsLink" data-testid="invalidIpsLink" id="invalidIpsLink">
+							<i class="ti ti-ban"></i>
+							<wicket:message key="invalidIps" />
+						</a>
+						<a class="dropdown-item" name="activitiesLink" wicket:id="activitiesLink" data-testid="activitiesLink" id="activitiesLink">
+							<i class="ti ti-activity"></i>
+							<wicket:message key="seeActivities" />
+						</a>
+						<a class="dropdown-item" name="parametersLink" wicket:id="parametersLink" data-testid="parametersLink" id="parametersLink">
+							<i class="ti ti-adjustments-horizontal"></i>
+							<wicket:message key="parameters" />
+						</a>
+					</div>
+				</div>
+
+				<div class="dropdown">
+					<a class="dropdown-item dropdown-toggle drop-arrow-none" href="#" id="topnav-advanced-mail" data-testid="topnav-advanced-mail"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="ti ti-mail"></i>
+						<wicket:message key="advancedOptionsMailGroup" />
+						<div class="menu-arrow"></div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="topnav-advanced-mail">
+						<a class="dropdown-item" name="pendingEmailsLink" wicket:id="pendingEmailsLink" data-testid="pendingEmailsLink" id="pendingEmailsLink">
+							<i class="ti ti-inbox"></i>
+							<wicket:message key="pendingMail" />
+						</a>
+						<a class="dropdown-item" name="allEmailsLink" wicket:id="allEmailsLink" data-testid="allEmailsLink" id="allEmailsLink">
+							<i class="ti ti-mail-check"></i>
+							<wicket:message key="allMail" />
+						</a>
+						<a class="dropdown-item" name="emailTemplatesLink" wicket:id="emailTemplatesLink" data-testid="emailTemplatesLink" id="emailTemplatesLink">
+							<i class="ti ti-template"></i>
+							<wicket:message key="baseMail" />
+						</a>
+						<a class="dropdown-item" name="updateTemplatesLink" wicket:id="updateTemplatesLink" data-testid="updateTemplatesLink" id="updateTemplatesLink">
+							<i class="ti ti-refresh"></i>
+							<wicket:message key="updateTemplates" />
+						</a>
+						<a class="dropdown-item" name="forceAllRemindersLink" wicket:id="forceAllRemindersLink" data-testid="forceAllRemindersLink" id="forceAllRemindersLink">
+							<i class="ti ti-bell"></i>
+							<wicket:message key="forceAllReminders" />
+						</a>
+					</div>
+				</div>
+
+				<div class="dropdown">
+					<a class="dropdown-item dropdown-toggle drop-arrow-none" href="#" id="topnav-advanced-maintenance" data-testid="topnav-advanced-maintenance"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="ti ti-tools"></i>
+						<wicket:message key="advancedOptionsMaintenanceGroup" />
+						<div class="menu-arrow"></div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="topnav-advanced-maintenance">
+						<a class="dropdown-item" name="optimizeCandidatePhotosLink" wicket:id="optimizeCandidatePhotosLink" data-testid="optimizeCandidatePhotosLink" id="optimizeCandidatePhotosLink">
+							<i class="ti ti-photo"></i>
+							<wicket:message key="optimizeCandidatePhotos" />
+						</a>
+						<a class="dropdown-item" name="migrateCandidateBiosLink" wicket:id="migrateCandidateBiosLink" data-testid="migrateCandidateBiosLink" id="migrateCandidateBiosLink">
+							<i class="ti ti-file-text"></i>
+							<wicket:message key="migrateCandidateBios" />
+						</a>
+						<a class="dropdown-item" name="organizationsSyncRunsLink" wicket:id="organizationsSyncRunsLink" data-testid="organizationsSyncRunsLink" id="organizationsSyncRunsLink">
+							<i class="ti ti-database"></i>
+							<wicket:message key="organizationsSyncControlMenu" />
+						</a>
+					</div>
+				</div>
+
+				<div class="dropdown">
+					<a class="dropdown-item dropdown-toggle drop-arrow-none" href="#" id="topnav-advanced-elections" data-testid="topnav-advanced-elections"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="ti ti-list-details"></i>
+						<wicket:message key="advancedOptionsElectionsGroup" />
+						<div class="menu-arrow"></div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="topnav-advanced-elections">
+						<a class="dropdown-item" name="jointElectionsLink" wicket:id="jointElectionsLink" data-testid="jointElectionsLink" id="jointElectionsLink">
+							<i class="ti ti-arrow-merge"></i>
+							<wicket:message key="mergedElections" />
+						</a>
+						<a class="dropdown-item" name="customizationLink" wicket:id="customizationLink" data-testid="customizationLink" id="customizationLink">
+							<i class="ti ti-palette"></i>
+							<wicket:message key="personalization" />
+						</a>
+					</div>
+				</div>
+			</div>
+		</li>
+
+	</ul>
+</wicket:panel>

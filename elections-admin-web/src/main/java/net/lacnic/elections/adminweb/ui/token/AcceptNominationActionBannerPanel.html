@@ -1,0 +1,17 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<article wicket:id="bannerCard" data-testid="accept-nomination-action-banner">
+		<div class="position-relative overflow-hidden" style="min-height: 100px;">
+				<div class="p-4 auth-overlay d-flex align-items-center h-100">
+					<div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 w-100">
+						<div>
+							<h4 class="text-white mb-1 fst-italic" wicket:id="bannerMessage" data-testid="bannerMessage">Acción requerida para la nominación</h4>
+							<p class="text-white-50 mb-0 fw-semibold" wicket:id="bannerTaskHint" data-testid="bannerTaskHint"></p>
+						</div>
+						<a wicket:id="bannerAction" data-testid="bannerAction" href="#" class="btn btn-light btn-lg">
+							<span wicket:id="bannerActionLabel" data-testid="bannerActionLabel"></span>
+						</a>
+					</div>
+				</div>
+		</div>
+	</article>
+</wicket:panel>

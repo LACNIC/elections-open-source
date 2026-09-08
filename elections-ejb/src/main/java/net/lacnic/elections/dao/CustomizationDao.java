@@ -2,22 +2,19 @@ package net.lacnic.elections.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import net.lacnic.elections.domain.Customization;
-
 
 public class CustomizationDao {
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("ejbAppLogger");
 
 	private EntityManager em;
-
 
 	public CustomizationDao(EntityManager em) {
 		this.em = em;
@@ -26,7 +23,7 @@ public class CustomizationDao {
 	/**
 	 * Gets information about the customization
 	 * 
-	 * @return returns an entity with the  customization entity.
+	 * @return returns an entity with the customization entity.
 	 * 
 	 */
 	public Customization getCustomization() {
@@ -34,7 +31,7 @@ public class CustomizationDao {
 			TypedQuery<Customization> q = em.createQuery("SELECT c FROM Customization c WHERE c.customizationId = 1", Customization.class);
 			return q.getSingleResult();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return null;
 		}
 	}

@@ -1,9 +1,6 @@
---- 
+---
 layout: default
 title: Sistema Elecciones
-link_logo: http://elecciones-demo.lacnic.net.uy/elections
-link_title: http://elecciones-demo.lacnic.net.uy/elections
-link_repo: https://github.com/LACNIC/elections-open-source
 ---
 <div class="row">
 	<div class="col-lg-12">
@@ -12,24 +9,89 @@ link_repo: https://github.com/LACNIC/elections-open-source
 				<h1>{{ "Actualización del Sistema de Elecciones" }}</h1>
 			</div>
 			<div class="ibox-content">
-                <p class="paragraph">El proceso de actualización del sistema consiste de 3 pasos: obtener la última versión, ejecutar scripts de base de datos (si es necesario) y publicar la nueva versión. A continuación un detalle de estos pasos.</p>
+                <p class="paragraph">La actualización del Sistema de Elecciones debe realizarse con una ventana de mantenimiento, respaldo previo de base de datos y despliegue coordinado de base, artefactos y configuración. Para <code>v3.0</code>, los scripts intermedios posteriores a <code>v2.4</code> fueron consolidados en <code>release-files/3.0/v3.0_script.sql</code>.</p>
                 <br>
 
-                <h2>Descarga de última versión:</h2>
-                <p class="paragraph">En el directorio donde haya clonado el repositorio, ejecute <code>git pull</code> para descargar la última versión.</p>
-                <br>
-
-                <h2>Ejecución de scripts de base de datos:</h2>
-                <p class="paragraph">Algunas versiones incluyen cambios a nivel de base de datos. En estos casos, se proveen los scripts en los <a href="{{page.link_repo}}/blob/main/doc/ReleaseNotes.md" target="_blank">Release notes</a>.</p>
-                <p class="paragraph"> <b>Importante:</b> debe ejecutar, en orden, todos los scripts desde su versión actual hasta la versión que está instalando.</p>
-                <br>
-
-                <h2>Empaquetado y publicación:</h2>
-                <p class="paragraph">Los procedimientos para empaquetado y publicación son los mismos que cuando se instala por primera vez. Se tienen dos opciones:</p>
+                <h2>Alcance de la actualización a v3.0</h2>
+                <p class="paragraph">Antes de ejecutar scripts, confirme la versión instalada y aplique todos los scripts pendientes en orden. No omita versiones intermedias.</p>
                 <ul class="paragraph">
-                    <li>Copiar los artefactos provistos en el repositorio, o los generados con Maven, al directorio <code>deployments</code> de su instalación de Wildfly. Puede encontrar más detalles sobre esta opción <a href="{{site.baseurl}}/manual.html#deploy">aquí</a>.</li>
-                    <li>Usar el playbook Ansible provisto para publicación de los artefactos. Puede encontrar más detalles sobre esta opción <a href="{{site.baseurl}}//ansible.html#adicionales">aquí</a>.</li>
+                    <li>Si la base ya está en <code>v2.4</code>, aplique únicamente <code>release-files/3.0/v3.0_script.sql</code>.</li>
+                    <li>Si la base está en <code>v2.3.1</code>, aplique <code>release-files/2.4/v2.4_ddl_script.sql</code>, luego <code>release-files/2.4/v2.4_data_script.sql</code> y finalmente <code>release-files/3.0/v3.0_script.sql</code>.</li>
+                    <li>Si la base está en <code>v2.3</code>, aplique primero <code>release-files/2.3.1/v2.3.1_script.sql</code> y después la cadena de <code>v2.4</code> y <code>v3.0</code>.</li>
+                    <li>Si la base es anterior a <code>v2.3</code>, revise los <a href="{{site.baseurl}}/release-notes.html">Release notes</a> y aplique todos los scripts desde su versión actual hasta <code>v3.0</code>.</li>
                 </ul>
+                <br>
+
+                <h2>Preparación previa</h2>
+                <ul class="paragraph">
+                    <li>Ejecute un respaldo completo de la base PostgreSQL antes de modificar datos o estructura.</li>
+                    <li>Conserve una copia de la versión de aplicación actualmente desplegada para poder volver atrás si la actualización no finaliza correctamente.</li>
+                    <li>Prepare los artefactos o la imagen Docker de la versión a desplegar antes de iniciar la ventana de actualización.</li>
+                    <li>Ejecute los scripts con una conexión que corte ante el primer error, por ejemplo usando <code>psql -v ON_ERROR_STOP=1</code>.</li>
+                </ul>
+                <br>
+
+                <h2>Controles de datos antes de v3.0</h2>
+                <p class="paragraph">El script de <code>v3.0</code> crea índices únicos por elección sobre ORGID normalizado en <code>organization</code> y <code>uservoter</code>. Si existen duplicados o votantes sin ORGID recuperable desde el mail, el script aborta con error. Ejecute estos controles y corrija los datos antes de aplicar el script.</p>
+                <p class="paragraph">Organizaciones con ORGID duplicado dentro de una misma elección:</p>
+                <pre><code>SELECT election_id, upper(btrim(orgid)) AS normalized_orgid, COUNT(*) AS total
+FROM public.organization
+GROUP BY election_id, upper(btrim(orgid))
+HAVING COUNT(*) &gt; 1;</code></pre>
+                <p class="paragraph">Votantes cuyo ORGID no puede recuperarse desde el mail:</p>
+                <pre><code>SELECT uservoter_id, election_id, mail, orgid
+FROM public.uservoter
+WHERE (orgid IS NULL OR btrim(orgid) = '')
+  AND (mail IS NULL OR btrim(mail) = '');</code></pre>
+                <p class="paragraph">Votantes que quedarían con ORGID duplicado después del backfill desde mail:</p>
+                <pre><code>WITH normalized AS (
+    SELECT
+        election_id,
+        upper(btrim(CASE
+            WHEN orgid IS NULL OR btrim(orgid) = '' THEN mail
+            ELSE orgid
+        END)) AS normalized_orgid
+    FROM public.uservoter
+    WHERE (orgid IS NOT NULL AND btrim(orgid) != '')
+       OR (mail IS NOT NULL AND btrim(mail) != '')
+)
+SELECT election_id, normalized_orgid, COUNT(*) AS total
+FROM normalized
+GROUP BY election_id, normalized_orgid
+HAVING COUNT(*) &gt; 1;</code></pre>
+                <br>
+
+                <h2>Ejecución de scripts</h2>
+                <p class="paragraph">Ejecute los scripts desde el directorio raíz del repositorio. Ajuste los datos de conexión de <code>psql</code> según su ambiente.</p>
+                <p class="paragraph">Ejemplo para una base que ya está en <code>v2.4</code>:</p>
+                <pre><code>psql -v ON_ERROR_STOP=1 -d &lt;database&gt; -f release-files/3.0/v3.0_script.sql</code></pre>
+                <p class="paragraph">Ejemplo para una base que está en <code>v2.3</code>:</p>
+                <pre><code>psql -v ON_ERROR_STOP=1 -d &lt;database&gt; -f release-files/2.3.1/v2.3.1_script.sql
+psql -v ON_ERROR_STOP=1 -d &lt;database&gt; -f release-files/2.4/v2.4_ddl_script.sql
+psql -v ON_ERROR_STOP=1 -d &lt;database&gt; -f release-files/2.4/v2.4_data_script.sql
+psql -v ON_ERROR_STOP=1 -d &lt;database&gt; -f release-files/3.0/v3.0_script.sql</code></pre>
+                <br>
+
+                <h2>Validación posterior de base</h2>
+                <ul class="paragraph">
+                    <li>Verifique que los scripts terminaron sin errores y que no quedaron transacciones interrumpidas.</li>
+                    <li>Confirme que la aplicación puede iniciar y conectarse al datasource <code>java:jboss/datasources/elections-ds</code>.</li>
+                    <li>Valide flujos operativos básicos: login administrativo, listado de elecciones, acceso a una elección existente y disponibilidad del servicio web si está habilitado en su instalación.</li>
+                </ul>
+                <p class="paragraph">El repositorio incluye el validador <code>python3 release-files/validate_new_release_chain.py</code> para comprobar, en un PostgreSQL temporal local, que la referencia nueva cierra contra <code>elections_schema_old</code> más <code>v2.4</code> y <code>v3.0</code>. Este validador requiere binarios PostgreSQL como <code>psql</code>, <code>initdb</code>, <code>pg_ctl</code> y <code>pg_dump</code> disponibles en el <code>PATH</code>.</p>
+                <br>
+
+                <h2>Empaquetado y publicación</h2>
+                <p class="paragraph">La versión actual compila con Java 17 y se despliega sobre WildFly 34. El repositorio contiene tres módulos Maven: <code>elections-ejb</code>, <code>elections-admin-web</code> y <code>elections-services</code>.</p>
+                <p class="paragraph">Para despliegue manual en WildFly, compile los módulos y publique los artefactos generados en el directorio <code>standalone/deployments</code> de la instalación:</p>
+                <ul class="paragraph">
+                    <li><code>elections-ejb/target/elections-ejb-1.0.jar</code></li>
+                    <li><code>elections-admin-web/target/elections.war</code></li>
+                    <li><code>elections-services/target/elections-ws.war</code></li>
+                    <li><code>wildfly/deployments/pai-auth-ws-client-1.5.1.jar</code>, si su instalación usa autenticación contra PAI.</li>
+                </ul>
+                <p class="paragraph">Para despliegue Docker, el <code>Dockerfile</code> actual parte de <code>wildfly:34.0.0.Final-jdk17</code>, copia los artefactos anteriores, los módulos de <code>wildfly/modules</code> y la configuración <code>wildfly/configuration/standalone.xml</code>. El <code>docker-compose.yml</code> usa la imagen configurada para el ambiente, expone el puerto <code>8098:8080</code> y carga variables desde <code>.env</code>.</p>
+                <p class="paragraph">Después de publicar, reinicie la aplicación y revise logs de WildFly antes de habilitar el uso normal del sistema.</p>
             </div>
         </div>
 	</div>

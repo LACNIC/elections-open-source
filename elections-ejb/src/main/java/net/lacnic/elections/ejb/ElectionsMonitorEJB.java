@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
+import net.lacnic.elections.data.ParticipationV2;
 import net.lacnic.elections.data.TableReportDataStringId;
 import net.lacnic.elections.data.TablesReportDataLongId;
 import net.lacnic.elections.domain.ElectionLight;
@@ -23,6 +24,11 @@ import net.lacnic.elections.domain.services.dbtables.UserVoterTableReport;
 import net.lacnic.elections.domain.services.dbtables.VoteTableReport;
 import net.lacnic.elections.domain.services.detail.ElectionDetailReport;
 import net.lacnic.elections.domain.services.detail.ElectionParticipationDetailReport;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionCoreSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionOfficialResultSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionPhotoSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionRollSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionsSnapshot;
 import net.lacnic.elections.domain.services.detail.OrganizationVoterDetailReport;
 import net.ripe.ipresource.IpResourceSet;
 
@@ -35,11 +41,16 @@ public interface ElectionsMonitorEJB {
 
 	public List<Participation> getOrganizationParticipations(String org);
 
+	public List<ParticipationV2> getOrganizationParticipationsV2(String org);
+
 	public List<ElectionLight> getElectionsLightAllOrderStartDateDesc();
 
-	public String getWsAuthToken();
+	public PublicElectionsSnapshot getPublicElectionsSnapshot();
+
 
 	public String getWsAuthMethod();
+
+	public String getWsAuthToken();
 
 	public String getWsLacnicAuthUrl();
 
@@ -114,5 +125,17 @@ public interface ElectionsMonitorEJB {
 	public List<ElectionParticipationDetailReport> getElectionsParticipationsByEmail(String email, int pageSize, int offset);
 
 	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID, int pageSize, int offset);
+
+	public PublicElectionCoreSnapshot getPublicElectionCoreSnapshot(Long electionId);
+
+	public PublicElectionRollSnapshot getPublicElectionRollSnapshot(Long electionId);
+
+	public PublicElectionPhotoSnapshot getPublicElectionPhotoSnapshot(Long electionId);
+
+	public PublicElectionOfficialResultSnapshot getPublicElectionOfficialResultSnapshot(Long electionId);
+
+	public void refreshOpenPublicElectionSnapshotCache();
+
+	public void refreshPublicElectionsSnapshotCache();
 
 }

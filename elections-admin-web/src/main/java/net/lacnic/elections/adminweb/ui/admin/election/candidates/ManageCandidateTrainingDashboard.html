@@ -1,0 +1,60 @@
+<wicket:extend>
+	<div class="row">
+		<div class="col-lg-12">
+			<div wicket:id="feedback" data-testid="feedback"></div>
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="candidateTrainingTitle"><wicket:message key="candidateTrainingTitle">Gestionar capacitación y evaluación</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="border rounded p-3 mb-4">
+						<h6 class="mb-3"><wicket:message key="candidateTrainingCandidateSummary">Detalle del candidato</wicket:message></h6>
+						<div><strong><wicket:message key="candidateTrainingCandidateName" />:</strong> <span wicket:id="candidateName" data-testid="candidateName"></span></div>
+						<div><strong><wicket:message key="candidateTrainingCandidateId" />:</strong> <span wicket:id="candidateId" data-testid="candidateId"></span></div>
+						<div><strong><wicket:message key="candidateTrainingCandidateMail" />:</strong> <span wicket:id="candidateMail" data-testid="candidateMail"></span></div>
+						<div wicket:id="campusSummary">
+							<div><strong><wicket:message key="candidateTrainingCampusCurrentStatus" />:</strong> <span wicket:id="currentCampusStatus" data-testid="currentCampusStatus"></span></div>
+							<div><strong><wicket:message key="candidateTrainingCampusSelectedCourse" />:</strong> <span wicket:id="currentCampusSelectedCourse" data-testid="currentCampusSelectedCourse"></span></div>
+							<div><strong><wicket:message key="candidateTrainingCampusCurrentCalification" />:</strong> <span wicket:id="currentCampusCalification" data-testid="currentCampusCalification"></span></div>
+						</div>
+						<div><strong><wicket:message key="candidateTrainingEvaluationCurrentStatus" />:</strong> <span wicket:id="currentEvaluationStatus" data-testid="currentEvaluationStatus"></span></div>
+						<div class="mt-2">
+							<strong><wicket:message key="candidateTrainingProctorioCurrent" />:</strong>
+							<a wicket:id="proctorioDownload" data-testid="proctorioDownload" class="btn btn-light btn-sm"><wicket:message key="candidateTrainingProctorioDownload" /></a>
+							<span wicket:id="proctorioDownloadUnavailable" data-testid="proctorioDownloadUnavailable"></span>
+						</div>
+					</div>
+
+					<form wicket:id="trainingForm" data-testid="trainingForm" class="row g-3">
+							<div wicket:id="campusStatusField" class="col-md-4">
+								<label class="form-label" for="candidateTrainingCampusCourseStatus"><wicket:message key="candidateTrainingCampusStatus">candidateTrainingCampusStatus</wicket:message></label>
+								<select wicket:id="campusCourseStatus" id="candidateTrainingCampusCourseStatus" data-testid="campusCourseStatus" class="form-select"></select>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label" for="candidateTrainingEvaluationStatus"><wicket:message key="candidateTrainingEvaluationStatus">candidateTrainingEvaluationStatus</wicket:message></label>
+								<select wicket:id="evaluationStatus" id="candidateTrainingEvaluationStatus" data-testid="evaluationStatus" class="form-select"></select>
+							</div>
+							<div wicket:id="campusCalificationField" class="col-md-4">
+								<label class="form-label" for="candidateTrainingCampusCourseCalification"><wicket:message key="candidateTrainingCampusCalification">candidateTrainingCampusCalification</wicket:message></label>
+								<input wicket:id="campusCourseCalification" id="candidateTrainingCampusCourseCalification" data-testid="campusCourseCalification" type="text" class="form-control" />
+							</div>
+							<div class="col-12">
+								<label class="form-label" for="candidateTrainingProctorioResultFile"><wicket:message key="candidateTrainingProctorioUpload">candidateTrainingProctorioUpload</wicket:message></label>
+								<input wicket:id="proctorioResultFile" id="candidateTrainingProctorioResultFile" data-testid="proctorioResultFile" type="file" class="form-control" />
+							</div>
+							<div class="col-12">
+								<div class="form-check">
+									<input wicket:id="removeProctorioFile" id="candidateTrainingRemoveProctorioFile" data-testid="removeProctorioFile" type="checkbox" class="form-check-input" />
+									<label class="form-check-label" for="candidateTrainingRemoveProctorioFile"><wicket:message key="candidateTrainingRemoveProctorio">candidateTrainingRemoveProctorio</wicket:message></label>
+								</div>
+							</div>
+						<div class="col-12 d-flex justify-content-end gap-2">
+							<a wicket:id="cancel" data-testid="cancel" class="btn btn-light"><wicket:message key="candidateTrainingCancel" /></a>
+							<button wicket:id="save" data-testid="save" type="submit" class="btn btn-primary"><wicket:message key="candidateTrainingSave" /></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

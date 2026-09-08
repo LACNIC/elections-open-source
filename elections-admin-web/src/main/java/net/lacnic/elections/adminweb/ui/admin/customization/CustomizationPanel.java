@@ -1,8 +1,6 @@
 package net.lacnic.elections.adminweb.ui.admin.customization;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -13,18 +11,21 @@ import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.lacnic.elections.adminweb.app.AppContext;
+import net.lacnic.elections.adminweb.validators.CandidatePictureUploadValidator;
 import net.lacnic.elections.adminweb.ui.components.OnOffSwitch;
 import net.lacnic.elections.adminweb.wicket.util.ImageResource;
 import net.lacnic.elections.domain.Customization;
 
-
 public class CustomizationPanel extends Panel {
 
 	private static final long serialVersionUID = 6920524802771454293L;
+	private static final String IMAGE_PATH = "image/";
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 	private Customization customization;
 
@@ -37,7 +38,6 @@ public class CustomizationPanel extends Panel {
 	private String siteTitle;
 	private String loginTitle;
 	private String homeHtml;
-
 
 	public CustomizationPanel(String id) {
 		super(id);
@@ -61,21 +61,21 @@ public class CustomizationPanel extends Panel {
 
 		try {
 			if (contPicSmallLogo == null) {
-				form.add(new ContextImage("picSmallLogo","image/" + picSmallLogo));
+				form.add(new ContextImage("picSmallLogo", IMAGE_PATH + picSmallLogo));
 			} else {
 				pictureFileExtension = FilenameUtils.getExtension(picSmallLogo);
 				form.add(new NonCachingImage("picSmallLogo", new ImageResource(contPicSmallLogo, pictureFileExtension)));
 			}
 
 			if (contPicBigLogo == null) {
-				form.add(new ContextImage("picBigLogo","image/" + picBigLogo));
+				form.add(new ContextImage("picBigLogo", IMAGE_PATH + picBigLogo));
 			} else {
 				pictureFileExtension = FilenameUtils.getExtension(picBigLogo);
 				form.add(new NonCachingImage("picBigLogo", new ImageResource(contPicBigLogo, pictureFileExtension)));
 			}
 
 			if (contPicSymbol == null) {
-				form.add(new ContextImage("picSymbol","image/" + picSymbol));
+				form.add(new ContextImage("picSymbol", IMAGE_PATH + picSymbol));
 			} else {
 				pictureFileExtension = FilenameUtils.getExtension(picSymbol);
 				form.add(new NonCachingImage("picSymbol", new ImageResource(contPicSymbol, pictureFileExtension)));
@@ -98,7 +98,7 @@ public class CustomizationPanel extends Panel {
 			loginTitleTextField.setRequired(true);
 			form.add(loginTitleTextField);
 
-			OnOffSwitch showHomeCtrl = new OnOffSwitch("showHome", new PropertyModel<>(customization, "showHome")) {
+			OnOffSwitch showHomeCtrl = new OnOffSwitch("advCustomizationShowHome", new PropertyModel<>(customization, "showHome")) {
 				private static final long serialVersionUID = -3214185498258791153L;
 
 				@Override
@@ -108,7 +108,7 @@ public class CustomizationPanel extends Panel {
 			};
 			form.add(showHomeCtrl);
 
-			TextArea<String> homehtmlTxtAr = new TextArea<>("homeHtml", new PropertyModel<>(customization, "homeHtml"));		
+			TextArea<String> homehtmlTxtAr = new TextArea<>("homeHtml", new PropertyModel<>(customization, "homeHtml"));
 			form.add(homehtmlTxtAr);
 
 			form.add(new Button("save") {
@@ -123,51 +123,48 @@ public class CustomizationPanel extends Panel {
 						boolean error = false;
 
 						if (fileUploadBigLogo != null) {
-							// validate extension
-							if (!(fileUploadBigLogo.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
+							CandidatePictureUploadValidator.PictureUploadResult validationResult = CandidatePictureUploadValidator.validateAndBuild(fileUploadBigLogo);
+							if (!validationResult.isValid()) {
 								error = true;
-								getSession().error(getString("advCustomizationExtensionError"));
+								handlePictureUploadValidationError(validationResult.getFailureReason());
 							} else {
-								// set file
 								customization.setPicBigLogo(fileUploadBigLogo.getClientFileName());
-								customization.setContPicBigLogo(fileUploadBigLogo.getBytes());
+								customization.setContPicBigLogo(validationResult.getPictureInfo());
 							}
 						}
 
 						if ((!error) && (fileUploadSmallLogo != null)) {
-							// validate extension
-							if (!(fileUploadSmallLogo.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
+							CandidatePictureUploadValidator.PictureUploadResult validationResult = CandidatePictureUploadValidator.validateAndBuild(fileUploadSmallLogo);
+							if (!validationResult.isValid()) {
 								error = true;
-								getSession().error(getString("advCustomizationExtensionError"));
+								handlePictureUploadValidationError(validationResult.getFailureReason());
 							} else {
-								// set file
 								customization.setPicSmallLogo(fileUploadSmallLogo.getClientFileName());
-								customization.setContPicSmallLogo(fileUploadSmallLogo.getBytes());
+								customization.setContPicSmallLogo(validationResult.getPictureInfo());
 							}
 						}
 
 						if ((!error) && (fileUploadSymbol != null)) {
-							// validate extension
-							if (!(fileUploadSymbol.getClientFileName().split("\\.")[1].matches("jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF"))) {
+							CandidatePictureUploadValidator.PictureUploadResult validationResult = CandidatePictureUploadValidator.validateAndBuild(fileUploadSymbol);
+							if (!validationResult.isValid()) {
 								error = true;
-								getSession().error(getString("advCustomizationExtensionError"));
+								handlePictureUploadValidationError(validationResult.getFailureReason());
 							} else {
-								// set file
 								customization.setPicSymbol(fileUploadSymbol.getClientFileName());
-								customization.setContPicSymbol(fileUploadSymbol.getBytes());
+								customization.setContPicSymbol(validationResult.getPictureInfo());
 							}
 						}
 
-						if((getLoginTitle() == null) || (getLoginTitle().compareTo("") == 0)) {
+						if ((getLoginTitle() == null) || (getLoginTitle().compareTo("") == 0)) {
 							setLoginTitle(getString("advCustomizationDefaultSiteTitle"));
 						}
-						if((getSiteTitle() == null) || (getSiteTitle().compareTo("") == 0)) {
+						if ((getSiteTitle() == null) || (getSiteTitle().compareTo("") == 0)) {
 							setSiteTitle(getString("advCustomizationDefaultSiteTitle"));
 						}
 						customization.setLoginTitle(getLoginTitle());
 						customization.setSiteTitle(getSiteTitle());
 
-						if ((!error) ) {
+						if ((!error)) {
 							AppContext.getInstance().getManagerBeanRemote().updateCustomization(customization);
 							getSession().info(getString("advCustomizationEditSuccess"));
 						}
@@ -179,10 +176,21 @@ public class CustomizationPanel extends Panel {
 			});
 
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 	}
 
+	private void handlePictureUploadValidationError(CandidatePictureUploadValidator.FailureReason failureReason) {
+		if (failureReason == CandidatePictureUploadValidator.FailureReason.INVALID_SIZE) {
+			getSession().error(getString("advCustomizationPhotoSizeError"));
+			return;
+		}
+		if (failureReason == CandidatePictureUploadValidator.FailureReason.INVALID_FORMAT) {
+			getSession().error(getString("advCustomizationExtensionError"));
+			return;
+		}
+		getSession().error(getString("advCustomizationProcessingError"));
+	}
 
 	public Customization getCustomization() {
 		return customization;

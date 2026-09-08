@@ -1,0 +1,26 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div>
+		<textarea wicket:id="textArea" class="form-control"></textarea>
+		<small wicket:id="counter" class="text-muted d-block text-end">0/0</small>
+	</div>
+	<div wicket:id="actionsContainer" class="d-flex gap-2 justify-content-start">
+		<button wicket:id="discardButton" type="submit" class="btn btn-outline-light btn-sm">
+			<wicket:message key="textAssistanceDiscardButton" />
+		</button>
+		<button wicket:id="spellcheckButton" type="submit" class="btn btn-light btn-sm text-assistance-btn">
+			<wicket:message key="textAssistanceSpellingButton" />
+		</button>
+		<button wicket:id="styleReviewButton" type="submit" class="btn btn-light btn-sm text-assistance-btn">
+			<wicket:message key="textAssistanceStyleButton" />
+		</button>
+		<button wicket:id="translateToSpanishButton" type="submit" class="btn btn-light btn-sm text-assistance-btn">
+			<wicket:message key="textAssistanceTranslateToSpanishButton" />
+		</button>
+		<button wicket:id="translateToPortugueseButton" type="submit" class="btn btn-light btn-sm text-assistance-btn">
+			<wicket:message key="textAssistanceTranslateToPortugueseButton" />
+		</button>
+		<button wicket:id="translateToEnglishButton" type="submit" class="btn btn-light btn-sm text-assistance-btn">
+			<wicket:message key="textAssistanceTranslateToEnglishButton" />
+		</button>
+	</div>
+</wicket:panel>

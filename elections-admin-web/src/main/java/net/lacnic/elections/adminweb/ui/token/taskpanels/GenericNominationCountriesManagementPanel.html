@@ -1,0 +1,137 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+		<div class="card-header">
+			<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle"><wicket:message key="acceptNominationCountriesTitle" /></h4>
+		</div>
+		<div class="card-body">
+			<p wicket:id="restrictionMessage" data-testid="restrictionMessage"></p>
+
+			<form wicket:id="countriesForm" data-testid="countriesForm">
+				<p class="text-muted mb-3"><wicket:message key="acceptNominationCountriesIntro" /></p>
+
+				<div wicket:id="restrictedCountriesAlert" class="alert alert-warning mb-3" data-testid="restrictedCountriesAlert"></div>
+
+				<div class="mb-4">
+					<h5 class="mb-3" data-testid="1_indique_el_pa_s_que_desea_representar"><wicket:message key="acceptNominationCountriesStep1Title" /></h5>
+					<label class="form-label" for="mainCountryCode"><wicket:message key="acceptNominationCountriesMainCountryLabel" /></label>
+					<select wicket:id="mainCountryCode" id="mainCountryCode" class="form-select" data-testid="mainCountryCode"></select>
+				</div>
+
+				<div wicket:id="restrictedCountriesSelectionAlert" class="alert alert-danger mb-3" data-testid="restrictedCountriesSelectionAlert"></div>
+
+				<div wicket:id="mainCountryLinkTypesContainer" class="mb-4">
+					<h5 class="mb-3" data-testid="2_indique_los_v_nculos_que_tiene_con_el_pa_s_que_desea_representar"><wicket:message key="acceptNominationCountriesStep2Title" /></h5>
+					<div class="form-check mb-2">
+						<input wicket:id="mainQCitizen" class="form-check-input" type="checkbox" id="mainQCitizen" data-testid="mainQCitizen">
+						<label class="form-check-label" for="mainQCitizen"><wicket:message key="acceptNominationCountriesQuestionCitizen" /></label>
+					</div>
+					<div class="form-check mb-2">
+						<input wicket:id="mainQResidenceOver5y" class="form-check-input" type="checkbox" id="mainQResidenceOver5y" data-testid="mainQResidenceOver5y">
+						<label class="form-check-label" for="mainQResidenceOver5y"><wicket:message key="acceptNominationCountriesQuestionResidenceOver5y" /></label>
+					</div>
+					<div class="form-check mb-2">
+						<input wicket:id="mainQLongEmploymentOrAdvisory5y" class="form-check-input" type="checkbox" id="mainQLongEmploymentOrAdvisory5y" data-testid="mainQLongEmploymentOrAdvisory5y">
+						<label class="form-check-label" for="mainQLongEmploymentOrAdvisory5y"><wicket:message key="acceptNominationCountriesQuestionLongEmploymentOrAdvisory5y" /></label>
+					</div>
+					<div class="form-check mb-2">
+						<input wicket:id="mainQFamilyResidenceOver5y" class="form-check-input" type="checkbox" id="mainQFamilyResidenceOver5y" data-testid="mainQFamilyResidenceOver5y">
+						<label class="form-check-label" for="mainQFamilyResidenceOver5y"><wicket:message key="acceptNominationCountriesQuestionFamilyResidenceOver5y" /></label>
+					</div>
+					<div class="form-check mb-2">
+						<input wicket:id="mainQInternetCommunityOrgParticipation" class="form-check-input" type="checkbox" id="mainQInternetCommunityOrgParticipation" data-testid="mainQInternetCommunityOrgParticipation">
+						<label class="form-check-label" for="mainQInternetCommunityOrgParticipation"><wicket:message key="acceptNominationCountriesQuestionInternetCommunityOrgParticipation" /></label>
+					</div>
+					<div class="form-check">
+						<input wicket:id="mainQEligibleForCitizenship" class="form-check-input" type="checkbox" id="mainQEligibleForCitizenship" data-testid="mainQEligibleForCitizenship">
+						<label class="form-check-label" for="mainQEligibleForCitizenship"><wicket:message key="acceptNominationCountriesQuestionEligibleForCitizenship" /></label>
+					</div>
+				</div>
+
+				<div class="border-top border-dashed my-3"></div>
+
+				<div class="mb-3">
+					<h5 class="mb-3" data-testid="3_v_nculos_con_otros_pa_ses"><wicket:message key="acceptNominationCountriesStep3Title" /></h5>
+					<p class="text-muted mb-3" data-testid="otherCountriesHelp"><wicket:message key="acceptNominationCountriesOtherCountriesHelp" /></p>
+					<div class="mb-3">
+						<label class="form-label" for="otherCountryCode"><wicket:message key="acceptNominationCountriesOtherCountryLabel" /></label>
+						<select wicket:id="otherCountryCode" id="otherCountryCode" class="form-select" data-testid="otherCountryCode"></select>
+					</div>
+
+					<div class="form-label mb-2"><wicket:message key="acceptNominationCountriesOtherLinkTypeLabel" /></div>
+					<div class="form-check mb-2">
+						<input wicket:id="otherQCitizen" class="form-check-input" type="checkbox" id="otherQCitizen" data-testid="otherQCitizen">
+						<label class="form-check-label" for="otherQCitizen"><wicket:message key="acceptNominationCountriesQuestionCitizen" /></label>
+					</div>
+					<div class="form-check mb-2">
+						<input wicket:id="otherQResidenceOver5y" class="form-check-input" type="checkbox" id="otherQResidenceOver5y" data-testid="otherQResidenceOver5y">
+						<label class="form-check-label" for="otherQResidenceOver5y"><wicket:message key="acceptNominationCountriesQuestionResidenceOver5y" /></label>
+					</div>
+					<div class="form-check mb-2">
+						<input wicket:id="otherQLongEmploymentOrAdvisory5y" class="form-check-input" type="checkbox" id="otherQLongEmploymentOrAdvisory5y" data-testid="otherQLongEmploymentOrAdvisory5y">
+						<label class="form-check-label" for="otherQLongEmploymentOrAdvisory5y"><wicket:message key="acceptNominationCountriesQuestionLongEmploymentOrAdvisory5y" /></label>
+					</div>
+					<div class="form-check mb-2">
+						<input wicket:id="otherQFamilyResidenceOver5y" class="form-check-input" type="checkbox" id="otherQFamilyResidenceOver5y" data-testid="otherQFamilyResidenceOver5y">
+						<label class="form-check-label" for="otherQFamilyResidenceOver5y"><wicket:message key="acceptNominationCountriesQuestionFamilyResidenceOver5y" /></label>
+					</div>
+					<div class="form-check mb-2">
+						<input wicket:id="otherQInternetCommunityOrgParticipation" class="form-check-input" type="checkbox" id="otherQInternetCommunityOrgParticipation" data-testid="otherQInternetCommunityOrgParticipation">
+						<label class="form-check-label" for="otherQInternetCommunityOrgParticipation"><wicket:message key="acceptNominationCountriesQuestionInternetCommunityOrgParticipation" /></label>
+					</div>
+					<div class="form-check mb-3">
+						<input wicket:id="otherQEligibleForCitizenship" class="form-check-input" type="checkbox" id="otherQEligibleForCitizenship" data-testid="otherQEligibleForCitizenship">
+						<label class="form-check-label" for="otherQEligibleForCitizenship"><wicket:message key="acceptNominationCountriesQuestionEligibleForCitizenship" /></label>
+					</div>
+
+						<div class="d-flex justify-content-end mb-3">
+							<button wicket:id="addCountryLinkButton" class="btn btn-primary btn-sm" type="submit" data-testid="addCountryLinkButton"><wicket:message key="acceptNominationCountriesAddButton" /></button>
+						</div>
+					</div>
+
+				<div wicket:id="countriesTableContainer" class="table-responsive mb-3" data-testid="countriesTableContainer">
+					<p wicket:id="noCountriesLabel" class="text-muted mb-3" data-testid="noCountriesLabel"></p>
+					<table class="table table-hover align-middle mb-0">
+						<thead class="bg-light align-middle bg-opacity-25 thead-sm">
+							<tr class="text-uppercase fs-xxs">
+								<th style="width: 1%;"><wicket:message key="acceptNominationCountriesTableDeleteHeader" /></th>
+								<th><wicket:message key="acceptNominationCountriesTableCountryHeader" /></th>
+								<th><wicket:message key="acceptNominationCountriesQuestionCitizen" /></th>
+								<th><wicket:message key="acceptNominationCountriesTableResidence5yHeader" /></th>
+								<th><wicket:message key="acceptNominationCountriesTableLongEmployment5yHeader" /></th>
+								<th><wicket:message key="acceptNominationCountriesTableFamilyResidence5yHeader" /></th>
+								<th><wicket:message key="acceptNominationCountriesTableInternetCommunityHeader" /></th>
+								<th><wicket:message key="acceptNominationCountriesTableCitizenshipRequirementsHeader" /></th>
+								<th style="width: 1%;"><wicket:message key="acceptNominationCountriesTableEditHeader" /></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="countryRows" data-testid="countryRows">
+								<td class="text-center text-nowrap">
+									<span wicket:id="removeRowButton" data-testid="removeRowButton"></span>
+								</td>
+								<td wicket:id="countryLabel" data-testid="countryLabel"></td>
+								<td wicket:id="qCitizenLabel" data-testid="qCitizenLabel"></td>
+								<td wicket:id="qResidenceOver5yLabel" data-testid="qResidenceOver5yLabel"></td>
+								<td wicket:id="qLongEmploymentOrAdvisory5yLabel" data-testid="qLongEmploymentOrAdvisory5yLabel"></td>
+								<td wicket:id="qFamilyResidenceOver5yLabel" data-testid="qFamilyResidenceOver5yLabel"></td>
+								<td wicket:id="qInternetCommunityOrgParticipationLabel" data-testid="qInternetCommunityOrgParticipationLabel"></td>
+								<td wicket:id="qEligibleForCitizenshipLabel" data-testid="qEligibleForCitizenshipLabel"></td>
+								<td class="text-center text-nowrap">
+									<a wicket:id="editRowButton" href="#" class="text-muted" data-testid="editRowButton"><i class="ti ti-edit fs-3"></i></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="border-top border-dashed my-3"></div>
+
+				<div class="d-flex mt-4 justify-content-end gap-2">
+					<a wicket:id="backButton" class="btn btn-outline-light btn-md" data-testid="backButton"><wicket:message key="volver" /></a>
+					<button wicket:id="continueLaterButton" class="btn btn-outline-light btn-md" type="submit" data-testid="continueLaterButton"><wicket:message key="candidateProfileContinueLaterButton" /></button>
+					<button wicket:id="finishAndSendButton" class="btn btn-success btn-md" type="submit" data-testid="finishAndSendButton"><wicket:message key="candidateProfileFinishAndSendButton" /></button>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>

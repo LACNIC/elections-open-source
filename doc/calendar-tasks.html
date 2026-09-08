@@ -1,0 +1,135 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Calendario y tareas electorales" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el modulo vigente de calendario y tareas de una eleccion en <code>v3.0</code>. El contenido fue contrastado contra la UI administrativa, los enums <code>ElectionCalendarKey</code> y <code>ElectionTaskKey</code>, los presets de creacion y la logica EJB que guarda, marca completitud y mantiene progreso de candidatos.</p>
+
+				<h2>{{ "Ubicacion en el flujo" }}</h2>
+				<ul class="paragraph">
+					<li>Dentro de la gestion de una eleccion, las tabs disponibles son <b>Detalle</b>, <b>Convocatoria</b>, <b>Organizaciones</b>, <b>Padron</b>, <b>Calendario</b>, <b>Tareas</b>, <b>Candidatos</b> y <b>Auditores</b>.</li>
+					<li>La pantalla de calendario se abre en <code>/admin/election/calendar-module</code> y la de tareas en <code>/admin/election/tasks</code>.</li>
+					<li>En el flujo tipo wizard, <b>Calendario</b> vuelve a <b>Padron</b> y continua hacia <b>Tareas</b>; <b>Tareas</b> vuelve a <b>Calendario</b> y continua hacia <b>Candidatos</b>.</li>
+					<li>Si la eleccion esta cerrada, ambas pantallas derivan a <b>Eleccion cerrada</b> y no permiten edicion.</li>
+				</ul>
+
+				<h2>{{ "Calendario electoral" }}</h2>
+				<ul class="paragraph">
+					<li>La UI construye una fila por cada valor de <code>ElectionCalendarKey</code>. El sistema trabaja con las etapas <code>N_1</code> a <code>N_23</code>.</li>
+					<li>Las etapas cuyo nombre contiene <code>_PERIODO_</code> se editan con inicio y fin; las etapas <code>SINGLE</code> se editan solo con fecha/hora de inicio.</li>
+					<li><code>N_16_PERIODO_VOTING</code> no admite <b>Sin fecha definida</b>. El resto de las etapas si puede quedar sin fecha y, en ese caso, la UI desactiva automaticamente el switch <b>Publico</b>.</li>
+					<li>La pantalla muestra y edita fechas usando <code>diffUTC</code> de la eleccion. Al leer datos desde base suma ese offset; al guardar vuelve a restarlo antes de persistir.</li>
+					<li>El preview mensual de la derecha no es decorativo: al hacer click en un evento desplaza la vista hacia la tarjeta de la etapa correspondiente.</li>
+					<li>El estado visual del timeline distingue etapas sin fecha, futuras y ya alcanzadas. Tambien marca <b>Solapamiento detectado</b> cuando una etapa comienza antes de que termine la anterior.</li>
+					<li><b>Importante:</b> ese solapamiento es solo una advertencia visual. El guardado no lo bloquea. Las unicas validaciones duras del formulario son: fecha/hora de inicio obligatoria, fecha/hora de fin obligatoria en periodos y <code>fin &gt;= inicio</code>.</li>
+					<li><b>Guardar</b> persiste el calendario pero no marca la etapa como completada. <b>Marcar como terminada y seguir</b> persiste y ademas deja <code>calendarSet=true</code>. <b>Ignorar</b> navega a tareas sin guardar cambios.</li>
+				</ul>
+
+				<h2>{{ "Etapas disponibles" }}</h2>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Codigo</th>
+							<th>Tipo</th>
+							<th>Descripcion operativa visible</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td><code>N1</code></td><td>Single</td><td>Publicacion de la eleccion.</td></tr>
+						<tr><td><code>N2</code></td><td>Periodo</td><td>Llamado a candidatos.</td></tr>
+						<tr><td><code>N3</code></td><td>Single</td><td>Cierre del padron electoral.</td></tr>
+						<tr><td><code>N4</code></td><td>Single</td><td>Publicacion del padron electoral.</td></tr>
+						<tr><td><code>N5</code></td><td>Periodo</td><td>Reclamos sobre el padron.</td></tr>
+						<tr><td><code>N6</code></td><td>Periodo</td><td>Periodo adicional de evaluacion.</td></tr>
+						<tr><td><code>N7</code></td><td>Periodo</td><td>Verificacion de formularios de candidatos.</td></tr>
+						<tr><td><code>N8</code></td><td>Periodo</td><td>Validacion de evaluaciones.</td></tr>
+						<tr><td><code>N9</code></td><td>Periodo</td><td>Recepcion de reclamos de candidatos.</td></tr>
+						<tr><td><code>N10</code></td><td>Periodo</td><td>Resolucion de reclamos de candidatos.</td></tr>
+						<tr><td><code>N11</code></td><td>Single</td><td>Publicacion de candidatos.</td></tr>
+						<tr><td><code>N12</code></td><td>Periodo</td><td>Periodo de preguntas a candidatos.</td></tr>
+						<tr><td><code>N13</code></td><td>Periodo</td><td>Resolucion de reclamos del padron.</td></tr>
+						<tr><td><code>N14</code></td><td>Single</td><td>Actualizacion del padron.</td></tr>
+						<tr><td><code>N15</code></td><td>Periodo</td><td>Respuesta de CE a reclamos sobre candidatos.</td></tr>
+						<tr><td><code>N16</code></td><td>Periodo</td><td>Periodo de votacion.</td></tr>
+						<tr><td><code>N17</code></td><td>Single</td><td>Publicacion de resultados provisorios.</td></tr>
+						<tr><td><code>N18</code></td><td>Periodo</td><td>Auditoria de CE.</td></tr>
+						<tr><td><code>N19</code></td><td>Periodo</td><td>Auditoria de votantes.</td></tr>
+						<tr><td><code>N20</code></td><td>Single</td><td>Publicacion oficial sin reclamos.</td></tr>
+						<tr><td><code>N21</code></td><td>Periodo</td><td>Respuesta a reclamos de votantes.</td></tr>
+						<tr><td><code>N22</code></td><td>Single</td><td>Publicacion oficial con reclamos.</td></tr>
+						<tr><td><code>N23</code></td><td>Periodo</td><td>Ventana de sincronizacion del padron desde el servicio externo de organizaciones.</td></tr>
+					</tbody>
+				</table>
+
+				<h2>{{ "Presets y publicacion por defecto" }}</h2>
+				<ul class="paragraph">
+					<li>Al crear una eleccion, el preset genera registros para todas las etapas del calendario.</li>
+					<li>Las etapas que arrancan con fecha por defecto dependen del tipo: <code>BOARD</code> agrega fecha a <code>N1</code>, <code>N2</code>, <code>N4</code>, <code>N6</code>, <code>N7</code>, <code>N8</code>, <code>N11</code>, <code>N12</code>, <code>N16</code>, <code>N17</code>, <code>N18</code> y <code>N23</code>; los tipos tipo comision usan la misma base pero sin fecha por defecto en <code>N6</code> ni <code>N8</code>.</li>
+					<li>Las fechas por defecto se crean a las <code>18:00 UTC</code>, dos dias despues de la creacion, y luego la UI las presenta ajustadas por <code>diffUTC</code>.</li>
+					<li>Las etapas que quedan <b>publicables</b> por defecto en el preset son <code>N1</code>, <code>N2</code>, <code>N4</code>, <code>N11</code>, <code>N12</code>, <code>N16</code>, <code>N17</code> y <code>N18</code>.</li>
+					<li>La bandera <b>Publico</b> del calendario tiene consumo real: el portal publico y los snapshots publicos solo exponen etapas marcadas como publicables.</li>
+				</ul>
+
+				<h2>{{ "Tareas electorales" }}</h2>
+				<ul class="paragraph">
+					<li>La pantalla de tareas requiere que exista al menos un calendario. Si no hay calendarios cargados, muestra un mensaje y deja deshabilitada la configuracion de nuevas tareas.</li>
+					<li>El formulario de alta solo ofrece claves de tarea que todavia no esten usadas en la eleccion. El backend ademas vuelve a bloquear duplicados por <code>ElectionTaskKey</code>.</li>
+					<li>Cada tarea se define por: tarea, calendario asociado, nivel de dependencia, posicion visual (<code>displayOrder</code>) y flag <b>Publicable</b>.</li>
+					<li>La tabla de tareas configuradas permite editar esos campos, mover filas hacia arriba/abajo y eliminar.</li>
+					<li><b>Guardar</b> persiste los cambios de las tareas pero no marca la etapa como completada. <b>Marcar como terminada y seguir</b> exige que exista al menos una tarea y luego deja <code>tasksSet=true</code>. <b>Ignorar</b> navega a candidatos sin guardar.</li>
+					<li>Al agregar o editar una tarea, el backend crea progreso inicial <code>NOT_STARTED</code> para todos los candidatos actuales que todavia no tengan progreso en esa tarea; no lo crea para candidatos de abstencion.</li>
+					<li>Una tarea no puede eliminarse si ya tiene progreso de candidatos asociado. En la practica, esto suele bloquear la eliminacion una vez que la eleccion ya tiene candidatos y la tarea fue agregada o reconfigurada.</li>
+					<li>El orden visible se resuelve por <code>displayOrder</code> y, ante empate o nulo, por identificador interno. Los botones subir/bajar renumeran secuencialmente todas las tareas.</li>
+				</ul>
+
+				<h2>{{ "Catalogo de tareas" }}</h2>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Tarea</th>
+							<th>Default</th>
+							<th>Nivel por defecto</th>
+							<th>Posicion por defecto</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td><code>PROFILE</code></td><td>Perfil</td><td>Nivel 1</td><td>10</td></tr>
+						<tr><td><code>COUNTRIES</code></td><td>Paises</td><td>Nivel 1</td><td>20</td></tr>
+						<tr><td><code>INCOMPATIBILITIES</code></td><td>Incompatibilidades</td><td>Nivel 1</td><td>30</td></tr>
+						<tr><td><code>COURSE</code></td><td>Capacitacion</td><td>Nivel 2</td><td>40</td></tr>
+						<tr><td><code>ORG_SUPPORTS</code></td><td>Apoyos de organizaciones</td><td>Nivel 2</td><td>50</td></tr>
+						<tr><td><code>USER_SUPPORTS_2</code></td><td>Apoyos por contacto (2)</td><td>Nivel 2</td><td>60</td></tr>
+						<tr><td><code>USER_SUPPORTS_5</code></td><td>Apoyos por contacto (5)</td><td>Nivel 2</td><td>70</td></tr>
+						<tr><td><code>ORGANIZATIONS</code></td><td>Organizaciones</td><td>Nivel 2</td><td>80</td></tr>
+						<tr><td><code>OTHER_STATUTORY_QUESTIONS</code></td><td>Preguntas de la comision electoral (e)</td><td>Nivel 2</td><td>90</td></tr>
+						<tr><td><code>OTHER_NON_STATUTORY_QUESTIONS</code></td><td>Preguntas de la comision electoral (ne)</td><td>Nivel 2</td><td>100</td></tr>
+						<tr><td><code>DECLARATIONS</code></td><td>Declaraciones</td><td>Nivel 2</td><td>110</td></tr>
+						<tr><td><code>DECLARATIONS_NON_STATUTORY</code></td><td>Declaraciones (n.e)</td><td>Nivel 2</td><td>120</td></tr>
+						<tr><td><code>EVALUATION</code></td><td>Evaluacion</td><td>Nivel 3</td><td>130</td></tr>
+					</tbody>
+				</table>
+
+				<h2>{{ "Publicacion por defecto de tareas" }}</h2>
+				<ul class="paragraph">
+					<li>En los presets de alta quedan publicables por defecto <code>PROFILE</code>, <code>COUNTRIES</code>, <code>ORG_SUPPORTS</code>, <code>USER_SUPPORTS_2</code>, <code>USER_SUPPORTS_5</code>, <code>ORGANIZATIONS</code>, <code>OTHER_STATUTORY_QUESTIONS</code> y <code>OTHER_NON_STATUTORY_QUESTIONS</code>.</li>
+					<li>La bandera <b>Publicable</b> de las tareas tambien tiene consumo en la experiencia publica y en snapshots: la visibilidad se resuelve por clave de tarea.</li>
+				</ul>
+
+				<h2>{{ "Siguiente modulo" }}</h2>
+				<p class="paragraph">Despues de tareas, el wizard continua en candidaturas.</p>
+				<ul class="paragraph">
+					<li><b>Candidaturas y nominaciones:</b> gestione altas manuales, nominaciones, apoyos y publicacion de candidatos desde <a href="{{site.baseurl}}/candidates.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionCalendarModuleDashboard</code>, <code>ElectionTasksDashboard</code>, <code>ElectionTasksPanel</code>, <code>ManageElectionTabsPanel</code>, <code>DashboardElectionBasePage</code>, <code>ElectionCalendarKey</code>, <code>ElectionTaskKey</code>, <code>TaskDependencyLevel</code>, <code>ElectionPresetConfigurations</code>, <code>ElectionsManagerEJBBean.saveElectionCalendars</code>, <code>addElectionTask</code>, <code>editElectionTask</code>, <code>moveElectionTaskUp</code>, <code>moveElectionTaskDown</code>, <code>removeElectionTask</code>, <code>persistElectionCalendarSet</code>, <code>persistElectionTasksSet</code>, <code>PublicElectionSnapshotBuilder</code> y <code>PublicElectionPage</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

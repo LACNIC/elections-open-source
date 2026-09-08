@@ -1,0 +1,11 @@
+<wicket:panel>
+	<div wicket:id="viewLinksContainer" data-testid="viewLinksContainer">
+		<a wicket:id="viewLinkButton" data-testid="viewLinkButton" class="text-success ti ti-eye fs-2" wicket:message="title:commontBtnViewVoteLinkTitle,aria-label:commontBtnViewVoteLinkTitle"></a>
+		<span wicket:id="noLinks" data-testid="noLinks"></span>
+		<ul wicket:id="linksContainer" data-testid="linksContainer" class="list-unstyled mb-0">
+			<li wicket:id="linksList" data-testid="linksList">
+					<a wicket:id="voteLink" data-testid="voteLink" target="_blank" rel="noopener noreferrer" wicket:message="aria-label:commontBtnViewVoteLinkTitle"><span wicket:id="voteLinkText" data-testid="voteLinkText"></span></a>
+			</li>
+		</ul>
+	</div>
+</wicket:panel>

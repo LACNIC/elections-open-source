@@ -1,0 +1,94 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<header class="app-topbar" style="margin-left: 0;">
+		<div class="container-fluid topbar-menu">
+			<div class="d-flex align-items-center gap-2 flex-wrap">
+				<button class="topnav-toggle-button px-2" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content" type="button">
+					<i class="ti ti-menu-4 fs-22"></i>
+				</button>
+				<a wicket:id="electionLink" data-testid="electionLink" class="topbar-link fw-semibold fs-5" wicket:message="title:publicTokenTopHeaderElectionTooltip">
+					<span wicket:id="headerElectionTitle" data-testid="headerElectionTitle">Elección</span>
+				</a>
+				<span class="topbar-link text-muted px-1">|</span>
+				<a wicket:id="headerSectionLink" data-testid="headerSectionLink" class="topbar-link fw-semibold" wicket:message="title:publicTokenTopHeaderRefreshTooltip">
+					<span wicket:id="headerSectionLabel" data-testid="headerSectionLabel">Público</span>
+				</a>
+				<span class="topbar-link text-muted px-1">|</span>
+				<a href="https://milacnic.lacnic.net" class="topbar-link fw-semibold" target="_blank" rel="noreferrer">MiLACNIC</a>
+			</div>
+
+			<div class="d-flex align-items-center gap-2">
+				<div class="topbar-item">
+					<a wicket:id="homeLink" data-testid="homeLink" class="topbar-link" wicket:message="title:publicTokenTopHeaderHomeTooltip">
+						<i data-lucide="home" class="fs-xxl"></i>
+					</a>
+				</div>
+
+				<div class="topbar-item" wicket:id="languageContainer" data-testid="languageContainer">
+					<div class="dropdown">
+						<button class="topbar-link fw-bold" data-bs-toggle="dropdown" data-bs-offset="0,21" type="button" aria-haspopup="false" aria-expanded="false">
+							<i data-lucide="languages" class="fs-xxl"></i>
+						</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a href="#" class="dropdown-item" wicket:id="es" data-testid="es" id="es" title="Spanish">
+								<span class="align-middle">Español</span>
+							</a>
+							<a href="#" class="dropdown-item" wicket:id="en" data-testid="en" id="en" title="English">
+								<span class="align-middle">English</span>
+							</a>
+							<a href="#" class="dropdown-item" wicket:id="pt" data-testid="pt" id="pt" title="Português">
+								<span class="align-middle">Portugués</span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="topbar-item" wicket:id="notificationContainer" data-testid="notificationContainer">
+					<div class="dropdown">
+						<button class="topbar-link dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown" data-bs-offset="0,22" type="button" aria-haspopup="false" aria-expanded="false">
+							<i wicket:id="notificationBellIcon" data-testid="notificationBellIcon" data-lucide="bell" class="fs-xxl"></i>
+						</button>
+						<div class="dropdown-menu dropdown-menu-end p-0">
+							<div class="px-3 py-2 border-bottom">
+								<div class="row align-items-center">
+									<div class="col">
+										<h6 class="m-0 fs-md fw-semibold" wicket:message="key:publicTokenNotificationConfigTitle">Configuración de notificaciones</h6>
+									</div>
+								</div>
+								<span class="text-muted small" wicket:id="headerNotificationStatus" data-testid="headerNotificationStatus"></span>
+							</div>
+							<div class="py-1">
+								<div wicket:id="reminderFrequencyOptions" data-testid="reminderFrequencyOptions">
+									<div wicket:id="disabledDivider" data-testid="disabledDivider" class="dropdown-divider my-1"></div>
+									<a href="#" class="dropdown-item" wicket:id="reminderFrequencyLink" data-testid="reminderFrequencyLink">
+										<span class="d-flex align-items-center justify-content-between gap-2">
+											<span class="d-inline-flex align-items-center gap-2">
+												<i wicket:id="reminderFrequencyIcon" data-testid="reminderFrequencyIcon" data-lucide="bell-ring" class="fs-xl"></i>
+												<span class="align-middle" wicket:id="reminderFrequencyLabel" data-testid="reminderFrequencyLabel">Frecuencia</span>
+											</span>
+											<span wicket:id="recommendedBadge" data-testid="recommendedBadge" class="badge text-bg-success border border-success" wicket:message="key:publicTokenNotificationRecommendedBadge">Recomendada</span>
+										</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="topbar-item d-none d-sm-flex">
+					<button class="topbar-link" id="light-dark-mode" data-testid="light-dark-mode" type="button">
+						<i data-lucide="moon" class="fs-xxl mode-light-moon"></i>
+						<i data-lucide="sun" class="fs-xxl mode-light-sun"></i>
+					</button>
+				</div>
+
+				<div class="topbar-item d-none d-md-flex">
+					<span class="topbar-link text-muted px-1">|</span>
+				</div>
+
+				<div class="topbar-item d-none d-md-flex">
+					<span class="topbar-link fw-semibold" wicket:id="headerUserDisplay" data-testid="headerUserDisplay"></span>
+				</div>
+			</div>
+		</div>
+	</header>
+</wicket:panel>

@@ -1,9 +1,6 @@
---- 
+---
 layout: default
 title: Sistema Elecciones
-link_logo: http://elecciones-demo.lacnic.net.uy/elections
-link_title: http://elecciones-demo.lacnic.net.uy/elections
-link_repo: https://github.com/LACNIC/elections-open-source
 ---
 <div class="row">
 	<div class="col-lg-12">
@@ -12,20 +9,37 @@ link_repo: https://github.com/LACNIC/elections-open-source
 				<h1>{{ "Instalación, configuración y actualización del Sistema de Elecciones" }}</h1>
 			</div>
 			<div class="ibox-content">
-				<p class="paragraph">El Sistema de Elecciones es una iniciativa open source de LACNIC. Está desarrollado en Java usando el framework Wicket de Apache, corre sobre WildFly como servidor de aplicaciones y usa PostgreSQL como motor de base de datos.</p>
+				<p class="paragraph">El Sistema de Elecciones es una iniciativa open source pensada para que cualquier organización pueda adaptarla a su propio contexto. Está desarrollado en Java usando el framework Wicket de Apache, corre sobre WildFly como servidor de aplicaciones y usa PostgreSQL como motor de base de datos. La instanciación vigente del sistema se realiza con Docker.</p>
+				<p class="paragraph">No es necesario disponer de servicios de LACNIC para operar una instancia. La configuración base para una organización independiente usa autenticación local <code>APP</code>, gestión manual de organizaciones y padrón, Campus deshabilitado y asistencia de IA opcional. Los nombres técnicos históricos que incluyen <code>LACNIC</code> o <code>MILACNIC</code> se mantienen por compatibilidad, no porque la instalación dependa de esa organización.</p>
 				<br>
 
 				<h2>{{ "Instalación y configuración" }}</h2>
-				<p class="paragraph">Para la instalación y configuración inicial del sistema se tienen dos opciones: automática y manual. En ambos casos se ofrecen instructivos paso a paso para los sistemas operativos Ubuntu Server 18, Debian 10 y CentOS/RedHat 7:</p>
-				
-				<ul class="paragraph">
-					<li><b>Instalación automática:</b> se definieron tareas Ansible para el aprovisionamiento completo del ambiente, puede seguir <a href="{{site.baseurl}}/ansible.html">aquí</a> las instrucciones paso a paso.</li>
-					<li><b>Instalación manual:</b> si prefiere ejecutar manualmente la instalación, puede seguir <a href="{{site.baseurl}}/manual.html">aquí</a> las instrucciones paso a paso.</li>
-				</ul>
+				<p class="paragraph">Para instalar y configurar el sistema, use la guía de instanciación con Docker. El perfil <code>fresh</code> permite evaluar o iniciar una instancia autocontenida; una instalación productiva debe usar servicios, secretos, correo, backups, monitoreo y TLS administrados por la organización. La instalación manual de WildFly queda como alternativa avanzada.</p>
+
+					<ul class="paragraph">
+						<li><b>Instanciación con Docker:</b> siga <a href="{{site.baseurl}}/manual.html">esta guía</a> para preparar base de datos, crear el primer administrador local, configurar variables de ambiente, construir la imagen y desplegar.</li>
+					</ul>
 				<br>
 
 				<h2>{{ "Actualización" }}</h2>
-				<p class="paragraph">Cuando se libera una nueva versión del Sistema de Elecciones (ver <a href="{{page.link_repo}}/blob/main/doc/ReleaseNotes.md" target="_blank">Release notes</a>), puede actualizarlo siguiendo <a href="{{site.baseurl}}/update.html">esta guía</a>.</p>
+				<p class="paragraph">Cuando se libera una nueva versión del Sistema de Elecciones (ver <a href="{{site.baseurl}}/release-notes.html">Release notes</a>), puede actualizarlo siguiendo <a href="{{site.baseurl}}/update.html">esta guía</a>.</p>
+				<br>
+
+				<h2>{{ "Gestion funcional" }}</h2>
+				<p class="paragraph">Para relevar y operar una eleccion ya creada, use la guia funcional de alta y configuracion base junto con las guias especificas de los modulos posteriores.</p>
+				<ul class="paragraph">
+					<li><b>Elecciones:</b> gestione la creacion, el detalle base, los presets por tipo y la configuracion operativa desde <a href="{{site.baseurl}}/elections.html">esta guia</a>.</li>
+					<li><b>Organizaciones:</b> cargue, sincronice y mantenga organizaciones desde <a href="{{site.baseurl}}/organizations.html">esta guia</a>.</li>
+					<li><b>Padron:</b> cargue, sincronice y mantenga votantes desde <a href="{{site.baseurl}}/census.html">esta guia</a>.</li>
+					<li><b>Calendario y tareas:</b> configure etapas, hitos publicables, dependencias y orden de tareas desde <a href="{{site.baseurl}}/calendar-tasks.html">esta guia</a>.</li>
+					<li><b>Candidaturas y nominaciones:</b> opere altas manuales, nominaciones, apoyos y publicacion de candidatos desde <a href="{{site.baseurl}}/candidates.html">esta guia</a>.</li>
+					<li><b>Preguntas, declaraciones y comunidad:</b> documente el bloque de preguntas estatutarias/no estatutarias, declaraciones obligatorias y preguntas de comunidad desde <a href="{{site.baseurl}}/questions-declarations.html">esta guia</a>.</li>
+					<li><b>Auditoria previa y final:</b> gestione auditores, decisiones por candidato, conformidad final y revision de votos desde <a href="{{site.baseurl}}/auditors.html">esta guia</a>.</li>
+					<li><b>Votacion y links publicos:</b> releve rutas tokenizadas, recovery, nominacion, apoyo, votacion y resultados publicos desde <a href="{{site.baseurl}}/voting-public-links.html">esta guia</a>.</li>
+					<li><b>Resultados y reportes:</b> revise dashboard interno, pre-reportes, resultados publicos y auditoria final desde <a href="{{site.baseurl}}/results-reports.html">esta guia</a>.</li>
+					<li><b>Parametros, templates e i18n:</b> administre configuracion global, personalizacion visual, templates base/por eleccion y reglas reales de idioma desde <a href="{{site.baseurl}}/parameters-templates-i18n.html">esta guia</a>.</li>
+						<li><b>Seguridad y accesos:</b> configure login local sin PAI o autenticacion externa, roles, CAPTCHA, rate limits, tokens y autenticacion WS desde <a href="{{site.baseurl}}/security-access.html">esta guia</a>.</li>
+				</ul>
 			</div>
 		</div>
 	</div>

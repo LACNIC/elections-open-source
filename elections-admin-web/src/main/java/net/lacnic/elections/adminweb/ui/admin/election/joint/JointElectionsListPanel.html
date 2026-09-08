@@ -1,0 +1,29 @@
+<wicket:panel>
+	<div class="card">
+		<div class="card-header">
+			<h5 data-testid="unitedElecListTitle"><wicket:message key="unitedElecListTitle">Lista de Elecciones Unidas</wicket:message></h5>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="jointElectionsTable" data-testid="jointElectionsTable" class="table table-hover align-middle mb-0 dataTables">
+					<thead class="table-light">
+						<tr>
+							<th></th>
+							<th><wicket:message key="unitedElecListElec1" /></th>
+							<th><wicket:message key="unitedElecListElec2" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="jointElectionsList" data-testid="jointElectionsList" name="jointElectionsList">
+							<td><div wicket:id="remove" data-testid="remove" name="remove"></div></td>
+							<td><span wicket:id="electionA" data-testid="electionA"></span></td>
+							<td><span wicket:id="electionB" data-testid="electionB"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<hr class="my-3">
+			<div class="text-center"></div>
+		</div>
+	</div>
+</wicket:panel>

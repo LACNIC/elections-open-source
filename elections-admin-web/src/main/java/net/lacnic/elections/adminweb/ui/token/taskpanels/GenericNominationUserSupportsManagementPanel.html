@@ -1,0 +1,80 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="card mb-3">
+			<div class="card-header">
+				<h4 wicket:id="cardTitle" class="card-title" data-testid="cardTitle">
+				<wicket:message key="acceptNominationUserSupportsTitle" />
+			</h4>
+		</div>
+		<div class="card-body">
+			<p wicket:id="restrictionMessage" data-testid="restrictionMessage"></p>
+
+			<form wicket:id="userSupportsForm" data-testid="userSupportsForm">
+				<p wicket:id="requiredSupportsHint" class="text-muted mb-1" data-testid="requiredSupportsHint"></p>
+				<p wicket:id="progressHint" class="text-muted mb-3" data-testid="progressHint"></p>
+
+				<div wicket:id="requestContainer" class="border rounded-3 p-3 bg-light-subtle mb-3" data-testid="requestContainer">
+					<div class="mb-3">
+						<label class="form-label">
+							<wicket:message key="acceptNominationUserSupportsContactNameLabel" />
+						</label>
+						<input wicket:id="supportContactName" type="text" class="form-control" wicket:message="placeholder:acceptNominationUserSupportsContactNamePlaceholder" data-testid="supportContactName">
+					</div>
+					<div>
+						<label class="form-label">
+							<wicket:message key="acceptNominationUserSupportsContactEmailLabel" />
+						</label>
+						<input wicket:id="supportContactEmail" type="email" class="form-control" wicket:message="placeholder:acceptNominationUserSupportsContactEmailPlaceholder" data-testid="supportContactEmail">
+					</div>
+
+					<div class="d-flex justify-content-end mt-3">
+						<button wicket:id="sendSupportRequestButton" class="btn btn-success btn-sm" type="submit" data-testid="sendSupportRequestButton">
+							<wicket:message key="acceptNominationUserSupportsSendRequestButton" />
+						</button>
+					</div>
+				</div>
+
+				<div wicket:id="waitingAlert" class="alert alert-light mb-3" data-testid="waitingAlert">
+					<span wicket:id="waitingAlertMessage" data-testid="waitingAlertMessage"></span>
+				</div>
+
+				<p wicket:id="noSupportsLabel" class="text-muted mb-3" data-testid="noSupportsLabel"></p>
+
+				<div class="table-responsive">
+					<table class="table table-hover align-middle mb-0">
+						<thead class="bg-light align-middle bg-opacity-25 thead-sm">
+							<tr class="text-uppercase fs-xxs">
+								<th>
+									<wicket:message key="acceptNominationUserSupportsTableContactName" />
+								</th>
+								<th>
+									<wicket:message key="acceptNominationUserSupportsTableContactEmail" />
+								</th>
+								<th>
+									<wicket:message key="acceptNominationUserSupportsTableStatus" />
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="supportRows" data-testid="supportRows">
+								<td wicket:id="supportContactNameLabel" data-testid="supportContactNameLabel"></td>
+								<td wicket:id="supportContactEmailLabel" data-testid="supportContactEmailLabel"></td>
+								<td>
+									<span wicket:id="supportStatusLabel" data-testid="supportStatusLabel"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="d-flex mt-4 justify-content-end gap-2">
+					<a wicket:id="backButton" class="btn btn-outline-light btn-md" data-testid="backButton">
+						<wicket:message key="volver" />
+					</a>
+					<button wicket:id="continueLaterButton" class="btn btn-outline-light btn-md" type="submit" data-testid="continueLaterButton">
+						<wicket:message key="candidateProfileContinueLaterButton" />
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>

@@ -3,8 +3,8 @@ package net.lacnic.elections.adminweb.ui.admin.election.joint;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -19,7 +19,7 @@ public class JointElectionsListPanel extends Panel {
 
 	private static final long serialVersionUID = -3823908256532916047L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 
 	public JointElectionsListPanel(String id) {
@@ -54,13 +54,13 @@ public class JointElectionsListPanel extends Panel {
 									getSession().info(getString("unitedElecListExitoDel"));
 									setResponsePage(JointElectionsDashboard.class);
 								} catch (Exception e) {
-									appLogger.error(e);
+									appLogger.error(e.getMessage(), e);
 								}
 							}
 						};
 						item.add(buttonDelete);
 					} catch (Exception e) {
-						appLogger.error(e);
+						appLogger.error(e.getMessage(), e);
 					}
 				}
 			};

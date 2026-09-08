@@ -2,27 +2,32 @@ package net.lacnic.elections.ws.services;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Supplier;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HEAD;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HEAD;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
+import net.lacnic.elections.data.ParticipationV2;
 import net.lacnic.elections.domain.services.detail.ElectionDetailReport;
 import net.lacnic.elections.domain.services.detail.ElectionParticipationDetailReport;
 import net.lacnic.elections.domain.services.detail.OrganizationVoterDetailReport;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionCoreSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionPhotoSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionRollSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionsSnapshot;
 import net.lacnic.elections.ws.app.AppContext;
 import net.lacnic.elections.ws.auth.WebServiceAuthentication;
 import net.lacnic.elections.ws.services.util.PagingUtil;
@@ -32,27 +37,28 @@ public class ElectionsService implements Serializable {
 
 	private static final long serialVersionUID = 3362059132566116897L;
 
-	private static final Logger appLogger = LogManager.getLogger("servicesAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("servicesAppLogger");
 
 	@GET
 	@Path("/hc")
 	@Produces("application/json; charset=UTF-8")
 	public Response getHC(@Context final HttpServletRequest request) {
 		try {
-			Response preResponse = WebServiceAuthentication.authenticate(request);
+			Response preResponse = WebServiceAuthentication.authenticatePublicInformation(request);
 			if (preResponse != null)
 				return preResponse;
 			HealthCheck healthCheck = AppContext.getInstance().getMonitorBeanRemote().getHealthCheckData();
 			Response response = Response.ok(healthCheck).build();
 			return response;
 		} catch (Exception e) {
-			appLogger.error(e);
-			return Response.serverError().build();
+			appLogger.error(e.getMessage(), e);
+			Response response = Response.ok(new HealthCheck("Health check unavailable")).build();
+			return response;
 		}
 	}
 
 	@GET
-	@Path("/participations/{org:.*}")
+	@Path("/old/participations/{org:.*}")
 	@Produces("application/json; charset=UTF-8")
 	public Response getParticipations(@Context final HttpServletRequest request, @PathParam("org") final String org) {
 		try {
@@ -62,7 +68,7 @@ public class ElectionsService implements Serializable {
 			List<Participation> participations = AppContext.getInstance().getMonitorBeanRemote().getOrganizationParticipations(org);
 			return Response.ok(participations).build();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -77,13 +83,13 @@ public class ElectionsService implements Serializable {
 				return preResponse;
 			return Response.ok(AppContext.getInstance().getMonitorBeanRemote().getElectionsLightAllOrderStartDateDesc()).build();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
 
 	@GET
-	@Path("/participaciones/{org:.*}")
+	@Path("/old/participaciones/{org:.*}")
 	@Produces("application/json; charset=UTF-8")
 	public Response getParticipaciones(@Context final HttpServletRequest request, @PathParam("org") final String org) {
 		try {
@@ -93,9 +99,32 @@ public class ElectionsService implements Serializable {
 			List<Participation> participations = AppContext.getInstance().getMonitorBeanRemote().getOrganizationParticipations(org);
 			return Response.ok(participations).build();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
+	}
+
+	@GET
+	@Path("/participations/{org:.*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getParticipationsV2(@Context final HttpServletRequest request, @PathParam("org") final String org) {
+		try {
+			Response preResponse = WebServiceAuthentication.authenticate(request);
+			if (preResponse != null)
+				return preResponse;
+			List<ParticipationV2> participations = AppContext.getInstance().getMonitorBeanRemote().getOrganizationParticipationsV2(org);
+			return Response.ok(participations).build();
+		} catch (Exception e) {
+			appLogger.error(e.getMessage(), e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/participaciones/{org:.*}")
+	@Produces("application/json; charset=UTF-8")
+	public Response getParticipacionesV2(@Context final HttpServletRequest request, @PathParam("org") final String org) {
+		return getParticipationsV2(request, org);
 	}
 
 	@GET
@@ -108,7 +137,7 @@ public class ElectionsService implements Serializable {
 				return preResponse;
 			return Response.ok(AppContext.getInstance().getMonitorBeanRemote().getElectionsLightAllOrderStartDateDesc()).build();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -145,7 +174,7 @@ public class ElectionsService implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/electionsDetail")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -172,7 +201,7 @@ public class ElectionsService implements Serializable {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -209,7 +238,7 @@ public class ElectionsService implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/electionsParticipationsByEmail/<email>")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}
@@ -246,7 +275,73 @@ public class ElectionsService implements Serializable {
 				return Response.ok(PagingUtil.getPagingInfoResponse(request.getScheme(), request.getServerName(), request.getServerPort(), "/electionsParticipationsByOrg/<orgID>")).build();
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Path("/v2/elections")
+	@Produces("application/json; charset=UTF-8")
+	public Response getPublicElectionsSnapshot(@Context final HttpServletRequest request) {
+		return getPublicSnapshotResponse(request, new Supplier<PublicElectionsSnapshot>() {
+			@Override
+			public PublicElectionsSnapshot get() {
+				return AppContext.getInstance().getMonitorBeanRemote().getPublicElectionsSnapshot();
+			}
+		});
+	}
+
+	@GET
+	@Path("/v2/elections/{id}/public-snapshot/core")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionPublicSnapshotCore(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		return getPublicSnapshotResponse(request, new Supplier<PublicElectionCoreSnapshot>() {
+			@Override
+			public PublicElectionCoreSnapshot get() {
+				return AppContext.getInstance().getMonitorBeanRemote().getPublicElectionCoreSnapshot(id);
+			}
+		});
+	}
+
+	@GET
+	@Path("/v2/elections/{id}/public-snapshot/roll")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionPublicSnapshotRoll(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		return getPublicSnapshotResponse(request, new Supplier<PublicElectionRollSnapshot>() {
+			@Override
+			public PublicElectionRollSnapshot get() {
+				return AppContext.getInstance().getMonitorBeanRemote().getPublicElectionRollSnapshot(id);
+			}
+		});
+	}
+
+	@GET
+	@Path("/v2/elections/{id}/public-snapshot/photos")
+	@Produces("application/json; charset=UTF-8")
+	public Response getElectionPublicSnapshotPhotos(@Context final HttpServletRequest request, @PathParam("id") Long id) {
+		return getPublicSnapshotResponse(request, new Supplier<PublicElectionPhotoSnapshot>() {
+			@Override
+			public PublicElectionPhotoSnapshot get() {
+				return AppContext.getInstance().getMonitorBeanRemote().getPublicElectionPhotoSnapshot(id);
+			}
+		});
+	}
+
+	private Response getPublicSnapshotResponse(HttpServletRequest request, Supplier<?> snapshotSupplier) {
+		try {
+			Response authResponse = WebServiceAuthentication.authenticatePublicInformation(request);
+			if (authResponse != null) {
+				return authResponse;
+			}
+
+			Object snapshot = snapshotSupplier.get();
+			if (snapshot != null) {
+				return Response.ok(snapshot).build();
+			}
+			return Response.status(Response.Status.NOT_FOUND).build();
+		} catch (Exception e) {
+			appLogger.error(e.getMessage(), e);
 			return Response.serverError().build();
 		}
 	}

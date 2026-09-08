@@ -1,0 +1,100 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedbackPanel" data-testid="feedbackPanel" class="col-xl-10 offset-xl-1 mb-3" aria-live="polite"></div>
+		<div class="col-xl-10 offset-xl-1">
+			<div class="card">
+				<div class="card-header">
+					<h5 data-testid="electionConfigurationTitle"><span wicket:id="electionTitle" data-testid="electionTitle">Título de la elección</span></h5>
+				</div>
+				<div class="card-body">
+					<p class="text-muted"><wicket:message key="confElecTitle" /></p>
+					<hr class="my-3">
+
+					<div class="card border">
+						<div class="card-body">
+							<div class="d-flex justify-content-between align-items-start gap-3">
+								<p class="mb-0"><strong><wicket:message key="confElecLinkVot" /></strong><wicket:message key="confElecTextVot" /></p>
+								<div wicket:id="votingLinkAvailable" data-testid="votingLinkAvailable"></div>
+							</div>
+							<hr class="my-3">
+							<div class="d-flex justify-content-between align-items-start gap-3">
+								<p class="mb-0"><strong><wicket:message key="confElecLinkRes" /></strong><wicket:message key="confElecTextRes" /></p>
+								<div wicket:id="resultLinkAvailable" data-testid="resultLinkAvailable"></div>
+							</div>
+							<hr class="my-3">
+							<div class="d-flex justify-content-between align-items-start gap-3">
+								<p class="mb-0"><strong><wicket:message key="confElecLinkAud" /></strong><wicket:message key="confElecTextAud" /></p>
+								<div wicket:id="auditorLinkAvailable" data-testid="auditorLinkAvailable"></div>
+							</div>
+							<hr class="my-3">
+							<div class="d-flex justify-content-between align-items-start gap-3">
+								<p class="mb-0"><strong><wicket:message key="confElecLinkDoNom" /></strong><wicket:message key="confElecTextDoNom" /></p>
+								<div wicket:id="doNominationLinkAvailable" data-testid="doNominationLinkAvailable"></div>
+							</div>
+							<hr class="my-3">
+							<div class="d-flex justify-content-between align-items-start gap-3">
+								<p class="mb-0"><strong><wicket:message key="confElecLinkNomTasks" /></strong><wicket:message key="confElecTextNomTasks" /></p>
+								<div wicket:id="nominationTasksLinkAvailable" data-testid="nominationTasksLinkAvailable"></div>
+							</div>
+							<hr class="my-3">
+							<div class="d-flex justify-content-between align-items-start gap-3">
+								<p class="mb-0"><strong><wicket:message key="confElecLinkNomSupport" /></strong><wicket:message key="confElecTextNomSupport" /></p>
+								<div wicket:id="nominationSupportLinkAvailable" data-testid="nominationSupportLinkAvailable"></div>
+							</div>
+							<hr class="my-3">
+							<div class="d-flex justify-content-between align-items-start gap-3">
+								<p class="mb-0"><strong><wicket:message key="confElecLinkPublicElection" /></strong><wicket:message key="confElecTextPublicElection" /></p>
+								<div wicket:id="publicElectionLinkAvailable" data-testid="publicElectionLinkAvailable"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="mt-4">
+						<h5 class="text-danger mb-3" data-testid="confElecDangerZone"><strong><wicket:message key="confElecDangerZone">Zona de peligro</wicket:message></strong></h5>
+
+						<div class="card border border-danger mb-3">
+							<div class="card-body">
+								<div class="d-flex justify-content-between align-items-start gap-3">
+									<div>
+										<p class="mb-1"><strong><wicket:message key="confElecSolRev" /> </strong><wicket:message key="confElecSolRev2" /></p>
+										<strong><wicket:message key="confElecSolRev3" /> </strong>
+									</div>
+									<div wicket:id="revisionRequest" data-testid="revisionRequest"></div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<p class="mb-0">
+									<wicket:message key="confElecFooter1" /><i><wicket:message key="confElecFooter2" /></i>
+									<wicket:message key="confElecFooter3" /><i><wicket:message key="confElecFooter4" /></i>
+									<wicket:message key="confElecFooter5" /><a wicket:id="rolesDocument" data-testid="rolesDocument" class="ms-1"><wicket:message key="confElecFooter6" /></a>
+								</p>
+							</div>
+						</div>
+
+						<div class="card border border-danger">
+							<div class="card-body">
+								<p class="mb-2"><strong><wicket:message key="confElecClosing" /> </strong><wicket:message key="confElecClosingDesc" /></p>
+								<div id="closeElectionNotAvailable" wicket:id="closeElectionNotAvailable" data-testid="closeElectionNotAvailable">
+									<strong><wicket:message key="confElecCloseElectionNotAvailable" /> </strong>
+								</div>
+								<div id="electionAlreadyClosed" wicket:id="electionAlreadyClosed" data-testid="electionAlreadyClosed">
+									<strong><wicket:message key="confElecElectionAlreadyClosed" /> </strong>
+								</div>
+								<div class="text-end closeElectionButtons mt-3">
+									<div id="closeElectionButton" wicket:id="closeElectionButton" data-testid="closeElectionButton"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<hr class="my-3">
+					<div class="text-center">
+						<button wicket:id="back" data-testid="back" type="button" class="btn btn-light">
+							<wicket:message key="confElecBtnBack" />
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

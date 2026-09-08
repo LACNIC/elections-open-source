@@ -1,7 +1,5 @@
 package net.lacnic.elections.adminweb.ui.admin.emailtemplate;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -9,23 +7,25 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.validation.validator.StringValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.lacnic.elections.adminweb.app.AppContext;
 import net.lacnic.elections.adminweb.wicket.util.UtilsParameters;
 import net.lacnic.elections.domain.Election;
 import net.lacnic.elections.domain.ElectionEmailTemplate;
 
-
 public class EditEmailTemplatePanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
-
-	public EditEmailTemplatePanel(String id, ElectionEmailTemplate emailTemplate) {
+	public EditEmailTemplatePanel(String id, ElectionEmailTemplate emailTemplate, PageParameters params) {
 		super(id);
+		final PageParameters returnParameters = params != null ? new PageParameters(params) : new PageParameters();
 		try {
 			Form<Void> form = new Form<>("form");
 			add(form);
@@ -79,9 +79,16 @@ public class EditEmailTemplatePanel extends Panel {
 							String info = getString("mailTemplEditSuccess2") + templateType + getString("mailTemplEditSuccess4");
 							getSession().info(info);
 						}
-						setResponsePage(new EditEmailTemplateDashboard(templateType, UtilsParameters.getId(electionId)));
+						PageParameters responseParameters = new PageParameters(returnParameters);
+						if (!responseParameters.get(UtilsParameters.getIdText()).isEmpty()) {
+							electionId = UtilsParameters.getIdAsLong(responseParameters);
+						}
+						if (responseParameters.get(UtilsParameters.getIdText()).isEmpty()) {
+							responseParameters = UtilsParameters.getId(electionId);
+						}
+						setResponsePage(new EditEmailTemplateDashboard(templateType, responseParameters));
 					} catch (Exception e) {
-						appLogger.error(e);
+						appLogger.error(e.getMessage(), e);
 					}
 				}
 			});
@@ -91,12 +98,12 @@ public class EditEmailTemplatePanel extends Panel {
 
 				@Override
 				public void onClick() {
-					setResponsePage(EmailTemplatesDashboard.class, UtilsParameters.getId(emailTemplate.getElection() != null ? emailTemplate.getElection().getElectionId() : 0L));
+					setResponsePage(EmailTemplatesDashboard.class, new PageParameters(returnParameters));
 				}
 			});
 
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
 	}
 }

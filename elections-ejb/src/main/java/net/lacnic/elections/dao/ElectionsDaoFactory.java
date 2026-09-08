@@ -1,12 +1,11 @@
 package net.lacnic.elections.dao;
 
-import javax.persistence.EntityManager;
-
+import jakarta.persistence.EntityManager;
 
 public class ElectionsDaoFactory {
 
-	private ElectionsDaoFactory() { }
-
+	private ElectionsDaoFactory() {
+	}
 
 	public static UserVoterDao createUserVoterDao(EntityManager em) {
 		return new UserVoterDao(em);
@@ -28,12 +27,28 @@ public class ElectionsDaoFactory {
 		return new CandidateDao(em);
 	}
 
+	public static CandidateQuestionDao createCandidateQuestionDao(EntityManager em) {
+		return new CandidateQuestionDao(em);
+	}
+
+	public static CandidateElectionTaskProgressDao createCandidateElectionTaskProgressDao(EntityManager em) {
+		return new CandidateElectionTaskProgressDao(em);
+	}
+
 	public static ActivityDao createActivityDao(EntityManager em) {
 		return new ActivityDao(em);
 	}
 
 	public static ElectionEmailTemplateDao createElectionEmailTemplateDao(EntityManager em) {
 		return new ElectionEmailTemplateDao(em);
+	}
+
+	public static ElectionTaskDao createElectionTaskDao(EntityManager em) {
+		return new ElectionTaskDao(em);
+	}
+
+	public static ElectionCalendarDao createElectionCalendarDao(EntityManager em) {
+		return new ElectionCalendarDao(em);
 	}
 
 	public static EmailDao createEmailDao(EntityManager em) {
@@ -46,6 +61,10 @@ public class ElectionsDaoFactory {
 
 	public static AuditorDao createAuditorDao(EntityManager em) {
 		return new AuditorDao(em);
+	}
+
+	public static AuditorCandidateDecisionDao createAuditorCandidateDecisionDao(EntityManager em) {
+		return new AuditorCandidateDecisionDao(em);
 	}
 
 	public static ReportDao createReportDao(EntityManager em) {
@@ -66,5 +85,29 @@ public class ElectionsDaoFactory {
 
 	public static JointElectionDao createJointElectionDao(EntityManager em) {
 		return new JointElectionDao(em);
+	}
+
+	public static NominationDao createNominationDao(EntityManager em) {
+		return new NominationDao(em);
+	}
+
+	public static OrganizationDao createOrganizationDao(EntityManager em) {
+		return new OrganizationDao(em);
+	}
+
+	public static SyncRunDao createSyncRunDao(EntityManager em) {
+		return new SyncRunDao(em);
+	}
+
+	public static SupportNominationDao createSupportNominationDao(EntityManager em) {
+		return new SupportNominationDao(em);
+	}
+
+	public static PublicElectionPageDao createPublicElectionPageDao(EntityManager em) {
+		return new PublicElectionPageDao(em);
+	}
+
+	public static ElectionAuditorResultDao createElectionAuditorResultDao(EntityManager em) {
+		return new ElectionAuditorResultDao(em);
 	}
 }

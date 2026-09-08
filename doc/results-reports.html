@@ -1,0 +1,138 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Resultados y reportes" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el bloque vigente de <code>v3.0</code> para resultados y reportes operativos: dashboard interno de resultados, reportes preelectorales, resultados publicos y auditoria final de resultados. El contenido fue contrastado contra las rutas montadas, <code>StatsDashboard</code>, <code>PreElectionReportsDashboard</code>, <code>ElectionResultsPanel</code>, <code>CandidateCodesPanel</code>, <code>ResultPublicPage</code>, <code>AuditPublicResultsPage</code>, los DAO/EJB que calculan votos y la vista de detalle de eleccion que publica los links.</p>
+
+				<h2>{{ "Ubicacion en el flujo" }}</h2>
+				<ul class="paragraph">
+					<li><b>Resultados internos:</b> la administracion abre <code>/stats</code> para cada eleccion desde la lista y desde el menu contextual de la eleccion.</li>
+					<li><b>Reportes preelectorales:</b> la administracion usa <code>/admin/election/pre-reports</code> mientras la eleccion siga abierta.</li>
+					<li><b>Resultados publicos:</b> la publicacion externa usa <code>/token/result</code> con <code>Election.resultToken</code>.</li>
+					<li><b>Auditoria final de resultados:</b> el flujo tokenizado de auditores usa <code>/token/audit/result</code> con <code>Auditor.resultToken</code>.</li>
+					<li>La vista administrativa de detalle de eleccion siempre puede construir y mostrar el link publico de resultados a partir del token, pero eso no implica que el acceso ya este abierto al publico.</li>
+				</ul>
+
+				<h2>{{ "Dashboard interno de resultados" }}</h2>
+				<ul class="paragraph">
+					<li>La pagina interna de resultados se monta en <code>/stats</code> y no queda escondida por estado abierto/cerrado: el acceso administrativo existe tanto desde la lista de elecciones como desde el menu contextual.</li>
+					<li>El dashboard arma tres bloques: grafica de evolucion de votantes, tabla de resultados y tabla de codigos de verificacion.</li>
+					<li>La grafica intenta mostrarse siempre, pero los bloques de resultados y codigos solo se renderizan cuando <code>election.isFinished()</code> da verdadero, es decir, cuando ya paso el fin de <code>N_16_PERIODO_VOTING</code>.</li>
+					<li>Antes de ese momento, la pagina deja visible el mensaje <code>Todavia no ha terminado el plazo de votacion</code> y no muestra tablas finales.</li>
+				</ul>
+
+				<h2>{{ "Grafica de evolucion" }}</h2>
+				<ul class="paragraph">
+					<li>La serie se calcula con <code>getElectionVoteEvolutionData</code> a partir de <code>UserVoter</code> que ya votaron, no a partir de filas <code>Vote</code>. Por eso la grafica representa evolucion de <b>votantes participantes</b>, no cantidad total de votos emitidos.</li>
+					<li>El backend agrupa por fecha <code>dd/MM/yyyy</code>, calcula cantidad diaria de participantes y acumulado total, y envia ambas series al panel.</li>
+					<li>Si no hay votantes con voto registrado, o si el payload no queda consistente, la grafica se oculta y la UI muestra <code>No hay datos en este momento para mostrar.</code></li>
+					<li>El render usa Google Charts cargando <code>https://www.gstatic.com/charts/loader.js</code>. Si el navegador administrativo no puede llegar a ese recurso externo, la pagina conserva el contenedor pero la grafica no se dibuja.</li>
+				</ul>
+
+				<h2>{{ "Tabla interna de resultados" }}</h2>
+				<ul class="paragraph">
+					<li>La tabla se arma con <code>getElectionCandidates(electionId)</code> y reordena los candidatos en tiempo real por <code>getCandidateVotesAmount(candidateId)</code>, de mayor a menor.</li>
+					<li>No consume un snapshot congelado ni un cierre materializado: consulta candidatos y votos vivos al momento de render.</li>
+					<li>Cada fila muestra nombre del candidato y cantidad total de votos recibidos.</li>
+					<li>El pie resume <code>totalVoters</code> como cantidad de votantes que efectivamente votaron y <code>totalVotes</code> como cantidad de filas en <code>Vote</code>.</li>
+					<li>Cuando existen votantes con peso mayor a <code>1</code>, <code>totalVotes</code> puede ser mayor que <code>totalVoters</code> porque cada voto ponderado genera varias filas <code>Vote</code>.</li>
+				</ul>
+
+				<h2>{{ "Codigos de verificacion" }}</h2>
+				<ul class="paragraph">
+					<li>La tabla de codigos lista una fila por cada voto emitido.</li>
+					<li>Cada fila muestra numero secuencial en pantalla, nombre del candidato y codigo de verificacion del voto.</li>
+					<li>La consulta real sale de <code>VoteDao.getElectionVotesCandidateAndCode</code> y ordena por <code>v.code</code>, no por fecha, candidato ni orden de carga.</li>
+					<li>El panel interno y los resultados publicos reutilizan exactamente este mismo componente, por lo que el orden y el nivel de detalle son identicos en ambos contextos.</li>
+				</ul>
+
+				<h2>{{ "Reportes preelectorales" }}</h2>
+				<ul class="paragraph">
+					<li>La pagina administrativa vive en <code>/admin/election/pre-reports</code> y solo opera sobre elecciones abiertas. Si la eleccion ya fue cerrada, redirige a <code>ErrorElectionClosed</code>.</li>
+					<li>No es un reporte descargable ni un PDF: es una vista HTML operativa con tablas en vivo y acciones laterales.</li>
+					<li>El bloque principal de links publicos cruza para cada flujo la bandera manual, el calendario efectivo, si esta accesible ahora, la regla aplicada y las fechas desde/hasta.</li>
+					<li>Para <code>/token/nomination/tasks</code> no usa un calendario fijo: consolida la ventana dinamica desde la tarea mas temprana hasta la tarea mas tardia configurada en esa eleccion.</li>
+					<li>Las fechas del pre-reporte se muestran ajustadas con <code>diffUTC</code> de la eleccion.</li>
+				</ul>
+
+				<h2>{{ "Tablas operativas del pre-reporte" }}</h2>
+				<ul class="paragraph">
+					<li><b>Nominaciones aceptadas:</b> muestra nominacion, organizacion, candidato asociado, estado del candidato, link de completitud y boton de recordatorio al candidato si existe candidato asociado.</li>
+					<li><b>Nominaciones pendientes:</b> muestra nominaciones todavia sin candidato asociado, con el link de aceptacion y recordatorio manual de nominacion.</li>
+					<li><b>Apoyos de nominacion:</b> muestra soporte, organizacion de apoyo, contacto, link tokenizado de apoyo y recordatorio manual.</li>
+					<li><b>Progreso por tareas:</b> arma una matriz por nominacion/candidato y por tarea configurada, con estados <code>NOT_STARTED</code>, <code>STARTED</code>, <code>COMPLETED</code> u <code>OMITTED</code>.</li>
+					<li><b>Matriz de auditoria:</b> arma por comisionado dos columnas por auditor, una para primera verificacion y otra para decision final, incluyendo fecha cuando existe.</li>
+				</ul>
+
+				<h2>{{ "Como consultar al candidato ganador" }}</h2>
+				<ol class="paragraph">
+					<li>Si esta en la administracion, cierre sesion para recorrer el sitio como visitante.</li>
+					<li>Entre en <b>Elecciones publicas</b>, seleccione la eleccion y abra su detalle publico.</li>
+					<li>Consulte el bloque de resultados: las tarjetas de ganadores muestran los candidatos marcados como ganadores en el sistema.</li>
+				</ol>
+				<p class="paragraph">Cerrar sesion es una forma de acceder desde la navegacion inicial, no una condicion de publicacion: tambien puede abrir directamente <code>/public-elections</code> bajo el contexto de la aplicacion, o usar una ventana privada. La pagina de inicio redirige al listado administrativo cuando existe una sesion iniciada.</p>
+				<p class="paragraph">Para ver las tarjetas de ganadores, el acceso publico de la eleccion debe estar habilitado, el bloque de resultados debe estar disponible (<code>resultLinkAvailable=true</code> y fecha de inicio de <code>N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED</code> alcanzada) y debe existir al menos un candidato marcado como ganador. Cerrar sesion no habilita resultados pendientes de publicacion.</p>
+				<h2>{{ "Texto y carta de resultados oficiales" }}</h2>
+				<p class="paragraph">La administracion carga el texto por idioma y la carta en <b>Resultados oficiales</b>. Estos datos aparecen en la pagina publica de la eleccion, en el bloque <b>Resultados oficiales de la eleccion</b>, antes del resumen de resultados. Basta con que exista texto o una carta; si falta el idioma elegido, se utiliza otro disponible. Este bloque no comprueba las fechas N20/N22 ni el fin de la votacion, por lo que cargar contenido puede hacerlo visible antes de esas fechas. Es independiente de las tarjetas de candidatos ganadores.</p>
+
+				<h2>{{ "Resultados publicos" }}</h2>
+				<ul class="paragraph">
+					<li>La ruta publica es <code>/token/result</code> y valida <code>Election.resultToken</code>.</li>
+					<li>El acceso exige dos condiciones operativas: <code>resultLinkAvailable=true</code> y calendario <code>N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED</code> con fecha de inicio configurada.</li>
+					<li>Antes de <code>N_17</code> el sistema no responde 404 si el token existe: deriva a acceso denegado con countdown hacia el inicio de resultados.</li>
+					<li>La compuerta actual no define fecha de cierre para resultados publicos. Una vez superado <code>N_17</code>, el acceso sigue disponible mientras el switch manual no se desactive.</li>
+					<li>La pagina publica reutiliza <code>PublicResultsPanel</code>, que a su vez embebe la misma tabla de resultados y la misma tabla de codigos que usa el dashboard administrativo.</li>
+					<li>Ademas muestra titulo y descripcion de la eleccion en el idioma resuelto desde la locale activa.</li>
+				</ul>
+
+				<h2>{{ "Auditoria final de resultados" }}</h2>
+				<ul class="paragraph">
+					<li>La ruta <code>/token/audit/result</code> valida <code>Auditor.resultToken</code> y requiere <code>auditorLinkAvailable=true</code>.</li>
+					<li>Su ventana de acceso si tiene inicio y fin: depende de <code>N_18_PERIODO_CE_AUDIT</code> y bloquea tanto antes del inicio como despues del cierre.</li>
+					<li>Cuando la eleccion no tiene <code>revisionRequest</code>, la pagina muestra titulo, descripcion, panel de conformidad, tabla de resultados, codigos y bloque adicional de informacion para auditoria.</li>
+					<li>El panel de conformidad solo es util para auditores comisionados que aun no hayan confirmado <code>agreedConformity</code>.</li>
+					<li>Si la eleccion entra en circuito de revision (<code>revisionRequest=true</code>), esta pagina deja oculto el bloque normal de resultados/conformidad y el proceso operativo se desplaza al dashboard de auditoria y luego a <code>/review</code>.</li>
+				</ul>
+
+				<h2>{{ "Informacion adicional para auditoria" }}</h2>
+				<ul class="paragraph">
+					<li>El bloque adicional de auditoria consume <code>ElectionsResultsData</code> y agrupa el padron por <code>voteAmount</code> del votante.</li>
+					<li>Para cada peso muestra habilitados, participantes que votaron, porcentaje de participacion para ese peso y un total derivado de <code>participants * weight</code>.</li>
+					<li>El total general tambien se calcula agregando esos grupos por peso, por lo que sigue siendo un dato vivo consultado al abrir la pagina.</li>
+					<li>La columna visual <b>Votos (1 - max)</b> no renderiza un numero real hoy: el template deja un signo <code>?</code> fijo. El dato util queda en la ultima columna de rango calculado.</li>
+				</ul>
+
+				<h2>{{ "Que no existe hoy como reporte" }}</h2>
+				<ul class="paragraph">
+					<li>No existe en este bloque una exportacion CSV/XLS/PDF de resultados desde la UI administrativa.</li>
+					<li>Los pre-reportes no son documentos cerrados: son vistas operativas con datos y recordatorios accionables.</li>
+					<li>El archivo <code>doc/auditReport-v2.3.pdf</code> no describe una salida funcional nueva de <code>v3.0</code>; queda solo como documento de auditoria historica de la version <code>2.3</code>.</li>
+				</ul>
+
+				<h2>{{ "Notas operativas" }}</h2>
+				<ul class="paragraph">
+					<li>La publicacion de resultados al exterior depende del calendario y del switch manual; el dashboard interno de resultados depende solo de que el plazo de votacion ya haya terminado.</li>
+					<li>La vista administrativa de detalle de eleccion puede mostrar el URL de resultados aunque el link publico siga cerrado para terceros.</li>
+					<li>Como resultados y codigos salen de consultas directas, cualquier correccion administrativa sobre candidatos, flags o datos de la eleccion impacta en estas vistas sin esperar una regeneracion aparte.</li>
+				</ul>
+
+				<h2>{{ "Bloques relacionados" }}</h2>
+				<ul class="paragraph">
+					<li><b>Auditoria previa y final:</b> el circuito de comisionados y revision interna quedo detallado en <a href="{{site.baseurl}}/auditors.html">esta guia</a>.</li>
+					<li><b>Votacion y links publicos:</b> la apertura de <code>/token/result</code> y el resto de rutas tokenizadas quedaron detalladas en <a href="{{site.baseurl}}/voting-public-links.html">esta guia</a>.</li>
+					<li><b>Parametros, templates e i18n:</b> la configuracion transversal de mails, personalizacion e idioma quedo documentada en <a href="{{site.baseurl}}/parameters-templates-i18n.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionsManagerApp</code>, <code>AdminNavBarPanel</code>, <code>ElectionsListPanel</code>, <code>ViewElectionPanel</code>, <code>ElectionConfigurationDashboard</code>, <code>PreElectionReportsDashboard</code>, <code>PreElectionReportsPanel</code>, <code>StatsDashboard</code>, <code>VotersGraphPanel</code>, <code>ChartLines</code>, <code>ElectionResultsPanel</code>, <code>CandidateCodesPanel</code>, <code>PublicResultsPanel</code>, <code>ResultPublicPage</code>, <code>AuditPublicResultsPage</code>, <code>MoreInformationForAuditPanel</code>, <code>VoteDao</code>, <code>CandidateDao</code>, <code>ElectionsManagerEJBBean</code>, <code>ElectionsVoterEJBBean</code>, <code>Election</code>, <code>ElectionsResultsData</code>, <code>ResultDetailData</code> y <code>ElectionsManagerApp.properties.xml</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

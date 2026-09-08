@@ -6,9 +6,15 @@
 	<!-- This is the top level ear module, which contains all the classes in the EAR's lib folder     -->
 	<deployment>
 		<dependencies>
-			<module name="org.jboss.ejb-client" />
-			<module name="deployment.elections-ejb.jar" />
-			<module name="deployment.portal-auth-client.jar" meta-inf="export"/>			
+			<module name="deployment.elections-ejb-1.0.jar" />
+			<module name="deployment.pai-auth-ws-client-1.5.1.jar"/>
+			<module name="org.apache.commons.lang3" />
+
+			<module name="jakarta.enterprise.api" export="true" />
+			<module name="jakarta.inject.api" export="true" />
+			<module name="jakarta.ejb.api" export="true" />
+			<module name="jakarta.transaction.api" export="true" />
+			<module name="org.hibernate" export="true" />
 		</dependencies>
 	</deployment>
 </jboss-deployment-structure>

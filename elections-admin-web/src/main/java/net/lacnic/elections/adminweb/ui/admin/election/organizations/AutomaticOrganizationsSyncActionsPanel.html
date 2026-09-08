@@ -1,0 +1,16 @@
+<wicket:panel>
+	<div class="d-inline-flex align-items-center gap-2 flex-wrap">
+		<span wicket:id="forceSyncAction" data-testid="forceSyncAction" class="d-inline-flex align-items-center gap-2">
+			<a wicket:id="forceSyncAskLink" data-testid="forceSyncAskLink" class="btn btn-outline-primary btn-sm" wicket:message="title:organizationsSyncControlForceOrganizationsKeepLinksDescription">
+				<wicket:message key="organizationsSyncControlForceOrganizationsKeepLinksButton" />
+			</a>
+			<span wicket:id="forceSyncConfirmContainer" data-testid="forceSyncConfirmContainer" class="d-inline-flex align-items-center gap-2">
+				<a wicket:id="forceSyncConfirmLink" data-testid="forceSyncConfirmLink" class="btn btn-success btn-sm"><wicket:message key="confirmButton" /></a>
+				<a wicket:id="forceSyncCancelLink" data-testid="forceSyncCancelLink" class="btn btn-light btn-sm"><wicket:message key="cancelButton" /></a>
+			</span>
+		</span>
+		<button wicket:id="forceSyncDisabledButton" data-testid="forceSyncDisabledButton" type="button" class="btn btn-outline-secondary btn-sm" disabled wicket:message="title:organizationsSyncControlForceOrganizationsKeepLinksDescription">
+			<wicket:message key="organizationsSyncControlForceOrganizationsKeepLinksButton" />
+		</button>
+	</div>
+</wicket:panel>

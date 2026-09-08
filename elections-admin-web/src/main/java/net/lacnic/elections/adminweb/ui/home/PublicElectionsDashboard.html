@@ -1,0 +1,48 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<section class="py-3">
+		<div class="row justify-content-center">
+			<div class="col-12 col-xxl-11">
+				<div wicket:id="emptyState" data-testid="emptyState" class="card border-dashed border-2">
+					<div class="card-body text-center py-5">
+						<h4 class="mb-2" data-testid="publicElectionsEmptyTitle"><wicket:message key="publicElectionsEmptyTitle">No hay elecciones disponibles</wicket:message></h4>
+						<p class="text-muted mb-0"><wicket:message key="publicElectionsEmptyDescription" /></p>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-body p-0">
+						<div class="table-responsive">
+							<table class="table table-hover align-middle mb-0">
+								<thead class="table-light">
+									<tr>
+										<th><wicket:message key="publicElectionsTitleColumn" /></th>
+										<th width="180"><wicket:message key="publicElectionsCategoryLabel" /></th>
+										<th width="240"><wicket:message key="publicElectionsWindowLabel" /></th>
+										<th width="150"><wicket:message key="publicElectionsStatusColumn" /></th>
+										<th width="140"></th>
+									</tr>
+								</thead>
+								<tbody>
+										<tr wicket:id="electionCards" data-testid="electionCards">
+											<td>
+												<div class="fw-semibold" wicket:id="electionTitle" data-testid="electionTitle">-</div>
+											</td>
+											<td wicket:id="electionCategory" data-testid="electionCategory">-</td>
+										<td wicket:id="electionWindow" data-testid="electionWindow">-</td>
+										<td><span wicket:id="electionStatus" data-testid="electionStatus" class="badge text-bg-secondary">-</span></td>
+										<td class="text-end">
+											<a wicket:id="electionLink" data-testid="electionLink" class="btn btn-sm btn-secondary">
+												<wicket:message key="publicElectionsOpenLink" />
+											</a>
+											<span wicket:id="electionLinkDisabled" data-testid="electionLinkDisabled" class="btn btn-sm btn-outline-secondary disabled">-</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</wicket:extend>

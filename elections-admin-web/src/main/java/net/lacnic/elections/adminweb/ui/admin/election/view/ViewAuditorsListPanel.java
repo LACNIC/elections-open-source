@@ -2,8 +2,8 @@ package net.lacnic.elections.adminweb.ui.admin.election.view;
 
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -18,7 +18,7 @@ public class ViewAuditorsListPanel extends Panel {
 
 	private static final long serialVersionUID = -7217245542954325281L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");
 
 	public ViewAuditorsListPanel(String id, long electionId) {
 		super(id);
@@ -53,7 +53,7 @@ public class ViewAuditorsListPanel extends Panel {
 			add(form);
 
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
 	}
 

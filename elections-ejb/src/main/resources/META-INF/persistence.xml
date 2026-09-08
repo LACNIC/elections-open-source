@@ -9,11 +9,14 @@
 		<class>net.lacnic.elections.domain.Activity</class>
 		<class>net.lacnic.elections.domain.Auditor</class>
 		<class>net.lacnic.elections.domain.Candidate</class>
+		<class>net.lacnic.elections.domain.pre.CandidateQuestion</class>
 		<class>net.lacnic.elections.domain.Commissioner</class>
 		<class>net.lacnic.elections.domain.Customization</class>
 		<class>net.lacnic.elections.domain.Election</class>
+		<class>net.lacnic.elections.domain.ElectionAuditorResult</class>
 		<class>net.lacnic.elections.domain.ElectionEmailTemplate</class>
 		<class>net.lacnic.elections.domain.ElectionLight</class>
+		<class>net.lacnic.elections.domain.ElectionRestrictedCountry</class>
 		<class>net.lacnic.elections.domain.Email</class>
 		<class>net.lacnic.elections.domain.EmailHistory</class>
 		<class>net.lacnic.elections.domain.IpAccess</class>
@@ -21,12 +24,24 @@
 		<class>net.lacnic.elections.domain.Parameter</class>
 		<class>net.lacnic.elections.domain.UserAdmin</class>
 		<class>net.lacnic.elections.domain.UserVoter</class>
+		<class>net.lacnic.elections.domain.UserVoterLite</class>
 		<class>net.lacnic.elections.domain.Vote</class>
+		<class>net.lacnic.elections.domain.pre.AuditorCandidateDecision</class>
+		<class>net.lacnic.elections.domain.pre.CandidateCountryLink</class>
+		<class>net.lacnic.elections.domain.pre.CandidateElectionTaskProgress</class>
+		<class>net.lacnic.elections.domain.pre.CandidateWorkOrganization</class>
+		<class>net.lacnic.elections.domain.pre.ElectionCalendar</class>
+		<class>net.lacnic.elections.domain.pre.ElectionTask</class>
+		<class>net.lacnic.elections.domain.pre.Nomination</class>
+		<class>net.lacnic.elections.domain.pre.Organization</class>
+		<class>net.lacnic.elections.domain.pre.SyncAudit</class>
+		<class>net.lacnic.elections.domain.pre.SyncRun</class>
+		<class>net.lacnic.elections.domain.pre.SupportNomination</class>
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.archive.autodetection" value="hbm" />
-			<property name="hibernate.hbm2ddl.auto" value="validate" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="false" />
 		</properties>

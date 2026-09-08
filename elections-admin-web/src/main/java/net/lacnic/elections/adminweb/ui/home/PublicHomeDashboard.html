@@ -1,0 +1,120 @@
+<wicket:extend>
+	<div wicket:id="homeCustom" data-testid="homeCustom" class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<div wicket:id="customHomeHtml" data-testid="customHomeHtml" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div wicket:id="homeContainer" data-testid="homeContainer" class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<p><wicket:message key="homeSubtitlePar1" /></p>
+						<p><wicket:message key="homeSubtitlePar2" /></p>
+						<p><wicket:message key="homeSubtitlePar3" /></p>
+						<p><wicket:message key="homeSubtitlePar4" /></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row m-t-lg equal align-items-stretch">
+			<div class="col-lg-4 d-flex">
+				<div class="card w-100">
+					<div class="text-bg-dark text-center h-100 w-100">
+						<div class="card-body">
+							<i class="ti ti-settings fs-48"></i>
+							<h3 data-testid="homeConfigurationTitle"><wicket:message key="homeConfigurationTitle">Configuración e Instalación</wicket:message></h3>
+							<p class="text-light"><wicket:message key="homeConfiguration" /></p>
+							<p><a class="font-bold" wicket:id="configurationDocumentationLink"><wicket:message key="homeConfigurationLink" /></a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 d-flex">
+				<div class="card w-100">
+					<div class="text-bg-dark text-center h-100 w-100">
+						<div class="card-body">
+							<i class="ti ti-book fs-48"></i>
+							<h3 data-testid="homeDocumentationTitle"><wicket:message key="homeDocumentationTitle">Documentación</wicket:message></h3>
+							<p class="text-light"><wicket:message key="homeDocumentation" /></p>
+							<p>
+								<a class="font-bold" wicket:id="systemDocumentationLink"><wicket:message key="homeDocumentationLink" /></a><br>
+								<a class="font-bold" wicket:id="servicesDocumentationLink"><wicket:message key="homeDocumentationServicesLink" /></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 d-flex">
+				<div class="card w-100">
+					<div class="text-bg-dark text-center h-100 w-100">
+						<div class="card-body">
+							<i class="ti ti-brand-github fs-48"></i>
+							<h3 data-testid="homeSourceCodeTitle"><wicket:message key="homeSourceCodeTitle">Código fuente</wicket:message></h3>
+							<p class="text-light"><wicket:message key="homeSourceCode" /></p>
+							<p><a class="font-bold" wicket:id="sourceCodeHomeLink"><wicket:message key="homeSourceCodeLink" /></a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row m-t-lg">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 data-testid="homeReleaseNotesTitle"><wicket:message key="homeReleaseNotesTitle">Release notes</wicket:message></h3>
+					</div>
+					<div class="card-body">
+						<wicket:message key="homeReleaseNotesContent" />
+						<a wicket:id="releaseNotesHomeLink"><wicket:message key="homeReleaseNotesContent2" />.</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row m-t-lg">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 data-testid="auditReportTitle"><wicket:message key="auditReportTitle">Reporte de auditoría</wicket:message></h3>
+					</div>
+					<div class="card-body">
+						<wicket:message key="auditReportContent" />
+						<a wicket:id="exportAuditLink" data-testid="exportAuditLink" target="_blank"><wicket:message key="auditReportContent2" />.</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row m-t-lg">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 data-testid="homeLicenseTitle"><wicket:message key="homeLicenseTitle">Licencia</wicket:message></h3>
+					</div>
+					<div class="card-body">
+						<wicket:message key="homeLicenseContent" />
+						<a wicket:id="licenseHomeLink"><wicket:message key="homeLicenseContent2" /></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row m-t-lg">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<h3 data-testid="homeContactTitle"><wicket:message key="homeContactTitle">Contacto</wicket:message></h3>
+					</div>
+					<div class="card-body">
+						<wicket:message key="homeContactContent" />
+						<a href="mailto:desarrollo@lacnic.net"><wicket:message key="homeContactContent2" /></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

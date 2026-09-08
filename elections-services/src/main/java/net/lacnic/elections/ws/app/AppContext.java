@@ -6,21 +6,19 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.lacnic.elections.ejb.ElectionsMonitorEJB;
 import net.lacnic.elections.utils.Constants;
 
-
 public class AppContext {
 
-	private static final Logger appLogger = LogManager.getLogger("servicesAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("servicesAppLogger");
 
 	private static AppContext instance;
 
 	private ElectionsMonitorEJB monitorBeanRemote;
-
 
 	private AppContext() {
 		try {
@@ -32,7 +30,7 @@ public class AppContext {
 
 			setMonitorBeanRemote((ElectionsMonitorEJB) context.lookup(monitorEjb));
 		} catch (NamingException e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 		}
 	}
 

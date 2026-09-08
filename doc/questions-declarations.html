@@ -1,0 +1,140 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Preguntas, declaraciones y comunidad" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el bloque vigente de <code>v3.0</code> para preguntas estatutarias, preguntas no estatutarias, declaraciones del candidato y preguntas de comunidad. El contenido fue contrastado contra la UI administrativa, los task panels tokenizados, la pagina publica de candidatos, el dominio <code>CandidateQuestion</code> y la logica EJB que persiste, valida y publica cada respuesta.</p>
+
+				<h2>{{ "Ubicacion en el flujo" }}</h2>
+				<ul class="paragraph">
+					<li>La gestion administrativa de preguntas de comunidad esta montada en <code>/admin/election/questions</code>.</li>
+					<li>Las respuestas del candidato a preguntas y declaraciones viven dentro de <code>/token/nomination/tasks</code> para nominaciones ya aceptadas.</li>
+					<li>En el catalogo de tareas, este bloque usa cuatro claves separadas: <code>OTHER_STATUTORY_QUESTIONS</code>, <code>OTHER_NON_STATUTORY_QUESTIONS</code>, <code>DECLARATIONS</code> y <code>DECLARATIONS_NON_STATUTORY</code>.</li>
+					<li>La experiencia publica relacionada corre sobre la pagina de eleccion/candidato y depende de la publicacion de candidatos (<code>N_11</code>), del periodo de preguntas a candidatos (<code>N_12</code>) y de que la tarea correspondiente este marcada como publica.</li>
+				</ul>
+
+				<h2>{{ "Modelo operativo del bloque" }}</h2>
+				<ul class="paragraph">
+					<li>Las preguntas estatutarias y no estatutarias son respuestas abiertas del candidato guardadas en la entidad <code>Candidate</code>.</li>
+					<li>Las declaraciones son aceptaciones explicitas guardadas tambien sobre <code>Candidate</code>, mediante checkboxes y una declaracion PEP por radio.</li>
+					<li>Las preguntas de comunidad se guardan aparte como <code>CandidateQuestion</code>, con remitente, idioma, pregunta, respuesta, estado, owner actual y fechas de creacion/actualizacion/publicacion.</li>
+					<li>El backend no mezcla estos flujos: preguntas/declaraciones del candidato forman parte del checklist de candidatura; preguntas de comunidad forman un flujo publico-administrativo paralelo con moderacion y eventual respuesta del candidato.</li>
+				</ul>
+
+				<h2>{{ "Preguntas estatutarias" }}</h2>
+				<ul class="paragraph">
+					<li>La tarea <code>OTHER_STATUTORY_QUESTIONS</code> muestra siempre <b>4</b> preguntas abiertas.</li>
+					<li>Los textos visibles se resuelven por parametro con <code>OTHER_STATUTORY_Q1_LABEL</code> a <code>OTHER_STATUTORY_Q4_LABEL</code>. Si faltan, el sistema usa defaults hoy orientados a perfil personal, trayectoria en la organizacion, vision institucional y aporte esperado.</li>
+					<li>Cada respuesta se completa en un editor con asistencia de IA y limite de <code>1000</code> caracteres en la UI.</li>
+					<li>El formulario permite <b>Continuar despues</b>: guarda el estado actual y deja la tarea en <code>STARTED</code>.</li>
+					<li><b>Finalizar y enviar</b> exige que las cuatro respuestas queden no vacias. Si falta una, la tarea no pasa a <code>COMPLETED</code>.</li>
+					<li>Al persistir desde el link de candidatura, el backend normaliza espacios y guarda la respuesta base en espanol; las columnas EN/PT quedan inicialmente con el mismo valor hasta que un admin las edite en traducciones.</li>
+					<li>En la pagina publica del candidato, estas respuestas solo se muestran si ya se alcanzo <code>N_11_SINGLE_CANDIDATES_PUBLISHED</code> y la tarea <code>OTHER_STATUTORY_QUESTIONS</code> esta marcada como publica.</li>
+				</ul>
+
+				<h2>{{ "Preguntas no estatutarias" }}</h2>
+				<ul class="paragraph">
+					<li>La tarea <code>OTHER_NON_STATUTORY_QUESTIONS</code> muestra una sola pregunta abierta.</li>
+					<li>Su label sale de <code>OTHER_NON_STATUTORY_Q1_LABEL</code>. Si el parametro no existe, el texto default actual apunta a motivaciones de la nominacion y valor esperado desde el cargo.</li>
+					<li>La UX es equivalente a la de preguntas estatutarias: editor con asistencia de IA, limite visual de <code>1000</code> caracteres, boton de borrador (<code>STARTED</code>) y cierre obligatorio con respuesta no vacia para pasar a <code>COMPLETED</code>.</li>
+					<li>La persistencia sigue el mismo patron: se guarda la respuesta base en espanol y EN/PT quedan replicados hasta que se traduzcan manualmente.</li>
+					<li>En la pagina publica del candidato, esta respuesta solo aparece si <code>N_11</code> ya fue alcanzado y la tarea <code>OTHER_NON_STATUTORY_QUESTIONS</code> esta marcada como publica.</li>
+				</ul>
+
+				<h2>{{ "Declaraciones estatutarias" }}</h2>
+				<ul class="paragraph">
+					<li>La tarea <code>DECLARATIONS</code> no usa respuestas abiertas: presenta declaraciones obligatorias que deben aceptarse antes de completar la candidatura.</li>
+					<li>El backend arma la definicion en tiempo real segun idioma y tipo de eleccion, usando parametros <code>DECLARATIONS_D1</code> a <code>DECLARATIONS_D7</code> con fallback local.</li>
+					<li>Hoy el set base obligatorio incluye: incompatibilidades y capacidades, conflictos de interes, competencias e idoneidad, declaracion PEP, compromisos dinamicos y tratamiento/uso/publicacion de la informacion.</li>
+					<li>La declaracion disciplinaria (<code>D4</code>) solo aparece cuando el tipo efectivo de eleccion es <code>BOARD</code>.</li>
+					<li>La declaracion PEP es el unico control tipo radio y exige elegir entre <code>NOT_PEP</code> o <code>PEP</code>. El resto son checkboxes obligatorios.</li>
+					<li>Este formulario no tiene boton de borrador: solo puede finalizarse. Si falta una aceptacion obligatoria o la opcion PEP, la persistencia falla.</li>
+					<li>Si la eleccion publica la tarea <code>DECLARATIONS</code>, la informacion queda disponible para las vistas de soporte/auditoria, pero la pagina publica del candidato no renderiza estas declaraciones como bloque narrativo equivalente al de preguntas.</li>
+				</ul>
+
+				<h2>{{ "Declaraciones (n.e)" }}</h2>
+				<ul class="paragraph">
+					<li>La tarea <code>DECLARATIONS_NON_STATUTORY</code> se genera segun el <code>ElectionType</code> efectivo de la eleccion.</li>
+					<li>Si la eleccion es <code>IANA</code>, se agrega la declaracion de conocimiento sobre IANA (<code>D8</code>).</li>
+					<li>Si la eleccion es <code>ASO</code>, se agrega la declaracion de conocimiento sobre ASO AC y PDP (<code>D9</code>).</li>
+					<li>Ademas, esta tarea vuelve a incluir las declaraciones de compromisos dinamicos y de tratamiento/uso/publicacion de la informacion (<code>D6</code> y <code>D7</code>), aun cuando no aplique <code>D8</code> ni <code>D9</code>.</li>
+					<li>Al igual que en declaraciones estatutarias, todos los controles configurados son obligatorios y la pantalla no ofrece guardado parcial.</li>
+					<li>En el resumen de auditoria del candidato, esta tarjeta solo aparece si la tarea esta habilitada y existe al menos una respuesta cargada.</li>
+				</ul>
+
+				<h2>{{ "Preguntas de comunidad" }}</h2>
+				<p class="paragraph">Las preguntas de comunidad no forman parte del checklist de tareas del candidato. Son un flujo propio con creacion publica, moderacion administrativa, eventual respuesta del candidato y publicacion final.</p>
+				<ul class="paragraph">
+					<li>La carga publica requiere que la eleccion tenga <code>publicElectionLinkAvailable=true</code>, que exista <code>questionToken</code> valido y que la fecha actual caiga dentro de <code>N_12_PERIODO_CANDIDATE_QUESTIONS</code>.</li>
+					<li>Desde la pagina publica del candidato se puede enviar una pregunta al candidato actual o, si se marca la opcion correspondiente, replicarla a todos los candidatos publicos de la eleccion.</li>
+					<li>La UI publica pide nombre, email y texto de la pregunta. Si CAPTCHA esta habilitado y existe <code>dataSiteKey</code>, tambien valida reCAPTCHA.</li>
+					<li>La UI publica permite hasta <code>1000</code> caracteres, pero el backend normaliza <code>questionText</code> a <code>500</code> caracteres como maximo antes de persistir.</li>
+					<li>Solo se aceptan preguntas para candidatos en <code>CONFIRMED_AND_PUBLISHED</code> y que no sean la opcion de abstencion.</li>
+					<li>Al crearse publicamente, la pregunta nace en estado <code>QUESTION_RECEIVED_LACNIC</code>, owner <code>LACNIC</code> por compatibilidad historica, copia el mismo texto a SP/EN/PT y encola aviso al destinatario estandar de la eleccion. En una instalación de terceros estos valores técnicos significan “recibida por la administración electoral”; no implican intervención de LACNIC.</li>
+				</ul>
+
+				<h2>{{ "Moderacion administrativa de comunidad" }}</h2>
+				<ul class="paragraph">
+					<li>El dashboard administrativo de preguntas lista <b>id</b>, candidato, estado, owner actual y preview de la pregunta.</li>
+					<li>El editor administrativo permite crear preguntas nuevas o editar existentes para cualquier candidato no abstencion de la eleccion abierta.</li>
+					<li>El formulario administrativo expone <b>askedByName</b>, <b>askedByEmail</b>, idioma de la pregunta, candidato, estado, textos de pregunta SP/EN/PT y textos de respuesta SP/EN/PT.</li>
+					<li>El admin puede guardar <b>con email</b> o <b>sin email</b>. Guardar sin email persiste igual, pero evita la notificacion de cambio de estado.</li>
+					<li>Las transiciones con efecto de correo hoy son: <code>QUESTION_READY_FOR_CANDIDATE</code> notifica al candidato; <code>ANSWER_SUBMITTED_BY_CANDIDATE</code> notifica al destinatario estandar; <code>PUBLISHED</code> notifica a quien hizo la pregunta.</li>
+					<li>Pasar a <code>REJECTED</code> o volver a <code>QUESTION_RECEIVED_LACNIC</code> no dispara correo de estado.</li>
+					<li>El editor tambien integra asistencia de IA para revisar o mejorar los textos de pregunta y respuesta.</li>
+				</ul>
+
+				<h2>{{ "Respuesta del candidato a preguntas de comunidad" }}</h2>
+				<ul class="paragraph">
+					<li>En <code>/token/nomination/tasks</code> existe un panel lateral de preguntas de comunidad separado del task seleccionado.</li>
+					<li>Ese panel solo se muestra mientras la ventana <code>N_12_PERIODO_CANDIDATE_QUESTIONS</code> sigue abierta.</li>
+					<li>En la seccion pendiente, el candidato solo ve preguntas en estado <code>QUESTION_READY_FOR_CANDIDATE</code>.</li>
+					<li>Las preguntas ya respondidas por el candidato quedan en una seccion aparte cuando estan en <code>ANSWER_SUBMITTED_BY_CANDIDATE</code> o <code>PUBLISHED</code>.</li>
+					<li>La respuesta del candidato exige texto no vacio, usa un editor con revision ortografica asistida por IA y limita la entrada a <code>1000</code> caracteres.</li>
+					<li>Al enviar, el backend vuelve a validar token, nominacion aceptada, ventana <code>N_12</code> abierta, pertenencia de la pregunta al candidato y estado <code>QUESTION_READY_FOR_CANDIDATE</code>. Si todo cierra, cambia la pregunta a <code>ANSWER_SUBMITTED_BY_CANDIDATE</code> y replica el mismo texto a SP/EN/PT.</li>
+				</ul>
+
+				<h2>{{ "Visibilidad publica real" }}</h2>
+				<ul class="paragraph">
+					<li>Las respuestas a preguntas estatutarias y no estatutarias se muestran con iniciales fijas <b>CE</b> y fecha tomada de <code>N_11_SINGLE_CANDIDATES_PUBLISHED</code>.</li>
+					<li>El bloque de preguntas de comunidad se renderiza en la pagina publica del candidato desde que arranca <code>N_12</code>.</li>
+					<li>Las preguntas <code>PUBLISHED</code> muestran pregunta y respuesta completas, iniciales del remitente y fechas de pregunta/respuesta.</li>
+					<li>Las preguntas pendientes tambien quedan visibles en la UI publica con distinto nivel de mascara: <code>QUESTION_RECEIVED_LACNIC</code> oculta la pregunta y deja la respuesta esperando revision; <code>QUESTION_READY_FOR_CANDIDATE</code> muestra la pregunta y deja la respuesta como pendiente del candidato; <code>ANSWER_SUBMITTED_BY_CANDIDATE</code> muestra la pregunta y enmascara la respuesta mientras espera publicacion.</li>
+					<li>Las preguntas <code>REJECTED</code> no se muestran publicamente.</li>
+				</ul>
+
+				<h2>{{ "Impacto en revision y auditoria" }}</h2>
+				<ul class="paragraph">
+					<li>La vista de auditoria publica del candidato genera tarjetas de resumen para <code>DECLARATIONS</code>, <code>DECLARATIONS_NON_STATUTORY</code>, <code>OTHER_STATUTORY_QUESTIONS</code> y <code>OTHER_NON_STATUTORY_QUESTIONS</code> cuando esas tareas estan habilitadas.</li>
+					<li>En declaraciones, la severidad del resumen depende del estado de completitud de la tarea: <code>COMPLETED</code> queda como correcto; cualquier otro estado queda como pendiente.</li>
+					<li>En preguntas estatutarias, el resumen cuenta respuestas contestadas sobre un total fijo de <code>4</code>.</li>
+					<li>En preguntas no estatutarias, el resumen depende de la cantidad de respuestas disponibles y del estado de la tarea; si no hay preguntas configuradas, la tarjeta queda en warning.</li>
+					<li>No existe una tarjeta equivalente para preguntas de comunidad dentro de ese resumen: ese flujo se revisa desde el dashboard administrativo de preguntas y desde la pagina publica del candidato.</li>
+				</ul>
+
+				<h2>{{ "Completitud y navegacion" }}</h2>
+				<ul class="paragraph">
+					<li>Las preguntas abiertas pueden quedar en <code>STARTED</code> y retomarse despues. Las declaraciones no tienen guardado parcial: o quedan validadas y persistidas completas, o no se actualizan.</li>
+					<li>La visibilidad publica de preguntas estatutarias/no estatutarias depende de la bandera <code>publicable</code> de cada tarea, no solo de que el candidato haya respondido.</li>
+					<li>Las preguntas de comunidad dependen del calendario <code>N_12</code> y de la moderacion administrativa; no marcan tareas del candidato como completas ni reemplazan las preguntas del checklist.</li>
+				</ul>
+
+				<h2>{{ "Bloques relacionados" }}</h2>
+				<ul class="paragraph">
+					<li><b>Candidaturas y nominaciones:</b> el flujo general de aceptacion, apoyos y publicacion de candidatos esta documentado en <a href="{{site.baseurl}}/candidates.html">esta guia</a>.</li>
+					<li><b>Calendario y tareas:</b> la configuracion de claves, dependencias, etapas y visibilidad publica se documenta en <a href="{{site.baseurl}}/calendar-tasks.html">esta guia</a>.</li>
+					<li><b>Auditoria previa y final:</b> el consumo de estas respuestas dentro de la revision de candidatos, la conformidad final y la revision de votos esta documentado en <a href="{{site.baseurl}}/auditors.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionQuestionsDashboard</code>, <code>QuestionsListPanel</code>, <code>QuestionEditPanel</code>, <code>GenericNominationDeclarationsManagementPanel</code>, <code>GenericNominationNonStatutoryDeclarationsManagementPanel</code>, <code>GenericNominationOtherStatutoryQuestionsManagementPanel</code>, <code>GenericNominationOtherNonStatutoryQuestionsManagementPanel</code>, <code>CandidateCommunityQuestionsPanel</code>, <code>GenericAcceptNominationTasksPage</code>, <code>PublicElectionPage</code>, <code>AuditPublicCandidateDetailPage</code>, <code>CandidateQuestion</code>, <code>CandidateQuestionStatus</code>, <code>CandidateDeclarationCode</code>, <code>CandidateDeclarationsDefinition</code>, <code>ElectionTaskKey</code>, <code>CandidateQuestionDao</code>, <code>ElectionsPreNominationEJBBean</code>, <code>ElectionsManagerEJBBean</code>, <code>PublicElectionVisibilityResolver</code>, <code>PublicElectionSnapshotBuilder</code> y <code>ElectionsManagerApp.properties.xml</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

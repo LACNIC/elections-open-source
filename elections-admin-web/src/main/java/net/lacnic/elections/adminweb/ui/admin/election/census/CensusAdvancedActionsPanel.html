@@ -1,0 +1,58 @@
+<wicket:panel>
+	<div class="mt-4">
+		<div class="card border border-danger mb-3">
+			<div class="card-header bg-danger-subtle border-danger">
+				<h6 class="card-title mb-0 text-danger" data-testid="censusManagementAdvancedZoneTitle">
+					<wicket:message key="advancedOptionsTitle" /> - <wicket:message key="censusManagementAdvancedZoneTitle" />
+				</h6>
+			</div>
+			<div class="card-body">
+				<p class="text-muted mb-3"><wicket:message key="censusManagementAdvancedDescription" /></p>
+				<div wicket:id="blockedReasonContainer" data-testid="blockedReasonContainer" class="alert alert-warning py-2 px-3 mb-3">
+					<span wicket:id="blockedReasonText" data-testid="blockedReasonText"></span>
+				</div>
+				<div class="row g-3 align-items-start">
+					<div class="col-12 col-lg-10">
+						<p class="mb-1 fw-semibold"><wicket:message key="censusManagementAdvancedRegenerateLinksTitle" /></p>
+						<p class="mb-0 text-muted"><wicket:message key="censusManagementAdvancedRegenerateLinksDescription" /></p>
+					</div>
+					<div class="col-12 col-lg-2 d-grid">
+						<span wicket:id="regenerateLinksAction" data-testid="regenerateLinksAction" class="d-grid gap-2">
+							<a wicket:id="regenerateLinksAskLink" data-testid="regenerateLinksAskLink" class="btn btn-outline-danger btn-sm" wicket:message="title:censusManagementAdvancedRegenerateLinksDescription">
+								<wicket:message key="censusManagementAdvancedRegenerateLinksButton" />
+							</a>
+							<span wicket:id="regenerateLinksConfirmContainer" data-testid="regenerateLinksConfirmContainer" class="d-grid gap-2">
+								<a wicket:id="regenerateLinksConfirmLink" data-testid="regenerateLinksConfirmLink" class="btn btn-success btn-sm"><wicket:message key="confirmButton" /></a>
+								<a wicket:id="regenerateLinksCancelLink" data-testid="regenerateLinksCancelLink" class="btn btn-light btn-sm"><wicket:message key="cancelButton" /></a>
+							</span>
+						</span>
+						<button wicket:id="regenerateLinksDisabledButton" data-testid="regenerateLinksDisabledButton" type="button" class="btn btn-outline-secondary btn-sm" disabled wicket:message="title:censusManagementAdvancedRegenerateLinksDescription">
+							<wicket:message key="censusManagementAdvancedRegenerateLinksButton" />
+						</button>
+					</div>
+				</div>
+				<hr class="my-3">
+				<div class="row g-3 align-items-start">
+					<div class="col-12 col-lg-10">
+						<p class="mb-1 fw-semibold"><wicket:message key="censusManagementAdvancedDeleteTitle" /></p>
+						<p class="mb-0 text-muted"><wicket:message key="censusManagementAdvancedDeleteDescription" /></p>
+					</div>
+					<div class="col-12 col-lg-2 d-grid">
+						<span wicket:id="deleteAllAction" data-testid="deleteAllAction" class="d-grid gap-2">
+							<a wicket:id="deleteAllAskLink" data-testid="deleteAllAskLink" class="btn btn-outline-danger btn-sm" wicket:message="title:censusManagementAdvancedDeleteDescription">
+								<wicket:message key="censusManagementAdvancedDeleteButton" />
+							</a>
+							<span wicket:id="deleteAllConfirmContainer" data-testid="deleteAllConfirmContainer" class="d-grid gap-2">
+								<a wicket:id="deleteAllConfirmLink" data-testid="deleteAllConfirmLink" class="btn btn-success btn-sm"><wicket:message key="confirmButton" /></a>
+								<a wicket:id="deleteAllCancelLink" data-testid="deleteAllCancelLink" class="btn btn-light btn-sm"><wicket:message key="cancelButton" /></a>
+							</span>
+						</span>
+						<button wicket:id="deleteAllDisabledButton" data-testid="deleteAllDisabledButton" type="button" class="btn btn-outline-secondary btn-sm" disabled wicket:message="title:censusManagementAdvancedDeleteDescription">
+							<wicket:message key="censusManagementAdvancedDeleteButton" />
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

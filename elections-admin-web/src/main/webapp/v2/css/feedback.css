@@ -1,0 +1,182 @@
+.feedbackPanel {
+	list-style: none !important;
+	padding: 0 !important;
+}
+
+.feedbackPanel>li {
+	padding: 5px 10px !important;
+	margin-bottom: 5px !important;
+	border: 1px solid transparent !important;
+	border-radius: 4px !important;
+}
+
+.feedbackPanel>li a {
+	font-weight: bold !important;
+}
+
+.feedbackPanel>li>span, .feedbackPanel>li>ul {
+	margin-bottom: 0 !important;
+}
+
+.feedbackPanel>li>span+span {
+	margin-top: 5px !important;
+}
+
+.feedbackPanel>li.feedbackPanelERROR {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+
+.feedbackPanel>li.feedbackPanelERROR a {
+	color: #843534;
+}
+
+.feedbackPanel>li.feedbackPanelINFO {
+	color: #31708f;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}
+
+.feedbackPanel>li.feedbackPanelINFO a {
+	color: #245269;
+}
+
+.feedbackPanel>li.feedbackPanelWARNING {
+	color: var(--ins-warning-text-emphasis);
+	background-color: var(--ins-warning-bg-subtle);
+	border-color: var(--ins-warning-border-subtle);
+}
+
+.feedbackPanel>li.feedbackPanelWARNING a {
+	color: var(--ins-warning-text-emphasis);
+}
+
+.feedbackPanel>li.feedbackPanelSUCCESS {
+	color: var(--ins-success-text-emphasis);
+	background-color: var(--ins-success-bg-subtle);
+	border-color: var(--ins-success-border-subtle);
+}
+
+.feedbackPanel>li.feedbackPanelSUCCESS a {
+	color: var(--ins-success-text-emphasis);
+}
+
+/*Wizard*/
+.wizard {
+	margin-bottom: 10px
+}
+
+.wizard-step-title {
+	text-align: center;
+	font-weight: 600;
+} 
+
+.wizard>.steps a, .wizard>.steps a:hover, .wizard>.steps a:active {
+	margin: 0 !important;
+}
+
+.wizard>.steps>ul>li {
+	width: 23.5% !important;
+}
+
+.wizard>.steps li+li {
+	margin-left: 2% !important;
+}
+
+.wicketExtensionsWizard>* {
+	text-align: left;
+	color: rgb(103, 106, 108);
+}
+
+.wicketExtensionsWizardViewInner>fieldset {
+	min-height: 280px !important;
+	background-color: #eeeeee;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 20px 13px;
+}
+
+.wicketExtensionsWizardViewInner>fieldset h2 {
+	margin: 0
+}
+
+.wicketExtensionsWizardViewInner>fieldset p {
+	margin: 10px 0 10px 0
+}
+
+.b-r-xs {
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+}
+
+.b-r-sm {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.b-r-md {
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.b-r-lg {
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+}
+
+.b-r-xl {
+	-webkit-border-radius: 24px;
+	-moz-border-radius: 24px;
+	border-radius: 24px;
+}
+
+.wizard-form {
+	padding: 10px 15px 15px 15px;
+}
+
+.wizard-step-summary {
+	font-size: 14px;
+	margin-bottom: 10px;
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;
+}
+
+.wizard-buttons {
+	display: inline-block;
+	padding: 0 2.5% 15px 2.5%;
+	margin-top: 3%;
+	float: right
+}
+
+.wizard-buttons input, .wizard-buttons  input:hover, .wizard-buttons input:active
+	{
+	border: none;
+	outline: 0 none;
+	margin: 0 0.5em;
+	background: #79A341;
+	color: #fff;
+	display: block;
+	padding: 0.5em 1em;
+	text-decoration: none;
+	float: left;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.wizard-buttons input:disabled {
+	background: #eee;
+	color: #aaa;
+}
+
+.wizard-feedback {
+	margin-top: 3%;
+}

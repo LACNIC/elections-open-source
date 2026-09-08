@@ -52,8 +52,8 @@ public class ElectionParticipationDetailReport implements Serializable {
 		} else {
 			this.role = "Auditor";
 		}
-		this.startDate = DateTimeUtils.getTableServicesDateTimeString(auditor.getElection().getStartDate());
-		this.endDate = DateTimeUtils.getTableServicesDateTimeString(auditor.getElection().getEndDate());
+		this.startDate = auditor.getElection().getVotingPeriodStartDateString();
+		this.endDate = auditor.getElection().getVotingPeriodEndDateString();
 	}
 
 	public ElectionParticipationDetailReport(Candidate candidate) {
@@ -66,8 +66,8 @@ public class ElectionParticipationDetailReport implements Serializable {
 		this.descriptionPortuguese = candidate.getElection().getDescriptionPortuguese();
 		this.descriptionSpanish = candidate.getElection().getDescriptionSpanish();
 		this.role = "Candidate";
-		this.startDate = DateTimeUtils.getTableServicesDateTimeString(candidate.getElection().getStartDate());
-		this.endDate = DateTimeUtils.getTableServicesDateTimeString(candidate.getElection().getEndDate());
+		this.startDate = candidate.getElection().getVotingPeriodStartDateString();
+		this.endDate = candidate.getElection().getVotingPeriodEndDateString();
 		
 		this.candidateBio = candidate.getBioSpanish();
 		this.candidateLink = candidate.getLinkSpanish();
@@ -84,8 +84,8 @@ public class ElectionParticipationDetailReport implements Serializable {
 		this.descriptionEnglish = userVoter.getElection().getDescriptionEnglish();
 		this.descriptionPortuguese = userVoter.getElection().getDescriptionPortuguese();
 		this.descriptionSpanish = userVoter.getElection().getDescriptionSpanish();
-		this.startDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getElection().getStartDate());
-		this.endDate = DateTimeUtils.getTableServicesDateTimeString(userVoter.getElection().getEndDate());
+		this.startDate = userVoter.getElection().getVotingPeriodStartDateString();
+		this.endDate = userVoter.getElection().getVotingPeriodEndDateString();
 		
 		this.voterOrgID = userVoter.getOrgID();
 		this.voterCountry = userVoter.getCountry();

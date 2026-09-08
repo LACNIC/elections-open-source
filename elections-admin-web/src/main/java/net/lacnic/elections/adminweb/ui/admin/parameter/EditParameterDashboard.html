@@ -1,0 +1,32 @@
+<wicket:extend>
+	<div class="row">
+		<div wicket:id="feedback" data-testid="feedback"></div>
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 data-testid="advEditParamTitle"><wicket:message key="advEditParamTitle">Editar parámetros</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<form method="post" wicket:id="parameterForm" data-testid="parameterForm">
+						<div class="row g-3 align-items-end">
+							<div class="col-md-5">
+								<input wicket:message="placeholder:advEditParamKey" id="key" class="form-control" wicket:id="key" data-testid="key">
+							</div>
+							<div class="col-md-5">
+								<input wicket:message="placeholder:advEditParamValue" id="value" class="form-control" wicket:id="value" data-testid="value">
+							</div>
+							<div class="col-md-2 d-grid gap-2">
+								<button class="btn btn-light" id="cancel" wicket:id="cancel" data-testid="cancel" type="button">
+									<wicket:message key="advEditParamBtnCanc" />
+								</button>
+								<button class="btn btn-primary" id="save" type="submit" wicket:id="save" data-testid="save">
+									<wicket:message key="advEditParamBtnSave" />
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:extend>

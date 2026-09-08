@@ -2,8 +2,8 @@ package net.lacnic.elections.adminweb.ui.admin.ipaccess;
 
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -17,7 +17,7 @@ public class IpAccessListPanel extends Panel {
 
 	private static final long serialVersionUID = -8554113800494186242L;
 
-	private static final Logger appLogger = LogManager.getLogger("webAdminAppLogger");	
+	private static final Logger appLogger = LoggerFactory.getLogger("webAdminAppLogger");	
 
 
 	public IpAccessListPanel(String id) {
@@ -37,7 +37,7 @@ public class IpAccessListPanel extends Panel {
 					item.add(new Label("firstAttemptDate", ipAccess.getFirstAttemptDate()));
 					item.add(new Label("lastAttemptDate", ipAccess.getLastAttemptDate()));
 				} catch (Exception e) {
-					appLogger.error(e);
+					appLogger.error(e.getMessage(), e);
 				}
 			}
 		};

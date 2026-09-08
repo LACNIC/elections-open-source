@@ -7,21 +7,19 @@ import junit.framework.TestSuite;
 
 
 
-public class AppDaoTest extends TestCase {
-	
-	public AppDaoTest(String testName ) {
-		super(testName);
-	}
+ class AppDaoTest extends TestCase {
 	
 	/**
      * @return the suite of tests being tested
      */
-    public static Test suite()
+     static Test suite()
     {
         return new TestSuite( AppDaoTest.class );
     }
     
-    public void testDao()
+    @org.junit.jupiter.api.Test
+    
+     void testDao()
     {
     	assertTrue(true);
     }

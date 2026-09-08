@@ -1,0 +1,64 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<div class="row">
+		<div class="col-lg-4" wicket:id="voteElectionDetail" data-testid="voteElectionDetail"></div>
+		<div class="col-lg-8">
+			<div class="card float-e-margins">
+				<div class="card-header">
+					<h5 data-testid="votingPanel"><wicket:message key="votingPanel">Panel de votación</wicket:message></h5>
+					<span class="badge text-bg-light border border-secondary-subtle float-end" wicket:id="candidatesOrder" data-testid="candidatesOrder"></span>
+				</div>
+				<div class="card-body card-heading">
+					<p><wicket:message key="voteHelp1" /></p>
+					<small><strong><wicket:message key="voteHelp2" /><span wicket:id="maxCandidates" data-testid="maxCandidates"></span><wicket:message key="voteHelp3" /></strong></small>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-12" wicket:id="candidatesContainer" data-testid="candidatesContainer">
+							<div wicket:id="candidatesList" data-testid="candidatesList">
+								<div wicket:id="markupContainer" data-testid="markupContainer">
+									<a wicket:id="candidateLink" data-testid="candidateLink" class="card-body d-block text-decoration-none text-reset">
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="text-center">
+													<img alt="image" class="rounded-circle img-thumbnail candidate-photo-sepia vote-candidate-photo" width="72" height="72"
+														style="width:72px;height:72px;object-fit:cover;object-position:center;" wicket:id="image" data-testid="image">
+													<h3 data-testid="voteSimpleElectionCandidateNameTitle"><strong wicket:id="name" data-testid="name">Nombre del candidato</strong></h3>
+												</div>
+											</div>
+											<div class="col-sm-9">
+												<div class="overflow-auto" style="max-height: 9rem;" wicket:id="bio" data-testid="bio"></div>
+											</div>
+										</div>
+									</a>
+									<div class="card-body pt-0">
+										<a wicket:id="link" data-testid="link" target="_blank" rel="noopener"><label><wicket:message key="moreInfo" /></label></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div wicket:id="feedbackPanel" data-testid="feedbackPanel"></div>
+						</div>
+						<div class="col-12 col-lg-6 ms-lg-auto" wicket:id="voteButtonContainer" data-testid="voteButtonContainer">
+							<button type="button" wicket:id="vote" data-testid="vote" class="btn btn-lg btn-primary w-100 d-block" id="voteButton">
+								<i class="ti ti-check"></i>&nbsp;<wicket:message key="voteButton"></wicket:message>
+							</button>
+						</div>
+						<div class="col-lg-12 row g-2" wicket:id="confirmVoteContainer" data-testid="confirmVoteContainer">
+							<div class="col-12 col-lg-6">
+								<a wicket:id="cancel" data-testid="cancel" class="btn btn-lg btn-danger w-100 d-block" id="cancelVote">
+									<i class="ti ti-x"></i>&nbsp;<wicket:message key="cancelButton"></wicket:message>
+								</a>
+							</div>
+							<div class="col-12 col-lg-6">
+								<a wicket:id="confirm" data-testid="confirm" class="btn btn-lg btn-primary w-100 d-block" id="confirmVote">
+									<i class="ti ti-check"></i>&nbsp;<wicket:message key="confirmButton"></wicket:message>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

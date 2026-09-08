@@ -1,0 +1,65 @@
+<wicket:panel>
+	<div class="card float-e-margins">
+		<div class="card-header">
+			<h3 wicket:id="headerTitle" class="text-center" data-testid="headerTitle">Detalle de elección</h3>
+		</div>
+		<div class="card-body card-heading bg-warning" wicket:id="notVotedYet" data-testid="notVotedYet">
+			<div class="row">
+				<div class="col-md-2">
+					<i class="ti ti-alert-hexagon fs-60"></i>
+				</div>
+				<div class="col-md-10">
+					<h3 data-testid="userVoteDetNoVotTitle">
+						<wicket:message key="userVoteDetNoVotTitle">Todavía no ha votado en esta elección</wicket:message>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="card-body card-heading bg-primary" wicket:id="alreadyVoted" data-testid="alreadyVoted">
+			<div class="row">
+				<div class="col-md-2">
+					<i class="ti ti-user-check fs-60"></i>
+				</div>
+				<div class="col-md-10">
+					<h3 data-testid="userVoteDetVotTitle">
+						<wicket:message key="userVoteDetVotTitle">Ya votó en esta elección</wicket:message>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-lg-12 m-b-sm">
+					<b wicket:id="title" data-testid="title" id="electionTitle"></b>
+				</div>
+				<div class="col-lg-12">
+					<p id="electionDescription" wicket:id="description" data-testid="description"></p>
+				</div>
+			</div>
+			<div class="hr-line-dashed"></div>
+			<div class="row">
+				<div class="col-lg-12" wicket:id="voteCodesContainer" data-testid="voteCodesContainer">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th><wicket:message key="verificationCode" /></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="voteCodesList" data-testid="voteCodesList">
+								<td wicket:id="number" data-testid="number"></td>
+								<td wicket:id="code" data-testid="code"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-lg-12 text-center">
+					<button type="button" class="btn btn-warning animated tada" wicket:id="vote" data-testid="vote">
+						<wicket:message key="userVoteDetVote" />
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>

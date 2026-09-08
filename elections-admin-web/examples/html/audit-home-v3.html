@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Auditoria - Home v3</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<script src="assets/js/config.js"></script>
+	<link href="assets/css/vendors.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body {
+			background: linear-gradient(180deg, rgba(17, 24, 39, 0.04), rgba(255, 255, 255, 0));
+		}
+
+		.audit-hero {
+			background: linear-gradient(135deg, rgba(17, 24, 39, 0.08), rgba(17, 24, 39, 0.02));
+		}
+
+		.muted-card {
+			border: 1px solid rgba(17, 24, 39, 0.1);
+			background: #fff;
+		}
+
+		.muted-card.is-disabled {
+			opacity: 0.6;
+			filter: grayscale(0.2);
+		}
+
+		.audit-timeline-scroll {
+			max-height: 42rem;
+			overflow-y: auto;
+			padding-right: 0.2rem;
+		}
+
+		.audit-timeline-scroll .timeline-time {
+			min-width: 4.4rem;
+			font-size: 0.78rem;
+		}
+
+		.timeline-tag {
+			font-size: 0.72rem;
+			font-weight: 700;
+			letter-spacing: 0.03em;
+			text-transform: uppercase;
+		}
+
+		.timeline-schedule {
+			font-size: 0.78rem;
+			color: #495057;
+		}
+
+		.timeline-item[data-status="future"] {
+			opacity: 0.58;
+		}
+
+		.timeline-item[data-status="current"] .timeline-content {
+			background: rgba(17, 24, 39, 0.05);
+			border-radius: 0.6rem;
+		}
+
+		.alt-label {
+			font-size: 0.78rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+			color: #6c757d;
+		}
+
+		.cta-card {
+			border: 1px solid rgba(17, 24, 39, 0.15);
+			background: rgba(17, 24, 39, 0.03);
+		}
+
+		.task-chip {
+			border: 1px dashed rgba(17, 24, 39, 0.18);
+			border-radius: 999px;
+			padding: 0.3rem 0.7rem;
+			font-size: 0.78rem;
+			font-weight: 600;
+			background: rgba(17, 24, 39, 0.02);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header class="app-topbar" style="margin-left: 0;">
+			<div class="container-fluid topbar-menu">
+				<div class="d-flex align-items-center gap-2">
+					<a href="#" class="topbar-link fw-semibold">Auditoria de Elecciones</a>
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<div class="topbar-item"><span class="topbar-link fw-semibold">Auditor Demo</span></div>
+				</div>
+			</div>
+		</header>
+
+		<div>
+			<div class="container-fluid py-4">
+				<div class="card mb-4 audit-hero muted-card">
+					<div class="card-body">
+						<div class="row g-3 align-items-center">
+							<div class="col-lg-8">
+								<div class="d-flex align-items-center gap-2 mb-2">
+									<span class="badge text-bg-light border">Diseno sobrio</span>
+									<span class="badge text-bg-light border">Home Auditor v3</span>
+								</div>
+								<h3 class="mb-1">Eleccion Directorio 2026</h3>
+								<p class="text-muted mb-0">Alternativas del panel derecho con CTA claro y estados grises.</p>
+							</div>
+							<div class="col-lg-4">
+								<label for="scenario-v3" class="form-label fw-semibold mb-1">Escenario</label>
+								<select class="form-select" id="scenario-v3">
+									<option value="inicio" selected>Inicio (revision candidatos)</option>
+									<option value="votacion">Votacion (sin acciones)</option>
+									<option value="auditoria">Auditoria (sin acciones)</option>
+									<option value="cierre">Cierre (resultados)</option>
+								</select>
+								<div class="form-text mb-2">Una o ambas secciones pueden estar apagadas.</div>
+								<label for="layout-v3" class="form-label fw-semibold mb-1">Alternativa panel derecho</label>
+								<select class="form-select" id="layout-v3">
+									<option value="a" selected>1. Command Center</option>
+									<option value="b">2. Checklist</option>
+									<option value="c">3. Cola de decisiones</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row g-4">
+					<div class="col-xl-5">
+						<div class="card muted-card h-100">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<div>
+									<h4 class="card-title mb-0">Timeline del calendario</h4>
+									<p class="text-muted mb-0">Hitos reales N.1 a N.22</p>
+								</div>
+								<div class="text-end">
+									<div class="badge text-bg-light border mb-1" id="phase-v3">Convocatoria</div>
+									<div class="small text-muted" id="milestone-v3">N.1</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="timeline timeline-icon-bordered audit-timeline-scroll" id="calendar-timeline-v3"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-7">
+						<div class="right-layout-v3" id="layout-right-v3-a">
+							<div class="alt-label mb-2">Alternativa 1 · Command Center</div>
+							<div class="card cta-card mb-4">
+								<div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+									<div>
+										<h4 class="mb-1" id="cta-title-a">Accion recomendada</h4>
+										<p class="text-muted mb-0" id="cta-desc-a">Se actualiza segun etapa.</p>
+									</div>
+									<div class="text-end">
+										<p class="text-muted small mb-1">Tiempo limite</p>
+										<h5 class="mb-1" id="deadline-a">-</h5>
+										<span class="badge text-bg-light border mb-2" id="deadline-badge-a">Pendiente</span>
+										<div>
+											<button class="btn btn-dark" id="cta-btn-a">Ir a accion</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row g-4">
+								<div class="col-md-6">
+									<div class="card muted-card h-100" id="module-candidates-a">
+										<div class="card-body">
+											<div class="d-flex justify-content-between mb-2">
+												<h5 class="mb-0">Aprobar candidatos</h5>
+												<span class="badge text-bg-secondary" id="badge-candidates-a">Habilitado</span>
+											</div>
+											<p class="text-muted small mb-3">Revision de perfiles y soportes.</p>
+											<button class="btn btn-outline-dark w-100" id="btn-candidates-a">Ir a candidatos</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="card muted-card h-100" id="module-results-a">
+										<div class="card-body">
+											<div class="d-flex justify-content-between mb-2">
+												<h5 class="mb-0">Ver resultados</h5>
+												<span class="badge text-bg-light border text-muted" id="badge-results-a">Deshabilitado</span>
+											</div>
+											<p class="text-muted small mb-3">Consolidado y trazabilidad final.</p>
+											<button class="btn btn-outline-secondary w-100" id="btn-results-a" disabled>Ir a resultados</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="card muted-card">
+										<div class="card-header"><h4 class="card-title mb-0">Actividad reciente</h4></div>
+										<div class="card-body">
+											<div class="py-1 d-flex gap-2 align-items-center">
+												<span class="badge text-bg-light border">Revision</span>
+												<span class="text-muted">Hoy 10:40</span>
+												<span class="fw-semibold">ce_auditor_01</span>
+												<span>actualizo estado de 3 candidatos</span>
+											</div>
+											<div class="py-1 d-flex gap-2 align-items-center">
+												<span class="badge text-bg-light border">Comentario</span>
+												<span class="text-muted">Hoy 09:12</span>
+												<span class="fw-semibold">ce_auditor_02</span>
+												<span>agrego observacion en documentacion</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="right-layout-v3 d-none" id="layout-right-v3-b">
+							<div class="alt-label mb-2">Alternativa 2 · Checklist</div>
+							<div class="card cta-card mb-4">
+								<div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+									<div>
+										<h4 class="mb-1" id="cta-title-b">Accion recomendada</h4>
+										<p class="text-muted mb-0" id="cta-desc-b">Se actualiza segun etapa.</p>
+									</div>
+									<div class="text-end">
+										<p class="text-muted small mb-1">Tiempo limite</p>
+										<h5 class="mb-1" id="deadline-b">-</h5>
+										<span class="badge text-bg-light border mb-2" id="deadline-badge-b">Pendiente</span>
+										<div>
+											<button class="btn btn-dark" id="cta-btn-b">Ir a accion</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row g-4">
+								<div class="col-lg-7">
+									<div class="card muted-card h-100">
+										<div class="card-header"><h4 class="card-title mb-0">Checklist de revision</h4></div>
+										<div class="card-body">
+											<div class="form-check mb-2">
+												<input class="form-check-input" type="checkbox" id="chk-b-1" checked>
+												<label class="form-check-label" for="chk-b-1">Perfil completo</label>
+											</div>
+											<div class="form-check mb-2">
+												<input class="form-check-input" type="checkbox" id="chk-b-2">
+												<label class="form-check-label" for="chk-b-2">Declaraciones validadas</label>
+											</div>
+											<div class="form-check mb-2">
+												<input class="form-check-input" type="checkbox" id="chk-b-3">
+												<label class="form-check-label" for="chk-b-3">Apoyos confirmados</label>
+											</div>
+											<div class="form-check mb-3">
+												<input class="form-check-input" type="checkbox" id="chk-b-4">
+												<label class="form-check-label" for="chk-b-4">Decision registrada</label>
+											</div>
+											<div class="d-flex justify-content-between mb-1">
+												<span class="small text-muted">Progreso del lote</span>
+												<span class="small fw-semibold">25%</span>
+											</div>
+											<div class="progress progress-md">
+												<div class="progress-bar bg-secondary" style="width: 25%;"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-5">
+									<div class="card muted-card mb-4" id="module-candidates-b">
+										<div class="card-body">
+											<div class="d-flex justify-content-between mb-2">
+												<h5 class="mb-0">Candidatos</h5>
+												<span class="badge text-bg-secondary" id="badge-candidates-b">Habilitado</span>
+											</div>
+											<button class="btn btn-outline-dark w-100" id="btn-candidates-b">Abrir modulo</button>
+										</div>
+									</div>
+									<div class="card muted-card" id="module-results-b">
+										<div class="card-body">
+											<div class="d-flex justify-content-between mb-2">
+												<h5 class="mb-0">Resultados</h5>
+												<span class="badge text-bg-light border text-muted" id="badge-results-b">Deshabilitado</span>
+											</div>
+											<button class="btn btn-outline-secondary w-100" id="btn-results-b" disabled>Abrir modulo</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="right-layout-v3 d-none" id="layout-right-v3-c">
+							<div class="alt-label mb-2">Alternativa 3 · Cola de decisiones</div>
+							<div class="card cta-card mb-4">
+								<div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+									<div>
+										<h4 class="mb-1" id="cta-title-c">Accion recomendada</h4>
+										<p class="text-muted mb-0" id="cta-desc-c">Se actualiza segun etapa.</p>
+									</div>
+									<div class="text-end">
+										<p class="text-muted small mb-1">Tiempo limite</p>
+										<h5 class="mb-1" id="deadline-c">-</h5>
+										<span class="badge text-bg-light border mb-2" id="deadline-badge-c">Pendiente</span>
+										<div>
+											<button class="btn btn-dark" id="cta-btn-c">Ir a accion</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card muted-card mb-4" id="module-candidates-c">
+								<div class="card-header d-flex justify-content-between align-items-center">
+									<h4 class="card-title mb-0">Cola de candidatos a resolver</h4>
+									<span class="badge text-bg-secondary" id="badge-candidates-c">Habilitado</span>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-nowrap mb-0">
+											<thead>
+												<tr><th>Candidato</th><th>Estado</th><th class="text-end">Accion</th></tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Maria Perez</td>
+													<td><span class="badge text-bg-light border">Pendiente</span></td>
+													<td class="text-end"><button class="btn btn-sm btn-outline-dark">Revisar</button></td>
+												</tr>
+												<tr>
+													<td>Ana Costa</td>
+													<td><span class="badge text-bg-light border">Con observaciones</span></td>
+													<td class="text-end"><button class="btn btn-sm btn-outline-dark">Revisar</button></td>
+												</tr>
+												<tr>
+													<td>Jose Silva</td>
+													<td><span class="badge text-bg-light border">Validado</span></td>
+													<td class="text-end"><button class="btn btn-sm btn-outline-secondary" disabled>Completo</button></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="mt-3">
+										<button class="btn btn-outline-dark w-100" id="btn-candidates-c">Ir a aprobaciones</button>
+									</div>
+								</div>
+							</div>
+							<div class="card muted-card" id="module-results-c">
+								<div class="card-header d-flex justify-content-between align-items-center">
+									<h4 class="card-title mb-0">Resultados</h4>
+									<span class="badge text-bg-light border text-muted" id="badge-results-c">Deshabilitado</span>
+								</div>
+								<div class="card-body">
+									<p class="text-muted mb-3">Disponible al cierre del proceso de auditoria.</p>
+									<button class="btn btn-outline-secondary w-100" id="btn-results-c" disabled>Ir a resultados</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/vendors.min.js"></script>
+	<script src="assets/js/app.js"></script>
+	<script src="assets/plugins/lucide/lucide.min.js"></script>
+	<script>
+		(function () {
+			var calendarTasks = [
+				{ key: 1, phase: "Convocatoria", mode: "SINGLE", start: "01 Mar 2026 09:00 UTC", end: "01 Mar 2026 09:00 UTC", title: "Publicacion de la eleccion", desc: "Habilita la pagina publica y el calendario con hitos publicables." },
+				{ key: 2, phase: "Convocatoria", mode: "PERIODO", start: "01 Mar 2026 09:00 UTC", end: "14 Mar 2026 18:00 UTC", title: "Inicio del llamado", desc: "Apertura del periodo de postulaciones." },
+				{ key: 3, phase: "Padron", mode: "SINGLE", start: "06 Mar 2026 12:00 UTC", end: "06 Mar 2026 12:00 UTC", title: "Cierre de padron", desc: "Cierre operativo de socios habilitados." },
+				{ key: 4, phase: "Padron", mode: "SINGLE", start: "08 Mar 2026 10:00 UTC", end: "08 Mar 2026 10:00 UTC", title: "Publicacion de padron", desc: "Publicacion estatutaria del padron." },
+				{ key: 5, phase: "Padron", mode: "PERIODO", start: "08 Mar 2026 10:00 UTC", end: "15 Mar 2026 18:00 UTC", title: "Reclamos de padron", desc: "Reclamos y aclaraciones del padron." },
+				{ key: 6, phase: "Candidaturas", mode: "PERIODO", start: "15 Mar 2026 09:00 UTC", end: "21 Mar 2026 18:00 UTC", title: "Semana adicional evaluacion", desc: "Semana extra de evaluacion." },
+				{ key: 7, phase: "Candidaturas", mode: "PERIODO", start: "22 Mar 2026 09:00 UTC", end: "24 Mar 2026 18:00 UTC", title: "Verificacion formularios", desc: "Observaciones internas de formularios." },
+				{ key: 8, phase: "Candidaturas", mode: "PERIODO", start: "25 Mar 2026 09:00 UTC", end: "31 Mar 2026 18:00 UTC", title: "Validacion evaluaciones", desc: "Observaciones internas de evaluaciones." },
+				{ key: 9, phase: "Candidaturas", mode: "PERIODO", start: "01 Abr 2026 09:00 UTC", end: "03 Abr 2026 18:00 UTC", title: "Reclamos de candidatos", desc: "Recepcion de reclamos de candidatura." },
+				{ key: 10, phase: "Candidaturas", mode: "PERIODO", start: "04 Abr 2026 09:00 UTC", end: "06 Abr 2026 18:00 UTC", title: "Resolucion de reclamos", desc: "Limite para resolver reclamos." },
+				{ key: 11, phase: "Candidaturas", mode: "SINGLE", start: "07 Abr 2026 11:00 UTC", end: "07 Abr 2026 11:00 UTC", title: "Publicacion candidatos", desc: "Publicacion final de candidaturas." },
+				{ key: 12, phase: "Candidaturas", mode: "PERIODO", start: "08 Abr 2026 09:00 UTC", end: "10 Abr 2026 18:00 UTC", title: "Preguntas a candidatos", desc: "Periodo de preguntas a postulantes." },
+				{ key: 13, phase: "Padron", mode: "PERIODO", start: "11 Abr 2026 09:00 UTC", end: "15 Abr 2026 18:00 UTC", title: "Resolucion reclamos padron", desc: "Cierre de reclamos de padron." },
+				{ key: 14, phase: "Padron", mode: "SINGLE", start: "17 Abr 2026 10:00 UTC", end: "17 Abr 2026 10:00 UTC", title: "Actualizacion final padron", desc: "Actualizacion previa a votacion." },
+				{ key: 15, phase: "Candidaturas", mode: "PERIODO", start: "11 Abr 2026 09:00 UTC", end: "13 Abr 2026 18:00 UTC", title: "Respuesta CE reclamos", desc: "Respuestas CE sobre candidatos." },
+				{ key: 16, phase: "Votacion", mode: "PERIODO", start: "20 Abr 2026 09:00 UTC", end: "24 Abr 2026 23:59 UTC", title: "Inicio votacion online", desc: "Apertura oficial de votacion." },
+				{ key: 17, phase: "Resultados", mode: "SINGLE", start: "24 Abr 2026 23:59 UTC", end: "24 Abr 2026 23:59 UTC", title: "Resultados provisorios", desc: "Publicacion inicial sujeta a auditoria." },
+				{ key: 18, phase: "Auditoria", mode: "PERIODO", start: "25 Abr 2026 09:00 UTC", end: "27 Abr 2026 12:00 UTC", title: "Auditoria CE", desc: "Auditoria interna de comision electoral." },
+				{ key: 19, phase: "Auditoria", mode: "PERIODO", start: "27 Abr 2026 13:00 UTC", end: "29 Abr 2026 18:00 UTC", title: "Auditoria votantes", desc: "Recepcion de reclamos de votantes." },
+				{ key: 20, phase: "Resultados", mode: "SINGLE", start: "29 Abr 2026 19:00 UTC", end: "29 Abr 2026 19:00 UTC", title: "Resultado oficial sin reclamos", desc: "Publicacion oficial sin reclamos." },
+				{ key: 21, phase: "Auditoria", mode: "PERIODO", start: "30 Abr 2026 09:00 UTC", end: "02 May 2026 18:00 UTC", title: "Respuesta CE a reclamos", desc: "Respuesta de CE a reclamos." },
+				{ key: 22, phase: "Resultados", mode: "SINGLE", start: "03 May 2026 11:00 UTC", end: "03 May 2026 11:00 UTC", title: "Resultado oficial con reclamos", desc: "Publicacion oficial con reclamos resueltos." }
+			];
+
+			function getWindowLabel(windowType, start, end) {
+				if (windowType === "PERIODO") {
+					return "Inicio: " + start + " | Fin: " + end;
+				}
+				return "Dia y hora: " + start;
+			}
+
+			function setModule(moduleId, badgeId, buttonId, enabled) {
+				var module = document.getElementById(moduleId);
+				var badge = document.getElementById(badgeId);
+				var button = document.getElementById(buttonId);
+				module.classList.toggle("is-disabled", !enabled);
+				badge.className = enabled ? "badge text-bg-secondary" : "badge text-bg-light border text-muted";
+				badge.textContent = enabled ? "Habilitado" : "Deshabilitado";
+				button.disabled = !enabled;
+				button.className = enabled ? "btn btn-outline-dark w-100" : "btn btn-outline-secondary w-100";
+			}
+
+			function setCta(suffix, config) {
+				var title = document.getElementById("cta-title-" + suffix);
+				var desc = document.getElementById("cta-desc-" + suffix);
+				var button = document.getElementById("cta-btn-" + suffix);
+				var deadline = document.getElementById("deadline-" + suffix);
+				var deadlineBadge = document.getElementById("deadline-badge-" + suffix);
+
+				if (config.candidates) {
+					title.textContent = "Accion recomendada: revisar candidatos pendientes";
+					desc.textContent = "Concentrar la auditoria en aprobaciones/rechazos de candidatura.";
+					button.textContent = "Ir a aprobar candidatos";
+					button.disabled = false;
+					button.className = "btn btn-dark";
+					deadline.textContent = getWindowLabel(config.windowType, config.windowStart, config.windowEnd);
+					deadlineBadge.textContent = config.windowType === "PERIODO" ? "Periodo activo" : "Hito unico";
+					deadlineBadge.className = "badge text-bg-secondary mb-2";
+					return;
+				}
+				if (config.results) {
+					title.textContent = "Accion recomendada: validar resultados finales";
+					desc.textContent = "Revisar trazabilidad, auditoria y consolidado final.";
+					button.textContent = "Ir a resultados";
+					button.disabled = false;
+					button.className = "btn btn-dark";
+					deadline.textContent = getWindowLabel(config.windowType, config.windowStart, config.windowEnd);
+					deadlineBadge.textContent = config.windowType === "PERIODO" ? "Periodo de publicacion" : "Publicacion puntual";
+					deadlineBadge.className = "badge text-bg-secondary mb-2";
+					return;
+				}
+				title.textContent = "Sin acciones habilitadas en esta etapa";
+				desc.textContent = "El auditor debe esperar el siguiente hito del calendario.";
+				button.textContent = "Esperar cambio de etapa";
+				button.disabled = true;
+				button.className = "btn btn-secondary";
+				deadline.textContent = getWindowLabel(config.windowType, config.windowStart, config.windowEnd);
+				deadlineBadge.textContent = "Bloqueado por etapa";
+				deadlineBadge.className = "badge text-bg-light border text-muted mb-2";
+			}
+
+			function renderCalendarTimeline() {
+				var timeline = document.getElementById("calendar-timeline-v3");
+				timeline.innerHTML = "";
+				calendarTasks.forEach(function (task, index) {
+					var item = document.createElement("div");
+					item.className = "timeline-item d-flex align-items-stretch";
+					item.setAttribute("data-calendar-step", String(task.key));
+
+					var timelineTime = document.createElement("div");
+					timelineTime.className = "timeline-time pe-3 text-muted";
+					timelineTime.textContent = "N." + task.key;
+
+					var timelineDot = document.createElement("div");
+					timelineDot.className = "timeline-dot";
+					var icon = document.createElement("i");
+					icon.className = "ti ti-calendar fs-xl text-muted";
+					timelineDot.appendChild(icon);
+
+					var content = document.createElement("div");
+					content.className = index === calendarTasks.length - 1 ? "timeline-content ps-3" : "timeline-content ps-3 pb-4";
+					content.innerHTML =
+						'<div class="d-flex align-items-center gap-2 mb-1">' +
+						'<span class="badge text-bg-light border timeline-tag">' + task.phase + "</span>" +
+						'<span class="badge text-bg-light border text-muted timeline-tag">' + (task.mode === "PERIODO" ? "PERIODO" : "SINGLE") + "</span>" +
+						"</div>" +
+						'<h5 class="mb-1">' + task.title + "</h5>" +
+						'<p class="timeline-schedule mb-1">' + getWindowLabel(task.mode, task.start, task.end) + "</p>" +
+						'<p class="mb-0 text-muted">' + task.desc + "</p>";
+
+					item.appendChild(timelineTime);
+					item.appendChild(timelineDot);
+					item.appendChild(content);
+					timeline.appendChild(item);
+				});
+			}
+
+			function paintTimeline(currentStep) {
+				var items = document.querySelectorAll("[data-calendar-step]");
+				var currentTask = null;
+				items.forEach(function (item) {
+					var step = parseInt(item.getAttribute("data-calendar-step"), 10);
+					var dot = item.querySelector(".timeline-dot");
+					var icon = dot.querySelector("i");
+
+					if (step < currentStep) {
+						item.setAttribute("data-status", "done");
+						dot.className = "timeline-dot text-bg-secondary";
+						icon.className = "ti ti-check fs-xl text-white";
+						return;
+					}
+					if (step === currentStep) {
+						currentTask = calendarTasks[step - 1];
+						item.setAttribute("data-status", "current");
+						dot.className = "timeline-dot text-bg-dark";
+						icon.className = "ti ti-clock-hour-4 fs-xl text-white";
+						return;
+					}
+					item.setAttribute("data-status", "future");
+					dot.className = "timeline-dot";
+					icon.className = "ti ti-calendar fs-xl text-muted";
+				});
+
+				if (currentTask) {
+					document.getElementById("phase-v3").textContent = currentTask.phase;
+					document.getElementById("milestone-v3").textContent = "N." + currentTask.key + " - " + currentTask.title;
+				}
+			}
+
+			function applyScenario(value) {
+				var config = {
+					inicio: {
+						candidates: true,
+						results: false,
+						step: 7,
+						windowType: "PERIODO",
+						windowStart: "22 Mar 2026 09:00 UTC",
+						windowEnd: "13 Abr 2026 18:00 UTC"
+					},
+					votacion: {
+						candidates: false,
+						results: false,
+						step: 16,
+						windowType: "PERIODO",
+						windowStart: "20 Abr 2026 09:00 UTC",
+						windowEnd: "24 Abr 2026 23:59 UTC"
+					},
+					auditoria: {
+						candidates: false,
+						results: false,
+						step: 18,
+						windowType: "PERIODO",
+						windowStart: "25 Abr 2026 09:00 UTC",
+						windowEnd: "29 Abr 2026 18:00 UTC"
+					},
+					cierre: {
+						candidates: false,
+						results: true,
+						step: 22,
+						windowType: "SINGLE",
+						windowStart: "03 May 2026 11:00 UTC",
+						windowEnd: "03 May 2026 11:00 UTC"
+					}
+				}[value];
+
+				setModule("module-candidates-a", "badge-candidates-a", "btn-candidates-a", config.candidates);
+				setModule("module-results-a", "badge-results-a", "btn-results-a", config.results);
+				setModule("module-candidates-b", "badge-candidates-b", "btn-candidates-b", config.candidates);
+				setModule("module-results-b", "badge-results-b", "btn-results-b", config.results);
+				setModule("module-candidates-c", "badge-candidates-c", "btn-candidates-c", config.candidates);
+				setModule("module-results-c", "badge-results-c", "btn-results-c", config.results);
+
+				setCta("a", config);
+				setCta("b", config);
+				setCta("c", config);
+				paintTimeline(config.step);
+			}
+
+			function applyLayout(value) {
+				var layouts = document.querySelectorAll(".right-layout-v3");
+				layouts.forEach(function (node) { node.classList.add("d-none"); });
+				var active = document.getElementById("layout-right-v3-" + value);
+				if (active) {
+					active.classList.remove("d-none");
+				}
+			}
+
+			renderCalendarTimeline();
+
+			var scenario = document.getElementById("scenario-v3");
+			scenario.addEventListener("change", function (event) {
+				applyScenario(event.target.value);
+			});
+
+			var layout = document.getElementById("layout-v3");
+			layout.addEventListener("change", function (event) {
+				applyLayout(event.target.value);
+			});
+
+			applyLayout(layout.value);
+			applyScenario(scenario.value);
+		})();
+	</script>
+</body>
+
+</html>

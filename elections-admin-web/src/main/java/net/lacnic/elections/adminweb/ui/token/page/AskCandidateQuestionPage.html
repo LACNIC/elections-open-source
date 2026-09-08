@@ -1,0 +1,62 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<div class="row mt-3">
+		<div class="col-12">
+			<div wicket:id="feedbackPanel" data-testid="feedbackPanel"></div>
+		</div>
+	</div>
+
+	<div class="row justify-content-center mt-3">
+		<div class="col-xl-8">
+			<div class="card mb-3">
+				<div class="card-header">
+					<h4 class="card-title mb-0" data-testid="publicQuestionTitle"><wicket:message key="publicQuestionTitle">Enviar pregunta a candidato</wicket:message></h4>
+				</div>
+				<div class="card-body">
+					<p class="text-muted mb-0">
+						<wicket:message key="publicQuestionElectionLabel" />:
+						<strong wicket:id="questionElectionTitle" data-testid="questionElectionTitle"></strong>
+					</p>
+				</div>
+			</div>
+
+			<div class="card mb-3" wicket:id="noCandidatesContainer" data-testid="noCandidatesContainer">
+				<div class="card-body">
+					<p class="mb-0 text-muted"><wicket:message key="publicQuestionNoCandidates" /></p>
+				</div>
+			</div>
+
+			<form wicket:id="questionForm" data-testid="questionForm" class="card mb-3">
+				<div class="card-body row g-3">
+					<div class="col-md-12">
+						<label class="form-label"><wicket:message key="publicQuestionCandidateLabel" /></label>
+						<select wicket:id="candidate" data-testid="candidate" class="form-select"></select>
+					</div>
+
+					<div class="col-md-12">
+						<label class="form-label"><wicket:message key="publicQuestionAskedByLabel" /></label>
+						<input wicket:id="askedByName" data-testid="askedByName" type="text" class="form-control">
+					</div>
+
+					<div class="col-md-12">
+						<label class="form-label"><wicket:message key="publicQuestionAskedByEmailLabel" /></label>
+						<input wicket:id="askedByEmail" data-testid="askedByEmail" type="email" class="form-control">
+					</div>
+
+					<div class="col-md-12">
+						<label class="form-label"><wicket:message key="publicQuestionLanguageLabel" /></label>
+						<select wicket:id="questionLanguage" data-testid="questionLanguage" class="form-select"></select>
+					</div>
+
+						<div class="col-md-12">
+							<label class="form-label"><wicket:message key="publicQuestionTextLabel" /></label>
+							<div wicket:id="questionTextEditor"></div>
+						</div>
+
+					<div class="col-12 text-end">
+						<a wicket:id="submitQuestion" data-testid="submitQuestion" class="btn btn-primary"><wicket:message key="publicQuestionSubmitButton" /></a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:extend>

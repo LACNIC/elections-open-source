@@ -1,21 +1,27 @@
 package net.lacnic.elections.ejb.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.jboss.ejb3.annotation.TransactionTimeout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import net.lacnic.elections.dao.ElectionsDaoFactory;
 import net.lacnic.elections.dao.ReportDao;
 import net.lacnic.elections.data.ElectionReport;
 import net.lacnic.elections.data.HealthCheck;
 import net.lacnic.elections.data.Participation;
+import net.lacnic.elections.data.ParticipationStatusV2;
+import net.lacnic.elections.data.ParticipationTypeV2;
+import net.lacnic.elections.data.ParticipationV2;
 import net.lacnic.elections.data.TableReportDataStringId;
 import net.lacnic.elections.data.TablesReportDataLongId;
 import net.lacnic.elections.domain.Activity;
@@ -24,6 +30,7 @@ import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.domain.Commissioner;
 import net.lacnic.elections.domain.Customization;
 import net.lacnic.elections.domain.Election;
+import net.lacnic.elections.domain.ElectionCategory;
 import net.lacnic.elections.domain.ElectionEmailTemplate;
 import net.lacnic.elections.domain.ElectionLight;
 import net.lacnic.elections.domain.Email;
@@ -34,6 +41,13 @@ import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.domain.UserAdmin;
 import net.lacnic.elections.domain.UserVoter;
 import net.lacnic.elections.domain.Vote;
+import net.lacnic.elections.domain.pre.ElectionCalendar;
+import net.lacnic.elections.domain.pre.ElectionCalendarKey;
+import net.lacnic.elections.domain.pre.Nomination;
+import net.lacnic.elections.domain.pre.NominationStatus;
+import net.lacnic.elections.domain.pre.Organization;
+import net.lacnic.elections.domain.pre.SupportNomination;
+import net.lacnic.elections.domain.pre.SupportStatus;
 import net.lacnic.elections.domain.services.dbtables.ActivityTableReport;
 import net.lacnic.elections.domain.services.dbtables.AuditorTableReport;
 import net.lacnic.elections.domain.services.dbtables.CandidateTableReport;
@@ -48,25 +62,35 @@ import net.lacnic.elections.domain.services.dbtables.VoteTableReport;
 import net.lacnic.elections.domain.services.detail.ElectionDetailReport;
 import net.lacnic.elections.domain.services.detail.ElectionParticipationDetailReport;
 import net.lacnic.elections.domain.services.detail.OrganizationVoterDetailReport;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionCoreSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionOfficialResultSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionPhotoSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionRollSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionsSnapshot;
+import net.lacnic.elections.domain.services.publicelection.PublicElectionsSnapshotMetadata;
 import net.lacnic.elections.ejb.ElectionsMonitorEJB;
-import net.lacnic.elections.ejb.commons.impl.AutomaticProcesses;
+import net.lacnic.elections.publicelection.PublicElectionSnapshotBuilder;
+import net.lacnic.elections.publicelection.PublicElectionSnapshotBundle;
 import net.lacnic.elections.utils.Constants;
+import net.lacnic.elections.utils.EJBFactory;
+import net.lacnic.elections.utils.ElectionsCaches;
+import net.lacnic.elections.utils.ElectionsProperties;
+import net.lacnic.elections.utils.VotingPeriodResolver;
 import net.ripe.ipresource.IpResourceSet;
 
 @Stateless
 @Remote(ElectionsMonitorEJB.class)
 public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("ejbAppLogger");
 
 	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
 
-	private static HealthCheck healthCheck;
-
-
-	public ElectionsMonitorEJBBean() { }
-
+	public ElectionsMonitorEJBBean() {
+		// Intencionalmente vacio: el contenedor EJB inyecta dependencias y gestiona el
+		// ciclo de vida.
+	}
 
 	/**
 	 * Get the health check data.
@@ -76,8 +100,9 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 */
 	@Override
 	public HealthCheck getHealthCheckData() {
+		HealthCheck healthCheck = ElectionsCaches.getHealthCheck();
 		if (healthCheck == null)
-			healthCheck = updateHealthCheckData();
+			return updateHealthCheckData();
 		return healthCheck;
 	}
 
@@ -89,18 +114,45 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 */
 	@Override
 	public HealthCheck updateHealthCheckData() {
-		ReportDao reportDao = ElectionsDaoFactory.createReportDao(em);
+		try {
+			boolean baseOk = isDatabaseAvailable();
+			if (!baseOk) {
+				HealthCheck unavailableHealthCheck = new HealthCheck("database unavailable");
+				unavailableHealthCheck.setBaseOk(false);
+				return unavailableHealthCheck;
+			}
 
-		int sendAttempts = AutomaticProcesses.getAttempts();
-		long failedAccessIps = reportDao.getFailedIpAccesesAmount();
-		long failedAccessSum = reportDao.getFailedIpAccesesSum();
-		long mailsTotal = reportDao.getEmailsAmount();
-		long mailsPending = reportDao.getPendingSendEmailsAmount();
-		long mailsSent = reportDao.getSentEmailsAmount();
+			ReportDao reportDao = ElectionsDaoFactory.createReportDao(em);
 
-		List<ElectionReport> elections = electionReport();
+			int sendAttempts = 0;
+			long failedAccessIps = reportDao.getFailedIpAccesesAmount();
+			long failedAccessSum = reportDao.getFailedIpAccesesSum();
+			long mailsTotal = reportDao.getEmailsAmount();
+			long mailsPending = reportDao.getPendingSendEmailsAmount();
+			long mailsSent = reportDao.getSentEmailsAmount();
 
-		return new HealthCheck(sendAttempts, failedAccessIps, failedAccessSum, mailsTotal, mailsPending, mailsSent, elections);
+			List<ElectionReport> elections = electionReport();
+
+			HealthCheck updatedHealthCheck = new HealthCheck(sendAttempts, failedAccessIps, failedAccessSum, mailsTotal, mailsPending, mailsSent, elections);
+			updatedHealthCheck.setBaseOk(true);
+			ElectionsCaches.putHealthCheck(updatedHealthCheck);
+			return updatedHealthCheck;
+		} catch (Exception e) {
+			return new HealthCheck("Health check metrics unavailable");
+		}
+	}
+
+	private boolean isDatabaseAvailable() {
+		if (em == null) {
+			return false;
+		}
+		try {
+			em.createNativeQuery("SELECT 1").getSingleResult();
+			return true;
+		} catch (Exception e) {
+			appLogger.warn("Could not verify database connection for health check", e);
+			return false;
+		}
 	}
 
 	/**
@@ -138,16 +190,21 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	public List<Participation> getOrganizationParticipations(String org) {
 		List<Participation> participations = new ArrayList<>();
 		List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElectionsAllOrderStartDateDesc();
+		VotingPeriodResolver.applyVotingWindow(em, elections);
+		Date now = new Date();
 		for (Election election : elections) {
 			UserVoter userVoter = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByOrganization(org, election.getElectionId());
 			Participation participation = new Participation();
 			participation.setCategory(election.getCategory().toString());
+			Date votingStartDate = election.getVotingPeriodStartDate();
+			Date votingEndDate = election.getVotingPeriodEndDate();
+			boolean votingEnabled = election.isVotingLinkAvailable() && votingStartDate != null && votingEndDate != null && now.after(votingStartDate) && now.before(votingEndDate);
 			if (userVoter != null) {
 				participation.setEmail(userVoter.getMail());
 				participation.setName(userVoter.getName());
 				participation.setCountry(userVoter.getCountry());
 				participation.setVoted(userVoter.isVoted());
-				if (election.isEnabledToVote()) {
+				if (votingEnabled) {
 					participation.setVoteLink(userVoter.getVoteLink());
 				} else {
 					participation.setVoteLink("");
@@ -159,8 +216,8 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				participation.setVoted(false);
 				participation.setVoteLink("");
 			}
-			participation.setElectionEndDate(election.getEndDate());
-			participation.setElectionStartDate(election.getStartDate());
+			participation.setElectionEndDate(election.getVotingPeriodEndDate());
+			participation.setElectionStartDate(election.getVotingPeriodStartDate());
 			participation.setOrgId(org);
 			participation.setElectionTitleEN(election.getTitleEnglish());
 			participation.setElectionTitleSP(election.getTitleSpanish());
@@ -174,6 +231,212 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		return participations;
 	}
 
+	@Override
+	public List<ParticipationV2> getOrganizationParticipationsV2(String org) {
+		List<ParticipationV2> participations = new ArrayList<>();
+		List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElectionsAllOrderStartDateDesc();
+		VotingPeriodResolver.applyVotingWindow(em, elections);
+		Date now = new Date();
+
+		for (Election election : elections) {
+			participations.add(buildVoteParticipationV2(org, election, now));
+
+			Organization organization = ElectionsDaoFactory.createOrganizationDao(em).getOrganizationByElectionAndOrgId(election.getElectionId(), org);
+			if (organization == null) {
+				continue;
+			}
+
+			Nomination nomination = ElectionsDaoFactory.createNominationDao(em).getLatestNominationByElectionAndOrganizationId(election.getElectionId(), organization.getId());
+			participations.add(buildNominationParticipationV2(org, election, organization, nomination, now));
+			List<SupportNomination> supportNominations = ElectionsDaoFactory.createSupportNominationDao(em).getElectionSupportNominationsBySupportingOrganizationId(election.getElectionId(), organization.getId());
+			for (SupportNomination supportNomination : supportNominations) {
+				participations.add(buildSupportParticipationV2(org, election, supportNomination, now));
+			}
+		}
+
+		return participations;
+	}
+
+	private ParticipationV2 buildVoteParticipationV2(String org, Election election, Date now) {
+		ParticipationV2 participation = buildParticipationV2Base(org, election);
+		participation.setParticipationType(ParticipationTypeV2.VOTE);
+
+		UserVoter userVoter = ElectionsDaoFactory.createUserVoterDao(em).getElectionUserVoterByOrganization(org, election.getElectionId());
+		boolean availableByWindow = isPublicLinkAvailableForCalendarWindow(election, ElectionCalendarKey.N_16_PERIODO_VOTING, election.isVotingLinkAvailable(), now);
+
+		if (userVoter == null) {
+			participation.setEmail("");
+			participation.setName("");
+			participation.setCountry("");
+			participation.setLink("");
+			participation.setStatus(ParticipationStatusV2.BLOCKED);
+			return participation;
+		}
+
+		participation.setEmail(defaultText(userVoter.getMail()));
+		participation.setName(defaultText(userVoter.getName()));
+		participation.setCountry(defaultText(userVoter.getCountry()));
+
+		if (userVoter.isVoted()) {
+			participation.setLink("");
+			participation.setStatus(ParticipationStatusV2.USED);
+		} else if (availableByWindow && hasText(userVoter.getVoteToken())) {
+			participation.setLink(defaultText(userVoter.getVoteLink()));
+			participation.setStatus(ParticipationStatusV2.AVAILABLE);
+		} else {
+			participation.setLink("");
+			participation.setStatus(ParticipationStatusV2.BLOCKED);
+		}
+
+		return participation;
+	}
+
+	private ParticipationV2 buildNominationParticipationV2(String org, Election election, Organization organization, Nomination nomination, Date now) {
+		ParticipationV2 participation = buildParticipationV2Base(org, election);
+		participation.setParticipationType(ParticipationTypeV2.NOMINATION);
+
+		boolean used = hasBlockingNomination(election, organization);
+		boolean availableByWindow = isPublicLinkAvailableForCalendarWindow(election, ElectionCalendarKey.N_2_PERIODO_CALL_FOR_CANDIDATES, election.isDoNominationLinkAvailable(), now);
+		participation.setEmail(resolveNominationParticipationEmail(organization, nomination, used));
+		participation.setName(resolveNominationParticipationName(organization, nomination, used));
+		participation.setCountry(defaultText(organization != null ? organization.getCountry() : null));
+
+		if (used) {
+			participation.setLink("");
+			participation.setStatus(ParticipationStatusV2.USED);
+		} else if (canExposeNominationLink(organization, availableByWindow)) {
+			participation.setLink(defaultText(organization.getDoNominationLink()));
+			participation.setStatus(ParticipationStatusV2.AVAILABLE);
+		} else {
+			participation.setLink("");
+			participation.setStatus(ParticipationStatusV2.BLOCKED);
+		}
+
+		return participation;
+	}
+
+	static boolean canExposeNominationLink(Organization organization, boolean availableByWindow) {
+		return availableByWindow && organization != null && !organization.isDeudor()
+				&& organization.getDoNominationToken() != null && !organization.getDoNominationToken().trim().isEmpty();
+	}
+
+	private boolean hasBlockingNomination(Election election, Organization organization) {
+		if (election == null || organization == null) {
+			return false;
+		}
+		return ElectionsDaoFactory.createNominationDao(em).existsElectionNominationByOrganizationIdAndStatuses(election.getElectionId(), organization.getId(), NominationStatus.blockingForNewNomination());
+	}
+
+	private ParticipationV2 buildSupportParticipationV2(String org, Election election, SupportNomination supportNomination, Date now) {
+		ParticipationV2 participation = buildParticipationV2Base(org, election);
+		participation.setParticipationType(ParticipationTypeV2.SUPPORT);
+
+		Organization supportingOrganization = supportNomination != null ? supportNomination.getSupportingOrganization() : null;
+		Nomination nomination = supportNomination != null ? supportNomination.getNomination() : null;
+		String supportEmail = resolveNominationCandidateEmail(nomination);
+		String supportName = resolveNominationCandidateName(nomination);
+
+		participation.setEmail(defaultText(supportEmail));
+		participation.setName(defaultText(supportName));
+		participation.setCountry(defaultText(supportingOrganization != null ? supportingOrganization.getCountry() : null));
+
+		SupportStatus supportStatus = supportNomination != null ? supportNomination.getSupportStatus() : null;
+		boolean used = supportStatus != null && supportStatus != SupportStatus.PROPOSED;
+		boolean availableByWindow = isPublicLinkAvailableForCalendarWindow(election, ElectionCalendarKey.N_2_PERIODO_CALL_FOR_CANDIDATES, election.isNominationSupportLinkAvailable(), now);
+
+		if (used) {
+			participation.setLink("");
+			participation.setStatus(ParticipationStatusV2.USED);
+		} else if (availableByWindow && supportNomination != null && hasText(supportNomination.getToken())) {
+			participation.setLink(defaultText(supportNomination.getSupportNominationLink()));
+			participation.setStatus(ParticipationStatusV2.AVAILABLE);
+		} else {
+			participation.setLink("");
+			participation.setStatus(ParticipationStatusV2.BLOCKED);
+		}
+
+		return participation;
+	}
+
+	private String resolveNominationCandidateEmail(Nomination nomination) {
+		Candidate candidate = nomination != null ? nomination.getCandidate() : null;
+		if (candidate != null && hasText(candidate.getMail())) {
+			return candidate.getMail();
+		}
+		return nomination != null ? nomination.getNominationEmail() : "";
+	}
+
+	private String resolveNominationCandidateName(Nomination nomination) {
+		Candidate candidate = nomination != null ? nomination.getCandidate() : null;
+		if (candidate != null && hasText(candidate.getName())) {
+			return candidate.getName();
+		}
+		return nomination != null ? nomination.getNominationName() : "";
+	}
+
+	private String resolveNominationParticipationEmail(Organization organization, Nomination nomination, boolean useNominationData) {
+		String nominationEmail = useNominationData ? resolveNominationCandidateEmail(nomination) : "";
+		if (hasText(nominationEmail)) {
+			return nominationEmail;
+		}
+		return organization != null ? defaultText(organization.getMembershipContactEmail()) : "";
+	}
+
+	private String resolveNominationParticipationName(Organization organization, Nomination nomination, boolean useNominationData) {
+		String nominationName = useNominationData ? resolveNominationCandidateName(nomination) : "";
+		if (hasText(nominationName)) {
+			return nominationName;
+		}
+		return organization != null ? defaultText(organization.getMembershipContactName()) : "";
+	}
+
+	private ParticipationV2 buildParticipationV2Base(String org, Election election) {
+		ParticipationV2 participation = new ParticipationV2();
+		participation.setOrgId(defaultText(org));
+		participation.setElectionEndDate(election.getVotingPeriodEndDate());
+		participation.setElectionStartDate(election.getVotingPeriodStartDate());
+		participation.setCategory(election.getCategory().toString());
+		participation.setElectionTitleEN(defaultText(election.getTitleEnglish()));
+		participation.setElectionTitleSP(defaultText(election.getTitleSpanish()));
+		participation.setElectionTitlePT(defaultText(election.getTitlePortuguese()));
+		participation.setElectionLinkSP(defaultText(election.getLinkSpanish()));
+		participation.setElectionLinkEN(defaultText(election.getLinkEnglish()));
+		participation.setElectionLinkPT(defaultText(election.getLinkPortuguese()));
+		participation.setEmail("");
+		participation.setName("");
+		participation.setCountry("");
+		participation.setLink("");
+		participation.setStatus(ParticipationStatusV2.BLOCKED);
+		return participation;
+	}
+
+	private boolean isPublicLinkAvailableForCalendarWindow(Election election, ElectionCalendarKey calendarKey, boolean linkAvailable, Date referenceDate) {
+		if (election == null || !linkAvailable || calendarKey == null || referenceDate == null) {
+			return false;
+		}
+
+		ElectionCalendar calendar = ElectionsDaoFactory.createElectionCalendarDao(em).getElectionCalendarByKey(election.getElectionId(), calendarKey);
+		if (calendar == null) {
+			return false;
+		}
+
+		Date startDate = calendar.getStartDate();
+		Date endDate = calendar.getEndDate();
+
+		if (startDate == null || referenceDate.before(startDate)) {
+			return false;
+		}
+		return endDate == null || !referenceDate.after(endDate);
+	}
+
+	private boolean hasText(String value) {
+		return value != null && !value.trim().isEmpty();
+	}
+
+	private String defaultText(String value) {
+		return hasText(value) ? value : "";
+	}
+
 	/**
 	 * Gets a list with the basic information of all the elections on the system
 	 * orderer by date in descending order.
@@ -182,67 +445,69 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 */
 	@Override
 	public List<ElectionLight> getElectionsLightAllOrderStartDateDesc() {
-		return ElectionsDaoFactory.createElectionDao(em).getElectionsLightAllOrderStartDateDesc();
+		List<ElectionLight> elections = ElectionsDaoFactory.createElectionDao(em).getElectionsLightAllOrderStartDateDesc();
+		VotingPeriodResolver.applyVotingWindowToLight(em, elections);
+		VotingPeriodResolver.applyNominationWindowToLight(em, elections);
+		return elections;
 	}
 
-	/**
-	 * Gets the authentication token to validate services invocation. It is
-	 * withdrawn from the parameter WS_AUTH_TOKEN
-	 * 
-	 * @return returns a string with the token.
-	 */
 	@Override
-	public String getWsAuthToken() {
+	public PublicElectionsSnapshot getPublicElectionsSnapshot() {
 		try {
-			return ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTH_TOKEN).getValue();
+			PublicElectionsSnapshot cachedSnapshot = ElectionsCaches.getPublicElectionsSnapshot();
+			if (cachedSnapshot != null) {
+				refreshSnapshotStaleness(cachedSnapshot);
+				return cachedSnapshot;
+			}
+			PublicElectionsSnapshot snapshot = buildPublicElectionsSnapshot();
+			if (snapshot == null) {
+				return null;
+			}
+			ElectionsCaches.putPublicElectionsSnapshot(snapshot);
+			return snapshot;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
+			return null;
 		}
-		return null;
 	}
 
 	/**
 	 * Gets the authentication method used in web services. It is specified with the
-	 * WS_AUTH_METHOD parameter
+	 * WS_AUTH_METHOD property from elections.properties
 	 * 
 	 * @return returns a string with the auth method.
 	 */
 	public String getWsAuthMethod() {
-		try {
-			return ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTH_METHOD).getValue();
-		} catch (Exception e) {
-			appLogger.error(e);
-		}
-		return null;
+		return ElectionsProperties.get(Constants.WS_AUTH_METHOD);
+	}
+
+	@Override
+	public String getWsAuthToken() {
+		return ElectionsProperties.get(Constants.WS_AUTH_TOKEN);
 	}
 
 	/**
 	 * Gets the authentication method used in web services. It is specified with the
-	 * WS_AUTH_METHOD parameter
+	 * WS_LACNIC_AUTH_URL property from elections.properties
 	 * 
 	 * @return returns a string with the auth method.
 	 */
 	public String getWsLacnicAuthUrl() {
-		try {
-			return ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_LACNIC_AUTH_URL).getValue();
-		} catch (Exception e) {
-			appLogger.error(e);
-		}
-		return null;
+		return ElectionsProperties.get(Constants.WS_LACNIC_AUTH_URL);
 	}
 
 	/**
 	 * Gets and parses the list of authorized ips from which the web services can be
-	 * invoked, the are withdrawn from the parameter WS_AUTHORIZED_IPS.
+	 * invoked, they are read from the WS_AUTHORIZED_IPS property.
 	 * 
 	 * @return returns a ip resource set entity with the information.
 	 */
 	@Override
 	public IpResourceSet getWsAuthorizedIps() {
 		try {
-			return IpResourceSet.parse(ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_AUTHORIZED_IPS).getValue());
+			return IpResourceSet.parse(ElectionsProperties.get(Constants.WS_AUTHORIZED_IPS));
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -255,9 +520,10 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	 */
 	public Integer getWsMaxPageSize() {
 		try {
-			return Integer.parseInt(ElectionsDaoFactory.createParameterDao(em).getParameter(Constants.WS_MAX_PAGE_SIZE).getValue());
+			String value = EJBFactory.getInstance().getElectionsParametersEJB().getParameter(Constants.WS_MAX_PAGE_SIZE);
+			return Integer.parseInt(value);
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -279,7 +545,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return activitiesData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -299,7 +565,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new ActivityTableReport(activity);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -321,7 +587,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return auditorsData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -341,7 +607,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new AuditorTableReport(auditor);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -363,7 +629,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return candidatesData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -383,7 +649,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new CandidateTableReport(candidate);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -405,7 +671,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return commissionersData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -425,7 +691,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new CommissionerTableReport(commissioner);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -447,7 +713,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return customizationData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -467,7 +733,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new CustomizationTableReport(customization);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -489,7 +755,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return electionsData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -506,10 +772,11 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		try {
 			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
 			if (election != null) {
+				VotingPeriodResolver.applyVotingWindow(em, election);
 				return new ElectionTableReport(election);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -532,7 +799,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return electionEmailsDataList;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -552,7 +819,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new ElectionEmailTemplateTableReport(electionEmailTemplate);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -574,7 +841,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return emailsData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -594,7 +861,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new EmailTableReport(email);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -616,7 +883,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return emailsHistoryData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -636,7 +903,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new EmailTableReport(emailHistory);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -658,7 +925,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return ipAccessesData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -676,7 +943,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			IpAccess ipAccess = ElectionsDaoFactory.createIpAccessDao(em).getIpAccess(ipAccessId);
 			return ipAccess;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -698,7 +965,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return jointElectionsData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -716,7 +983,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			JointElection jointelection = ElectionsDaoFactory.createJointElectionDao(em).getJointElection(jointElectionId);
 			return jointelection;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -734,9 +1001,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			for (int i = 0; i < parameterDataList.size(); i++) {
 				String paramKey = parameterDataList.get(i).getKey();
-				if (paramKey.equals(Constants.EMAIL_HOST) || paramKey.equals(Constants.EMAIL_USER)
-						|| paramKey.equals(Constants.EMAIL_PASSWORD) || paramKey.equals(Constants.WS_AUTH_TOKEN)
-						|| paramKey.equals(Constants.WS_AUTHORIZED_IPS)) {
+				if (isSensitiveParameter(paramKey)) {
 					parameterData.add(new TableReportDataStringId(paramKey, "**********"));
 				} else {
 					parameterData.add(new TableReportDataStringId(paramKey, parameterDataList.get(i).getValue()));
@@ -745,7 +1010,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return parameterData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -762,17 +1027,28 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		try {
 			Parameter parameter = ElectionsDaoFactory.createParameterDao(em).getParameter(key);
 			if (parameter != null) {
-				if (parameter.getKey().equals(Constants.EMAIL_HOST) || parameter.getKey().equals(Constants.EMAIL_USER)
-						|| parameter.getKey().equals(Constants.EMAIL_PASSWORD) || parameter.getKey().equals(Constants.WS_AUTH_TOKEN)
-						|| parameter.getKey().equals(Constants.WS_AUTHORIZED_IPS)) {
+				if (isSensitiveParameter(parameter.getKey())) {
 					parameter.setValue("**********");
 				}
 				return parameter;
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
+	}
+
+	private boolean isSensitiveParameter(String key) {
+		return Constants.EMAIL_HOST.equals(key)
+				|| Constants.EMAIL_USER.equals(key)
+				|| Constants.EMAIL_PASSWORD.equals(key)
+				|| Constants.PORTAL_APIKEY.equals(key)
+				|| Constants.WS_AUTH_TOKEN.equals(key)
+				|| Constants.WS_AUTHORIZED_IPS.equals(key)
+				|| Constants.CAMPUS_TOKEN.equals(key)
+				|| Constants.MILACNIC_SYNC_API_TOKEN.equals(key)
+				|| Constants.OPENAI_API_KEY.equals(key)
+				|| Constants.SkGoogleApiReCaptcha.equals(key);
 	}
 
 	/**
@@ -792,7 +1068,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return userAdminsData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -812,7 +1088,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new UserAdminTableReport(userAdmin);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -834,7 +1110,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return userVotersData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -854,7 +1130,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new UserVoterTableReport(userVoter);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -876,7 +1152,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 
 			return votesData;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -896,7 +1172,7 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 				return new VoteTableReport(vote);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -910,14 +1186,15 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 	public List<ElectionDetailReport> getElectionsDetailReport(int pageSize, int offset) {
 		try {
 			List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElections(pageSize, offset);
+			VotingPeriodResolver.applyVotingWindow(em, elections);
 			List<ElectionDetailReport> electionsDetailList = new ArrayList<ElectionDetailReport>();
-			for(Election election : elections) {
+			for (Election election : elections) {
 				electionsDetailList.add(new ElectionDetailReport(election));
 			}
 
 			return electionsDetailList;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
@@ -934,21 +1211,23 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 		try {
 			Election election = ElectionsDaoFactory.createElectionDao(em).getElection(electionId);
 			if (election != null) {
+				VotingPeriodResolver.applyVotingWindow(em, election);
 				return new ElectionDetailReport(election);
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
 
-
 	/**
-	 * Returns detailed information about the participations of the given email in different elections
+	 * Returns detailed information about the participations of the given email in
+	 * different elections
 	 * 
 	 * @param email The email to search for
 	 * 
-	 * @return A list of ElectionParticipationDetailReport instances containing the information
+	 * @return A list of ElectionParticipationDetailReport instances containing the
+	 *         information
 	 */
 	@Override
 	public List<ElectionParticipationDetailReport> getElectionsParticipationsByEmail(String email, int pageSize, int offset) {
@@ -956,46 +1235,293 @@ public class ElectionsMonitorEJBBean implements ElectionsMonitorEJB {
 			List<Auditor> auditors = ElectionsDaoFactory.createAuditorDao(em).getAuditorsByEmail(email, pageSize, offset);
 			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByEmail(email, pageSize, offset);
 			List<Candidate> candidates = ElectionsDaoFactory.createCandidateDao(em).getCandidatesByEmail(email, pageSize, offset);
+			applyVotingWindowForRelatedElections(auditors, userVoters, candidates);
 
 			List<ElectionParticipationDetailReport> participations = new ArrayList<>();
-			for(Auditor auditor : auditors) {
+			for (Auditor auditor : auditors) {
 				participations.add(new ElectionParticipationDetailReport(auditor));
 			}
-			for(UserVoter userVoter : userVoters) {
+			for (UserVoter userVoter : userVoters) {
 				participations.add(new ElectionParticipationDetailReport(userVoter));
 			}
-			for(Candidate candidate : candidates) {
+			for (Candidate candidate : candidates) {
 				participations.add(new ElectionParticipationDetailReport(candidate));
 			}
 
-			return participations;	
+			return participations;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
 	}
 
 	/**
-	 * Returns detailed information about the participations of the given organization in different elections
+	 * Returns detailed information about the participations of the given
+	 * organization in different elections
 	 * 
 	 * @param orgID The organization id to search for
 	 * 
-	 * @return A list of OrganizationVoterDetailReport instances containing the information
+	 * @return A list of OrganizationVoterDetailReport instances containing the
+	 *         information
 	 */
 	@Override
-	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID, int pageSize, int offset){
+	public List<OrganizationVoterDetailReport> getElectionsParticipationsByOrgId(String orgID, int pageSize, int offset) {
 		try {
 			List<UserVoter> userVoters = ElectionsDaoFactory.createUserVoterDao(em).getUserVotersByOrganization(orgID, pageSize, offset);
+			applyVotingWindowForRelatedElections(userVoters);
 			List<OrganizationVoterDetailReport> orgVoterDetailList = new ArrayList<>();
-			for(UserVoter userVoter : userVoters) {
+			for (UserVoter userVoter : userVoters) {
 				orgVoterDetailList.add(new OrganizationVoterDetailReport(userVoter));
 			}
 
-			return orgVoterDetailList;	
+			return orgVoterDetailList;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return null;
+	}
+
+	private void applyVotingWindowForRelatedElections(List<Auditor> auditors, List<UserVoter> userVoters, List<Candidate> candidates) {
+		Map<Long, Election> electionsById = new HashMap<>();
+		for (Auditor auditor : auditors) {
+			addElectionToHydrationMap(electionsById, auditor != null ? auditor.getElection() : null);
+		}
+		for (UserVoter userVoter : userVoters) {
+			addElectionToHydrationMap(electionsById, userVoter != null ? userVoter.getElection() : null);
+		}
+		for (Candidate candidate : candidates) {
+			addElectionToHydrationMap(electionsById, candidate != null ? candidate.getElection() : null);
+		}
+		VotingPeriodResolver.applyVotingWindow(em, electionsById.values());
+	}
+
+	private void applyVotingWindowForRelatedElections(List<UserVoter> userVoters) {
+		Map<Long, Election> electionsById = new HashMap<>();
+		for (UserVoter userVoter : userVoters) {
+			addElectionToHydrationMap(electionsById, userVoter != null ? userVoter.getElection() : null);
+		}
+		VotingPeriodResolver.applyVotingWindow(em, electionsById.values());
+	}
+
+	private void addElectionToHydrationMap(Map<Long, Election> electionsById, Election election) {
+		if (election == null || election.getElectionId() <= 0) {
+			return;
+		}
+		electionsById.putIfAbsent(election.getElectionId(), election);
+	}
+
+	@Override
+	public PublicElectionCoreSnapshot getPublicElectionCoreSnapshot(Long electionId) {
+		try {
+			if (electionId == null || electionId.longValue() <= 0L) {
+				return null;
+			}
+			PublicElectionCoreSnapshot cachedSnapshot = ElectionsCaches.getPublicElectionCoreSnapshot(electionId);
+			if (cachedSnapshot != null) {
+				refreshSnapshotStaleness(cachedSnapshot);
+				return cachedSnapshot;
+			}
+			PublicElectionSnapshotBundle bundle = buildPublicElectionSnapshots(electionId.longValue());
+			if (bundle == null || bundle.getCoreSnapshot() == null) {
+				return null;
+			}
+			cachePublicElectionSnapshots(electionId, bundle);
+			return bundle.getCoreSnapshot();
+		} catch (Exception e) {
+			appLogger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+
+	@Override
+	public PublicElectionRollSnapshot getPublicElectionRollSnapshot(Long electionId) {
+		try {
+			if (electionId == null || electionId.longValue() <= 0L) {
+				return null;
+			}
+			PublicElectionRollSnapshot cachedSnapshot = ElectionsCaches.getPublicElectionRollSnapshot(electionId);
+			if (cachedSnapshot != null) {
+				refreshSnapshotStaleness(cachedSnapshot);
+				return cachedSnapshot;
+			}
+			PublicElectionSnapshotBundle bundle = buildPublicElectionSnapshots(electionId.longValue());
+			if (bundle == null || bundle.getRollSnapshot() == null) {
+				return null;
+			}
+			cachePublicElectionSnapshots(electionId, bundle);
+			return bundle.getRollSnapshot();
+		} catch (Exception e) {
+			appLogger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+
+	@Override
+	public PublicElectionPhotoSnapshot getPublicElectionPhotoSnapshot(Long electionId) {
+		try {
+			if (electionId == null || electionId.longValue() <= 0L) {
+				return null;
+			}
+			PublicElectionPhotoSnapshot cachedSnapshot = ElectionsCaches.getPublicElectionPhotoSnapshot(electionId);
+			if (cachedSnapshot != null) {
+				refreshSnapshotStaleness(cachedSnapshot);
+				return cachedSnapshot;
+			}
+			PublicElectionSnapshotBundle bundle = buildPublicElectionSnapshots(electionId.longValue());
+			if (bundle == null || bundle.getPhotoSnapshot() == null) {
+				return null;
+			}
+			cachePublicElectionSnapshots(electionId, bundle);
+			return bundle.getPhotoSnapshot();
+		} catch (Exception e) {
+			appLogger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+
+	@Override
+	public PublicElectionOfficialResultSnapshot getPublicElectionOfficialResultSnapshot(Long electionId) {
+		try {
+			if (electionId == null || electionId.longValue() <= 0L) {
+				return null;
+			}
+			PublicElectionOfficialResultSnapshot cachedSnapshot = ElectionsCaches.getPublicElectionOfficialResultSnapshot(electionId);
+			if (cachedSnapshot != null) {
+				refreshSnapshotStaleness(cachedSnapshot);
+				return cachedSnapshot;
+			}
+			PublicElectionSnapshotBundle bundle = buildPublicElectionSnapshots(electionId.longValue());
+			if (bundle == null || bundle.getOfficialResultSnapshot() == null) {
+				return null;
+			}
+			cachePublicElectionSnapshots(electionId, bundle);
+			return bundle.getOfficialResultSnapshot();
+		} catch (Exception e) {
+			appLogger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+
+	@Override
+	@TransactionTimeout(35000)
+	public void refreshOpenPublicElectionSnapshotCache() {
+		try {
+			List<Election> elections = ElectionsDaoFactory.createElectionDao(em).getElectionsAllOrderStartDateDesc();
+			for (Election election : elections) {
+				if (election == null || election.isClosed()) {
+					continue;
+				}
+				PublicElectionSnapshotBundle bundle = buildPublicElectionSnapshots(election.getElectionId());
+				if (bundle == null) {
+					continue;
+				}
+				cachePublicElectionSnapshots(election.getElectionId(), bundle);
+			}
+		} catch (Exception e) {
+			appLogger.error(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	@TransactionTimeout(35000)
+	public void refreshPublicElectionsSnapshotCache() {
+		try {
+			PublicElectionsSnapshot snapshot = buildPublicElectionsSnapshot();
+			if (snapshot != null) {
+				ElectionsCaches.putPublicElectionsSnapshot(snapshot);
+			}
+		} catch (Exception e) {
+			appLogger.error(e.getMessage(), e);
+		}
+	}
+
+	private PublicElectionSnapshotBundle buildPublicElectionSnapshots(long electionId) {
+		return new PublicElectionSnapshotBuilder(em).build(electionId);
+	}
+
+	private PublicElectionsSnapshot buildPublicElectionsSnapshot() {
+		List<ElectionLight> elections = getElectionsLightAllOrderStartDateDesc();
+		if (elections == null) {
+			return null;
+		}
+		PublicElectionsSnapshot snapshot = new PublicElectionsSnapshot();
+		snapshot.setMetadata(buildPublicElectionsSnapshotMetadata());
+		for (ElectionLight election : elections) {
+			if (election == null || election.getCategory() == ElectionCategory.TEST) {
+				continue;
+			}
+			snapshot.getElections().add(election);
+		}
+		return snapshot;
+	}
+
+	private PublicElectionsSnapshotMetadata buildPublicElectionsSnapshotMetadata() {
+		Date generatedAt = new Date();
+		PublicElectionsSnapshotMetadata metadata = new PublicElectionsSnapshotMetadata();
+		metadata.setLastUpdatedUtc(generatedAt);
+		metadata.setNextRefreshUtc(new Date(generatedAt.getTime() + (5L * 60L * 1000L)));
+		metadata.setStale(Boolean.FALSE);
+		metadata.setRefreshStatus("READY");
+		metadata.setRefreshMessage(null);
+		return metadata;
+	}
+
+	private void cachePublicElectionSnapshots(Long electionId, PublicElectionSnapshotBundle bundle) {
+		if (electionId == null || bundle == null) {
+			return;
+		}
+		if (bundle.getCoreSnapshot() != null) {
+			ElectionsCaches.putPublicElectionCoreSnapshot(electionId, bundle.getCoreSnapshot());
+		}
+		if (bundle.getRollSnapshot() != null) {
+			ElectionsCaches.putPublicElectionRollSnapshot(electionId, bundle.getRollSnapshot());
+		}
+		if (bundle.getPhotoSnapshot() != null) {
+			ElectionsCaches.putPublicElectionPhotoSnapshot(electionId, bundle.getPhotoSnapshot());
+		}
+		if (bundle.getOfficialResultSnapshot() != null) {
+			ElectionsCaches.putPublicElectionOfficialResultSnapshot(electionId, bundle.getOfficialResultSnapshot());
+		}
+	}
+
+	private void refreshSnapshotStaleness(PublicElectionCoreSnapshot snapshot) {
+		if (snapshot == null || snapshot.getMetadata() == null) {
+			return;
+		}
+		boolean stale = snapshot.getMetadata().getNextRefreshUtc() != null && snapshot.getMetadata().getNextRefreshUtc().before(new Date());
+		snapshot.getMetadata().setStale(Boolean.valueOf(stale));
+	}
+
+	private void refreshSnapshotStaleness(PublicElectionRollSnapshot snapshot) {
+		if (snapshot == null || snapshot.getMetadata() == null) {
+			return;
+		}
+		boolean stale = snapshot.getMetadata().getNextRefreshUtc() != null && snapshot.getMetadata().getNextRefreshUtc().before(new Date());
+		snapshot.getMetadata().setStale(Boolean.valueOf(stale));
+	}
+
+	private void refreshSnapshotStaleness(PublicElectionPhotoSnapshot snapshot) {
+		if (snapshot == null || snapshot.getMetadata() == null) {
+			return;
+		}
+		boolean stale = snapshot.getMetadata().getNextRefreshUtc() != null && snapshot.getMetadata().getNextRefreshUtc().before(new Date());
+		snapshot.getMetadata().setStale(Boolean.valueOf(stale));
+	}
+
+	private void refreshSnapshotStaleness(PublicElectionOfficialResultSnapshot snapshot) {
+		if (snapshot == null || snapshot.getMetadata() == null) {
+			return;
+		}
+		boolean stale = snapshot.getMetadata().getNextRefreshUtc() != null && snapshot.getMetadata().getNextRefreshUtc().before(new Date());
+		snapshot.getMetadata().setStale(Boolean.valueOf(stale));
+	}
+
+	private void refreshSnapshotStaleness(PublicElectionsSnapshot snapshot) {
+		if (snapshot == null || snapshot.getMetadata() == null) {
+			return;
+		}
+		boolean stale = snapshot.getMetadata().getNextRefreshUtc() != null && snapshot.getMetadata().getNextRefreshUtc().before(new Date());
+		snapshot.getMetadata().setStale(Boolean.valueOf(stale));
 	}
 
 }

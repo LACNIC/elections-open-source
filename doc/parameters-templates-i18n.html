@@ -1,0 +1,125 @@
+---
+layout: default
+title: Sistema Elecciones
+---
+<div class="row">
+	<div class="col-lg-12">
+		<div class="ibox">
+			<div class="ibox-title">
+				<h1>{{ "Parametros, templates e i18n" }}</h1>
+			</div>
+			<div class="ibox-content">
+				<p class="paragraph">Esta guia describe el bloque transversal vigente de <code>v3.0</code> para parametros globales, templates de email, personalizacion visual e internacionalizacion. El contenido fue contrastado contra las rutas administrativas <code>/admin/parameters</code>, <code>/admin/templates</code> y <code>/admin/customization</code>, los EJB que resuelven parametros y mails, las pantallas Wicket que cambian idioma y los scripts de referencia que siembran configuracion inicial.</p>
+
+				<h2>{{ "Ubicacion en el sistema" }}</h2>
+				<ul class="paragraph">
+					<li><b>Parametros globales:</b> se administran desde <code>/admin/parameters</code> y afectan a toda la instancia, no a una eleccion puntual.</li>
+					<li><b>Templates base:</b> se administran con <code>id=0</code> en <code>/admin/templates</code>.</li>
+					<li><b>Templates por eleccion:</b> se administran con <code>id=&lt;electionId&gt;</code> en <code>/admin/templates</code> y solo para elecciones no cerradas.</li>
+					<li><b>Personalizacion visual:</b> se administra desde <code>/admin/customization</code>.</li>
+					<li><b>Idioma de la UI:</b> se cambia desde la topbar administrativa y desde la topbar publica/tokenizada en <code>ES</code>, <code>EN</code> y <code>PT</code>.</li>
+				</ul>
+
+				<h2>{{ "Parametros globales" }}</h2>
+				<ul class="paragraph">
+					<li>La pantalla de parametros es una grilla plana <b>clave/valor</b>. No hay categorias, tipado fuerte, validadores por familia ni secretos enmascarados desde la UI.</li>
+					<li>Al crear un parametro la clave y el valor son obligatorios. Si la clave ya existe, el alta falla.</li>
+					<li>La edicion solo permite cambiar el valor: la clave queda bloqueada en <code>EditParameterDashboard</code>.</li>
+					<li>La eliminacion existe, pero solo para usuarios con rol <code>ELECTIONS_DELETER</code>.</li>
+					<li>Agregar, editar o eliminar limpia la cache de parametros y deja actividad administrativa persistida.</li>
+					<li>Cuando el backend pide un parametro inexistente, <code>ElectionsParametersEJBBean.getParameter()</code> devuelve cadena vacia, no <code>null</code>.</li>
+					<li><code>APP</code> tiene una regla especial: si falta, <code>isProd()</code> considera la instancia como productiva; solo devuelve <code>false</code> si el valor existe y no es <code>PROD</code>.</li>
+				</ul>
+
+				<h2>{{ "Familias de parametros vigentes" }}</h2>
+				<ul class="paragraph">
+					<li><b>Runtime y links base:</b> <code>APP</code>, <code>URL</code>, <code>WEBSITE_DEFAULT</code> y <code>DEFAULT_PHOTO</code>.</li>
+					<li><b>Correo:</b> <code>EMAIL_HOST</code>, <code>EMAIL_USER</code>, <code>EMAIL_PASSWORD</code>, <code>DEFAULT_SENDER</code>, <code>DEFAULT_RECIPIENT</code> y <code>DEFAULT_SUPPORT_RECIPIENT</code>.</li>
+					<li><b>Servicios y autenticacion:</b> <code>WS_AUTH_METHOD</code>, <code>WS_LACNIC_AUTH_URL</code>, <code>WS_AUTH_TOKEN</code>, <code>WS_AUTHORIZED_IPS</code> y <code>WS_MAX_PAGE_SIZE</code>. El nombre del parametro de autenticacion centralizada se conserva por compatibilidad con bases existentes.</li>
+					<li><b>Acceso publico y captcha:</b> <code>PUBLIC_NOMINATION_ENABLED</code>, <code>DataSiteKeyReCaptcha</code>, <code>LOGIN_CAPTCHA_ENABLED</code>, <code>PUBLIC_FAILED_ACCESS_MAX_ATTEMPTS</code>, <code>PUBLIC_FAILED_ACCESS_RATE_LIMIT_CACHE_RESET_HOURS</code>, <code>LOGIN_CAPTCHA_MAX_ATTEMPTS</code> y <code>LOGIN_CAPTCHA_RATE_LIMIT_CACHE_RESET_HOURS</code>.</li>
+					<li><b>Texto funcional y UX:</b> <code>ACCEPT_NOMINATION_CONDITIONS_ES/EN/PT</code> y <code>ABSTENTION_DEFAULT_TEXT</code>.</li>
+					<li><b>Sincronizacion external sync:</b> <code>MILACNIC_SYNC_*</code>, incluyendo endpoint, token y umbrales de seguridad para miembros/deudores/Brasil. El prefijo se mantiene por compatibilidad con la configuracion historica.</li>
+					<li><b>Campus:</b> <code>CAMPUS_URL</code>, <code>CAMPUS_TOKEN</code> y parametros de ventanas/rate limit para chequeos de curso y evaluacion.</li>
+					<li><b>IA:</b> <code>OPENAI_URL</code>, <code>OPENAI_API_KEY</code>, <code>OPENAI_MODEL</code>, <code>AI_TEXT_PROMPT_TRANSLATION</code> y limites diarios/de ventana para mejora de texto.</li>
+					<li>El script de referencia <code>release-files/ref/parameter_NEW.sql</code> siembra varias de estas claves, pero el codigo tambien consume constantes adicionales que pueden requerir carga explicita segun el entorno.</li>
+				</ul>
+
+				<h2>{{ "Personalizacion visual y home publico" }}</h2>
+				<ul class="paragraph">
+					<li>La personalizacion opera sobre un unico registro global <code>Customization</code>: no existe una personalizacion distinta por eleccion ni por idioma.</li>
+					<li>Se pueden cargar tres imagenes: logo pequeno, logo grande y simbolo. Si no hay binario cargado, la UI usa la imagen de respaldo definida en <code>image/</code>.</li>
+					<li>Las imagenes se validan con la misma regla usada para fotos: solo <code>jpg/jpeg/png</code>, maximo <code>512 KB</code> y resolucion maxima <code>400x400</code>.</li>
+					<li><code>siteTitle</code> y <code>loginTitle</code> son campos globales simples. Si se guardan vacios, la pantalla repone el valor por defecto del recurso <code>advCustomizationDefaultSiteTitle</code>.</li>
+					<li><code>showHome</code> alterna entre el home publico por defecto y un home HTML custom.</li>
+					<li><code>homeHtml</code> se edita con Summernote y luego se renderiza con <code>setEscapeModelStrings(false)</code>, o sea, como HTML confiado almacenado en base.</li>
+					<li>Cuando <code>showHome=false</code>, el home publico vuelve al contenido por defecto y deja visible el link historico al reporte de auditoria configurado para la version auditada <code>2.3</code>.</li>
+				</ul>
+
+				<h2>{{ "Templates base y templates por eleccion" }}</h2>
+				<ul class="paragraph">
+					<li>El sistema separa <b>templates base</b> de <b>templates por eleccion</b>.</li>
+					<li>Los templates base viven sin asociacion a eleccion y se crean solo desde <code>/admin/templates?id=0</code>.</li>
+					<li>Al crear una eleccion, <code>createElectionEmailTemplates()</code> copia a esa eleccion todas las plantillas base faltantes.</li>
+					<li>Los templates por eleccion pisan a los base cuando el motor resuelve un envio. Si la eleccion no tiene template de un tipo dado, el backend cae al base.</li>
+					<li>La pantalla de templates por eleccion se bloquea para elecciones cerradas: si se entra por link directo, redirige a <code>ErrorElectionClosed</code>.</li>
+					<li>Crear un template base exige <code>templateType</code> unico. El backend normaliza el tipo a mayusculas antes de persistirlo.</li>
+					<li>Editar una plantilla no permite cambiar el tipo; solo asunto y cuerpo en los tres idiomas.</li>
+					<li>La UI exige siempre asunto y cuerpo en <code>SP</code>, <code>EN</code> y <code>PT</code>, con maximos de <code>1000</code> caracteres para asunto y <code>2000</code> para cuerpo.</li>
+					<li>La lista ordena <code>NEW</code> primero y luego el resto por <code>templateType</code>.</li>
+				</ul>
+
+				<h2>{{ "Propagacion y envio" }}</h2>
+				<ul class="paragraph">
+					<li>Actualizar un template base <b>no</b> reescribe automaticamente las copias ya existentes en elecciones abiertas.</li>
+					<li>Para empujar un cambio base a elecciones en curso existe la accion <b>Forzar template</b>, disponible solo en templates base y fuera de <code>NEW</code>.</li>
+					<li><code>forceBaseTemplateToOpenElections()</code> recorre solo elecciones no cerradas, elimina la copia previa del tipo y persiste una nueva copia desde el base actual.</li>
+					<li>El boton <b>Enviar</b> solo aparece en templates de eleccion y unicamente para tipos cuyo metadata permite envio manual; los tipos automaticos quedan sin ese boton.</li>
+					<li>La grilla administrativa permite filtrar por destinatario, alcance estatutario/no estatutario, modo de idioma, modo de envio y texto del tipo.</li>
+				</ul>
+
+				<h2>{{ "Resolucion efectiva del mail" }}</h2>
+				<ul class="paragraph">
+					<li>El motor de mails siempre intenta resolver primero el template de la eleccion y luego el base del mismo <code>templateType</code>.</li>
+					<li>Para <code>EN</code> y <code>PT</code> existe fallback por campo hacia <code>SP</code>: si el asunto o cuerpo en ingles/portugues viene vacio, se usa el valor en espanol.</li>
+					<li>Ese fallback existe en runtime, pero la UI actual igual obliga a completar los tres idiomas al crear o editar una plantilla.</li>
+					<li>El remitente efectivo sale de <code>election.defaultSender</code> y, si falta, de <code>DEFAULT_SENDER</code>.</li>
+					<li>El destinatario administrativo por defecto sale de <code>election.defaultRecipient</code>; si falta, usa <code>DEFAULT_RECIPIENT</code>; si tampoco existe, cae al remitente de la eleccion o al remitente global.</li>
+					<li>Si un template contiene <code>$signature</code> o <code>${signature}</code>, el motor inyecta el cuerpo del template <code>SIGNATURE</code> resuelto para esa eleccion/idioma.</li>
+					<li>Algunos tipos disparan ademas <code>STANDARD_DISPATCH_NOTICE</code> hacia el destinatario administrativo estandar.</li>
+					<li>Si falta el template <code>LINK_RECOVERY</code>, el backend genera un fallback interno trilingue para no dejar el recovery sin correo.</li>
+				</ul>
+
+				<h2>{{ "I18n de la UI y del contenido" }}</h2>
+				<ul class="paragraph">
+					<li>La UI fija del sistema se resuelve con recursos Wicket desde <code>ElectionsManagerApp.properties.xml</code>, <code>ElectionsManagerApp_en.properties.xml</code> y <code>ElectionsManagerApp_pt.properties.xml</code>.</li>
+					<li>La sesion administrativa y la sesion publica/tokenizada arrancan con espanol como fallback si no hay locale previa valida.</li>
+					<li>En admin, la topbar cambia idioma en caliente y oculta la opcion del idioma actualmente activo.</li>
+					<li>En paginas tokenizadas, el selector de idioma actualiza la sesion y vuelve a cargar la pagina preservando el parametro <code>locale</code>.</li>
+					<li>Los campos dinamicos de eleccion (titulo, descripcion, URL), mails y otros textos de negocio no salen de bundles: se guardan por idioma en base o en parametros.</li>
+					<li>En el modelo <code>Election</code> no existe fallback runtime de titulo/descripcion/link hacia espanol. Si se pide <code>EN</code> o <code>PT</code>, devuelve ese campo.</li>
+					<li>Para compensar eso, cuando una eleccion se guarda con <code>onlySp=true</code>, las pantallas de alta y detalle copian automaticamente los textos y URLs de <code>SP</code> hacia <code>EN</code> y <code>PT</code>.</li>
+					<li><code>LanguageCode</code> acepta alias como <code>es</code>, <code>sp</code>, <code>en</code> y <code>pt</code>, ademas de variantes como <code>espanol</code> o <code>portugues</code>.</li>
+					<li>La guia interna de <code>.github/copilot-instructions.md</code> refuerza la regla tecnica vigente: para texto visible fijo se debe usar <code>wicket:message</code> y no hardcodear cadenas en la UI.</li>
+				</ul>
+
+				<h2>{{ "Que no hace hoy este bloque" }}</h2>
+				<ul class="paragraph">
+					<li>No existe una taxonomia formal de parametros ni validacion por tipo desde la pantalla administrativa.</li>
+					<li>No existe traduccion automatica general de contenido libre del sistema; la IA aparece como integracion parametrizable, no como traduccion universal aplicada a toda la UI.</li>
+					<li>No existe personalizacion por idioma para <code>siteTitle</code>, <code>loginTitle</code> ni <code>homeHtml</code>: esos valores son globales.</li>
+					<li>No existe propagacion automatica de cambios de template base a elecciones ya abiertas sin usar la accion de forzado.</li>
+				</ul>
+
+				<h2>{{ "Bloques relacionados" }}</h2>
+				<ul class="paragraph">
+					<li><b>Resultados y reportes:</b> el cierre del circuito funcional principal quedo documentado en <a href="{{site.baseurl}}/results-reports.html">esta guia</a>.</li>
+					<li><b>Votacion y links publicos:</b> la apertura de rutas tokenizadas y recovery quedo documentada en <a href="{{site.baseurl}}/voting-public-links.html">esta guia</a>.</li>
+					<li><b>Seguridad y accesos:</b> la capa de login, roles, CAPTCHA, rate limits, tokens y WS quedo documentada en <a href="{{site.baseurl}}/security-access.html">esta guia</a>.</li>
+				</ul>
+
+				<h2>{{ "Fuentes contrastadas" }}</h2>
+				<p class="paragraph"><code>ElectionsManagerApp</code>, <code>ParametersDashboard</code>, <code>AddParameterPanel</code>, <code>ParametersListPanel</code>, <code>EditParameterDashboard</code>, <code>EmailTemplatesDashboard</code>, <code>AddEmailTemplatePanel</code>, <code>EditEmailTemplatePanel</code>, <code>EmailTemplatesListPanel</code>, <code>EmailTemplateFilterCatalog</code>, <code>CustomizationDashboard</code>, <code>CustomizationPanel</code>, <code>PublicHomeDashboard</code>, <code>AdminTopBarPanel</code>, <code>PublicTokenTopHeaderPanel</code>, <code>PublicTokenBasePage</code>, <code>ElectionsWebAdminSession</code>, <code>SecurityUtils</code>, <code>ElectionsManagerEJBBean</code>, <code>ElectionsParametersEJBBean</code>, <code>MailsSendingEJBBean</code>, <code>Election</code>, <code>ElectionEmailTemplate</code>, <code>LanguageCode</code>, <code>Constants</code>, <code>release-files/ref/parameter_NEW.sql</code>, <code>.github/copilot-instructions.md</code> y los bundles <code>ElectionsManagerApp*.properties.xml</code>.</p>
+			</div>
+		</div>
+	</div>
+</div>

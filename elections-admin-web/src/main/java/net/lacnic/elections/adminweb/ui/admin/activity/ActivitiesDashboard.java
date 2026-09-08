@@ -2,10 +2,10 @@ package net.lacnic.elections.adminweb.ui.admin.activity;
 
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardManagerBasePage;
 
 
-public class ActivitiesDashboard extends DashboardAdminBasePage {
+public class ActivitiesDashboard extends DashboardManagerBasePage {
 
 	private static final long serialVersionUID = -3060903190903301755L;
 

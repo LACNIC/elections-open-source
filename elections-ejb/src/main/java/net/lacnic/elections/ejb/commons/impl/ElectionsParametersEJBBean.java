@@ -2,19 +2,18 @@ package net.lacnic.elections.ejb.commons.impl;
 
 import java.util.List;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import net.lacnic.elections.dao.ElectionsDaoFactory;
 import net.lacnic.elections.domain.Parameter;
 import net.lacnic.elections.ejb.commons.ElectionsParametersEJB;
 import net.lacnic.elections.utils.Constants;
-
+import net.lacnic.elections.utils.ElectionsCaches;
 
 /**
  * Session Bean implementation class ParametrosBean
@@ -23,7 +22,7 @@ import net.lacnic.elections.utils.Constants;
 @Remote(ElectionsParametersEJB.class)
 public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 
-	private static final Logger appLogger = LogManager.getLogger("ejbAppLogger");
+	private static final Logger appLogger = LoggerFactory.getLogger("ejbAppLogger");
 
 	@PersistenceContext(unitName = "elections-pu")
 	private EntityManager em;
@@ -41,21 +40,19 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	/**
 	 * Gets the value of a parameter
 	 * 
-	 * @param key
-	 * 			Key of the parameter to look for.
+	 * @param key Key of the parameter to look for.
 	 * 
 	 * @return returns a string with the value of the parameter, empty string if it does not exists.
 	 */
 	@Override
 	public String getParameter(String key) {
-		if (Constants.getParameters().containsKey(key)) {
-			String value = Constants.getParameters().get(key);
-			if (!value.isEmpty())
-				return value;
+		String cachedValue = ElectionsCaches.getParametersCache().get(key);
+		if (cachedValue != null && !cachedValue.isEmpty()) {
+			return cachedValue;
 		}
 		Parameter parameter = em.find(Parameter.class, key);
 		if (parameter != null) {
-			Constants.getParameters().put(key, parameter.getValue());
+			ElectionsCaches.putParameter(key, parameter.getValue());
 			return parameter.getValue();
 		}
 		return "";
@@ -78,10 +75,8 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	/**
 	 * Creates a new parameter on the system.
 	 * 
-	 * @param key
-	 * 			Key of the new parameter
-	 * @param  value
-	 * 			Value of the new parameter
+	 * @param key   Key of the new parameter
+	 * @param value Value of the new parameter
 	 * 
 	 * @return returns true if the parameter is added correctly, false if it already exists or there is an exception thrown.
 	 */
@@ -93,13 +88,13 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 				parameter.setKey(key);
 				parameter.setValue(value);
 				em.persist(parameter);
-				Constants.cleanParametersCache();
+				ElectionsCaches.clearParametersCache();
 				return true;
 			} else {
 				return false;
 			}
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage(), e);
 			return false;
 		}
 	}
@@ -107,33 +102,31 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 	/**
 	 * Updates the information of a parameter
 	 * 
-	 * @param parameter
-	 * 				Entity with the information of the parameter to update.
+	 * @param parameter Entity with the information of the parameter to update.
 	 */
 	@Override
 	public void editParameter(Parameter parameter) {
 		try {
 			em.merge(parameter);
-			Constants.cleanParametersCache();
+			ElectionsCaches.clearParametersCache();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 	}
 
 	/**
 	 * Deletes a parameter from the system
 	 * 
-	 * @param key
-	 * 			Key of the parameter to delete.
+	 * @param key Key of the parameter to delete.
 	 */
 	@Override
 	public void deleteParameter(String key) {
 		try {
 			Parameter parameter = ElectionsDaoFactory.createParameterDao(em).getParameter(key);
 			em.remove(parameter);
-			Constants.cleanParametersCache();
+			ElectionsCaches.clearParametersCache();
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 	}
 
@@ -147,7 +140,7 @@ public class ElectionsParametersEJBBean implements ElectionsParametersEJB {
 			if (dataSiteKey != null)
 				return dataSiteKey;
 		} catch (Exception e) {
-			appLogger.error(e);
+			appLogger.error(e.getMessage());
 		}
 		return "";
 	}

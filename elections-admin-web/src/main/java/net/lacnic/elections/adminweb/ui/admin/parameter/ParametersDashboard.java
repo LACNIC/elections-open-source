@@ -3,10 +3,9 @@ package net.lacnic.elections.adminweb.ui.admin.parameter;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import net.lacnic.elections.adminweb.ui.bases.DashboardAdminBasePage;
+import net.lacnic.elections.adminweb.ui.bases.DashboardManagerBasePage;
 
-
-public class ParametersDashboard extends DashboardAdminBasePage {
+public class ParametersDashboard extends DashboardManagerBasePage {
 
 	private static final long serialVersionUID = 4727744662113996465L;
 

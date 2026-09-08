@@ -1,0 +1,28 @@
+<wicket:panel>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><wicket:message key="candidatesTitle" /></th>
+				<th><wicket:message key="votesTitle" /></th>
+				<th><wicket:message key="electionResultsPercentageTitle" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="candidatesList" data-testid="candidatesList">
+				<td data-testid="nameCell">
+					<span wicket:id="name" data-testid="name"></span>
+					<span wicket:id="winnerBadge" data-testid="winnerBadge"></span>
+				</td>
+				<td wicket:id="votes" data-testid="votes"></td>
+				<td wicket:id="percentage" data-testid="percentage"></td>
+			</tr>
+		</tbody>
+		<thead>
+			<tr>
+				<th><strong><wicket:message key="votersTotal" /></strong><span wicket:id="totalVoters" data-testid="totalVoters" id="electionTotalVoters" /></th>
+				<th><strong><wicket:message key="votesTotal" /></strong> <span wicket:id="totalVotes" data-testid="totalVotes" id="electionTotalVotes" /></th>
+				<th><strong><wicket:message key="electionResultsPercentageTitle" /></strong> <span wicket:id="totalPercentage" data-testid="totalPercentage" id="electionTotalPercentage" /></th>
+			</tr>
+		</thead>
+	</table>
+</wicket:panel>

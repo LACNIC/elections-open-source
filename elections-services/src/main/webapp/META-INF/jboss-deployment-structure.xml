@@ -7,8 +7,8 @@
 	<deployment>
 		<dependencies>
 			<module name="org.jboss.ejb-client" />
-			<module name="net.ipresource" />
-			<module name="deployment.elections-ejb.jar" />
+			<module name="net.ripe.ipresource152" />
+			<module name="deployment.elections-ejb-1.0.jar" />
 			<module name="org.jboss.resteasy.resteasy-jackson2-provider" />
 		</dependencies>
 	</deployment>

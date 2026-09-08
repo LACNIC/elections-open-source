@@ -2,17 +2,22 @@ package net.lacnic.elections.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import net.lacnic.elections.utils.LinksUtils;
 import net.lacnic.elections.utils.StringUtils;
+import java.util.List;
+import jakarta.persistence.CascadeType;
+import net.lacnic.elections.domain.pre.AuditorCandidateDecision;
 
 @Entity
 public class Auditor implements Serializable {
@@ -50,12 +55,20 @@ public class Auditor implements Serializable {
 	@Column(nullable = false)
 	private String mail;
 
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = true, name = "reminder_frequency", length = 64)
+	private ReminderFrequency reminderFrequency;
+
+	@OneToMany(mappedBy = "auditor", cascade = CascadeType.REMOVE)
+	private List<AuditorCandidateDecision> candidateDecisions;
+
 	public Auditor() {
 		this.commissioner = false;
 		this.agreedConformity = false;
 		this.revisionAvailable = false;
 		this.resultToken = StringUtils.createSecureToken();
 		this.migrationId = 0L;
+		this.reminderFrequency = ReminderFrequency.defaultValue();
 	}
 
 	public Auditor(Election election, Commissioner commissioner) {
@@ -67,6 +80,7 @@ public class Auditor implements Serializable {
 		this.election = election;
 		this.mail = commissioner.getMail();
 		this.migrationId = 0L;
+		this.reminderFrequency = ReminderFrequency.defaultValue();
 	}
 
 	public void clean() {
@@ -79,6 +93,9 @@ public class Auditor implements Serializable {
 		return LinksUtils.buildAuditorResultsLink(resultToken);
 	}
 
+	public String getTokenAuditLink() {
+		return LinksUtils.buildTokenAuditLink(resultToken);
+	}
 
 	public long getAuditorId() {
 		return auditorId;
@@ -150,6 +167,17 @@ public class Auditor implements Serializable {
 
 	public void setMail(String mail) {
 		this.mail = mail;
+	}
+
+	public ReminderFrequency getReminderFrequency() {
+		if (reminderFrequency == null) {
+			reminderFrequency = ReminderFrequency.defaultValue();
+		}
+		return reminderFrequency;
+	}
+
+	public void setReminderFrequency(ReminderFrequency reminderFrequency) {
+		this.reminderFrequency = reminderFrequency == null ? ReminderFrequency.defaultValue() : reminderFrequency;
 	}
 
 }

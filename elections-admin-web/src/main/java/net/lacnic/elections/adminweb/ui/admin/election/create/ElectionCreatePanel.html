@@ -1,0 +1,217 @@
+<wicket:panel>
+	<div class="col-12">
+		<div class="row g-3">
+			<div class="col-md-4">
+				<label class="form-label" for="category"><wicket:message key="electionManagementCategElec">electionManagementCategElec</wicket:message></label>
+				<select wicket:id="selectCategory" class="form-select" id="category" name="category" data-testid="election-category-select"></select>
+			</div>
+			<div class="col-md-4">
+				<div class="d-flex align-items-center gap-2">
+					<label class="form-label mb" for="electionType"><wicket:message key="electionManagementDeclarationsScope">electionManagementDeclarationsScope</wicket:message></label>
+					<span class="badge badge-label badge-soft-secondary rounded-pill" tabindex="0" role="button"
+						data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-html="true"
+						data-testid="election-type-help"
+						wicket:message="title:electionManagementTypeHelpTitle,data-bs-content:electionManagementTypeHelpContent">
+						<i class="ti ti-help-circle"></i>
+					</span>
+				</div>
+				<select wicket:id="electionType" class="form-select" id="electionType" name="electionType" data-testid="election-type-select"></select>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="publicLinkRecoveryMode"><wicket:message key="electionManagementLinkRecoveryMode">electionManagementLinkRecoveryMode</wicket:message></label>
+				<select wicket:id="publicLinkRecoveryMode" class="form-select" id="publicLinkRecoveryMode" name="publicLinkRecoveryMode" data-testid="election-link-recovery-mode-select"></select>
+				<div class="form-text">
+					<wicket:message key="electionManagementLinkRecoveryModeHelp" />
+				</div>
+			</div>
+		</div>
+		<div wicket:id="campusCourses" class="row g-3 mt-1" data-testid="election-campus-courses">
+			<div class="col-md-4">
+				<label class="form-label" for="campusCourse"><wicket:message key="electionManagementCampusCourse">electionManagementCampusCourse</wicket:message></label>
+				<select wicket:id="campusCourse" id="campusCourse" name="campusCourse" class="form-select" data-testid="election-campus-course-select"></select>
+				<div wicket:id="campusCourseHelp" class="form-text" data-testid="election-campus-course-help"></div>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="campusCourseEnglish"><wicket:message key="electionManagementCampusCourseEnglish">electionManagementCampusCourseEnglish</wicket:message></label>
+				<select wicket:id="campusCourseEnglish" id="campusCourseEnglish" name="campusCourseEnglish" class="form-select" data-testid="election-campus-course-english-select"></select>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="campusCoursePortuguese"><wicket:message key="electionManagementCampusCoursePortuguese">electionManagementCampusCoursePortuguese</wicket:message></label>
+				<select wicket:id="campusCoursePortuguese" id="campusCoursePortuguese" name="campusCoursePortuguese" class="form-select" data-testid="election-campus-course-portuguese-select"></select>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<hr class="my-3">
+	</div>
+
+	<div class="col-12">
+			<label class="form-label" for="restrictedCountry"><wicket:message key="electionManagementRestrictedCountries">electionManagementRestrictedCountries</wicket:message></label>
+		<div wicket:id="restrictedCountryContainer" data-testid="election-restricted-country-container">
+			<div class="mb-3">
+				<select wicket:id="restrictedCountry" id="restrictedCountry" name="restrictedCountry" class="form-select" data-testid="election-restricted-country-select"></select>
+			</div>
+			<div>
+				<span wicket:id="restrictedCountries" class="flex-wrap gap-3" data-testid="election-restricted-country-list">
+					<a wicket:id="removeRestrictedCountry" class="btn btn-outline-secondary btn-sm mb-1" href="#" data-testid="election-restricted-country-remove-button">
+						<span wicket:id="restrictedCountryLabel" data-testid="election-restricted-country-label"></span>
+						<i class="ti ti-x ms-1"></i>
+					</a>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<hr class="my-3">
+	</div>
+
+	<div class="col-12">
+		<div class="d-flex align-items-center justify-content-between gap-3">
+			<label class="form-label mb-0" for="languageCheck"><wicket:message key="electionManagementCopyText">electionManagementCopyText</wicket:message></label>
+			<div class="form-check">
+				<input wicket:id="onlySpCheckbox" id="languageCheck" name="languageCheck" type="checkbox" class="form-check-input" data-testid="election-single-language-checkbox">
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<hr class="my-3">
+	</div>
+
+	<div class="col-12">
+		<label class="form-label" for="titleSpanish"><wicket:message key="electionManagementTituloEsp">electionManagementTituloEsp</wicket:message></label>
+		<input wicket:id="titleSpanish" type="text" class="form-control" id="titleSpanish" name="titleSpanish" data-testid="election-title-spanish-input">
+	</div>
+	<div wicket:id="electionTitles" data-testid="electionTitles">
+		<div class="col-12">
+			<label class="form-label" for="titleEnglish"><wicket:message key="electionManagementTituloEng">electionManagementTituloEng</wicket:message></label>
+			<input wicket:id="titleEnglish" name="titleEnglish" type="text" id="titleEnglish" class="form-control" data-testid="election-title-english-input">
+		</div>
+		<div class="col-12">
+			<label class="form-label" for="titlePortuguese"><wicket:message key="electionManagementTituloPor">electionManagementTituloPor</wicket:message></label>
+			<input wicket:id="titlePortuguese" name="titlePortuguese" id="titlePortuguese" type="text" class="form-control" data-testid="election-title-portuguese-input">
+		</div>
+	</div>
+
+	<div class="col-12">
+		<hr class="my-3">
+	</div>
+
+	<div class="col-12">
+		<label class="form-label" for="descriptionSpanish"><wicket:message key="electionManagementDescripEsp">electionManagementDescripEsp</wicket:message></label>
+		<textarea wicket:id="descriptionSpanish" id="descriptionSpanish" name="descriptionSpanish" class="form-control h-150" maxlength="2000" data-testid="election-description-spanish-textarea"></textarea>
+	</div>
+	<div wicket:id="electionDescriptions" data-testid="electionDescriptions">
+		<div class="col-12">
+			<label class="form-label" for="descriptionEnglish"><wicket:message key="electionManagementDescripEng">electionManagementDescripEng</wicket:message></label>
+			<textarea wicket:id="descriptionEnglish" id="descriptionEnglish" name="descriptionEnglish" class="form-control h-150" maxlength="2000" data-testid="election-description-english-textarea"></textarea>
+		</div>
+		<div class="col-12">
+			<label class="form-label" for="descriptionPortuguese"><wicket:message key="electionManagementDescripPor">electionManagementDescripPor</wicket:message></label>
+			<textarea wicket:id="descriptionPortuguese" id="descriptionPortuguese" name="descriptionPortuguese" class="form-control h-150" maxlength="2000" data-testid="election-description-portuguese-textarea"></textarea>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<hr class="my-3">
+	</div>
+
+	<div class="col-12">
+		<label class="form-label" for="linkSpanish"><wicket:message key="electionManagementWebsiteEsp">electionManagementWebsiteEsp</wicket:message></label>
+		<input wicket:id="linkSpanish" type="text" name="linkSpanish" id="linkSpanish" class="form-control" wicket:message="placeholder:electionManagementWebsitePlaceholder" data-testid="election-link-spanish-input">
+		<div class="form-text">
+			<wicket:message key="electionManagementWebsiteHelp" />
+		</div>
+	</div>
+	<div wicket:id="electionUrls" data-testid="electionUrls">
+		<div class="col-12">
+			<label class="form-label" for="linkEnglish"><wicket:message key="electionManagementWebsiteEng">electionManagementWebsiteEng</wicket:message></label>
+			<input wicket:id="linkEnglish" type="text" name="linkEnglish" id="linkEnglish" class="form-control" wicket:message="placeholder:electionManagementWebsitePlaceholder" data-testid="election-link-english-input">
+			<div class="form-text">
+				<wicket:message key="electionManagementWebsiteHelp" />
+			</div>
+		</div>
+		<div class="col-12">
+			<label class="form-label" for="linkPortuguese"><wicket:message key="electionManagementWebsitePor">electionManagementWebsitePor</wicket:message></label>
+			<input wicket:id="linkPortuguese" type="text" name="linkPortuguese" id="linkPortuguese" class="form-control" wicket:message="placeholder:electionManagementWebsitePlaceholder" data-testid="election-link-portuguese-input">
+			<div class="form-text">
+				<wicket:message key="electionManagementWebsiteHelp" />
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<hr class="my-3">
+	</div>
+
+	<div class="col-12">
+		<div class="row g-3">
+			<div class="col-md-6">
+				<label class="form-label" for="diffUTC">
+					<wicket:message key="electionManagementDifUTC"></wicket:message>
+				</label>
+				<input wicket:id="diffUTC" name="diffUTC" type="text" id="diffUTC" class="form-control" wicket:message="placeholder:electionManagementDifUTCPlaceholder" data-testid="election-diff-utc-input">
+				<div class="form-text">
+					<wicket:message key="electionManagementDifUTCHelp" />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label class="form-label" for="maxCandidates"><wicket:message key="electionManagementVacantes">electionManagementVacantes</wicket:message></label>
+				<input wicket:id="maxCandidates" name="maxCandidates" type="text" id="maxCandidates" class="form-control" wicket:message="placeholder:electionManagementVacantesPlaceholder" data-testid="election-max-candidates-input">
+				<div class="form-text">
+					<wicket:message key="electionManagementVacantesHelp" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<hr class="my-3">
+	</div>
+
+	<div class="col-12">
+		<div class="row g-3">
+			<div class="col-md-6">
+				<label class="form-label" for="defaultSender"><wicket:message key="electionManagementRemitente">electionManagementRemitente</wicket:message></label>
+				<input wicket:id="defaultSender" name="defaultSender" type="email" id="defaultSender" class="form-control" wicket:message="placeholder:electionManagementRemitentePlaceholder" data-testid="election-default-sender-input">
+				<div class="form-text">
+					<wicket:message key="electionManagementRemitenteHelp" />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label class="form-label" for="defaultRecipient"><wicket:message key="electionManagementReceptor">electionManagementReceptor</wicket:message></label>
+				<input wicket:id="defaultRecipient" name="defaultRecipient" type="email" id="defaultRecipient" class="form-control" wicket:message="placeholder:electionManagementReceptorPlaceholder" data-testid="election-default-recipient-input">
+				<div class="form-text">
+					<wicket:message key="electionManagementReceptorHelp" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12">
+		<div class="row g-3 mt-3">
+			<div class="col-md-4">
+				<label class="form-label" for="authorizedUserEmails"><wicket:message key="electionManagementAuthorizedUsers">electionManagementAuthorizedUsers</wicket:message></label>
+				<textarea wicket:id="authorizedUserEmails" id="authorizedUserEmails" name="authorizedUserEmails" class="form-control" rows="3" data-testid="election-authorized-users-textarea"></textarea>
+				<div class="form-text">
+					<wicket:message key="electionManagementAuthorizedUsersHelp" />
+				</div>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="authorizedSupportEmails"><wicket:message key="electionManagementAuthorizedSupportEmails">electionManagementAuthorizedSupportEmails</wicket:message></label>
+				<textarea wicket:id="authorizedSupportEmails" id="authorizedSupportEmails" name="authorizedSupportEmails" class="form-control" rows="3" data-testid="election-authorized-support-emails-textarea"></textarea>
+				<div class="form-text">
+					<wicket:message key="electionManagementAuthorizedSupportEmailsHelp" />
+				</div>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="authorizedNominateEmails"><wicket:message key="electionManagementAuthorizedNominateEmails">electionManagementAuthorizedNominateEmails</wicket:message></label>
+				<textarea wicket:id="authorizedNominateEmails" id="authorizedNominateEmails" name="authorizedNominateEmails" class="form-control" rows="3" data-testid="election-authorized-nominate-emails-textarea"></textarea>
+				<div class="form-text">
+					<wicket:message key="electionManagementAuthorizedNominateEmailsHelp" />
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>
