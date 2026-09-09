@@ -2,6 +2,14 @@
 
 Este archivo conserva la trazabilidad del relevamiento y de las actualizaciones documentales de `v3.0`. No es una guía de instalación ni sustituye las [release notes consolidadas](ReleaseNotes.md). Se mantiene el nombre de archivo por compatibilidad con referencias existentes.
 
+## 2026-09-09 - Unificación de rutas de documentación
+
+- Se actualizan las referencias a la carpeta `docs/` en Docker, exclusiones, README, guías y ejemplos del reporte de auditoría.
+- GitHub Pages usa `docs/_config.yml` y publica en `https://ghwww.labs.lacnic.net/elections-open-source/` desde `main` y `/docs`.
+- Docker agrega `docs/_config.docker.yml` para servir la documentación en `/elections/docs/`. El menú de la aplicación, el filtro Wicket y la comprobación de arranque usan esa ruta.
+- Los enlaces de código fuente y licencia apuntan al repositorio `LACNIC/elections-open-source`.
+- Las referencias de archivos y rutas del registro histórico se normalizan a los nombres actuales. Se conservan los nombres de ramas históricas y las fechas de sus verificaciones.
+
 ## 2026-09-08 - Estado de la distribución y limpieza de Markdown
 
 ### Cambios de instalación ya verificados
@@ -10,11 +18,11 @@ Este archivo conserva la trazabilidad del relevamiento y de las actualizaciones 
 - El commit `f982533` recuperó archivos necesarios para compilar y desplegar: POMs, descriptores web y de WildFly, módulos y otros recursos omitidos durante la importación.
 - El flujo Docker fresh valida Compose, respeta la red y el puerto configurados, espera a PostgreSQL por TCP y comprueba la aplicación y la documentación. No requiere Python en el host.
 - README y manual apuntan al repositorio de distribución e indican crear `.env` a partir del ejemplo, sustituir credenciales y configurar la organización. Mailpit captura correo de evaluación; la entrega externa requiere SMTP real.
-- La prueba previa desde una exportación limpia completó la compilación Maven, inicializó una base vacía y permitió el login administrativo. La aplicación y `/elections/documentacion/` respondieron correctamente. Estas son verificaciones del cambio de instalación, no una nueva ejecución en esta edición documental.
+- La prueba previa desde una exportación limpia completó la compilación Maven, inicializó una base vacía y permitió el login administrativo. La aplicación y `/elections/docs/` respondieron correctamente. Estas son verificaciones del cambio de instalación, no una nueva ejecución en esta edición documental.
 
 ### Limpieza documental actual
 
-- Se elimina el borrador Markdown de configuración inicial. Su preparación de capturas y publicación queda cancelada; se consultan [instalación](manual.html), [seguridad](security-access.html), [parámetros](parameters-templates-i18n.html) y [Docker](../dockers/DOCKER.md).
+- Se elimina el borrador Markdown de configuración inicial. Su preparación de capturas y publicación queda cancelada; se consultan [instalación](manual.html), [seguridad](security-access.html), [parámetros](parameters-templates-i18n.html) y [Docker](https://github.com/LACNIC/elections-open-source/blob/main/dockers/DOCKER.md).
 - Se elimina la nota de convenciones de visibilidad de los ejemplos HTML que contenía rutas personales.
 - Se retira también el PDF base v3.0 de configuración inicial, que era un documento de trabajo sin capturas. Se actualiza la [matriz documental](MatrizActualizacionDocumentacion.md) para reflejar el retiro del borrador y del PDF y remitir a las guías vigentes.
 - La eliminación de archivos del árbol actual no elimina sus versiones anteriores ni los metadatos de autoría de Git. No se ha reescrito el historial.
@@ -25,7 +33,7 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ## 2026-09-04 - Retiro del restore Ansible legado
 
-- Se elimina `ansible/` y la guia `doc/ansible.html` de la distribucion publica.
+- Se elimina `ansible/` y la guia `docs/ansible.html` de la distribucion publica.
 - El contenido de `ansible/db/update.sql` fue contrastado con
   `release-files/3.0/v3.0_script.sql` y con las referencias `*_NEW.sql`; sus
   cambios de esquema, parametros y templates ya estan representados en la
@@ -39,11 +47,11 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/MatrizActualizacionDocumentacion.md`
-- `doc/ReleaseNotes.md`
+- `docs/MatrizActualizacionDocumentacion.md`
+- `docs/ReleaseNotes.md`
 - `README.md`
 - `.github/copilot-instructions.md`
-- `doc/update.html`
+- `docs/update.html`
 - `release-files/2.3.1/v2.3.1_script.sql`
 - `release-files/2.4/v2.4_ddl_script.sql`
 - `release-files/2.4/v2.4_data_script.sql`
@@ -88,9 +96,9 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 ### Fuentes revisadas
 
 - Contexto operativo confirmado por el equipo: Docker es el mecanismo vigente para instanciar el sistema; Ansible se usa en test para reiniciar/restaurar la base y no en produccion.
-- `doc/manual.html`
-- `doc/index.html`
-- `doc/ansible.html`
+- `docs/manual.html`
+- `docs/index.html`
+- `docs/ansible.html`
 - `README.md`
 - `pom.xml`
 - `elections-ejb/pom.xml`
@@ -137,8 +145,8 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 - `ansible/db/actualizar_dump.sh`
 - `ansible/db/update.sql`
 - `ansible/ansible.cfg`
-- `doc/ansible.html`
-- `doc/index.html`
+- `docs/ansible.html`
+- `docs/index.html`
 
 ### Hallazgos verificados
 
@@ -189,7 +197,7 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/services.html`
+- `docs/services.html`
 - `elections-services/pom.xml`
 - `elections-services/src/main/java/net/lacnic/elections/ws/app/ElectionsServicesApplication.java`
 - `elections-services/src/main/java/net/lacnic/elections/ws/services/ElectionsService.java`
@@ -231,8 +239,8 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 - `README.md`
 - `dockers/DOCKER.md`
-- `doc/manual.html`
-- `doc/ansible.html`
+- `docs/manual.html`
+- `docs/ansible.html`
 - `dockers/Dockerfile`
 - `dockers/docker-compose.yml`
 - Contexto operativo confirmado por el equipo sobre Docker y Ansible
@@ -245,15 +253,15 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Pendiente
 
-- Mantener el README como entrada breve; el detalle operativo debe seguir en `doc/manual.html` y `dockers/DOCKER.md`.
+- Mantener el README como entrada breve; el detalle operativo debe seguir en `docs/manual.html` y `dockers/DOCKER.md`.
 
 ## 2026-04-21 - Documentacion de organizaciones
 
 ### Fuentes revisadas
 
-- `doc/MatrizActualizacionDocumentacion.md`
-- `doc/elections.html`
-- `doc/census.html`
+- `docs/MatrizActualizacionDocumentacion.md`
+- `docs/elections.html`
+- `docs/census.html`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/ElectionsManagerApp.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/organizations/ElectionOrganizationsDashboard.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/organizations/ElectionOrganizationsDashboard.html`
@@ -296,8 +304,8 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/MatrizActualizacionDocumentacion.md`
-- `doc/voting-public-links.html`
+- `docs/MatrizActualizacionDocumentacion.md`
+- `docs/voting-public-links.html`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/ElectionsManagerApp.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/commons/AdminNavBarPanel.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/ElectionsListPanel.java`
@@ -331,7 +339,7 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 - `elections-ejb/src/main/java/net/lacnic/elections/utils/VotingPeriodResolver.java`
 - `elections-ejb/src/main/java/net/lacnic/elections/ejb/impl/ElectionsManagerEJBBean.java`
 - `elections-ejb/src/main/java/net/lacnic/elections/ejb/impl/ElectionsVoterEJBBean.java`
-- `doc/auditReport-v2.3.pdf`
+- `docs/auditReport-v2.3.pdf`
 
 ### Hallazgos verificados
 
@@ -346,7 +354,7 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 - `/token/result` exige `resultLinkAvailable=true` y calendario `N_17_SINGLE_PROVISIONAL_RESULTS_PUBLISHED`, pero no tiene fecha de cierre publica propia una vez abierto.
 - `/token/audit/result` exige `auditorLinkAvailable=true` y ventana `N_18_PERIODO_CE_AUDIT` con inicio y fin.
 - El bloque adicional de auditoria agrupa por `voteAmount`, pero la columna visual `Votos (1 - max)` hoy queda en `?` fijo en el template.
-- `doc/auditReport-v2.3.pdf` sigue siendo solo el documento historico de auditoria de la version 2.3; no corresponde describirlo como reporte funcional nuevo de v3.0.
+- `docs/auditReport-v2.3.pdf` sigue siendo solo el documento historico de auditoria de la version 2.3; no corresponde describirlo como reporte funcional nuevo de v3.0.
 
 ### Pendiente
 
@@ -357,9 +365,9 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/MatrizActualizacionDocumentacion.md`
-- `doc/elections.html`
-- `doc/calendar-tasks.html`
+- `docs/MatrizActualizacionDocumentacion.md`
+- `docs/elections.html`
+- `docs/calendar-tasks.html`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/ElectionsManagerApp.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/candidates/ElectionCandidatesDashboard.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/candidates/CandidatesListPanel.java`
@@ -421,21 +429,21 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `find doc -maxdepth 3 -type f`
+- `find docs -maxdepth 3 -type f`
 - `find . -maxdepth 3 -type f \( -iname '*.md' -o -iname '*.html' -o -iname '*.pdf' \)`
 - `find .github -maxdepth 3 -type f`
 - `postinst.md`
 - `.github/copilot-instructions.md`
 - `README.md`
-- `doc/MatrizActualizacionDocumentacion.md`
+- `docs/MatrizActualizacionDocumentacion.md`
 
 ### Hallazgos verificados
 
-- El arbol de documentacion contiene soporte Jekyll y assets que no son contenido funcional directo: `doc/Gemfile`, `doc/Gemfile.lock`, `_layouts`, `_includes`, `_sass`, CSS, JS e imagenes de marca.
+- El arbol de documentacion contiene soporte Jekyll y assets que no son contenido funcional directo: `docs/Gemfile`, `docs/Gemfile.lock`, `_layouts`, `_includes`, `_sass`, CSS, JS e imagenes de marca.
 - `postinst.md` es documentacion preexistente y esta linkeado desde `README.md`, pero no estaba en la matriz.
 - `postinst.md` documenta un reverse proxy nginx hacia `localhost:8080` y redirige a `/elecciones/`; esto no coincide con la documentacion Docker vigente, que publica `8098:8080` y usa el contexto `/elections`.
 - `.github/copilot-instructions.md` no es documentacion de usuario final, pero contiene reglas operativas que deben considerarse en code review, arquitectura, i18n, validaciones Wicket, manejo de parametros y versionado de assets.
-- La matriz ya tenía pendientes los PDFs históricos de auditoría y configuración inicial, además de `doc/404.html` y soporte Jekyll. El PDF de auditoría fue versionado posteriormente como `doc/auditReport-v2.3.pdf`. El manual inicial de 2021 fue retirado; consulte [la guía vigente](manual.html).
+- La matriz ya tenía pendientes los PDFs históricos de auditoría y configuración inicial, además de `docs/404.html` y soporte Jekyll. El PDF de auditoría fue versionado posteriormente como `docs/auditReport-v2.3.pdf`. El manual inicial de 2021 fue retirado; consulte [la guía vigente](manual.html).
 
 ### Pendiente
 
@@ -449,7 +457,7 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 - `postinst.md`
 - `dockers/docker-compose.yml`
 - `dockers/DOCKER.md`
-- `doc/manual.html`
+- `docs/manual.html`
 - `elections-admin-web/pom.xml`
 - `elections-services/pom.xml`
 - `elections-services/src/main/java/net/lacnic/elections/ws/app/ElectionsServicesApplication.java`
@@ -471,8 +479,8 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- Manual histórico de configuración de 2021, revisado en esa fecha y posteriormente retirado. Para instalar la versión actual, consulte [el manual vigente](manual.html) y [la guía Docker](../dockers/DOCKER.md).
-- `doc/auditReport-v2.3.pdf`
+- Manual histórico de configuración de 2021, revisado en esa fecha y posteriormente retirado. Para instalar la versión actual, consulte [el manual vigente](manual.html) y [la guía Docker](https://github.com/LACNIC/elections-open-source/blob/main/dockers/DOCKER.md).
+- `docs/auditReport-v2.3.pdf`
 - `release-files/2.3/v2.3_script.sql`
 - `release-files/ref/parameter_NEW.sql`
 - `release-files/validate_old_release_chain.py`
@@ -501,7 +509,7 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 - `URL` se usa como base para componer links y el codigo agrega el contexto `elections`; no debe cargarse con `/elections` duplicado salvo despliegue especifico que lo requiera.
 - El comportamiento actual de CAPTCHA no depende de `APP`: requiere `LOGIN_CAPTCHA_ENABLED=true`, claves de reCAPTCHA y superar el umbral de intentos fallidos por IP cuando corresponde al login.
 - La personalizacion actual requiere el registro `customization_id=1`, permite editar tres imagenes, titulos y HTML del home, y alterna entre home personalizado y home por defecto mediante `show_home`.
-- El reporte de auditoria se renombro a `doc/auditReport-v2.3.pdf` y las referencias `AUDIT_REPORT_LINK` pasan a indicar explicitamente que corresponde a la version auditada `v2.3`.
+- El reporte de auditoria se renombro a `docs/auditReport-v2.3.pdf` y las referencias `AUDIT_REPORT_LINK` pasan a indicar explicitamente que corresponde a la version auditada `v2.3`.
 
 ### Pendiente
 
@@ -518,14 +526,14 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `git log --oneline -- doc README.md postinst.md dockers/DOCKER.md .github/copilot-instructions.md`
-- `doc/organizations.html`
-- `doc/census.html`
-- `doc/questions-declarations.html`
-- `doc/auditors.html`
-- `doc/voting-public-links.html`
-- `doc/results-reports.html`
-- `doc/ReleaseNotes.md`
+- `git log --oneline -- docs README.md postinst.md dockers/DOCKER.md .github/copilot-instructions.md`
+- `docs/organizations.html`
+- `docs/census.html`
+- `docs/questions-declarations.html`
+- `docs/auditors.html`
+- `docs/voting-public-links.html`
+- `docs/results-reports.html`
+- `docs/ReleaseNotes.md`
 
 ### Hallazgos verificados
 
@@ -540,12 +548,12 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/404.html`
-- `doc/_layouts/default.html`
-- `doc/_includes/header.html`
-- `doc/_includes/footer.html`
-- `doc/index.html`
-- `doc/manual.html`
+- `docs/404.html`
+- `docs/_layouts/default.html`
+- `docs/_includes/header.html`
+- `docs/_includes/footer.html`
+- `docs/index.html`
+- `docs/manual.html`
 
 ### Hallazgos verificados
 
@@ -563,34 +571,34 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/_config.yml`
-- `doc/_includes/header.html`
-- `doc/_includes/footer.html`
-- `doc/index.html`
-- `doc/manual.html`
-- `doc/update.html`
-- `doc/services.html`
-- `doc/ansible.html`
-- `doc/404.html`
-- `doc/Gemfile`
-- `doc/Gemfile.lock`
-- `doc/.ruby-version`
+- `docs/_config.yml`
+- `docs/_includes/header.html`
+- `docs/_includes/footer.html`
+- `docs/index.html`
+- `docs/manual.html`
+- `docs/update.html`
+- `docs/services.html`
+- `docs/ansible.html`
+- `docs/404.html`
+- `docs/Gemfile`
+- `docs/Gemfile.lock`
+- `docs/.ruby-version`
 - `README.md`
 - `https://pages.github.com/versions/`
 - `https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll`
 
 ### Hallazgos verificados
 
-- El README ya referencia la documentación publicada en `https://lacnic.github.io/elections-open-source-doc`, por lo que el `baseurl` actual `"/elections-open-source-doc"` sigue siendo consistente con el repositorio.
+- La dirección vigente de la documentación es `https://ghwww.labs.lacnic.net/elections-open-source/`, con `baseurl: "/elections-open-source"` y publicación desde `main` y `/docs`.
 - Las páginas principales del sitio seguían arrastrando `link_logo`, `link_title` y `link_repo` hardcodeados hacia una URL de demostración, aunque la documentación vigente ya no debe depender de ese demo.
-- `doc/_config.yml` ahora centraliza la URL del repositorio en `site.repository_url`, evitando repetir el link GitHub en cada página.
-- `doc/_includes/header.html` ahora deriva siempre al home de la documentación con `site.baseurl`, en vez de depender de variables por página.
-- `doc/_includes/footer.html` ya no deja el año fijo en `2020`; usa `site.time`.
-- `doc/index.html`, `doc/manual.html`, `doc/update.html`, `doc/services.html`, `doc/ansible.html` y `doc/404.html` quedaron sin front matter repetido de links obsoletos.
+- `docs/_config.yml` ahora centraliza la URL del repositorio en `site.repository_url`, evitando repetir el link GitHub en cada página.
+- `docs/_includes/header.html` ahora deriva siempre al home de la documentación con `site.baseurl`, en vez de depender de variables por página.
+- `docs/_includes/footer.html` ya no deja el año fijo en `2020`; usa `site.time`.
+- `docs/index.html`, `docs/manual.html`, `docs/update.html`, `docs/services.html`, `docs/ansible.html` y `docs/404.html` quedaron sin front matter repetido de links obsoletos.
 - Los enlaces al repositorio en `index.html`, `update.html`, `services.html` y `404.html` quedaron unificados sobre `site.repository_url`.
-- El sitio quedo alineado al bundle soportado por GitHub Pages usando `github-pages ~> 232` en `doc/Gemfile`, en lugar de fijar `jekyll` manualmente.
+- El sitio quedo alineado al bundle soportado por GitHub Pages usando `github-pages ~> 232` en `docs/Gemfile`, en lugar de fijar `jekyll` manualmente.
 - El lockfile se regenero limpio y ahora refleja la cadena soportada por GitHub Pages, incluyendo `github-pages 232`, `jekyll 3.10.0`, `jekyll-seo-tag 2.8.0` y `jekyll-sitemap 1.4.0`.
-- Se agrego `doc/.ruby-version` con `3.3.4` para dejar explicito el runtime Ruby publicado por GitHub Pages.
+- Se agrego `docs/.ruby-version` con `3.3.4` para dejar explicito el runtime Ruby publicado por GitHub Pages.
 
 ### Verificacion
 
@@ -678,8 +686,8 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/MatrizActualizacionDocumentacion.md`
-- `doc/ReleaseNotes.md`
+- `docs/MatrizActualizacionDocumentacion.md`
+- `docs/ReleaseNotes.md`
 - guias funcionales y operativas ya cerradas en la rama `doc`
 
 ### Hallazgos verificados
@@ -696,9 +704,9 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/security-access.html`
-- `doc/index.html`
-- `doc/parameters-templates-i18n.html`
+- `docs/security-access.html`
+- `docs/index.html`
+- `docs/parameters-templates-i18n.html`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/ElectionsWebAdminSession.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/SecurityUtils.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/login/LoginDashboard.java`
@@ -747,7 +755,7 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Pendiente
 
-- Volcar estos hallazgos al bloque final de `doc/ReleaseNotes.md` cuando cierre el relevamiento integral.
+- Volcar estos hallazgos al bloque final de `docs/ReleaseNotes.md` cuando cierre el relevamiento integral.
 - Evaluar si la mascara de parametros sensibles del monitor debe ampliarse en una iteracion funcional futura; hoy queda solo documentado como comportamiento real.
 
 ### Verificacion
@@ -759,17 +767,17 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/ReleaseNotes.md`
-- `doc/MatrizActualizacionDocumentacion.md`
-- `doc/releaseNoteTmp3.0.md`
-- `doc/update.html`
+- `docs/ReleaseNotes.md`
+- `docs/MatrizActualizacionDocumentacion.md`
+- `docs/releaseNoteTmp3.0.md`
+- `docs/update.html`
 
 ### Hallazgos verificados
 
 - La entrada `v3.0` de release notes quedo consolidada con foco en cambios funcionales, tecnicos y operativos efectivamente contrastados durante el relevamiento.
 - La cadena de actualizacion historica desde `v2.3` hacia `v3.0` quedo alineada entre `ReleaseNotes.md` y `update.html`.
 - Se mantuvo fuera de release notes el detalle en bruto de la bitacora y los pendientes que no forman parte del cambio de producto, como capturas del draft de configuracion inicial o decisiones futuras de publicacion.
-- El PDF `doc/auditReport-v2.3.pdf` se mantiene como referencia historica de la version auditada `v2.3` y no se incluyo como funcionalidad nueva de `v3.0`.
+- El PDF `docs/auditReport-v2.3.pdf` se mantiene como referencia historica de la version auditada `v2.3` y no se incluyo como funcionalidad nueva de `v3.0`.
 
 ### Pendiente
 
@@ -783,9 +791,9 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/parameters-templates-i18n.html`
-- `doc/index.html`
-- `doc/results-reports.html`
+- `docs/parameters-templates-i18n.html`
+- `docs/index.html`
+- `docs/results-reports.html`
 - `.github/copilot-instructions.md`
 - `release-files/ref/parameter_NEW.sql`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/ElectionsManagerApp.java`
@@ -837,7 +845,7 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 ### Pendiente
 
 - Relevar `FUN-017` para cerrar autenticacion admin, WS, accesos por IP, rate limits y compuertas de seguridad.
-- Dejar `doc/ReleaseNotes.md` para el cierre del relevamiento completo.
+- Dejar `docs/ReleaseNotes.md` para el cierre del relevamiento completo.
 - Pendiente histórico cancelado el 2026-09-08: el borrador Markdown se retira y no queda programada su publicación.
 
 ### Verificacion
@@ -854,22 +862,22 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Hallazgos verificados
 
-- Se genero `doc/EleccionesConfiguracionInicialv3.0.pdf` a partir del borrador textual actual.
+- Se genero `docs/EleccionesConfiguracionInicialv3.0.pdf` a partir del borrador textual actual.
 - Para evitar mezclar contenido transitorio con la version de trabajo, se filtraron los marcadores `[incluir captura de pantalla: ...]`.
 - El PDF queda versionado como documento de trabajo interno y no como guia final enlazada en el sitio.
 
 ### Verificacion
 
-- `file doc/EleccionesConfiguracionInicialv3.0.pdf` OK (`PDF document, version 1.3, 7 pages`).
+- `file docs/EleccionesConfiguracionInicialv3.0.pdf` OK (`PDF document, version 1.3, 7 pages`).
 
 ## 2026-04-21 - Guia funcional de auditoria previa y final
 
 ### Fuentes revisadas
 
-- `doc/auditors.html`
-- `doc/index.html`
-- `doc/questions-declarations.html`
-- `doc/MatrizActualizacionDocumentacion.md`
+- `docs/auditors.html`
+- `docs/index.html`
+- `docs/questions-declarations.html`
+- `docs/MatrizActualizacionDocumentacion.md`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/auditors/ElectionAuditorsDashboard.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/auditors/AddAuditorPanel.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/auditors/AuditorsListPanel.java`
@@ -927,10 +935,10 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/voting-public-links.html`
-- `doc/index.html`
-- `doc/auditors.html`
-- `doc/MatrizActualizacionDocumentacion.md`
+- `docs/voting-public-links.html`
+- `docs/index.html`
+- `docs/auditors.html`
+- `docs/MatrizActualizacionDocumentacion.md`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/ElectionsManagerApp.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/bases/PublicTokenBasePage.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/token/page/PublicAccessDeniedPage.java`
@@ -994,9 +1002,9 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/questions-declarations.html`
-- `doc/candidates.html`
-- `doc/index.html`
+- `docs/questions-declarations.html`
+- `docs/candidates.html`
+- `docs/index.html`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/questions/ElectionQuestionsDashboard.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/questions/QuestionsListPanel.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/questions/QuestionEditPanel.java`
@@ -1052,9 +1060,9 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/census.html`
-- `doc/elections.html`
-- `doc/index.html`
+- `docs/census.html`
+- `docs/elections.html`
+- `docs/index.html`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/ElectionsManagerApp.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/app/ElectionsManagerApp.properties.xml`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/census/ElectionCensusDashboard.java`
@@ -1110,9 +1118,9 @@ Las entradas siguientes describen el estado en sus fechas originales. Las tareas
 
 ### Fuentes revisadas
 
-- `doc/calendar-tasks.html`
-- `doc/elections.html`
-- `doc/index.html`
+- `docs/calendar-tasks.html`
+- `docs/elections.html`
+- `docs/index.html`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/calendarmodule/ElectionCalendarModuleDashboard.java`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/calendarmodule/ElectionCalendarModuleDashboard.html`
 - `elections-admin-web/src/main/java/net/lacnic/elections/adminweb/ui/admin/election/tasks/ElectionTasksDashboard.java`

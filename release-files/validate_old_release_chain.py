@@ -295,7 +295,7 @@ def validate_data_roundtrip() -> list[Finding]:
         data23 = pg.psql(
             "roundtrip",
             "-c",
-            "INSERT INTO public.parameter (key, value) VALUES('AUDIT_REPORT_LINK', 'https://example.org/doc/auditReport-v2.3.pdf');",
+            "INSERT INTO public.parameter (key, value) VALUES('AUDIT_REPORT_LINK', 'https://example.org/docs/auditReport-v2.3.pdf');",
             capture=True,
         )
         if data23.returncode != 0:

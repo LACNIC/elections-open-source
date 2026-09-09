@@ -1,11 +1,11 @@
 **
 !pom.xml
 !LICENSE
-!doc/
-!doc/**
-doc/_site/
-doc/.jekyll-cache/
-doc/vendor/
+!docs/
+!docs/**
+docs/_site/
+docs/.jekyll-cache/
+docs/vendor/
 !elections-ejb/
 !elections-ejb/**
 elections-ejb/target/

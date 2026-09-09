@@ -1,0 +1,4 @@
+# Documentation bundled in the application WAR, relative to its host.
+baseurl: "/elections/docs"
+url: ""
+application_url: "/elections/home"

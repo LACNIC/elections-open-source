@@ -4,10 +4,10 @@ import org.apache.wicket.request.cycle.RequestCycle;
 
 public final class ProjectUrls {
 
-	public static final String SOURCE_CODE = "https://github.com/LACNIC/elections-open-source-v3";
+	public static final String SOURCE_CODE = "https://github.com/LACNIC/elections-open-source";
 	public static final String CONTACT = "mailto:desarrollo@lacnic.net";
 
-	private static final String DOCUMENTATION_ROOT = "documentacion/";
+	private static final String DOCUMENTATION_ROOT = "docs/";
 
 	private ProjectUrls() {
 	}

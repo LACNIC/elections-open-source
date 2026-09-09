@@ -76,7 +76,7 @@ case "$ACTION" in
       ready=0
       for _ in $(seq 1 60); do
         http_code="$(curl --max-time 5 -s -o /dev/null -w '%{http_code}' "http://localhost:${app_port}/elections/" || true)"
-        docs_code="$(curl --max-time 5 -s -o /dev/null -w '%{http_code}' "http://localhost:${app_port}/elections/documentacion/" || true)"
+        docs_code="$(curl --max-time 5 -s -o /dev/null -w '%{http_code}' "http://localhost:${app_port}/elections/docs/" || true)"
         if { [ "$http_code" = "200" ] || [ "$http_code" = "302" ]; } && [ "$docs_code" = "200" ]; then
           ready=1
           break
@@ -93,7 +93,7 @@ case "$ACTION" in
     echo
     echo "Entorno fresh disponible:"
     echo "  Aplicacion: http://localhost:${app_port}/elections"
-    echo "  Documentacion: http://localhost:${app_port}/elections/documentacion/"
+    echo "  Documentacion: http://localhost:${app_port}/elections/docs/"
     echo "  Correo:     http://localhost:$(env_value MAILPIT_WEB_PORT)"
     echo "  Login:      revisar FRESH_ADMIN_USER y FRESH_ADMIN_PASSWORD en dockers/.env"
     ;;

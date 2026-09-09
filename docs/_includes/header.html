@@ -15,12 +15,14 @@
 							Documentación
 						</a>
 					</li>
+					{% if site.application_url %}
 					<li>
-						<a href="/elections/home">
+						<a href="{{ site.application_url }}">
 							<i class="fa fa-arrow-left"></i>
 							Volver al sistema
 						</a>
 					</li>
+					{% endif %}
 				</ul>	
 				
 			</div>    

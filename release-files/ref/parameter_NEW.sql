@@ -4,7 +4,7 @@ INSERT INTO parameter ("key",value) VALUES
 	 ('WS_AUTHORIZED_IPS','0.0.0.0/0, 127.0.0/24'),
 	 ('RECEPTOR_ESTANDAR','elections-notifications@example.org'),
 	 ('WS_LACNIC_AUTH_URL','https://auth.example.org/portal-ws/authorization'),
-	 ('AUDIT_REPORT_LINK','https://example.org/doc/auditReport-v2.3.pdf'),
+	 ('AUDIT_REPORT_LINK','https://example.org/docs/auditReport-v2.3.pdf'),
 	 ('WS_AUTH_TOKEN','replace-me'),
 	 ('SkGoogleApiReCaptcha','replace-me'),
 	 ('DataSiteKeyReCaptcha','replace-me'),

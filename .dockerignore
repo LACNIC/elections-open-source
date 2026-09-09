@@ -5,6 +5,6 @@ dockers/logs
 dockers/logs-fresh
 **/.env
 **/target
-doc/vendor
-doc/_site
-doc/.jekyll-cache
+docs/vendor
+docs/_site
+docs/.jekyll-cache

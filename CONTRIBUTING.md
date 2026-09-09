@@ -12,7 +12,7 @@ Gracias por ayudar a mejorar el proyecto.
 
 - Para cambios de backend, valida que `mvn clean package -DskipTests` siga funcionando.
 - Para cambios de Docker o despliegue, prueba el flujo de `dockers/docker-local.sh` o al menos revisa `dockers/DOCKER.md`.
-- Si el cambio toca documentación, actualiza la guía correspondiente en `doc/` o `dockers/`.
+- Si el cambio toca documentación, actualiza la guía correspondiente en `docs/` o `dockers/`.
 
 ## Estilo
 

@@ -219,7 +219,7 @@ Los archivos `release-files/ref/elections_schema_new.sql`,
 no crean un administrador. Para instalaciones independientes, verifique que el
 variable `WS_AUTH_METHOD` del `.env` valga `APP` y cree el primer administrador
 antes de intentar entrar. El procedimiento completo y parametrizado esta en
-`doc/manual.html`, seccion **Preparar base de datos**.
+`docs/manual.html`, seccion **Preparar base de datos**.
 
 El Compose normal conserva su comportamiento: el modo de login se lee de la
 tabla `parameter` de su propia base y no depende de la configuracion de
@@ -227,8 +227,8 @@ tabla `parameter` de su propia base y no depende de la configuracion de
 
 Para bases nuevas o migraciones desde versiones anteriores, use la documentacion versionada del sitio:
 
-- `doc/manual.html`: instanciacion con Docker y preparacion de base nueva.
-- `doc/update.html`: actualizacion desde versiones anteriores.
+- `docs/manual.html`: instanciacion con Docker y preparacion de base nueva.
+- `docs/update.html`: actualizacion desde versiones anteriores.
 
 ## Ejecucion con Compose
 
@@ -266,8 +266,13 @@ http://localhost:8098/elections
 La documentación correspondiente a la misma versión queda publicada sin autenticación en:
 
 ```text
-http://localhost:8098/elections/documentacion/
+http://localhost:8098/elections/docs/
 ```
+
+Los Dockerfiles compilan `docs/` con `_config.yml` y `_config.docker.yml`,
+que fija la ruta interna `/elections/docs`. GitHub Pages usa solamente
+`docs/_config.yml` y publica en
+`https://ghwww.labs.lacnic.net/elections-open-source/`, desde `main` y `/docs`.
 
 ## Build manual
 

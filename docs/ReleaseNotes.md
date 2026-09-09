@@ -44,18 +44,18 @@ permalink: /release-notes.html
 Antes de ejecutar `v3.0_script.sql`, revise duplicados de `ORGID` y votantes sin `ORGID` recuperable, porque la migración crea índices únicos y corta ante inconsistencias. Las consultas previas y el procedimiento detallado están documentados en la [guía de actualización](update.html).
 
 Si la instalación ya está en `v2.4`, se debe aplicar el siguiente script:
-* [v3.0_script.sql](../release-files/3.0/v3.0_script.sql): consolida los cambios de base de datos posteriores a `v2.4`.
+* [v3.0_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/3.0/v3.0_script.sql): consolida los cambios de base de datos posteriores a `v2.4`.
 
 Si la instalación está en `v2.3.1`, se deben aplicar, en orden, los siguientes scripts:
-* [v2.4_ddl_script.sql](../release-files/2.4/v2.4_ddl_script.sql)
-* [v2.4_data_script.sql](../release-files/2.4/v2.4_data_script.sql)
-* [v3.0_script.sql](../release-files/3.0/v3.0_script.sql)
+* [v2.4_ddl_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.4/v2.4_ddl_script.sql)
+* [v2.4_data_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.4/v2.4_data_script.sql)
+* [v3.0_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/3.0/v3.0_script.sql)
 
 Si la instalación está en `v2.3`, se deben aplicar, en orden, los siguientes scripts:
-* [v2.3.1_script.sql](../release-files/2.3.1/v2.3.1_script.sql)
-* [v2.4_ddl_script.sql](../release-files/2.4/v2.4_ddl_script.sql)
-* [v2.4_data_script.sql](../release-files/2.4/v2.4_data_script.sql)
-* [v3.0_script.sql](../release-files/3.0/v3.0_script.sql)
+* [v2.3.1_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.3.1/v2.3.1_script.sql)
+* [v2.4_ddl_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.4/v2.4_ddl_script.sql)
+* [v2.4_data_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.4/v2.4_data_script.sql)
+* [v3.0_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/3.0/v3.0_script.sql)
 
 ###### Aplicación y despliegue
 
@@ -78,8 +78,8 @@ Si la instalación está en `v2.3`, se deben aplicar, en orden, los siguientes s
 ###### Base de datos
 
 Se deben aplicar, en orden, los siguientes dos scripts sobre la base de datos:
-* [v2.4_ddl_script.sql](../release-files/2.4/v2.4_ddl_script.sql): crea y ajusta la estructura necesaria para el nuevo modelo.
-* [v2.4_data_script.sql](../release-files/2.4/v2.4_data_script.sql): migra los datos legacy, inicializa calendarios y tareas, y actualiza parámetros y templates.
+* [v2.4_ddl_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.4/v2.4_ddl_script.sql): crea y ajusta la estructura necesaria para el nuevo modelo.
+* [v2.4_data_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.4/v2.4_data_script.sql): migra los datos legacy, inicializa calendarios y tareas, y actualiza parámetros y templates.
 
 ## v2.3.1 (07/08/2023)
 
@@ -90,7 +90,7 @@ Se deben aplicar, en orden, los siguientes dos scripts sobre la base de datos:
 #### Script de actualización de base de datos:
 
 Es necesario ejecutar el siguiente script de base de datos:
-[v2.3.1_script.sql](../release-files/2.3.1/v2.3.1_script.sql)
+[v2.3.1_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.3.1/v2.3.1_script.sql)
 
 ## v2.3 (29/09/2022)
 
@@ -109,7 +109,7 @@ Es necesario ejecutar el siguiente script de base de datos:
 #### Script de actualización de base de datos:
 
 Es necesario ejecutar el siguiente script de base de datos:
-[v2.3_script.sql](../release-files/2.3/v2.3_script.sql)
+[v2.3_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.3/v2.3_script.sql)
 
 ## v2.2 (27/04/2022)
 
@@ -120,7 +120,7 @@ Es necesario ejecutar el siguiente script de base de datos:
 #### Script de actualización de base de datos:
 
 Es necesario ejecutar el siguiente script de base de datos:
-[v2.2_script.sql](../release-files/2.2/v2.2_script.sql)
+[v2.2_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.2/v2.2_script.sql)
 
 
 ## v2.1 (11/11/2021)
@@ -157,8 +157,8 @@ Se recomienda aplicar esta actualización mientras no tenga elecciones activas. 
 ###### Base de datos
 
 Se deben aplicar, en orden, los siguientes dos scripts sobre la base de datos:
-* [v2.0_ddl_script.sql](../release-files/2.0/v2.0_ddl_script.sql): traducción a inglés, DROP de recursos no usados, nueva secuencia para Comisionados, mail en Candidato.
-* [v2.0_data_script.sql](../release-files/2.0/v2.0_data_script.sql): ajusta nombres de parámetros, templates, etc, a la nueva configuración en inglés.
+* [v2.0_ddl_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.0/v2.0_ddl_script.sql): traducción a inglés, DROP de recursos no usados, nueva secuencia para Comisionados, mail en Candidato.
+* [v2.0_data_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/2.0/v2.0_data_script.sql): ajusta nombres de parámetros, templates, etc, a la nueva configuración en inglés.
 
 ###### Servidor de aplicaciones
 
@@ -192,7 +192,7 @@ Si generó sus propios templates de email, debe regenerarlos ya que las referenc
 #### Script de actualización de base de datos:
 
 Para la nueva funcionalidad de Personalización, es necesario ejecutar el siguiente script de base de datos:
-[v1.1_script.sql](../release-files/1.1/v1.1_script.sql)
+[v1.1_script.sql](https://github.com/LACNIC/elections-open-source/blob/main/release-files/1.1/v1.1_script.sql)
 
 
 ## v1.0 (21/01/2021)

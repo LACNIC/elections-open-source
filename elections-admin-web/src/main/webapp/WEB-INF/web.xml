@@ -19,7 +19,7 @@
 		</init-param>
 		<init-param>
 			<param-name>ignorePaths</param-name>
-			<param-value>documentacion</param-value>
+			<param-value>docs</param-value>
 		</init-param>
 	</filter>
 

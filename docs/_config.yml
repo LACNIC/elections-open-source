@@ -18,9 +18,10 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-# Override url/baseurl in the publishing environment for your organization.
-baseurl: "/elections/documentacion"
-url: ""
+# GitHub Pages publishes the contents of docs/ at the repository URL.
+# Docker overrides these values with _config.docker.yml.
+baseurl: "/elections-open-source"
+url: "https://ghwww.labs.lacnic.net"
 # Upstream source. A downstream organization may point this to its maintained fork.
 repository_url: "https://github.com/LACNIC/elections-open-source"
 repository: "LACNIC/elections-open-source"

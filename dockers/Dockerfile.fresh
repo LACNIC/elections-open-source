@@ -5,20 +5,20 @@ ARG BASE_IMAGE=quay.io/wildfly/wildfly:34.0.0.Final-jdk17
 FROM ${RUBY_IMAGE} AS documentation
 
 WORKDIR /documentation
-COPY doc/Gemfile doc/Gemfile.lock ./
+COPY docs/Gemfile docs/Gemfile.lock ./
 RUN gem install bundler -v 4.0.9 --no-document \
     && bundle config set deployment true \
     && bundle install --jobs 4 --retry 3
-COPY doc/ ./
+COPY docs/ ./
 COPY LICENSE /project-license/LICENSE
-RUN JEKYLL_ENV=production bundle exec jekyll build --destination /documentation-site \
+RUN JEKYLL_ENV=production bundle exec jekyll build --config _config.yml,_config.docker.yml --destination /documentation-site \
     && cp /project-license/LICENSE /documentation-site/LICENSE.txt
 
 FROM ${MAVEN_IMAGE} AS build
 
 WORKDIR /workspace
 COPY . .
-COPY --from=documentation /documentation-site/ elections-admin-web/src/main/webapp/documentacion/
+COPY --from=documentation /documentation-site/ elections-admin-web/src/main/webapp/docs/
 RUN mvn clean package -DskipTests
 
 FROM ${BASE_IMAGE}

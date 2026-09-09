@@ -36,7 +36,7 @@ cp dockers/.env.example dockers/.env
 4. Abrir `http://localhost:8098/elections/login` e ingresar con
    `FRESH_ADMIN_USER` y `FRESH_ADMIN_PASSWORD`.
 5. Consultar la documentación incluida en
-   `http://localhost:8098/elections/documentacion/`.
+   `http://localhost:8098/elections/docs/`.
 
 Los puertos predeterminados son 8098 (aplicación), 8025 (Mailpit) y 54329
 (PostgreSQL). Si están ocupados, cambie los puertos en `dockers/.env` y
@@ -56,12 +56,13 @@ base externa, TLS, SMTP real y persistencia administrada, siga la
 
 ## Documentación
 
-- [`doc/ReleaseNotes.md`](doc/ReleaseNotes.md)
-- [`doc/compatibilidad-historica.md`](doc/compatibilidad-historica.md)
+- [Documentación publicada en GitHub Pages](https://ghwww.labs.lacnic.net/elections-open-source/)
+- [`docs/ReleaseNotes.md`](docs/ReleaseNotes.md)
+- [`docs/compatibilidad-historica.md`](docs/compatibilidad-historica.md)
 - [`postinst.md`](postinst.md)
 - [`dockers/DOCKER.md`](dockers/DOCKER.md)
-- [`doc/manual.html`](doc/manual.html)
-- [`doc/security-access.html`](doc/security-access.html)
+- [`docs/manual.html`](docs/manual.html)
+- [`docs/security-access.html`](docs/security-access.html)
 - [`CONTRIBUTING.md`](CONTRIBUTING.md)
 - [`SECURITY.md`](SECURITY.md)
 
