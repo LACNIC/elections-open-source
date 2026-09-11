@@ -58,7 +58,7 @@ title: Sistema Elecciones
 					<li>Para que se vea, la eleccion debe seguir abierta y <code>publicLinkRecoveryMode</code> debe ser distinto de <code>NONE</code>.</li>
 					<li>La landing sigue necesitando <code>publicElectionLinkAvailable=true</code> y haber alcanzado <code>N_1</code>; el recovery no agrega un calendario propio adicional.</li>
 					<li>Los modos posibles son <code>NONE</code>, <code>ONLY_BR</code> y <code>ALL</code>.</li>
-					<li>En alta de eleccion, el default se recalcula por tipo: <code>BOARD</code>, <code>ELECTORAL_COMMISSION</code> y <code>FISCAL_COMMISSION</code> arrancan en <code>ONLY_BR</code>; <code>IANA</code>, <code>MODERATORS</code>, <code>ASO</code> y <code>OTHER</code> arrancan en <code>ALL</code>; el resto cae en <code>NONE</code>.</li>
+					<li>En esta distribucion publica, las elecciones nuevas arrancan en <code>ALL</code>, independientemente del tipo. Los modos <code>ONLY_BR</code> y <code>NONE</code> siguen disponibles para configuracion explicita.</li>
 					<li>Si el modo es <code>ONLY_BR</code>, la UI muestra una advertencia para participantes que puedan recuperar enlaces desde el portal historico de la organizacion.</li>
 					<li>Si CAPTCHA esta habilitado globalmente y existe <code>dataSiteKey</code>, el formulario exige reCAPTCHA antes de procesar el envio.</li>
 				</ul>

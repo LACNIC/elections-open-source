@@ -21,7 +21,7 @@ import junit.framework.TestSuite;
 
 		assertNotNull(election.getCreationDate());
 		assertEquals(ElectionType.BOARD, election.getElectionType());
-		assertEquals(ElectionLinkRecoveryMode.ONLY_BR, election.getPublicLinkRecoveryMode());
+		assertEquals(ElectionLinkRecoveryMode.ALL, election.getPublicLinkRecoveryMode());
 		assertEquals(3, election.getDiffUTC());
 		assertEquals(false, election.isMigrated());
 		assertEquals(true, election.isVotingLinkAvailable());
@@ -44,7 +44,7 @@ import junit.framework.TestSuite;
 		assertEquals("TODOS", election.getTitleSpanish());
 		assertEquals("TODOS", election.getTitleEnglish());
 		assertEquals("TODOS", election.getTitlePortuguese());
-		assertEquals(ElectionLinkRecoveryMode.ONLY_BR, election.getPublicLinkRecoveryMode());
+		assertEquals(ElectionLinkRecoveryMode.ALL, election.getPublicLinkRecoveryMode());
 	}
 
 	@org.junit.jupiter.api.Test

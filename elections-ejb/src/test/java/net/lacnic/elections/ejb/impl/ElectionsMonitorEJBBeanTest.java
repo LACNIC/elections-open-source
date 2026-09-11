@@ -40,7 +40,8 @@ class ElectionsMonitorEJBBeanTest {
 		HealthCheck healthCheck = bean.updateHealthCheckData();
 
 		assertEquals(0, healthCheck.getStatus());
-		assertEquals("db unavailable", healthCheck.getErrorMessage());
+		assertEquals("Health check metrics unavailable", healthCheck.getErrorMessage());
+		assertFalse(healthCheck.getErrorMessage().contains("db unavailable"));
 		assertEquals(0, healthCheck.getSendAttempts());
 		assertNull(healthCheck.getElections());
 		assertNull(ElectionsCaches.getHealthCheck());
