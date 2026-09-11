@@ -77,6 +77,19 @@ public class CampusClient {
 		return isCampusIntegrationEnabled() && hasAnyCampusCourse(election);
 	}
 
+	/**
+	 * Evaluation-grade synchronization is an independently controlled Campus
+	 * operation. It is disabled unless the parameter is explicitly set to true so
+	 * that missing or malformed hotfix configuration cannot import a grade.
+	 */
+	public static boolean isCampusEvaluationSyncEnabled() {
+		if (!isCampusIntegrationEnabled()) {
+			return false;
+		}
+		String configuredValue = getCampusConfigurationWithoutLogging(Constants.CAMPUS_EVALUATION_SYNC_ENABLED);
+		return configuredValue != null && "true".equalsIgnoreCase(configuredValue.trim());
+	}
+
 	private static String getCampusToken() {
 		return getCampusConfiguration(Constants.CAMPUS_TOKEN);
 	}

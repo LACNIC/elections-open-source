@@ -130,7 +130,7 @@ public class GenericNominationEvaluationManagementPanel extends AbstractAcceptNo
 			}
 		};
 		checkEvaluationStatusButton.setDefaultFormProcessing(false);
-		checkEvaluationStatusButton.setVisible(CampusClient.isCampusIntegrationEnabled() && canCheckEvaluationStatus());
+		checkEvaluationStatusButton.setVisible(CampusClient.isCampusEvaluationSyncEnabled() && canCheckEvaluationStatus());
 		trainingForm.add(checkEvaluationStatusButton);
 	}
 

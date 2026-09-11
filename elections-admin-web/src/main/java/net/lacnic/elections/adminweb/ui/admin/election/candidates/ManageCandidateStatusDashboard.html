@@ -42,6 +42,43 @@
 					</form>
 				</div>
 			</div>
+
+			<div class="card mt-4">
+				<div class="card-header">
+					<h5 class="card-title mb-0" data-testid="candidateTaskStatusTitle"><wicket:message key="candidateTaskStatusTitle">Gestión avanzada de estados de tareas</wicket:message></h5>
+				</div>
+				<div class="card-body">
+					<div class="alert alert-warning" role="alert" data-testid="candidateTaskStatusWarning">
+						<strong><wicket:message key="candidateTaskStatusWarningTitle">Funcionalidad avanzada</wicket:message></strong>
+						<div><wicket:message key="candidateTaskStatusWarning">La modificación manual puede generar inconsistencias.</wicket:message></div>
+					</div>
+
+					<form wicket:id="taskStatusForm" data-testid="taskStatusForm">
+						<div wicket:id="taskStatusTableWrapper" class="table-responsive">
+							<table class="table table-striped align-middle">
+								<thead>
+									<tr>
+										<th><wicket:message key="candidateTaskStatusTask">Tarea</wicket:message></th>
+										<th><wicket:message key="candidateTaskStatusCurrent">Estado actual</wicket:message></th>
+										<th><wicket:message key="candidateTaskStatusNew">Nuevo estado</wicket:message></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr wicket:id="taskStatusRows">
+										<td wicket:id="taskName"></td>
+										<td wicket:id="currentTaskStatus"></td>
+										<td><select wicket:id="taskStatus" class="form-select" data-testid="taskStatus"></select></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div wicket:id="taskStatusEmpty" class="text-muted"><wicket:message key="candidateTaskStatusEmpty">No hay tareas configuradas para este candidato.</wicket:message></div>
+						<div class="d-flex justify-content-end mt-3">
+							<button wicket:id="saveTaskStatuses" data-testid="saveTaskStatuses" type="submit" class="btn btn-warning"><wicket:message key="candidateTaskStatusSave">Guardar estados de tareas</wicket:message></button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </wicket:extend>

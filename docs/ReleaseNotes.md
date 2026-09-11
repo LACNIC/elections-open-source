@@ -17,6 +17,8 @@ permalink: /release-notes.html
 
 #### Nuevas funcionalidades y correcciones:
 
+* Se agrega el parámetro `CAMPUS_EVALUATION_SYNC_ENABLED`, inicialmente en `false`, para apagar únicamente la importación automática y manual de notas de evaluación desde Campus sin interrumpir la sincronización de capacitaciones.
+* La gestión de candidatos incorpora una edición avanzada e independiente de los estados de sus tareas. No valida dependencias ni modifica datos relacionados, muestra una advertencia explícita y registra los cambios en la auditoría.
 * `release-files/3.0/v3.0_script.sql` consolida los cambios intermedios posteriores a `v2.4` en un único script de actualización.
 * La migración completa `election.election_type` cuando falta y rellena `uservoter.orgid` desde `mail` si es recuperable.
 * La actualización crea los índices únicos `uq_organization_election_orgid_norm` y `uq_uservoter_election_orgid_norm`, y aborta si detecta `ORGID` duplicados por elección o votantes sin `ORGID` recuperable.

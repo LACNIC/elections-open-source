@@ -39,7 +39,7 @@ title: Sistema Elecciones
 					<li><b>Acceso publico y captcha:</b> <code>PUBLIC_NOMINATION_ENABLED</code>, <code>DataSiteKeyReCaptcha</code>, <code>LOGIN_CAPTCHA_ENABLED</code>, <code>PUBLIC_FAILED_ACCESS_MAX_ATTEMPTS</code>, <code>PUBLIC_FAILED_ACCESS_RATE_LIMIT_CACHE_RESET_HOURS</code>, <code>LOGIN_CAPTCHA_MAX_ATTEMPTS</code> y <code>LOGIN_CAPTCHA_RATE_LIMIT_CACHE_RESET_HOURS</code>.</li>
 					<li><b>Texto funcional y UX:</b> <code>ACCEPT_NOMINATION_CONDITIONS_ES/EN/PT</code> y <code>ABSTENTION_DEFAULT_TEXT</code>.</li>
 					<li><b>Sincronizacion external sync:</b> <code>MILACNIC_SYNC_*</code>, incluyendo endpoint, token y umbrales de seguridad para miembros/deudores/Brasil. El prefijo se mantiene por compatibilidad con la configuracion historica.</li>
-					<li><b>Campus:</b> <code>CAMPUS_URL</code>, <code>CAMPUS_TOKEN</code> y parametros de ventanas/rate limit para chequeos de curso y evaluacion.</li>
+					<li><b>Campus:</b> <code>CAMPUS_URL</code>, <code>CAMPUS_TOKEN</code>, <code>CAMPUS_EVALUATION_SYNC_ENABLED</code> y parametros de ventanas/rate limit para chequeos de curso y evaluacion. La sincronizacion de notas de evaluacion solo se ejecuta cuando <code>CAMPUS_EVALUATION_SYNC_ENABLED=true</code>; si falta, esta vacio o tiene otro valor, queda apagada sin afectar la sincronizacion de capacitaciones.</li>
 					<li><b>IA:</b> <code>OPENAI_URL</code>, <code>OPENAI_API_KEY</code>, <code>OPENAI_MODEL</code>, <code>AI_TEXT_PROMPT_TRANSLATION</code> y limites diarios/de ventana para mejora de texto.</li>
 					<li>El script de referencia <code>release-files/ref/parameter_NEW.sql</code> siembra varias de estas claves, pero el codigo tambien consume constantes adicionales que pueden requerir carga explicita segun el entorno.</li>
 				</ul>

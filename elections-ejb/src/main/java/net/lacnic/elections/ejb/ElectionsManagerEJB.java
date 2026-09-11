@@ -187,7 +187,9 @@ public interface ElectionsManagerEJB {
 	public void removeCandidate(long candidateId, String userAdminId, String ip);
 
 	public Candidate getCandidate(long candidateId);
+	public Map<ElectionTaskKey, CandidateElectionTaskStatus> getCandidateTaskStatuses(long candidateId);
 	public Map<ElectionTaskKey, CandidateElectionTaskStatus> getCandidateSupportTaskStatuses(long candidateId);
+	public boolean updateCandidateTaskStatuses(long candidateId, Map<ElectionTaskKey, CandidateElectionTaskStatus> statuses, String userAdminId, String ip);
 
 	public Nomination getNominationByCandidateId(long candidateId);
 	public List<SupportNomination> getCandidateSupportNominations(long candidateId);

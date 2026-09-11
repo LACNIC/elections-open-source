@@ -67,6 +67,7 @@ VALUES (lower(:'admin_user'), lower(:'admin_email'), :'admin_password_hash');
 INSERT INTO public.parameter (key, value) VALUES
 	('WS_AUTH_METHOD', 'APP'),
 	('AI_TEXT_IMPROVEMENT_ENABLED', 'false'),
+	('CAMPUS_EVALUATION_SYNC_ENABLED', 'false'),
 	('LOGIN_CAPTCHA_ENABLED', 'false'),
 	('PUBLIC_NOMINATION_ENABLED', :'public_nomination_enabled'),
 	('DataSiteKeyReCaptcha', ''),

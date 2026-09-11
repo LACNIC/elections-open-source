@@ -67,8 +67,19 @@ public class CandidateElectionTaskProgressDao {
 	}
 
 	public List<CandidateElectionTaskProgress> getByCandidateId(long candidateId) {
+		return getByCandidateId(candidateId, false);
+	}
+
+	public List<CandidateElectionTaskProgress> getByCandidateIdForUpdate(long candidateId) {
+		return getByCandidateId(candidateId, true);
+	}
+
+	private List<CandidateElectionTaskProgress> getByCandidateId(long candidateId, boolean forUpdate) {
 		TypedQuery<CandidateElectionTaskProgress> query = em.createQuery("SELECT tp FROM CandidateElectionTaskProgress tp WHERE tp.candidate.candidateId = :candidateId", CandidateElectionTaskProgress.class);
 		query.setParameter(QueryParameterNames.CANDIDATE_ID, candidateId);
+		if (forUpdate) {
+			query.setLockMode(LockModeType.PESSIMISTIC_WRITE);
+		}
 		return query.getResultList();
 	}
 

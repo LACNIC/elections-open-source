@@ -2444,7 +2444,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 	}
 
 	@Override
-	public Map<ElectionTaskKey, CandidateElectionTaskStatus> getCandidateSupportTaskStatuses(long candidateId) {
+	public Map<ElectionTaskKey, CandidateElectionTaskStatus> getCandidateTaskStatuses(long candidateId) {
 		Map<ElectionTaskKey, CandidateElectionTaskStatus> statuses = new EnumMap<>(ElectionTaskKey.class);
 		if (candidateId <= 0L) {
 			return statuses;
@@ -2453,12 +2453,103 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 			if (progress == null || progress.getElectionTask() == null || progress.getElectionTask().getTaskKey() == null || progress.getStatus() == null) {
 				continue;
 			}
-			ElectionTaskKey taskKey = progress.getElectionTask().getTaskKey();
-			if (taskKey == ElectionTaskKey.ORG_SUPPORTS || taskKey == ElectionTaskKey.USER_SUPPORTS_2 || taskKey == ElectionTaskKey.USER_SUPPORTS_5) {
-				statuses.put(taskKey, progress.getStatus());
-			}
+			statuses.put(progress.getElectionTask().getTaskKey(), progress.getStatus());
 		}
 		return statuses;
+	}
+
+	@Override
+	public Map<ElectionTaskKey, CandidateElectionTaskStatus> getCandidateSupportTaskStatuses(long candidateId) {
+		Map<ElectionTaskKey, CandidateElectionTaskStatus> statuses = getCandidateTaskStatuses(candidateId);
+		statuses.entrySet().removeIf(entry -> {
+			ElectionTaskKey taskKey = entry.getKey();
+			if (taskKey == ElectionTaskKey.ORG_SUPPORTS || taskKey == ElectionTaskKey.USER_SUPPORTS_2 || taskKey == ElectionTaskKey.USER_SUPPORTS_5) {
+				return false;
+			}
+			return true;
+		});
+		return statuses;
+	}
+
+	@Override
+	public boolean updateCandidateTaskStatuses(long candidateId, Map<ElectionTaskKey, CandidateElectionTaskStatus> statuses, String userAdminId, String ip) {
+		if (candidateId <= 0L || statuses == null || statuses.isEmpty()) {
+			return false;
+		}
+
+		try {
+			Candidate candidate = em.find(Candidate.class, candidateId, LockModeType.PESSIMISTIC_WRITE);
+			if (candidate == null || candidate.getElection() == null) {
+				return false;
+			}
+
+			List<CandidateElectionTaskProgress> taskProgressRows = ElectionsDaoFactory.createCandidateElectionTaskProgressDao(em).getByCandidateIdForUpdate(candidateId);
+			Map<ElectionTaskKey, CandidateElectionTaskProgress> progressByTaskKey = new EnumMap<>(ElectionTaskKey.class);
+			for (CandidateElectionTaskProgress progress : taskProgressRows) {
+				if (progress != null && progress.getElectionTask() != null && progress.getElectionTask().getTaskKey() != null) {
+					progressByTaskKey.put(progress.getElectionTask().getTaskKey(), progress);
+				}
+			}
+
+			for (Map.Entry<ElectionTaskKey, CandidateElectionTaskStatus> entry : statuses.entrySet()) {
+				if (entry.getKey() == null || entry.getValue() == null || !progressByTaskKey.containsKey(entry.getKey())) {
+					return false;
+				}
+			}
+
+			Date now = new Date();
+			List<String> changes = new ArrayList<>();
+			for (Map.Entry<ElectionTaskKey, CandidateElectionTaskStatus> entry : statuses.entrySet()) {
+				CandidateElectionTaskProgress progress = progressByTaskKey.get(entry.getKey());
+				CandidateElectionTaskStatus previousStatus = progress.getStatus();
+				if (previousStatus == entry.getValue()) {
+					continue;
+				}
+				applyManualCandidateTaskStatus(progress, entry.getValue(), now);
+				em.merge(progress);
+				changes.add(entry.getKey().name() + ": " + (previousStatus != null ? previousStatus.name() : "-") + " -> " + entry.getValue().name());
+			}
+
+			if (!changes.isEmpty()) {
+				String actor = hasText(userAdminId) ? userAdminId.trim().toUpperCase(Locale.ROOT) : SYSTEM_ACTOR;
+				String description = actor + " cambió manualmente estados de tareas del candidato " + safeValue(candidate.getName())
+						+ " (id=" + candidate.getCandidateId() + ")" + TEXT_ELECCION + safeValue(candidate.getElection().getTitleSpanish())
+						+ ". cambios=[" + String.join(", ", changes) + "]";
+				persistActivity(actor, ActivityType.EDIT_CANDIDATES, description, ip, candidate.getElection().getElectionId());
+			}
+			return true;
+		} catch (Exception e) {
+			appLogger.error("Error updating candidate task statuses manually. candidateId={}", candidateId, e);
+			return false;
+		}
+	}
+
+	static void applyManualCandidateTaskStatus(CandidateElectionTaskProgress progress, CandidateElectionTaskStatus newStatus, Date now) {
+		if (progress == null || newStatus == null || now == null) {
+			return;
+		}
+		progress.setStatus(newStatus);
+		switch (newStatus) {
+		case NOT_STARTED:
+			progress.setStartDate(null);
+			progress.setEndDate(null);
+			break;
+		case STARTED:
+			if (progress.getStartDate() == null) {
+				progress.setStartDate(now);
+			}
+			progress.setEndDate(null);
+			break;
+		case COMPLETED:
+		case OMITTED:
+			if (progress.getStartDate() == null) {
+				progress.setStartDate(now);
+			}
+			progress.setEndDate(now);
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -8840,7 +8931,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 
 	@Override
 	public void verifyCampusEvaluationGradesForCandidates() {
-		if (!CampusClient.isCampusIntegrationEnabled()) {
+		if (!CampusClient.isCampusEvaluationSyncEnabled()) {
 			return;
 		}
 		try {
@@ -8919,7 +9010,7 @@ public class ElectionsManagerEJBBean implements ElectionsManagerEJB {
 
 	@Override
 	public void verifyCampusEvaluationGradesForCandidatesRateLimited(String requesterKey, String candidateMail) {
-		if (!CampusClient.isCampusIntegrationEnabled()) {
+		if (!CampusClient.isCampusEvaluationSyncEnabled()) {
 			return;
 		}
 		String buttonKey = "EVALUATION";

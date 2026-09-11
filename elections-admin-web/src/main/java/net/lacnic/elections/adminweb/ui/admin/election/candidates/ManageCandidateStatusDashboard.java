@@ -1,9 +1,14 @@
 package net.lacnic.elections.adminweb.ui.admin.election.candidates;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.wicket.AttributeModifier;
@@ -18,6 +23,8 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
@@ -35,7 +42,9 @@ import net.lacnic.elections.domain.Auditor;
 import net.lacnic.elections.domain.Candidate;
 import net.lacnic.elections.domain.pre.AuditorCandidateDecision;
 import net.lacnic.elections.domain.pre.AuditorCandidateDecisionStatus;
+import net.lacnic.elections.domain.pre.CandidateElectionTaskStatus;
 import net.lacnic.elections.domain.pre.CandidateStatus;
+import net.lacnic.elections.domain.pre.ElectionTaskKey;
 import net.lacnic.elections.utils.EmailTemplateType;
 
 public class ManageCandidateStatusDashboard extends DashboardElectionBasePage {
@@ -147,6 +156,98 @@ public class ManageCandidateStatusDashboard extends DashboardElectionBasePage {
 				setResponsePage(ElectionCandidatesDashboard.class, UtilsParameters.getId(electionId));
 			}
 		});
+
+		List<TaskStatusEditRow> taskStatusRows = loadTaskStatusRows(candidate.getCandidateId());
+		Form<Void> taskStatusForm = new Form<>("taskStatusForm");
+		add(taskStatusForm);
+
+		WebMarkupContainer taskStatusTableWrapper = new WebMarkupContainer("taskStatusTableWrapper");
+		taskStatusTableWrapper.setVisible(!taskStatusRows.isEmpty());
+		taskStatusForm.add(taskStatusTableWrapper);
+
+		ListView<TaskStatusEditRow> taskStatusList = new ListView<TaskStatusEditRow>("taskStatusRows", taskStatusRows) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(ListItem<TaskStatusEditRow> item) {
+				TaskStatusEditRow row = item.getModelObject();
+				item.add(new Label("taskName", resolveTaskName(row.getTaskKey())));
+				item.add(new Label("currentTaskStatus", resolveTaskStatusLabel(row.getCurrentStatus())));
+				DropDownChoice<CandidateElectionTaskStatus> taskStatusField = new DropDownChoice<>(
+						"taskStatus",
+						new PropertyModel<>(row, "selectedStatus"),
+						Arrays.asList(CandidateElectionTaskStatus.values()),
+						CANDIDATE_TASK_STATUS_RENDERER);
+				taskStatusField.setRequired(true);
+				item.add(taskStatusField);
+			}
+		};
+		taskStatusTableWrapper.add(taskStatusList);
+
+		WebMarkupContainer taskStatusEmpty = new WebMarkupContainer("taskStatusEmpty");
+		taskStatusEmpty.setVisible(taskStatusRows.isEmpty());
+		taskStatusForm.add(taskStatusEmpty);
+
+		Button saveTaskStatuses = new Button("saveTaskStatuses") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onSubmit() {
+				persistCandidateTaskStatusChanges(electionId, taskStatusRows);
+			}
+		};
+		saveTaskStatuses.setVisible(!taskStatusRows.isEmpty());
+		taskStatusForm.add(saveTaskStatuses);
+	}
+
+	private List<TaskStatusEditRow> loadTaskStatusRows(long candidateId) {
+		Map<ElectionTaskKey, CandidateElectionTaskStatus> statuses = AppContext.getInstance().getManagerBeanRemote().getCandidateTaskStatuses(candidateId);
+		List<TaskStatusEditRow> rows = new ArrayList<>();
+		if (statuses != null) {
+			for (Map.Entry<ElectionTaskKey, CandidateElectionTaskStatus> entry : statuses.entrySet()) {
+				if (entry.getKey() != null && entry.getValue() != null) {
+					rows.add(new TaskStatusEditRow(entry.getKey(), entry.getValue()));
+				}
+			}
+		}
+		rows.sort(Comparator.comparingInt(row -> row.getTaskKey().getDefaultDisplayOrder()));
+		return rows;
+	}
+
+	private void persistCandidateTaskStatusChanges(long electionId, List<TaskStatusEditRow> rows) {
+		try {
+			Map<ElectionTaskKey, CandidateElectionTaskStatus> statuses = new EnumMap<>(ElectionTaskKey.class);
+			for (TaskStatusEditRow row : rows) {
+				if (row.getSelectedStatus() != row.getCurrentStatus()) {
+					statuses.put(row.getTaskKey(), row.getSelectedStatus());
+				}
+			}
+			if (statuses.isEmpty()) {
+				getSession().info(getString("candidateTaskStatusSaveNoChange"));
+				setResponsePage(ManageCandidateStatusDashboard.class, buildCandidateParameters(electionId, candidate.getCandidateId()));
+				return;
+			}
+			boolean updated = AppContext.getInstance().getManagerBeanRemote().updateCandidateTaskStatuses(
+					candidate.getCandidateId(),
+					statuses,
+					SecurityUtils.getUserAdminId(),
+					SecurityUtils.getClientIp());
+			if (updated) {
+				getSession().info(getString("candidateTaskStatusSaveSuccess"));
+			} else {
+				getSession().error(getString("candidateTaskStatusSaveError"));
+			}
+		} catch (Exception e) {
+			appLogger.error("No se pudieron actualizar los estados de tareas para candidateId={}", candidate.getCandidateId(), e);
+			getSession().error(getString("candidateTaskStatusSaveError"));
+		}
+		setResponsePage(ManageCandidateStatusDashboard.class, buildCandidateParameters(electionId, candidate.getCandidateId()));
+	}
+
+	private PageParameters buildCandidateParameters(long electionId, long candidateId) {
+		PageParameters responseParameters = UtilsParameters.getId(electionId);
+		responseParameters.add(UtilsParameters.getCandidateText(), candidateId);
+		return responseParameters;
 	}
 
 	private boolean isValidCandidate(Candidate candidate, long electionId) {
@@ -178,6 +279,14 @@ public class ManageCandidateStatusDashboard extends DashboardElectionBasePage {
 
 	private String resolveStatusLabel(CandidateStatus status) {
 		return getString(resolveStatusKey(status));
+	}
+
+	private String resolveTaskName(ElectionTaskKey taskKey) {
+		return taskKey != null ? getString("electionTaskKey." + taskKey.name()) : "-";
+	}
+
+	private String resolveTaskStatusLabel(CandidateElectionTaskStatus status) {
+		return status != null ? getString("candidateTaskStatusOption." + status.name()) : "-";
 	}
 
 	private String resolveStatusKey(CandidateStatus status) {
@@ -332,6 +441,20 @@ public class ManageCandidateStatusDashboard extends DashboardElectionBasePage {
 		}
 	};
 
+	private final IChoiceRenderer<CandidateElectionTaskStatus> CANDIDATE_TASK_STATUS_RENDERER = new IChoiceRenderer<CandidateElectionTaskStatus>() {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Object getDisplayValue(CandidateElectionTaskStatus object) {
+			return resolveTaskStatusLabel(object);
+		}
+
+		@Override
+		public String getIdValue(CandidateElectionTaskStatus object, int index) {
+			return object != null ? object.name() : "";
+		}
+	};
+
 	public CandidateStatus getCandidateStatus() {
 		return candidateStatus;
 	}
@@ -363,6 +486,36 @@ public class ManageCandidateStatusDashboard extends DashboardElectionBasePage {
 
 		private long getTotal() {
 			return total;
+		}
+	}
+
+	private static final class TaskStatusEditRow implements Serializable {
+		private static final long serialVersionUID = 1L;
+
+		private final ElectionTaskKey taskKey;
+		private final CandidateElectionTaskStatus currentStatus;
+		private CandidateElectionTaskStatus selectedStatus;
+
+		private TaskStatusEditRow(ElectionTaskKey taskKey, CandidateElectionTaskStatus currentStatus) {
+			this.taskKey = taskKey;
+			this.currentStatus = currentStatus;
+			this.selectedStatus = currentStatus;
+		}
+
+		private ElectionTaskKey getTaskKey() {
+			return taskKey;
+		}
+
+		private CandidateElectionTaskStatus getCurrentStatus() {
+			return currentStatus;
+		}
+
+		public CandidateElectionTaskStatus getSelectedStatus() {
+			return selectedStatus;
+		}
+
+		public void setSelectedStatus(CandidateElectionTaskStatus selectedStatus) {
+			this.selectedStatus = selectedStatus;
 		}
 	}
 }

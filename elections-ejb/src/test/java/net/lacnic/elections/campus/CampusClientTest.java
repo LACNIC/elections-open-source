@@ -119,4 +119,23 @@ class CampusClientTest {
 
 		assertTrue(CampusClient.isCampusTrainingEnabled(election));
 	}
+
+	@Test
+	void campusEvaluationSyncIsDisabledWhenParameterIsMissing() {
+		when(parametersEJB.getParameter(Constants.WS_AUTH_METHOD)).thenReturn(Constants.WS_AUTH_TYPE_LACNIC);
+		when(parametersEJB.getParameter(Constants.CAMPUS_URL)).thenReturn("https://campus.example.org");
+		when(parametersEJB.getParameter(Constants.CAMPUS_TOKEN)).thenReturn("token");
+
+		assertFalse(CampusClient.isCampusEvaluationSyncEnabled());
+	}
+
+	@Test
+	void campusEvaluationSyncRequiresExplicitTrueValue() {
+		when(parametersEJB.getParameter(Constants.WS_AUTH_METHOD)).thenReturn(Constants.WS_AUTH_TYPE_LACNIC);
+		when(parametersEJB.getParameter(Constants.CAMPUS_URL)).thenReturn("https://campus.example.org");
+		when(parametersEJB.getParameter(Constants.CAMPUS_TOKEN)).thenReturn("token");
+		when(parametersEJB.getParameter(Constants.CAMPUS_EVALUATION_SYNC_ENABLED)).thenReturn(" true ");
+
+		assertTrue(CampusClient.isCampusEvaluationSyncEnabled());
+	}
 }

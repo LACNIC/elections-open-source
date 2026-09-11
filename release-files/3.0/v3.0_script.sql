@@ -847,6 +847,7 @@ INSERT INTO parameter ("key",value) VALUES
 INSERT INTO parameter ("key",value) VALUES
 	 ('DEFAULT_RECIPIENT','elections-notifications@example.org'),
 	 ('CAMPUS_TOKEN','replace-me'),
+	 ('CAMPUS_EVALUATION_SYNC_ENABLED','false'),
 	 ('CAMPUS_COURSE_MIN_ID','0'),
 	 ('CAMPUS_PROGRESS_CHECK_MAX_ATTEMPTS','10'),
 	 ('CAMPUS_PROGRESS_CHECK_WINDOW_HOURS','1'),

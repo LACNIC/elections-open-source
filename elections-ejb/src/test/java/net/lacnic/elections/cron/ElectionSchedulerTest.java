@@ -67,4 +67,28 @@ class ElectionSchedulerTest {
 		verify(parametersEJB, never()).getParameter(Constants.CAMPUS_PROGRESS_CHECK_COURSE_RATE_LIMIT_CACHE_RESET_HOURS);
 		verify(parametersEJB, never()).getParameter(Constants.CAMPUS_PROGRESS_CHECK_EVALUATION_RATE_LIMIT_CACHE_RESET_HOURS);
 	}
+
+	@Test
+	void disabledEvaluationSyncStillRunsCourseSynchronization() {
+		when(parametersEJB.getParameter(Constants.CAMPUS_URL)).thenReturn("https://campus.example.org");
+		when(parametersEJB.getParameter(Constants.CAMPUS_TOKEN)).thenReturn("token");
+		when(parametersEJB.getParameter(Constants.CAMPUS_EVALUATION_SYNC_ENABLED)).thenReturn("false");
+
+		new ElectionScheduler().updateCampusCandidateProgress();
+
+		verify(managerEJB).verifyCampusCourseAccessForCandidates();
+		verify(managerEJB, never()).verifyCampusEvaluationGradesForCandidates();
+	}
+
+	@Test
+	void enabledEvaluationSyncRunsCourseAndEvaluationSynchronization() {
+		when(parametersEJB.getParameter(Constants.CAMPUS_URL)).thenReturn("https://campus.example.org");
+		when(parametersEJB.getParameter(Constants.CAMPUS_TOKEN)).thenReturn("token");
+		when(parametersEJB.getParameter(Constants.CAMPUS_EVALUATION_SYNC_ENABLED)).thenReturn("true");
+
+		new ElectionScheduler().updateCampusCandidateProgress();
+
+		verify(managerEJB).verifyCampusCourseAccessForCandidates();
+		verify(managerEJB).verifyCampusEvaluationGradesForCandidates();
+	}
 }

@@ -145,6 +145,22 @@ class CandidateElectionTaskProgressDaoTest {
 	}
 
 	@Test
+	void shouldLockAllTaskProgressRowsForCandidateUpdate() {
+		EntityManager em = mock(EntityManager.class);
+		@SuppressWarnings("unchecked")
+		TypedQuery<CandidateElectionTaskProgress> query = mock(TypedQuery.class);
+		when(em.createQuery(anyString(), eq(CandidateElectionTaskProgress.class))).thenReturn(query);
+		when(query.setParameter(anyString(), anyLong())).thenReturn(query);
+		when(query.setLockMode(LockModeType.PESSIMISTIC_WRITE)).thenReturn(query);
+		when(query.getResultList()).thenReturn(List.of(mock(CandidateElectionTaskProgress.class)));
+
+		List<CandidateElectionTaskProgress> result = new CandidateElectionTaskProgressDao(em).getByCandidateIdForUpdate(77L);
+
+		assertEquals(1, result.size());
+		verify(query).setLockMode(LockModeType.PESSIMISTIC_WRITE);
+	}
+
+	@Test
 	void shouldGetCandidateIdsByElectionTask() {
 		EntityManager em = mock(EntityManager.class);
 		@SuppressWarnings("unchecked")

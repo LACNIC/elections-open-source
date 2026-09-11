@@ -128,7 +128,11 @@ public class ElectionScheduler {
 		}
 		appLogger.info("** START updateCampusCandidateProgress");
 		EJBFactory.getInstance().getElectionsManagerEJB().verifyCampusCourseAccessForCandidates();
-		EJBFactory.getInstance().getElectionsManagerEJB().verifyCampusEvaluationGradesForCandidates();
+		if (CampusClient.isCampusEvaluationSyncEnabled()) {
+			EJBFactory.getInstance().getElectionsManagerEJB().verifyCampusEvaluationGradesForCandidates();
+		} else {
+			appLogger.info("Campus evaluation synchronization is disabled by parameter {}", Constants.CAMPUS_EVALUATION_SYNC_ENABLED);
+		}
 		appLogger.info("** END updateCampusCandidateProgress");
 	}
 
