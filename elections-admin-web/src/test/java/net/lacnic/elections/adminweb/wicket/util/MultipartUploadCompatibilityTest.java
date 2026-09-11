@@ -45,6 +45,15 @@ class MultipartUploadCompatibilityTest {
     }
 
     @Test
+    void wicketFileUploadGetBytesWorksForDiskBackedExcelAndPdf() throws Exception {
+        byte[] spreadsheet = "ORGID\nALFA-001".getBytes(StandardCharsets.UTF_8);
+        byte[] pdf = "%PDF-1.1\n%carta\n".getBytes(StandardCharsets.UTF_8);
+
+        assertArrayEquals(spreadsheet, readThroughWicketUpload("organizations.xlsx", spreadsheet));
+        assertArrayEquals(pdf, readThroughWicketUpload("carta-ce.pdf", pdf));
+    }
+
+    @Test
     void wicketUploadRejectsTextDisguisedAsJpeg() throws Exception {
         DiskFileItem item = upload("photo.jpg", "not an image".getBytes(StandardCharsets.UTF_8));
         try {
@@ -73,9 +82,18 @@ class MultipartUploadCompatibilityTest {
         }
     }
 
+    private byte[] readThroughWicketUpload(String name, byte[] bytes) throws Exception {
+        DiskFileItem item = upload(name, bytes);
+        try {
+            return new FileUpload(item).getBytes();
+        } finally {
+            item.delete();
+        }
+    }
+
     private DiskFileItem upload(String name, byte[] bytes) throws Exception {
         DiskFileItem item = DiskFileItemFactory.builder().setPath(uploadDirectory).setBufferSize(1).get()
-                .fileItemBuilder().setFieldName("photo").setFileName(name).get();
+                .fileItemBuilder().setFieldName("upload").setFileName(name).get();
         try (OutputStream output = item.getOutputStream()) {
             output.write(bytes);
         }
