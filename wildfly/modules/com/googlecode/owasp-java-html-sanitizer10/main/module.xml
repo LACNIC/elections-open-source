@@ -28,9 +28,9 @@
     </properties>
 
     <resources>
-        <resource-root path="owasp-java-html-sanitizer-20240325.1.jar"/>
-        <resource-root path="java10-shim-20240325.1.jar"/>
-        <resource-root path="java8-shim-20240325.1.jar"/>
+        <resource-root path="owasp-java-html-sanitizer-20260101.1.jar"/>
+        <resource-root path="java10-shim-20260101.1.jar"/>
+        <resource-root path="java8-shim-20260101.1.jar"/>
     </resources>
 
     <dependencies>

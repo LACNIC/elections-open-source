@@ -3,6 +3,9 @@ package net.lacnic.elections.ws.json;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.fasterxml.jackson.core.exc.StreamConstraintsException;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,4 +34,19 @@ class JacksonObjectMapperTest {
 
 		assertNotSame(mapperA, mapperB);
 	}
+	@Test
+	void deeplyNestedInputIsRejectedWithoutExhaustingTheStack() {
+		String json = "[".repeat(1100) + "0" + "]".repeat(1100);
+
+		assertThrows(StreamConstraintsException.class, () -> JacksonObjectMapper.get().readTree(json));
+	}
+
+	@Test
+	void untrustedClassMetadataRemainsPlainJsonData() throws Exception {
+		Object value = JacksonObjectMapper.get().readValue(
+				"{\"@class\":\"java.net.InetSocketAddress\",\"hostname\":\"example.invalid\"}", Object.class);
+
+		assertEquals(java.util.LinkedHashMap.class, value.getClass());
+	}
+
 }

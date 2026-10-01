@@ -62,4 +62,11 @@ class CandidateBiographyUtilsTest {
 		String biography = "<p>Uno dos tres cuatro cinco seis siete ocho nueve diez</p>";
 		assertEquals("Uno dos tres cuatro...", CandidateBiographyUtils.toPlainTextSnippet(biography, 24));
 	}
+
+	@Test
+	void toPlainTextRemovesNoscriptFallbackAndRepairsUnclosedMarkup() {
+		assertEquals("Biografía visible Texto final", CandidateBiographyUtils.toPlainText(
+				"<noscript><img src=x onerror=alert(1)>Oculto</noscript>"
+				+ "<p>Biografía <b>visible</b><p>Texto final"));
+	}
 }

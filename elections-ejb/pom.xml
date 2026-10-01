@@ -141,7 +141,7 @@
 		<dependency>
 			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
 			<artifactId>owasp-java-html-sanitizer</artifactId>
-			<version>20240325.1</version>
+			<version>20260101.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity.tools</groupId>
@@ -173,7 +173,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.15.0</version>
+			<version>3.18.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -200,7 +200,6 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.7.4</version>
 		</dependency>
 
 		<dependency>
@@ -225,20 +224,20 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.4</version>
+			<version>42.7.12</version>
 		</dependency>
 
 		
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
-			<version>5.4.4</version>
+			<version>5.6.3</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.httpcomponents.core5</groupId>
 			<artifactId>httpcore5</artifactId>
-			<version>5.3.4</version>
+			<version>5.4.3</version>
 		</dependency>
 		
 		 <dependency>

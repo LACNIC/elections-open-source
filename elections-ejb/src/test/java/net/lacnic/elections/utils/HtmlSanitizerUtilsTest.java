@@ -27,4 +27,18 @@ class HtmlSanitizerUtilsTest {
 	void sanitizeStrictToNullShouldTrimOutput() {
 		assertEquals("Hi", HtmlSanitizerUtils.sanitizeStrictToNull("  <b>Hi</b>   "));
 	}
+
+	@Test
+	void sanitizeStrictRemovesNoscriptStyleAndEventHandlers() {
+		String unsafe = "<noscript><img src=x onerror=alert(1)></noscript>"
+				+ "<style>body{background:url(javascript:alert(1))}</style>"
+				+ "<p onclick=alert(1)>Biografía segura</p>";
+		assertEquals("Biografía segura", HtmlSanitizerUtils.sanitizeStrict(unsafe));
+	}
+
+	@Test
+	void sanitizeStrictPreservesAccentsAndEscapesMarkupEntities() {
+		assertEquals("José &amp; Ana &lt;texto&gt;",
+				HtmlSanitizerUtils.sanitizeStrict("<p>José &amp; Ana &lt;texto&gt;</p>"));
+	}
 }
