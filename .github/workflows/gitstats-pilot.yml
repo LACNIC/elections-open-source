@@ -18,12 +18,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Generate report
+      - name: Install reporting tools
+        run: python -m pip install gitstats==2.12.3 git-filter-repo==2.47.0
+      - name: Generate filtered historical reports
+        shell: bash
         run: |
-          python -m pip install gitstats==2.12.3
-          gitstats . gitstats-report
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/reports"
+          for scope in all java-production html java-tests; do
+            git clone --no-local --single-branch --branch main . "$RUNNER_TEMP/$scope"
+            case "$scope" in
+              all) pattern='(^|.*/)src/.*\.(java|html)$' ;;
+              java-production) pattern='(^|.*/)src/main/.*\.java$' ;;
+              html) pattern='(^|.*/)src/.*\.html$' ;;
+              java-tests) pattern='(^|.*/)src/test/.*\.java$' ;;
+            esac
+            git -C "$RUNNER_TEMP/$scope" filter-repo --force --path-regex "$pattern"
+            gitstats "$RUNNER_TEMP/$scope" "$RUNNER_TEMP/reports/$scope"
+          done
       - uses: actions/upload-artifact@v4
         with:
-          name: elections-gitstats
-          path: gitstats-report/
+          name: elections-gitstats-filtered
+          path: ${{ runner.temp }}/reports/
           retention-days: 30
