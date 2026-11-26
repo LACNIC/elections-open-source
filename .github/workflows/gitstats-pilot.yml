@@ -1,0 +1,29 @@
+name: GitStats pilot
+on:
+  push:
+    branches: ['pilot/gitstats']
+    paths: ['.github/workflows/gitstats-pilot.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate report
+        run: |
+          python -m pip install gitstats==2.12.3
+          gitstats . gitstats-report
+      - uses: actions/upload-artifact@v4
+        with:
+          name: elections-gitstats
+          path: gitstats-report/
+          retention-days: 30
