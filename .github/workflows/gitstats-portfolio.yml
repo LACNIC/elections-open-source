@@ -1,0 +1,36 @@
+name: GitStats Portfolio pilot
+on:
+  push:
+    branches: ['pilot/gitstats']
+    paths: ['.github/workflows/gitstats-portfolio.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portfolio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate portfolio
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install gitstats==2.12.3 git-filter-repo==2.47.0
+          cd "$RUNNER_TEMP"
+          for repo in elections-open-source pai-auth-ws-client; do
+            git clone --single-branch "https://github.com/LACNIC/$repo.git" "$repo"
+            git -C "$repo" filter-repo --force --path-regex '(^|.*/)src/.*\.(java|html)$'
+          done
+          gitstats --format json elections-open-source pai-auth-ws-client portfolio
+          test -s portfolio/index.html
+          for repo in elections-open-source pai-auth-ws-client; do
+            test -s "portfolio/$repo/index.html"
+            test -s "portfolio/$repo/summary.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lacnic-gitstats-portfolio
+          path: ${{ runner.temp }}/portfolio/
+          retention-days: 30
